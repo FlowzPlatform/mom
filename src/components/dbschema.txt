@@ -1,0 +1,31 @@
+Database name: vue_todo
+Tables: tasks, users
+
+tasks:
+{
+    id,
+    taskName,
+    taskDesc,
+    taskComment,
+    level,
+    parentId,
+    createdbyId,
+    completed,
+    createdAt,
+    updatedAt,
+    signup_type: email, gmail, 
+}
+
+users:
+{
+    id,
+    email,
+    password,
+    username,
+    profile_pic,
+    role,
+    dob,
+    aboutus,
+    createdAt,
+    updatedAt
+}

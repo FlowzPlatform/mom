@@ -1,0 +1,252 @@
+2017-04-27T15:39:50.759189000 0.338946s notice: Recursively removing directory /Users/ankit5427/Desktop/todoGitlib/todo-vue-component/rethinkdb_data/tmp
+2017-04-27T15:39:50.760291000 0.340049s notice: Initializing directory /Users/ankit5427/Desktop/todoGitlib/todo-vue-component/rethinkdb_data
+2017-04-27T15:39:50.760349000 0.340105s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/Users/ankit5427/Desktop/todoGitlib/todo-vue-component/rethinkdb_data' did not already exist or is empty.)
+2017-04-27T15:39:50.760367000 0.340122s notice: Running rethinkdb 2.3.5 (CLANG 7.3.0 (clang-703.0.31))...
+2017-04-27T15:39:50.764081000 0.343837s notice: Running on Darwin 16.0.0 x86_64
+2017-04-27T15:39:50.764123000 0.343878s notice: Loading data from directory /Users/ankit5427/Desktop/todoGitlib/todo-vue-component/rethinkdb_data
+2017-04-27T15:39:51.526642000 1.106463s info: Automatically using cache size of 533 MB
+2017-04-27T15:39:51.527627000 1.107447s notice: Listening for intracluster connections on port 29015
+2017-04-27T15:39:51.528700000 1.108521s notice: Listening for client driver connections on port 28015
+2017-04-27T15:39:51.528803000 1.108624s notice: Listening for administrative HTTP connections on port 8080
+2017-04-27T15:39:51.528805000 1.108626s notice: Listening on cluster addresses: 127.0.0.1, ::1
+2017-04-27T15:39:51.528808000 1.108628s notice: Listening on driver addresses: 127.0.0.1, ::1
+2017-04-27T15:39:51.528809000 1.108629s notice: Listening on http addresses: 127.0.0.1, ::1
+2017-04-27T15:39:51.528811000 1.108631s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-04-27T15:39:51.528822000 1.108643s notice: Server ready, "OB120_114_local_2yi" d2c2a582-edf6-4ed1-99b3-b7d318cd1ffc
+2017-04-27T15:43:21.706451000 211.293079s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: Starting a new Raft election for term 1.
+2017-04-27T15:43:21.706755000 211.293384s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: Added replica on this server.
+2017-04-27T15:43:21.906436000 211.493065s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: This server is Raft leader for term 1. Latest log index is 0.
+2017-04-27T15:54:02.476108000 852.083475s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: Starting a new Raft election for term 1.
+2017-04-27T15:54:02.476241000 852.083609s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: Added replica on this server.
+2017-04-27T15:54:02.667488000 852.274855s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: This server is Raft leader for term 1. Latest log index is 0.
+2017-04-28T10:00:13.931449000 0.341642s notice: Running rethinkdb 2.3.5 (CLANG 7.3.0 (clang-703.0.31))...
+2017-04-28T10:00:13.945419000 0.355610s notice: Running on Darwin 16.0.0 x86_64
+2017-04-28T10:00:13.945453000 0.355643s notice: Loading data from directory /Users/ankit5427/Desktop/todoGitlib/todo-vue-component/rethinkdb_data
+2017-04-28T10:00:14.151176000 0.561366s info: Automatically using cache size of 2428 MB
+2017-04-28T10:00:14.152276000 0.562466s notice: Listening for intracluster connections on port 29015
+2017-04-28T10:00:14.275077000 0.685267s notice: Listening for client driver connections on port 28015
+2017-04-28T10:00:14.275148000 0.685338s notice: Listening for administrative HTTP connections on port 8080
+2017-04-28T10:00:14.275156000 0.685346s notice: Listening on cluster addresses: 127.0.0.1, ::1
+2017-04-28T10:00:14.275157000 0.685347s notice: Listening on driver addresses: 127.0.0.1, ::1
+2017-04-28T10:00:14.275158000 0.685348s notice: Listening on http addresses: 127.0.0.1, ::1
+2017-04-28T10:00:14.275159000 0.685349s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-04-28T10:00:14.275160000 0.685350s notice: Server ready, "OB120_114_local_2yi" d2c2a582-edf6-4ed1-99b3-b7d318cd1ffc
+2017-04-28T10:00:15.702885000 2.113109s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: Starting a new Raft election for term 2.
+2017-04-28T10:00:15.827752000 2.237976s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: This server is Raft leader for term 2. Latest log index is 2.
+2017-04-28T10:00:15.968281000 2.378539s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: Starting a new Raft election for term 2.
+2017-04-28T10:00:16.154526000 2.564784s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: This server is Raft leader for term 2. Latest log index is 2.
+2017-04-28T10:00:49.424990000 35.836601s notice: Server got SIGINT from pid 670, uid 503; shutting down...
+2017-04-28T10:00:49.425114000 35.836725s notice: Shutting down client connections...
+2017-04-28T10:00:49.425188000 35.836798s notice: All client connections closed.
+2017-04-28T10:00:49.425191000 35.836802s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2017-04-28T10:00:49.428062000 35.839673s notice: Storage engine shut down.
+2017-04-28T10:01:39.102551000 0.006879s notice: Running rethinkdb 2.3.5 (CLANG 7.3.0 (clang-703.0.31))...
+2017-04-28T10:01:39.106075000 0.010401s notice: Running on Darwin 16.0.0 x86_64
+2017-04-28T10:01:39.106133000 0.010458s notice: Loading data from directory /Users/ankit5427/Desktop/todoGitlib/todo-vue-component/rethinkdb_data
+2017-04-28T10:01:39.374263000 0.278588s info: Automatically using cache size of 2379 MB
+2017-04-28T10:01:39.374799000 0.279125s notice: Listening for intracluster connections on port 29015
+2017-04-28T10:01:39.390705000 0.295030s notice: Listening for client driver connections on port 28015
+2017-04-28T10:01:39.390782000 0.295107s notice: Listening for administrative HTTP connections on port 8080
+2017-04-28T10:01:39.390824000 0.295149s notice: Listening on cluster addresses: 127.0.0.1, ::1
+2017-04-28T10:01:39.390826000 0.295151s notice: Listening on driver addresses: 127.0.0.1, ::1
+2017-04-28T10:01:39.390827000 0.295152s notice: Listening on http addresses: 127.0.0.1, ::1
+2017-04-28T10:01:39.390828000 0.295153s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-04-28T10:01:39.390829000 0.295154s notice: Server ready, "OB120_114_local_2yi" d2c2a582-edf6-4ed1-99b3-b7d318cd1ffc
+2017-04-28T10:01:40.644266000 1.548647s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: Starting a new Raft election for term 3.
+2017-04-28T10:01:40.804407000 1.708842s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: This server is Raft leader for term 3. Latest log index is 5.
+2017-04-28T10:01:40.851295000 1.755730s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: Starting a new Raft election for term 3.
+2017-04-28T10:01:41.155414000 2.059849s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: This server is Raft leader for term 3. Latest log index is 6.
+2017-04-28T12:35:02.331516000 9203.671143s notice: Server got SIGINT from pid 838, uid 503; shutting down...
+2017-04-28T12:35:02.331645000 9203.671271s notice: Shutting down client connections...
+2017-04-28T12:35:02.332794000 9203.672421s notice: All client connections closed.
+2017-04-28T12:35:02.332801000 9203.672427s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2017-04-28T12:35:02.335738000 9203.675365s notice: Storage engine shut down.
+<<<<<<< HEAD
+2017-04-28T12:47:21.642894000 0.006973s notice: Running rethinkdb 2.3.5 (CLANG 7.3.0 (clang-703.0.31))...
+2017-04-28T12:47:21.661009000 0.025085s notice: Running on Darwin 16.0.0 x86_64
+2017-04-28T12:47:21.661060000 0.025136s notice: Loading data from directory /Users/ankit5427/Desktop/todoGitlib/todo-vue-component/rethinkdb_data
+2017-04-28T12:47:21.908379000 0.272502s info: Automatically using cache size of 1220 MB
+2017-04-28T12:47:21.908891000 0.273014s notice: Listening for intracluster connections on port 29015
+2017-04-28T12:47:21.926105000 0.290229s notice: Listening for client driver connections on port 28015
+2017-04-28T12:47:21.926182000 0.290306s notice: Listening for administrative HTTP connections on port 8080
+2017-04-28T12:47:21.926192000 0.290315s notice: Listening on cluster addresses: 127.0.0.1, ::1
+2017-04-28T12:47:21.926193000 0.290317s notice: Listening on driver addresses: 127.0.0.1, ::1
+2017-04-28T12:47:21.926195000 0.290318s notice: Listening on http addresses: 127.0.0.1, ::1
+2017-04-28T12:47:21.926196000 0.290319s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-04-28T12:47:21.926197000 0.290321s notice: Server ready, "OB120_114_local_2yi" d2c2a582-edf6-4ed1-99b3-b7d318cd1ffc
+2017-04-28T12:47:23.742389000 2.106559s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: Starting a new Raft election for term 4.
+2017-04-28T12:47:23.859652000 2.223863s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: Starting a new Raft election for term 4.
+2017-04-28T12:47:23.964189000 2.328408s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: This server is Raft leader for term 4. Latest log index is 10.
+2017-04-28T12:47:24.140037000 2.504255s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: This server is Raft leader for term 4. Latest log index is 9.
+2017-04-28T15:05:12.859476000 6244.189287s notice: Server got SIGINT from pid 838, uid 503; shutting down...
+2017-04-28T15:05:12.859610000 6244.189420s notice: Shutting down client connections...
+2017-04-28T15:05:12.860878000 6244.190689s notice: All client connections closed.
+2017-04-28T15:05:12.860881000 6244.190691s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2017-04-28T15:05:12.863883000 6244.193694s notice: Storage engine shut down.
+=======
+2017-04-28T15:09:07.777986000 0.140451s notice: Recursively removing directory /Users/software/Desktop/WebProjects/TodoComponentGitLib/todo-vue-component/rethinkdb_data/tmp
+2017-04-28T15:09:07.814545000 0.177014s notice: Running rethinkdb 2.3.5 (CLANG 7.3.0 (clang-703.0.31))...
+2017-04-28T15:09:07.946594000 0.309137s notice: Running on Darwin 16.5.0 x86_64
+2017-04-28T15:09:07.946650000 0.309191s notice: Loading data from directory /Users/software/Desktop/WebProjects/TodoComponentGitLib/todo-vue-component/rethinkdb_data
+2017-04-28T15:09:08.204470000 0.567013s info: Automatically using cache size of 100 MB
+2017-04-28T15:09:08.204476000 0.567018s warn: Cache size is very low and may impact performance.
+2017-04-28T15:09:08.205010000 0.567552s notice: Listening for intracluster connections on port 29015
+2017-04-28T15:09:08.412601000 0.775143s notice: Listening for client driver connections on port 28015
+2017-04-28T15:09:08.412703000 0.775244s notice: Listening for administrative HTTP connections on port 8080
+2017-04-28T15:09:08.412714000 0.775255s notice: Listening on cluster addresses: 127.0.0.1, ::1
+2017-04-28T15:09:08.412715000 0.775257s notice: Listening on driver addresses: 127.0.0.1, ::1
+2017-04-28T15:09:08.412717000 0.775258s notice: Listening on http addresses: 127.0.0.1, ::1
+2017-04-28T15:09:08.412718000 0.775259s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-04-28T15:09:08.412719000 0.775261s notice: Server ready, "OB120_114_local_2yi" d2c2a582-edf6-4ed1-99b3-b7d318cd1ffc
+2017-04-28T15:09:09.504938000 1.867480s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: Starting a new Raft election for term 4.
+2017-04-28T15:09:09.647312000 2.009854s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: This server is Raft leader for term 4. Latest log index is 9.
+2017-04-28T15:09:09.719739000 2.082321s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: Starting a new Raft election for term 4.
+2017-04-28T15:09:09.906972000 2.269592s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: This server is Raft leader for term 4. Latest log index is 10.
+2017-04-28T15:11:47.149474000 159.518699s notice: Server got SIGINT from pid 6347, uid 501; shutting down...
+2017-04-28T15:11:47.149574000 159.518798s notice: Shutting down client connections...
+2017-04-28T15:11:47.161770000 159.530995s notice: All client connections closed.
+2017-04-28T15:11:47.161781000 159.531005s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2017-04-28T15:11:47.181664000 159.550888s notice: Storage engine shut down.
+>>>>>>> a8aa788e8f301d024f9dd209a4e706da93bb7e9f
+2017-04-28T15:29:10.438960000 0.007053s notice: Running rethinkdb 2.3.5 (CLANG 7.3.0 (clang-703.0.31))...
+2017-04-28T15:29:10.464431000 0.032522s notice: Running on Darwin 16.0.0 x86_64
+2017-04-28T15:29:10.464493000 0.032583s notice: Loading data from directory /Users/ankit5427/Desktop/todoGitlib/todo-vue-component/rethinkdb_data
+2017-04-28T15:29:10.681342000 0.249432s info: Automatically using cache size of 209 MB
+2017-04-28T15:29:10.681915000 0.250005s notice: Listening for intracluster connections on port 29015
+2017-04-28T15:29:10.701698000 0.269788s notice: Listening for client driver connections on port 28015
+2017-04-28T15:29:10.701906000 0.269996s notice: Listening for administrative HTTP connections on port 8080
+2017-04-28T15:29:10.701908000 0.269998s notice: Listening on cluster addresses: 127.0.0.1, ::1
+2017-04-28T15:29:10.701909000 0.269999s notice: Listening on driver addresses: 127.0.0.1, ::1
+2017-04-28T15:29:10.701911000 0.270001s notice: Listening on http addresses: 127.0.0.1, ::1
+2017-04-28T15:29:10.701912000 0.270002s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-04-28T15:29:10.701913000 0.270003s notice: Server ready, "OB120_114_local_2yi" d2c2a582-edf6-4ed1-99b3-b7d318cd1ffc
+2017-04-28T15:29:11.895880000 1.464020s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: Starting a new Raft election for term 5.
+2017-04-28T15:29:12.036925000 1.605115s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: This server is Raft leader for term 5. Latest log index is 13.
+2017-04-28T15:29:12.422342000 1.990533s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: Starting a new Raft election for term 5.
+2017-04-28T15:29:12.606748000 2.174939s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: This server is Raft leader for term 5. Latest log index is 12.
+2017-04-28T15:32:23.055721000 192.633427s notice: Server got SIGINT from pid 838, uid 503; shutting down...
+2017-04-28T15:32:23.055857000 192.633562s notice: Shutting down client connections...
+2017-04-28T15:32:23.056900000 192.634605s notice: All client connections closed.
+2017-04-28T15:32:23.056925000 192.634631s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2017-04-28T15:32:23.060394000 192.638099s notice: Storage engine shut down.
+2017-04-28T15:32:29.797435000 0.006877s notice: Running rethinkdb 2.3.5 (CLANG 7.3.0 (clang-703.0.31))...
+2017-04-28T15:32:29.812128000 0.021579s notice: Running on Darwin 16.0.0 x86_64
+2017-04-28T15:32:29.812190000 0.021629s notice: Loading data from directory /Users/ankit5427/Desktop/todoGitlib/todo-vue-component/rethinkdb_data
+2017-04-28T15:32:30.020546000 0.229985s info: Automatically using cache size of 131 MB
+2017-04-28T15:32:30.021096000 0.230535s notice: Listening for intracluster connections on port 29015
+2017-04-28T15:32:30.118719000 0.328158s notice: Listening for client driver connections on port 28015
+2017-04-28T15:32:30.118841000 0.328281s notice: Listening for administrative HTTP connections on port 8080
+2017-04-28T15:32:30.118851000 0.328290s notice: Listening on cluster addresses: 127.0.0.1, ::1
+2017-04-28T15:32:30.118852000 0.328292s notice: Listening on driver addresses: 127.0.0.1, ::1
+2017-04-28T15:32:30.118854000 0.328293s notice: Listening on http addresses: 127.0.0.1, ::1
+2017-04-28T15:32:30.118855000 0.328294s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-04-28T15:32:30.118856000 0.328295s notice: Server ready, "OB120_114_local_2yi" d2c2a582-edf6-4ed1-99b3-b7d318cd1ffc
+2017-04-28T15:32:31.261625000 1.471176s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: Starting a new Raft election for term 6.
+2017-04-28T15:32:31.401266000 1.610817s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: This server is Raft leader for term 6. Latest log index is 16.
+2017-04-28T15:32:31.793997000 2.003548s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: Starting a new Raft election for term 6.
+2017-04-28T15:32:32.013992000 2.223543s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: This server is Raft leader for term 6. Latest log index is 16.
+2017-05-01T10:01:57.454447000 0.161664s notice: Running rethinkdb 2.3.5 (CLANG 7.3.0 (clang-703.0.31))...
+2017-05-01T10:01:57.471944000 0.179158s notice: Running on Darwin 16.5.0 x86_64
+2017-05-01T10:01:57.472006000 0.179219s notice: Loading data from directory /Users/software/Desktop/WebProjects/TodoComponentGitLib/todo-vue-component/rethinkdb_data
+2017-05-01T10:01:57.811148000 0.518434s info: Automatically using cache size of 3077 MB
+2017-05-01T10:01:57.811537000 0.518823s notice: Listening for intracluster connections on port 29015
+2017-05-01T10:01:57.995031000 0.702317s notice: Listening for client driver connections on port 28015
+2017-05-01T10:01:57.995193000 0.702478s notice: Listening for administrative HTTP connections on port 8080
+2017-05-01T10:01:57.995195000 0.702480s notice: Listening on cluster addresses: 127.0.0.1, ::1
+2017-05-01T10:01:57.995196000 0.702482s notice: Listening on driver addresses: 127.0.0.1, ::1
+2017-05-01T10:01:57.995198000 0.702483s notice: Listening on http addresses: 127.0.0.1, ::1
+2017-05-01T10:01:57.995199000 0.702484s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-05-01T10:01:57.995205000 0.702491s notice: Server ready, "OB120_114_local_2yi" d2c2a582-edf6-4ed1-99b3-b7d318cd1ffc
+2017-05-01T10:01:58.941179000 1.648536s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: Starting a new Raft election for term 7.
+2017-05-01T10:01:59.083187000 1.790544s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: This server is Raft leader for term 7. Latest log index is 20.
+2017-05-01T10:01:59.777938000 2.485367s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: Starting a new Raft election for term 7.
+2017-05-01T10:02:00.057766000 2.765195s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: This server is Raft leader for term 7. Latest log index is 20.
+2017-05-01T10:05:20.535461000 203.256632s error: Failed to parse one or more lines from the log file, the contents of the `logs` system table will be incomplete. The following parse error occurred: cannot parse log message (2) while parsing "<<<<<<< HEAD"
+2017-05-01T10:07:00.312309000 303.039944s info: Table 35fdf9f6-afb8-4c25-a419-837561cc694e: Starting a new Raft election for term 1.
+2017-05-01T10:07:00.312492000 303.040127s info: Table 35fdf9f6-afb8-4c25-a419-837561cc694e: Added replica on this server.
+2017-05-01T10:07:00.495603000 303.223238s info: Table 35fdf9f6-afb8-4c25-a419-837561cc694e: This server is Raft leader for term 1. Latest log index is 0.
+2017-05-03T09:56:08.390765000 0.153630s notice: Running rethinkdb 2.3.5 (CLANG 7.3.0 (clang-703.0.31))...
+2017-05-03T09:56:08.408593000 0.171456s notice: Running on Darwin 16.5.0 x86_64
+2017-05-03T09:56:08.408651000 0.171512s notice: Loading data from directory /Users/software/Desktop/WebProjects/TodoComponentGitLib/todo-vue-component/rethinkdb_data
+2017-05-03T09:56:08.582910000 0.345781s info: Automatically using cache size of 2078 MB
+2017-05-03T09:56:08.583400000 0.346261s notice: Listening for intracluster connections on port 29015
+2017-05-03T09:56:08.651886000 0.414748s notice: Listening for client driver connections on port 28015
+2017-05-03T09:56:08.652007000 0.414869s notice: Listening for administrative HTTP connections on port 8080
+2017-05-03T09:56:08.652024000 0.414885s notice: Listening on cluster addresses: 127.0.0.1, ::1
+2017-05-03T09:56:08.652025000 0.414887s notice: Listening on driver addresses: 127.0.0.1, ::1
+2017-05-03T09:56:08.652027000 0.414888s notice: Listening on http addresses: 127.0.0.1, ::1
+2017-05-03T09:56:08.652029000 0.414890s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-05-03T09:56:08.652030000 0.414891s notice: Server ready, "OB120_114_local_2yi" d2c2a582-edf6-4ed1-99b3-b7d318cd1ffc
+2017-05-03T09:56:10.082320000 1.845306s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: Starting a new Raft election for term 8.
+2017-05-03T09:56:10.232462000 1.995448s info: Table 35fdf9f6-afb8-4c25-a419-837561cc694e: Starting a new Raft election for term 2.
+2017-05-03T09:56:10.246876000 2.009862s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: This server is Raft leader for term 8. Latest log index is 24.
+2017-05-03T09:56:10.406209000 2.169195s info: Table 35fdf9f6-afb8-4c25-a419-837561cc694e: This server is Raft leader for term 2. Latest log index is 2.
+2017-05-03T09:56:10.570898000 2.333884s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: Starting a new Raft election for term 8.
+2017-05-03T09:56:10.775857000 2.538904s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: This server is Raft leader for term 8. Latest log index is 23.
+2017-05-03T09:56:26.510235000 18.274213s error: Failed to parse one or more lines from the log file, the contents of the `logs` system table will be incomplete. The following parse error occurred: cannot parse log message (2) while parsing "<<<<<<< HEAD"
+2017-05-03T16:13:16.961634000 19546.463118s notice: Server got SIGINT from pid 3972, uid 501; shutting down...
+2017-05-03T16:13:16.973479000 19546.475003s notice: Shutting down client connections...
+2017-05-03T16:13:16.975304000 19546.476858s notice: All client connections closed.
+2017-05-03T16:13:16.975313000 19546.476866s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2017-05-03T16:13:17.057525000 19546.559078s notice: Storage engine shut down.
+2017-05-03T16:22:48.870608000 0.134376s notice: Running rethinkdb 2.3.5 (CLANG 7.3.0 (clang-703.0.31))...
+2017-05-03T16:22:48.979558000 0.243297s notice: Running on Darwin 16.5.0 x86_64
+2017-05-03T16:22:48.979597000 0.243334s notice: Loading data from directory /Users/software/Desktop/WebProjects/TodoComponentGitLib/todo-vue-component/rethinkdb_data
+2017-05-03T16:22:49.249094000 0.512832s info: Automatically using cache size of 100 MB
+2017-05-03T16:22:49.249100000 0.512838s warn: Cache size is very low and may impact performance.
+2017-05-03T16:22:49.249666000 0.513403s notice: Listening for intracluster connections on port 29015
+2017-05-03T16:22:49.463932000 0.727740s notice: Listening for client driver connections on port 28015
+2017-05-03T16:22:49.464032000 0.727840s notice: Listening for administrative HTTP connections on port 8080
+2017-05-03T16:22:49.464034000 0.727841s notice: Listening on cluster addresses: 127.0.0.1, ::1
+2017-05-03T16:22:49.464054000 0.727862s notice: Listening on driver addresses: 127.0.0.1, ::1
+2017-05-03T16:22:49.464056000 0.727863s notice: Listening on http addresses: 127.0.0.1, ::1
+2017-05-03T16:22:49.464057000 0.727864s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-05-03T16:22:49.464058000 0.727866s notice: Server ready, "OB120_114_local_2yi" d2c2a582-edf6-4ed1-99b3-b7d318cd1ffc
+2017-05-03T16:22:50.563244000 1.827052s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: Starting a new Raft election for term 9.
+2017-05-03T16:22:50.673729000 1.937536s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: Starting a new Raft election for term 9.
+2017-05-03T16:22:50.713349000 1.977157s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: This server is Raft leader for term 9. Latest log index is 27.
+2017-05-03T16:22:50.864236000 2.128044s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: This server is Raft leader for term 9. Latest log index is 28.
+2017-05-03T16:22:50.952632000 2.216439s info: Table 35fdf9f6-afb8-4c25-a419-837561cc694e: Starting a new Raft election for term 3.
+2017-05-03T16:22:51.358888000 2.622767s info: Table 35fdf9f6-afb8-4c25-a419-837561cc694e: This server is Raft leader for term 3. Latest log index is 6.
+2017-05-03T16:23:04.797959000 16.062402s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-05-03T16:23:25.797587000 37.062887s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-05-03T16:23:48.274748000 59.540955s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-05-03T16:24:09.795338000 81.062391s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-05-03T16:24:31.157094000 102.425066s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-05-03T16:24:53.237603000 124.506494s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-05-03T16:25:14.792491000 146.062230s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-05-03T16:25:36.130451000 167.401038s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-05-03T16:25:57.084518000 188.355953s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-05-03T16:26:18.124851000 209.397206s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-05-03T16:26:40.125501000 231.398705s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-05-03T16:27:02.107975000 253.382098s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-05-03T16:27:23.115262000 274.390235s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-05-03T16:27:45.111674000 296.387567s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-05-03T16:28:06.056554000 317.333297s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-05-03T16:28:28.038856000 339.316520s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-05-03T16:28:48.041713000 359.320156s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-05-03T16:28:50.785767000 362.064352s error: Failed to parse one or more lines from the log file, the contents of the `logs` system table will be incomplete. The following parse error occurred: cannot parse log message (2) while parsing "<<<<<<< HEAD"
+2017-05-03T19:56:56.162039000 9300.974050s notice: Server got SIGINT from pid 3972, uid 501; shutting down...
+2017-05-03T19:56:56.177998000 9300.990009s notice: Shutting down client connections...
+2017-05-03T19:56:56.178203000 9300.990213s notice: All client connections closed.
+2017-05-03T19:56:56.178206000 9300.990217s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2017-05-03T19:56:56.253058000 9301.065069s notice: Storage engine shut down.
+2017-05-04T09:34:03.825724000 0.144916s notice: Running rethinkdb 2.3.5 (CLANG 7.3.0 (clang-703.0.31))...
+2017-05-04T09:34:03.854613000 0.173812s notice: Running on Darwin 16.5.0 x86_64
+2017-05-04T09:34:03.854671000 0.173859s notice: Loading data from directory /Users/software/Desktop/WebProjects/TodoComponentGitLib/todo-vue-component/rethinkdb_data
+2017-05-04T09:34:04.396705000 0.715962s info: Automatically using cache size of 2491 MB
+2017-05-04T09:34:04.397275000 0.716531s notice: Listening for intracluster connections on port 29015
+2017-05-04T09:34:04.609004000 0.928261s notice: Listening for client driver connections on port 28015
+2017-05-04T09:34:04.609108000 0.928365s notice: Listening for administrative HTTP connections on port 8080
+2017-05-04T09:34:04.609191000 0.928448s notice: Listening on cluster addresses: 127.0.0.1, ::1
+2017-05-04T09:34:04.609193000 0.928449s notice: Listening on driver addresses: 127.0.0.1, ::1
+2017-05-04T09:34:04.609194000 0.928451s notice: Listening on http addresses: 127.0.0.1, ::1
+2017-05-04T09:34:04.609196000 0.928452s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-05-04T09:34:04.609197000 0.928453s notice: Server ready, "OB120_114_local_2yi" d2c2a582-edf6-4ed1-99b3-b7d318cd1ffc
+2017-05-04T09:34:05.781374000 2.100699s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: Starting a new Raft election for term 10.
+2017-05-04T09:34:05.924416000 2.243741s info: Table 1645a8a7-0cde-4426-9ade-d8a5c9d394e4: This server is Raft leader for term 10. Latest log index is 32.
+2017-05-04T09:34:06.103147000 2.422472s info: Table 35fdf9f6-afb8-4c25-a419-837561cc694e: Starting a new Raft election for term 4.
+2017-05-04T09:34:06.318262000 2.637656s info: Table 35fdf9f6-afb8-4c25-a419-837561cc694e: This server is Raft leader for term 4. Latest log index is 9.
+2017-05-04T09:34:06.487724000 2.807118s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: Starting a new Raft election for term 10.
+2017-05-04T09:34:06.754123000 3.073517s info: Table 575e6781-ad38-4cb1-aa54-d3f2f494d5e6: This server is Raft leader for term 10. Latest log index is 30.
+2017-05-04T09:34:26.586904000 22.907596s error: Failed to parse one or more lines from the log file, the contents of the `logs` system table will be incomplete. The following parse error occurred: cannot parse log message (2) while parsing "<<<<<<< HEAD"
