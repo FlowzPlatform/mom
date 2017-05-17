@@ -79,7 +79,7 @@ export default {
   },
   computed: {
     filteredTodos: function () {
-      return store.filter[this.sharedState.visibility](this.sharedState.todo1('', 0))
+      return store.filter[this.sharedState.visibility](this.sharedState.todo1('', -1))
     }
   },
   components: {

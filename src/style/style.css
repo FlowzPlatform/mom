@@ -2021,3 +2021,41 @@ input[type="file"].hidden-file-input {
      max-width: 0px; 
      max-height: 0px; 
 }
+.GridViewDropdownContents-viewLabel, .GridViewDropdownContents-sortLabel {
+    margin: 0 5px;
+}
+.menuSectionLabel {
+    color: #898e95;
+    font-size: 12px;
+    overflow: hidden;
+    padding: 10px 10px 0;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.task-text {
+    display: none;
+    position: absolute;
+    bottom: -5px;
+    font-size: 10px;
+    background-color: #0e0e0e;
+    padding: 0px 5px;
+    color: #fff;
+    border-radius: 5px;
+    right: 11px;
+    line-height: 17px;
+}
+.task-text:after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: -5px;
+    width: 5px;
+    border-right: 5px solid black;
+    border-top: 5px solid rgba(0, 128, 0, 0);
+    border-bottom: 5px solid rgba(0, 128, 0, 0);
+    margin: 0px auto;
+}
+.ui-progress-linear--color-primary:hover + .task-text {
+    display: inline-block;
+}

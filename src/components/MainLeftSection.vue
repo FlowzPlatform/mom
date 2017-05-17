@@ -31,6 +31,19 @@ export default {
   },
   methods: {
     onDragEnd () {
+      console.log('Drag todo', this.filteredTodos)
+      for(var i=0; i < this.filteredTodos.length-1 ; i++)
+      {
+        if(this.filteredTodos[i].id)
+        {
+          this.$http.post('/updatetasks', {
+                  id: this.filteredTodos[i].id,
+                  index: i
+              }).then(response => {
+                console.log('task updated', response.data)
+          })
+        }
+      }
       // if (this.isTask) {
       //   store.state.todos = this.filteredTodos
       // } else {

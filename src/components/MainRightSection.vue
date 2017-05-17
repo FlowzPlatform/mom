@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     filteredTodos: function () {
-      //  console.log('curent obj===>',this.id, "===", this.parentTaskName, "==", this.parentTaskDesc, "==", this.parentTaskComment);
+       console.log('curent obj===>',this.level, "====", this.id, "===", this.parentTaskName, "==", this.parentTaskDesc, "==", this.parentTaskComment);
        var todoList = store.state.todo1(this.id, this.level); 
        return todoList
     }

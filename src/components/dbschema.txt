@@ -14,6 +14,7 @@ tasks:
     createdAt,
     updatedAt,
     signup_type: email, gmail, 
+    due_date,
 }
 
 users:

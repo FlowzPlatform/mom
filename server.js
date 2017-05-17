@@ -32,7 +32,7 @@ app.use(require('webpack-hot-middleware')(compiler))
 
 // Get all task from the db
 app.get('/tasks', (req, res) => {
-  r.db("vue_todo").table("tasks").orderBy('createdAt').run().then(result => {
+  r.db("vue_todo").table("tasks").orderBy('index').run().then(result => {
     res.send(result)
   }).catch(err => {
     console.log("Error:", err)
@@ -40,13 +40,27 @@ app.get('/tasks', (req, res) => {
 })
 
 // Get all task from the db where parentId =  ?
+// app.post('/tasks_parentId', (req, res) => {
+// console.log('Req-body:parent-Id',req.body);
+//   r.db("vue_todo").table("tasks").orderBy('index').filter({'parentId': req.body.parentId}).run().then(result => {
+//     console.log('child list of selected parent', result)
+//     res.send(result)
+//   }).catch(err => {
+//     console.log("Error:", err)
+//   })
+// })
+
 app.post('/tasks_parentId', (req, res) => {
 console.log('Req-body:parent-Id',req.body);
-  r.db("vue_todo").table("tasks").orderBy('createdAt').filter({'parentId': req.body.parentId}).run().then(result => {
-    console.log('child list of selected parent', result)
-    res.send(result)
+  r.db('vue_todo').table('tasks').filter({'parentId':req.body.parentId}).merge(function (todo) {
+      return { subtask_count: r.db('vue_todo').table('tasks').filter({'parentId':todo('id')}).count()}
+	}).merge(function (todo) {
+      return { completed_subtask_count: r.db('vue_todo').table('tasks').filter({'parentId':todo('id'), 'completed':true}).count()}
+  }).orderBy('index').run().then(result => {
+      console.log('child list of selected parent', result)
+      res.send(result)
   }).catch(err => {
-    console.log("Error:", err)
+      console.log("Error:", err)
   })
 })
 
@@ -80,6 +94,7 @@ app.post('/tasks', jsonParser, (req, res) => {
     'completed': req.body.completed,
     'createdAt': new Date().toJSON(),
     'updatedAt': new Date().toJSON(),
+    'index': req.body.index
   }
   r.db("vue_todo").table('tasks').insert(task).run().then(result => {
     res.send(result)
@@ -109,6 +124,7 @@ app.post('/updatetasks', jsonParser, (req, res) => {
     'taskDesc': req.body.taskDesc,
     'completed': req.body.completed,
     'taskComment': req.body.taskComment,
+    'index': req.body.index,
     'updatedAt': new Date().toJSON()
   }
   r.db('vue_todo').table('tasks').filter({'id': req.body.id}).update(task).run().then(result => {
@@ -149,7 +165,7 @@ app.delete('/deteletask/:id', (req, res) => {
 
 // Get subtask
 app.get('/subtasks', (req, res) => {
-  r.db("vue_todo").table("subtasks").filter({task_id: "b29f893f-50b0-4e39-9c1a-49bf3b016512"}).orderBy('createdAt').run().then(result => {
+  r.db("vue_todo").table("subtasks").filter({task_id: "b29f893f-50b0-4e39-9c1a-49bf3b016512"}).orderBy('index').run().then(result => {
     console.log("s.task result[]", result)
     res.send(result)
   }).catch(err => { 
@@ -168,44 +184,6 @@ app.post('/subtasks', jsonParser, (req, res) => {
     'updatedAt': new Date().toJSON()
   }
   r.db("vue_todo").table('subtasks').insert(project).run().then(result => {
-    res.send(result)
-  }).catch(err => {
-    console.log('Error:', err)
-  })
-})
-
-router.get('/projects/:id', (req, res) => {
-  r.table('projects').get(req.params.id).run().then(result => {
-    res.send(result)
-  }).catch(err => {
-    console.log('Error:', err)
-  })
-})
-
-router.get('/projects/:id/feeds', (req, res) => {
-  r.table('feeds').filter({projectId: req.params.id}).orderBy('createdAt').run().then(result => {
-    res.send(result)
-  }).catch(err => {
-    console.log('Error:', err)
-  })
-})
-
-router.get('/feeds', (req, res) => {
-  r.table("feeds").orderBy('createdAt').run().then(result => {
-    res.send(result)
-  }).catch(err => {
-    console.log("Error:", err)
-    res.send(result)
-  })
-})
-
-router.post('/feeds', jsonParser, (req, res) => {
-  const feed = {
-    'content': req.body.content,
-    'createdAt': new Date().toJSON(),
-    'projectId': req.body.projectId
-  }
-  r.table('feeds').insert(feed).run().then(result => {
     res.send(result)
   }).catch(err => {
     console.log('Error:', err)

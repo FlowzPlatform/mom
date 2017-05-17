@@ -30,14 +30,13 @@ var fun = function(parentId, currentLevel)
 
 export default {
   state: {
-    visibility: 'all',
-    todo1: fun,
+    visibility: 'active',
+    todo1: fun
   },
   filter: {
     all: function (todo1) {
       return todo1;
-    }
-    ,
+    },
     active: function (todo1) {
       return todo1.filter(function (todo) {
         return !todo.completed

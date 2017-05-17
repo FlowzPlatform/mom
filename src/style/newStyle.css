@@ -642,7 +642,7 @@
 .potColor-leftBorder--NONE {
     border-left: 3px solid transparent
 }
-@font-face {
+/*@font-face {
     font-family: 'haptik';
     src: url('https://d3ki9tyy5l5ruj.cloudfront.net/obj/713fa3a195f429093a8d49ed3bf4e8e028527eb0/GT-Haptik-Regular.eot');
     src: url('https://d3ki9tyy5l5ruj.cloudfront.net/obj/713fa3a195f429093a8d49ed3bf4e8e028527eb0/GT-Haptik-Regular.eot#iefix') format('embedded-opentype'), url('https://d3ki9tyy5l5ruj.cloudfront.net/obj/6459df964728e7e24225d0bd34d339ec69b78ffd/GT-Haptik-Regular.woff') format('woff');
@@ -701,7 +701,7 @@
     src: url('https://d3ki9tyy5l5ruj.cloudfront.net/obj/e81b57f6d25d7bbfa96591023f3a63e8f44b4abb/ProximaNovaCond-BoldWeb.eot');
     src: url('https://d3ki9tyy5l5ruj.cloudfront.net/obj/e81b57f6d25d7bbfa96591023f3a63e8f44b4abb/ProximaNovaCond-BoldWeb.eot#iefix') format('embedded-opentype'), url('https://d3ki9tyy5l5ruj.cloudfront.net/obj/a2a4d17e4cbb56d49202ea3d55cedf762b226797/ProximaNovaCond-BoldWeb.woff') format('woff');
     font-weight: 700;
-}
+}*/
 @-webkit-keyframes hold-opacity {
     0% {
         opacity: 1

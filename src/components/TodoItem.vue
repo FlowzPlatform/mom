@@ -26,6 +26,7 @@
                     type="determinate"
                     :progress="progress">
             </ui-progress-linear>
+            <div class="task-text">{{progress_count}}</div>
 			</li>
 </template>
 <script>
@@ -54,7 +55,7 @@ export default {
       newTodo: '',
       tasks : [],
       dbId: this.filteredTodos[this.eventIndexR].id,
-      
+      progress_count:''
     }
   },
   methods: {
@@ -69,6 +70,9 @@ export default {
         if (!value) {
           return
         }
+        if (this.eventIndexR < this.filteredTodos.length - 1) {
+            return
+        }
         if (this.dbId){
             this.$http.post('/updatetasks', {
                 id: this.dbId,
@@ -81,6 +85,8 @@ export default {
           var parent_id = this.filteredTodos[this.eventIndexR].parentId ? this.filteredTodos[this.eventIndexR].parentId : '';
           //store.addTodo(this.filteredTodos[this.eventIndexR].level, parent_id)
           
+          // console.log('current todo level==>', this.filteredTodos[this.eventIndexR].level)
+          console.log('current index==>', this.eventIndexR)
           // insert task into rethink db
            this.$http.post('/tasks', {
               parentId: parent_id,
@@ -88,6 +94,7 @@ export default {
               taskDesc: '',
               level: this.filteredTodos[this.eventIndexR].level,
               completed: false, 
+              index: this.eventIndexR,
               createdAt: new Date().toJSON(),
               updatedAt: new Date().toJSON()
           })
@@ -102,6 +109,7 @@ export default {
             //   updatedAt: new Date().toJSON()
             // }
             // this.filteredTodos.push(todoObj)
+            
             console.log('Inserted', response)
         })
       }
@@ -153,6 +161,21 @@ export default {
   },
   component: {
     txtDesc
-  }
+  },
+  mounted() {
+      // console.log('Filter Todo', this.filteredTodos[this.eventIndexR])
+      var totalSubtask= this.filteredTodos[this.eventIndexR].subtask_count ? this.filteredTodos[this.eventIndexR].subtask_count : 0
+      var completedSubtask = this.filteredTodos[this.eventIndexR].completed_subtask_count ? this.filteredTodos[this.eventIndexR].completed_subtask_count : 0
+      //this.progressInterval = setInterval(() => {
+        this.progress_count = completedSubtask + " / " + totalSubtask;
+        if (totalSubtask > 0) {
+          var percentage = (completedSubtask / totalSubtask) * 100
+          this.progress = percentage
+        }
+      // }, 400);
+    },
+    beforeDestroy() {
+        clearInterval(this.progressInterval);
+    }
 }
 </script>
