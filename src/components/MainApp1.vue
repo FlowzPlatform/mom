@@ -1,5 +1,9 @@
+<html>
+  <head><meta name="google-signin-client_id" content="384614142196-oogtsh4idf2739028m4bd13fo0sdpk2n.apps.googleusercontent.com"></head>
+</html>
 <template>
 	<section class="todoapp">
+     <!--<text-input></text-input> -->
     <div data-reactroot="" class="Topbar">
       <div class="Topbar-navButtonContainer">
         <a class="Topbar-navButton">
@@ -13,12 +17,14 @@
       Inbox</a>
       <a class="NavigationLink Topbar-myDashboardButton" href="">
       Dashboard</a>
+      <div class="g-signin2" data-onsuccess="onSignInSuccess" style="display: none;"></div>
+       <!--<a href="#" onclick="signOut()">Sign out</a>-->
       <div class="Topbar-accountInfo">
       <a class="Button Button--small Button--primary topbarContingentUpgradeButton-button" tabindex="0" aria-role="button">
         Upgrade</a>
-      <a class="Topbar-settingsMenuButton">
+      <a class="Topbar-settingsMenuButton dropdown">
       <span class="Topbar-settingsMenuDomainName"><span>Welcome {{ uname }}</span></span>
-      <div  class="dropdown-toggle Avatar Avatar--medium Avatar--color4 Topbar-settingsMenuAvatar" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><!-- react-text: 28--> {{ capitalizeLetters }}<!-- /react-text --></div>
+      <div  class="dropdown-toggle Avatar Avatar--medium Avatar--color4 Topbar-settingsMenuAvatar" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><!-- react-text: 28 -->{{ capitalizeLetters }}<!-- /react-text --></div>
       <ul class="dropdown-menu">
             <li><a  data-toggle="modal" data-target="#myModal2" @click="btnProfileClicked()">Profile</a></li>
             <hr>
@@ -26,8 +32,8 @@
             </ul></li>
       </a>
     </div>
+
   </div>
-      
       <div data-reactroot="" class="PageHeaderStructure MyTasksPageHeader">
         <div class="PageHeaderStructure-center">
           <div class="PageHeaderStructure-titleRow">
@@ -46,17 +52,18 @@
     <div id="center_pane_container" class="known-list">
         <div id="center_pane">
           <left-toolbar></left-toolbar>
-		      <main-left-section :pholder="taskPholder" :parentIdArr="parentIdArr" :filtered-todos="filteredTodos" :eventIndex="eventIndex" ></main-left-section>
+		      <main-left-section :pholder="taskPholder" :filtered-todos="filteredTodos" :eventIndex="eventIndex" :isTask="isTask"></main-left-section>
+          <!--<div>{{filteredTodos}}</div>-->
         </div>
     </div>
-    
-    <div id="right_pane_container" class="known-list" v-for="n in parentIdArr">
+    <div id="right_pane_container" class="known-list">
       <div id="right_pane">
-        <main-right-section :pholder="subtaskPholder" v-model=parentIdArr[n] :id="n.id" :level="n.level" :parentTaskName="n.parentTaskName" :parentTaskDesc="n.parentTaskDesc" :parentTaskComment="n.parentTaskComment" :parentIdArr="parentIdArr" :filtered-todos="filteredTodos" :eventIndex="eventIndex" ></main-right-section>
+        <main-right-section :pholder="subtaskPholder" :filtered-todos="filteredTodos" :eventIndex="eventIndex" :isTask="!isTask"></main-right-section>
       </div>
     </div>
     <div class="asanaView-paneGutter"></div>
     </div>
+		<!--<todo-footer></todo-footer>-->
     <div id="myModal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -121,42 +128,46 @@
       </div>
     </div>
   </div>
-	</section> 
+	</section>
 </template>
 <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 <script>
 /* eslint-disable*/
 import store from './store.js'
 import MainLeftSection from './MainLeftSection.vue'
+import TodoFooter from './TodoFooter.vue'
 import MainRightSection from './MainRightSection.vue'
 import LeftToolbar from './LeftToolbar.vue'
+// import TextInput from './TextInput.vue'
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
+Vue.use(require('vue-moment'));
 export default {
+  // el: '#filterTodo',
   props: ['passData'],
   data: function () {
     return {
-        sharedState: store.state,
-        eventIndex: 0,
-        taskPholder: 'Task',
-        subtaskPholder: 'Subtask',
-        parentIdArr : [],
-        username: '',
-        role: '',
-        aboutme: '',
-        dob: '',
-        datepicker: null,
-        picker10Max: new Date(),
-        image: ''
+      sharedState: store.state,
+      eventIndex: 0,
+      isTask: true,
+      taskPholder: 'Task',
+      subtaskPholder: 'Subtask',
+      username: '',
+      role: '',
+      aboutme: '',
+      dob: '',
+      datepicker: null,
+      picker10Max: new Date(),
+      image: ''
     }
   },
   computed: {
     filteredTodos: function () {
-      return store.filter[this.sharedState.visibility](this.sharedState.todo1('', -1))
+      console.log('Filtered Todos:', this.sharedState.todos)
+      return store.filters[this.sharedState.visibility](this.sharedState.todos)
     },
     uname: function(){
       var str = this.$store.state.userObject.email
@@ -172,6 +183,15 @@ export default {
   },
   methods: {
     btnLogoutClicked (){
+    
+    // gapi.load('auth2', function() {
+    //     gapi.auth2.init();
+    // });
+    // var auth2 = gapi.auth2.getAuthInstance();
+    // auth2.signOut().then(function () {
+    //   console.log('User signed out.');
+    // });
+
       this.$store.state.userObject = {}
       this.$store.state.isAuthorized = false
       this.$store.commit('userData')
@@ -245,8 +265,10 @@ export default {
     }
   },
   components: {
+    // TextInput,
     MainLeftSection,
     MainRightSection,
+    TodoFooter,
     LeftToolbar
   }
 }

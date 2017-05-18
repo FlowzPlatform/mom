@@ -5,7 +5,7 @@
                 <div class="photo-view photo-view-remix inbox-size photo-view-rounded-corners taskCommentsView-photo">
                     <div class="react-mount-node photoView-reactMount">
                         <div data-reactroot="" class="Avatar Avatar--medium Avatar--color4">
-                            <!-- react-text: 2 -->UN<!-- /react-text -->
+                            <!-- react-text: 2 -->{{ capitalizeLetters }}<!-- /react-text -->
                         </div>
                     </div>
                 </div>
@@ -64,6 +64,13 @@ export default {
               console.log('task update', response.data)
           })
         }
+    }
+  },
+  computed: {
+    capitalizeLetters: function(){
+      var str = this.$store.state.userObject.email
+      var firstLetters = str.substr(0,2)
+      return firstLetters.toUpperCase()
     }
   }
 }

@@ -1,5 +1,6 @@
 /* eslint-disable*/
 import Vue from 'vue'
+import { store } from '../VuexSession.js'
 var fun = function(parentId, currentLevel)
 {
     var todoArray = new Array();
@@ -30,7 +31,7 @@ var fun = function(parentId, currentLevel)
 
 export default {
   state: {
-    visibility: 'active',
+    visibility: 'all',
     todo1: fun
   },
   filter: {

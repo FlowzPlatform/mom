@@ -44,11 +44,6 @@ export default {
           })
         }
       }
-      // if (this.isTask) {
-      //   store.state.todos = this.filteredTodos
-      // } else {
-      //   store.state.todos[this.eventIndex].subTasks = this.filteredTodos
-      // }
     },
     getUpdatedIndex (index) {
       this.$parent.eventIndex = index

@@ -60,19 +60,41 @@ export default {
   },
   methods: {
     removeTodo: function () {
+      console.log('Remove TODO:', this.filteredTodos);
+      if(this.dbId)
+      {
       this.$http.delete('/deteletask/'+ this.dbId, {
         }).then(response => {
             console.log('task deleted', response.data)
+            if(this.filteredTodos.length-1 > 0)
+            {
+              console.log('ID-Level:', this.filteredTodos[0].parentId, "===", this.filteredTodos[0].level);
+              var todoList = store.state.todo1(this.filteredTodos[0].parentId, (this.filteredTodos[0].level-1)); 
+              console.log('todoList:', todoList);
+              for(var i=0; i < todoList.length-1 ; i++)
+              {
+                if(todoList[i].id)
+                  {
+                    this.$http.post('/updatetasks', {
+                    id: todoList[i].id,
+                    index: i
+                    }).then(response => {
+                      console.log('index updated after remove task', response.data)
+                  })
+                  }
+              }
+            }
         })
+        }
     },
     handleAddTodo: function () {
         var value = this.filteredTodos[this.eventIndexR].taskName && this.filteredTodos[this.eventIndexR].taskName.trim()
         if (!value) {
           return
         }
-        if (this.eventIndexR < this.filteredTodos.length - 1) {
-            return
-        }
+        // if (this.eventIndexR < this.filteredTodos.length - 1) {
+        //     return
+        // }
         if (this.dbId){
             this.$http.post('/updatetasks', {
                 id: this.dbId,

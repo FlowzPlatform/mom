@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import Login from './components/LoginPage.vue'
 import mainApp from './components/MainApp.vue'
-// import hello from './components/Hello.vue'
 import App from './App.vue'
 import './style/style.css'
 import './style/newStyle.css'
@@ -14,11 +13,15 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 Vue.config.productionTip = false
 
+import { store } from './VuexSession'
+import GSignInButton from 'vue-google-signin-button'
+Vue.use(GSignInButton)
+
 /* eslint-disable no-new */
 
 const routes = [
-    {path: '/', component: Login},
-    {path: '/main-app', component: mainApp}
+     {path: '/', meta: { Auth: false }, component: Login},
+     {path: '/main-app', meta: { Auth: true }, component: mainApp}
 ]
 
 const router = new VueRouter({
@@ -26,9 +29,26 @@ const router = new VueRouter({
   mode: 'history'
 })
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.Auth)) {
+    console.log('auth.status: ' + store.state.isAuthorized)
+    if (!store.state.isAuthorized) {
+      next({
+        path: '/',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
+
 // new Vue({app, router})
 new Vue({
   el: '#app',
   render: h => h(App),
-  router
+  router,
+  store
 })

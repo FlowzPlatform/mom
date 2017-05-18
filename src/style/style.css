@@ -948,7 +948,7 @@ svg:not(:root){
     transition-property: background, border, box-shadow, color;
 }
 .Topbar-settingsMenuDomainName{
-	    max-width: 110px;
+	    max-width: 130px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -1612,7 +1612,7 @@ a:hover, a:focus{
     width: 6px;
     float: left;
 }
-.Topbar {position: fixed;top: 0;left: 0;right: 0;}
+.Topbar {position: fixed;top: 0;left: 0;right: 0;z-index: 1;}
 .PageHeaderStructure {position: fixed;top: 40px;left: 0;right: 0;}
 .known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;overflow: auto;min-width: 450px;}
 .asanaView-body { position: fixed;top: 105px;left: 0;right: 0;bottom: 0;overflow-x: auto;  width: 100%;}
@@ -2058,4 +2058,59 @@ input[type="file"].hidden-file-input {
 }
 .ui-progress-linear--color-primary:hover + .task-text {
     display: inline-block;
+}
+.dropdown-toggle::after {
+    display: none;
+}
+li {
+   margin: 10px 0;
+}
+.Topbar-accountInfo .dropdown-menu { padding: 0;}
+.Topbar-accountInfo .dropdown-menu li {margin:0px}
+.Topbar-accountInfo .dropdown-menu hr { margin: 0;}
+.Topbar-accountInfo .dropdown-menu li a:hover {background-color: #1aafd0;color: #fff;}
+.Topbar-accountInfo .dropdown-menu li a {
+    padding: 3px 35px;    line-height: 3.00857143;}
+.modal-open .modal {
+    top: 0;
+     background-color: rgba(0, 0, 0, 0.28); 
+}
+.modal-open .modal .modal-dialog {
+    top: 0;
+    margin-top: 0px;
+    transform: translate(0, 0);
+}
+.modal-open .modal .modal-dialog  .modal-header {
+    background-color: #1aafd0;
+    color: #fff;
+}
+.modal-open .modal .modal-dialog  .modal-header  .close {top:15px;right:15px;color:#fff;opacity: .7;}
+.drop-element.drop-after-open {    z-index: 9991;
+    transform: none !important;
+    bottom: 0px;
+    right: 0;
+    top: 257px !important;
+    width: 250px;
+    margin: 0 auto 0 47.8%;}
+.upl-img {height: 70px; width: 70px; background-color: #ccc; border-radius: 50%; display: inline-block; overflow: hidden; border: solid 2px #ccc;}
+.upl-img img {max-width: 100%; max-height: 100%; }
+.img-part {display: inline-block; width: 150px; vertical-align: top;text-align: right;
+    padding-right: 20px;}
+.pro-part {display: inline-block; width: 285px;}
+.pro-part .picture-action-label {
+    position: relative;
+    z-index: 1;
+}
+
+.pro-part .picture-action-label input {
+    opacity: 0;
+}
+.pro-part .showing.about-me {
+    resize: none;
+}
+.pro-part .picture-action-label span.img-upload {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    z-index: -1;
 }

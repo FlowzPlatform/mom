@@ -65,23 +65,14 @@ console.log('Req-body:parent-Id',req.body);
 })
 
 
-//Fetch login credentials
-app.post('/getUser', jsonParser, (req, res) => {
-  r.db("vue_todo").table("Users").filter({'username': req.body.username, 'password': req.body.password}).run().then(result => {
-    res.send(result)
-  }).catch(err => {
-    console.log("Error:", err)
-  })
-})
-
-//Check whether Email address exists or not
-app.post('/getUserEmail', jsonParser, (req, res) => {
-  r.db("vue_todo").table("Users").filter({'username': req.body.username}).run().then(result => {
-    console.log(result)
-  }).catch(err => {
-    console.log("Error:", err)
-  })
-})
+// //Fetch login credentials
+// app.post('/getUser', jsonParser, (req, res) => {
+//   r.db("vue_todo").table("users").filter({'username': req.body.username, 'password': req.body.password}).run().then(result => {
+//     res.send(result)
+//   }).catch(err => {
+//     console.log("Error:", err)
+//   })
+// })
 
 // Insert todo task in the db
 app.post('/tasks', jsonParser, (req, res) => {
@@ -97,19 +88,6 @@ app.post('/tasks', jsonParser, (req, res) => {
     'index': req.body.index
   }
   r.db("vue_todo").table('tasks').insert(task).run().then(result => {
-    res.send(result)
-  }).catch(err => {
-    console.log('Error:', err)
-  })
-})
-
-//Insert new user in the db
-app.post('/insertUsers', jsonParser, (req, res) => {
-  const user = {
-    'username': req.body.username,
-    'password': req.body.password
-  }
-  r.db("vue_todo").table('Users').insert(user).run().then(result => {
     res.send(result)
   }).catch(err => {
     console.log('Error:', err)
@@ -162,31 +140,63 @@ app.delete('/deteletask/:id', (req, res) => {
   })
 })
 
-
-// Get subtask
-app.get('/subtasks', (req, res) => {
-  r.db("vue_todo").table("subtasks").filter({task_id: "b29f893f-50b0-4e39-9c1a-49bf3b016512"}).orderBy('index').run().then(result => {
-    console.log("s.task result[]", result)
+// Insert new user in the db
+app.post('/insertUsers', jsonParser, (req, res) => {
+  console.log('request: ', req.body)
+  const user = {
+    'email': req.body.email,
+    'password': req.body.password,
+    'username': req.body.username,
+    'role': req.body.role,
+    'aboutme': req.body.aboutme,
+    'signup_type': req.body.signup_type,
+    // 'profile_pic': req.body.profile_pic,
+    // 'dob': req.body.dob,
+    'createdAt': new Date().toJSON(),
+    'updatedAt': new Date().toJSON()
+  }
+  r.db("vue_todo").table('users').insert(user).run().then(result => {
     res.send(result)
-  }).catch(err => { 
+  }).catch(err => {
+    console.log('Error:', err)
+  })
+})
+
+// Fetch login credentials
+app.post('/getUser', jsonParser, (req, res) => {
+  r.db("vue_todo").table("users").filter({'email': req.body.email, 'password': req.body.password, 'signup_type': req.body.signup_type}).run().then(result => {
+    res.send(result)
+  }).catch(err => {
     console.log("Error:", err)
   })
 })
 
-// insert subtasks
-app.post('/subtasks', jsonParser, (req, res) => {
-  console.log('req.body',req.body);
-  const project = {
-    'task_id': req.body.task_id,
-    'taskName': req.body.taskName,
-    'completed': req.body.completed,
-    'createdAt': new Date().toJSON(),
-    'updatedAt': new Date().toJSON()
-  }
-  r.db("vue_todo").table('subtasks').insert(project).run().then(result => {
+//Check whether Email address exists or not
+app.post('/getUserEmail',(req, res) => {
+  console.log('Req===>', req.body)
+  // r.db("vue_todo").table("users").filter({'email': req.body.email, 'signup_type': req.body.signup_type}).run().then(result => {
+    r.db('vue_todo').table('users').filter({'email': req.body.email, 'signup_type':  req.body.signup_type}).run().then(result => {
+    console.log('Response', result)
     res.send(result)
   }).catch(err => {
-    console.log('Error:', err)
+    console.log("Error:", err)
+  })
+})
+
+// Update user profile
+app.post('/updateUserProfile', jsonParser, (req, res) => {
+  //var taskToUpdate = []
+   var taskToUpdate = {
+      'username': req.body.username,
+      'role': req.body.role,
+      'aboutme': req.body.aboutme,
+      'dob': req.body.dob,
+      'updatedAt': new Date().toJSON()
+    }
+  r.db("vue_todo").table("users").filter({'email': req.body.email, 'signup_type': req.body.signup_type}).update(taskToUpdate).run().then(result => {
+    res.send(result)
+  }).catch(err => {
+    // console.log("Error:", err)
   })
 })
 

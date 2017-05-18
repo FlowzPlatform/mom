@@ -10,11 +10,11 @@
                   <div class="photo-view photo-view-remix inbox-size photo-view-rounded-corners clickable ">
                     <div class="react-mount-node photoView-reactMount">
                       <div data-reactroot="" class="Avatar Avatar--medium Avatar--color4">
-                        <!-- react-text: 2 -->UN<!-- /react-text -->
+                        <!-- react-text: 2 -->{{ capitalizeLetters }}<!-- /react-text -->
                         </div>
                       </div>
                     </div>
-                    <a tabindex="-1" class="token_name " href="">User Name</a>
+                    <a tabindex="-1" class="token_name " href="">{{ uname }}</a>
                 </span>
               </span>
             </div>
@@ -86,6 +86,19 @@ export default {
   data() {
     return {
       picker1: null
+    }
+  },
+  computed: {
+    uname: function(){
+      var str = this.$store.state.userObject.email
+      var n = str.indexOf("@")
+      var res = str.substr(0, n)
+      return res
+    },
+    capitalizeLetters: function(){
+      var str = this.$store.state.userObject.email
+      var firstLetters = str.substr(0,2)
+      return firstLetters.toUpperCase()
     }
   }
   //   methods: {
