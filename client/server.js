@@ -32,7 +32,7 @@ app.use(require('webpack-hot-middleware')(compiler))
 
 // Get all task from the db
 app.get('/tasks', (req, res) => {
-  r.db("vue_todo").table("tasks").orderBy('index').run().then(result => {
+  r.db("vue_todo").table("tasks").run().then(result => {
     res.send(result)
   }).catch(err => {
     console.log("Error:", err)

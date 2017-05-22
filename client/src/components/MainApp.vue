@@ -13,6 +13,7 @@
       Inbox</a>
       <a class="NavigationLink Topbar-myDashboardButton" href="">
       Dashboard</a>
+      <div class="PageHeaderStructure-center PageHeaderStructure-title MyTasksPageHeader-title">My Tasks</div>
       <div class="Topbar-accountInfo">
       <a class="Button Button--small Button--primary topbarContingentUpgradeButton-button" tabindex="0" aria-role="button">
         Upgrade</a>
@@ -28,8 +29,8 @@
     </div>
   </div>
       
-      <div data-reactroot="" class="PageHeaderStructure MyTasksPageHeader">
-        <div class="PageHeaderStructure-center">
+      <!--<div data-reactroot="" class="PageHeaderStructure MyTasksPageHeader">-->
+        <!--<div class="PageHeaderStructure-center">
           <div class="PageHeaderStructure-titleRow">
             <div class="PageHeaderStructure-titleLeftElement">
               <div class="Avatar Avatar--small Avatar--color4 MyTasksPageHeader-ownAvatar MyTasksPageHeader-avatar">
@@ -40,7 +41,8 @@
           </div>
           <div class="PageHeaderStructure-right">
           </div>
-        </div>
+        </div>-->
+        
     <div class="row asanaView-body" style="padding-top: 15px; margin: 10px 10px 10px 10px;">
       <div class="asanaView-paneGutter"></div>
     <div id="center_pane_container" class="known-list">
@@ -50,10 +52,12 @@
         </div>
     </div>
     
-    <div id="right_pane_container" class="known-list" v-for="n in parentIdArr">
+    <div id="right_pane_container" class="known-list" v-for="(n, index) in parentIdArr">
       <div id="right_pane">
-        <main-right-section :pholder="subtaskPholder" v-model=parentIdArr[n] :id="n.id" :level="n.level" :parentTaskName="n.parentTaskName" :parentTaskDesc="n.parentTaskDesc" :parentTaskComment="n.parentTaskComment" :parentDueDate="n.parentDueDate" :parentIdArr="parentIdArr" :filtered-todos="filteredTodos" :eventIndex="eventIndex" ></main-right-section>
+        <main-right-section :pholder="subtaskPholder" :index="index" :id="n.id" :todoObject="n" :level="n.level" :parentTaskName="n.parentTaskName" :parentTaskDesc="n.parentTaskDesc" :parentTaskComment="n.parentTaskComment" :parentDueDate="n.parentDueDate" :parentIdArr="parentIdArr" :filtered-todos="filteredTodos" :eventIndex="eventIndex" ></main-right-section>
+        
       </div>
+     
     </div>
     <div class="asanaView-paneGutter"></div>
     </div>
@@ -157,8 +161,10 @@ export default {
   },
   computed: {
     filteredTodos: function () {
+     // var allTodo = store.state.allTodo;
+      // console.log('All TODO:', store.state.alltodo)
       return store.filter[this.sharedState.visibility](this.sharedState.todo1('', -1))
-    },
+    },  
     uname: function(){
       var str = this.$store.state.userObject.email
       var n = str.indexOf("@")

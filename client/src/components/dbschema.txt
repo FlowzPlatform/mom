@@ -30,3 +30,8 @@ users:
     createdAt,
     updatedAt
 }
+
+node_module:
+{
+    
+}

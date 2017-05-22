@@ -20,7 +20,7 @@
                         <span class="taskCommentsView-textarea">
                             <textarea rows="5" cols="50"
                                 contenteditable="true" 
-                                v-model="filteredTodo.parentTaskComment"
+                                v-model="filteredTodo.taskComment"
                                 disable_highlighting_for_diagnostics="true" 
                                 tabindex="10" 
                                 class="field-description hypertext-input notranslate" 
@@ -59,7 +59,7 @@ export default {
         if (taskId){
             this.$http.post('/updatetasks', {
                 id: taskId,
-                taskComment: this.filteredTodo.parentTaskComment,
+                taskComment: this.filteredTodo.taskComment,
             }).then(response => {
               console.log('task update', response.data)
           })

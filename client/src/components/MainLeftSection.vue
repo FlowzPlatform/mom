@@ -8,6 +8,7 @@
         </transition-group>
       </draggable>
 		</ul>
+    {{filteredTodos[this.eventIndex].taskName}}
 	</section>
 </template>
 

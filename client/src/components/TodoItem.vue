@@ -4,6 +4,7 @@
           <span class="dreg-move"></span>
                 <input id="checkbox8" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="checkboxToggle">
 <label for="checkbox8"></label>
+                {{todo.taskName}}
 						    <input  class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-model="todo.taskName"
                   @click="showDiv(todo.level, parentIdArr)"
                   @focus="getIndex(eventIndexR)"
@@ -183,7 +184,7 @@ export default {
         // console.log('parentTaskId===>', parentTaskId);
         if(parentTaskId)
         {
-            var parentIdArrObj = {"id": parentTaskId, "level":level, "parentTaskName": parentTaskName, "parentTaskDesc" : parentTaskDesc, "parentTaskComment" : parentTaskComment, "parentDueDate" : parentDueDate}
+            var parentIdArrObj = {"id": parentTaskId, "level":level, "parentTaskName": parentTaskName, "parentTaskDesc" : parentTaskDesc, "parentTaskComment" : parentTaskComment, "parentDueDate" : parentDueDate, "todoArr": this.filteredTodos[this.eventIndexR]}
             var tempParentIds =_.chain([]).union(this.parentIdArr).sortBy([function(o) { return o.level; }]).value();
             // console.log('parentIdArrObj::', parentIdArrObj);
             if(this.parentIdArr.length > 0)

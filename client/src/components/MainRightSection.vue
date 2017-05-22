@@ -1,12 +1,12 @@
 <template>
 <div class="">
 <section class="todoapp right_bar">
-  <right-toolbar :filtered-todos="{id, parentDueDate}"></right-toolbar>
-	<text-description  :filteredTodo="{id, parentTaskName, parentTaskDesc}" :eventIndex="eventIndex">
+  <right-toolbar :filtered-todos="{id, parentDueDate, index}"></right-toolbar>
+	<text-description :filteredTodo="todoObject.todoArr" :eventIndex="eventIndex">
   </text-description>
   <main-left-section :pholder="pholder" :filtered-todos="filteredTodos" :eventIndex="eventIndex" :parentIdArr="parentIdArr"></main-left-section>
 </section>
-<right-footer :filteredTodo="{id, parentTaskComment}"></right-footer>
+<right-footer :filteredTodo="todoObject.todoArr"></right-footer>
 </div>
 </template> 
 <script>
@@ -18,7 +18,7 @@ import RightFooter from './RightFooter.vue'
 import RightToolbar from './RightToolbar.vue'
 
 export default {
-  props: ['eventIndex','pholder','filteredTodos','id', 'level', 'parentTaskName', 'parentTaskDesc', 'parentTaskComment', 'parentIdArr', 'parentDueDate'],
+  props: ['eventIndex','pholder','filteredTodos','id', 'level', 'parentTaskName', 'parentTaskDesc', 'parentTaskComment', 'parentIdArr', 'parentDueDate', 'index', 'todoObject'],
   data: function () {
     return {
       sharedState: store.state,
@@ -26,8 +26,9 @@ export default {
   },
   computed: {
     filteredTodos: function () {
+       console.log('todoObject', this.todoObject)
        console.log('curent obj===>',this.level, "====", this.id, "===", this.parentTaskName, "==", this.parentTaskDesc, "==", this.parentTaskComment);
-       var todoList = store.state.todo1(this.id, this.level); 
+       var todoList = store.state.todo1(this.todoObject.id, this.todoObject.level); 
        return todoList
     }
   },

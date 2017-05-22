@@ -106,7 +106,13 @@
                   <!--</ul>-->
 				</a>
 			</div>
+      
       </span>
+      <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right" tabindex="410">
+            <span class="circularButtonView-label" @click="openfullwinodw(filteredTodos.index)">
+              <i class="fa fa-expand" aria-hidden="true"></i>    
+            </span>
+          </div>
     </div>
 </template>
 <script>
@@ -125,7 +131,8 @@ export default {
   props: ['filteredTodos'],
   data() {
     return {
-      picker1: null
+      picker1: null,
+      index: this.filteredTodos.index
     }
   },
   computed: {
@@ -145,7 +152,7 @@ export default {
       dateFormatter(date){
         this.$http.post('/updatetasks', {
                 id: this.filteredTodos.id,
-                DueDate: date.toJSON()
+                dueDate: date.toJSON()
             }).then(response => {
               console.log('task update', response.data)
           })
@@ -169,7 +176,11 @@ export default {
           $('.ui-datepicker__display-value').css('color', "green");
         }
         return selectedDate
-    }
+    },
+   openfullwinodw : function(ind) {
+     $('.window-full.circularButtonView').find('.fa').toggleClass('fa-compress');
+     $('.window-full.circularButtonView').parents('#right_pane_container').toggleClass('open')
+   } 
   }
   //   methods: {
   //   hideDiv: function () {

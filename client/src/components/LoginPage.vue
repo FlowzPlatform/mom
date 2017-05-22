@@ -31,8 +31,7 @@
             <div :passData="passData" class="form-input form-input--button" style="margin-right: 30px; padding-bottom: 30px;">
                 <button id="back_btn" @click="btnBackClicked()" style="display: none" class="buttonView buttonView--default buttonView--primary buttonView--large"><span>Back</span></button>
                 <button tabindex="4" id="signup_btn" @click="btnSignUpClicked()" class="buttonView buttonView--default buttonView--primary buttonView--large"><span>Sign Up</span></button>
-                <button tabindex="5" v-if="emailId.length > 0" class="buttonView buttonView--default buttonView--primary buttonView--large" id="login_btn" @click="btnLogInClicked()"><span>Log In</span></button>
-                <button tabindex="5" v-else class="buttonView buttonView--default buttonView--primary buttonView--large is-disabled" id="login_btn" @click="btnLogInClicked()"><span>Log In</span></button>
+                <button tabindex="5" class="buttonView buttonView--default buttonView--primary buttonView--large is-disabled" id="login_btn" @click="btnLogInClicked()"><span>Log In</span></button>
             </div>
         </div>
         <!--<script>

@@ -7,14 +7,14 @@
             style="height: 40px;"
             autofocus autocomplete="off"
             @keyup.enter="updateTaskName(eventIndex, filteredTodo.id)"
-            v-model="filteredTodo.parentTaskName"/>
+            v-model="filteredTodo.taskName"/>
           </div>
           <br>
         <div class="property description taskDetailsView-description">
         <div class="multiline">
           <span class="autogrow-textarea">
               <textarea rows="3" cols="50"
-              v-model="filteredTodo.parentTaskDesc"
+              v-model="filteredTodo.taskDesc"
               @keyup="updateDescription(eventIndex, filteredTodo.id)"
                 contenteditable="true" disable_highlighting_for_diagnostics="true" tabindex="10" class="field-description generic-input hypertext-input notranslate" id="property_sheet:details_property_sheet_field:description"
                 placeholder="Description">
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     updateTaskName: function(eventIndex, parentTaskId) {
-      var value = this.filteredTodo.parentTaskName
+      var value = this.filteredTodo.taskName
       if (parentTaskId) {
         this.$http.post('/updatetasks', {
                   id: parentTaskId,
@@ -50,7 +50,7 @@ export default {
         } 
     },
     updateDescription: function(eventIndex, parentTaskId) {
-      var value = this.filteredTodo.parentTaskDesc
+      var value = this.filteredTodo.taskDesc
       console.log('ID', parentTaskId);
       console.log('Desc', value);
       if (parentTaskId) {

@@ -29,10 +29,27 @@ var fun = function(parentId, currentLevel)
     return todoArray
 }
 
+// var getAllTodo = function()
+// {
+//     var todoArray = new Array();
+//     $.ajax({
+//         url:'/tasks',
+//         type:'get',
+//         async: false,
+//         success:function(res){
+//             todoArray = res;
+//         },
+//         dataType: "json",
+//     }); 
+//     console.log('All TODO-->', todoArray)
+//     return todoArray
+// }
+
 export default {
   state: {
     visibility: 'all',
-    todo1: fun
+    todo1: fun,
+    // alltodo: getAllTodo()
   },
   filter: {
     all: function (todo1) {

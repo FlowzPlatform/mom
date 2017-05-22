@@ -3,8 +3,6 @@
   <div class="dropdown pull-right">
     <button class="btn btn-defualt glyphicon glyphicon-cog" type="button" data-toggle="dropdown"></button>
     <ul class="dropdown-menu">
-       <div class="menuSectionLabel GridViewDropdownContents-viewLabel">VIEW</div>
-        <div class="divider"/>
         <li><a href="#/active" :class="{selected: sharedState.visibility == 'active'}" @click="showActiveTodos">Incomplete Tasks</a></li>
         <li><a href="#/completed" :class="{selected: sharedState.visibility == 'completed'}" @click="showCompletedTodos">Completed Tasks</a></li>
         <li><a href="#/all" :class="{selected: sharedState.visibility == 'all'}" @click="showAllTodos">All Tasks</a></li>
