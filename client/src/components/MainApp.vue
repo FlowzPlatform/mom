@@ -42,22 +42,20 @@
           <div class="PageHeaderStructure-right">
           </div>
         </div>-->
-        
     <div class="row asanaView-body" style="padding-top: 15px; margin: 10px 10px 10px 10px;">
       <div class="asanaView-paneGutter"></div>
     <div id="center_pane_container" class="known-list">
         <div id="center_pane">
           <left-toolbar></left-toolbar>
-		      <main-left-section :pholder="taskPholder" :parentIdArr="parentIdArr" :filtered-todos="filteredTodos" :eventIndex="eventIndex" ></main-left-section>
+		      <!--<main-left-section :pholder="taskPholder" :parentIdArr="parentIdArr" :filtered-todos="filteredTodos" :eventIndex="eventIndex" ></main-left-section>-->
+          <main-left-section :pholder="taskPholder" :parentIdArr="parentIdArr" :filtered-todos="taskById" :eventIndex="eventIndex" ></main-left-section>
         </div>
     </div>
-    
     <div id="right_pane_container" class="known-list" v-for="(n, index) in parentIdArr">
       <div id="right_pane">
-        <main-right-section :pholder="subtaskPholder" :index="index" :id="n.id" :todoObject="n" :level="n.level" :parentTaskName="n.parentTaskName" :parentTaskDesc="n.parentTaskDesc" :parentTaskComment="n.parentTaskComment" :parentDueDate="n.parentDueDate" :parentIdArr="parentIdArr" :filtered-todos="filteredTodos" :eventIndex="eventIndex" ></main-right-section>
         
+        <main-right-section :pholder="subtaskPholder" :index="index" :id="n.id" :todoObject="n" :level="n.level" :parentTaskName="n.parentTaskName" :parentTaskDesc="n.parentTaskDesc" :parentTaskComment="n.parentTaskComment" :parentDueDate="n.parentDueDate" :parentIdArr="parentIdArr"  :eventIndex="eventIndex" ></main-right-section>
       </div>
-     
     </div>
     <div class="asanaView-paneGutter"></div>
     </div>
@@ -72,19 +70,22 @@
           <div class="form-input">
             <div class="img-part">
               <span class="upl-img">
-                <img :src="image"/>
+                <ui-progress-circular color="black" type="indeterminate" v-show="loading" class="circularProgress">
+                </ui-progress-circular>
+                <img v-bind:src="imageURlProfilePic"/>
               </span>
             </div>
                 <span class="pro-part">
                   <label>Name</label>
                   <input type="username" v-model='username' @keyup='enableUpdateProfileBtn'>
-                  <div class="picture-action-label" v-if='!image'>
+                  <!--<div class="picture-action-label" v-if='!image'>
                       <input autocomplete="off" type="file" name="file" title="" class="photo-file-input" accept="image/gif,image/png,image/jpeg,image/tiff,image/bmp" @change="onFileChange">
                     <span class="img-upload">Add a profile photo</span>
-                  </div>
-                  <div class="picture-action-label" v-else>
-                    <!--<input autocomplete="off" type="file" name="file" class="photo-file-input" @click="removeImage">-->
-                    <span class="img-upload" @click="removeImage">Clear photo</span>
+                  </div>-->
+                  <div class="picture-action-label" v-if='!imageURlProfilePic'>
+                      <input autocomplete="off" type="file" id="file" name="file" title="" class="photo-file-input" accept="image/gif,image/png,image/jpeg,image/tiff,image/bmp" @change="onFileChange">
+                     <span class="img-upload">Add a profile photo</span>
+                    <!--<span class="img-upload" @click="removeImage">Clear photo</span>-->
                   </div>
                 </span>
             </div>
@@ -140,6 +141,7 @@ Vue.use(BootstrapVue)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 // import store from '../vuex/store'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   props: ['passData'],
@@ -156,15 +158,44 @@ export default {
         dob: '',
         datepicker: null,
         picker10Max: new Date(),
-        image: ''
+        image: '',
+        imageURlProfilePic: this.$store.state.userObject.image_url,
+        loading: false
     }
   },
+  created() {
+    // ...mapActions([
+    //         'getAllTodos'
+    //     ])
+      //this.$store.dispatch('getTodo', {'parentId':'', 'currentLevel': -1})
+      this.$store.dispatch('getAllTodos');
+  },
   computed: {
-    filteredTodos: function () {
-     // var allTodo = store.state.allTodo;
-      // console.log('All TODO:', store.state.alltodo)
-      return store.filter[this.sharedState.visibility](this.sharedState.todo1('', -1))
-    },  
+    // filteredTodos: function () {
+    //   return store.filter[this.sharedState.visibility](this.sharedState.todo1('', -1))
+    // },
+    // filteredTodos(){
+    //    console.log('CurrentTodos: computed :: ',this.$store.getters)
+    //   return this.$store.getters.todoslist
+    // },
+    ...mapGetters({
+      todoById: 'getTodoById'
+     }),
+     taskById(){
+       let taskArray = this.todoById('', 0)
+       console.log("taskArray",taskArray)
+       taskArray.push({
+              parentId: '',
+              taskName: '',
+              taskDesc: '',
+              level: 0,
+              completed: false, 
+              createdAt: new Date().toJSON(),
+              updatedAt: new Date().toJSON()
+       })
+       return taskArray
+
+     },
     uname: function(){
       var str = this.$store.state.userObject.email
       var n = str.indexOf("@")
@@ -186,6 +217,23 @@ export default {
       window.location = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:3000"
     },
     btnUpdateProfileClicked () {
+            //   var bucket = new AWS.S3({params: {Bucket: 'obexpense'}});
+      //   var fileChooser = document.getElementById('file');
+      //   var file = fileChooser.files[0];
+      //   if (file) {
+      //     console.log('file type: ', file.type)
+      //     console.log('body: ', file)
+      //     var params = {Key: file.name, ContentType: file.type, Body: file};
+      //     bucket.upload(params).on('httpUploadProgress', function(evt) {
+      //     console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total)+'%');
+      //     }).send(function(err, data) {
+      //       alert("File uploaded successfully.");
+      //       console.log('data: ', data)
+      //       console.log('error: ', err)
+      //     });
+      // }
+      // return false;
+
       this.$store.state.userObject.username = this.username
       this.$store.state.userObject.role = this.role
       if (this.dob) {
@@ -200,7 +248,7 @@ export default {
         dob: this.dob,
         aboutme: this.aboutme,
         signup_type: this.$store.state.userObject.signup_type,
-        // profile_pic: this.image
+        image_url: this.imageURlProfilePic
       }).then(response => response.json())
       .then(json => {
         if (json.replaced) {
@@ -210,10 +258,10 @@ export default {
       })
     },
     btnProfileClicked () {
-      console.log('type: ', this.$store.state.userObject.signup_type)
       this.username = this.$store.state.userObject.username,
       this.role = this.$store.state.userObject.role,
-      this.aboutme = this.$store.state.userObject.aboutme
+      this.aboutme = this.$store.state.userObject.aboutme,
+      this.imageURlProfilePic = this.$store.state.userObject.image_url
       if(this.$store.state.userObject.dob) {
         this.datepicker = new Date(this.$store.state.userObject.dob)
       }
@@ -224,21 +272,74 @@ export default {
         return this.dob
     },
     onFileChange(e) {
-      var files = e.target.files || e.dataTransfer.files;
-      if (!files.length)
-        return;
-      this.createImage(files[0]);
+     this.loading = true;
+        let self = this;
+        var bucket = new AWS.S3({params: {Bucket: 'airflowbucket1/obexpense/expenses'}});
+        var fileChooser = document.getElementById('file');
+        var file = fileChooser.files[0];
+        if (file) {
+            var params = {Key: file.name, ContentType: file.type, Body: file};
+            bucket.upload(params).on('httpUploadProgress', function(evt) {
+            console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total)+'%');
+          }).send(function(err, data) {
+              console.log("Amazon-data :: ", err);
+              self.$http.post('/updateImageURL', {
+              email: self.$store.state.userObject.email,
+              signup_type: self.$store.state.userObject.signup_type,
+              image_url: data.Location,
+              image_name: file.name
+              }).then(response => {
+                  if (response.body.replaced) {
+                      self.imageURlProfilePic = data.Location
+                      self.$store.state.userObject.image_url = self.imageURlProfilePic
+                      self.$store.state.userObject.image_name = file.name
+                      self.$store.commit('userData')
+                      self.loading = false
+                  }
+              })
+          });
+      }
+      return false;
     },
-    createImage(file) {
-      var image = new Image();
-      var reader = new FileReader();
-      reader.onload = (e) => {
-        this.image = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    },
+    // createImage(file) {
+    //   var image = new Image();
+    //   var reader = new FileReader();
+    //   reader.onload = (e) => {
+    //     this.image = e.target.result;
+    //   };
+    //   reader.readAsDataURL(file);
+    // },
     removeImage: function (e) {
-      this.image = '';
+      this.loading = true
+      this.imageURlProfilePic = null
+      let self = this
+      //Delete image from amazon
+          var bucketInstance = new AWS.S3();
+          var params = {
+            Bucket: 'airflowbucket1/obexpense/expenses',
+            Key: self.$store.state.userObject.image_name
+          }
+          bucketInstance.deleteObject(params, function (err, data) {
+          if (data) {
+            
+            self.$http.post('/updateImageURL', {
+              email: self.$store.state.userObject.email,
+              signup_type: self.$store.state.userObject.signup_type,
+              image_url: self.imageURlProfilePic,
+              image_name: ''
+              }).then(response => {
+                  if (response.body.replaced) {
+                      self.$store.state.userObject.image_url = self.imageURlProfilePic
+                      self.$store.state.userObject.image_name = ''
+                      self.$store.commit('userData')
+                      self.loading = false
+                  }
+              })
+          }
+          else {
+            console.log("Check if you have sufficient permissions : ", err.stack);
+          }
+        });
     },
     enableUpdateProfileBtn () {
       var trimmedusername = this.username.trim()

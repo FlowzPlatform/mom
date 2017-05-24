@@ -4,11 +4,15 @@
           <span class="dreg-move"></span>
                 <input id="checkbox8" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="checkboxToggle">
 <label for="checkbox8"></label>
-                {{todo.taskName}}
-						    <input  class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-model="todo.taskName"
+               <!--{{todo}}-->
+						    <input  class="new-todo" autofocus autocomplete="off" 
+                 :placeholder="pholder" 
+                  v-model="todo.taskName"
+                  @dblclick="set_selected_todo({todo : todo})"
                   @click="showDiv(todo.level, parentIdArr)"
                   @focus="getIndex(eventIndexR)"
-                  @keyup.enter="handleAddTodo">
+                  @keyup.enter="addTodo"
+                  >
                 <span class=""><i>
                   <b class="glyphicon glyphicon-option-vertical"></b>
                   <b class="glyphicon glyphicon-option-vertical"></b>
@@ -56,8 +60,12 @@ Vue.use(KeenUI);
 Vue.use(Resource)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-// import { getMessages } from '../vuex/getters'
-// import { fetchMessages, addMessage } from '../vuex/actions'
+import { mapMutations, mapGetters } from 'vuex'
+Vue.filter('formatDate', function(value) {
+  if (value) {
+    return moment(String(value)).format('MMM DD')
+  }
+})
 
 export default {
   props: ['todo', 'eventIndexR', 'index', 'filteredTodos','pholder','parentIdArr'],
@@ -71,8 +79,12 @@ export default {
       progress_count:'',
       isDate: this.filteredTodos[this.eventIndexR].DueDate,
       duedate_display: moment(this.filteredTodos[this.eventIndexR].DueDate, 'YYYY-MM-DD').format('MMM DD')
-      // newMessage: this.todo.taskName
     }
+  },
+  computed: {
+    // ...mapGetters([
+    //     'selectedTodo'
+    //   ])
   },
   // ready () {
   //     this.fetchMessages()
@@ -87,13 +99,9 @@ export default {
   //     }
   // },
   methods: {
-    // tryAddMessage () {
-    //     var text = this.newMessage
-    //     console.log('message', text)
-    //     if (text.trim()) {
-    //       this.addMessage(text)
-    //     }
-    // },
+    // ...mapMutations([
+    //   'set_selected_todo'
+    // ]),
     removeTodo: function () {
       console.log('Remove TODO:', this.filteredTodos);
       if(this.dbId)
@@ -122,7 +130,8 @@ export default {
         })
         }
     },
-    handleAddTodo: function () {
+    addTodo: function () {
+        let self = this
         var value = this.filteredTodos[this.eventIndexR].taskName && this.filteredTodos[this.eventIndexR].taskName.trim()
         if (!value) {
           return
@@ -140,7 +149,7 @@ export default {
           })
         } else {
           var parent_id = this.filteredTodos[this.eventIndexR].parentId ? this.filteredTodos[this.eventIndexR].parentId : '';
-          //store.addTodo(this.filteredTodos[this.eventIndexR].level, parent_id)
+          var currentLevel = this.todo.level
           
           // console.log('current todo level==>', this.filteredTodos[this.eventIndexR].level)
           console.log('current index==>', this.eventIndexR)
@@ -149,24 +158,26 @@ export default {
               parentId: parent_id,
               taskName: value,
               taskDesc: '',
-              level: this.filteredTodos[this.eventIndexR].level,
+              level: currentLevel,
               completed: false, 
               index: this.eventIndexR,
               createdAt: new Date().toJSON(),
               updatedAt: new Date().toJSON()
           })
           .then(response => {
-            // var todoObj = {
-            //   parentId: parent_id,
-            //   taskName: '',
-            //   taskDesc: '',
-            //   level: this.filteredTodos[this.eventIndexR].level,
-            //   completed: false, 
-            //   createdAt: new Date().toJSON(),
-            //   updatedAt: new Date().toJSON()
-            // }
-            // this.filteredTodos.push(todoObj)
             console.log('Inserted', response)
+            let temp_id = JSON.parse(response.bodyText).generated_keys[0]
+            self.$store.state.todolist.push({
+              id: temp_id,
+              parentId: parent_id,
+              taskName: value,
+              taskDesc: '',
+              level: currentLevel,
+              completed: false, 
+              index: this.eventIndexR,
+              createdAt: new Date().toJSON(),
+              updatedAt: new Date().toJSON()
+            })
         })
       }
     },

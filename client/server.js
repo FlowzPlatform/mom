@@ -50,9 +50,10 @@ app.get('/tasks', (req, res) => {
 //   })
 // })
 
-app.post('/tasks_parentId', (req, res) => {
+app.get('/tasks_parentId', (req, res) => {
 console.log('Req-body:parent-Id',req.body);
-  r.db('vue_todo').table('tasks').filter({'parentId':req.body.parentId}).merge(function (todo) {
+  // r.db('vue_todo').table('tasks').filter({'parentId':req.body.parentId}).merge(function (todo) {
+  r.db('vue_todo').table('tasks').merge(function (todo) {
       return { subtask_count: r.db('vue_todo').table('tasks').filter({'parentId':todo('id')}).count()}
 	}).merge(function (todo) {
       return { completed_subtask_count: r.db('vue_todo').table('tasks').filter({'parentId':todo('id'), 'completed':true}).count()}
@@ -86,7 +87,8 @@ app.post('/tasks', jsonParser, (req, res) => {
     'createdAt': new Date().toJSON(),
     'updatedAt': new Date().toJSON(),
     'index': req.body.index,
-    'dueDate': req.body.DueDate
+    'dueDate': req.body.DueDate,
+    'image_name': req.body.image_name,
   }
   r.db("vue_todo").table('tasks').insert(task).run().then(result => {
     res.send(result)
@@ -151,6 +153,7 @@ app.post('/insertUsers', jsonParser, (req, res) => {
     'role': req.body.role,
     'aboutme': req.body.aboutme,
     'signup_type': req.body.signup_type,
+    'image_url': req.body.image_url,
     // 'profile_pic': req.body.profile_pic,
     // 'dob': req.body.dob,
     'createdAt': new Date().toJSON(),
@@ -204,6 +207,20 @@ app.post('/updateUserProfile', jsonParser, (req, res) => {
     res.send(result)
   }).catch(err => {
     // console.log("Error:", err)
+  })
+})
+
+//Update image url
+app.post('/updateImageURL', jsonParser, (req, res) => {
+    const taskToUpdate = {
+      'image_url': req.body.image_url,
+      'image_name': req.body.image_name
+    }
+  
+  r.db("vue_todo").table("users").filter({'email': req.body.email, 'signup_type': req.body.signup_type}).update(taskToUpdate).run().then(result => {
+    res.send(result)
+  }).catch(err => {
+    console.log("Error:", err)
   })
 })
 

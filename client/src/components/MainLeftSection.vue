@@ -3,12 +3,12 @@
 		<ul class="todo-list">
       <draggable v-model="filteredTodos" @end="onDragEnd">
         <transition-group name="list-complete">
-			    <todo-item v-on:eventUpdatedIndex="getUpdatedIndex"  v-on:eventUpdateRange="updateRange" :pholder="pholder" v-for="(todo, ind) in filteredTodos" :todo="todo" :index="eventIndex" :eventIndexR="ind" :filteredTodos="filteredTodos" v-bind:key="todo" class="list-complete-item" :parentIdArr="parentIdArr">
+			    <todo-item v-model="filteredTodos" v-on:eventUpdatedIndex="getUpdatedIndex"  v-on:eventUpdateRange="updateRange" :pholder="pholder" v-for="(todo, ind) in filteredTodos" :todo="todo" :index="eventIndex" :eventIndexR="ind" :filteredTodos="filteredTodos" v-bind:key="todo" class="list-complete-item" :parentIdArr="parentIdArr">
           </todo-item>
         </transition-group>
-      </draggable>
+      </draggable> 
 		</ul>
-    {{filteredTodos[this.eventIndex].taskName}}
+    <!--{{filteredTodos[this.eventIndex].taskName}}-->
 	</section>
 </template>
 

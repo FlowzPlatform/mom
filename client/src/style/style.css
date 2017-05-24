@@ -1023,7 +1023,9 @@ svg:not(:root){
     justify-content: center;
     position: relative;
     vertical-align: top;
+    overflow: hidden;
 }
+.Avatar img {max-height: 100%; max-width: 100%}
 .asanaView-body{
 	    -webkit-transition: min-width 0.25s ease-out;
     -moz-transition: min-width 0.25s ease-out;
@@ -2112,6 +2114,11 @@ li {
 .pro-part .picture-action-label {
     position: relative;
     z-index: 1;
+}
+.circularProgress {
+  position: absolute;
+  left: 15px;
+  top: 15px;
 }
 
 .pro-part .picture-action-label input {

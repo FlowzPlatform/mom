@@ -10,7 +10,8 @@
                   <div class="photo-view photo-view-remix inbox-size photo-view-rounded-corners clickable ">
                     <div class="react-mount-node photoView-reactMount">
                       <div data-reactroot="" class="Avatar Avatar--medium Avatar--color4">
-                        <!-- react-text: 2 -->{{ capitalizeLetters }}<!-- /react-text -->
+                        <span v-if="imageURlProfilePic"><img v-bind:src="imageURlProfilePic" /></span>
+                          <span v-else>{{ capitalizeLetters }}</span>
                         </div>
                       </div>
                     </div>
@@ -132,6 +133,7 @@ export default {
   data() {
     return {
       picker1: null,
+      imageURlProfilePic: this.$store.state.userObject.image_url,
       index: this.filteredTodos.index
     }
   },

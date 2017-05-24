@@ -43,6 +43,7 @@
 </div>
 </div>
 </template>
+<script src="https://apis.google.com/js/api:client.js" async defer></script>
 <script>
     /* eslint-disable*/
 import Vue from 'vue'
@@ -104,17 +105,17 @@ export default {
                 email: profile.getEmail(),
                 signup_type: 'gmail'
                 }).then(response => {
-                    if (response.data > 0) {
-                         //this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName()}
-                         this.$store.state.userObject = json[0]
+                if (response.data[0]) {
+                         this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName()}
+                         this.$store.state.userObject = response.data[0]
                          this.$store.state.isAuthorized = true
                          this.$store.commit('userData')
                          this.$store.commit('authorize')
                          location.href = '/main-app' 
                     } else {
-                          this.insertUserData(profile.getEmail(), '', 'gmail')
+                          this.insertUserData(profile.getEmail(), '', 'gmail', profile.getImageUrl())
                          //this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName(), role:'', aboutme:'', dob: new Date()}
-                         this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName(), role:'', aboutme:'', signup_type:'gmail'}
+                         this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName(), role:'', aboutme:'', signup_type:'gmail', image_url:profile.getImageUrl()}
                          this.$store.state.isAuthorized = true
                          this.$store.commit('userData')
                          this.$store.commit('authorize')
@@ -199,12 +200,12 @@ export default {
                     $('#back_btn').hide()
                     $("#login_btn").attr('disabled', true);
                    // insert
-                   this.insertUserData(trimmedEmail, trimmedPwd, 'email')
+                   this.insertUserData(trimmedEmail, trimmedPwd, 'email', null)
                 }
             })
           }
       },
-      insertUserData (emailID, pwd, usertype) {
+      insertUserData (emailID, pwd, usertype, profilePic) {
         //insert user into rethink db
         this.$http.post('/insertUsers', {
         email: emailID,
@@ -214,7 +215,8 @@ export default {
         aboutme: '',
         firstname: '',
         signup_type: usertype,
-        // profile_pic: '',
+        image_url: profilePic,
+        image_name: ''
         // dob: new Date()
         }).then(response => response.json())
             .then(json => {
