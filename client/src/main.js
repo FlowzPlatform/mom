@@ -1,7 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-// import vuex from 'vuex'
 import Login from './components/LoginPage.vue'
 import mainApp from './components/MainApp.vue'
 import App from './App.vue'
@@ -15,17 +14,14 @@ Vue.use(VueRouter)
 Vue.config.productionTip = false
 
 import { store } from './VuexSession'
-// import { store } from './vuex/store'
 import GSignInButton from 'vue-google-signin-button'
 Vue.use(GSignInButton)
-
 /* eslint-disable no-new */
 
 const routes = [
      {path: '/', meta: { Auth: false }, component: Login},
      {path: '/main-app', meta: { Auth: true }, component: mainApp}
 ]
-
 const router = new VueRouter({
   routes,
   mode: 'history'
@@ -47,7 +43,6 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-// new Vue({app, router})
 new Vue({
   el: '#app',
   render: h => h(App),

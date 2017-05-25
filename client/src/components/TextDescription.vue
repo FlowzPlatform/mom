@@ -6,7 +6,7 @@
             placeholder="New Task" 
             style="height: 40px;"
             autofocus autocomplete="off"
-            @keyup.enter="updateTaskName(eventIndex, filteredTodo.id)"
+            @keyup.enter="updateTaskName"
             v-model="filteredTodo.taskName"
             />
           </div>
@@ -16,9 +16,12 @@
           <span class="autogrow-textarea">
               <textarea rows="3" cols="50"
               v-model="filteredTodo.taskDesc"
-              @keyup="updateDescription(eventIndex, filteredTodo.id)"
-                contenteditable="true" disable_highlighting_for_diagnostics="true" tabindex="10" class="field-description generic-input hypertext-input notranslate" id="property_sheet:details_property_sheet_field:description"
-                placeholder="Description">
+              @keyup="updateTaskName"
+              contenteditable="true" disable_highlighting_for_diagnostics="true" 
+              tabindex="10" 
+              class="field-description generic-input hypertext-input notranslate" 
+              id="property_sheet:details_property_sheet_field:description"
+              placeholder="Description">
             </textarea><br> 
             </span>
           </div>
@@ -27,43 +30,17 @@
 </template>
 <script>
   /* eslint-disable*/
-import store from './store.js'
 import TodoItem from './TodoItem.vue'
+import { mapActions } from 'vuex'
 export default {
-  props: ['eventIndex', 'filteredTodo'],
-  data: function () {
-    return {
-      newTodo: '',
-      description: '',
-      initialIndex: 0,
-    }
-  },
+  props: ['filteredTodo'],
   methods: {
-    updateTaskName: function(eventIndex, parentTaskId) {
-      var value = this.filteredTodo.taskName
-      if (parentTaskId) {
-        this.$http.post('/updatetasks', {
-                  id: parentTaskId,
-                  taskName: value
-              }).then(response => {
-                console.log('task updated', response.data)
-            })
-        } 
-    },
-    updateDescription: function(eventIndex, parentTaskId) {
-      var value = this.filteredTodo.taskDesc
-      console.log('ID', parentTaskId);
-      console.log('Desc', value);
-      if (parentTaskId) {
-          this.$http.post('/updatetasks', {
-                    id: parentTaskId,
-                    taskDesc: value,
-                }).then(response => {
-                  //console.log('task update', response.data)
-              })
-      }
-
-    }
+    ...mapActions([
+      'editTaskName'
+    ]),
+    updateTaskName: function() {
+      this.$store.dispatch('editTaskName', this.filteredTodo)
+    }  
   },
   component: {
     TodoItem

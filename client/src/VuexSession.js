@@ -10,7 +10,6 @@ export const store = new Vuex.Store({
     userObject: {},
     isAuthorized: false,
     todolist: [],
-    selectedTodo: {},
     parentIdArr: [],
     progress_count: ''
 
@@ -18,19 +17,11 @@ export const store = new Vuex.Store({
   mutations: {
     userData: state => state.userObject,
     authorize: state => state.isAuthorized,
-    // GET_TODO(state, todoArray){
-    //   state.todoslist=todoArray;
-    // }
     GET_TODO (state, data) {
       state.todolist = data
     },
-    set_selected_todo (state, todoObject) {
-      state.selectedTodo = todoObject
-    },
     SHOW_DIV(state, payload){
-      console.log('showDiv :: Mutations::', payload)
       var parentTaskId = payload.id ? payload.id : '';
-      // console.log('parentTaskId===>',payload);
       if(parentTaskId)
       {
         var parentIdArrObj = payload
@@ -51,14 +42,13 @@ export const store = new Vuex.Store({
         {
            state.parentIdArr.push(parentIdArrObj);   
         }
-        console.log('parentIdArr', state.parentIdArr)
+        // console.log('parentIdArr', state.parentIdArr)
       }
     },
     REMOVE_PARENT_ID_ARRAY(state){
       state.parentIdArr.splice(0,state.parentIdArr.length)
     },
     addTodo (state, todoObject) {
-      console.log('todoObject', todoObject)
       let temp_id = todoObject.data.generated_keys[0]
       let todoElement = todoObject.todo
             state.todolist.push({
@@ -100,36 +90,45 @@ export const store = new Vuex.Store({
       commit('REMOVE_PARENT_ID_ARRAY')
     },
     insertTodo({ commit }, insertElement) {
-      let dbId = insertElement.todo.id
-      let todo = insertElement.todo
-      let eventIndex = insertElement.eventIndexR
-      if(!(todo.taskName && todo.taskName.trim()))
+      let dbId = insertElement.id
+      if(!(insertElement.taskName && insertElement.taskName.trim()))
         return
       if(dbId){
         Vue.http.post('/updatetasks', {
                 id: dbId,
-                taskName: todo.taskName,
+                taskName: insertElement.taskName,
                 taskDesc: '',
             }).then(response => {
               // console.log('task update', response.data)
           })
       }else{
         Vue.http.post('/tasks', {
-                parentId: todo.parentId,
-                taskName: todo.taskName,
+                parentId: insertElement.parentId,
+                taskName: insertElement.taskName,
                 taskDesc: '',
-                level: todo.level,
+                level: insertElement.level,
                 completed: false, 
-                index: eventIndex,
+                index: insertElement.index,
                 createdAt: new Date().toJSON(),
                 updatedAt: new Date().toJSON()
             })
             .then(function(response) {
-              commit('addTodo', {"data":response.data, "todo": todo})
+              commit('addTodo', {"data":response.data, "todo": insertElement})
               // console.log("Response:", response)
         })
       }
     },
+    editTaskName({commit}, editObject){
+        if (editObject.id) {
+          Vue.http.post('/updatetasks', {
+                    id: editObject.id,
+                    taskName: editObject.taskName,
+                    taskDesc: editObject.taskDesc
+                }).then(response => {
+                  console.log('task updated', response.data)
+              })
+          } 
+      },
     deleteTodo({ commit }, deleteElement){
       console.log(deleteElement)
       let dbId = deleteElement.id
@@ -183,7 +182,6 @@ export const store = new Vuex.Store({
         return state.todolist.filter(todo => todo.parentId === id, todo => todo.level === level)
       }
     },
-    selectedTodo: state => state.selectedTodo,
     parentIdArr: state => state.parentIdArr
   },
   plugins: [createPersistedState()]

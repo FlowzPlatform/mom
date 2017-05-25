@@ -12,12 +12,10 @@
 </template>
 <script>
 /*eslint-disable*/
-import store from './store.js'
 export default {
   data() {
         return {
           selected: '',
-          sharedState: store.state
         }
   },
   props: ['newtood'],

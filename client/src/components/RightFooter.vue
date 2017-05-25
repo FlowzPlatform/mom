@@ -47,7 +47,6 @@
 </template>
 <script>
   /* eslint-disable*/
-import store from './store.js'
 export default {
   props: ['filteredTodo'],
   data: function () {

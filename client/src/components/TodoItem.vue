@@ -10,7 +10,6 @@
                  :placeholder="pholder" 
                   v-model="todo.taskName"
                   @click="SHOW_DIV(todo)"
-                  @focus="getIndex(eventIndexR)"
                   @keyup.enter="addTodo">
                 <span class=""><i>
                   <b class="glyphicon glyphicon-option-vertical"></b>
@@ -44,7 +43,6 @@
 <script>
 /* eslint-disable*/
 import txtDesc from './TextDescription.vue'
-import store from './store.js'
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import KeenUI from 'keen-ui';
@@ -66,16 +64,12 @@ Vue.filter('formatDate', function(value) {
 })
 
 export default {
-  props: ['todo', 'eventIndexR', 'index', 'filteredTodos','pholder'],
+  props: ['todo', 'eventIndexR', 'pholder'],
   data: function () {
     return {
       progress: 0,
-      progressInterval: null,
-      newTodo: '',
-      tasks : [],
-      dbId: this.filteredTodos[this.eventIndexR].id,
       progress_count:'',
-      isDate: this.filteredTodos[this.eventIndexR].DueDate,
+      isDate: this.todo.dueDate,
     }
   },
   computed: {
@@ -85,7 +79,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      // 'set_selected_todo',
+      'set_selected_todo',
       'addTodo',
       'deleteTodo',
       'load_prgress_bar',
@@ -127,129 +121,20 @@ export default {
       //   }
     },
     addTodo: function () {
-      this.$store.dispatch('insertTodo', {"todo":this.todo, "eventIndexR":this.eventIndexR})
-      //   let self = this
-      //   var value = this.filteredTodos[this.eventIndexR].taskName && this.filteredTodos[this.eventIndexR].taskName.trim()
-      //   if (!value) {
-      //     return
-      //   }
-       
-      //   if (this.dbId){
-      //       this.$http.post('/updatetasks', {
-      //           id: this.dbId,
-      //           taskName: value,
-      //           taskDesc: '',
-      //       }).then(response => {
-      //         console.log('task update', response.data)
-      //     })
-      //   } else {
-      //     var parent_id = this.filteredTodos[this.eventIndexR].parentId ? this.filteredTodos[this.eventIndexR].parentId : '';
-      //     var currentLevel = this.todo.level
-          
-      //     // console.log('current todo level==>', this.filteredTodos[this.eventIndexR].level)
-      //     console.log('current index==>', this.eventIndexR)
-      //     // insert task into rethink db
-      //      this.$http.post('/tasks', {
-      //         parentId: parent_id,
-      //         taskName: value,
-      //         taskDesc: '',
-      //         level: currentLevel,
-      //         completed: false, 
-      //         index: this.eventIndexR,
-      //         createdAt: new Date().toJSON(),
-      //         updatedAt: new Date().toJSON()
-      //     })
-      //     .then(response => {
-      //       console.log('Inserted', response)
-      //       let temp_id = JSON.parse(response.bodyText).generated_keys[0]
-      //       self.$store.state.todolist.push({
-      //         id: temp_id,
-      //         parentId: parent_id,
-      //         taskName: value,
-      //         taskDesc: '',
-      //         level: currentLevel,
-      //         completed: false, 
-      //         index: this.eventIndexR,
-      //         createdAt: new Date().toJSON(),
-      //         updatedAt: new Date().toJSON()
-      //       })
-      //   })
-      // }
-    },
-    getIndex (ind) {
-        this.$emit('eventUpdatedIndex', ind)
-    },
-    showDiv: function(level, parentIdArr){
-
-        //this.$store.dispatch('showDiv', this.todo);
-        // console.log('filteredTodos=====>', this.filteredTodos[this.eventIndexR]);
-        // var parentTaskId = this.filteredTodos[this.eventIndexR].id ? this.filteredTodos[this.eventIndexR].id : '';
-        // var parentTaskName = this.filteredTodos[this.eventIndexR].taskName
-        // var parentTaskDesc = this.filteredTodos[this.eventIndexR].taskDesc
-        // var parentTaskComment = this.filteredTodos[this.eventIndexR].taskComment
-        // var parentDueDate = this.filteredTodos[this.eventIndexR].dueDate
-        // var parentTaskId = this.todo.id ? this.todo.id : '';
-        // var parentTaskName = this.todo.taskName
-        // var parentTaskDesc = this.todo.taskDesc
-        // var parentTaskComment = this.todo.taskComment
-        // var parentDueDate = this.todo.dueDate
-    
-        // console.log('parentTaskId===>',this.todo);
-        // if(parentTaskId)
-        // {
-        //     var parentIdArrObj = {"id": parentTaskId, "level":level, "parentTaskName": parentTaskName, "parentTaskDesc" : parentTaskDesc, "parentTaskComment" : parentTaskComment, "parentDueDate" : parentDueDate, "todoArr": this.todo}
-        //     var tempParentIds =_.chain([]).union(this.parentIdArr).sortBy([function(o) { return o.level; }]).value();
-        //     // console.log('parentIdArrObj::', parentIdArrObj);
-        //     if(this.parentIdArr.length > 0)
-        //     {
-        //       this.parentIdArr.splice(0,this.parentIdArr.length);
-              
-        //       for (var i = 0; i < tempParentIds.length; i++) {
-        //         if(tempParentIds[i].level < parentIdArrObj.level)
-        //           {
-        //             this.parentIdArr.push(tempParentIds[i]);
-        //           } 
-        //       }
-        //       this.parentIdArr.push(parentIdArrObj);  
-        //     }
-        //     else
-        //     {
-        //       this.parentIdArr.push(parentIdArrObj);   
-        //     }
-        //  }  
-        // this.$emit('eventUpdateRange', this.parentIdArr)
-    }
-    // checkboxToggle: function() {
-    //     this.$http.post('/updatetasks', {
-    //               id: this.dbId,
-    //               completed: this.filteredTodos[this.eventIndexR].completed
-    //           }).then(response => {
-    //             console.log('task updated', response.data)
-    //         })
-    // }
-  },
-  computed: {
-    totalLength: function(){
+      this.$store.dispatch('insertTodo', this.todo)
     }
   },
   component: {
     txtDesc
   },
   mounted() {
-      // console.log('Filter Todo', this.filteredTodos[this.eventIndexR])
-      var totalSubtask= this.filteredTodos[this.eventIndexR].subtask_count ? this.filteredTodos[this.eventIndexR].subtask_count : 0
-      var completedSubtask = this.filteredTodos[this.eventIndexR].completed_subtask_count ? this.filteredTodos[this.eventIndexR].completed_subtask_count : 0
-      //this.progressInterval = setInterval(() => {
+      var totalSubtask= this.todo.subtask_count ? this.todo.subtask_count : 0
+      var completedSubtask = this.todo.completed_subtask_count ? this.todo.completed_subtask_count : 0
         this.progress_count = completedSubtask + " / " + totalSubtask;
         if (totalSubtask > 0) {
           var percentage = (completedSubtask / totalSubtask) * 100
           this.progress = percentage
         }
-      // }, 400);
-      // this.$store.dispatch('load_prgress_bar', this.todo)
-    },
-    beforeDestroy() {
-        clearInterval(this.progressInterval);
-    }
+  }
 }
 </script>

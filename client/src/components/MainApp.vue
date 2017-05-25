@@ -50,7 +50,7 @@
       <div class="asanaView-paneGutter"></div>
     <div id="center_pane_container" class="known-list">
         <div id="center_pane">
-          <left-toolbar></left-toolbar>
+          <!--<left-toolbar></left-toolbar>-->
           <main-left-section :pholder="taskPholder" :filtered-todos="taskById" :eventIndex="eventIndex" ></main-left-section>
         </div>
     </div>
@@ -132,7 +132,6 @@
 <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 <script>
 /* eslint-disable*/
-import store from './store.js'
 import MainLeftSection from './MainLeftSection.vue'
 import MainRightSection from './MainRightSection.vue'
 import LeftToolbar from './LeftToolbar.vue'
@@ -180,6 +179,7 @@ export default {
               taskName: '',
               taskDesc: '',
               level: 0,
+              index: taskArray.length,
               completed: false, 
               createdAt: new Date().toJSON(),
               updatedAt: new Date().toJSON()
