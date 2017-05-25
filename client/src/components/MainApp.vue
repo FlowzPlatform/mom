@@ -13,13 +13,17 @@
       Inbox</a>
       <a class="NavigationLink Topbar-myDashboardButton" href="">
       Dashboard</a>
-      <div class="PageHeaderStructure-center PageHeaderStructure-title MyTasksPageHeader-title">My Tasks</div>
+      <!--<div class="PageHeaderStructure-center PageHeaderStructure-title MyTasksPageHeader-title">My Tasks</div>-->
       <div class="Topbar-accountInfo">
       <a class="Button Button--small Button--primary topbarContingentUpgradeButton-button" tabindex="0" aria-role="button">
         Upgrade</a>
       <a class="Topbar-settingsMenuButton">
       <span class="Topbar-settingsMenuDomainName"><span>Welcome {{ uname }}</span></span>
-      <div  class="dropdown-toggle Avatar Avatar--medium Avatar--color4 Topbar-settingsMenuAvatar" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><!-- react-text: 28--> {{ capitalizeLetters }}<!-- /react-text --></div>
+      
+      <div  class="dropdown-toggle Avatar Avatar--medium Avatar--color4 Topbar-settingsMenuAvatar" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><!-- react-text: 28 --><!-- /react-text -->
+      <span v-if="imageURlProfilePic"><img v-bind:src="imageURlProfilePic" /></span>
+      <span v-else>{{ capitalizeLetters }}</span>
+      </div>
       <ul class="dropdown-menu">
             <li><a  data-toggle="modal" data-target="#myModal2" @click="btnProfileClicked()">Profile</a></li>
             <hr>
@@ -47,14 +51,13 @@
     <div id="center_pane_container" class="known-list">
         <div id="center_pane">
           <left-toolbar></left-toolbar>
-		      <!--<main-left-section :pholder="taskPholder" :parentIdArr="parentIdArr" :filtered-todos="filteredTodos" :eventIndex="eventIndex" ></main-left-section>-->
-          <main-left-section :pholder="taskPholder" :parentIdArr="parentIdArr" :filtered-todos="taskById" :eventIndex="eventIndex" ></main-left-section>
+          <main-left-section :pholder="taskPholder" :filtered-todos="taskById" :eventIndex="eventIndex" ></main-left-section>
         </div>
     </div>
-    <div id="right_pane_container" class="known-list" v-for="(n, index) in parentIdArr">
+    <div id="right_pane_container" class="known-list" v-for="(n, index) in parentIdArray">
       <div id="right_pane">
         
-        <main-right-section :pholder="subtaskPholder" :index="index" :id="n.id" :todoObject="n" :level="n.level" :parentTaskName="n.parentTaskName" :parentTaskDesc="n.parentTaskDesc" :parentTaskComment="n.parentTaskComment" :parentDueDate="n.parentDueDate" :parentIdArr="parentIdArr"  :eventIndex="eventIndex" ></main-right-section>
+        <main-right-section :pholder="subtaskPholder" :index="index" :todoObject="n" :eventIndex="eventIndex" ></main-right-section>
       </div>
     </div>
     <div class="asanaView-paneGutter"></div>
@@ -78,14 +81,12 @@
                 <span class="pro-part">
                   <label>Name</label>
                   <input type="username" v-model='username' @keyup='enableUpdateProfileBtn'>
-                  <!--<div class="picture-action-label" v-if='!image'>
-                      <input autocomplete="off" type="file" name="file" title="" class="photo-file-input" accept="image/gif,image/png,image/jpeg,image/tiff,image/bmp" @change="onFileChange">
-                    <span class="img-upload">Add a profile photo</span>
-                  </div>-->
                   <div class="picture-action-label" v-if='!imageURlProfilePic'>
                       <input autocomplete="off" type="file" id="file" name="file" title="" class="photo-file-input" accept="image/gif,image/png,image/jpeg,image/tiff,image/bmp" @change="onFileChange">
-                     <span class="img-upload">Add a profile photo</span>
-                    <!--<span class="img-upload" @click="removeImage">Clear photo</span>-->
+                    <span class="img-upload">Add a profile photo</span>
+                  </div>
+                  <div class="picture-action-label" v-else>
+                    <span class="img-upload" @click="removeImage">Clear photo</span>
                   </div>
                 </span>
             </div>
@@ -140,18 +141,15 @@ import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-// import store from '../vuex/store'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   props: ['passData'],
   data: function () {
     return {
-        sharedState: store.state,
         eventIndex: 0,
         taskPholder: 'Task',
         subtaskPholder: 'Subtask',
-        parentIdArr : [],
         username: '',
         role: '',
         aboutme: '',
@@ -167,23 +165,16 @@ export default {
     // ...mapActions([
     //         'getAllTodos'
     //     ])
-      //this.$store.dispatch('getTodo', {'parentId':'', 'currentLevel': -1})
+      this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
       this.$store.dispatch('getAllTodos');
   },
   computed: {
-    // filteredTodos: function () {
-    //   return store.filter[this.sharedState.visibility](this.sharedState.todo1('', -1))
-    // },
-    // filteredTodos(){
-    //    console.log('CurrentTodos: computed :: ',this.$store.getters)
-    //   return this.$store.getters.todoslist
-    // },
     ...mapGetters({
-      todoById: 'getTodoById'
+      todoById: 'getTodoById',
+      parentIdArray: 'parentIdArr'
      }),
      taskById(){
        let taskArray = this.todoById('', 0)
-       console.log("taskArray",taskArray)
        taskArray.push({
               parentId: '',
               taskName: '',
@@ -194,7 +185,6 @@ export default {
               updatedAt: new Date().toJSON()
        })
        return taskArray
-
      },
     uname: function(){
       var str = this.$store.state.userObject.email

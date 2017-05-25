@@ -32,7 +32,7 @@
                           :custom-formatter="dateFormatter"
                           v-model="picker1">
                       </ui-datepicker>
-                      {{this.filteredTodos.parentDueDate | formatDate}}
+                      {{this.filteredTodo.dueDate  | formatDate}}
                     </span>
                     </div>
                 </div>
@@ -110,7 +110,7 @@
       
       </span>
       <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right" tabindex="410">
-            <span class="circularButtonView-label" @click="openfullwinodw(filteredTodos.index)">
+            <span class="circularButtonView-label" @click="openfullwinodw(filteredTodo.index)">
               <i class="fa fa-expand" aria-hidden="true"></i>    
             </span>
           </div>
@@ -129,12 +129,12 @@ Vue.filter('formatDate', function(value) {
 })
 
 export default {
-  props: ['filteredTodos'],
+  props: ['filteredTodo'],
   data() {
     return {
       picker1: null,
       imageURlProfilePic: this.$store.state.userObject.image_url,
-      index: this.filteredTodos.index
+      index: this.filteredTodo.index
     }
   },
   computed: {
@@ -153,7 +153,7 @@ export default {
   methods: {
       dateFormatter(date){
         this.$http.post('/updatetasks', {
-                id: this.filteredTodos.id,
+                id: this.filteredTodo.id,
                 dueDate: date.toJSON()
             }).then(response => {
               console.log('task update', response.data)

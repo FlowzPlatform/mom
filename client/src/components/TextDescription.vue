@@ -8,7 +8,7 @@
             autofocus autocomplete="off"
             @keyup.enter="updateTaskName(eventIndex, filteredTodo.id)"
             v-model="filteredTodo.taskName"
-            @keyup= "foo(filteredTodo.taskName)"/>
+            />
           </div>
           <br>
         <div class="property description taskDetailsView-description">
@@ -49,12 +49,6 @@ export default {
                 console.log('task updated', response.data)
             })
         } 
-    },
-    foo : function(taskname)
-    {
-      // console.log('foo called', taskname)
-      console.log('this.filteredTodo.taskName==>', this.filteredTodo.taskName)
-      this.filteredTodo.taskName = taskname
     },
     updateDescription: function(eventIndex, parentTaskId) {
       var value = this.filteredTodo.taskDesc

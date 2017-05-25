@@ -33,7 +33,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.Auth)) {
-    console.log('auth.status: ' + store.state.isAuthorized)
+    // console.log('auth.status: ' + store.state.isAuthorized)
     if (!store.state.isAuthorized) {
       next({
         path: '/',

@@ -1,12 +1,12 @@
 <template>
 <div class="">
 <section class="todoapp right_bar">
-  <right-toolbar :filtered-todos="{id, parentDueDate, index}"></right-toolbar>
-	<text-description :filteredTodo="todoObject.todoArr" :eventIndex="eventIndex">
+  <right-toolbar :filteredTodo="todoObject"></right-toolbar>
+	<text-description :filteredTodo="todoObject" :eventIndex="eventIndex">
   </text-description>
-  <main-left-section :pholder="pholder" :filtered-todos="taskById" :eventIndex="eventIndex" :parentIdArr="parentIdArr"></main-left-section>
+  <main-left-section :pholder="pholder" :filtered-todos="taskById" :eventIndex="eventIndex" ></main-left-section>
 </section>
-<right-footer :filteredTodo="todoObject.todoArr"></right-footer>
+<right-footer :filteredTodo="todoObject"></right-footer>
 </div>
 </template> 
 <script>
@@ -19,45 +19,29 @@ import RightToolbar from './RightToolbar.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-  props: ['eventIndex','pholder','id', 'level', 'parentTaskName', 'parentTaskDesc', 'parentTaskComment', 'parentIdArr', 'parentDueDate', 'index', 'todoObject'],
+  props: ['eventIndex','pholder', 'index', 'todoObject'],
   data: function () {
     return {
-      sharedState: store.state,
     }
   },
   computed: {
-    // filteredTodos: function () {
-      //console.log('parent-todo-filteredTodos', this.filteredTodos)
-      //  console.log('curent obj===>',this.level, "====", this.id, "===", this.parentTaskName, "==", this.parentTaskDesc, "==", this.parentTaskComment);
-      //  this.$store.dispatch('getTodo', {'parentId':this.todoObject.id, 'currentLevel': this.todoObject.level})
-      //  var todoList = store.state.todo1(this.todoObject.id, this.todoObject.level); 
-      //  return todoList
-    // }
     ...mapGetters({
       todoById: 'getTodoById'
      }),
      taskById(){
-       let taskArray = this.todoById(this.id, this.level)
+       let taskArray = this.todoById(this.todoObject.id, this.todoObject.level)
        taskArray.push({
-              parentId: this.id,
+              parentId: this.todoObject.id,
               taskName: '',
               taskDesc: '',
-              level: this.level+1,
+              level: this.todoObject.level+1,
               completed: false, 
               createdAt: new Date().toJSON(),
               updatedAt: new Date().toJSON()
        })
        return taskArray
-
      }
   },
-  // watch:{
-  //   parentIdArray(parentIdArr)
-  //   {
-  //     // console.log('ParentIds: ', parentIdArr)
-  //     this.$parent.parentIdArr = this.parentIds
-  //   }
-  // },
   components: {
     RightFooter,
     MainLeftSection,

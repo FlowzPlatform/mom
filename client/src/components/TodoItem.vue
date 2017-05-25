@@ -1,18 +1,17 @@
 <template id="items">
-			<li :class="{completed: todo.completed }" v-bind:key="todo" class="todo list-complete-item">
+			<li v-bind:key="todo" class="todo list-complete-item">
 				<div class="view" style="margin-left: 10px;">
           <span class="dreg-move"></span>
-                <input id="checkbox8" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="checkboxToggle">
+                <!--<input id="checkbox8" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="checkboxToggle">-->
+              <input id="checkbox8" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="toggleTodo({ todo : todo})">
 <label for="checkbox8"></label>
                <!--{{todo}}-->
 						    <input  class="new-todo" autofocus autocomplete="off" 
                  :placeholder="pholder" 
                   v-model="todo.taskName"
-                  @dblclick="set_selected_todo({todo : todo})"
-                  @click="showDiv(todo.level, parentIdArr)"
+                  @click="SHOW_DIV(todo)"
                   @focus="getIndex(eventIndexR)"
-                  @keyup.enter="addTodo"
-                  >
+                  @keyup.enter="addTodo">
                 <span class=""><i>
                   <b class="glyphicon glyphicon-option-vertical"></b>
                   <b class="glyphicon glyphicon-option-vertical"></b>
@@ -26,15 +25,14 @@
                     </div>
                   </div>-->
                   <a class="taskRow">
-                    <span class="grid_due_date " v-if="isDate">{{duedate_display}}</span>
+                    <span class="grid_due_date " v-if="isDate">{{todo.dueDate | formatDate}}</span>
                   </a>
                 </div>
-					      <button class="destroy" @click="removeTodo()">
+					      <button class="destroy" @click="deleteTodo({todo : todo})">
 						      <a class="fa fa-close"/>
 					    </button>
 				  </div>				
           </div>
-
         <ui-progress-linear
                     color="primary"
                     type="determinate"
@@ -60,7 +58,7 @@ Vue.use(KeenUI);
 Vue.use(Resource)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import { mapMutations, mapGetters } from 'vuex'
+import { mapMutations, mapGetters, mapActions } from 'vuex'
 Vue.filter('formatDate', function(value) {
   if (value) {
     return moment(String(value)).format('MMM DD')
@@ -68,7 +66,7 @@ Vue.filter('formatDate', function(value) {
 })
 
 export default {
-  props: ['todo', 'eventIndexR', 'index', 'filteredTodos','pholder','parentIdArr'],
+  props: ['todo', 'eventIndexR', 'index', 'filteredTodos','pholder'],
   data: function () {
     return {
       progress: 0,
@@ -78,7 +76,6 @@ export default {
       dbId: this.filteredTodos[this.eventIndexR].id,
       progress_count:'',
       isDate: this.filteredTodos[this.eventIndexR].DueDate,
-      duedate_display: moment(this.filteredTodos[this.eventIndexR].DueDate, 'YYYY-MM-DD').format('MMM DD')
     }
   },
   computed: {
@@ -86,146 +83,150 @@ export default {
     //     'selectedTodo'
     //   ])
   },
-  // ready () {
-  //     this.fetchMessages()
-  // },
-  // vuex: {
-  //     getters: {
-  //       messages: getMessages
-  //     },
-  //     actions: {
-  //       fetchMessages,
-  //       addMessage
-  //     }
-  // },
   methods: {
-    // ...mapMutations([
-    //   'set_selected_todo'
-    // ]),
-    removeTodo: function () {
-      console.log('Remove TODO:', this.filteredTodos);
-      if(this.dbId)
-      {
-      this.$http.delete('/deteletask/'+ this.dbId, {
-        }).then(response => {
-            console.log('task deleted', response.data)
-            if(this.filteredTodos.length-1 > 0)
-            {
-              console.log('ID-Level:', this.filteredTodos[0].parentId, "===", this.filteredTodos[0].level);
-              var todoList = store.state.todo1(this.filteredTodos[0].parentId, (this.filteredTodos[0].level-1)); 
-              console.log('todoList:', todoList);
-              for(var i=0; i < todoList.length-1 ; i++)
-              {
-                if(todoList[i].id)
-                  {
-                    this.$http.post('/updatetasks', {
-                    id: todoList[i].id,
-                    index: i
-                    }).then(response => {
-                      console.log('index updated after remove task', response.data)
-                  })
-                  }
-              }
-            }
-        })
-        }
+    ...mapMutations([
+      // 'set_selected_todo',
+      'addTodo',
+      'deleteTodo',
+      'load_prgress_bar',
+      'SHOW_DIV'
+    ]),
+    ...mapActions([
+      'insertTodo',
+      'deleteTodo',
+      'toggleTodo',
+      'load_prgress_bar'
+    ]),
+    deleteTodo: function () {
+      this.$store.dispatch('deleteTodo', this.todo)
+      // console.log('Remove TODO:', this.filteredTodos);
+      // if(this.dbId)
+      // {
+      // this.$http.delete('/deteletask/'+ this.dbId, {
+      //   }).then(response => {
+      //       console.log('task deleted', response.data)
+      //       if(this.filteredTodos.length-1 > 0)
+      //       {
+      //         console.log('ID-Level:', this.filteredTodos[0].parentId, "===", this.filteredTodos[0].level);
+      //         var todoList = store.state.todo1(this.filteredTodos[0].parentId, (this.filteredTodos[0].level-1)); 
+      //         console.log('todoList:', todoList);
+      //         for(var i=0; i < todoList.length-1 ; i++)
+      //         {
+      //           if(todoList[i].id)
+      //             {
+      //               this.$http.post('/updatetasks', {
+      //               id: todoList[i].id,
+      //               index: i
+      //               }).then(response => {
+      //                 console.log('index updated after remove task', response.data)
+      //             })
+      //             }
+      //         }
+      //       }
+      //   })
+      //   }
     },
     addTodo: function () {
-        let self = this
-        var value = this.filteredTodos[this.eventIndexR].taskName && this.filteredTodos[this.eventIndexR].taskName.trim()
-        if (!value) {
-          return
-        }
-        // if (this.eventIndexR < this.filteredTodos.length - 1) {
-        //     return
-        // }
-        if (this.dbId){
-            this.$http.post('/updatetasks', {
-                id: this.dbId,
-                taskName: value,
-                taskDesc: '',
-            }).then(response => {
-              console.log('task update', response.data)
-          })
-        } else {
-          var parent_id = this.filteredTodos[this.eventIndexR].parentId ? this.filteredTodos[this.eventIndexR].parentId : '';
-          var currentLevel = this.todo.level
+      this.$store.dispatch('insertTodo', {"todo":this.todo, "eventIndexR":this.eventIndexR})
+      //   let self = this
+      //   var value = this.filteredTodos[this.eventIndexR].taskName && this.filteredTodos[this.eventIndexR].taskName.trim()
+      //   if (!value) {
+      //     return
+      //   }
+       
+      //   if (this.dbId){
+      //       this.$http.post('/updatetasks', {
+      //           id: this.dbId,
+      //           taskName: value,
+      //           taskDesc: '',
+      //       }).then(response => {
+      //         console.log('task update', response.data)
+      //     })
+      //   } else {
+      //     var parent_id = this.filteredTodos[this.eventIndexR].parentId ? this.filteredTodos[this.eventIndexR].parentId : '';
+      //     var currentLevel = this.todo.level
           
-          // console.log('current todo level==>', this.filteredTodos[this.eventIndexR].level)
-          console.log('current index==>', this.eventIndexR)
-          // insert task into rethink db
-           this.$http.post('/tasks', {
-              parentId: parent_id,
-              taskName: value,
-              taskDesc: '',
-              level: currentLevel,
-              completed: false, 
-              index: this.eventIndexR,
-              createdAt: new Date().toJSON(),
-              updatedAt: new Date().toJSON()
-          })
-          .then(response => {
-            console.log('Inserted', response)
-            let temp_id = JSON.parse(response.bodyText).generated_keys[0]
-            self.$store.state.todolist.push({
-              id: temp_id,
-              parentId: parent_id,
-              taskName: value,
-              taskDesc: '',
-              level: currentLevel,
-              completed: false, 
-              index: this.eventIndexR,
-              createdAt: new Date().toJSON(),
-              updatedAt: new Date().toJSON()
-            })
-        })
-      }
+      //     // console.log('current todo level==>', this.filteredTodos[this.eventIndexR].level)
+      //     console.log('current index==>', this.eventIndexR)
+      //     // insert task into rethink db
+      //      this.$http.post('/tasks', {
+      //         parentId: parent_id,
+      //         taskName: value,
+      //         taskDesc: '',
+      //         level: currentLevel,
+      //         completed: false, 
+      //         index: this.eventIndexR,
+      //         createdAt: new Date().toJSON(),
+      //         updatedAt: new Date().toJSON()
+      //     })
+      //     .then(response => {
+      //       console.log('Inserted', response)
+      //       let temp_id = JSON.parse(response.bodyText).generated_keys[0]
+      //       self.$store.state.todolist.push({
+      //         id: temp_id,
+      //         parentId: parent_id,
+      //         taskName: value,
+      //         taskDesc: '',
+      //         level: currentLevel,
+      //         completed: false, 
+      //         index: this.eventIndexR,
+      //         createdAt: new Date().toJSON(),
+      //         updatedAt: new Date().toJSON()
+      //       })
+      //   })
+      // }
     },
     getIndex (ind) {
         this.$emit('eventUpdatedIndex', ind)
     },
     showDiv: function(level, parentIdArr){
-        // console.log('filteredTodos=====>', this.filteredTodos[this.eventIndexR]);
-        var parentTaskId = this.filteredTodos[this.eventIndexR].id ? this.filteredTodos[this.eventIndexR].id : '';
-        var parentTaskName = this.filteredTodos[this.eventIndexR].taskName
-        var parentTaskDesc = this.filteredTodos[this.eventIndexR].taskDesc
-        var parentTaskComment = this.filteredTodos[this.eventIndexR].taskComment
-        var parentDueDate = this.filteredTodos[this.eventIndexR].dueDate
-    
-        // console.log('parentTaskId===>', parentTaskId);
-        if(parentTaskId)
-        {
-            var parentIdArrObj = {"id": parentTaskId, "level":level, "parentTaskName": parentTaskName, "parentTaskDesc" : parentTaskDesc, "parentTaskComment" : parentTaskComment, "parentDueDate" : parentDueDate, "todoArr": this.filteredTodos[this.eventIndexR]}
-            var tempParentIds =_.chain([]).union(this.parentIdArr).sortBy([function(o) { return o.level; }]).value();
-            // console.log('parentIdArrObj::', parentIdArrObj);
-            if(this.parentIdArr.length > 0)
-            {
-              this.parentIdArr.splice(0,this.parentIdArr.length);
-              
-              for (var i = 0; i < tempParentIds.length; i++) {
-                if(tempParentIds[i].level < parentIdArrObj.level)
-                  {
-                    this.parentIdArr.push(tempParentIds[i]);
-                  } 
-              }
-              this.parentIdArr.push(parentIdArrObj);  
-            }
-            else
-            {
-              this.parentIdArr.push(parentIdArrObj);   
-            }
-         }  
-        this.$emit('eventUpdateRange', this.parentIdArr)
 
-    },
-    checkboxToggle: function() {
-        this.$http.post('/updatetasks', {
-                  id: this.dbId,
-                  completed: this.filteredTodos[this.eventIndexR].completed
-              }).then(response => {
-                console.log('task updated', response.data)
-            })
+        //this.$store.dispatch('showDiv', this.todo);
+        // console.log('filteredTodos=====>', this.filteredTodos[this.eventIndexR]);
+        // var parentTaskId = this.filteredTodos[this.eventIndexR].id ? this.filteredTodos[this.eventIndexR].id : '';
+        // var parentTaskName = this.filteredTodos[this.eventIndexR].taskName
+        // var parentTaskDesc = this.filteredTodos[this.eventIndexR].taskDesc
+        // var parentTaskComment = this.filteredTodos[this.eventIndexR].taskComment
+        // var parentDueDate = this.filteredTodos[this.eventIndexR].dueDate
+        // var parentTaskId = this.todo.id ? this.todo.id : '';
+        // var parentTaskName = this.todo.taskName
+        // var parentTaskDesc = this.todo.taskDesc
+        // var parentTaskComment = this.todo.taskComment
+        // var parentDueDate = this.todo.dueDate
+    
+        // console.log('parentTaskId===>',this.todo);
+        // if(parentTaskId)
+        // {
+        //     var parentIdArrObj = {"id": parentTaskId, "level":level, "parentTaskName": parentTaskName, "parentTaskDesc" : parentTaskDesc, "parentTaskComment" : parentTaskComment, "parentDueDate" : parentDueDate, "todoArr": this.todo}
+        //     var tempParentIds =_.chain([]).union(this.parentIdArr).sortBy([function(o) { return o.level; }]).value();
+        //     // console.log('parentIdArrObj::', parentIdArrObj);
+        //     if(this.parentIdArr.length > 0)
+        //     {
+        //       this.parentIdArr.splice(0,this.parentIdArr.length);
+              
+        //       for (var i = 0; i < tempParentIds.length; i++) {
+        //         if(tempParentIds[i].level < parentIdArrObj.level)
+        //           {
+        //             this.parentIdArr.push(tempParentIds[i]);
+        //           } 
+        //       }
+        //       this.parentIdArr.push(parentIdArrObj);  
+        //     }
+        //     else
+        //     {
+        //       this.parentIdArr.push(parentIdArrObj);   
+        //     }
+        //  }  
+        // this.$emit('eventUpdateRange', this.parentIdArr)
     }
+    // checkboxToggle: function() {
+    //     this.$http.post('/updatetasks', {
+    //               id: this.dbId,
+    //               completed: this.filteredTodos[this.eventIndexR].completed
+    //           }).then(response => {
+    //             console.log('task updated', response.data)
+    //         })
+    // }
   },
   computed: {
     totalLength: function(){
@@ -245,6 +246,7 @@ export default {
           this.progress = percentage
         }
       // }, 400);
+      // this.$store.dispatch('load_prgress_bar', this.todo)
     },
     beforeDestroy() {
         clearInterval(this.progressInterval);
