@@ -50,14 +50,15 @@
       <div class="asanaView-paneGutter"></div>
     <div id="center_pane_container" class="known-list">
         <div id="center_pane">
-          <!--<left-toolbar></left-toolbar>-->
-          <main-left-section :pholder="taskPholder" :filtered-todos="taskById" :eventIndex="eventIndex" ></main-left-section>
+          <left-toolbar :filters="filters">
+          </left-toolbar>
+          <main-left-section :pholder="taskPholder" :filtered-todos="taskById" ></main-left-section>
         </div>
     </div>
-    <div id="right_pane_container" class="known-list" v-for="(n, index) in parentIdArray">
+    <div id="right_pane_container" cass="known-list" v-for="(n, index) in parentIdArray">
       <div id="right_pane">
         
-        <main-right-section :pholder="subtaskPholder" :index="index" :todoObject="n" :eventIndex="eventIndex" ></main-right-section>
+        <main-right-section :pholder="subtaskPholder" :todoObject="n" ></main-right-section>
       </div>
     </div>
     <div class="asanaView-paneGutter"></div>
@@ -141,7 +142,11 @@ Vue.use(BootstrapVue)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import { mapGetters, mapActions } from 'vuex'
-
+const filters = {
+  all: todos => todos,
+  active: todos => todos.filter(todo => !todo.completed),
+  completed: todos => todos.filter(todo => todo.completed)
+}
 export default {
   props: ['passData'],
   data: function () {
@@ -157,7 +162,10 @@ export default {
         picker10Max: new Date(),
         image: '',
         imageURlProfilePic: this.$store.state.userObject.image_url,
-        loading: false
+        loading: false,
+        todolist:[],
+        visibility: 'completed',
+        filters: filters
     }
   },
   created() {
@@ -166,11 +174,61 @@ export default {
     //     ])
       this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
       this.$store.dispatch('getAllTodos');
+      let self = this;
+      socket.on('feed-change', function(item){
+               //console.log("TodoItem.vue:item***",item);
+               if(item.new_val){
+                 var result = $.grep(self.taskById, function(e){ return e.id == item.new_val.id; })
+                  if (result.length == 0) {
+                    if(item.new_val.parentId.length == 0){
+                    // console.log("Main Task Inserted")
+                    // console.log('Length',self.taskById.length)
+                  // self.taskById.push(item.new_val)
+                    self.taskById.splice(self.taskById.length - 1, 0, item.new_val);
+                    self.$store.state.todolist.push(item.new_val)
+                    }else{
+                      //console.log("Sub Task Inserted")
+                    }
+                  }else if(item.old_val){
+                    if(item.new_val.parentId.length == 0){
+                    // console.log("Main Task Updated")
+                    let index = _.findIndex(self.taskById,function(d){return d.id == item.new_val.id})
+                    // console.log('Index of object', index)
+                    if(index > -1){
+                      self.taskById[index].taskName = item.new_val.taskName
+                    }
+                  }else{
+                     // console.log("Sub Task Updated")
+                  }
+                  } 
+               }else if(item.old_val){
+                 // var index = self.taskById.indexOf(item.old_val);
+                 if(item.old_val.parentId.length == 0){
+                //  console.log("Main Task Deleted")
+                //  console.log("Row Deleted");
+                //  console.log('self.taskById',self.taskById)
+                //  console.log('item.old_val',item.old_val)
+                 let index = _.findIndex(self.taskById,function(d){return d.id == item.old_val.id})
+                //  console.log('Index of object', index)
+                 if(index > -1){
+                  self.taskById.splice(index, 1);
+                 }
+                 }else{
+                 // console.log("Sub Task Deleted")
+                 }
+                 //self.taskById.splice(index, 1);
+               }
+             })
+  },
+  watch: {
+    todolist: function (todo) {
+    //  console.log('test');
+    }
   },
   computed: {
     ...mapGetters({
       todoById: 'getTodoById',
-      parentIdArray: 'parentIdArr'
+      parentIdArray: 'parentIdArr',
      }),
      taskById(){
        let taskArray = this.todoById('', 0)
@@ -181,10 +239,15 @@ export default {
               level: 0,
               index: taskArray.length,
               completed: false, 
+              dueDate:'',
               createdAt: new Date().toJSON(),
               updatedAt: new Date().toJSON()
        })
-       return taskArray
+       this.todolist = taskArray
+       return filters[this.$store.state.visibility](taskArray)
+     },
+     todos: function(){
+          return this.$store.getters.getTodoById('',0)
      },
     uname: function(){
       var str = this.$store.state.userObject.email

@@ -1,7 +1,7 @@
 <template id="desc">
     <div class="task">
           <div class="view">
-            <input type="checkbox" class="toggleTask" v-model="filteredTodo.completed">
+            <input type="checkbox" class="toggleTask" v-model="filteredTodo.completed" @change="toggleTodo({todo:filteredTodo, isCheck: filteredTodo.completed})">
             <input class="field-description generic-input hypertext-input notranslate header-name" 
             placeholder="New Task" 
             style="height: 40px;"
@@ -36,10 +36,11 @@ export default {
   props: ['filteredTodo'],
   methods: {
     ...mapActions([
-      'editTaskName'
+      'editTaskName',
+      'toggleTodo'
     ]),
     updateTaskName: function() {
-      this.$store.dispatch('editTaskName', this.filteredTodo)
+      this.$store.dispatch('editTaskName', {"todo":this.filteredTodo})
     }  
   },
   component: {

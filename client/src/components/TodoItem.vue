@@ -2,10 +2,8 @@
 			<li v-bind:key="todo" class="todo list-complete-item">
 				<div class="view" style="margin-left: 10px;">
           <span class="dreg-move"></span>
-                <!--<input id="checkbox8" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="checkboxToggle">-->
-              <input id="checkbox8" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="toggleTodo({ todo : todo})">
+              <input id="checkbox8" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="toggleTodo({todo:todo, isCheck: todo.completed})">
 <label for="checkbox8"></label>
-               <!--{{todo}}-->
 						    <input  class="new-todo" autofocus autocomplete="off" 
                  :placeholder="pholder" 
                   v-model="todo.taskName"
@@ -24,7 +22,7 @@
                     </div>
                   </div>-->
                   <a class="taskRow">
-                    <span class="grid_due_date " v-if="isDate">{{todo.dueDate | formatDate}}</span>
+                    <span class="grid_due_date ">{{todo.dueDate | formatDate}}</span>
                   </a>
                 </div>
 					      <button class="destroy" @click="deleteTodo({todo : todo})">
@@ -35,9 +33,9 @@
         <ui-progress-linear
                     color="primary"
                     type="determinate"
-                    :progress="progress">
+                    :progress="todo.progress">
             </ui-progress-linear>
-            <div class="task-text">{{progress_count}}</div>
+            <div class="task-text">{{todo.progress_count}}</div>
 			</li>
 </template>
 <script>
@@ -64,12 +62,13 @@ Vue.filter('formatDate', function(value) {
 })
 
 export default {
-  props: ['todo', 'eventIndexR', 'pholder'],
+  props: ['todo', 'pholder'],
   data: function () {
     return {
       progress: 0,
       progress_count:'',
       isDate: this.todo.dueDate,
+      prgress_count:'',
     }
   },
   computed: {
@@ -79,17 +78,15 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'set_selected_todo',
-      'addTodo',
-      'deleteTodo',
-      'load_prgress_bar',
+      // 'set_selected_todo',
+      // 'addTodo',
+      // 'deleteTodo',
       'SHOW_DIV'
     ]),
     ...mapActions([
       'insertTodo',
       'deleteTodo',
       'toggleTodo',
-      'load_prgress_bar'
     ]),
     deleteTodo: function () {
       this.$store.dispatch('deleteTodo', this.todo)
@@ -130,10 +127,10 @@ export default {
   mounted() {
       var totalSubtask= this.todo.subtask_count ? this.todo.subtask_count : 0
       var completedSubtask = this.todo.completed_subtask_count ? this.todo.completed_subtask_count : 0
-        this.progress_count = completedSubtask + " / " + totalSubtask;
+        this.todo.progress_count = completedSubtask + " / " + totalSubtask;
         if (totalSubtask > 0) {
           var percentage = (completedSubtask / totalSubtask) * 100
-          this.progress = percentage
+          this.todo.progress = percentage
         }
   }
 }

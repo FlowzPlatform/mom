@@ -9,6 +9,22 @@ const app = express()
 const router = express.Router()
 const compiler = webpack(config)
 const jsonParser = bodyParser.json()
+
+var sockio = require("socket.io");
+console.log("App is listening on 3000");
+try{
+  var io = sockio.listen(app.listen(3000));
+  io.sockets.on('connection', function(socket) {
+    console.log('connected to socket');
+      io.emit('feed-change', "----value");  
+  });
+    io.on('feed-change', function(data){
+            console.log("data=>",data);
+        });
+}catch(error){
+    console.log("error");
+}
+
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
@@ -51,29 +67,27 @@ app.get('/tasks', (req, res) => {
 // })
 
 app.get('/tasks_parentId', (req, res) => {
+  r.db('vue_todo').table('tasks')
+        .changes().run().then(function (feed) {
+        console.log('Listening for changes...');
+        feed.each((err, change) => {
+            console.log('Change detected', change);
+            io.emit('feed-change', change);
+        });
+    });
 console.log('Req-body:parent-Id',req.body);
   // r.db('vue_todo').table('tasks').filter({'parentId':req.body.parentId}).merge(function (todo) {
   r.db('vue_todo').table('tasks').merge(function (todo) {
       return { subtask_count: r.db('vue_todo').table('tasks').filter({'parentId':todo('id')}).count()}
 	}).merge(function (todo) {
       return { completed_subtask_count: r.db('vue_todo').table('tasks').filter({'parentId':todo('id'), 'completed':true}).count()}
-  }).orderBy('index').run().then(result => {
+  }).merge({'progress': 0 }).merge({'progress_count': '' }).orderBy('index').run().then(result => {
       console.log('child list of selected parent', result)
       res.send(result)
   }).catch(err => {
       console.log("Error:", err)
   })
 })
-
-
-// //Fetch login credentials
-// app.post('/getUser', jsonParser, (req, res) => {
-//   r.db("vue_todo").table("users").filter({'username': req.body.username, 'password': req.body.password}).run().then(result => {
-//     res.send(result)
-//   }).catch(err => {
-//     console.log("Error:", err)
-//   })
-// })
 
 // Insert todo task in the db
 app.post('/tasks', jsonParser, (req, res) => {
@@ -87,8 +101,8 @@ app.post('/tasks', jsonParser, (req, res) => {
     'createdAt': new Date().toJSON(),
     'updatedAt': new Date().toJSON(),
     'index': req.body.index,
-    'dueDate': req.body.DueDate,
     'image_name': req.body.image_name,
+    'dueDate': ''
   }
   r.db("vue_todo").table('tasks').insert(task).run().then(result => {
     res.send(result)
@@ -106,7 +120,8 @@ app.post('/updatetasks', jsonParser, (req, res) => {
     'completed': req.body.completed,
     'taskComment': req.body.taskComment,
     'index': req.body.index,
-    'updatedAt': new Date().toJSON()
+    'updatedAt': new Date().toJSON(),
+    'dueDate': req.body.dueDate    
   }
   r.db('vue_todo').table('tasks').filter({'id': req.body.id}).update(task).run().then(result => {
     res.send(result)

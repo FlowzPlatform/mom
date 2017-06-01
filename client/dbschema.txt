@@ -1,0 +1,119 @@
+Database name: vue_todo
+Tables: tasks, users
+
+tasks:
+{
+    id,
+    taskName,
+    taskDesc,
+    taskComment,
+    level,
+    parentId,
+    createdbyId,
+    completed,
+    createdAt,
+    updatedAt,
+    signup_type: email, gmail, 
+    due_date,
+}
+
+users:
+{
+    id,
+    email,
+    password,
+    username,
+    profile_pic,
+    role,
+    dob,
+    aboutus,
+    createdAt,
+    updatedAt
+}
+
+tbl_tags:
+{
+    id,
+    name
+}
+tbl_tasks_tags:
+{
+    id,
+    task_id,
+    tag_id
+    created_by_user_id,
+    deleted_by_user_id,
+    is_deleted
+}
+
+tbl_attachment:
+{
+    id,
+    task_id FK tbl_tasks,
+    file_name,
+    filee_url,
+    uploaded_by_user_id FK tbl_users,
+    created_at,
+    deleted_by_user_id FK tbl_users,
+    is_deleted,
+    deleted_date
+}
+
+tbl_user_role:
+{
+    id,
+    role_name
+}
+
+tbl_user_accessrights:
+{
+    id,
+    role_id - FK,
+    task_access_rights: {'create':1|0, 'update':1|0, 'delete':1|0, 'assign' : 1|0, 
+                        'add_due_date' : 1|0, ......... 'estimated_hours':1|0}
+}
+
+tbl_task_activity:
+{
+    create,
+    update,
+    delete,
+    assign,
+    add_due_date,
+    comment,
+    add_tag,
+    remove_tag,
+    add_attachment,
+    delete_attachment,
+    task_priority,
+    estimated_hours
+}
+
+tbl_project:
+{
+    id,
+    project_name,
+    created_by_user_id - FK,
+    created_at
+    project_status : { 0:public to all, 1: private to project member, 2: private to me}
+}
+
+tbl_project_member:
+{
+    id,
+    project_id - FK, tbl_project
+    user_id - FK {invited member}, tbl_users
+    user_email - for if user not exist in system
+    user_role_id - FK tbl_user_role
+    invitation_status: {A: accepted, R: Rejected, B: Blocked, P: Pending}
+}
+
+tbl_logs
+{
+    
+}
+
+node_module:
+{
+    
+}

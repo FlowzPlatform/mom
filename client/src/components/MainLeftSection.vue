@@ -3,7 +3,7 @@
 		<ul class="todo-list">
       <draggable v-model="filteredTodos" @end="onDragEnd">
         <transition-group name="list-complete">
-			    <todo-item v-model="filteredTodos" :pholder="pholder" v-for="(todo, ind) in filteredTodos" :todo="todo" :eventIndexR="ind" :filteredTodos="filteredTodos" v-bind:key="todo" class="list-complete-item">
+			    <todo-item v-for="(todo, ind) in filteredTodos" :todo="todo" :pholder="pholder"  v-bind:key="todo" class="list-complete-item">
           </todo-item>
         </transition-group>
       </draggable> 
@@ -19,7 +19,7 @@ import Resource from 'vue-resource'
 import draggable from 'vuedraggable'
 Vue.use(Resource)
 export default {
-  props: ['filteredTodos', 'eventIndex', 'pholder'],
+  props: ['filteredTodos', 'pholder'],
   components: {
     TodoItem,
     draggable

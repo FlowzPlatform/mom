@@ -1508,7 +1508,7 @@ a {
     border-width: 1px;
     border: 1px solid transparent;
     border-radius: 18px;
-    color: #898E95;
+    color: #000000;
     cursor: pointer;
     padding: 2px;
     position: relative;
@@ -1585,7 +1585,6 @@ a:hover, a:focus{
 .redesign-assigned-to-container .property:hover, .redesign-due-date-container .property:hover{
         border-color: #02CEFF;
     border-style: dashed;
-    color: #02CEFF;
 }
 .token_name:hover {
     color: #1aafd0;
@@ -1895,6 +1894,7 @@ input.toggleTask:checked:after {
 }
 input {
     line-height: normal;
+    border: none
 }
 button, input, optgroup, select, textarea {
     color: inherit;
@@ -2261,3 +2261,11 @@ a.taskRow{
 #right_pane_container.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
 #right_pane_container.open > div {width: 49%;}
 .window-full.circularButtonView {margin-top: 6px;}
+.datepicker.datepicker-dropdown {
+    margin-top: 67px;
+}
+.vdp-datepicker__calendar-button{
+        border: 1px solid #B9BCC0;
+    border-radius: 50%;
+    padding: 6px
+}

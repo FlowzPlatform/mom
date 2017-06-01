@@ -5,14 +5,28 @@ import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
+function setProgressBar(state, todoObject){
+    var p_id = todoObject.todo.parentId
+    var totalSubtask= state.todolist.find(todo => todo.id === p_id).subtask_count ? state.todolist.find(todo => todo.id === p_id).subtask_count : 0
+    var completedSubtask = state.todolist.find(todo => todo.id === p_id).completed_subtask_count ? state.todolist.find(todo => todo.id === p_id).completed_subtask_count : 0
+    state.todolist.find(todo => todo.id === p_id).progress_count = completedSubtask + " / " + totalSubtask;
+    if (totalSubtask > 0) {
+        var percentage = (completedSubtask / totalSubtask) * 100
+        state.todolist.find(todo => todo.id === p_id).progress = percentage
+    }
+    else{
+      state.todolist.find(todo => todo.id === p_id).progress = 0
+    }
+}
+
 export const store = new Vuex.Store({
   state: {
     userObject: {},
     isAuthorized: false,
     todolist: [],
     parentIdArr: [],
-    progress_count: ''
-
+    progress_count: '',
+    visibility:'active'
   },
   mutations: {
     userData: state => state.userObject,
@@ -48,9 +62,18 @@ export const store = new Vuex.Store({
     REMOVE_PARENT_ID_ARRAY(state){
       state.parentIdArr.splice(0,state.parentIdArr.length)
     },
+    changeFilters(state, key){
+      state.visibility = key
+    },
+    UPDATE_TODO(state, item){
+      console.log('Todolist Obj Before:', state.todolist) 
+      state.todolist.filter(todo => todo.id === item.id) == item
+      console.log('Todolist Obj After:', state.todolist)
+      //console.log('new obj', obj) 
+    },
     addTodo (state, todoObject) {
-      let temp_id = todoObject.data.generated_keys[0]
       let todoElement = todoObject.todo
+      let temp_id = todoObject.data.generated_keys[0]
             state.todolist.push({
               id: temp_id,
               parentId: todoElement.parentId,
@@ -59,24 +82,53 @@ export const store = new Vuex.Store({
               level: todoElement.level,
               completed: false, 
               index: todoElement.index,
+              dueDate:'',
               createdAt: new Date().toJSON(),
-              updatedAt: new Date().toJSON()
+              updatedAt: new Date().toJSON(),
+              subtask_count:0,
+              completed_subtask_count:0,
+              progress_count:''
           })
-          console.log(state.todolist)
+      console.log("add todo")
+      if(todoElement.parentId){
+        console.log("add todo element",state.todolist.find(todo => todo.id === todoElement.parentId) )
+        let tempObj = state.todolist.find(todo => todo.id === todoElement.parentId).subtask_count
+        state.todolist.find(todo => todo.id === todoElement.parentId).subtask_count = tempObj + 1
+        setProgressBar(state, todoObject)
+      }
     },
     deleteTodo(state, todoObject){
         state.todolist.splice(state.todolist.indexOf(todoObject.todo), 1)
+        if(todoObject.todo.parentId)
+        {
+          let tempObj = state.todolist.find(todo => todo.id === todoObject.todo.parentId).subtask_count
+          state.todolist.find(todo => todo.id === todoObject.todo.parentId).subtask_count = tempObj - 1
+          if(todoObject.todo.completed === true){
+            let completedObj = state.todolist.find(todo => todo.id === todoObject.todo.parentId).completed_subtask_count
+            state.todolist.find(todo => todo.id === todoObject.todo.parentId).completed_subtask_count = completedObj - 1
+          }
+          setProgressBar(state, todoObject)
+        }
     },
     toggleTodo(state, todoObject){
-        todoObject.todo.completed = !todoObject.todo.completed
-    },
-    load_prgress_bar(state, todoObject){
-      var totalSubtask= todoObject.subtask_count ? todoObject.subtask_count : 0
-      var completedSubtask = todoObject.completed_subtask_count ? todoObject.completed_subtask_count : 0
-      state.progress_count = completedSubtask + " / " + totalSubtask;
-      if (totalSubtask > 0) {
-          var percentage = (completedSubtask / totalSubtask) * 100
-          // this.progress = percentage
+      if(todoObject.todo.parentId){ 
+          var p_id = todoObject.todo.parentId
+          var completedSubtaskCount = state.todolist.find(todo => todo.id === p_id).completed_subtask_count
+          var subtask_count = state.todolist.find(todo => todo.id === p_id).subtask_count
+          if(todoObject.isCheck){
+            state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount + 1
+          }
+          else{ 
+              state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount - 1
+          }
+          setProgressBar(state, todoObject)
+          // var totalSubtask= subtask_count ? subtask_count : 0
+          // var completedSubtask = state.todolist.find(todo => todo.id === p_id).completed_subtask_count ? state.todolist.find(todo => todo.id === p_id).completed_subtask_count : 0
+          // state.progress_count = completedSubtask + " / " + totalSubtask;
+          // if (totalSubtask > 0) {
+          //     var percentage = (completedSubtask / totalSubtask) * 100
+          //     state.todolist.find(todo => todo.id === p_id).progress = percentage
+          // }
       }
     }
   },
@@ -99,6 +151,7 @@ export const store = new Vuex.Store({
                 taskName: insertElement.taskName,
                 taskDesc: '',
             }).then(response => {
+              commit('UPDATE_TODO', insertElement)
               // console.log('task update', response.data)
           })
       }else{
@@ -109,6 +162,7 @@ export const store = new Vuex.Store({
                 level: insertElement.level,
                 completed: false, 
                 index: insertElement.index,
+                dueDate:'',
                 createdAt: new Date().toJSON(),
                 updatedAt: new Date().toJSON()
             })
@@ -119,11 +173,12 @@ export const store = new Vuex.Store({
       }
     },
     editTaskName({commit}, editObject){
-        if (editObject.id) {
+        if (editObject.todo.id) {
           Vue.http.post('/updatetasks', {
-                    id: editObject.id,
-                    taskName: editObject.taskName,
-                    taskDesc: editObject.taskDesc
+                    id: editObject.todo.id,
+                    taskName: editObject.todo.taskName,
+                    taskDesc: editObject.todo.taskDesc,
+                    dueDate: editObject.selectedDate
                 }).then(response => {
                   console.log('task updated', response.data)
               })
@@ -159,15 +214,15 @@ export const store = new Vuex.Store({
         }
     },
     toggleTodo({ commit }, changeTodo) {
-      console.log(changeTodo)
+      // console.log(changeTodo)
       let dbId = changeTodo.todo.id
       if(dbId){
       Vue.http.post('/updatetasks', {
                   id: dbId,
                   completed: changeTodo.todo.completed
               }).then(response => {
-                commit('toggleTodo', {"todo": changeTodo})
-                console.log('task updated', response.data)
+                commit('toggleTodo', changeTodo)
+                // console.log('task updated', response.data)
             })
       }
     },

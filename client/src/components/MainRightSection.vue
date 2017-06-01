@@ -4,7 +4,7 @@
   <right-toolbar :filteredTodo="todoObject"></right-toolbar>
 	<text-description :filteredTodo="todoObject">
   </text-description>
-  <main-left-section :pholder="pholder" :filtered-todos="taskById" :eventIndex="eventIndex" ></main-left-section>
+  <main-left-section :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
 </section>
 <right-footer :filteredTodo="todoObject"></right-footer>
 </div>
@@ -18,7 +18,58 @@ import RightToolbar from './RightToolbar.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-  props: ['eventIndex','pholder', 'todoObject'],
+  props: ['pholder', 'todoObject'],
+  data: function () {
+    return {
+        todolistSubTasks: []
+    }
+  },
+  created() {
+    let self = this;
+         socket.on('feed-change', function(item){
+              //  console.log("TodoItem.vue:item***",item);
+              //  console.log("Array",self.taskById)
+               if(item.new_val){
+                 var result = $.grep(self.taskById, function(e){ return e.id == item.new_val.id; })
+                  if (result.length == 0) {
+                    // console.log('Item Parent ID',item.new_val.parentId)
+                    // console.log('Todo object Parent ID',self.todoObject)
+                    if(item.new_val.parentId.length > 0 && (item.new_val.parentId == self.todoObject.id)){
+                  // self.taskById.push(item.new_val)
+                    self.taskById.splice(self.taskById.length - 1, 0, item.new_val);
+                    self.$store.state.todolist.push(item.new_val)
+                    }
+                  }else{
+                    if(item.new_val.parentId.length > 0 && (item.new_val.parentId == self.todoObject.id)){
+                    // console.log("Subtask Task Updated")
+                    let index = _.findIndex(self.taskById,function(d){return d.id == item.new_val.id})
+                    // console.log('Index of object', index)
+                    if(index > -1){
+                      self.taskById[index].taskName = item.new_val.taskName
+                    }
+                  }
+                  } 
+               }else if(item.old_val){
+                 // var index = self.taskById.indexOf(item.old_val);
+                 if(item.old_val.parentId.length > 0 && (item.old_val.parentId == self.todoObject.id)){
+                //  console.log("Subtask Task Deleted")
+                //  console.log('self.taskById',self.taskById)
+                //  console.log('item.old_val',item.old_val)
+                 let index = _.findIndex(self.taskById,function(d){return d.id == item.old_val.id})
+                //  console.log('Index of object', index)
+                 if(index > -1){
+                  self.taskById.splice(index, 1);
+                 }
+                 }
+                 //self.taskById.splice(index, 1);
+               }
+             })
+  },
+   watch: {
+    // whenever question changes, this function will run
+    todolistSubTasks: function (newQuestion) {
+    }
+  },
   computed: {
     ...mapGetters({
       todoById: 'getTodoById'
@@ -32,9 +83,11 @@ export default {
               level: this.todoObject.level+1,
               index: taskArray.length,
               completed: false, 
+              dueDate:'',
               createdAt: new Date().toJSON(),
               updatedAt: new Date().toJSON()
        })
+       this.todolistSubTasks = taskArray
        return taskArray
      }
   },

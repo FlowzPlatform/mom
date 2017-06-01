@@ -23,16 +23,21 @@
         </div>
         <div class="loading-boundary taskDetailsView-toolbarProperty">
             <div class="redesign-due-date-container">
-                <div class="property due_date ">
+                <div class="property due_date value-set">
                     <div class="property-name">
                     <span>
-                      <ui-datepicker
-                          icon="event"
-                          placeholder="Due Date"
-                          :custom-formatter="dateFormatter"
-                          v-model="picker1">
-                      </ui-datepicker>
-                      {{this.filteredTodo.dueDate  | formatDate}}
+                                            <datepicker 
+                      placeholder="Due Date"
+                      class="wrapperClass"
+                      v-on:selected="dateFormatter"
+                      clear-button
+                      calendarButton
+                      calendarButtonIcon="fa fa-calendar"
+                      clearButtonIcon="fa fa-close"
+                      today
+                      selected
+                      v-model="filteredTodo.dueDate">
+                      </datepicker>
                     </span>
                     </div>
                 </div>
@@ -110,7 +115,7 @@
       
       </span>
       <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right" tabindex="410">
-            <span class="circularButtonView-label" @click="openfullwinodw(filteredTodo.index)">
+            <span class="circularButtonView-label" @click="openfullwinodw(filteredTodo.level)">
               <i class="fa fa-expand" aria-hidden="true"></i>    
             </span>
           </div>
@@ -121,6 +126,7 @@
 import Vue from 'vue';
 import KeenUI from 'keen-ui';
 import moment from 'moment';
+ import Datepicker from 'vuejs-datepicker'
 Vue.use(KeenUI);
 Vue.filter('formatDate', function(value) {
   if (value) {
@@ -152,37 +158,21 @@ export default {
   },
   methods: {
       dateFormatter(date){
-        this.$http.post('/updatetasks', {
-                id: this.filteredTodo.id,
-                dueDate: date.toJSON()
-            }).then(response => {
-              console.log('task update', response.data)
-          })
         var selectedDate = moment(date, 'YYYY-MM-DD').format('MMM DD');
-        var cdate = new Date();
-        // var datetime = "Last Sync: " + cdate.getDay() + "/"+cdate.getMonth() 
-        // + "/" + cdate.getFullYear() + " @ " 
-        // + cdate.getHours() + ":" 
-        // + cdate.getMinutes() + ":" + cdate.getSeconds();
-        var currentdate = moment(cdate, 'YYYY-MM-DD').format('ll');
-        console.log("selectedDate:--",currentdate<selectedDate );
-        console.log("currentdate:--",currentdate);
-        if(currentdate == selectedDate){
-          console.log("Due Soon",selectedDate);
-          $('.ui-datepicker__display-value').css('color', "green");
-        }else if(currentdate<selectedDate){
-          console.log("Incompleted Task",selectedDate)
-          $('.ui-datepicker__display-value').css('color', "black");
-        }else if(currentdate>selectedDate){
-          console.log("Over due Task",selectedDate)
-          $('.ui-datepicker__display-value').css('color', "green");
-        }
-        return selectedDate
+        this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "selectedDate": date})
     },
    openfullwinodw : function(ind) {
      $('.window-full.circularButtonView').find('.fa').toggleClass('fa-compress');
      $('.window-full.circularButtonView').parents('#right_pane_container').toggleClass('open')
    } 
+  },
+  mounted() {
+    $('.datetimepicker1').datepicker().on(
+      'changeDate', () => { this.selectedDate = $('.datetimepicker1').val() 
+    })
+  },
+  components:{
+    Datepicker
   }
   //   methods: {
   //   hideDiv: function () {
