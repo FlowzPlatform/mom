@@ -65,28 +65,31 @@ tbl_user_role:
     role_name
 }
 
-tbl_user_accessrights:
+tbl_user_role_permission:
 {
     id,
     role_id - FK,
-    task_access_rights: {'create':1|0, 'update':1|0, 'delete':1|0, 'assign' : 1|0, 
-                        'add_due_date' : 1|0, ......... 'estimated_hours':1|0}
+    task_activity_id
 }
 
 tbl_task_activity:
 {
-    create,
-    update,
-    delete,
-    assign,
-    add_due_date,
-    comment,
-    add_tag,
-    remove_tag,
-    add_attachment,
-    delete_attachment,
-    task_priority,
-    estimated_hours
+    id,
+    name:
+    {   
+        create,
+        update,
+        delete,
+        assign,
+        add_due_date,
+        comment,
+        add_tag,
+        remove_tag,
+        add_attachment,
+        delete_attachment,
+        task_priority,
+        estimated_hours
+    }
 }
 
 tbl_project:
@@ -106,6 +109,22 @@ tbl_project_member:
     user_email - for if user not exist in system
     user_role_id - FK tbl_user_role
     invitation_status: {A: accepted, R: Rejected, B: Blocked, P: Pending}
+}
+
+r.db('vue_todo').table('settings').insert({'settings_name': 'Track task by progress'}),
+r.db('vue_todo').table('settings').insert({'settings_name': 'Track task by duedate'})
+tbl_settings: 
+{
+    id,
+    settings_name
+}
+
+tbl_user_settings
+{
+    id,
+    user_id FK,
+    setting_id FK,
+    setting_value
 }
 
 tbl_logs

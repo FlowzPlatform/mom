@@ -66,7 +66,7 @@ app.get('/tasks', (req, res) => {
 //   })
 // })
 
-app.get('/tasks_parentId', (req, res) => {
+app.post('/tasks_parentId', (req, res) => {
   r.db('vue_todo').table('tasks')
         .changes().run().then(function (feed) {
         console.log('Listening for changes...');
@@ -76,13 +76,13 @@ app.get('/tasks_parentId', (req, res) => {
         });
     });
 console.log('Req-body:parent-Id',req.body);
-  // r.db('vue_todo').table('tasks').filter({'parentId':req.body.parentId}).merge(function (todo) {
-  r.db('vue_todo').table('tasks').merge(function (todo) {
+  r.db('vue_todo').table('tasks').filter({'parentId':req.body.parentId}).merge(function (todo) {
+  // r.db('vue_todo').table('tasks').merge(function (todo) {
       return { subtask_count: r.db('vue_todo').table('tasks').filter({'parentId':todo('id')}).count()}
 	}).merge(function (todo) {
       return { completed_subtask_count: r.db('vue_todo').table('tasks').filter({'parentId':todo('id'), 'completed':true}).count()}
   }).merge({'progress': 0 }).merge({'progress_count': '' }).orderBy('index').run().then(result => {
-      console.log('child list of selected parent', result)
+      // console.log('child list of selected parent', result)
       res.send(result)
   }).catch(err => {
       console.log("Error:", err)

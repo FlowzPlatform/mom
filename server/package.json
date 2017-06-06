@@ -1,0 +1,51 @@
+{
+  "name": "feathers-sample",
+  "description": "Sample project using feathers service, hooks and authentication",
+  "version": "0.0.0",
+  "homepage": "",
+  "main": "y",
+  "keywords": [
+    "feathers"
+  ],
+  "author": {
+    "name": "Urvashi Hirani",
+    "email": "uhirani@officebrain.com"
+  },
+  "contributors": [],
+  "bugs": {},
+  "directories": {
+    "lib": "y"
+  },
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "scripts": {
+    "test": "npm run eslint && npm run mocha",
+    "eslint": "eslint y/. test/. --config .eslintrc.json",
+    "start": "node y/",
+    "mocha": "mocha test/ --recursive"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "compression": "^1.6.2",
+    "cors": "^2.8.3",
+    "feathers": "^2.1.3",
+    "feathers-configuration": "^0.4.1",
+    "feathers-errors": "^2.8.1",
+    "feathers-hooks": "^2.0.1",
+    "feathers-hooks-common": "^3.5.1",
+    "feathers-rethinkdb": "^0.4.3",
+    "feathers-socketio": "^2.0.0",
+    "helmet": "^3.6.1",
+    "rethinkdbdash": "^2.3.29",
+    "serve-favicon": "^2.4.3",
+    "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "mocha": "^3.4.2",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
+  }
+}

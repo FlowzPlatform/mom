@@ -2133,6 +2133,29 @@ li {
     left: 0;
     z-index: -1;
 }
+.pro-part .picture-action-label span.clearImgPosition {
+    position: relative; 
+    z-index: 1;
+}
+.clearImgBlock {
+    display:inline-block;
+    vertical-align: top;
+}
+.changeProfilePosition {
+    display:inline-block; 
+    width:140px; 
+    overflow: hidden;
+}
+.modal-header {
+    padding: 10px;
+}
+.form-input label {
+    font-size: 11px;
+}
+.modal-title {
+    width: 100%;
+    text-align: left;
+}
 
 .animationPane--hearting{
     -webkit-animation:opacity-flash 1s cubic-bezier(0.17, 0.395, 0.355, 1);

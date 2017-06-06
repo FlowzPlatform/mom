@@ -3,7 +3,7 @@
 		<ul class="todo-list">
       <draggable v-model="filteredTodos" @end="onDragEnd">
         <transition-group name="list-complete">
-			    <todo-item v-for="(todo, ind) in filteredTodos" :todo="todo" :pholder="pholder"  v-bind:key="todo" class="list-complete-item">
+			    <todo-item v-for="(todo, ind) in filteredTodos" :todo="todo" :pholder="pholder"  v-bind:key="todo">
           </todo-item>
         </transition-group>
       </draggable> 

@@ -50,8 +50,10 @@ import Vue from 'vue'
 import Resource from 'vue-resource'
 import CmnFunc from './CommonFunc.js' 
 import notify from './notify.js'
+import VueRouter from 'vue-router'
 
 Vue.use(Resource)
+Vue.use(VueRouter)
 $( document ).ready(function() {
   
     $("#login_btn").attr('disabled', true);
@@ -111,7 +113,7 @@ export default {
                          this.$store.state.isAuthorized = true
                          this.$store.commit('userData')
                          this.$store.commit('authorize')
-                         location.href = '/main-app' 
+                         this.$router.replace('/navbar')
                     } else {
                           this.insertUserData(profile.getEmail(), '', 'gmail', profile.getImageUrl())
                          //this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName(), role:'', aboutme:'', dob: new Date()}
@@ -119,7 +121,7 @@ export default {
                          this.$store.state.isAuthorized = true
                          this.$store.commit('userData')
                          this.$store.commit('authorize')
-                         location.href = '/main-app'
+                         this.$router.replace('/navbar')
                     }
                 })
      
@@ -272,7 +274,11 @@ export default {
                 this.$store.commit('authorize')
                 console.log('User data:', this.$store.state.userObject)
                // this.$store.dispatch('setUsername')
-               location.href = '/main-app'
+               // location.href = '/#/mainapp'
+               // this.$route.router.go('mainapp');
+                // VueRouter.push({ path: '/main-app'})
+                this.$router.replace('/navbar')
+                 // VueRouter.go("mainapp")
             } else {
                 this.$http.post('/getUserEmail', {
                 email: trimmedEmail,

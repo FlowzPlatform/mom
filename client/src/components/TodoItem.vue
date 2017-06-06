@@ -1,5 +1,5 @@
 <template id="items">
-			<li v-bind:key="todo" class="todo list-complete-item">
+			<li v-bind:key="todo" class="todo">
 				<div class="view" style="margin-left: 10px;">
           <span class="dreg-move"></span>
               <input id="checkbox8" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="toggleTodo({todo:todo, isCheck: todo.completed})">

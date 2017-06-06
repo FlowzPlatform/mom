@@ -32,18 +32,37 @@ export const store = new Vuex.Store({
     userData: state => state.userObject,
     authorize: state => state.isAuthorized,
     GET_TODO (state, data) {
-      state.todolist = data
+      // state.todolist = data
+      if(state.todolist.length > 0)
+      {
+        for(var i = 0; i<data.length; i++)
+        {
+          // console.log('Inside forloop', data)
+          let index = _.findIndex(state.todolist,function(d){return d.id == data[i].id})
+          // console.log('index', index)
+          if(index > -1){
+             state.todolist.splice(index, 1, data[i]);
+          }else{
+            state.todolist.push(data[i])
+          }
+        }
+      }
+      else
+      {
+        state.todolist = data
+      }
+      // console.log('todolist', state.todolist)
     },
-    SHOW_DIV(state, payload){
+    async SHOW_DIV(state, payload){
       var parentTaskId = payload.id ? payload.id : '';
       if(parentTaskId)
-      {
+      { 
+        await store.dispatch('getAllTodos', {'parentId':payload.id});
         var parentIdArrObj = payload
         var tempParentIds =_.chain([]).union(state.parentIdArr).sortBy([function(o) { return o.level; }]).value();
         if(state.parentIdArr.length > 0)
         {
           state.parentIdArr.splice(0,state.parentIdArr.length);
-              
           for (var i = 0; i < tempParentIds.length; i++) {
             if(tempParentIds[i].level < parentIdArrObj.level)
               {
@@ -61,6 +80,7 @@ export const store = new Vuex.Store({
     },
     REMOVE_PARENT_ID_ARRAY(state){
       state.parentIdArr.splice(0,state.parentIdArr.length)
+      state.todolist.splice(0,state.todolist.length)
     },
     changeFilters(state, key){
       state.visibility = key
@@ -69,26 +89,26 @@ export const store = new Vuex.Store({
       console.log('Todolist Obj Before:', state.todolist) 
       state.todolist.filter(todo => todo.id === item.id) == item
       console.log('Todolist Obj After:', state.todolist)
-      //console.log('new obj', obj) 
+      //console.log('new obj', obj)
     },
     addTodo (state, todoObject) {
       let todoElement = todoObject.todo
       let temp_id = todoObject.data.generated_keys[0]
-            state.todolist.push({
-              id: temp_id,
-              parentId: todoElement.parentId,
-              taskName: todoElement.taskName,
-              taskDesc: '',
-              level: todoElement.level,
-              completed: false, 
-              index: todoElement.index,
-              dueDate:'',
-              createdAt: new Date().toJSON(),
-              updatedAt: new Date().toJSON(),
-              subtask_count:0,
-              completed_subtask_count:0,
-              progress_count:''
-          })
+          //   state.todolist.push({
+          //     id: temp_id,
+          //     parentId: todoElement.parentId,
+          //     taskName: todoElement.taskName,
+          //     taskDesc: '',
+          //     level: todoElement.level,
+          //     completed: false, 
+          //     index: todoElement.index,
+          //     dueDate:'',
+          //     createdAt: new Date().toJSON(),
+          //     updatedAt: new Date().toJSON(),
+          //     subtask_count:0,
+          //     completed_subtask_count:0,
+          //     progress_count:''
+          // })
       console.log("add todo")
       if(todoElement.parentId){
         console.log("add todo element",state.todolist.find(todo => todo.id === todoElement.parentId) )
@@ -133,8 +153,9 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
-    getAllTodos({commit}) {
-        Vue.http.get('/tasks_parentId').then(function(response) {
+     getAllTodos({commit}, payload) {
+        // console.log('parentId', payload.parentId);
+        Vue.http.post('/tasks_parentId',{parentId:payload.parentId}).then(function(response) {
             commit('GET_TODO', response.data)
         });
     },
