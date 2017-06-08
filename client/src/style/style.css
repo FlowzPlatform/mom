@@ -262,7 +262,6 @@ body {
 	fill: #B9BCC0;
     position: absolute;
     right: 5px;
-    top: 3px;
     cursor: pointer;
 }
 .destroy:hover + span i:hover {color:#1aafd0;}
@@ -450,6 +449,7 @@ white-space: pre-wrap
 position: relative;
 resize: none;
 display: block;
+overflow-y: auto;
 }
 .field-description{
 	padding: 5px 5px;
@@ -2291,4 +2291,11 @@ a.taskRow{
         border: 1px solid #B9BCC0;
     border-radius: 50%;
     padding: 6px
+}
+
+attachmentsMenuView .dropdown-menu li a:hover {background-color: #1aafd0;color: #fff;}
+
+.uplod-list-file li .ui-progress-linear {margin: 0 !important;padding: 0;width: 100% !important;position: absolute;left: 0; right: 0;}
+svg.ui-progress-circular__indeterminate {
+    margin-bottom: 15px;
 }

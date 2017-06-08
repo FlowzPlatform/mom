@@ -63,15 +63,14 @@
               <i class="fa fa-tag" aria-hidden="true"></i>    
             </span>
           </div>
-          <span class="attachmentsMenuView">
+          <span class="attachmentsMenuView dropdown">
             <input autocomplete="off" id="attachments_menu_view_hidden_file_input_3" type="file" name="file" class="hidden-file-input" multiple="true" tabindex="-1">
-                            <a id="details_property_sheetproperty_attach_attach_menu" tabindex="-1" class="dropdown-menu-link attach-menu  " data-toggle="dropdown">
-                <div  id="property_attach" class="circularButtonView property attach circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  <a id="details_property_sheetproperty_attach_attach_menu" tabindex="-1"  data-toggle="dropdown" class=" dropdown-menu-link attach-menu  circularButtonView property attach circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active">  
                   <i class="fa fa-paperclip" aria-hidden="true"></i>
-                </div>
-                <ul class="dropdown-menu" style="top: 50px;max-height: 258px;left: 368.38px;min-width: 30px;z-index: 2000;">
+                              </a>
+              <ul class="dropdown-menu" aria-labelledby="details_property_sheetproperty_attach_attach_menu">
                       <li><a id="add_from_computer" for="attachments_menu_view_hidden_file_input_3" class="menu-item" title="">
-                        <span class="dropdown-menu-item-label">Attach From Computer</span>
+                      <span class="dropdown-menu-item-label upload-file-dropdown"><input type="file" id="file" @change="onFileChange($event)"><span>Attach From Computer</span></span>
                       </a></li>
                       <!--<hr><li><a id="add_from_dropbox" class="menu-item" title="">
                             <span class="dropdown-menu-item-label">Attach From Dropbox</span></a></li>
@@ -80,7 +79,6 @@
                             <li><a id="add_from_box" class="menu-item" title="">
                               <span class="dropdown-menu-item-label">Attach From Box</span></a></li>-->
                   </ul>
-              </a>
             </span>
           </div>
       
@@ -164,7 +162,14 @@ export default {
    openfullwinodw : function(ind) {
      $('.window-full.circularButtonView').find('.fa').toggleClass('fa-compress');
      $('.window-full.circularButtonView').parents('#right_pane_container').toggleClass('open')
-   } 
+   },
+   onFileChange (e) {
+      console.log('file',)
+      var fileChooser = e.target // document.getElementById('file');
+      this.$store.dispatch('selectFile', {"file": fileChooser, "taskId": this.filteredTodo.id, "level": this.filteredTodo.level,"cb" : function(){
+        fileChooser.value = "";
+      }})
+    } 
   },
   mounted() {
     $('.datetimepicker1').datepicker().on(

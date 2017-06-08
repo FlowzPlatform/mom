@@ -3,7 +3,7 @@
   "description": "Sample project using feathers service, hooks and authentication",
   "version": "0.0.0",
   "homepage": "",
-  "main": "y",
+  "main": "src",
   "keywords": [
     "feathers"
   ],
@@ -23,7 +23,7 @@
   "scripts": {
     "test": "npm run eslint && npm run mocha",
     "eslint": "eslint y/. test/. --config .eslintrc.json",
-    "start": "node y/",
+    "start": "node src/",
     "mocha": "mocha test/ --recursive"
   },
   "dependencies": {

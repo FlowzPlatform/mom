@@ -51,7 +51,7 @@ tbl_attachment:
     id,
     task_id FK tbl_tasks,
     file_name,
-    filee_url,
+    file_url,
     uploaded_by_user_id FK tbl_users,
     created_at,
     deleted_by_user_id FK tbl_users,

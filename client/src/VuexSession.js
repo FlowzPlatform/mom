@@ -19,6 +19,21 @@ function setProgressBar(state, todoObject){
     }
 }
 
+function uploadFileOnAmazonS3 (file, cb){
+  var bucket = new AWS.S3({params: {Bucket: 'airflowbucket1/obexpense/expenses'}});
+  if (file) {
+      var params = {Key: file.name, ContentType: file.type, Body: file};
+      bucket.upload(params).on('httpUploadProgress', function(evt) {
+      console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total)+'%');
+      store.state.progress = parseInt((evt.loaded * 100) / evt.total)
+      store.commit('progressVal')
+    }).send(function(err, data) {
+          cb(data.Location)
+      });
+    }
+    return false;
+}
+
 export const store = new Vuex.Store({
   state: {
     userObject: {},
@@ -26,11 +41,17 @@ export const store = new Vuex.Store({
     todolist: [],
     parentIdArr: [],
     progress_count: '',
-    visibility:'active'
+    visibility:'active',
+    arrAttachment: [],
+    isProgress: false,
+    isLoading: false
   },
   mutations: {
     userData: state => state.userObject,
     authorize: state => state.isAuthorized,
+    progressVal: state => state.progress,
+    showProgress: state => state.isProgress,
+    showLoader: state => state.isLoading,
     GET_TODO (state, data) {
       // state.todolist = data
       if(state.todolist.length > 0)
@@ -58,6 +79,7 @@ export const store = new Vuex.Store({
       if(parentTaskId)
       { 
         await store.dispatch('getAllTodos', {'parentId':payload.id});
+        await store.dispatch('getAttachmentFromDB', payload.id)
         var parentIdArrObj = payload
         var tempParentIds =_.chain([]).union(state.parentIdArr).sortBy([function(o) { return o.level; }]).value();
         if(state.parentIdArr.length > 0)
@@ -81,6 +103,7 @@ export const store = new Vuex.Store({
     REMOVE_PARENT_ID_ARRAY(state){
       state.parentIdArr.splice(0,state.parentIdArr.length)
       state.todolist.splice(0,state.todolist.length)
+      // state.arrAttachment.splice(0,state.arrAttachment.length)
     },
     changeFilters(state, key){
       state.visibility = key
@@ -150,11 +173,40 @@ export const store = new Vuex.Store({
           //     state.todolist.find(todo => todo.id === p_id).progress = percentage
           // }
       }
+    },
+     SELECT_FILE(state, fileObject) {
+      if(fileObject instanceof Array)
+      {
+      _.forEach(fileObject, function(object) {
+          let index = _.findIndex(state.arrAttachment,function(d){return d.id == object.id})
+          // console.log('index: ', index)
+          if (index < 0){
+            state.arrAttachment.push(object)
+          } 
+      });
+    }
+    else if(fileObject instanceof Object)
+    {
+      if(fileObject.id){
+        // Replacing array to display name when uploading started
+        var start_index = state.arrAttachment.length - 1
+        var number_of_elements_to_remove = 1
+        state.arrAttachment.splice(start_index, number_of_elements_to_remove, fileObject)
+      }else{
+        state.arrAttachment.push(fileObject)
+      }
+    }
+    },
+    DELETE_ATTACHMENT(state, deleteAttachment) {
+      state.arrAttachment.splice(state.arrAttachment.indexOf(deleteAttachment), 1)
+    },
+    DELETE_ATTACHMENTS(state) {
+      state.arrAttachment = []
     }
   },
   actions: {
      getAllTodos({commit}, payload) {
-        // console.log('parentId', payload.parentId);
+        console.log('parentId', payload.parentId);
         Vue.http.post('/tasks_parentId',{parentId:payload.parentId}).then(function(response) {
             commit('GET_TODO', response.data)
         });
@@ -201,7 +253,7 @@ export const store = new Vuex.Store({
                     taskDesc: editObject.todo.taskDesc,
                     dueDate: editObject.selectedDate
                 }).then(response => {
-                  console.log('task updated', response.data)
+                  // console.log('task updated', response.data)
               })
           } 
       },
@@ -247,10 +299,88 @@ export const store = new Vuex.Store({
             })
       }
     },
-    // load_prgress_bar({ commit }, todo_progressBar){
-    //     console.log("todo_progressBar",todo_progressBar)
-    //     commit('load_prgress_bar', todo_progressBar)
-    // }
+    selectFile({ commit }, fileObject) {
+      var file = fileObject.file.files[0];
+
+       var attachArr = {
+        file_name: file.name,
+        task_id: fileObject.taskId,
+        level:fileObject.level
+      }
+      commit('SELECT_FILE', attachArr)
+
+      store.state.isProgress = true
+      store.commit('showProgress')
+      uploadFileOnAmazonS3(file, function(src){
+        store.state.isProgress = false
+        store.commit('showProgress')
+        store.state.progress = 0
+        store.commit('progressVal')
+
+        //Insert Attachment detail in DB
+        Vue.http.post('/addAttachment', {
+          task_id: fileObject.taskId,
+          file_name: file.name,
+          file_url: src,
+          uploadedBy: store.state.userObject.id,
+          level: fileObject.level,
+          isDeleted: false
+        }).then(response => {
+          var tempArr = {
+            id: response.data.generated_keys[0],
+            task_id: fileObject.taskId,
+            file_name: file.name,
+            file_url: src,
+            uploadedBy: store.state.userObject.id,
+            level: fileObject.level,
+            isDeleted: false
+          }
+          commit('SELECT_FILE', tempArr)
+          fileObject.cb()
+        })
+      })
+    },
+     deleteAttachmentFromDB({ commit }, deleteObject) {
+
+      store.state.isLoading = true
+      store.commit('showLoader')
+      //Delete image from amazon
+          var bucketInstance = new AWS.S3();
+          var params = {
+            Bucket: 'airflowbucket1/obexpense/expenses',
+            Key: deleteObject.image_name
+          }
+          bucketInstance.deleteObject(params, function (err, data) {
+          if (data) {
+            //Update attachment fields in DB
+            Vue.http.post('/deleteAttachment', {
+            id: deleteObject.objAttachment.id,
+            isDeleted: true,
+            file_url: '',
+            deletedBy: store.state.userObject.id
+          }).then(response => {
+            commit('DELETE_ATTACHMENT', deleteObject.objAttachment)
+             store.state.isLoading = false
+            store.commit('showLoader')
+          })
+         }
+        else {
+          console.log("Check if you have sufficient permissions : ", err.stack);
+        }
+      });
+    },
+    getAttachmentFromDB({ commit }, taskId) {
+      console.log('get attachment called: ', taskId)
+      Vue.http.post('/getAttachments', {
+        task_id: taskId,
+        isDeleted: false
+      }).then(response => {
+        if(response.data.length > 0){
+          commit('SELECT_FILE', response.data) 
+        }
+      })
+    }
+
   },
   getters: {
     getTodoById: (state, getters) => {
@@ -258,7 +388,14 @@ export const store = new Vuex.Store({
         return state.todolist.filter(todo => todo.parentId === id, todo => todo.level === level)
       }
     },
-    parentIdArr: state => state.parentIdArr
+    parentIdArr: state => state.parentIdArr,
+    getAttachment: state => state.arrAttachment,
+    getAttachment: (state, getters) => {
+      return function(id, level){
+        var attachment = state.arrAttachment.filter(attachment => attachment.task_id === id)
+        return attachment
+      }
+    }
   },
   plugins: [createPersistedState()]
 })

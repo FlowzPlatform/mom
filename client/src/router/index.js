@@ -4,6 +4,7 @@ import Login from '@/components/LoginPage'
 import MainApp from '@/components/MainApp'
 import RoleAccess from '@/components/RoleAccess'
 import navbar from '@/components/navbar'
+// import RedirectUrl from '@/components/RedirectUrl'
 import '../style/style.css'
 import '../style/newStyle.css'
 import '../style/keen-ui.min.css'
@@ -31,6 +32,7 @@ export default new Router({
       component: Login,
       meta: { Auth: false }
     },
+    
     {
       path: '/navbar',
       name: 'Navbar',
@@ -40,14 +42,20 @@ export default new Router({
       children: [
           {
               path: 'mainapp',
-            name: 'MainApp',
+              name: 'MainApp',
               component:  MainApp
           },
           {
               path: 'roleaccess',
               name: 'RoleAccess',
               component: RoleAccess
-          }
+          },
+          {
+            path: 'task',
+            query: {parentId:''},
+            // name: 'RedirectURL',
+            component: MainApp,
+          },
       ]
     }
   ]

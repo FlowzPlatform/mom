@@ -150,6 +150,13 @@ const filters = {
   active: todos => todos.filter(todo => !todo.completed),
   completed: todos => todos.filter(todo => todo.completed)
 }
+
+function getQueryString ( field, url ) {
+    var href = url ? url : window.location.href;
+    var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+    var string = reg.exec(href);
+    return string ? string[1] : null;
+}
 export default {
   props: ['passData'],
   data: function () {
@@ -168,15 +175,25 @@ export default {
         loading: false,
         todolist:[],
         visibility: 'completed',
-        filters: filters
+        filters: filters,
+        url_parentId: ''
     }
   },
   created() {
     // ...mapActions([
     //         'getAllTodos'
     //     ])
+
+     // get loaded URL to get querystring param
+     var url = window.location.href;
+     console.log('URL', url);
+     this.url_parentId = getQueryString('parentId', url)
+     console.log('pppID', this.url_parentId);
+    
+    
       this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
-      this.$store.dispatch('getAllTodos', {'parentId':''});
+      this.$store.dispatch('getAllTodos', {'parentId': this.url_parentId ? this.url_parentId: ''});
+      // this.$store.dispatch('getAllTodos', {'parentId': ''});
       let self = this;
       socket.on('feed-change', function(item){
                //console.log("TodoItem.vue:item***",item);
@@ -234,7 +251,8 @@ export default {
       parentIdArray: 'parentIdArr',
      }),
      taskById(){
-       let taskArray = this.todoById('', 0)
+      //  let taskArray = this.todoById('', 0)
+      let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', 0)
        taskArray.push({
               parentId: '',
               taskName: '',
@@ -266,6 +284,7 @@ export default {
   },
   methods: {
     btnLogoutClicked (){
+      this.$store.commit('DELETE_ATTACHMENTS')
       this.$store.state.userObject = {}
       this.$store.state.isAuthorized = false
       this.$store.commit('userData')
@@ -374,7 +393,7 @@ export default {
       }
       return false;
     },
-    onFileChange(e) {
+    onFileChange() {
      this.loading = true;
         let self = this;
         var bucket = new AWS.S3({params: {Bucket: 'airflowbucket1/obexpense/expenses'}});

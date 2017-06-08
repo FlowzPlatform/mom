@@ -6,12 +6,12 @@ import App from './App.vue'
 // import Task from './Task.vue'
 // import navbar from './components/navbar.vue'
 // import Login from './components/LoginPage.vue'
-// import mainApp from './components/MainApp.vue'
+// import MainApp from './components/MainApp.vue'
 import router from './router'
 // import VueRouter from 'vue-router'
 // Vue.use(VueRouter)
 Vue.config.productionTip = false
-
+/* eslint-disable*/
 import { store } from './VuexSession'
 // import GSignInButton from 'vue-google-signin-button'
 // Vue.use(GSignInButton)
@@ -24,6 +24,12 @@ import { store } from './VuexSession'
 // const router = new VueRouter({
 //   routes,
 //   mode: 'history'
+// })
+
+// router.map({
+//   '/task/:id': {
+//     component: MainApp
+//   },
 // })
 
 router.beforeEach((to, from, next) => {

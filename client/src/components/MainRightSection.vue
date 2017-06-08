@@ -4,6 +4,7 @@
   <right-toolbar :filteredTodo="todoObject"></right-toolbar>
 	<text-description :filteredTodo="todoObject">
   </text-description>
+  <attachments :filteredTodo="todoObject"> </attachments>
   <main-left-section :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
 </section>
 <right-footer :filteredTodo="todoObject"></right-footer>
@@ -15,6 +16,7 @@ import MainLeftSection from './MainLeftSection.vue'
 import TextDescription from './TextDescription.vue'
 import RightFooter from './RightFooter.vue'
 import RightToolbar from './RightToolbar.vue'
+import Attachments from './Attachments.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -95,7 +97,8 @@ export default {
     RightFooter,
     MainLeftSection,
     TextDescription,
-    RightToolbar
+    RightToolbar,
+    Attachments
   }
 }
 </script>

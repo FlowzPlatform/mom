@@ -239,6 +239,50 @@ app.post('/updateImageURL', jsonParser, (req, res) => {
   })
 })
 
+
+// Insert new attachment in the db
+app.post('/addAttachment', jsonParser, (req, res) => {
+  const attachfile = {
+    'task_id': req.body.task_id,
+    'file_name': req.body.file_name,
+    'file_url': req.body.file_url,
+    'uploadedBy': req.body.uploadedBy,
+    'isDeleted': req.body.isDeleted,
+    'level': req.body.level,
+    'createdAt': new Date().toJSON()
+  }
+  r.db("vue_todo").table('attachment').insert(attachfile).run().then(result => {
+    res.send(result)
+  }).catch(err => {
+    console.log('Error:', err)
+  })
+})
+
+//Delete Attachment
+app.post('/deleteAttachment', jsonParser, (req, res) => {
+  const deleteFile = {
+    'isDeleted': req.body.isDeleted,
+    'deletedBy': req.body.deletedBy,
+    'file_url': req.body.file_url,
+    'deletedDate': new Date().toJSON()
+  }
+  r.db('vue_todo').table('attachment').filter({'id': req.body.id}).update(deleteFile).run().then(result => {
+    res.send(result)
+  }).catch(err => {
+    console.log('Error:', err)
+  })
+})
+
+//Fetch Attachments
+app.post('/getAttachments', jsonParser, (req, res) => {
+  r.db('vue_todo').table('attachment').filter({'task_id': req.body.task_id, 'isDeleted': req.body.isDeleted}).run().then(result => {
+    res.send(result)
+  }).catch(err => {
+    console.log("Error:", err)
+  })
+})
+
+
 app.use('/api', router)
 
 app.listen(3000, 'localhost', function (err) {

@@ -147,7 +147,7 @@ export default {
         loading: false
     }
   },
-    computed: {
+  computed: {
     uname: function(){
       var str = this.$store.state.userObject.email
       var n = str.indexOf("@")

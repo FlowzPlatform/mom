@@ -6,8 +6,14 @@
 </template>
 
 <script>
+/* eslint-disable*/
 export default {
-  name: 'app'
+  name: 'app',
+
+  // created(){
+  //   var url = window.location.href;
+  //   console.log('URL', url);
+  // }
 }
 </script>
 
