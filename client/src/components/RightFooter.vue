@@ -21,7 +21,7 @@
                         <span class="taskCommentsView-textarea">
                             <textarea rows="5" cols="50"
                                 contenteditable="true" 
-                                v-model="filteredTodo.taskComment"
+                                v-model="commentText"
                                 disable_highlighting_for_diagnostics="true" 
                                 tabindex="10" 
                                 class="field-description hypertext-input notranslate" 
@@ -31,7 +31,7 @@
                     </span>
                 </div>
                     <div class="taskCommentsView-toolbar">
-                        <div id="details_property_sheet__new_comment_button" @click="updateComment(filteredTodo.id)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton" style="" tabindex="710">
+                                                <div id="details_property_sheet__new_comment_button" @click="insertComment(filteredTodo.id)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton" style="" tabindex="710">
                             <span class="left-button-icon"></span>
                             <span class="new-button-text">Comment</span>
                             <span class="right-button-icon"></span>
@@ -47,25 +47,19 @@
 </template>
 <script>
   /* eslint-disable*/
+import { mapGetters } from 'vuex'
 export default {
   props: ['filteredTodo'],
   data: function () {
     return {
       picker1: null,
-      imageURlProfilePic: this.$store.state.userObject.image_url
+      imageURlProfilePic: this.$store.state.userObject.image_url,
+      commentText:''
     }
   },
   methods:{
-    updateComment : function(taskId)
-    {
-        if (taskId){
-            this.$http.post('/updatetasks', {
-                id: taskId,
-                taskComment: this.filteredTodo.taskComment,
-            }).then(response => {
-              console.log('task update', response.data)
-          })
-        }
+        insertComment: function(taskId){
+        this.$store.dispatch('insertTaskComment',{"id":this.filteredTodo.id, "comment":this.commentText, "commentBy": this.$store.state.userObject.username})
     }
   },
   computed: {
@@ -73,7 +67,14 @@ export default {
       var str = this.$store.state.userObject.email
       var firstLetters = str.substr(0,2)
       return firstLetters.toUpperCase()
-    }
+    },
+    ...mapGetters({
+            getComment: 'getCommentById'
+        }),
+        getCommentByTaskId(){
+            let commentList = this.getComment(this.filteredTodo.id)
+            return commentList
+        }
   }
 }
 </script>

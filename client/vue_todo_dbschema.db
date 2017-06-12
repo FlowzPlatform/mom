@@ -127,6 +127,15 @@ tbl_user_settings
     setting_value
 }
 
+task_comments
+{
+    id,
+    task_id,
+    commentBy,
+    comment,
+    createdAt
+}
+
 tbl_logs
 {
     

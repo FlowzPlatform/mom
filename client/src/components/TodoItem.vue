@@ -2,7 +2,7 @@
 			<li v-bind:key="todo" class="todo">
 				<div class="view" style="margin-left: 10px;">
           <span class="dreg-move"></span>
-              <input id="checkbox8" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="toggleTodo({todo:todo, isCheck: todo.completed})">
+              <input :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="toggleTodo({todo:todo, isCheck: todo.completed})">
 <label for="checkbox8"></label>
 						    <input  class="new-todo" autofocus autocomplete="off" 
                  :placeholder="pholder" 
@@ -30,12 +30,23 @@
 					    </button>
 				  </div>				
           </div>
-        <ui-progress-linear
+        <!--<ui-progress-linear
                     color="primary"
                     type="determinate"
                     :progress="todo.progress">
             </ui-progress-linear>
-            <div class="task-text">{{todo.progress_count}}</div>
+            <div class="task-text">{{todo.progress_count}}</div>-->
+            <!--{{todo.progress > 50 ? Math.round(255 * (100 - todo.progress) / 100) : 255}} {{ todo.progress > 50 ? 255 : Math.round(todo.progress / 100 * 255)}}{{ 0}}-->
+          <!--backgroundColor: 'rgb('+Math.round(255*(100-todo.progress)/100)+', '+Math.round(todo.progress / 100 * 255)+', 0)'-->
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="todo.progress" aria-valuemin="0" 
+              aria-valuemax="100" 
+              :style="{ 'width': todo.progress + '%', backgroundColor: 'rgb('+(todo.progress > 70 ? Math.round(255 * (todo.progress-50) / 100) : 255)+', '+(todo.progress > 30 ? 255 : Math.round(todo.progress*2 / 100 * 255))+', 0)' }">
+              <!--v-if="this.$store.state.userSetting[0].setting_value">-->
+
+            </div>
+          </div>
+          <div class="task-text">{{todo.progress_count}}</div>
 			</li>
 </template>
 <script>
@@ -118,6 +129,7 @@ export default {
       //   }
     },
     addTodo: function () {
+      console.log('insert',this.todo)
       this.$store.dispatch('insertTodo', this.todo)
     }
   },
@@ -132,6 +144,21 @@ export default {
           var percentage = (completedSubtask / totalSubtask) * 100
           this.todo.progress = percentage
         }
+
+        // if(this.$store.state.userSetting[1].setting_value)
+        // {
+              var d = new Date()
+              d.setDate(d.getDate() + 2)
+              if(this.todo.dueDate){
+                if(moment(this.todo.dueDate).isBetween(new Date(), d)){
+                      $('#'+this.todo.id).addClass('DueDate--soon')
+                } else if(moment(this.todo.dueDate).isBefore(new Date())){
+                      $('#'+this.todo.id).addClass('DueDate--overdue')
+                }else if(moment(this.todo.dueDate).isAfter(new Date())){
+                      $('#'+this.todo.id).addClass('DueDate--future')
+                }
+            }
+        // }
   }
 }
 </script>

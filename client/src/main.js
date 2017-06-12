@@ -26,27 +26,27 @@ import { store } from './VuexSession'
 //   mode: 'history'
 // })
 
-// router.map({
-//   '/task/:id': {
-//     component: MainApp
-//   },
-// })
 
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.Auth)) {
-    // console.log('auth.status: ' + store.state.isAuthorized)
-    if (!store.state.isAuthorized) {
-      next({
-        path: '/',
-        query: { redirect: to.fullPath }
-      })
-    } else {
-      next()
-    }
-  } else {
-    next()
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   // console.log('to ' , to)
+//   // console.log('from ',from )
+//   // console.log('next ', next)
+//   console.log('window.location.href ', window.location.href)
+//   if (to.matched.some(record => record.meta.Auth)) {
+//     console.log('auth.status: ' + store.state.isAuthorized)
+//     if (!store.state.isAuthorized) {
+//       next({
+//         path: '/',
+//         query: { redirect: to.fullPath }
+//       })
+//     } else {
+//       next()
+      
+//     }
+//   } else {
+//     next()
+//   }
+// })
 
 new Vue({
   el: '#app',

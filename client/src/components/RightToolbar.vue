@@ -28,7 +28,7 @@
                     <span>
                                             <datepicker 
                       placeholder="Due Date"
-                      class="wrapperClass"
+                      class="wrapperClass temp"
                       v-on:selected="dateFormatter"
                       clear-button
                       calendarButton
@@ -87,27 +87,24 @@
 					<div class="circularButtonView action-menu-label circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               <i class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></i>
 					</div>
-                    <!--<ul class="dropdown-menu" style="top: 52px;max-height: 250px;left: 334.31px;min-width: 30px;z-index: 2000;">-->
-                    <!--<li><a id="duplicate_task" class="menu-item" title="">
-                      <span class="dropdown-menu-item-label">Copy Task...</span>
+                                        <ul class="dropdown-menu" style="top: 52px;max-height: 250px;left: 476.31px;min-width: 30px;z-index: 2000;">
+                    <li><a id="estimated_hours" class="menu-item" title="">
+                      <button class="dropdown-menu-item-label" @click="estimated_time = true">Estimated Hours</button>
                     </a></li>
-                    <li><a id="change_task_privacy" class="menu-item" title="">
-                      <span class="dropdown-menu-item-label">Make Public to Team</span>
+                   <li><a id="task_priority" class="menu-item" title="">
+                      <span class="dropdown-menu-item-label" @click="task_priority = true">Task Priority</span>
                     </a></li>
                     <li><a id="copy_task_url" class="menu-item" title="">
                       <span class="dropdown-menu-item-label">Copy Task URL</span>
                     </a></li>
-                    <li><a id="close_as_duplicate" class="menu-item" title="">
-                      <span class="dropdown-menu-item-label">Merge Duplicate Tasks...</span>
-                      <span class="shortcut">Tab+Shift+D</span>
-                    </a></li>
-                    <li><a id="convert_to_project" class="menu-item" title="">
+                    <!--<li><a id="convert_to_project" class="menu-item" title="">
                       <span class="dropdown-menu-item-label">Convert to a Project...</span>
                     </a></li>
                     <li><a id="print_task" class="menu-item" title="">
                       <span class="dropdown-menu-item-label">Print</span>
                     </a></li>-->
                   <!--</ul>-->
+                  </ul>
 				</a>
 			</div>
       
@@ -117,6 +114,9 @@
               <i class="fa fa-expand" aria-hidden="true"></i>    
             </span>
           </div>
+          <estimated-hours  :showModal="estimated_time" :closeAction="closeDialog" :filteredTodo="filteredTodo" ></estimated-hours>
+          <task-priority  :showModal="task_priority" :closeAction="closeDialog" :filteredTodo="filteredTodo"></task-priority>
+          <!--<settings-menu :showModal="settings_menu" :closeAction="closeDialog" :filteredTodo="filteredTodo"></settings-menu>-->
     </div>
 </template>
 <script>
@@ -125,6 +125,10 @@ import Vue from 'vue';
 import KeenUI from 'keen-ui';
 import moment from 'moment';
  import Datepicker from 'vuejs-datepicker'
+import EstimatedHours from './EstimatedHours.vue'
+import TaskPriority from './TaskPriority.vue'
+// import SettingsMenu from './SettingsMenu.vue'
+
 Vue.use(KeenUI);
 Vue.filter('formatDate', function(value) {
   if (value) {
@@ -138,7 +142,10 @@ export default {
     return {
       picker1: null,
       imageURlProfilePic: this.$store.state.userObject.image_url,
-      index: this.filteredTodo.index
+      index: this.filteredTodo.index,
+      popName:'',
+      estimated_time: false,
+      task_priority:false,
     }
   },
   computed: {
@@ -155,14 +162,33 @@ export default {
     }
   },
   methods: {
-      dateFormatter(date){
-        var selectedDate = moment(date, 'YYYY-MM-DD').format('MMM DD');
-        this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "selectedDate": date})
-    },
+      dateFormatter(dateTo){
+         var selectedDate = moment(dateTo, 'YYYY-MM-DD').format('MMM DD');
+        this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "selectedDate": dateTo})
+        // var d = new Date()
+        // d.setDate(d.getDate() + 2)
+        // if(moment(dateTo).isBetween(new Date(), d)){
+        //     $('#'+this.filteredTodo.id).removeClass('DueDate--overdue').removeClass('DueDate--future').addClass('DueDate--soon')
+        // } else if(moment(dateTo).isBefore(new Date())){
+        //     $('#'+this.filteredTodo.id).removeClass('DueDate--soon').removeClass('DueDate--future').addClass('DueDate--overdue')
+        // }else if(moment(dateTo).isAfter(new Date())){
+        //     $('#'+this.filteredTodo.id).addClass('DueDate--future')
+        // }else{
+        //       $('#'+this.filteredTodo.id).removeClass('DueDate--soon')
+        //       $('#'+this.filteredTodo.id).removeClass('DueDate--overdue')
+        //       $('#'+this.filteredTodo.id).removeClass('DueDate--future')
+        // }
+        
+      },
    openfullwinodw : function(ind) {
      $('.window-full.circularButtonView').find('.fa').toggleClass('fa-compress');
-     $('.window-full.circularButtonView').parents('#right_pane_container').toggleClass('open')
+     $('.window-full.circularButtonView').parents('#right_pane_container #right_pane #'+ind).toggleClass('open')
    },
+   closeDialog () {
+        this.estimated_time = false
+        this.task_priority = false
+        // this.settings_menu = false
+    },
    onFileChange (e) {
       console.log('file',)
       var fileChooser = e.target // document.getElementById('file');
@@ -177,7 +203,9 @@ export default {
     })
   },
   components:{
-    Datepicker
+    Datepicker,
+    EstimatedHours,
+    TaskPriority,
   }
   //   methods: {
   //   hideDiv: function () {

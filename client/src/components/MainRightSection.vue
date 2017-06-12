@@ -1,12 +1,15 @@
 <template>
-<div class="">
+<div class="rightsection-view">
+<div class="DropTargetAttachment">
 <section class="todoapp right_bar">
   <right-toolbar :filteredTodo="todoObject"></right-toolbar>
 	<text-description :filteredTodo="todoObject">
   </text-description>
   <attachments :filteredTodo="todoObject"> </attachments>
   <main-left-section :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
+  <story-feed :filteredTodo="todoObject"></story-feed>
 </section>
+</div>
 <right-footer :filteredTodo="todoObject"></right-footer>
 </div>
 </template> 
@@ -17,6 +20,7 @@ import TextDescription from './TextDescription.vue'
 import RightFooter from './RightFooter.vue'
 import RightToolbar from './RightToolbar.vue'
 import Attachments from './Attachments.vue'
+import StoryFeed from './StoryFeed.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -37,9 +41,9 @@ export default {
                     // console.log('Item Parent ID',item.new_val.parentId)
                     // console.log('Todo object Parent ID',self.todoObject)
                     if(item.new_val.parentId.length > 0 && (item.new_val.parentId == self.todoObject.id)){
-                  // self.taskById.push(item.new_val)
+                    self.taskById.push(item.new_val)
                     self.taskById.splice(self.taskById.length - 1, 0, item.new_val);
-                    self.$store.state.todolist.push(item.new_val)
+                    // self.$store.state.todolist.push(item.new_val)
                     }
                   }else{
                     if(item.new_val.parentId.length > 0 && (item.new_val.parentId == self.todoObject.id)){
@@ -98,7 +102,8 @@ export default {
     MainLeftSection,
     TextDescription,
     RightToolbar,
-    Attachments
+    Attachments,
+    StoryFeed
   }
 }
 </script>

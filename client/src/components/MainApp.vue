@@ -47,6 +47,8 @@
         </div>-->
     <div class="row asanaView-body" style="padding-top: 15px; margin: 10px 10px 10px 10px;">
       <div class="asanaView-paneGutter"></div>
+          <!--<settings-menu :showModal="settings_menu" :closeAction="closeDialog"></settings-menu>-->
+    
     <div id="center_pane_container" class="known-list">
         <div id="center_pane">
           <left-toolbar :filters="filters">
@@ -57,7 +59,7 @@
     <div id="right_pane_container" cass="known-list" v-for="(n, index) in parentIdArray">
       <div id="right_pane">
         
-        <main-right-section :pholder="subtaskPholder" :todoObject="n" ></main-right-section>
+        <main-right-section  :id="n.level" :pholder="subtaskPholder" :todoObject="n" ></main-right-section>
       </div>
     </div>
     <div class="asanaView-paneGutter"></div>
@@ -139,12 +141,14 @@
 import MainLeftSection from './MainLeftSection.vue'
 import MainRightSection from './MainRightSection.vue'
 import LeftToolbar from './LeftToolbar.vue'
+
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import { mapGetters, mapActions } from 'vuex'
+
 const filters = {
   all: todos => todos,
   active: todos => todos.filter(todo => !todo.completed),
@@ -154,7 +158,9 @@ const filters = {
 function getQueryString ( field, url ) {
     var href = url ? url : window.location.href;
     var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+    console.log('reg', reg)
     var string = reg.exec(href);
+    console.log('string', string)
     return string ? string[1] : null;
 }
 export default {
@@ -176,7 +182,8 @@ export default {
         todolist:[],
         visibility: 'completed',
         filters: filters,
-        url_parentId: ''
+        url_parentId: '',
+        url_level: 0,
     }
   },
   created() {
@@ -185,11 +192,20 @@ export default {
     //     ])
 
      // get loaded URL to get querystring param
-     var url = window.location.href;
-     console.log('URL', url);
-     this.url_parentId = getQueryString('parentId', url)
-     console.log('pppID', this.url_parentId);
-    
+    //  var url = window.location.href;
+    //  this.url_parentId = getQueryString('task', url)
+    //  console.log('pppID', this.url_parentId);
+
+      var url = window.location.href;
+      if(url.indexOf('task') > -1)
+      {
+        url = url.split('task/')
+        var split_url = url[1].split('/')
+        console.log('level', split_url[0])
+        console.log('id', split_url[1])
+        this.url_level = split_url[0] ? split_url[0] : ''
+        this.url_parentId = split_url[1] ? split_url[1] : 0
+      }
     
       this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
       this.$store.dispatch('getAllTodos', {'parentId': this.url_parentId ? this.url_parentId: ''});
@@ -205,7 +221,7 @@ export default {
                     // console.log('Length',self.taskById.length)
                   // self.taskById.push(item.new_val)
                     self.taskById.splice(self.taskById.length - 1, 0, item.new_val);
-                    self.$store.state.todolist.push(item.new_val)
+                    // self.$store.state.todolist.push(item.new_val)
                     }else{
                       //console.log("Sub Task Inserted")
                     }
@@ -249,15 +265,17 @@ export default {
     ...mapGetters({
       todoById: 'getTodoById',
       parentIdArray: 'parentIdArr',
+      userSettings: 'user_setting'
      }),
      taskById(){
-      //  let taskArray = this.todoById('', 0)
-      let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', 0)
+        //let taskArray = this.todoById('', 0)
+      let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', this.url_level)
        taskArray.push({
-              parentId: '',
+              parentId: this.url_parentId,
               taskName: '',
               taskDesc: '',
-              level: 0,
+              level: this.url_level,
+              //  level: 0,
               index: taskArray.length,
               completed: false, 
               dueDate:'',
@@ -477,7 +495,8 @@ export default {
   components: {
     MainLeftSection,
     MainRightSection,
-    LeftToolbar
+    LeftToolbar,
+    
   }
 }
 </script>

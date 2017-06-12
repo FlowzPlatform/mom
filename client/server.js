@@ -118,10 +118,11 @@ app.post('/updatetasks', jsonParser, (req, res) => {
     'taskName': req.body.taskName,
     'taskDesc': req.body.taskDesc,
     'completed': req.body.completed,
-    'taskComment': req.body.taskComment,
     'index': req.body.index,
     'updatedAt': new Date().toJSON(),
-    'dueDate': req.body.dueDate    
+    'dueDate': req.body.dueDate,
+    'estimatedTime':req.body.estimatedTime,
+    'priority':req.body.priority
   }
   r.db('vue_todo').table('tasks').filter({'id': req.body.id}).update(task).run().then(result => {
     res.send(result)
@@ -282,6 +283,66 @@ app.post('/getAttachments', jsonParser, (req, res) => {
   })
 })
 
+app.post('/getSttings',  (req,res) => {
+  console.log(req.body)
+  r.db('vue_todo').table('settings').merge(function (settings) {
+      return { user_setting: r.db('vue_todo').table('user_settings').filter({'settings_id':settings('id'), 
+      'user_id':req.body.user_id}).coerceTo('array')}
+	}).run().then(result => {
+    // console.log("result:", result[0].user_setting[0].id)
+    res.send(result)
+    // console.log("result:", result.user_setting)
+  }).catch(err => {
+    console.log("Error:", err)
+  })
+})
+
+//update user setting 
+app.post('/updateUserSetting', (req, res) => {
+  console.log(req.body)
+  r.db('vue_todo').table('user_settings').filter({'settings_id':req.body.settings_id}).update({'setting_value':req.body.setting_value}).run().then(result => {
+    res.send(result)
+    console.log("result:", result)
+  }).catch(err => {
+    console.log("Error:", err)
+  })
+})
+
+//get User Settings
+app.get('/getUserSetting', (req, res) => {
+  r.db('vue_todo').table('user_settings').run().then(result => {
+    res.send(result)
+    console.log("result:", result)
+  }).catch(err => {
+    console.log("Error:", err)
+  })
+})
+
+//get comment in task_comments
+app.get('/getComment', jsonParser, (req, res) => {
+  r.db('vue_todo').table('task_comments').run().then(result => {
+        res.send(result)
+        console.log(result)
+  }).catch(err => {
+      console.log('Error:', err)
+  })
+})
+
+//Insert Comment in task_comment
+app.post('/insertComment', jsonParser, (req, res) => {
+  console.log('request: ', req.body)
+  const comment = {
+    'task_id': req.body.task_id,
+    'commentBy': req.body.commentBy,
+    'comment': req.body.comment,
+    'createdAt': req.body.createdAt
+  }
+  r.db("vue_todo").table('task_comments').insert(comment).run().then(result => {
+    res.send(result)
+  }).catch(err => {
+    console.log('Error:', err)
+  })
+})
 
 app.use('/api', router)
 

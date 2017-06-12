@@ -108,14 +108,14 @@ export default {
                 signup_type: 'gmail'
                 }).then(response => {
                 if (response.data[0]) {
-                         this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName()}
+                        //  this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName()}
                          this.$store.state.userObject = response.data[0]
                          this.$store.state.isAuthorized = true
                          this.$store.commit('userData')
                          this.$store.commit('authorize')
                          this.$router.replace('/navbar')
                     } else {
-                          this.insertUserData(profile.getEmail(), '', 'gmail', profile.getImageUrl())
+                          this.insertUserData(profile.getEmail(), '', 'gmail', profile.getImageUrl(), profile.getName())
                          //this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName(), role:'', aboutme:'', dob: new Date()}
                          this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName(), role:'', aboutme:'', signup_type:'gmail', image_url:profile.getImageUrl()}
                          this.$store.state.isAuthorized = true
@@ -202,17 +202,17 @@ export default {
                     $('#back_btn').hide()
                     $("#login_btn").attr('disabled', true);
                    // insert
-                   this.insertUserData(trimmedEmail, trimmedPwd, 'email', null)
+                   this.insertUserData(trimmedEmail, trimmedPwd, 'email', null,'')
                 }
             })
           }
       },
-      insertUserData (emailID, pwd, usertype, profilePic) {
+      insertUserData (emailID, pwd, usertype, profilePic, uname) {
         //insert user into rethink db
         this.$http.post('/insertUsers', {
         email: emailID,
         password: pwd,
-        username: '',
+        username: uname,
         role: '',
         aboutme: '',
         firstname: '',
