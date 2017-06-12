@@ -238,8 +238,15 @@ export const store = new Vuex.Store({
     GET_TASK_COMMENT(state, data) {
       state.taskComment = data
     },
-    ADD_COMMENT(state, data) {
-      state.taskComment.push(data)
+    ADD_COMMENT(state, data){
+      let temp_id = data.response.generated_keys[0]
+      state.taskComment.push({
+                id:temp_id,
+                task_id: data.payload.id,
+                commentBy: data.payload.commentBy,
+                comment: data.payload.comment,
+                createdAt: new Date().toJSON()
+      })
     },
     updateTodo(state, todoObject) {
       setCheckboxColor(state, todoObject)
@@ -467,10 +474,7 @@ export const store = new Vuex.Store({
         'createdAt': new Date().toJSON()
       })
         .then(function (response) {
-          // Vue.http.get('/getComment').then(function (response) {
-          //   commit('GET_TASK_COMMENT', response.data)
-          // });
-          commit('ADD_COMMENT', payload)
+          commit('ADD_COMMENT',{"payload": payload, "response":response.data})
           console.log("Response:", response)
         })
     }

@@ -2604,3 +2604,98 @@ hr {
     display: inline-block;
     padding-left: 10px;
 }
+ .StoryFeed-separator+.StoryFeed-miniStory {
+    margin-top: 20px;
+}
+.StoryFeed-miniStory {
+    margin-left: 40px;
+}
+.MiniStoryActionSentence {
+    word-wrap: break-word;
+}
+.MiniStory-actor {
+    color: #898e95;
+    font-weight: 500;
+}
+.StoryFeed-miniStory+.StoryFeed-blockStory{
+        margin-top: 10px;
+}
+.StoryFeed-blockStory {
+    margin: 2px -28px;
+}
+.FeedBlockStory {
+    padding: 10px 28px;
+    position: relative;
+}
+.BlockStory {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    padding: 10px 0px 0px 20px;
+
+}
+.BlockStory-block {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    line-height: 20px;
+    min-width: 1px;
+    word-wrap: break-word;
+    text-align: left;
+}
+.BlockStory-header {
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.BlockStory:not(.BlockStory--isOneLine) .BlockStory-headerContent {
+    margin-top: -2px;
+}
+.BlockStory-headerContent {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 1px;
+}
+.BlockStory-storyContent {
+    font-weight: 500;
+}
+.BlockStory-metadata {
+    color: #a1a4aa;
+    display: inline;
+    font-size: 11px;
+    margin-left: 10px;
+    white-space: nowrap;
+}
+.truncatedRichText {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+}
+.truncatedRichText-richText {
+    display: inline;
+}
+.richText {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    white-space: pre-wrap;
+}
+.BlockStory-icon {
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-right: 10px;
+    width: 30px;
+}
