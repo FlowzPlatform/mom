@@ -994,7 +994,7 @@ svg:not(:root){
 }
 .Avatar img {max-height: 100%; max-width: 100%}
 .asanaView-body{
-	    -webkit-transition: min-width 0.25s ease-out;
+	-webkit-transition: min-width 0.25s ease-out;
     -moz-transition: min-width 0.25s ease-out;
     transition: min-width 0.25s ease-out;
     min-width: 920px;
@@ -2625,7 +2625,7 @@ hr {
 }
 .FeedBlockStory {
     padding: 10px 28px;
-    position: relative;
+    /*position: relative;*/
 }
 .BlockStory {
     display: -webkit-box;
@@ -2699,3 +2699,212 @@ hr {
     margin-right: 10px;
     width: 30px;
 }
+
+    /*ul {
+        list-style: none;
+        margin-left: 0;
+        padding-left: 1em;
+        text-indent: -1em;
+    }*/
+
+    .taskTagsView {
+        float: left;
+        margin-bottom: 20px;
+        position: relative;
+        left: 0;
+        width: 100%;
+    }
+    .task-tag-icon{    display: inline-block;}
+.task-tag-box { width: calc(100% - 95px);
+    background-color: #fff;
+    padding: 5px;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+}
+.popup ul.popup-content li .newTag > b {color:#000;width: 100%;display: inherit;text-align: center;}
+.popup ul.popup-content li .newTag > span {
+    width: 100%;
+    display: inline-block;
+}
+.popup ul.popup-content li:hover .newTag > b {color:#fff}
+.task-tag-box:hover, .task-tag-box:focus { 
+box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
+}
+    .popup {
+        width: 100%;
+        position: absolute;
+        right: 0;
+        display: inline-block;
+        top: 20px;
+    }
+
+    .popup .popup-content {
+        padding: 8px 0;
+        width: 120px;
+        z-index: 5;
+        border-radius: 2px;
+        max-height: 100px;
+        background-color: #eff0f1;
+        position: inherit;
+        float: right;
+        margin-top: 5px
+    }
+
+
+    .tag_content {
+        background: white;
+        color: #898E95;
+        border-radius: 15px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+    }
+
+    .popup ul.popup-content li {
+        margin: 0;
+        width: 100%;
+        display: inline-block;
+        text-indent: 0;
+        float: left;
+        padding:8px 3px;
+        font-size: 12px;
+        text-align: center;
+    }
+
+    .popup ul.popup-content li:hover {
+        background-color: #1aafd0;
+    }
+
+    .popup ul.popup-content li:hover span {
+        background-color: #fff;
+        border-radius: 16px;
+    }
+
+    .popup ul.popup-content hr {
+        margin: 0;
+        float: left;
+        width: 99%;
+    }
+
+    .popup ul.popup-content li .tag {
+        line-height: 18px;
+        width: 100%;
+        display: inline-block;
+        margin: 0;
+        padding: 5px;
+        text-indent: 0;
+        word-break: break-all;
+        overflow: hidden;    max-height: 42px;
+    }
+
+    .popup ul.popup-content li .newTag {
+        line-height: 24px;
+        width: 100%;
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        text-indent: 0;
+    }
+
+    .taskTagsView-icon {
+
+        margin-left: 14px;
+        margin-right: 10px;
+        width: 100%;
+    }
+
+    .svgIcon {
+        height: 16px;
+        width: 16px;
+    }
+
+
+    .token-input {
+        -moz-animation: input-outline-glow 0.5s ease-out 75ms;
+        animation: input-outline-glow 0.5s ease-out 75ms;
+        box-shadow: inset 0 1px #E1E2E4;
+        -moz-box-shadow: inset 0 1px #E1E2E4;
+        -webkit-box-shadow: inset 0 1px #E1E2E4;
+        outline: none;
+        border-color: #A1A4AA;
+    }
+
+    .divider {
+        background-color: white;
+    }
+
+    .el-input--mini .el-input__inner {
+        display: -webkit-inline-box;
+        width: 100px;
+        overflow: hidden;
+    }
+
+
+    .input-new-tag.el-input.el-input--mini {
+        width: inherit;
+    }
+
+    .token-input-container .el-tag:hover {
+        background: #E8F7FB;
+        border-color: #02CEFF;
+        color: #02CEFF;
+        -webkit-transition: background .15s, border .15s, color .15s, fill .15s;
+        -moz-transition: background .15s, border .15s, color .15s, fill .15s;
+        transition: background .15s, border .15s, color .15s, fill .15s;
+    }
+
+    .token-input-container .el-tag {
+        background-color: #EFF0F1;
+        padding-left: 10px;
+        padding-right: 10px;
+        height: 24px;
+        margin: 3px;
+        line-height: 22px;
+        font-size: 11px;
+        color: #898E95;
+        border: 1px solid;
+        border-radius: 15px;
+        box-sizing: border-box;
+        border: 1px solid transparent;
+    }
+
+    .taskTagsView .el-dropdowns-parts .el-button--small {
+        padding: 5px 14px;
+        font-size: 12px;
+        border-radius: 15px;
+        margin-bottom: -2px;
+    }
+
+    .taskTagsView .el-dropdowns-parts .el-button--small:hover {
+        background: #E8F7FB;
+        border-color: #02CEFF;
+        color: #02CEFF;
+        -webkit-transition: background .15s, border .15s, color .15s, fill .15s;
+        -moz-transition: background .15s, border .15s, color .15s, fill .15s;
+        transition: background .15s, border .15s, color .15s, fill .15s;
+    }
+
+    .token-input-container .el-tag .el-icon-close:hover {
+        background-color: #02CEFF;
+        color: #fff;
+    }
+
+    .token-input-container .el-tag .el-icon-close {
+        color: #E1E2E4;
+    }
+.el-tag .el-icon-close {
+    font-size: 8px;
+}
+    .el-dropdowns-parts {
+        display: initial;
+        position: relative;
+    }
+
+    .token-input-container {
+        width: auto;
+        display: inline;
+        text-align: left;
+    }
+

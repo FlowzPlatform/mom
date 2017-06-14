@@ -208,53 +208,54 @@ export default {
       }
     
       this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
+      this.$store.commit('DELETE_ALLTAGS')
       this.$store.dispatch('getAllTodos', {'parentId': this.url_parentId ? this.url_parentId: ''});
       // this.$store.dispatch('getAllTodos', {'parentId': ''});
-      let self = this;
-      socket.on('feed-change', function(item){
-               //console.log("TodoItem.vue:item***",item);
-               if(item.new_val){
-                 var result = $.grep(self.taskById, function(e){ return e.id == item.new_val.id; })
-                  if (result.length == 0) {
-                    if(item.new_val.parentId.length == 0){
-                    // console.log("Main Task Inserted")
-                    // console.log('Length',self.taskById.length)
-                  // self.taskById.push(item.new_val)
-                    self.taskById.splice(self.taskById.length - 1, 0, item.new_val);
-                    // self.$store.state.todolist.push(item.new_val)
-                    }else{
-                      //console.log("Sub Task Inserted")
-                    }
-                  }else if(item.old_val){
-                    if(item.new_val.parentId.length == 0){
-                    // console.log("Main Task Updated")
-                    let index = _.findIndex(self.taskById,function(d){return d.id == item.new_val.id})
-                    // console.log('Index of object', index)
-                    if(index > -1){
-                      self.taskById[index].taskName = item.new_val.taskName
-                    }
-                  }else{
-                     // console.log("Sub Task Updated")
-                  }
-                  } 
-               }else if(item.old_val){
-                 // var index = self.taskById.indexOf(item.old_val);
-                 if(item.old_val.parentId.length == 0){
-                //  console.log("Main Task Deleted")
-                //  console.log("Row Deleted");
-                //  console.log('self.taskById',self.taskById)
-                //  console.log('item.old_val',item.old_val)
-                 let index = _.findIndex(self.taskById,function(d){return d.id == item.old_val.id})
-                //  console.log('Index of object', index)
-                 if(index > -1){
-                  self.taskById.splice(index, 1);
-                 }
-                 }else{
-                 // console.log("Sub Task Deleted")
-                 }
-                 //self.taskById.splice(index, 1);
-               }
-             })
+      // let self = this;
+      // socket.on('feed-change', function(item){
+      //          //console.log("TodoItem.vue:item***",item);
+      //          if(item.new_val){
+      //            var result = $.grep(self.taskById, function(e){ return e.id == item.new_val.id; })
+      //             if (result.length == 0) {
+      //               if(item.new_val.parentId.length == 0){
+      //               // console.log("Main Task Inserted")
+      //               // console.log('Length',self.taskById.length)
+      //             // self.taskById.push(item.new_val)
+      //               self.taskById.splice(self.taskById.length - 1, 0, item.new_val);
+      //               // self.$store.state.todolist.push(item.new_val)
+      //               }else{
+      //                 //console.log("Sub Task Inserted")
+      //               }
+      //             }else if(item.old_val){
+      //               if(item.new_val.parentId.length == 0){
+      //               // console.log("Main Task Updated")
+      //               let index = _.findIndex(self.taskById,function(d){return d.id == item.new_val.id})
+      //               // console.log('Index of object', index)
+      //               if(index > -1){
+      //                 self.taskById[index].taskName = item.new_val.taskName
+      //               }
+      //             }else{
+      //                // console.log("Sub Task Updated")
+      //             }
+      //             } 
+      //          }else if(item.old_val){
+      //            // var index = self.taskById.indexOf(item.old_val);
+      //            if(item.old_val.parentId.length == 0){
+      //           //  console.log("Main Task Deleted")
+      //           //  console.log("Row Deleted");
+      //           //  console.log('self.taskById',self.taskById)
+      //           //  console.log('item.old_val',item.old_val)
+      //            let index = _.findIndex(self.taskById,function(d){return d.id == item.old_val.id})
+      //           //  console.log('Index of object', index)
+      //            if(index > -1){
+      //             self.taskById.splice(index, 1);
+      //            }
+      //            }else{
+      //            // console.log("Sub Task Deleted")
+      //            }
+      //            //self.taskById.splice(index, 1);
+      //          }
+      //        })
   },
   watch: {
     todolist: function (todo) {

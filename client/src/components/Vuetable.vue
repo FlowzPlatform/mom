@@ -4,7 +4,7 @@
             <thead>
                 <tr>
                     <template v-for="field in fields">
-                                <th>
+                                <th :class="field.titleClass">
                                     {{ getTitle(field) | capitalize }}&nbsp;
                                 </th>
                         </template>
@@ -16,10 +16,10 @@
                         <template v-for="(field,fieldNumber) in fields">
                             <td v-if="fieldNumber > 0" >
                               <!--{{  getObjectValue(item, field.name, '') }}-->
-                                        <component :class="field.dataClass" is="custom-action" :row-data="item" :row-index="itemNumber" :row-check="getObjectValue(item, field.name, '')" :row-field="field.name" ></component>
+                                        <component :class="field.dataClass" is="custom-action" :row-data="item" :row-index="itemNumber" :row-check="getObjectValue(item, field, '')" :row-field="field" ></component>
                                     </td>
                                 <td v-else :class="field.dataClass"  @dblclick="onCellDoubleClicked(item, field, $event)">
-                                      {{ getObjectValue(item, field.name, "") }}
+                                      {{ getObjectValue(item, field, "") }}
                                 </td>
                         </template>
                     </tr>
@@ -147,23 +147,28 @@ export default {
         getObjectValue: function(object, path, defaultValue) {
             defaultValue = (typeof defaultValue == 'undefined') ? null : defaultValue
             console.log("object",object);
-            console.log("path",path);
-            console.log("defaultValue",defaultValue);
+            console.log("path",path.id);
+            // console.log("defaultValue",defaultValue);
 
-            var obj = object
-            if (path.trim() != '') {
-                var keys = path.split('.')
-                keys.forEach(function(key) {
-                    if (obj !== null && typeof obj[key] != 'undefined' && obj[key] !== null) {
-                        obj = obj[key]
-                    } else {
-                        obj = defaultValue
-                        return
+            if (path.id) {
+                    var roleId = object.roleid;
+                    
+                    var isAccess = false;   
+                    if(roleId)
+                    {
+                    for (var index = 0; index < roleId.length; index++) {
+                        var role = roleId[index];
+                        if (role.rId == path.id) {
+                            isAccess = true;
+                            break;
+                        }
                     }
-                })
-            }
-            console.log("return obj",obj);
-            return obj
+                    }
+                    return isAccess;
+                } else {
+                    return object.name;
+                }
+           
         },  getTitle: function(field) {
             if (typeof field.title === 'undefined') {
                 return this.titleCase(field.name.replace('.', ' '))

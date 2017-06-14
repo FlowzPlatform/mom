@@ -162,6 +162,7 @@
     },
     created() {
       this.$store.dispatch('getUserSetting')
+      this.$store.dispatch('eventListener');
     },
     computed: {
       uname: function () {

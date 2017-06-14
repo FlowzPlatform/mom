@@ -1,11 +1,12 @@
 <template>
     <div>
-        <ui-progress-linear 
+        <!--<ui-progress-linear 
             color="primary" 
             type="determinate" 
             :progress="this.$store.state.progress" 
             v-show="this.$store.state.isProgress">
-        </ui-progress-linear>
+        </ui-progress-linear>-->
+        <!--{{filteredTodo.attachmentprogress}} | {{filteredTodo.deleteprogress}}-->
          <ul class="uplod-list-file">
             <li v-for="(files, index) in attachmentList">
             <span>
@@ -14,15 +15,15 @@
                         color="primary"
                         type="determinate"
                         :progress="$store.state.progress"
-                        v-show="$store.state.isProgress"
+                        v-show="filteredTodo.attachmentprogress"
                         v-if="index === attachmentList.length-1">
                     </ui-progress-linear></a>
-                <button class="" @click="deleteAttachment(files.file_name, files, index)">
+                <button class="" @click="deleteAttachment(files, index)">
 					<a class="fa fa-close"/>
 				</button>
                 </span>
                 <span style="float:right;margin-right: 40px;" v-if="index === btnClickedIndex">
-                <ui-progress-circular color="black" type="indeterminate" v-show="$store.state.isLoading" class="circularProgress" :size="20">
+                <ui-progress-circular color="black" type="indeterminate" v-show="filteredTodo.deleteprogress" class="circularProgress" :size="20">
                 </ui-progress-circular>
                 </span>
             </li>
@@ -50,9 +51,10 @@
         },
         
         methods: {
-             deleteAttachment (imgName, objAttachment, btnIndex) {
+             deleteAttachment (objAttachment, btnIndex) {
                 this.btnClickedIndex = btnIndex
-                this.$store.dispatch('deleteAttachmentFromDB', {"image_name": imgName, "objAttachment": objAttachment})
+                // this.$store.dispatch('deleteAttachmentFromDB', {"objAttachment": objAttachment})
+                this.$store.dispatch('deleteAttachmentFromDB', objAttachment)
             }
         }
     }

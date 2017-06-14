@@ -344,6 +344,102 @@ app.post('/insertComment', jsonParser, (req, res) => {
   })
 })
 
+app.post('/insert_tag', jsonParser, (req, res) => {
+  console.log('req.body', req.body);
+  const tag = {
+    'name': req.body.name,
+  }
+  var task_id = req.body.task_id;
+  var created_by_user_id = req.body.created_by_user_id;
+
+  // Get new inserted tag id
+  insertTag(tag, function (tagId) {
+    var task_tags = {
+      'task_id': task_id,
+      'tag_id': tagId,
+      'created_by_user_id': created_by_user_id,
+      'deleted_by_user_id': '',
+      'is_deleted': false
+    };
+    r.db("vue_todo").table('task_tags').insert(task_tags).run().then(result => {
+      result.tag_id=tagId;
+      res.send(result);
+    }).catch(err => {
+      console.log('Error:', err)
+    })
+  });
+})
+
+// Insert task tags
+app.post('/insert_taskTag', jsonParser, (req, res) => {
+  // var tagId = req.body.tag_id;
+  // var task_id = req.body.task_id;
+  // var created_by_user_id = req.body.created_by_user_id;
+
+  // Get new inserted tag id
+    var task_tags = {
+      'task_id': req.body.task_id,
+      'tag_id': req.body.tag_id,
+      'created_by_user_id': req.body.created_by_user_id,
+      'deleted_by_user_id': '',
+      'is_deleted': false
+    };
+    r.db("vue_todo").table('task_tags').insert(task_tags).run().then(result => {
+      result.tag_id=tagId;
+      res.send(result);
+    }).catch(err => {
+      console.log('Error:', err)
+    })
+})
+
+function insertTag(tag, cb) {
+  r.db("vue_todo").table('tags').insert(tag).run().then(result => {
+    var tagId = result.generated_keys[0];
+    cb(tagId);
+  }).catch(err => {
+    console.log('Error:', err)
+  })
+}
+
+app.get('/getTags', (req, res) => {
+  r.db("vue_todo").table('tags').run().then(result => {
+    res.send(result);
+  }).catch(err => {
+    console.log('Error:', err)
+  })
+});
+
+app.post('/getTaskTags', (req, res) => {
+  var task_id = req.body.task_id;
+  r.db('vue_todo')
+    .table('task_tags')
+    .filter({ 'task_id': task_id, 'is_deleted': false })
+    .pluck('tag_id', 'task_id').innerJoin(
+    r.db('vue_todo').table("tags"),
+    function (post, user) {
+      return post("tag_id").eq(user("id"));
+    }).zip().pluck('id', 'name','task_id').run().then(result => {
+      res.send(result)
+    }).catch(err => {
+      console.log("Error:", err)
+    })
+})
+
+app.post('/deleteTaskTags', (req, res) => {
+  var task_id = req.body.task_id;
+  var tag_id = req.body.tag_id;
+  
+  r.db("vue_todo").table("task_tags").filter({
+    "task_id": task_id, "tag_id": tag_id
+  }).update({
+    is_deleted: true, deleted_by_user_id: "1936b77f-d90e-48a0-9cb9-91d4e6a26b84"
+  }).run().then(result => {
+    res.send(result)
+  }).catch(err => {
+    console.log("Error:", err)
+  })
+})
+
 app.use('/api', router)
 
 app.listen(3000, 'localhost', function (err) {

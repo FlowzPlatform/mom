@@ -130,6 +130,8 @@ export default {
     },
     addTodo: function () {
       console.log('insert',this.todo)
+      var ul = document.getElementsByClassName('new-todo'); 
+      console.log('UL id', ul)  
       this.$store.dispatch('insertTodo', this.todo)
     }
   },

@@ -87,7 +87,7 @@
 					<div class="circularButtonView action-menu-label circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               <i class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></i>
 					</div>
-                                        <ul class="dropdown-menu" style="top: 52px;max-height: 250px;left: 476.31px;min-width: 30px;z-index: 2000;">
+                    <ul class="dropdown-menu" style="top: 52px;max-height: 250px;left: 433.31px;min-width: 30px;z-index: 2000;">
                     <li><a id="estimated_hours" class="menu-item" title="">
                       <button class="dropdown-menu-item-label" @click="estimated_time = true">Estimated Hours</button>
                     </a></li>
@@ -95,7 +95,7 @@
                       <span class="dropdown-menu-item-label" @click="task_priority = true">Task Priority</span>
                     </a></li>
                     <li><a id="copy_task_url" class="menu-item" title="">
-                      <span class="dropdown-menu-item-label">Copy Task URL</span>
+                      <span class="dropdown-menu-item-label" @click="copyTaskURL">Copy Task URL</span>
                     </a></li>
                     <!--<li><a id="convert_to_project" class="menu-item" title="">
                       <span class="dropdown-menu-item-label">Convert to a Project...</span>
@@ -109,8 +109,8 @@
 			</div>
       
       </span>
-      <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right" tabindex="410">
-            <span class="circularButtonView-label" @click="openfullwinodw(filteredTodo.level)">
+      <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right" tabindex="410" @click="openfullwinodw(filteredTodo.level)">
+            <span class="circularButtonView-label" >
               <i class="fa fa-expand" aria-hidden="true"></i>    
             </span>
           </div>
@@ -195,7 +195,16 @@ export default {
       this.$store.dispatch('selectFile', {"file": fileChooser, "taskId": this.filteredTodo.id, "level": this.filteredTodo.level,"cb" : function(){
         fileChooser.value = "";
       }})
-    } 
+    },
+    copyTaskURL(){
+      //window.clipboardData.setData("Text", location.href);
+      var $temp = $("<input>");
+      $("body").append($temp);
+      var url = "http://localhost:3000/navbar/task/" + (this.filteredTodo.level + 1) + "/" + this.filteredTodo.id
+      $temp.val(url).select();
+      document.execCommand("copy");
+      $temp.remove(); 
+    }
   },
   mounted() {
     $('.datetimepicker1').datepicker().on(
