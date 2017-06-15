@@ -287,11 +287,9 @@ app.post('/getSttings',  (req,res) => {
   console.log(req.body)
   r.db('vue_todo').table('settings').merge(function (settings) {
       return { user_setting: r.db('vue_todo').table('user_settings').filter({'settings_id':settings('id'), 
-      'user_id':req.body.user_id}).coerceTo('array')}
+      'user_id':req.body.user_id, 'setting_value':true}).count()}
 	}).run().then(result => {
-    // console.log("result:", result[0].user_setting[0].id)
     res.send(result)
-    // console.log("result:", result.user_setting)
   }).catch(err => {
     console.log("Error:", err)
   })
@@ -299,10 +297,25 @@ app.post('/getSttings',  (req,res) => {
 
 //update user setting 
 app.post('/updateUserSetting', (req, res) => {
-  console.log(req.body)
-  r.db('vue_todo').table('user_settings').filter({'settings_id':req.body.settings_id}).update({'setting_value':req.body.setting_value}).run().then(result => {
-    res.send(result)
-    console.log("result:", result)
+  console.log("update user setting:---",req.body)
+  r.db('vue_todo').table('user_settings').filter({'settings_id':req.body.settings_id, 'user_id': req.body.user_id}).update({'setting_value':req.body.setting_value}).run().then(result => {
+    console.log("update result:", result)
+    if(result.replaced==0)
+    {
+        var userSettings =  {
+            user_id: req.body.user_id,
+            settings_id: req.body.settings_id,
+            setting_value: req.body.setting_value
+        }
+        r.db('vue_todo').table('user_settings').insert(userSettings)
+        .run().then(result => {
+          res.send(result)
+        })
+   }else{
+      res.send(result)
+      console.log("result:", result)
+   }
+  
   }).catch(err => {
     console.log("Error:", err)
   })

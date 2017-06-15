@@ -269,9 +269,11 @@ export default {
       userSettings: 'user_setting'
      }),
      taskById(){
+       console.log('Main app computed call')
         //let taskArray = this.todoById('', 0)
       let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', this.url_level)
        taskArray.push({
+              id: '-1',
               parentId: this.url_parentId,
               taskName: '',
               taskDesc: '',
@@ -283,6 +285,7 @@ export default {
               createdAt: new Date().toJSON(),
               updatedAt: new Date().toJSON()
        })
+       console.log('Main app computed call, blanck recod added')
        this.todolist = taskArray
        return filters[this.$store.state.visibility](taskArray)
      },

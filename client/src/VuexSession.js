@@ -8,7 +8,7 @@ import * as services from './services'
 Vue.use(Vuex)
 
 function setProgressBar(state, todoObject) {
-  var p_id = todoObject.todo.parentId
+  var p_id = todoObject.parentId
   var totalSubtask = state.todolist.find(todo => todo.id === p_id).subtask_count ? state.todolist.find(todo => todo.id === p_id).subtask_count : 0
   var completedSubtask = state.todolist.find(todo => todo.id === p_id).completed_subtask_count ? state.todolist.find(todo => todo.id === p_id).completed_subtask_count : 0
   state.todolist.find(todo => todo.id === p_id).progress_count = completedSubtask + " / " + totalSubtask;
@@ -36,31 +36,30 @@ function uploadFileOnAmazonS3(file, cb) {
   return false;
 }
 
-function setCheckboxColor(state, todoObject) {
+function setCheckboxColor(state) {
   var todoLength = state.todolist
-
   for (var i = 0; i < todoLength.length; i++) {
-    // if (state.userSetting[1].setting_value) {
-    var d = new Date()
-    d.setDate(d.getDate() + 2)
-    if (todoLength[i].dueDate) {
-      if (moment(todoLength[i].dueDate).isBetween(new Date(), d)) {
-        $('#' + todoLength[i].id).removeClass('DueDate--overdue').removeClass('DueDate--future').addClass('DueDate--soon')
-      } else if (moment(todoLength[i].dueDate).isBefore(new Date())) {
-        $('#' + todoLength[i].id).removeClass('DueDate--soon').removeClass('DueDate--future').addClass('DueDate--overdue')
-      } else if (moment(todoLength[i].dueDate).isAfter(new Date())) {
-        $('#' + todoLength[i].id).removeClass('DueDate--overdue').removeClass('DueDate--soon').addClass('DueDate--future')
+    if (state.isDueDate) {
+      var d = new Date()
+      d.setDate(d.getDate() + 2)
+      if (todoLength[i].dueDate) {
+        if (moment(todoLength[i].dueDate).isBetween(new Date(), d)) {
+          $('#' + todoLength[i].id).removeClass('DueDate--future').removeClass('DueDate--overdue').addClass('DueDate--soon')
+        } else if (moment(todoLength[i].dueDate).isBefore(new Date())) {
+          $('#' + todoLength[i].id).removeClass('DueDate--future').removeClass('DueDate--soon').addClass('DueDate--overdue')
+        } else if (moment(todoLength[i].dueDate).isAfter(new Date())) {
+          $('#' + todoLength[i].id).removeClass('DueDate--overdue').removeClass('DueDate--soon').addClass('DueDate--future')
+        }
       } else {
         $('#' + todoLength[i].id).removeClass('DueDate--soon')
         $('#' + todoLength[i].id).removeClass('DueDate--overdue')
         $('#' + todoLength[i].id).removeClass('DueDate--future')
       }
+    } else {
+      $('#' + todoLength[i].id).removeClass('DueDate--soon')
+      $('#' + todoLength[i].id).removeClass('DueDate--overdue')
+      $('#' + todoLength[i].id).removeClass('DueDate--future')
     }
-    // } else {
-    //   $('#' + todoLength[i].id).removeClass('DueDate--soon')
-    //   $('#' + todoLength[i].id).removeClass('DueDate--overdue')
-    //   $('#' + todoLength[i].id).removeClass('DueDate--future')
-    // }
   }
 }
 
@@ -84,10 +83,11 @@ export const store = new Vuex.Store({
     arrAttachment: [],
     isLoading: false,
     settingsObject: [],
-    userSetting: [],
     taskComment: [],
     taskTags: [],
-    tagsList:[]
+    tagsList:[],
+    isProgress: false,
+    isDueDate: false
   },
   mutations: {
     userData: state => state.userObject,
@@ -95,12 +95,12 @@ export const store = new Vuex.Store({
     progressVal: state => state.progress,
     // showProgress: state => state.isProgress,
     // showLoader: state => state.isLoading,
-    showProgress(state, data)
+    showAttachmentProgress(state, data)
     {
       let index = _.findIndex(state.todolist, function (d) { return d.id == data.id })
       state.todolist[index].attachmentprogress = data.isProgress
     },
-    deleteProgress(state, data)
+    deleteAttachmentProgress(state, data)
     {
       let index = _.findIndex(state.todolist, function (d) { return d.id == data.id })
       state.todolist[index].deleteprogress = data.isProgress
@@ -125,15 +125,16 @@ export const store = new Vuex.Store({
       }
       // console.log('todolist', state.todolist)
     },
-    ADD_NEW_TODOS(state,todo)     
-    {       
-      state.todolist.push(todo)    
-    },
+    // ADD_NEW_TODOS(state,todo)     
+    // {       
+    //   console.log('Add TODO', state.todolist)
+    //   state.todolist.push(todo)    
+    // },
     async SHOW_DIV(state, payload) {
       // console.log('payload.level', payload)
 
       var parentTaskId = payload.id ? payload.id : '';
-      if (parentTaskId) {
+      if (parentTaskId != -1) {
         // window.history.pushState("", "Title", "http://localhost:3000/navbar/task/" + (payload.level + 1) + "/" + payload.id);
         await store.dispatch('getAllTodos', { 'parentId': payload.id });
         await store.dispatch('getAttachmentFromDB', payload.id)
@@ -160,83 +161,101 @@ export const store = new Vuex.Store({
       state.parentIdArr.splice(0, state.parentIdArr.length)
       state.todolist.splice(0, state.todolist.length)
       state.arrAttachment.splice(0,state.arrAttachment.length)
+      state.settingsObject.splice(0, state.settingsObject.length)
     },
     changeFilters(state, key) {
       state.visibility = key
     },
     UPDATE_TODO(state, item) {
-      console.log('Todolist Obj Before:', state.todolist) 
+      console.log('Update TODO') 
        let updateTodoIndex = _.findIndex(state.todolist,function(d){return d.id == item.id})
-         console.log('item Before:', updateTodoIndex) 
+        //  console.log('item Before:', updateTodoIndex) 
        updateObject(state.todolist[updateTodoIndex],item)
       // state.todolist.filter(todo => todo.id === item.id) == item
-      console.log('Todolist Obj After:', state.todolist)
+      // console.log('Todolist Obj After:', state.todolist)
       //console.log('new obj', obj)
-    },
-    addTodo(state, todoObject) {
-      let todoElement = todoObject.todo
-      let temp_id = todoObject.data.generated_keys[0]
-      state.todolist.push({
-        id: temp_id,
-        parentId: todoElement.parentId,
-        taskName: todoElement.taskName,
-        taskDesc: '',
-        level: todoElement.level,
-        completed: false,
-        index: todoElement.index,
-        dueDate: '',
-        createdAt: new Date().toJSON(),
-        updatedAt: new Date().toJSON(),
-        subtask_count: 0,
-        completed_subtask_count: 0,
-        progress_count: ''
-      })
-      // console.log("add todo")
-      if (todoElement.parentId) {
-        // console.log("add todo element",state.todolist.find(todo => todo.id === todoElement.parentId) )
-        let tempObj = state.todolist.find(todo => todo.id === todoElement.parentId).subtask_count
-        state.todolist.find(todo => todo.id === todoElement.parentId).subtask_count = tempObj + 1
-        setProgressBar(state, todoObject)
-      }
-    },
-    deleteTodo(state, todoObject) {
-      console.log("removeTodo",state.todolist.filter(todo => todo.id === todoObject.todo.id))
-       let removeTodoIndex = _.findIndex(state.todolist,function(d){return d.id == todoObject.todo.id})
-        console.log("removeTodo Index-->",removeTodoIndex)
-        state.todolist.splice(removeTodoIndex, 1)
-        console.log("delete todoObject",todoObject);
-        if(todoObject.todo.parentId)
-        {
-          let tempObj = state.todolist.find(todo => todo.id === todoObject.todo.parentId).subtask_count
-          state.todolist.find(todo => todo.id === todoObject.todo.parentId).subtask_count = tempObj - 1
-          if(todoObject.todo.completed === true){
-            let completedObj = state.todolist.find(todo => todo.id === todoObject.todo.parentId).completed_subtask_count
-            state.todolist.find(todo => todo.id === todoObject.todo.parentId).completed_subtask_count = completedObj - 1
-          }
-          setProgressBar(state, todoObject)
-        }
-    },
-    toggleTodo(state, todoObject) {
-      if (todoObject.todo.parentId) {
-        var p_id = todoObject.todo.parentId
+
+       if (item.parentId) {
+        var p_id = item.parentId
         var completedSubtaskCount = state.todolist.find(todo => todo.id === p_id).completed_subtask_count
         var subtask_count = state.todolist.find(todo => todo.id === p_id).subtask_count
-        if (todoObject.isCheck) {
+        if (item.completed) {
           state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount + 1
         }
         else {
           state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount - 1
         }
+        setProgressBar(state, item)
+       }
+
+       setCheckboxColor(state)
+    },
+    ADD_NEW_TODOS(state, todoObject) {
+      todoObject.subtask_count = 0
+      todoObject.completed_subtask_count = 0
+      todoObject.progress_count = ''
+      state.todolist.push(todoObject)  
+
+      // let todoElement = todoObject.todo
+      // let temp_id = todoObject.data.generated_keys[0]
+      // state.todolist.push({
+      //   id: temp_id,
+      //   parentId: todoElement.parentId,
+      //   taskName: todoElement.taskName,
+      //   taskDesc: '',
+      //   level: todoElement.level,
+      //   completed: false,
+      //   index: todoElement.index,
+      //   dueDate: '',
+      //   createdAt: new Date().toJSON(),
+      //   updatedAt: new Date().toJSON(),
+      //   subtask_count: 0,
+      //   completed_subtask_count: 0,
+      //   progress_count: ''
+      // })
+      // console.log("add todo")
+      if (todoObject.parentId) {
+        // console.log("add todo element",state.todolist.find(todo => todo.id === todoElement.parentId) )
+        let tempObj = state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count
+        state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count = tempObj + 1
         setProgressBar(state, todoObject)
-        // var totalSubtask= subtask_count ? subtask_count : 0
-        // var completedSubtask = state.todolist.find(todo => todo.id === p_id).completed_subtask_count ? state.todolist.find(todo => todo.id === p_id).completed_subtask_count : 0
-        // state.progress_count = completedSubtask + " / " + totalSubtask;
-        // if (totalSubtask > 0) {
-        //     var percentage = (completedSubtask / totalSubtask) * 100
-        //     state.todolist.find(todo => todo.id === p_id).progress = percentage
-        // }
       }
     },
+    deleteTodo(state, todoObject) {
+       let removeTodoIndex = _.findIndex(state.todolist,function(d){return d.id == todoObject.id})
+        state.todolist.splice(removeTodoIndex, 1)
+        if(todoObject.parentId)
+        {
+          let tempObj = state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count
+          state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count = tempObj - 1
+          if(todoObject.completed === true){
+            let completedObj = state.todolist.find(todo => todo.id === todoObject.parentId).completed_subtask_count
+            state.todolist.find(todo => todo.id === todoObject.parentId).completed_subtask_count = completedObj - 1
+          }
+          setProgressBar(state, todoObject)
+        }
+    },
+    // toggleTodo(state, todoObject) {
+    //   if (todoObject.todo.parentId) {
+    //     var p_id = todoObject.todo.parentId
+    //     var completedSubtaskCount = state.todolist.find(todo => todo.id === p_id).completed_subtask_count
+    //     var subtask_count = state.todolist.find(todo => todo.id === p_id).subtask_count
+    //     if (todoObject.isCheck) {
+    //       state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount + 1
+    //     }
+    //     else {
+    //       state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount - 1
+    //     }
+    //     setProgressBar(state, todoObject)
+    //     // var totalSubtask= subtask_count ? subtask_count : 0
+    //     // var completedSubtask = state.todolist.find(todo => todo.id === p_id).completed_subtask_count ? state.todolist.find(todo => todo.id === p_id).completed_subtask_count : 0
+    //     // state.progress_count = completedSubtask + " / " + totalSubtask;
+    //     // if (totalSubtask > 0) {
+    //     //     var percentage = (completedSubtask / totalSubtask) * 100
+    //     //     state.todolist.find(todo => todo.id === p_id).progress = percentage
+    //     // }
+    //   }
+    // },
     SELECT_FILE(state, fileObject) {
       if (fileObject instanceof Array) {
         _.forEach(fileObject, function (object) {
@@ -276,9 +295,6 @@ export const store = new Vuex.Store({
     GET_SETTINGS(state, data) {
       state.settingsObject = data
     },
-    GET_USER_SETTING(state, data) {
-      state.userSetting = data
-    },
     GET_TASK_COMMENT(state, data) {
       state.taskComment = data
     },
@@ -293,12 +309,30 @@ export const store = new Vuex.Store({
       })
     },
     updateTodo(state, todoObject) {
-      setCheckboxColor(state, todoObject)
+      // setCheckboxColor(state, todoObject)
     },
-    toggleSetting(state, todoObject) {
-      console.log('Toggle setting called', todoObject)
-      state.userSetting.find(setting => setting.settings_id === todoObject.settings_id).setting_value = todoObject.setting_value
-      setCheckboxColor(state, todoObject)
+    SETTING_UPDATE(state, todoObject) {
+      console.log("todoObject",todoObject)
+      var flag = 0
+      if(todoObject.event=== true){
+        flag = 1
+      }else{
+        flag =0
+      }
+      if (todoObject.arr.type === "progress" && !todoObject.arr.user_setting) {
+        state.isProgress = true
+      } else if (todoObject.arr.type === "progress") {
+        state.isProgress = false
+      }
+
+      if (todoObject.arr.type === "duedate" && !todoObject.arr.user_setting) {
+        state.isDueDate = true
+      } else if (todoObject.arr.type === "duedate") {
+        state.isDueDate = false
+      }
+
+      state.settingsObject.find(setting=> setting.id === todoObject.arr.id).user_setting = flag
+      setCheckboxColor(state)
     },
       INSERT_TAG(state, tagObject) {
       // console.log('Insert tags-----------: ', tagObject);
@@ -350,7 +384,7 @@ export const store = new Vuex.Store({
       
        services.tasksService.on('removed', message => {
         console.log("Message Removed:-->",message)
-        commit('deleteTodo', {"todo": message})
+        commit('deleteTodo', message)
       })
 
        services.tasksService.on('patched', message => {
@@ -372,7 +406,6 @@ export const store = new Vuex.Store({
     getAllTodos({ commit }, payload) {
       console.log('parentId', payload.parentId);
       services.tasksService.find({query:{parentId:payload.parentId}}).then(response => {
-              console.log("Reesponse getAllTodos::",response.data);
              commit('GET_TODO', response.data)
           });
       // Vue.http.post('/tasks_parentId', { parentId: payload.parentId }).then(function (response) {
@@ -386,7 +419,7 @@ export const store = new Vuex.Store({
       let dbId = insertElement.id
       if (!(insertElement.taskName && insertElement.taskName.trim()))
         return
-      if (dbId) {
+      if (dbId != -1) {
         services.tasksService.patch(dbId,{taskName: insertElement.taskName,taskDesc: ''},{query:{'id': dbId}}).then(response => {
               console.log("Reesponse patch::",response.data);
              commit('UPDATE_TODO', insertElement)
@@ -437,7 +470,9 @@ export const store = new Vuex.Store({
                     id: editObject.todo.id,
                     taskName: editObject.todo.taskName,
                     taskDesc: editObject.todo.taskDesc,
-                    dueDate: editObject.selectedDate
+                    dueDate: editObject.selectedDate,
+                    estimatedTime: editObject.estimatedTime,
+                    priority: editObject.taskPriority
                 },{query:{'id': editObject.todo.id}}).then(response => {
               console.log("Reesponse editTaskName::",response);
             //  commit('UPDATE_TODO', insertElement)
@@ -488,6 +523,21 @@ export const store = new Vuex.Store({
         // })
       }
     },
+    dragTodo({commit}, dragTodo){
+      for(var i=0; i < dragTodo.length-1 ; i++)
+      {
+        if(dragTodo[i].id)
+        {
+          services.tasksService.patch(dragTodo[i].id, {
+                  id: dragTodo[i].id,
+                  index: i
+              },{query:{'id': dragTodo[i].id}}).then(response => {
+              //console.log("Reesponse dragtodo::",response);
+          });
+          
+        }
+      }
+    },
     toggleTodo({ commit }, changeTodo) {
       // console.log(changeTodo)
       let dbId = changeTodo.todo.id
@@ -523,10 +573,10 @@ export const store = new Vuex.Store({
 
       //store.state.isProgress = true
       console.log('Task ID', fileObject.taskId)
-      store.commit('showProgress', {'isProgress': true, 'id': fileObject.taskId})
+      store.commit('showAttachmentProgress', {'isProgress': true, 'id': fileObject.taskId})
       uploadFileOnAmazonS3(file, function(src){
         // store.state.isProgress = false
-      store.commit('showProgress', {'isProgress': false, 'id': fileObject.taskId})
+      store.commit('showAttachmentProgress', {'isProgress': false, 'id': fileObject.taskId})
         // store.commit('showProgress')
         store.state.progress = 0
         store.commit('progressVal')
@@ -585,7 +635,7 @@ export const store = new Vuex.Store({
 
       //store.state.isLoading = true
       console.log('deleted Task ID', deleteObject)
-      store.commit('deleteProgress', {'id': deleteObject.task_id, 'isProgress': true })
+      store.commit('deleteAttachmentProgress', {'id': deleteObject.task_id, 'isProgress': true })
       //Delete image from amazon
       var bucketInstance = new AWS.S3();
       var params = {
@@ -603,7 +653,7 @@ export const store = new Vuex.Store({
               console.log("Reesponse deleteAttachment::", response);
               // commit('DELETE_ATTACHMENT', deleteObject.objAttachment)
               // store.state.isLoading = false
-              store.commit('deleteProgress', {'id': deleteObject.task_id, 'isProgress': false })
+              store.commit('deleteAttachmentProgress', {'id': deleteObject.task_id, 'isProgress': false })
             });
           // Vue.http.post('/deleteAttachment', {
           //   id: deleteObject.objAttachment.id,
@@ -665,12 +715,6 @@ export const store = new Vuex.Store({
       //   }
       // })
     },
-    getUserSetting({ commit }) {
-      Vue.http.get('/getUserSetting').then(function (response) {
-        // console.log("data", response.data)
-        commit('GET_USER_SETTING', response.data)
-      });
-    },
     getSettings({ commit }, payload) {
       Vue.http.post('/getSttings', {
         user_id: payload
@@ -679,14 +723,21 @@ export const store = new Vuex.Store({
         console.log("Get Settings", response.data)
       })
     },
-    toggleSetting({ commit }, setting) {
+     toggleSetting({ commit }, setting) {
+      console.log("setting", setting)
       Vue.http.post('/updateUserSetting', {
-        settings_id: setting.settings_id,
-        setting_value: setting.setting_value
+        settings_id: setting.arr.id,
+        setting_value: setting.event,
+        user_id: setting.uId
       }).then(response => {
-        // commit('toggleSetting', changeSetting)
         console.log('setting update', response.data)
-        commit('toggleSetting', setting)
+        // Vue.http.post('/getSttings', {
+        //   user_id: setting.uId
+        // }).then(response => {
+        //   console.log("GetSettings", response.data)
+        //   commit('GET_SETTINGS', response.data)
+        // })
+        commit('SETTING_UPDATE', setting)
       })
     },
     getTaskComment({ commit }) {
@@ -771,7 +822,11 @@ export const store = new Vuex.Store({
   getters: {
     getTodoById: (state, getters) => {
       return function (id, level) {
-        return state.todolist.filter(todo => todo.parentId === id, todo => todo.level === level)
+        var todolist = state.todolist.filter(todo => todo.parentId === id, todo => todo.level === level)
+        todolist = _.sortBy(todolist, 'index')
+        //return _todolist.sortBy([function (o) { return o.index; }]).value();
+        console.log('getter', todolist)
+        return todolist
       }
     },
     parentIdArr: state => state.parentIdArr,
@@ -783,7 +838,6 @@ export const store = new Vuex.Store({
       }
     },
     settingArr: state => state.settingsObject,
-    user_setting: state => state.userSetting,
     getCommentById: (state, getters) => {
       return function (id) {
         return state.taskComment.filter(comment => comment.task_id === id)

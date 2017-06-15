@@ -86,8 +86,9 @@ export default {
      taskById(){
        let taskArray = this.todoById(this.todoObject.id, this.todoObject.level)
        taskArray.push({
+              id: '-1',
               parentId: this.todoObject.id,
-              taskName: '',
+              taskName: '', 
               taskDesc: '',
               level: this.todoObject.level+1,
               index: taskArray.length,

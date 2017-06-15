@@ -39,9 +39,9 @@
           <ul class="dropdown-menu">
             <li><a data-toggle="modal" data-target="#myModal2" @click="btnProfileClicked()">Profile</a></li>
             <hr>
-            <li>
+            <li @click="settings_menu = true">
               <a id="settings" class="menu-item" title="">
-                <span class="dropdown-menu-item-label" @click="settings_menu = true">Settings</span>
+                <span class="dropdown-menu-item-label" >Settings</span>
               </a>
             </li>
             <hr>
@@ -161,7 +161,6 @@
       }
     },
     created() {
-      this.$store.dispatch('getUserSetting')
       this.$store.dispatch('eventListener');
     },
     computed: {

@@ -6,10 +6,8 @@
         <table class="table" v-for="(arr, index) in settingArr">
           <tr>
           <td>{{arr.settings_name}}</td>
-          <td >
-              <input type="checkbox" :id="arr.id"  v-if="arr.user_setting.length > 0" v-model="arr.user_setting[0]" @change="toggleSetting(arr.user_setting[0])" class="toggleSetting">
-              <!--<input type="checkbox" id="arr.id" v-if="arr.user_setting.length == 0" class="toggleSetting">-->
-              <label :for="arr.id"></label>
+            <td>
+            <input type="checkbox" :id="arr.id" :checked="arr.user_setting" @change="toggleSetting({arr:arr, event:$event.target.checked, uId: $store.state.userObject.id})" class="toggleSetting">
           </td>
           </tr>
         </table>

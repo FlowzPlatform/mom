@@ -25,13 +25,6 @@ module.exports = function() {
   // Get our initialize service to that we can bind hooks
   const taskService = app.service('/tasks');
 
-  //taskService.get('005f991f-db06-4702-92ac-93c5a1da059c').then(todo => console.log(todo))
-//   app.service('tasks').find({
-//     query: {
-//       parentId: ''
-//     }
-//  });
-
   // Set up our before hooks
   taskService.before(hooks.before);
 
