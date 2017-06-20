@@ -40,6 +40,7 @@ exports.after = {
 
       return hook.app.service('tags').find({query:{'id':hookResult.tag_id}}).then(tagsResult => {
           // Update the result (the message)
+          var tagList=tagsResult[0]
           var right_pane_containertagList=tagsResult[0]
           console.log('tagList:---->',tagList);
           tagList.task_id=hookResult.task_id
