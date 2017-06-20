@@ -137,9 +137,9 @@
                             return;
                         } else {
                             //Check enter tag is availble in database list
-                            let index = _.findIndex(this.tagsList, function (d) { return d.name == inputTag })
+                            let index = _.findIndex(this.$store.state.tagsList, function (d) { return d.name == inputTag })
                             if (index > -1) {
-                                var indexTag = this.tagsList[index];
+                                var indexTag = this.$store.state.tagsList[index];
                                 console.log("index Tag", indexTag);
                                 // Insert tag task in task
                                 this.insertTaskTag(indexTag);
@@ -159,10 +159,10 @@
                             if (index > -1) {
                                 console.log('tag2 exist in task')
                             } else {
-                                console.log("<-------------insertTaskTag--------->");
-                                let index = _.findIndex(this.tagsList, function (d) { return d.name == inputTag })
+                                console.log("<-------------@@@insertTaskTag--------->");
+                                let index = _.findIndex(this.$store.state.tagsList, function (d) { return d.name == inputTag })
                                 if (index > -1) {
-                                    var indexTag = this.tagsList[index];
+                                    var indexTag = this.$store.state.tagsList[index];
                                     console.log("index Tag", indexTag);
                                     // Insert tag task in task
                                     this.insertTaskTag(indexTag);

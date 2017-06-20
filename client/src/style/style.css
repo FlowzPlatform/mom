@@ -228,8 +228,10 @@ body {
 .destroy{
 	fill: #B9BCC0;
     position: absolute;
-    right: 5px;
+    right: 8px;
     cursor: pointer;
+    top: 6px;
+    z-index: 1;
 }
 .destroy:hover + span i:hover {color:#1aafd0;}
 
@@ -412,9 +414,9 @@ white-space: pre-wrap
 	word-wrap: break-word;
 }
 .autogrow-textarea textarea, .autogrow-textarea [contenteditable="true"]{
-	overflow: hidden;
+overflow: hidden;
 position: relative;
-resize: none;
+resize: both;
 display: block;
 overflow-y: auto;
 }
@@ -1031,7 +1033,7 @@ svg:not(:root){
     min-width: 405px;
     z-index: 2;
 }
-#right_pane_container{
+.right_pane_container{
 	    -webkit-box-flex: 4500;
     -moz-box-flex: 4500;
     box-flex: 4500;
@@ -1065,14 +1067,14 @@ svg:not(:root){
     /*height: 500px;
     overflow-y: scroll;*/
 }
-#right_pane_container #center_pane, #right_pane_container #right_pane{
+.right_pane_container #center_pane, .right_pane_container #right_pane{
 	    border-radius: 3px 3px 0 0;
     box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     background-color: #fff;
 }
-#center_pane_container, #right_pane_container{
+#center_pane_container, .right_pane_container{
        display: -webkit-box;
     /*display: -moz-box;*/
     display: box;
@@ -1588,9 +1590,9 @@ a:hover, a:focus{
 .known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;overflow: auto;min-width: 450px;}
 .asanaView-body { position: fixed;top: 40px;left: 0;right: 0;bottom: 0;overflow-x: auto;  width: 100%;}
 .right_bar{position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: calc(100% - 135px);overflow: auto;}
-#right_pane_container #right_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;}
+.right_pane_container #right_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;}
 #details_pane_footer {position: absolute; width: 99.75%; bottom: 0;}
-#right_pane_container{ min-width: 600px; margin-right: 10px;}
+.right_pane_container{ min-width: 600px; margin-right: 10px;}
 
 input.toggleTask:after {
     content: "\F00C";
@@ -2404,8 +2406,8 @@ svg.ui-progress-circular__indeterminate {
 	border-radius: 50%;
 }
 
-#right_pane_container #right_pane > .rightsection-view.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
-#right_pane_container #right_pane > .rightsection-view.open > div {width: 49%;}
+.right_pane_container #right_pane > .rightsection-view.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
+.right_pane_container #right_pane > .rightsection-view.open > div {width: 49%;}
 /*.window-full.circularButtonView {margin-top: 6px;}*/
 .datepicker.datepicker-dropdown {
     margin-top: 67px;
@@ -2908,3 +2910,15 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
         text-align: left;
     }
 
+.button-collapse
+{
+    left: 30px;
+    position: relative;
+    margin-left: 0px;
+    display: block;
+}
+
+.expand-collapse
+{
+    margin-left: 23px;
+}

@@ -131,12 +131,12 @@
       },
       addTodo: function (todoId) {
         setTimeout(function () {
-          console.log("input", "Timeout-->" + todoId)
+          // console.log("input", "Timeout-->" + todoId)
           var el = $('.' + todoId);
           if (el) {
             el.focus();
           }
-        }, 400);
+        }, 200);
         this.$store.dispatch('insertTodo', this.todo)
       },
        setFocus: function(todoId)
@@ -148,7 +148,13 @@
         //     el.focus();
         //   }
         // }, 400);
-       }
+       },
+      //  getTodo()
+      //  {
+      //    console.log(this.todo.taskName)
+      //    this.$store.state.tempObj = this.todo.taskName
+      //    console.log('store obj',this.$store.state.tempObj)
+      //  }
     },
     component: {
       txtDesc

@@ -117,7 +117,9 @@
           <estimated-hours  :showModal="estimated_time" :closeAction="closeDialog" :filteredTodo="filteredTodo" ></estimated-hours>
           <task-priority  :showModal="task_priority" :closeAction="closeDialog" :filteredTodo="filteredTodo"></task-priority>
           <!--<settings-menu :showModal="settings_menu" :closeAction="closeDialog" :filteredTodo="filteredTodo"></settings-menu>-->
+          <span id="close" class="destroy" @click="CLOSE_DIV(filteredTodo)"><i class="fa fa-close"></i></span>
     </div>
+    
 </template>
 <script>
 /* eslint-disable*/
@@ -128,7 +130,7 @@ import moment from 'moment';
 import EstimatedHours from './EstimatedHours.vue'
 import TaskPriority from './TaskPriority.vue'
 // import SettingsMenu from './SettingsMenu.vue'
-
+import { mapMutations } from 'vuex'
 Vue.use(KeenUI);
 Vue.filter('formatDate', function(value) {
   if (value) {
@@ -162,6 +164,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+        'CLOSE_DIV'
+      ]),
       dateFormatter(dateTo){
          var selectedDate = moment(dateTo, 'YYYY-MM-DD').format('MMM DD');
         this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "selectedDate": dateTo})
@@ -182,7 +187,7 @@ export default {
       },
    openfullwinodw : function(ind) {
      $('.window-full.circularButtonView').find('.fa').toggleClass('fa-compress');
-     $('.window-full.circularButtonView').parents('#right_pane_container #right_pane #'+ind).toggleClass('open')
+     $('.window-full.circularButtonView').parents('.right_pane_container #right_pane #'+ind).toggleClass('open')
    },
    closeDialog () {
         this.estimated_time = false
@@ -204,6 +209,10 @@ export default {
       $temp.val(url).select();
       document.execCommand("copy");
       $temp.remove(); 
+    },
+    closeDiv: function (id) {
+      // console.log('divid', $('.destroy').parents('#'+id+'.right_pane_container'))
+      // $('.destroy').parents('#'+id+'.right_pane_container').hide()
     }
   },
   mounted() {
@@ -216,11 +225,5 @@ export default {
     EstimatedHours,
     TaskPriority,
   }
-  //   methods: {
-  //   hideDiv: function () {
-  //     var x = document.getElementById('right_pane_container');
-  //     x.style.display = 'none';
-  //   }
-  // }
 }
 </script>

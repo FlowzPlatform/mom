@@ -7,7 +7,7 @@
           <tr>
           <td>{{arr.settings_name}}</td>
             <td>
-            <input type="checkbox" :id="arr.id" :checked="arr.user_setting" @change="toggleSetting({arr:arr, event:$event.target.checked, uId: $store.state.userObject.id})" class="toggleSetting">
+            <input type="checkbox" :id="arr.id" :checked="checkFlag(arr)" @change="toggleSetting({arr:arr, event:$event.target.checked, uId: $store.state.userObject.id})" class="toggleSetting">
           </td>
           </tr>
         </table>
@@ -21,7 +21,7 @@
 import Modal from 'modal-vue'
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  props: ['showModal', 'closeAction', 'filteredTodo'],
+  props: ['showModal', 'closeAction'],
   components: { Modal },
   created(){
     this.$store.dispatch('getSettings', this.$store.state.userObject.id);
@@ -34,7 +34,14 @@ export default {
   methods:{
     ...mapActions([
       'toggleSetting'
-    ])
+    ]),
+    checkFlag(settingArr) {
+      if(settingArr.user_setting.length == 0){
+        return false
+      }else{
+        return settingArr.user_setting[0].setting_value
+      }
+    }
   }
 }
 </script>

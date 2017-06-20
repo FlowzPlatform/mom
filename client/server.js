@@ -10,20 +10,20 @@ const router = express.Router()
 const compiler = webpack(config)
 const jsonParser = bodyParser.json()
 
-var sockio = require("socket.io");
-console.log("App is listening on 3000");
-try{
-  var io = sockio.listen(app.listen(3000));
-  io.sockets.on('connection', function(socket) {
-    console.log('connected to socket');
-      io.emit('feed-change', "----value");  
-  });
-    io.on('feed-change', function(data){
-            console.log("data=>",data);
-        });
-}catch(error){
-    console.log("error");
-}
+// var sockio = require("socket.io");
+// console.log("App is listening on 3000");
+// try{
+//   var io = sockio.listen(app.listen(3000));
+//   io.sockets.on('connection', function(socket) {
+//     console.log('connected to socket');
+//       io.emit('feed-change', "----value");  
+//   });
+//     io.on('feed-change', function(data){
+//             console.log("data=>",data);
+//         });
+// }catch(error){
+//     console.log("error");
+// }
 
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -286,8 +286,7 @@ app.post('/getAttachments', jsonParser, (req, res) => {
 app.post('/getSttings',  (req,res) => {
   console.log(req.body)
   r.db('vue_todo').table('settings').merge(function (settings) {
-      return { user_setting: r.db('vue_todo').table('user_settings').filter({'settings_id':settings('id'), 
-      'user_id':req.body.user_id, 'setting_value':true}).count()}
+      return { user_setting: r.db('vue_todo').table('user_settings').filter({'settings_id':settings('id')}).coerceTo('array')}
 	}).run().then(result => {
     res.send(result)
   }).catch(err => {
@@ -298,27 +297,32 @@ app.post('/getSttings',  (req,res) => {
 //update user setting 
 app.post('/updateUserSetting', (req, res) => {
   console.log("update user setting:---",req.body)
-  r.db('vue_todo').table('user_settings').filter({'settings_id':req.body.settings_id, 'user_id': req.body.user_id}).update({'setting_value':req.body.setting_value}).run().then(result => {
-    console.log("update result:", result)
-    if(result.replaced==0)
+  // r.db('vue_todo').table('user_settings').filter({'settings_id':req.body.settings_id, 'user_id': req.body.user_id}).update({'setting_value':req.body.setting_value}).run().then(result => {
+  //   console.log("update result:", result)
+  //   if(result.replaced==0)
+  //   {
+  //       var userSettings =  {
+  //           user_id: req.body.user_id,
+  //           settings_id: req.body.settings_id,
+  //           setting_value: req.body.setting_value
+  //       }
+  //       r.db('vue_todo').table('user_settings').insert(userSettings)
+  //       .run().then(result => {
+  //         res.send(result)
+  //       })
+  //  }else{
+  r.db('vue_todo').table("user_settings").insert(
     {
-        var userSettings =  {
-            user_id: req.body.user_id,
-            settings_id: req.body.settings_id,
-            setting_value: req.body.setting_value
-        }
-        r.db('vue_todo').table('user_settings').insert(userSettings)
-        .run().then(result => {
-          res.send(result)
-        })
-   }else{
+      "id": req.body.id,
+      "setting_value": false
+    },
+    { conflict: "update" }).run().then(result => {
       res.send(result)
       console.log("result:", result)
-   }
-  
-  }).catch(err => {
-    console.log("Error:", err)
-  })
+
+    }).catch(err => {
+      console.log("Error:", err)
+    })
 })
 
 //get User Settings
@@ -357,101 +361,101 @@ app.post('/insertComment', jsonParser, (req, res) => {
   })
 })
 
-app.post('/insert_tag', jsonParser, (req, res) => {
-  console.log('req.body', req.body);
-  const tag = {
-    'name': req.body.name,
-  }
-  var task_id = req.body.task_id;
-  var created_by_user_id = req.body.created_by_user_id;
+// app.post('/insert_tag', jsonParser, (req, res) => {
+//   console.log('req.body', req.body);
+//   const tag = {
+//     'name': req.body.name,
+//   }
+//   var task_id = req.body.task_id;
+//   var created_by_user_id = req.body.created_by_user_id;
 
-  // Get new inserted tag id
-  insertTag(tag, function (tagId) {
-    var task_tags = {
-      'task_id': task_id,
-      'tag_id': tagId,
-      'created_by_user_id': created_by_user_id,
-      'deleted_by_user_id': '',
-      'is_deleted': false
-    };
-    r.db("vue_todo").table('task_tags').insert(task_tags).run().then(result => {
-      result.tag_id=tagId;
-      res.send(result);
-    }).catch(err => {
-      console.log('Error:', err)
-    })
-  });
-})
+//   // Get new inserted tag id
+//   insertTag(tag, function (tagId) {
+//     var task_tags = {
+//       'task_id': task_id,
+//       'tag_id': tagId,
+//       'created_by_user_id': created_by_user_id,
+//       'deleted_by_user_id': '',
+//       'is_deleted': false
+//     };
+//     r.db("vue_todo").table('task_tags').insert(task_tags).run().then(result => {
+//       result.tag_id=tagId;
+//       res.send(result);
+//     }).catch(err => {
+//       console.log('Error:', err)
+//     })
+//   });
+// })
 
-// Insert task tags
-app.post('/insert_taskTag', jsonParser, (req, res) => {
-  // var tagId = req.body.tag_id;
-  // var task_id = req.body.task_id;
-  // var created_by_user_id = req.body.created_by_user_id;
+// // Insert task tags
+// app.post('/insert_taskTag', jsonParser, (req, res) => {
+//   // var tagId = req.body.tag_id;
+//   // var task_id = req.body.task_id;
+//   // var created_by_user_id = req.body.created_by_user_id;
 
-  // Get new inserted tag id
-    var task_tags = {
-      'task_id': req.body.task_id,
-      'tag_id': req.body.tag_id,
-      'created_by_user_id': req.body.created_by_user_id,
-      'deleted_by_user_id': '',
-      'is_deleted': false
-    };
-    r.db("vue_todo").table('task_tags').insert(task_tags).run().then(result => {
-      result.tag_id=tagId;
-      res.send(result);
-    }).catch(err => {
-      console.log('Error:', err)
-    })
-})
+//   // Get new inserted tag id
+//     var task_tags = {
+//       'task_id': req.body.task_id,
+//       'tag_id': req.body.tag_id,
+//       'created_by_user_id': req.body.created_by_user_id,
+//       'deleted_by_user_id': '',
+//       'is_deleted': false
+//     };
+//     r.db("vue_todo").table('task_tags').insert(task_tags).run().then(result => {
+//       result.tag_id=tagId;
+//       res.send(result);
+//     }).catch(err => {
+//       console.log('Error:', err)
+//     })
+// })
 
-function insertTag(tag, cb) {
-  r.db("vue_todo").table('tags').insert(tag).run().then(result => {
-    var tagId = result.generated_keys[0];
-    cb(tagId);
-  }).catch(err => {
-    console.log('Error:', err)
-  })
-}
+// function insertTag(tag, cb) {
+//   r.db("vue_todo").table('tags').insert(tag).run().then(result => {
+//     var tagId = result.generated_keys[0];
+//     cb(tagId);
+//   }).catch(err => {
+//     console.log('Error:', err)
+//   })
+// }
 
-app.get('/getTags', (req, res) => {
-  r.db("vue_todo").table('tags').run().then(result => {
-    res.send(result);
-  }).catch(err => {
-    console.log('Error:', err)
-  })
-});
+// app.get('/getTags', (req, res) => {
+//   r.db("vue_todo").table('tags').run().then(result => {
+//     res.send(result);
+//   }).catch(err => {
+//     console.log('Error:', err)
+//   })
+// });
 
-app.post('/getTaskTags', (req, res) => {
-  var task_id = req.body.task_id;
-  r.db('vue_todo')
-    .table('task_tags')
-    .filter({ 'task_id': task_id, 'is_deleted': false })
-    .pluck('tag_id', 'task_id').innerJoin(
-    r.db('vue_todo').table("tags"),
-    function (post, user) {
-      return post("tag_id").eq(user("id"));
-    }).zip().pluck('id', 'name','task_id').run().then(result => {
-      res.send(result)
-    }).catch(err => {
-      console.log("Error:", err)
-    })
-})
+// app.post('/getTaskTags', (req, res) => {
+//   var task_id = req.body.task_id;
+//   r.db('vue_todo')
+//     .table('task_tags')
+//     .filter({ 'task_id': task_id, 'is_deleted': false })
+//     .pluck('tag_id', 'task_id').innerJoin(
+//     r.db('vue_todo').table("tags"),
+//     function (post, user) {
+//       return post("tag_id").eq(user("id"));
+//     }).zip().pluck('id', 'name','task_id').run().then(result => {
+//       res.send(result)
+//     }).catch(err => {
+//       console.log("Error:", err)
+//     })
+// })
 
-app.post('/deleteTaskTags', (req, res) => {
-  var task_id = req.body.task_id;
-  var tag_id = req.body.tag_id;
+// app.post('/deleteTaskTags', (req, res) => {
+//   var task_id = req.body.task_id;
+//   var tag_id = req.body.tag_id;
   
-  r.db("vue_todo").table("task_tags").filter({
-    "task_id": task_id, "tag_id": tag_id
-  }).update({
-    is_deleted: true, deleted_by_user_id: "1936b77f-d90e-48a0-9cb9-91d4e6a26b84"
-  }).run().then(result => {
-    res.send(result)
-  }).catch(err => {
-    console.log("Error:", err)
-  })
-})
+//   r.db("vue_todo").table("task_tags").filter({
+//     "task_id": task_id, "tag_id": tag_id
+//   }).update({
+//     is_deleted: true, deleted_by_user_id: "1936b77f-d90e-48a0-9cb9-91d4e6a26b84"
+//   }).run().then(result => {
+//     res.send(result)
+//   }).catch(err => {
+//     console.log("Error:", err)
+//   })
+// })
 
 app.use('/api', router)
 

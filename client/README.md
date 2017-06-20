@@ -1,6 +1,35 @@
-# todocomponent
+# TODO-Vuejs
 
-> todo mvc
+> TODO-Vuejs is a task based application in Vuejs as a frontend. End user can create upto N level parent/child task. It stores data in rethinkdb via feathres API. Created feathers API for the real-time data.
+
+## Getting started 
+1. Take clone of project from below mentioned git url. 
+
+    git@172.16.699.216:uhirani/todo-vue-dynamic-component.git
+
+2. Install rethinkdb.
+    https://rethinkdb.com/docs/install/
+    
+    before run application 
+    
+    > start rethinkdb
+
+3. Run feathres server
+
+   > Install your dependencies
+
+     ```
+   > cd path/to/server; npm install
+     ```
+
+   > Start server
+
+   > npm start or node src
+
+4. Start your app
+
+   node server.js
+
 
 ## Build Setup
 

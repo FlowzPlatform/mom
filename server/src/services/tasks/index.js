@@ -13,10 +13,10 @@ module.exports = function() {
     db: 'vue_todo', //must be on the same connection as rethinkdbdash
     name: 'tasks',
      // Enable pagination
-    paginate: {
-        default: 50,
-        max: 50
-    }
+    // paginate: {
+    //     default: 50,
+    //     max: 50
+    // }
   };
 
   // Initialize our service with any options it requires 

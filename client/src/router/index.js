@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/LoginPage'
@@ -11,12 +12,16 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import GSignInButton from 'vue-google-signin-button'
 import { Tag } from 'element-ui'
-Vue.use(Tag)
+// import iView from 'iview';
+// import 'iview/dist/styles/iview.css';
+
 Vue.config.productionTip = false
 Vue.use(GSignInButton)
+Vue.use(Tag)
+// Vue.use(iView);
 // import { store } from '../VuexSession'
 
-/* eslint-disable*/
+
 Vue.use(Router)
 
 const User = {

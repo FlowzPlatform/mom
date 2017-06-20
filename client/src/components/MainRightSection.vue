@@ -6,7 +6,13 @@
 	<text-description :filteredTodo="todoObject">
   </text-description>
   <attachments :filteredTodo="todoObject"> </attachments>
+  <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#attachment">Attachments</div>-->
+  <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#attachment">Attachents</button>-->
+  <!--<attachments id="attachment" class="collapse" :filteredTodo="todoObject"> </attachments>-->
    <hr>
+  <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#tags">Tags</div>-->
+  <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#tags">Tags</button>
+  <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
   <tags :filteredTodo="todoObject"></tags>
   <main-left-section :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
   <story-feed :filteredTodo="todoObject"></story-feed>
@@ -34,6 +40,7 @@ export default {
     }
   },
   created() {
+    console.log('MainRight created')
     // let self = this;
     //      socket.on('feed-change', function(item){
     //           //  console.log("TodoItem.vue:item***",item);

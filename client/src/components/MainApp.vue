@@ -51,14 +51,14 @@
     
     <div id="center_pane_container" class="known-list">
         <div id="center_pane">
+
           <left-toolbar :filters="filters">
           </left-toolbar>
           <main-left-section :pholder="taskPholder" :filtered-todos="taskById" ></main-left-section>
         </div>
     </div>
-    <div id="right_pane_container" cass="known-list" v-for="(n, index) in parentIdArray">
+    <div :id="n.level" class="right_pane_container" v-for="(n, index) in parentIdArray">
       <div id="right_pane">
-        
         <main-right-section  :id="n.level" :pholder="subtaskPholder" :todoObject="n" ></main-right-section>
       </div>
     </div>
@@ -269,7 +269,6 @@ export default {
       userSettings: 'user_setting'
      }),
      taskById(){
-       console.log('Main app computed call')
         //let taskArray = this.todoById('', 0)
       let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', this.url_level)
        taskArray.push({
@@ -285,7 +284,6 @@ export default {
               createdAt: new Date().toJSON(),
               updatedAt: new Date().toJSON()
        })
-       console.log('Main app computed call, blanck recod added')
        this.todolist = taskArray
        return filters[this.$store.state.visibility](taskArray)
      },
