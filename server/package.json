@@ -35,6 +35,7 @@
     "feathers-errors": "^2.8.1",
     "feathers-hooks": "^2.0.1",
     "feathers-hooks-common": "^3.5.1",
+    "feathers-rest": "^1.7.3",
     "feathers-rethinkdb": "^0.4.3",
     "feathers-socketio": "^2.0.0",
     "helmet": "^3.6.1",
