@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import moment from 'moment'
 import * as services from './services'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -21,10 +22,10 @@ function setProgressBar(state, todoObject) {
   }
 }
 
-function uploadFileOnAmazonS3(file, cb) {
+function uploadFileOnAmazonS3(file, fileTimeStamp, cb) {
   var bucket = new AWS.S3({ params: { Bucket: 'airflowbucket1/obexpense/expenses' } });
   if (file) {
-    var params = { Key: file.name, ContentType: file.type, Body: file };
+    var params = {Key: fileTimeStamp, ContentType: file.type, Body: file};
     bucket.upload(params).on('httpUploadProgress', function (evt) {
       console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total) + '%');
       store.state.progress = parseInt((evt.loaded * 100) / evt.total)
@@ -88,6 +89,12 @@ export const store = new Vuex.Store({
     tagsList: [],
     isProgress: false,
     isDueDate: false,
+    todoObjectByID:{},
+    userToken: '',
+    isSliderOpen: false,
+    currentTodoObj:{},
+    currentModified: false,
+    isDeleteObj: false
   },
   mutations: {
     userData: state => state.userObject,
@@ -179,7 +186,7 @@ export const store = new Vuex.Store({
       state.parentIdArr.splice(0, state.parentIdArr.length)
       state.todolist.splice(0, state.todolist.length)
       state.arrAttachment.splice(0, state.arrAttachment.length)
-      state.settingsObject.splice(0, state.settingsObject.length)
+      // state.settingsObject.splice(0, state.settingsObject.length)
       state.taskComment.splice(0, state.taskComment.length)
       state.taskTags.splice(0, state.taskTags.length)
       state.tagsList.splice(0, state.tagsList.length)
@@ -191,10 +198,17 @@ export const store = new Vuex.Store({
       // console.log('Update TODO')
       let updateTodoIndex = _.findIndex(state.todolist, function (d) { return d.id == item.id })
       //  console.log('item Before:', updateTodoIndex) 
-      updateObject(state.todolist[updateTodoIndex], item)
+      // updateObject(state.todolist[updateTodoIndex], item)
       // state.todolist.filter(todo => todo.id === item.id) == item
       // console.log('Todolist Obj After:', state.todolist)
       //console.log('new obj', obj)
+
+      if(updateTodoIndex < 0){
+          if(state.todoObjectByID)
+            updateObject(state.todoObjectByID, item)   
+      } else {
+        updateObject(state.todolist[updateTodoIndex], item)
+      }   
 
       if (item.parentId) {
         var p_id = item.parentId
@@ -215,25 +229,21 @@ export const store = new Vuex.Store({
       todoObject.subtask_count = 0
       todoObject.completed_subtask_count = 0
       todoObject.progress_count = ''
-      state.todolist.push(todoObject)
 
-      // let todoElement = todoObject.todo
-      // let temp_id = todoObject.data.generated_keys[0]
-      // state.todolist.push({
-      //   id: temp_id,
-      //   parentId: todoElement.parentId,
-      //   taskName: todoElement.taskName,
-      //   taskDesc: '',
-      //   level: todoElement.level,
-      //   completed: false,
-      //   index: todoElement.index,
-      //   dueDate: '',
-      //   createdAt: new Date().toJSON(),
-      //   updatedAt: new Date().toJSON(),
-      //   subtask_count: 0,
-      //   completed_subtask_count: 0,
-      //   progress_count: ''
-      // })
+      // Manage code for the real-time data from multi browser for the new todo created on same index
+      if(state.isDeleteObj){
+        state.todolist.splice(state.todolist.length - 1)
+        state.isDeleteObj = false
+      }         
+      state.todolist.push(todoObject)
+      
+      if(state.currentModified){
+        console.log('modified true',state.currentTodoObj)
+        state.todolist.push(state.currentTodoObj)
+        state.currentTodoObj = {}
+        state.isDeleteObj = true
+      }
+
       // console.log("add todo")
       if (todoObject.parentId) {
         // console.log("add todo element",state.todolist.find(todo => todo.id === todoElement.parentId) )
@@ -313,6 +323,15 @@ export const store = new Vuex.Store({
     },
     GET_SETTINGS(state, data) {
       state.settingsObject = data
+      for (var i = 0; i < data.length; i++) {
+        let index = _.findIndex(state.settingsObject, function (d) { return d.id == data[i].id })
+        if (state.settingsObject[index].type === "progress") {
+          state.isProgress = state.settingsObject[index].user_setting[0].setting_value
+        }
+        if (state.settingsObject[index].type === "duedate") {
+          state.isDueDate = state.settingsObject[index].user_setting[0].setting_value
+        }
+      }
     },
     GET_TASK_COMMENT(state, data) {
       state.taskComment = data
@@ -330,26 +349,7 @@ export const store = new Vuex.Store({
       // setCheckboxColor(state, todoObject)
     },
     SETTING_UPDATE(state, todoObject) {
-      // console.log("todoObject", todoObject)
-      // var flag = 0
-      // if (todoObject.event === true) {
-      //   flag = 1
-      // } else {
-      //   flag = 0
-      // }
-      // if (todoObject.arr.type === "progress" && !todoObject.arr.user_setting) {
-      //   state.isProgress = true
-      // } else if (todoObject.arr.type === "progress") {
-      //   state.isProgress = false
-      // }
-
-      // if (todoObject.arr.type === "duedate" && !todoObject.arr.user_setting) {
-      //   state.isDueDate = true
-      // } else if (todoObject.arr.type === "duedate") {
-      //   state.isDueDate = false
-      // }
-      // state.settingsObject.find(setting => setting.id === todoObject.arr.id).user_setting = flag
-
+      
       var checkedObject = state.settingsObject.find(setting => setting.id === todoObject.settings_id)
       if (checkedObject.type === "progress" && todoObject.setting_value) {
         state.isProgress = true
@@ -400,8 +400,24 @@ export const store = new Vuex.Store({
     REMOVE_TASKTAG(state, taskTagObject) {
       let removeTodoIndex = _.findIndex(state.taskTags, function (d) { return d.id == taskTagObject.tag_id })
       state.taskTags.splice(removeTodoIndex, 1)
-    }
-
+    },
+    GET_OBJECT_BYID(state, todoObject){
+      console.log("todoObject By Id:--", todoObject)
+      state.todoObjectByID = todoObject
+    },
+    SAVE_USERTOKEN(state, token) {
+      state.userToken = token
+    },
+    GET_USERDETAIL(state, userdetail) {
+      state.userObject = userdetail
+    },
+    DELETE_USERTOKEN(state) {
+      state.userToken = ''
+    },
+    UPDATE_SLIDER_VALUE(state, sliderVal) {
+      console.log('slider value', sliderVal)
+      state.isSliderOpen = sliderVal
+    },
   },
   actions: {
     eventListener({ commit }) {
@@ -429,8 +445,8 @@ export const store = new Vuex.Store({
         commit('SELECT_FILE', message)
       })
 
-      services.taskAttachmentService.on('patched', message => {
-        console.log("Message Attachement patched:-->", message)
+      services.taskAttachmentService.on('removed', message => {
+        console.log("Message Attachement removed:-->", message)
         commit('DELETE_ATTACHMENT', message)
       })
 
@@ -515,15 +531,14 @@ export const store = new Vuex.Store({
       }
     },
     editTaskName({ commit }, editObject) {
-      if (editObject.todo.id) {
-        services.tasksService.patch(editObject.todo.id, {
-          id: editObject.todo.id,
-          taskName: editObject.todo.taskName,
-          taskDesc: editObject.todo.taskDesc,
+      if (editObject.id) {
+        services.tasksService.patch(editObject.id, {
+          taskName: editObject.taskName,
+          taskDesc: editObject.taskDesc,
           dueDate: editObject.selectedDate,
           estimatedTime: editObject.estimatedTime,
           priority: editObject.taskPriority
-        }, { query: { 'id': editObject.todo.id } }).then(response => {
+        }, { query: { 'id': editObject.id } }).then(response => {
           console.log("Reesponse editTaskName::", response);
           //  commit('UPDATE_TODO', insertElement)
         });
@@ -588,11 +603,11 @@ export const store = new Vuex.Store({
     },
     toggleTodo({ commit }, changeTodo) {
       // console.log(changeTodo)
-      let dbId = changeTodo.todo.id
+      let dbId = changeTodo.id
       if (dbId) {
         services.tasksService.patch(dbId, {
           id: dbId,
-          completed: changeTodo.todo.completed
+          completed: changeTodo.completed
         }, { query: { 'id': dbId } }).then(response => {
           console.log("Reesponse toggleTodo::", response);
           //  commit('UPDATE_TODO', insertElement)
@@ -608,12 +623,13 @@ export const store = new Vuex.Store({
     },
     selectFile({ commit }, fileObject) {
       var file = fileObject.file.files[0];
-
+      var fileTimeStamp = + new Date() + '_' + file.name
       var attachArr = {
         id: new Date().valueOf(),
         file_name: file.name,
         task_id: fileObject.taskId,
-        level: fileObject.level
+        level: fileObject.level,
+        file_name_timestamp: fileTimeStamp
       }
 
       store.state.arrAttachment.push(attachArr);
@@ -622,7 +638,7 @@ export const store = new Vuex.Store({
       //store.state.isProgress = true
       console.log('Task ID', fileObject.taskId)
       store.commit('showAttachmentProgress', { 'isProgress': true, 'id': fileObject.taskId })
-      uploadFileOnAmazonS3(file, function (src) {
+      uploadFileOnAmazonS3(file, fileTimeStamp, function (src) {
         // store.state.isProgress = false
         store.commit('showAttachmentProgress', { 'isProgress': false, 'id': fileObject.taskId })
         // store.commit('showProgress')
@@ -636,12 +652,12 @@ export const store = new Vuex.Store({
           file_url: src,
           uploadedBy: store.state.userObject.id,
           level: fileObject.level,
-          isDeleted: false
+          file_name_timestamp: fileTimeStamp
         }).then(response => {
-          console.log("Reesponse Attachment create::", response);
-          console.log("Attachment Remove Before---->::", store.state.arrAttachment.length);
+          // console.log("Reesponse Attachment create::", response);
+          // console.log("Attachment Remove Before---->::", store.state.arrAttachment.length);
           store.state.arrAttachment.splice(store.state.arrAttachment.indexOf(attachArr), 1)
-          console.log("Attachment Remove After---->::", store.state.arrAttachment.length);
+          // console.log("Attachment Remove After---->::", store.state.arrAttachment.length);
           var tempArr = {
             id: response.id,
             task_id: fileObject.taskId,
@@ -649,7 +665,7 @@ export const store = new Vuex.Store({
             file_url: src,
             uploadedBy: store.state.userObject.id,
             level: fileObject.level,
-            isDeleted: false
+            file_name_timestamp: fileTimeStamp
           }
           // state.arrAttachment.filter(attachement => attachement.id === attachArr.id)
 
@@ -688,15 +704,15 @@ export const store = new Vuex.Store({
       var bucketInstance = new AWS.S3();
       var params = {
         Bucket: 'airflowbucket1/obexpense/expenses',
-        Key: deleteObject.file_name
+        Key: deleteObject.objAttachment.file_name_timestamp
       }
       bucketInstance.deleteObject(params, function (err, data) {
         if (data) {
           //Update attachment fields in DB
-          services.taskAttachmentService.patch(deleteObject.id, {
-            isDeleted: true,
-            file_url: '',
-            deletedBy: store.state.userObject.id
+          services.taskAttachmentService.remove(deleteObject.id, {
+            // isDeleted: true,
+            // file_url: '',
+            // deletedBy: store.state.userObject.id
           }, { query: { 'id': deleteObject.id } }).then(response => {
             console.log("Reesponse deleteAttachment::", response);
             // commit('DELETE_ATTACHMENT', deleteObject.objAttachment)
@@ -748,7 +764,6 @@ export const store = new Vuex.Store({
       services.taskAttachmentService.find({
         query: {
           task_id: taskId,
-          isDeleted: false
         }
       }).then(response => {
         console.log("Reesponse getAttachmentFromDB::", response.data);
@@ -804,8 +819,8 @@ export const store = new Vuex.Store({
         });
       }
     },
-    getTaskComment({ commit }) {
-      services.taskHistoryLogs.find().then(response => {
+    getTaskComment({ commit }, payload) {
+      services.taskHistoryLogs.find({query: {task_id: payload}}).then(response => {
         console.log("Reesponse getCommnets From DB::", response);
         commit('GET_TASK_COMMENT', response)
       });
@@ -814,7 +829,6 @@ export const store = new Vuex.Store({
       // });
     },
     insertTaskComment({ commit }, payload) {
-      
       if (!(payload.comment && payload.comment.trim()))
         return
       services.taskHistoryLogs.create({
@@ -924,6 +938,123 @@ export const store = new Vuex.Store({
       //         commit('REMOVE_TASKTAG', taskTagObject)
       //     }
       // })
+    },
+    getTodoObject({commit}, todoObjectId){
+      services.tasksService.get(todoObjectId).then(function (response) {
+        console.log("get Id response",response)
+        commit('GET_OBJECT_BYID', response)
+      })
+    },
+    userRegistrationProcess ({ commit }, regObject) {
+      // axios.post('https://recipehub-backend-mmquqjzpbv.now.sh/api/setup', {
+      return axios.post('http://172.16.120.64:3000/api/setup', {
+        email: regObject.email,
+        password: regObject.password,
+        username: regObject.email,
+        fullname: '',
+        role: '',
+        aboutme: '',
+        dob: '',
+        signup_type: regObject.signup_type,
+        image_url: regObject.image_url,
+        image_name: '',
+        createdAt: new Date().toJSON(),
+        updatedAt: new Date().toJSON()
+      }, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+      })
+      .then(function (response) {
+        console.log('resp: ', response);
+      })
+      .catch(function (error) {
+        if (error.response.status === 409) {
+            throw new Error('Email id already exists...')
+        }
+      });
+    },
+    userLoginProcess({ commit }, loginObj) {
+      // axios.post('https://recipehub-backend-mmquqjzpbv.now.sh/api/login', {
+      return axios.post('http://172.16.120.64:3000/api/login', {
+        email: loginObj.email,
+        password: loginObj.password
+      }, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+      })
+      .then(function (response) {
+        commit('SAVE_USERTOKEN', response.data.logintoken)
+      })
+      .catch(function (error) {
+          if (error.response.status === 401) {
+            throw new Error('You have entered wrong credentials...')
+          }
+      });
+    },
+      getUserDetail({ commit }) {
+      console.log('token: ', store.state.userToken)
+      return axios.post('http://172.16.120.64:3000/api/userdetails', {
+      },{
+         headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          'Authorization': store.state.userToken
+        },
+      })
+      .then(function (response) {
+        commit('GET_USERDETAIL', response.data.data)
+      })
+      .catch(function (error) {
+        if (error.response.status === 403) {
+          throw new Error('Token is invalid')
+        }
+      })
+    },
+    updateUserProfile({ commit }, objProfile) {
+      var url = ('http://172.16.120.64:3005/updateuserdetails/' + store.state.userObject._id)
+      console.log('profile', objProfile)
+      return axios.put(url, {
+        fullname: objProfile.fullname,
+        role: objProfile.role,
+        aboutme: objProfile.aboutme,
+        dob: objProfile.dob,
+        image_url: objProfile.image_url,
+        image_name: objProfile.image_name,
+        createdAt: new Date().toJSON(),
+        updatedAt: new Date().toJSON()
+      },{
+         headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          'Authorization': store.state.userToken
+         }
+      })
+      .then(function (response) {
+
+      })
+      .catch(function (error) {
+        if (error.response.status === 403) {
+          throw new Error('Token is invalid')
+        }
+      })
+    },
+    getAllUsersList({ commit }) {
+      return axios.get('http://172.16.120.64:3005/alluserdetails',{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          'Authorization': store.state.userToken
+         }
+      })
+      .then(function (response) {
+        console.log('resp: ', response)
+        return response
+      })
+      .catch(function (error) {
+        console.log('error: ', error)
+        if (error.response.status === 403) {
+          throw new Error('Token is invalid')
+        }
+      })
     }
   },
   getters: {
@@ -956,6 +1087,7 @@ export const store = new Vuex.Store({
         return state.taskTags.filter(tags => tags.task_id === id)
       }
     },
+    getObjectById : state => state.todoObjectByID
   },
   plugins: [createPersistedState()]
 })

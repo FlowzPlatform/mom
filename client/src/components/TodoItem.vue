@@ -1,42 +1,32 @@
 <template id="items">
   <li v-bind:key="todo" class="todo">
-    <div class="view" style="margin-left: 10px;">
-      <span class="dreg-move"></span>
-      <input :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="toggleTodo({todo:todo, isCheck: todo.completed})">
-      <label for="checkbox8"></label>
-      <!--v-bind:class= "[ ''+todo.level, todo.id ]"-->
-      <input class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
-        v-model="todo.taskName"
-       @click="SHOW_DIV(todo)"
-       @keyup.enter="addTodo(index)"
-       >
-      <span class=""><i>
-                  <b class="glyphicon glyphicon-option-vertical"></b>
-                  <b class="glyphicon glyphicon-option-vertical"></b>
-                </i></span>
-      <div class="task-row-overlay grid-tags-and-date">
-        <!--<div class="itemRowView-heartsView">
-                    <div class="loading-boundary hidden miniHeartButtonView-loadingBoundary">
-                      <a class="miniHeartButtonView is-hearted has-hearts miniHeartButtonView--withHearts ">
-                        <span class="miniHeartButtonView-heartNumber">1</span>  
-                        </a>
-                    </div>
-                  </div>-->
-        <a class="taskRow">
-          <span class="grid_due_date ">{{todo.dueDate | formatDate}}</span>
-        </a>
+    <div :id="getLevelClass(todo.level,todo.id)" style="padding-bottom: 5px;"> 
+      <div class="view" style="margin-left: 10px;">
+        <span class="dreg-move"></span>
+        <input :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="toggleTodo(todo)">
+        <label for="checkbox8"></label>
+        <!--v-bind:class= "[ ''+todo.level, todo.id ]"-->
+        <input class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
+          v-model="todo.taskName" 
+          @click="SHOW_DIV(todo)"
+          @keyup.enter="addTodo(nextIndex)" 
+          @focus="onFocusClick(todo.id, todo.level)"
+          @blur=onBlurCall(todo.id,todo.level)
+          @keyup="performAction">
+        <span class=""><i>
+          <b class="glyphicon glyphicon-option-vertical"></b>
+          <b class="glyphicon glyphicon-option-vertical"></b>
+          </i>
+        </span>
+        <div class="task-row-overlay grid-tags-and-date">
+          <a class="taskRow">
+            <span class="grid_due_date ">{{todo.dueDate | formatDate}}</span>
+          </a>
+        </div>
+        <button class="destroy" @click="deleteTodo({todo : todo})">
+            <a class="fa fa-close"/>
+        </button>
       </div>
-      <button class="destroy" @click="deleteTodo({todo : todo})">
-						      <a class="fa fa-close"/>
-					    </button>
-    </div>
-    </div>
-    <!--<ui-progress-linear
-                    color="primary"
-                    type="determinate"
-                    :progress="todo.progress">
-            </ui-progress-linear>
-            <div class="task-text">{{todo.progress_count}}</div>-->
     <!--{{todo.progress > 50 ? Math.round(255 * (100 - todo.progress) / 100) : 255}} {{ todo.progress > 50 ? 255 : Math.round(todo.progress / 100 * 255)}}{{ 0}}-->
     <!--backgroundColor: 'rgb('+Math.round(255*(100-todo.progress)/100)+', '+Math.round(todo.progress / 100 * 255)+', 0)'-->
     <div class="progress">
@@ -45,6 +35,7 @@
       </div>
     </div>
     <div class="task-text">{{todo.progress_count}}</div>
+    </div>
   </li>
 </template>
 <script>
@@ -71,7 +62,7 @@
   })
 
   export default {
-    props: ['todo', 'pholder', 'index'],
+    props: ['todo', 'pholder', 'nextIndex', 'prevIndex'],
     data: function () {
       return {
         progress: 0,
@@ -130,13 +121,7 @@
         //   }
       },
       addTodo: function (todoId) {
-        setTimeout(function () {
-          // console.log("input", "Timeout-->" + todoId)
-          var el = $('.' + todoId);
-          if (el) {
-            el.focus();
-          }
-        }, 200);
+        this.changeFocus(todoId)
         this.$store.dispatch('insertTodo', this.todo)
       },
        setFocus: function(todoId)
@@ -149,12 +134,44 @@
         //   }
         // }, 400);
        },
-      //  getTodo()
-      //  {
-      //    console.log(this.todo.taskName)
-      //    this.$store.state.tempObj = this.todo.taskName
-      //    console.log('store obj',this.$store.state.tempObj)
-      //  }
+      onFocusClick(id,level){
+      $("#"+id+"_"+level).addClass("lifocus")
+    },
+       onBlurCall(id,level){
+      $("#"+id+"_"+level).removeClass("lifocus")
+    },
+    performAction(e)
+    {
+      if (e.keyCode == 40) {
+          $('.' + this.nextIndex).focus();
+            this.changeFocus(this.nextIndex)
+        } else if (e.keyCode == 38) {
+          $('.' + this.prevIndex).focus();
+            this.changeFocus(this.prevIndex)
+        } else if(e.keyCode == 13) {
+          this.$store.state.currentModified = false
+          return
+        }
+      this.$store.state.currentTodoObj = this.todo
+      console.log('IDSSS', this.todo.id)
+      this.$store.state.currentModified = (this.todo.id == -1) ? true :false
+      console.log('CurrentModified', this.$store.state.currentModified)
+    },
+    changeFocus(indexId){
+       var self=this;
+       setTimeout(function () {
+          var el = $('.' + indexId);
+          if (el) {
+            el.focus();
+          }
+          console.log('Index', indexId)
+          var todoid = indexId.split("_")
+          let showTodoIndex = _.findIndex(self.$store.state.todolist, function (d) { return d.id == todoid[0] })
+          if(showTodoIndex != -1)
+            self.$store.commit('SHOW_DIV', self.$store.state.todolist[showTodoIndex])
+        }, 100);
+    }
+
     },
     component: {
       txtDesc

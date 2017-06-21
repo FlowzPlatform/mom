@@ -1,8 +1,12 @@
 <template lang="html">
   <div>
-    <div data-reactroot="" class="Topbar">
+     <div id="mySidenav" class="sidenav">
+        <nav-bar-slider></nav-bar-slider>
+     </div>
+     <div >
+    <div data-reactroot="" id="top-bar" class="Topbar">
       <div class="Topbar-navButtonContainer">
-        <a class="Topbar-navButton">
+        <a class="Topbar-navButton" @click="openCloseNav">
           <svg class="Icon HamburgerIcon Topbar-sidebarToggleIcon" title="HamburgerIcon" viewBox="0 0 32 32">
             <rect x="2" y="4" width="28" height="4"></rect>
             <rect x="2" y="14" width="28" height="4"></rect>
@@ -58,7 +62,7 @@
       </div>
     </section>
     <!--Profile dialog start-->
-    <settings-menu :showModal="settings_menu" :closeAction="closeDialog"></settings-menu>
+    <settings-menu :settingArr="settingArr" :showModal="settings_menu" :closeAction="closeDialog"></settings-menu>
     <div class="todoapp">
       <div id="myModal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
         <div class="modal-dialog" role="document">
@@ -77,7 +81,6 @@
               </span>
                 </div>
                 <span class="pro-part">
-                  <label>Name</label>
                   <input type="username" v-model='username' @keyup='enableUpdateProfileBtn'>
                   <div class="picture-action-label" v-if='!imageURlProfilePic'>
                       <input autocomplete="off" type="file" id="file" name="file" title="" class="photo-file-input" accept="image/gif,image/png,image/jpeg,image/tiff,image/bmp" @change="onFileChange">
@@ -132,6 +135,7 @@
       </div>
     </div>
   </div>
+  </div>
   <!--Profile dialog end-->
   </div>
 </template>
@@ -144,6 +148,8 @@
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import SettingsMenu from './SettingsMenu.vue'
+  import NavBarSlider from './NavBarSlider.vue'
+  import { mapGetters } from 'vuex'
   export default {
     name: 'navbar',
     data: function () {
@@ -157,13 +163,17 @@
         image: '',
         imageURlProfilePic: this.$store.state.userObject.image_url,
         loading: false,
-        settings_menu: false
+        settings_menu: false,
+        isOpen : this.$store.state.isSliderOpen,
       }
     },
     created() {
-      this.$store.dispatch('eventListener');
+      // this.$store.dispatch('eventListener');
     },
     computed: {
+      ...mapGetters([
+        'settingArr'
+      ]),
       uname: function () {
         var str = this.$store.state.userObject.email
         var n = str.indexOf("@")
@@ -177,6 +187,16 @@
       }
     },
     methods: {
+      openCloseNav:function(){
+        console.log("Opennav")
+        console.log('==>',$('#center_pane'));
+         $('.Topbar-navButton').css('margin-left','-35px');
+            document.getElementById('mySidenav').style.width = "250px"
+            document.getElementById("top-bar").style.marginLeft = "250px"
+            document.getElementById("center_pane").style.marginLeft = "250px";
+          this.isOpen = true
+          this.$store.commit('UPDATE_SLIDER_VALUE', this.isOpen)
+      },
       closeDialog() {
         this.settings_menu = false
       },
@@ -212,7 +232,9 @@
           })
       },
       btnProfileClicked() {
-        this.username = this.$store.state.userObject.username,
+        console.log('UserName', this.$store.state.userObject.fullname)
+        this.username = this.$store.state.userObject.fullname,
+        console.log('UserName11', this.username)
           this.role = this.$store.state.userObject.role,
           this.aboutme = this.$store.state.userObject.aboutme,
           this.imageURlProfilePic = this.$store.state.userObject.image_url
@@ -343,6 +365,9 @@
         });
       },
       enableUpdateProfileBtn() {
+        console.log('UN', this.username)
+        if(this.username)
+        {
         var trimmedusername = this.username.trim()
         if (trimmedusername.length >= 1) {
           $('#updateprofile_btn').removeClass('is-disabled')
@@ -351,12 +376,19 @@
           $('#updateprofile_btn').addClass('is-disabled')
           $("#updateprofile_btn").attr('disabled', true);
         }
+        }
       }
 
     },
     components: {
-     SettingsMenu
+     SettingsMenu,
+     NavBarSlider
   }
   }
-
 </script>
+<style>
+#center_pane {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+</style>

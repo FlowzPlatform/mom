@@ -59,7 +59,7 @@
             }
         },
         created() {
-            this.$store.dispatch('getTaskComment')
+            this.$store.dispatch('getTaskComment', this.filteredTodo.id)
         },
         computed: {
             capitalizeLetters: function () {

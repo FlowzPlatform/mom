@@ -21,7 +21,7 @@
 import Modal from 'modal-vue'
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  props: ['showModal', 'closeAction'],
+  props: ['showModal', 'closeAction', 'settingArr'],
   components: { Modal },
   created(){
     this.$store.dispatch('getSettings', this.$store.state.userObject.id);

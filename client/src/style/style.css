@@ -228,12 +228,12 @@ body {
 .destroy{
 	fill: #B9BCC0;
     position: absolute;
-    right: 8px;
+    right: 5px;
     cursor: pointer;
-    top: 6px;
+    top: 2px;
     z-index: 1;
 }
-.destroy:hover + span i:hover {color:#1aafd0;}
+.destroy:hover {color:#1aafd0;}
 
 .todo-list li:hover .destroy {
 	display: block;
@@ -2049,9 +2049,7 @@ input[type="file"].hidden-file-input {
 .dropdown-toggle::after {
     display: none;
 }
-li {
-   margin: 10px 0;
-}
+
 .Topbar-accountInfo .dropdown-menu { padding: 0; right: 0;}
 .Topbar-accountInfo .dropdown-menu li {margin:0px}
 .Topbar-accountInfo .dropdown-menu hr { margin: 0;}
@@ -2533,9 +2531,9 @@ svg.ui-progress-circular__indeterminate {
 }
 .StoryFeed-separator {
     border-color: #e1e2e4;
-    border-style: solid none none;
+    border-style: solid;
     border-width: 1px;
-    margin: 0;
+    margin: 0px 10px 0px 10px;
 }
 hr {
     -moz-box-sizing: content-box;
@@ -2909,7 +2907,6 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
         display: inline;
         text-align: left;
     }
-
 .button-collapse
 {
     left: 30px;
@@ -2917,8 +2914,12 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
     margin-left: 0px;
     display: block;
 }
-
 .expand-collapse
 {
     margin-left: 23px;
+}
+.lifocus {
+    border-bottom: 1px solid #1aafd0;
+    border-radius: 0;
+    border-top: 1px solid #1aafd0;
 }

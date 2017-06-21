@@ -14,7 +14,7 @@
   "contributors": [],
   "bugs": {},
   "directories": {
-    "lib": "y"
+    "lib": "src"
   },
   "engines": {
     "node": ">= 6.0.0",
@@ -22,7 +22,7 @@
   },
   "scripts": {
     "test": "npm run eslint && npm run mocha",
-    "eslint": "eslint y/. test/. --config .eslintrc.json",
+    "eslint": "eslint src/. test/. --config .eslintrc.json",
     "start": "node src/",
     "mocha": "mocha test/ --recursive"
   },

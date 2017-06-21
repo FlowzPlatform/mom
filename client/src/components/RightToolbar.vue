@@ -15,7 +15,15 @@
                         </div>
                       </div>
                     </div>
-                    <a tabindex="-1" class="token_name " href="">{{ uname }}</a>
+                    <!--<label tabindex="-1" class="token_name" @click='getAllUsers()'>{{ uname }}</label>-->
+                    <span class="dropdown">
+                      <a tabindex="-1" class="token_name" data-toggle="dropdown" id='userlist' @click='getAllUsers()'>{{ uname }}</a>
+                      <ul class='dropdown-menu' aria-labelledby="userlist">
+                        <li><a>User 1</a></li>
+                          <hr>
+                        <li><a>User 2</a></li>
+                      </ul>
+                    </span>
                 </span>
               </span>
             </div>
@@ -70,7 +78,7 @@
                               </a>
               <ul class="dropdown-menu" aria-labelledby="details_property_sheetproperty_attach_attach_menu">
                       <li><a id="add_from_computer" for="attachments_menu_view_hidden_file_input_3" class="menu-item" title="">
-                      <span class="dropdown-menu-item-label upload-file-dropdown"><input type="file" id="file" @change="onFileChange($event)"><span>Attach From Computer</span></span>
+                                              <span class="dropdown-menu-item-label upload-file-dropdown"><input type="file" id="file" @change="onFileChange($event)" @click="removeAttachmentPopUp"><span>Attach From Computer</span></span>
                       </a></li>
                       <!--<hr><li><a id="add_from_dropbox" class="menu-item" title="">
                             <span class="dropdown-menu-item-label">Attach From Dropbox</span></a></li>
@@ -209,6 +217,20 @@ export default {
       $temp.val(url).select();
       document.execCommand("copy");
       $temp.remove(); 
+    },
+    removeAttachmentPopUp () {
+       setTimeout(function(){ $('.attachmentsMenuView').removeClass('open') }, 1000);
+    },
+    getAllUsers () {
+      console.log('get all users called')
+      this.$store.dispatch('getAllUsersList')
+      .then(function (response) {
+        console.log('response: ', response)
+      })
+      .catch(function(error) {
+        // $.notify.defaults({ className: "error" })
+        // $.notify(error.message, { globalPosition:"top center"})
+      })
     },
     closeDiv: function (id) {
       // console.log('divid', $('.destroy').parents('#'+id+'.right_pane_container'))

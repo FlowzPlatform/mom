@@ -22,5 +22,14 @@ export default {
           return true
       }
       return false
+  },
+    deleteAutheticationDetail: function () {
+      console.log('inside authentication')
+      store.commit('DELETE_USERTOKEN')
+      store.commit('DELETE_ATTACHMENTS')
+      store.state.userObject = {}
+      store.state.isAuthorized = false
+      store.commit('userData')
+      store.commit('authorize')
   }
 }
