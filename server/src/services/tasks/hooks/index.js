@@ -10,6 +10,7 @@ exports.before = {
     const query = this.createQuery(hook.params.query);
     const r = this.options.r;
     console.log('query', query)
+    
     hook.params.rethinkdb = query.merge(function (todo) {
       return { subtask_count: r.table('tasks').filter({ 'parentId': todo('id') }).count() }
     })

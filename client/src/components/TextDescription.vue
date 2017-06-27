@@ -40,7 +40,7 @@ export default {
       'toggleTodo'
     ]),
     updateTaskName: function() {
-      this.$store.dispatch('editTaskName', this.filteredTodo)
+      this.$store.dispatch('editTaskName', {"todo":this.filteredTodo})
     }  
   },
   component: {

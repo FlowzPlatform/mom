@@ -26,11 +26,6 @@ export default {
   created(){
     this.$store.dispatch('getSettings', this.$store.state.userObject.id);
   },
-  computed:{
-    ...mapGetters([
-      'settingArr'
-    ])
-  },
   methods:{
     ...mapActions([
       'toggleSetting'

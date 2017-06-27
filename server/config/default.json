@@ -5,5 +5,21 @@
   "paginate": {
     "default": 10,
     "max": 50
+  },
+  "dbName": "vue_todo",
+  "tablelist" : {
+    "tables":[
+      "tasks", 
+      "attachment", 
+      "tags", 
+      "task_tags", 
+      "task_comments", 
+      "role", 
+      "settings", 
+      "user_settings", 
+      "accessright", 
+      "permission",
+      "users"
+    ]
   }
 }

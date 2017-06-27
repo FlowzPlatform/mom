@@ -149,6 +149,7 @@
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import SettingsMenu from './SettingsMenu.vue'
   import NavBarSlider from './NavBarSlider.vue'
+  import CmnFunc from './CommonFunc.js'
   import { mapGetters } from 'vuex'
   export default {
     name: 'navbar',
@@ -201,10 +202,11 @@
         this.settings_menu = false
       },
       btnLogoutClicked() {
-        this.$store.state.userObject = {}
-        this.$store.state.isAuthorized = false
-        this.$store.commit('userData')
-        this.$store.commit('authorize')
+        CmnFunc.deleteAutheticationDetail()
+        // this.$store.state.userObject = {}
+        // this.$store.state.isAuthorized = false
+        // this.$store.commit('userData')
+        // this.$store.commit('authorize')
         window.location = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:3000"
       },
       btnUpdateProfileClicked() {

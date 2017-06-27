@@ -2,6 +2,7 @@
 <div class="rightsection-view">
 <div class="DropTargetAttachment">
 <section class="todoapp right_bar">
+  <div class="taskbarsect">
   <right-toolbar :filteredTodo="todoObject"></right-toolbar>
 	<text-description :filteredTodo="todoObject">
   </text-description>
@@ -15,6 +16,7 @@
   <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
   <tags :filteredTodo="todoObject"></tags>
   <main-left-section :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
+  </div>
   <story-feed :filteredTodo="todoObject"></story-feed>
 </section>
 </div>

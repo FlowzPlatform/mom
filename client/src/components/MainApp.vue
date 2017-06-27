@@ -150,7 +150,6 @@
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import { mapGetters, mapActions } from 'vuex'
-  import CmnFunc from './CommonFunc.js'
   Vue.use(require('vue-moment'))
 
   const filters = {
@@ -313,15 +312,15 @@
       }
     },
     methods: {
-      btnLogoutClicked() {
-        // this.$store.commit('DELETE_ATTACHMENTS')
-        // this.$store.state.userObject = {}
-        // this.$store.state.isAuthorized = false
-        // this.$store.commit('userData')
-        // this.$store.commit('authorize')
-        CmnFunc.deleteAutheticationDetail()
-        window.location = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:3000"
-      },
+      // btnLogoutClicked() {
+      //   // this.$store.commit('DELETE_ATTACHMENTS')
+      //   // this.$store.state.userObject = {}
+      //   // this.$store.state.isAuthorized = false
+      //   // this.$store.commit('userData')
+      //   // this.$store.commit('authorize')
+      //   CmnFunc.deleteAutheticationDetail()
+      //   window.location = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:3000"
+      // },
       btnUpdateProfileClicked() {
         //   var bucket = new AWS.S3({params: {Bucket: 'obexpense'}});
         //   var fileChooser = document.getElementById('file');

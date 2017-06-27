@@ -10,18 +10,17 @@
                   <div class="photo-view photo-view-remix inbox-size photo-view-rounded-corners clickable ">
                     <div class="react-mount-node photoView-reactMount">
                       <div data-reactroot="" class="Avatar Avatar--medium Avatar--color4">
-                        <span v-if="imageURlProfilePic"><img v-bind:src="imageURlProfilePic" /></span>
-                          <span v-else>{{ capitalizeLetters }}</span>
+                        <span> {{ getUserLetters() }}<img v-bind:src="imageURlProfilePic" /></span>
+                        <!--<span v-if="imageURlProfilePic"><img v-bind:src="imageURlProfilePic" /></span>
+                          <span v-else>{{ capitalizeLetters }}</span>-->
                         </div>
                       </div>
                     </div>
                     <!--<label tabindex="-1" class="token_name" @click='getAllUsers()'>{{ uname }}</label>-->
                     <span class="dropdown">
-                      <a tabindex="-1" class="token_name" data-toggle="dropdown" id='userlist' @click='getAllUsers()'>{{ uname }}</a>
-                      <ul class='dropdown-menu' aria-labelledby="userlist">
-                        <li><a>User 1</a></li>
-                          <hr>
-                        <li><a>User 2</a></li>
+                      <a tabindex="-1" class="token_name" data-toggle="dropdown" id='userlist' @click='getAllUsers()'>{{ getAssignedUserName () }}</a>
+                      <ul class='dropdown-menu userlist' aria-labelledby="userlist">
+                        <li v-for="(user, index) in getAllUserList"><a @click="btnUserClicked(user)"> <span>{{ getUserListingURL(user) }}<img v-bind:src="imageURlProfilePic" /></span>{{user.email}}</a><hr></li>
                       </ul>
                     </span>
                 </span>
@@ -34,7 +33,7 @@
                 <div class="property due_date value-set">
                     <div class="property-name">
                     <span>
-                                            <datepicker 
+                     <datepicker 
                       placeholder="Due Date"
                       class="wrapperClass temp"
                       v-on:selected="dateFormatter"
@@ -95,7 +94,7 @@
 					<div class="circularButtonView action-menu-label circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               <i class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></i>
 					</div>
-                    <ul class="dropdown-menu" style="top: 52px;max-height: 250px;left: 433.31px;min-width: 30px;z-index: 2000;">
+                    <ul class="dropdown-menu" style="top: 52px;max-height: 250px;left: 408.31px;min-width: 30px;z-index: 2000;">
                     <li><a id="estimated_hours" class="menu-item" title="">
                       <button class="dropdown-menu-item-label" @click="estimated_time = true">Estimated Hours</button>
                     </a></li>
@@ -138,7 +137,7 @@ import moment from 'moment';
 import EstimatedHours from './EstimatedHours.vue'
 import TaskPriority from './TaskPriority.vue'
 // import SettingsMenu from './SettingsMenu.vue'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 Vue.use(KeenUI);
 Vue.filter('formatDate', function(value) {
   if (value) {
@@ -151,25 +150,33 @@ export default {
   data() {
     return {
       picker1: null,
-      imageURlProfilePic: this.$store.state.userObject.image_url,
+      // imageURlProfilePic: this.$store.state.userObject.image_url,
+      imageURlProfilePic: '',
       index: this.filteredTodo.index,
       popName:'',
       estimated_time: false,
       task_priority:false,
+      userName: ''
     }
   },
+  async created () {
+     await this.getAllUsers()
+  },
   computed: {
-    uname: function(){
-      var str = this.$store.state.userObject.email
-      var n = str.indexOf("@")
-      var res = str.substr(0, n)
-      return res
-    },
-    capitalizeLetters: function(){
-      var str = this.$store.state.userObject.email
-      var firstLetters = str.substr(0,2)
-      return firstLetters.toUpperCase()
-    }
+     ...mapGetters([
+      'getAllUserList'
+    ])
+    // uname: function(){
+    //   var str = this.$store.state.userObject.email
+    //   var n = str.indexOf("@")
+    //   var res = str.substr(0, n)
+    //   return res
+    // },
+    // capitalizeLetters: function(){
+    //   var str = this.$store.state.userObject.email
+    //   var firstLetters = str.substr(0,2)
+    //   return firstLetters.toUpperCase()
+    // }
   },
   methods: {
     ...mapMutations([
@@ -221,27 +228,77 @@ export default {
     removeAttachmentPopUp () {
        setTimeout(function(){ $('.attachmentsMenuView').removeClass('open') }, 1000);
     },
-    getAllUsers () {
-      console.log('get all users called')
-      this.$store.dispatch('getAllUsersList')
-      .then(function (response) {
-        console.log('response: ', response)
-      })
-      .catch(function(error) {
-        // $.notify.defaults({ className: "error" })
-        // $.notify(error.message, { globalPosition:"top center"})
-      })
+    // getAllUsers () {
+    //   console.log('get all users called')
+    //   this.$store.dispatch('getAllUsersList')
+    //   .then(function (response) {
+    //     console.log('response: ', response)
+    //   })
+    //   .catch(function(error) {
+    //     // $.notify.defaults({ className: "error" })
+    //     // $.notify(error.message, { globalPosition:"top center"})
+    //   })
+    // },
+    async getAllUsers () {
+      await this.$store.dispatch('getAllUsersList')
     },
     closeDiv: function (id) {
       // console.log('divid', $('.destroy').parents('#'+id+'.right_pane_container'))
       // $('.destroy').parents('#'+id+'.right_pane_container').hide()
+    },
+    btnUserClicked (objUser) {
+      this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "assigned_by": this.$store.state.userObject._id, "assigned_to": objUser._id})
+    },
+    getUserListingURL (userUrl) {
+      if(userUrl.image_url){
+        
+        this.imageURlProfilePic = userUrl.image_url
+        return
+      }
+      this.imageURlProfilePic = ''
+      return this.capitalizeLetters(userUrl.email)
+    },
+    getUserLetters () {
+      var user = this.getAssignedUserObj()
+      if(user.image_url){
+        
+        this.imageURlProfilePic = user.image_url
+        return
+      }
+      this.imageURlProfilePic = ''
+      return this.capitalizeLetters(user.email)
+    },
+    getAssignedUserName () {
+      var user = this.getAssignedUserObj()
+      return this.getName(user.email)
+    },
+    getName(name) {
+      var str = name
+      var n = str.indexOf("@")
+      var res = str.substr(0, n)
+      return res
+    },
+    capitalizeLetters (name){
+      var str = name
+      var firstLetters = str.substr(0,2)
+      return firstLetters.toUpperCase()
+    },
+    getAssignedUserObj (){
+      var objUser
+      if (this.filteredTodo.assigned_to === this.$store.state.userObject._id){
+        objUser =  this.$store.state.userObject
+      }else{
+        objUser = _.find(this.$store.state.arrAllUsers, ['_id', this.filteredTodo.assigned_to])
+      }
+      console.log('User', objUser)
+      return objUser
     }
   },
-  mounted() {
-    $('.datetimepicker1').datepicker().on(
-      'changeDate', () => { this.selectedDate = $('.datetimepicker1').val() 
-    })
-  },
+  // mounted() {
+  //   $('.datetimepicker1').datepicker().on(
+  //     'changeDate', () => { this.selectedDate = $('.datetimepicker1').val() 
+  //   })
+  // },
   components:{
     Datepicker,
     EstimatedHours,

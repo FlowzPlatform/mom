@@ -21,11 +21,11 @@ module.exports = function() {
   // Get our initialize service to that we can bind hooks
   const tasks_Settings = app.service('/getSettings');
 
-//   // Set up our before hooks
-//   tasks_Settings.before(hooks.before);
+  // Set up our before hooks
+  tasks_Settings.before(hooks.before);
 
-//   // Set up our after hooks
-//   tasks_Settings.after(hooks.after);
+  // Set up our after hooks
+  tasks_Settings.after(hooks.after);
 
 
 }

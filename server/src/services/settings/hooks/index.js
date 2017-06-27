@@ -15,7 +15,6 @@ exports.before = {
             return {
                 user_setting: query.filter({
                     'settings_id': settings('id'),
-                    'setting_value': true
                 }).coerceTo('array')
             }
         })

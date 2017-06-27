@@ -4,18 +4,22 @@ Tables: tasks, users
 tasks:
 {
     id,
-    taskName,
-    taskDesc,
-    taskComment,
+    task_name,
+    task_description,
     level,
-    parentId,
-    createdbyId,
+    index,
+    parent_id,
     completed,
-    createdAt,
-    updatedAt,
-    signup_type: email, gmail, 
     due_date,
-}
+    created_at,
+    updated_at,
+    estimated_time,
+    priority
+    created_by,
+    assigned_by,
+    assigned_to
+
+}   
 
 users:
 {
@@ -28,7 +32,8 @@ users:
     dob,
     aboutus,
     createdAt,
-    updatedAt
+    updatedAt,
+    signup_type: email, gmail, 
 }
 
 tbl_tags:

@@ -2405,7 +2405,7 @@ svg.ui-progress-circular__indeterminate {
 }
 
 .right_pane_container #right_pane > .rightsection-view.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
-.right_pane_container #right_pane > .rightsection-view.open > div {width: 49%;}
+.right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar > div {width: 50%; float: left}
 /*.window-full.circularButtonView {margin-top: 6px;}*/
 .datepicker.datepicker-dropdown {
     margin-top: 67px;
@@ -2626,6 +2626,7 @@ hr {
 .FeedBlockStory {
     padding: 10px 28px;
     /*position: relative;*/
+    width: 100%;
 }
 .BlockStory {
     display: -webkit-box;
@@ -2922,4 +2923,41 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
     border-bottom: 1px solid #1aafd0;
     border-radius: 0;
     border-top: 1px solid #1aafd0;
+}
+.SingleTaskPane-feed,
+.taskbarsect {display: inline-block; width: 100%; vertical-align: top;}
+.SingleTaskPane-feed {border-left: solid 1px #ccc;margin-left: -1px;}
+.taskbarsect {border-right: solid 1px #ccc;}
+.userlist {
+    max-height: 200px;
+    overflow: auto;
+}
+.userlist li a {
+    line-height: 40px
+}
+.userlist li hr{
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+.userlist li a:hover{
+   background-color: #1aafd0; 
+   color: #fff !important;
+}
+.userlist li a span{
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: middle;
+    background-color: #ccc;
+    margin-right: 10px;
+    line-height: 24px;
+    text-align: center;
+    
+}
+.userlist li a span img {
+    max-height: 100%;
+    max-width: 100%;
+    vertical-align: middle;
 }

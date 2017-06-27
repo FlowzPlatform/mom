@@ -1,6 +1,7 @@
 <template>
   <div class="dropdown">
   <div class="dropdown pull-right">
+    {{$store.state.visibility | capitalize}}
     <button class="btn btn-defualt glyphicon glyphicon-cog" type="button" data-toggle="dropdown"></button>
     <ul class="dropdown-menu">
         <li v-for="(val, key) in filters">
@@ -17,7 +18,6 @@ import { mapMutations } from 'vuex'
 export default {
   data() {
         return {
-          selected: '',
         }
   },
   props: ['filters'],

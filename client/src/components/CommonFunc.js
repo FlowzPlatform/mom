@@ -1,5 +1,5 @@
 /* eslint-disable*/
-
+import { store } from '../VuexSession'
 export default {
     // Check validations
   checkBlankField: function (text) {
@@ -27,6 +27,7 @@ export default {
       console.log('inside authentication')
       store.commit('DELETE_USERTOKEN')
       store.commit('DELETE_ATTACHMENTS')
+      store.commit('DELETE_ALLUSERSLIST')
       store.state.userObject = {}
       store.state.isAuthorized = false
       store.commit('userData')
