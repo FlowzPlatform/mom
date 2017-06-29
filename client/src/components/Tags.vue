@@ -9,7 +9,8 @@
         <div class="task-tag-box">
             <span class="token-input-container">
             <el-tag :key="tag" v-for="tag in taskTags" :closable="true" :close-transition="false" @close="handleClose(tag)">
-                {{tag.name}}
+                {{getTagNameFromId(tag)}}
+                <!--{{tag.name}}-->
             </el-tag>
         </span>
             <span class="el-dropdowns-parts">
@@ -60,7 +61,7 @@
                 inputValue: '',
                 tagItem: '',
                 isNewTag: false,
-                isSearchTag: false  // isSearchTag is true when tag search from tags array otherwise false
+                isSearchTag: false,  // isSearchTag is true when tag search from tags array otherwise false
             }
         },
         created() {
@@ -93,6 +94,22 @@
                 return itemList;
             }
         }, methods: {
+             getTagNameFromId:function(tag){
+               if(tag.name)
+                    return tag.name;
+                    
+                 let index = _.findIndex(this.$store.state.tagsList, function (d) { return d.id == tag.tag_id })
+                 console.log('Tag id index', index);
+                 if(index > -1)
+                 {
+                    if (!tag.name)
+                            tag.name = this.$store.state.tagsList[index].name
+                        return tag.name
+                 }
+                 else
+                    return ''
+                //  return this.$store.state.tagsList[index].name
+            },
             selectLiTag: function (item) {
                 this.selectFromList = true;
                 console.log("selectLiTag method call--------------------", item)

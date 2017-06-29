@@ -73,7 +73,7 @@
                  * @type {Object}
                  */
                 googleSignInParams: {
-                    client_id: '384614142196-v2eg0tk8cam69bpqmcmg32j9jvemdoqh.apps.googleusercontent.com'
+                    client_id: '121571575113-vcsgo986qvvimdpgll6febunvvjqmcog.apps.googleusercontent.com'
                 }
             }
         },
@@ -273,9 +273,13 @@
                     self.$store.commit('authorize')             
                     self.$store.dispatch('getUserDetail')             
                     .then(function () {                 
-                        location.href = '/navbar'             
+                         self.$router.replace('/navbar')               
                     })             
-                    .catch(function(error) {                 
+                    .catch(function(error) {      
+                       if (error.response.status === 401) { 
+                           console.log('error: ', error.response.status) 
+                           return 
+                        }              
                         $.notify.defaults({ className: "error" })                 
                         $.notify(error.message, { globalPosition:"top center"})             
                     })       

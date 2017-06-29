@@ -17,6 +17,9 @@ module.exports = function() {
   // Initialize our service with any options it requires 
   app.use('/task_tags', service(options));
    const taskTags =app.service('/task_tags');
+  app.service('task_tags').init().then(task_tags => {
+      console.log('Created task_tags', task_tags)
+  });
 
 
   // Set up our before hooks

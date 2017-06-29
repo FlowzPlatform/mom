@@ -1,6 +1,7 @@
 'use strict';
 const service = require('feathers-rethinkdb');
 const hooks = require('./hooks');
+const errorHandler = require('feathers-errors/handler');
 
 module.exports = function() {
   const app = this;
@@ -10,29 +11,28 @@ module.exports = function() {
 
   const options = {
     Model: r,
-    db: 'vue_todo', //must be on the same connection as rethinkdbdash
-    name: 'tasks',
-     // Enable pagination
-    // paginate: {
-    //     default: 50,
-    //     max: 50
-    // }
+    name: 'project',
+    
   };
 
   // Initialize our service with any options it requires 
-  app.use('/tasks', service(options));
+  app.use('/project', service(options));
+ 
 
   // Get our initialize service to that we can bind hooks
-  const taskService = app.service('/tasks');
-  app.service('tasks').init().then(tasks => {
-      console.log('Created tasks', tasks)
+  const project =app.service('/project');
+  app.service('project').init().then(project => {
+      console.log('Project created', project)
   });
 
+
   // Set up our before hooks
-  taskService.before(hooks.before);
+  project.before(hooks.before);
 
   // Set up our after hooks
-  taskService.after(hooks.after);
+  project.after(hooks.after);
+
+  // project.hooks(hooks);
 
 
 }

@@ -19,9 +19,12 @@ module.exports = function() {
 
   // Get our initialize service to that we can bind hooks
   const taskHistoryLogs = app.service('/history_logs');
+  app.service('history_logs').init().then(history_logs => {
+      console.log('Created history_logs', history_logs)
+  });
 
 //   // Set up our before hooks
-//   taskHistoryLogs.before(hooks.before);
+  taskHistoryLogs.before(hooks.before);
 
 //   // Set up our after hooks
 //   taskHistoryLogs.after(hooks.after);

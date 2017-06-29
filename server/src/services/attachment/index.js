@@ -33,14 +33,11 @@ module.exports = function() {
 
   // Get our initialize service to that we can bind hooks
   const taskAttachmentService = app.service('/task_attachment');
+  app.service('task_attachment').init().then(task_attachment => {
+      console.log('Created task_attachment', task_attachment)
+  });
 
-  //taskService.get('005f991f-db06-4702-92ac-93c5a1da059c').then(todo => console.log(todo))
-//   app.service('tasks').find({
-//     query: {
-//       parentId: ''
-//     }
-//  });
-
+ 
   // Set up our before hooks
   taskAttachmentService.before(hooks.before);
 

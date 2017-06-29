@@ -7,7 +7,7 @@
             v-show="this.$store.state.isProgress">
         </ui-progress-linear>-->
         <!--{{filteredTodo.attachmentprogress}} | {{filteredTodo.deleteprogress}}-->
-         <ul class="uplod-list-file">
+         <ul class="uplod-list-file list-inline">
             <li v-for="(files, index) in attachmentList">
             <span>
                 <a target="_blank" v-bind:href="files.file_url">{{ files.file_name }} 
@@ -22,7 +22,8 @@
 					<a class="fa fa-close"/>
 				</button>
                 </span>
-                <span style="float:right;margin-right: 40px;" v-if="index === btnClickedIndex">
+                <span style="float:right;" v-if="index === btnClickedIndex">
+                <!--<span style="float:right;margin-right: 40px;" v-if="index === btnClickedIndex">-->
                 <ui-progress-circular color="black" type="indeterminate" v-show="filteredTodo.deleteprogress" class="circularProgress" :size="20">
                 </ui-progress-circular>
                 </span>

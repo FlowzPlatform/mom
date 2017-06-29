@@ -2,8 +2,16 @@
 <div class="rightsection-view">
 <div class="DropTargetAttachment">
 <section class="todoapp right_bar">
-  <div class="taskbarsect">
   <right-toolbar :filteredTodo="todoObject"></right-toolbar>
+   <div class="taskbarsect">
+  <div v-if="$store.state.deleteItemsSelected" class="MessageBanner MessageBanner--error MessageBanner--medium TaskUndeleteBanner TaskMessageBanner">
+    <span class="fa fa-trash-o "/>
+		<span class="TaskUndeleteBanner-message">This task is deleted.</span>
+	  <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" @click="undelete(todoObject)">Undelete</a>
+		<a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" data-target="#deleteModal">Delete Permanently</a>
+    <!--@click="deletePermently(todoObject)"-->
+		<noscript></noscript>
+	</div>
 	<text-description :filteredTodo="todoObject">
   </text-description>
   <attachments :filteredTodo="todoObject"> </attachments>
@@ -19,6 +27,24 @@
   </div>
   <story-feed :filteredTodo="todoObject"></story-feed>
 </section>
+<div id="deleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel2">Permanently Delete {{todoObject.taskName}}</h4>
+              </div>
+              <div class="modal-body">
+                This will permanently delete the task and associated subtasks. These items will no longer be accessible to you or anyone else. This action is irreversible.
+                
+              </div>
+             <div class="modal-footer">
+              <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" data-dismiss="modal">Close</a>
+              <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" data-dismiss="modal" @click="deletePermently(todoObject)">Delete</a>
+            </div>
+          </div>
+        </div>
+      </div>
 </div>
 <right-footer :filteredTodo="todoObject"></right-footer>
 </div>
@@ -82,6 +108,14 @@ export default {
     //              //self.taskById.splice(index, 1);
     //            }
     //          })
+  },
+   methods:{
+    undelete: function () {
+        this.$store.dispatch('undelete', this.todoObject)
+    },
+    deletePermently:function() {
+      this.$store.dispatch('deletePermently', this.todoObject)
+    }
   },
    watch: {
     // whenever question changes, this function will run

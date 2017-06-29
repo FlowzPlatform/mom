@@ -1,5 +1,6 @@
 'use strict';
 const globalHooks = require('../../../hooks');
+const config = require('config');
 
 exports.before = {
     all: [
@@ -11,6 +12,15 @@ exports.before = {
         const query = this.createQuery(hook.params.query);
         const r = this.options.r;
         console.log('query', query)
+        
+        //start create settings table if not exist
+        const db = config.get('dbName')
+        const table = "settings"
+        r.db(db).tableList().contains(table) // create table if not exists
+        .do(tableExists => r.branch(tableExists, { created: 0 }, r.db(db).tableCreate(table)))
+        .run();
+        // end table create
+
         hook.params.rethinkdb = r.table('settings').merge(function (settings) {
             return {
                 user_setting: query.filter({

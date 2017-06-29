@@ -59,7 +59,8 @@ export default {
   },
   methods:{
         insertComment: function(taskId){
-        this.$store.dispatch('insertTaskComment',{"id":this.filteredTodo.id, "comment":this.commentText, "commentBy": this.$store.state.userObject.username})
+        console.log('Comment by', this.$store.state.userObject.fullname)
+        this.$store.dispatch('insertTaskComment',{"id":this.filteredTodo.id, "comment":this.commentText, "commentBy": this.$store.state.userObject.fullname})
         this.commentText = ''
     }
   },

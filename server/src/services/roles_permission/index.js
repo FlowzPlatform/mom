@@ -19,6 +19,9 @@ module.exports = function() {
 
   // Get our initialize service to that we can bind hooks
   const accessRights = app.service('/accessright');
+  app.service('accessright').init().then(accessright => {
+      console.log('Created accessright', accessright)
+  });
 
 
   // Set up our before hooks

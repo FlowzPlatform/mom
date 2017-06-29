@@ -72,6 +72,7 @@
             }),
             commentList() {
                 let commentList = this.getComment(this.filteredTodo.id)
+                console.log('Commentlist', commentList)
                 return commentList
             }
         }

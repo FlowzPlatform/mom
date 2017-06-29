@@ -385,7 +385,7 @@ html .clear-completed:active {
 	background-color: #fff;
 	/*border: 1px solid #E1E2E4;*/
     margin: 0 30px;
-    padding-bottom: 25px;
+    /*padding-bottom: 25px;*/
     padding-left: 20px;
     padding-top: 5px;
 }
@@ -854,11 +854,6 @@ svg:not(:root){
     border-color: #ffb900;
     color: #fff;
     fill: #fff;
-}
-.Button.Button--small{
-	    height: 30px;
-    line-height: 30px;
-    padding: 0 9px;
 }
 .Button.Button--primary{
 	background: #ffb900;
@@ -2057,7 +2052,7 @@ input[type="file"].hidden-file-input {
 .Topbar-accountInfo .dropdown-menu li a {
     padding: 3px 35px;    line-height: 3.00857143;}
 .modal-open .modal {
-    top: 0;
+    top: 40px;
      background-color: rgba(0, 0, 0, 0.28); 
 }
 .modal-open .modal .modal-dialog {
@@ -2077,7 +2072,7 @@ input[type="file"].hidden-file-input {
     top: 257px !important;
     width: 250px;
     margin: 0 auto 0 47.8%;}
-.upl-img {height: 70px; width: 70px; background-color: #ccc; border-radius: 50%; display: inline-block; overflow: hidden; border: solid 2px #ccc;}
+.upl-img {height: 70px; width: 70px; background-color: #ccc; border-radius: 50%; position: relative; display: inline-block; overflow: hidden; border: solid 2px #ccc;}
 .upl-img img {max-width: 100%; max-height: 100%; }
 .img-part {display: inline-block; width: 150px; vertical-align: top;text-align: right;
     padding-right: 20px;}
@@ -2272,7 +2267,7 @@ attachmentsMenuView .dropdown-menu li a:hover {background-color: #1aafd0;color: 
 .upload-file-dropdown { width: 160px; position: relative; z-index: 1;  display: inline-block;}
 .upload-file-dropdown > input {width: 100%; height: 30px; opacity: 0;}
 .upload-file-dropdown > span {position: absolute;top: 0;left: 0;width: 100%;z-index: -1;}
-.uplod-list-file {text-align: left; width: 100%;list-style: none;padding: 0 0 0 30px; margin: 0px; position: relative;}
+.uplod-list-file {text-align: left; width: 100%;list-style: none;padding: 0 0 10px 30px; margin: 0px; position: relative;}
 .uplod-list-file li:first-child::after {content: "\f0c6"; display: inline-block; font: normal normal normal 14px/1 FontAwesome; font-size: inherit;
 text-rendering: auto; -webkit-font-smoothing: antialiased; padding-right: 10px; padding-left: 20px; color:#ccc; position: absolute; top: 0; left: 8px;}
 .uplod-list-file li::before {content: "\f016"; display: inline-block; font: normal normal normal 14px/1 FontAwesome; font-size: inherit;
@@ -2285,9 +2280,7 @@ text-rendering: auto; -webkit-font-smoothing: antialiased;  vertical-align: top;
 width: 17px;font-size: 12px;border-radius: 12px;line-height: 17px;color: rgba(0, 0, 0, 0.57); margin-left: 20px;}
 .uplod-list-file li:hover button:hover {background-color: #1AAFD0; color: #fff;}
 .uplod-list-file li .ui-progress-linear {margin: 0 !important;padding: 0;width: 100% !important;position: absolute;left: 0; right: 0;}
-svg.ui-progress-circular__indeterminate {
-    margin-bottom: 15px;
-}
+
 .vdp-datepicker.wrapperClass.temp > div > input {
     width: 101px;
 }
@@ -2406,6 +2399,28 @@ svg.ui-progress-circular__indeterminate {
 
 .right_pane_container #right_pane > .rightsection-view.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar > div {width: 50%; float: left}
+.right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar >  .details-pane-toolbar.toolbar-no-grad {width: 100%}
+.right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar > div.taskbarsect {
+    position: fixed;
+    width: 50%;
+    left: 0;
+    height: calc(100% - 95px);
+    top: 95px;overflow: auto;
+}
+.right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar > div.SingleTaskPane-feed {
+position: fixed;
+    width: 50%;
+    right: 0;
+    height: calc(100% - 215px);
+    top: 95px;overflow: auto;
+}
+.right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar {height: 100%;}
+.right_pane_container #right_pane > .rightsection-view.open #details_pane_footer {
+    position: fixed;
+    width: 50%;
+    right: 0;
+    bottom: 5px;
+}
 /*.window-full.circularButtonView {margin-top: 6px;}*/
 .datepicker.datepicker-dropdown {
     margin-top: 67px;
@@ -2419,7 +2434,7 @@ svg.ui-progress-circular__indeterminate {
     /*position: absolute;*/
     right: 0px;
     left: 0px;
-    z-index: 1050;
+    /*z-index: 1050;*/
     /* display: none; */
      overflow: visible; 
     -webkit-overflow-scrolling: touch;
@@ -2961,3 +2976,78 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
     max-width: 100%;
     vertical-align: middle;
 }
+.SidebarReportsItemRow {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-left: 3px solid transparent;
+    color: #fff;
+    cursor: pointer;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    fill: #a2b4bc;
+    height: 28px;
+    -webkit-box-pack: right;
+    -webkit-justify-content: right;
+    -ms-flex-pack: right;
+    justify-content: right;
+    padding: 0 10px 0 12px;
+}
+.SidebarReportsItemRow:hover {
+    background-color: #179dba;
+}
+.modal-backdrop.fade.in {
+    z-index: -1;
+}
+.TaskMessageBanner.MessageBanner {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.MessageBanner--medium {
+    min-height: 40px;
+    padding: 5px 15px;
+}
+.MessageBanner--error {
+    background-color: #feeded;
+    color: #ad151d;
+}
+.MessageBanner {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.TaskUndeleteBanner-message {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 0 auto;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+}
+.Button.Button--secondary:not(.Button--disabled) {
+    background: #fff;
+    border-color: #1aafd0;
+    color: #1aafd0;
+    fill: #1aafd0;
+    margin-right: 10px;
+}
+.Button.Button--small {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 9px;
+}
+.TaskUndeleteBanner-permadeleteButton.Button--primary:not(.Button--disabled) {
+    background: #fc636b;
+    border-color: #fc636b;
+    color: #fff;
+    fill: #fff;
+}
+.ui-progress-circular {position: absolute;}

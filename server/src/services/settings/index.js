@@ -20,6 +20,9 @@ module.exports = function() {
   
   // Get our initialize service to that we can bind hooks
   const tasks_Settings = app.service('/getSettings');
+  app.service('getSettings').init().then(user_settings => {
+      console.log('Created user_settings', user_settings)
+  });
 
   // Set up our before hooks
   tasks_Settings.before(hooks.before);

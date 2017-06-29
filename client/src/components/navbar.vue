@@ -14,7 +14,7 @@
           </svg>
         </a>
       </div>
-      <router-link class="NavigationLink Topbar-myTasksButton is-selected" to="/navbar/mainapp">
+      <router-link class="NavigationLink Topbar-myTasksButton is-selected"  v-on:click.native="showMyTasks" to="/navbar/mainapp">
         My Tasks
       </router-link>
       <router-link class="NavigationLink Topbar-myTasksButton is-selected" to="/navbar/inbox">
@@ -150,7 +150,7 @@
   import SettingsMenu from './SettingsMenu.vue'
   import NavBarSlider from './NavBarSlider.vue'
   import CmnFunc from './CommonFunc.js'
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapMutations  } from 'vuex'
   export default {
     name: 'navbar',
     data: function () {
@@ -188,13 +188,17 @@
       }
     },
     methods: {
+      ...mapMutations([
+            'showMyTasks'
+        ]),
       openCloseNav:function(){
         console.log("Opennav")
         console.log('==>',$('#center_pane'));
          $('.Topbar-navButton').css('margin-left','-35px');
             document.getElementById('mySidenav').style.width = "250px"
             document.getElementById("top-bar").style.marginLeft = "250px"
-            document.getElementById("center_pane").style.marginLeft = "250px";
+            // document.getElementById("center_pane").style.marginLeft = "250px";
+            document.getElementById("main-container").style.marginLeft = "250px";
           this.isOpen = true
           this.$store.commit('UPDATE_SLIDER_VALUE', this.isOpen)
       },
@@ -210,28 +214,35 @@
         window.location = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:3000"
       },
       btnUpdateProfileClicked() {
-        this.$store.state.userObject.username = this.username
-        this.$store.state.userObject.role = this.role
-        if (this.dob) {
-          this.$store.state.userObject.dob = this.dob
-        }
-        this.$store.state.userObject.aboutme = this.aboutme
-        this.$store.commit('userData')
-        this.$http.post('/updateUserProfile', {
-          email: this.$store.state.userObject.email,
-          username: this.username,
-          role: this.role,
-          dob: this.dob,
-          aboutme: this.aboutme,
-          signup_type: this.$store.state.userObject.signup_type,
-          image_url: this.imageURlProfilePic
-        }).then(response => response.json())
-          .then(json => {
-            if (json.replaced) {
-              $.notify.defaults({ className: "success" })
-              $.notify("Profile updated successfully.", { globalPosition: "top center" })
-            }
+        var self = this
+        this.$store.dispatch('updateUserProfile', {
+          'fullname': this.username,
+          'role': this.role,
+          'dob': this.dob,
+          'aboutme': this.aboutme,
+          //'signup_type': this.$store.state.userObject.signup_type,
+          'image_url': this.imageURlProfilePic
+        })
+          .then(function () {
+            self.$store.state.userObject.fullname = self.username
+            self.$store.state.userObject.role = self.role
+            //if (this.dob) {
+            self.$store.state.userObject.dob = self.dob
+            //}
+            self.$store.state.userObject.aboutme = self.aboutme
+            self.$store.commit('userData')
           })
+          .catch(function (error) {
+            console.log('error: ', error.response.status)
+            if(error.response.status === 401){
+              CmnFunc.deleteAutheticationDetail()
+              self.$router.replace('/') 
+              return
+            }
+            
+            $.notify.defaults({ className: "error" })
+            $.notify(error.message, { globalPosition:"top center"})
+          });
       },
       btnProfileClicked() {
         console.log('UserName', this.$store.state.userObject.fullname)
@@ -262,41 +273,37 @@
           bucket.upload(params).on('httpUploadProgress', function (evt) {
             console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total) + '%');
           }).send(function (err, data) {
-            console.log('file: ', file.name)
             self.imageURlProfilePic = data.Location
             self.$store.state.userObject.image_url = self.imageURlProfilePic
             self.$store.state.userObject.image_name = file.name
             self.$store.commit('userData')
             //Delete image from amazon
-            console.log('data: ', data.Location)
-            console.log('key: ', self.$store.state.userObject.image_name)
             var bucketInstance = new AWS.S3();
             var params = {
               Bucket: 'airflowbucket1/obexpense/expenses',
               Key: imageKey
             }
             bucketInstance.deleteObject(params, function (err, data) {
-              if (data) {
-                self.$http.post('/updateImageURL', {
-                  email: self.$store.state.userObject.email,
-                  signup_type: self.$store.state.userObject.signup_type,
-                  image_url: self.imageURlProfilePic,
-                  image_name: file.name
-                }).then(response => {
-                  if (response.body.replaced) {
-                    self.loading = false
-                  }
-                })
-              }
-              else {
-                console.log("Check if you have sufficient permissions : ", err.stack);
-              }
+            self.$store.dispatch('updateUserProfile', {
+              image_url: self.imageURlProfilePic,
+              image_name: file.name
+            })
+              .then(function () {
+                self.$store.state.userObject.image_url = self.imageURlProfilePic
+                self.$store.state.userObject.image_name = file.name
+                self.$store.commit('userData')
+                self.loading = false
+              })
+              .catch(function (error) {
+                // $.notify.defaults({ className: "error" })
+                // $.notify(error.message, { globalPosition:"top center"})
+              });
             });
           });
         }
         return false;
       },
-      onFileChange(e) {
+      onFileChange() {
         this.loading = true;
         let self = this;
         var bucket = new AWS.S3({ params: { Bucket: 'airflowbucket1/obexpense/expenses' } });
@@ -307,21 +314,35 @@
           bucket.upload(params).on('httpUploadProgress', function (evt) {
             console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total) + '%');
           }).send(function (err, data) {
-            console.log("Amazon-data :: ", err);
-            self.$http.post('/updateImageURL', {
-              email: self.$store.state.userObject.email,
-              signup_type: self.$store.state.userObject.signup_type,
+            // console.log("Amazon-data :: ", err);
+            // self.$http.post('/updateImageURL', {
+            // email: self.$store.state.userObject.email,
+            // signup_type: self.$store.state.userObject.signup_type,
+            // image_url: data.Location,
+            // image_name: file.name
+            // }).then(response => {
+            //     if (response.body.replaced) {
+            //         self.imageURlProfilePic = data.Location
+            //         self.$store.state.userObject.image_url = self.imageURlProfilePic
+            //         self.$store.state.userObject.image_name = file.name
+            //         self.$store.commit('userData')
+            //         self.loading = false
+            //     }
+            self.$store.dispatch('updateUserProfile', {
               image_url: data.Location,
               image_name: file.name
-            }).then(response => {
-              if (response.body.replaced) {
+            })
+              .then(function () {
                 self.imageURlProfilePic = data.Location
                 self.$store.state.userObject.image_url = self.imageURlProfilePic
                 self.$store.state.userObject.image_name = file.name
                 self.$store.commit('userData')
                 self.loading = false
-              }
-            })
+              })
+              .catch(function (error) {
+                // $.notify.defaults({ className: "error" })
+                // $.notify(error.message, { globalPosition:"top center"})
+              });
           });
         }
         return false;
@@ -347,19 +368,33 @@
         bucketInstance.deleteObject(params, function (err, data) {
           if (data) {
 
-            self.$http.post('/updateImageURL', {
-              email: self.$store.state.userObject.email,
-              signup_type: self.$store.state.userObject.signup_type,
+            // self.$http.post('/updateImageURL', {
+            //   email: self.$store.state.userObject.email,
+            //   signup_type: self.$store.state.userObject.signup_type,
+            //   image_url: self.imageURlProfilePic,
+            //   image_name: ''
+            //   }).then(response => {
+            //       if (response.body.replaced) {
+            //           self.$store.state.userObject.image_url = self.imageURlProfilePic
+            //           self.$store.state.userObject.image_name = ''
+            //           self.$store.commit('userData')
+            //           self.loading = false
+            //       }
+            self.$store.dispatch('updateUserProfile', {
               image_url: self.imageURlProfilePic,
               image_name: ''
-            }).then(response => {
-              if (response.body.replaced) {
+            })
+              .then(function () {
+                self.imageURlProfilePic = data.Location
                 self.$store.state.userObject.image_url = self.imageURlProfilePic
                 self.$store.state.userObject.image_name = ''
                 self.$store.commit('userData')
                 self.loading = false
-              }
-            })
+              })
+              .catch(function (error) {
+                // $.notify.defaults({ className: "error" })
+                // $.notify(error.message, { globalPosition:"top center"})
+              });
           }
           else {
             console.log("Check if you have sufficient permissions : ", err.stack);

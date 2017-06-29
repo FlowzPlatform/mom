@@ -23,9 +23,10 @@
             <span class="grid_due_date ">{{todo.dueDate | formatDate}}</span>
           </a>
         </div>
-        <button class="destroy" @click="deleteTodo({todo : todo})">
+        <!--<button class="destroy" @click="deleteTodo({todo : todo})">
             <a class="fa fa-close"/>
-        </button>
+            <i class="fa fa-trash-o"></i>
+        </button>-->
       </div>
     <!--{{todo.progress > 50 ? Math.round(255 * (100 - todo.progress) / 100) : 255}} {{ todo.progress > 50 ? 255 : Math.round(todo.progress / 100 * 255)}}{{ 0}}-->
     <!--backgroundColor: 'rgb('+Math.round(255*(100-todo.progress)/100)+', '+Math.round(todo.progress / 100 * 255)+', 0)'-->
@@ -84,15 +85,13 @@
         'SHOW_DIV'
       ]),
       ...mapActions([
-        'insertTodo',
-        'deleteTodo',
         'toggleTodo',
       ]),
       getLevelClass(level, id) {
         return id + "_" + String(level)
       },
-      deleteTodo: function () {
-        this.$store.dispatch('deleteTodo', this.todo)
+      // deleteTodo: function () {
+      //   this.$store.dispatch('deleteTodo', this.todo)
         // console.log('Remove TODO:', this.filteredTodos);
         // if(this.dbId)
         // {
@@ -119,7 +118,7 @@
         //       }
         //   })
         //   }
-      },
+      // },
       addTodo: function (todoId) {
         this.changeFocus(todoId)
         this.$store.dispatch('insertTodo', this.todo)
@@ -153,9 +152,7 @@
           return
         }
       this.$store.state.currentTodoObj = this.todo
-      console.log('IDSSS', this.todo.id)
       this.$store.state.currentModified = (this.todo.id == -1) ? true :false
-      console.log('CurrentModified', this.$store.state.currentModified)
     },
     changeFocus(indexId){
        var self=this;

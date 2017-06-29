@@ -45,14 +45,15 @@
           <div class="PageHeaderStructure-right">
           </div>
         </div>-->
-    <div class="row asanaView-body" style="padding-top: 15px; margin: 10px 10px 10px 10px;">
+    <!--<div class="row asanaView-body" style="padding-top: 15px; margin: 10px 10px 10px 10px;">-->
+      <div id="main-container" class="row asanaView-body" style="padding-top: 15px; margin: 10px 10px 10px 10px;">
       <div class="asanaView-paneGutter"></div>
       <!--<settings-menu :showModal="settings_menu" :closeAction="closeDialog"></settings-menu>-->
 
       <div id="center_pane_container" class="known-list">
         <div id="center_pane">
 
-          <left-toolbar :filters="filters">
+          <left-toolbar v-if="!isCopyLink" :filters="filters">
           </left-toolbar>
           <main-left-section :isCopyLink="isCopyLink" :todoObject="todoObjectById" :pholder="taskPholder" :filtered-todos="taskById"></main-left-section>
         </div>
@@ -192,6 +193,7 @@
     },
     created() {
       this.$store.dispatch('eventListener');
+      this.getAllUsers()
       // ...mapActions([
       //         'getAllTodos'
       //     ])
@@ -218,6 +220,13 @@
       this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
       this.$store.commit('DELETE_ALLTAGS')
       this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '' });
+      // if(this.$store.state.deleteItemsSelected)
+      // {
+      //   this.$store.dispatch('getDeleteTask');
+      // }else {
+      //   this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '' });
+      // }
+
       // this.$store.dispatch('getAllTodos', {'parentId': ''});
       // let self = this;
       // socket.on('feed-change', function(item){
@@ -275,26 +284,27 @@
         todoById: 'getTodoById',
         parentIdArray: 'parentIdArr',
         userSettings: 'user_setting',
-        todoObjectById: 'getObjectById'
+        todoObjectById: 'getObjectById',
+        // deletedTasks:'getDeletedTaskById'
       }),
       taskById() {
-        //let taskArray = this.todoById('', 0)
-        let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', this.url_level)
-        taskArray.push({
-          id: '-1',
-          parentId: this.url_parentId,
-          taskName: '',
-          taskDesc: '',
-          level: this.url_level,
-          //  level: 0,
-          index: taskArray.length,
-          completed: false,
-          dueDate: '',
-          createdAt: new Date().toJSON(),
-          updatedAt: new Date().toJSON()
-        })
-        this.todolist = taskArray
-        return filters[this.$store.state.visibility](taskArray)
+          let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', this.url_level)
+          taskArray.push({
+            id: '-1',
+            parentId: this.url_parentId,
+            taskName: '',
+            taskDesc: '',
+            level: this.url_level,
+            //  level: 0,
+            index: taskArray.length,
+            completed: false,
+            dueDate: '',
+            createdAt: new Date().toJSON(),
+            updatedAt: new Date().toJSON()
+          })
+          this.todolist = taskArray
+          return filters[this.$store.state.visibility](taskArray)
+        
       },
       todos: function () {
         return this.$store.getters.getTodoById('', 0)
@@ -312,16 +322,29 @@
       }
     },
     methods: {
-      // btnLogoutClicked() {
-      //   // this.$store.commit('DELETE_ATTACHMENTS')
-      //   // this.$store.state.userObject = {}
-      //   // this.$store.state.isAuthorized = false
-      //   // this.$store.commit('userData')
-      //   // this.$store.commit('authorize')
-      //   CmnFunc.deleteAutheticationDetail()
-      //   window.location = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:3000"
-      // },
-      btnUpdateProfileClicked() {
+      btnLogoutClicked() {
+        // this.$store.commit('DELETE_ATTACHMENTS')
+        // this.$store.state.userObject = {}
+        // this.$store.state.isAuthorized = false
+        // this.$store.commit('userData')
+        // this.$store.commit('authorize')
+        CmnFunc.deleteAutheticationDetail()
+        window.location = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:3000"
+      },
+       getAllUsers () {       
+         var self = this       
+         this.$store.dispatch('getAllUsersList')                   
+          .catch(function(error) {           
+            if (error.response.status === 401) {               
+              CmnFunc.deleteAutheticationDetail()               
+              self.$router.replace('/')               
+              return           
+            }                    
+            $.notify.defaults({ className: "error" })                           
+            $.notify(error.message, { globalPosition:"top center"})                   
+          })     
+        }
+      // btnUpdateProfileClicked() {
         //   var bucket = new AWS.S3({params: {Bucket: 'obexpense'}});
         //   var fileChooser = document.getElementById('file');
         //   var file = fileChooser.files[0];
@@ -360,136 +383,136 @@
         //     $.notify.defaults({ className: "success" })
         //     $.notify("Profile updated successfully.", { globalPosition:"top center"})
         //   }
-        var self = this
-        this.$store.dispatch('updateUserProfile', {
-          'fullname': this.username,
-          'role': this.role,
-          'dob': this.dob,
-          'aboutme': this.aboutme,
-          //'signup_type': this.$store.state.userObject.signup_type,
-          'image_url': this.imageURlProfilePic
-        })
-          .then(function () {
-            self.$store.state.userObject.fullname = self.username
-            self.$store.state.userObject.role = self.role
-            //if (this.dob) {
-            self.$store.state.userObject.dob = self.dob
-            //}
-            self.$store.state.userObject.aboutme = self.aboutme
-            self.$store.commit('userData')
-          })
-          .catch(function (error) {
-            // $.notify.defaults({ className: "error" })
-            // $.notify(error.message, { globalPosition:"top center"})
-          });
-      },
-      btnProfileClicked() {
-        console.log('UserName', this.$store.state.userObject.fullname)
-        this.username = this.$store.state.userObject.fullname,
-        console.log('UserName11', this.username)
-          this.role = this.$store.state.userObject.role,
-          this.aboutme = this.$store.state.userObject.aboutme,
-          this.imageURlProfilePic = this.$store.state.userObject.image_url
-        if (this.$store.state.userObject.dob) {
-          this.datepicker = new Date(this.$store.state.userObject.dob)
-        }
-        this.enableUpdateProfileBtn()
-      },
-      picker9Formatter(date) {
-        this.dob = Vue.moment(date).format('L');
-        return this.dob
-      },
-      updateProfileImage() {
-        this.loading = true
-        let self = this
-        var bucket = new AWS.S3({ params: { Bucket: 'airflowbucket1/obexpense/expenses' } });
-        var fileChooser = document.getElementById('file');
-        var file = fileChooser.files[0];
-        var imageKey = self.$store.state.userObject.image_name
+      //   var self = this
+      //   this.$store.dispatch('updateUserProfile', {
+      //     'fullname': this.username,
+      //     'role': this.role,
+      //     'dob': this.dob,
+      //     'aboutme': this.aboutme,
+      //     //'signup_type': this.$store.state.userObject.signup_type,
+      //     'image_url': this.imageURlProfilePic
+      //   })
+      //     .then(function () {
+      //       self.$store.state.userObject.fullname = self.username
+      //       self.$store.state.userObject.role = self.role
+      //       //if (this.dob) {
+      //       self.$store.state.userObject.dob = self.dob
+      //       //}
+      //       self.$store.state.userObject.aboutme = self.aboutme
+      //       self.$store.commit('userData')
+      //     })
+      //     .catch(function (error) {
+      //       // $.notify.defaults({ className: "error" })
+      //       // $.notify(error.message, { globalPosition:"top center"})
+      //     });
+      // },
+      // btnProfileClicked() {
+      //   console.log('UserName', this.$store.state.userObject.fullname)
+      //   this.username = this.$store.state.userObject.fullname,
+      //   console.log('UserName11', this.username)
+      //     this.role = this.$store.state.userObject.role,
+      //     this.aboutme = this.$store.state.userObject.aboutme,
+      //     this.imageURlProfilePic = this.$store.state.userObject.image_url
+      //   if (this.$store.state.userObject.dob) {
+      //     this.datepicker = new Date(this.$store.state.userObject.dob)
+      //   }
+      //   this.enableUpdateProfileBtn()
+      // },
+      // picker9Formatter(date) {
+      //   this.dob = Vue.moment(date).format('L');
+      //   return this.dob
+      // },
+      // updateProfileImage() {
+      //   this.loading = true
+      //   let self = this
+      //   var bucket = new AWS.S3({ params: { Bucket: 'airflowbucket1/obexpense/expenses' } });
+      //   var fileChooser = document.getElementById('file');
+      //   var file = fileChooser.files[0];
+      //   var imageKey = self.$store.state.userObject.image_name
 
-        if (file) {
-          var params = { Key: file.name, ContentType: file.type, Body: file };
-          bucket.upload(params).on('httpUploadProgress', function (evt) {
-            console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total) + '%');
-          }).send(function (err, data) {
-            console.log('file: ', file.name)
-            self.imageURlProfilePic = data.Location
-            self.$store.state.userObject.image_url = self.imageURlProfilePic
-            self.$store.state.userObject.image_name = file.name
-            self.$store.commit('userData')
-            //Delete image from amazon
-            console.log('data: ', data.Location)
-            console.log('key: ', self.$store.state.userObject.image_name)
-            var bucketInstance = new AWS.S3();
-            var params = {
-              Bucket: 'airflowbucket1/obexpense/expenses',
-              Key: imageKey
-            }
-            bucketInstance.deleteObject(params, function (err, data) {
-              if (data) {
-                self.$http.post('/updateImageURL', {
-                  email: self.$store.state.userObject.email,
-                  signup_type: self.$store.state.userObject.signup_type,
-                  image_url: self.imageURlProfilePic,
-                  image_name: file.name
-                }).then(response => {
-                  if (response.body.replaced) {
-                    self.loading = false
-                  }
-                })
-              }
-              else {
-                console.log("Check if you have sufficient permissions : ", err.stack);
-              }
-            });
-          });
-        }
-        return false;
-      },
-      onFileChange() {
-        this.loading = true;
-        let self = this;
-        var bucket = new AWS.S3({ params: { Bucket: 'airflowbucket1/obexpense/expenses' } });
-        var fileChooser = document.getElementById('file');
-        var file = fileChooser.files[0];
-        if (file) {
-          var params = { Key: file.name, ContentType: file.type, Body: file };
-          bucket.upload(params).on('httpUploadProgress', function (evt) {
-            console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total) + '%');
-          }).send(function (err, data) {
-            // console.log("Amazon-data :: ", err);
-            // self.$http.post('/updateImageURL', {
-            // email: self.$store.state.userObject.email,
-            // signup_type: self.$store.state.userObject.signup_type,
-            // image_url: data.Location,
-            // image_name: file.name
-            // }).then(response => {
-            //     if (response.body.replaced) {
-            //         self.imageURlProfilePic = data.Location
-            //         self.$store.state.userObject.image_url = self.imageURlProfilePic
-            //         self.$store.state.userObject.image_name = file.name
-            //         self.$store.commit('userData')
-            //         self.loading = false
-            //     }
-            self.$store.dispatch('updateUserProfile', {
-              image_url: data.Location,
-              image_name: file.name
-            })
-              .then(function () {
-                self.imageURlProfilePic = data.Location
-                self.$store.state.userObject.image_url = self.imageURlProfilePic
-                self.$store.state.userObject.image_name = file.name
-                self.$store.commit('userData')
-                self.loading = false
-              })
-              .catch(function (error) {
-                // $.notify.defaults({ className: "error" })
-                // $.notify(error.message, { globalPosition:"top center"})
-              });
-          });
-        }
-        return false;
-      },
+      //   if (file) {
+      //     var params = { Key: file.name, ContentType: file.type, Body: file };
+      //     bucket.upload(params).on('httpUploadProgress', function (evt) {
+      //       console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total) + '%');
+      //     }).send(function (err, data) {
+      //       console.log('file: ', file.name)
+      //       self.imageURlProfilePic = data.Location
+      //       self.$store.state.userObject.image_url = self.imageURlProfilePic
+      //       self.$store.state.userObject.image_name = file.name
+      //       self.$store.commit('userData')
+      //       //Delete image from amazon
+      //       console.log('data: ', data.Location)
+      //       console.log('key: ', self.$store.state.userObject.image_name)
+      //       var bucketInstance = new AWS.S3();
+      //       var params = {
+      //         Bucket: 'airflowbucket1/obexpense/expenses',
+      //         Key: imageKey
+      //       }
+      //       bucketInstance.deleteObject(params, function (err, data) {
+      //         if (data) {
+      //           self.$http.post('/updateImageURL', {
+      //             email: self.$store.state.userObject.email,
+      //             signup_type: self.$store.state.userObject.signup_type,
+      //             image_url: self.imageURlProfilePic,
+      //             image_name: file.name
+      //           }).then(response => {
+      //             if (response.body.replaced) {
+      //               self.loading = false
+      //             }
+      //           })
+      //         }
+      //         else {
+      //           console.log("Check if you have sufficient permissions : ", err.stack);
+      //         }
+      //       });
+      //     });
+      //   }
+      //   return false;
+      // },
+      // onFileChange() {
+      //   this.loading = true;
+      //   let self = this;
+      //   var bucket = new AWS.S3({ params: { Bucket: 'airflowbucket1/obexpense/expenses' } });
+      //   var fileChooser = document.getElementById('file');
+      //   var file = fileChooser.files[0];
+      //   if (file) {
+      //     var params = { Key: file.name, ContentType: file.type, Body: file };
+      //     bucket.upload(params).on('httpUploadProgress', function (evt) {
+      //       console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total) + '%');
+      //     }).send(function (err, data) {
+      //       // console.log("Amazon-data :: ", err);
+      //       // self.$http.post('/updateImageURL', {
+      //       // email: self.$store.state.userObject.email,
+      //       // signup_type: self.$store.state.userObject.signup_type,
+      //       // image_url: data.Location,
+      //       // image_name: file.name
+      //       // }).then(response => {
+      //       //     if (response.body.replaced) {
+      //       //         self.imageURlProfilePic = data.Location
+      //       //         self.$store.state.userObject.image_url = self.imageURlProfilePic
+      //       //         self.$store.state.userObject.image_name = file.name
+      //       //         self.$store.commit('userData')
+      //       //         self.loading = false
+      //       //     }
+      //       self.$store.dispatch('updateUserProfile', {
+      //         image_url: data.Location,
+      //         image_name: file.name
+      //       })
+      //         .then(function () {
+      //           self.imageURlProfilePic = data.Location
+      //           self.$store.state.userObject.image_url = self.imageURlProfilePic
+      //           self.$store.state.userObject.image_name = file.name
+      //           self.$store.commit('userData')
+      //           self.loading = false
+      //         })
+      //         .catch(function (error) {
+      //           // $.notify.defaults({ className: "error" })
+      //           // $.notify(error.message, { globalPosition:"top center"})
+      //         });
+      //     });
+      //   }
+      //   return false;
+      // },
       // createImage(file) {
       //   var image = new Image();
       //   var reader = new FileReader();
@@ -498,62 +521,62 @@
       //   };
       //   reader.readAsDataURL(file);
       // },
-      removeImage: function (e) {
-        this.loading = true
-        this.imageURlProfilePic = null
-        let self = this
-        //Delete image from amazon
-        var bucketInstance = new AWS.S3();
-        var params = {
-          Bucket: 'airflowbucket1/obexpense/expenses',
-          Key: self.$store.state.userObject.image_name
-        }
-        bucketInstance.deleteObject(params, function (err, data) {
-          if (data) {
+      // removeImage: function (e) {
+      //   this.loading = true
+      //   this.imageURlProfilePic = null
+      //   let self = this
+      //   //Delete image from amazon
+      //   var bucketInstance = new AWS.S3();
+      //   var params = {
+      //     Bucket: 'airflowbucket1/obexpense/expenses',
+      //     Key: self.$store.state.userObject.image_name
+      //   }
+      //   bucketInstance.deleteObject(params, function (err, data) {
+      //     if (data) {
 
-            // self.$http.post('/updateImageURL', {
-            //   email: self.$store.state.userObject.email,
-            //   signup_type: self.$store.state.userObject.signup_type,
-            //   image_url: self.imageURlProfilePic,
-            //   image_name: ''
-            //   }).then(response => {
-            //       if (response.body.replaced) {
-            //           self.$store.state.userObject.image_url = self.imageURlProfilePic
-            //           self.$store.state.userObject.image_name = ''
-            //           self.$store.commit('userData')
-            //           self.loading = false
-            //       }
-            self.$store.dispatch('updateUserProfile', {
-              image_url: self.imageURlProfilePic,
-              image_name: ''
-            })
-              .then(function () {
-                self.imageURlProfilePic = data.Location
-                self.$store.state.userObject.image_url = self.imageURlProfilePic
-                self.$store.state.userObject.image_name = ''
-                self.$store.commit('userData')
-                self.loading = false
-              })
-              .catch(function (error) {
-                // $.notify.defaults({ className: "error" })
-                // $.notify(error.message, { globalPosition:"top center"})
-              });
-          }
-          else {
-            console.log("Check if you have sufficient permissions : ", err.stack);
-          }
-        });
-      },
-      enableUpdateProfileBtn() {
-        var trimmedusername = this.username.trim()
-        if (trimmedusername.length >= 1) {
-          $('#updateprofile_btn').removeClass('is-disabled')
-          $("#updateprofile_btn").attr('disabled', false);
-        } else {
-          $('#updateprofile_btn').addClass('is-disabled')
-          $("#updateprofile_btn").attr('disabled', true);
-        }
-      }
+      //       // self.$http.post('/updateImageURL', {
+      //       //   email: self.$store.state.userObject.email,
+      //       //   signup_type: self.$store.state.userObject.signup_type,
+      //       //   image_url: self.imageURlProfilePic,
+      //       //   image_name: ''
+      //       //   }).then(response => {
+      //       //       if (response.body.replaced) {
+      //       //           self.$store.state.userObject.image_url = self.imageURlProfilePic
+      //       //           self.$store.state.userObject.image_name = ''
+      //       //           self.$store.commit('userData')
+      //       //           self.loading = false
+      //       //       }
+      //       self.$store.dispatch('updateUserProfile', {
+      //         image_url: self.imageURlProfilePic,
+      //         image_name: ''
+      //       })
+      //         .then(function () {
+      //           self.imageURlProfilePic = data.Location
+      //           self.$store.state.userObject.image_url = self.imageURlProfilePic
+      //           self.$store.state.userObject.image_name = ''
+      //           self.$store.commit('userData')
+      //           self.loading = false
+      //         })
+      //         .catch(function (error) {
+      //           // $.notify.defaults({ className: "error" })
+      //           // $.notify(error.message, { globalPosition:"top center"})
+      //         });
+      //     }
+      //     else {
+      //       console.log("Check if you have sufficient permissions : ", err.stack);
+      //     }
+      //   });
+      // },
+      // enableUpdateProfileBtn() {
+      //   var trimmedusername = this.username.trim()
+      //   if (trimmedusername.length >= 1) {
+      //     $('#updateprofile_btn').removeClass('is-disabled')
+      //     $("#updateprofile_btn").attr('disabled', false);
+      //   } else {
+      //     $('#updateprofile_btn').addClass('is-disabled')
+      //     $("#updateprofile_btn").attr('disabled', true);
+      //   }
+      // }
     },
     components: {
       MainLeftSection,

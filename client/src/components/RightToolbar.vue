@@ -20,7 +20,9 @@
                     <span class="dropdown">
                       <a tabindex="-1" class="token_name" data-toggle="dropdown" id='userlist' @click='getAllUsers()'>{{ getAssignedUserName () }}</a>
                       <ul class='dropdown-menu userlist' aria-labelledby="userlist">
-                        <li v-for="(user, index) in getAllUserList"><a @click="btnUserClicked(user)"> <span>{{ getUserListingURL(user) }}<img v-bind:src="imageURlProfilePic" /></span>{{user.email}}</a><hr></li>
+                        <li v-for="(user, index) in getAllUserList"><a @click="btnUserClicked(user)"> 
+                          <span><img v-if="user.image_url" v-bind:src="user.image_url" /><div v-else>{{capitalizeLetters(user.email)}}</div></span>{{user.email}}</a><hr>
+                        </li>
                       </ul>
                     </span>
                 </span>
@@ -90,7 +92,7 @@
           </div>
       
       <div class="loading-boundary reskinToolbarActionMenu">
-				<a id="details_action_menu" tabindex="-1" class="dropdown-menu-link   open">
+				<a id="details_action_menu" tabindex="-1" class="dropdown-menu-link">
 					<div class="circularButtonView action-menu-label circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               <i class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></i>
 					</div>
@@ -103,6 +105,9 @@
                     </a></li>
                     <li><a id="copy_task_url" class="menu-item" title="">
                       <span class="dropdown-menu-item-label" @click="copyTaskURL">Copy Task URL</span>
+                    </a></li>
+                    <li><a id="delete_task" class="menu-item" title="">               
+                      <span class="dropdown-menu-item-label" @click="deleteTodo({filteredTodo : filteredTodo})">Delete Task</span>
                     </a></li>
                     <!--<li><a id="convert_to_project" class="menu-item" title="">
                       <span class="dropdown-menu-item-label">Convert to a Project...</span>
@@ -159,10 +164,7 @@ export default {
       userName: ''
     }
   },
-  async created () {
-     await this.getAllUsers()
-  },
-  computed: {
+    computed: {
      ...mapGetters([
       'getAllUserList'
     ])
@@ -182,6 +184,9 @@ export default {
     ...mapMutations([
         'CLOSE_DIV'
       ]),
+      deleteTodo: function () {
+        this.$store.dispatch('delete_Todo', this.filteredTodo)
+      },
       dateFormatter(dateTo){
          var selectedDate = moment(dateTo, 'YYYY-MM-DD').format('MMM DD');
         this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "selectedDate": dateTo})
@@ -249,19 +254,18 @@ export default {
     btnUserClicked (objUser) {
       this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "assigned_by": this.$store.state.userObject._id, "assigned_to": objUser._id})
     },
-    getUserListingURL (userUrl) {
-      if(userUrl.image_url){
+    // getUserListingURL (userUrl) {
+    //   if(userUrl.image_url){
         
-        this.imageURlProfilePic = userUrl.image_url
-        return
-      }
-      this.imageURlProfilePic = ''
-      return this.capitalizeLetters(userUrl.email)
-    },
+    //     this.imageURlProfilePic = userUrl.image_url
+    //     return
+    //   }
+    //   this.imageURlProfilePic = ''
+    //   return this.capitalizeLetters(userUrl.email)
+    // },
     getUserLetters () {
       var user = this.getAssignedUserObj()
       if(user.image_url){
-        
         this.imageURlProfilePic = user.image_url
         return
       }
@@ -285,6 +289,8 @@ export default {
     },
     getAssignedUserObj (){
       var objUser
+      // console.log('filteredTodo.assigned_to', this.filteredTodo.assigned_to)
+      // console.log('this.$store.state.userObject._id', this.$store.state.userObject)
       if (this.filteredTodo.assigned_to === this.$store.state.userObject._id){
         objUser =  this.$store.state.userObject
       }else{

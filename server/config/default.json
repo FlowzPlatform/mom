@@ -22,4 +22,7 @@
       "users"
     ]
   }
+  // "settings" : {
+  //   "query" : { "r.db('vue_todo').table('settings').insert({'settings_name': 'Track task by progress', 'type':'progress'}), r.db('vue_todo').table('settings').insert({'settings_name': 'Track task by duedate', 'type':'duedate'})" } 
+  // }
 }

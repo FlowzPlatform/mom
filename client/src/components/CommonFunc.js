@@ -24,7 +24,6 @@ export default {
       return false
   },
     deleteAutheticationDetail: function () {
-      console.log('inside authentication')
       store.commit('DELETE_USERTOKEN')
       store.commit('DELETE_ATTACHMENTS')
       store.commit('DELETE_ALLUSERSLIST')

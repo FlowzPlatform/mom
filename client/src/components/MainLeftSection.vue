@@ -37,9 +37,9 @@
       Tags
     },
     methods: {
-      ...mapActions([
-        'dragTodo'
-      ]),
+      // ...mapActions([
+      //   'dragTodo'
+      // ]),
       onDragEnd() {
         // console.log('Drag todo', this.filteredTodos)
         this.$store.dispatch('dragTodo', this.filteredTodos)

@@ -26,6 +26,9 @@
                             <div class="NewProjectFormRowStructure-contents">
                                 <input type="text" v-model="projectName" id="new_project_dialog_content_name_input" class="textInput textInput--invalid textInput--large NewProjectForm-nameInput" value="" name="">
                             </div>
+                               <div class="NewProjectFormRowStructure-label">
+                                <label class="LabelError" >{{ createProjectError}}</label>
+                            </div>
                         </div>
                     </div>
                     <!-- Project description -->
@@ -49,11 +52,14 @@
                     <div class="NewProjectFormRowStructure-label--labelPlacementTop NewProjectFormRowStructure-label">
                         <label class="Label NewProjectForm-label">Privacy</label>
                     </div>
+                    <div class="NewProjectFormRowStructure-label">
+                        <label class="LabelError">{{privacyMsg}}</label>
+                    </div>
                     <div class="NewProjectFormRowStructure-contents">
                         <div class="NewProjectForm-privacyOptions NewProjectForm-privacyOptions--noBorder">
                             <label class="NewProjectForm-privacyOption">
                                 <div class="NewProjectForm-radioButton">
-                                    <input type="radio" v-model="privacyOption" name="privacy" value="option1" class="NewProjectForm-publicRadio">
+                                    <input type="radio" v-model="privacyOption" name="privacy" value="0" class="NewProjectForm-publicRadio">
                                 </div>
                                 <svg class="Icon UsersIcon NewProjectForm-privacyIcon" title="UsersIcon" viewBox="0 0 32 32">
                                     <path d="M24.23,16.781C26.491,15.368,28,12.863,28,10c0-4.418-3.582-8-8-8s-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C11.233,18.494,8,22.864,8,28c0,0.683,0.07,1.348,0.18,2h23.64c0.11-0.652,0.18-1.317,0.18-2C32,22.864,28.767,18.494,24.23,16.781z M14,10c0-3.308,2.692-6,6-6s6,2.692,6,6s-2.692,6-6,6S14,13.308,14,10z M10,28c0-5.514,4.486-10,10-10c5.514,0,10,4.486,10,10H10z"></path>
@@ -68,7 +74,7 @@
                             </label>
                             <label class="NewProjectForm-privacyOption">
                                 <div class="NewProjectForm-radioButton">
-                                    <input type="radio" v-model="privacyOption" value="option2" name="privacy" class="NewProjectForm-privateToMembersRadio" disabled="">
+                                    <input type="radio" v-model="privacyOption" value="1" name="privacy" class="NewProjectForm-privateToMembersRadio" disabled="">
                                 </div>
                                 <svg class="Icon LockIcon NewProjectForm-privacyIcon" title="LockIcon" viewBox="0 0 32 32">
                                     <path d="M24,12v-0.125V8c0-4.411-3.589-8-8-8S8,3.589,8,8v4H6v18h20V12H24z M14,12V8c0-1.103,0.897-2,2-2s2,0.897,2,2v4H14z M10,8c0-3.309,2.691-6,6-6s6,2.691,6,6v4h-2V8c0-2.206-1.794-4-4-4s-4,1.794-4,4v4h-2V8z M24,28H8V14h16V28z"></path>
@@ -82,7 +88,7 @@
                             </label>
                             <label class="NewProjectForm-privacyOption">
                                 <div class="NewProjectForm-radioButton">
-                                    <input type="radio" v-model="privacyOption" value="option3" name="privacy" class="NewProjectForm-privateToUserRadio">
+                                    <input type="radio" v-model="privacyOption" value="2" name="privacy" class="NewProjectForm-privateToUserRadio">
                                 </div>
                                 <svg class="Icon UserIcon NewProjectForm-privacyIcon" title="UserIcon" viewBox="0 0 32 32">
                                     <path d="M20.534,16.765C23.203,15.204,25,12.315,25,9c0-4.971-4.029-9-9-9S7,4.029,7,9c0,3.315,1.797,6.204,4.466,7.765C5.962,18.651,2,23.857,2,30c0,0.681,0.065,1.345,0.159,2h27.682C29.935,31.345,30,30.681,30,30C30,23.857,26.038,18.651,20.534,16.765z M9,9c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S9,12.86,9,9z M4,30c0-6.617,5.383-12,12-12s12,5.383,12,12H4z"></path>
@@ -93,7 +99,7 @@
                             </label>
                         </div>
                     </div>
-    
+                       
                     <!-- Create project -->
     
                     <div class="CreateBlankProjectRow NewProjectForm-buttonRow">
@@ -120,27 +126,57 @@ export default {
         return {
            projectName: '',
            description: '',
-           privacyOption: ''
+           privacyOption: '',
+           createProjectError:'',
+           privacyMsg:''
         }
     },
     created: function(){
         console.log("show:",this.show);
     },
     methods: {
+        projectResponse:function(response)
+        {
+                  if(!response.error){
+                      this.close(); 
+                      this.projectName = ''
+                      this.description = ''
+                      this.privacyOption = ''
+                      this.$store.state.projectlist.push(response)
+                  }else{
+                        console.log("-->",response.error)
+                        this.createProjectError=response.error;
+                  }
+        },
         close: function () {
             this.show = false;
             this.$emit('updateDialog', this.show)
         },
-        savePost: function () {
-            this.close();
-            // Insert AJAX call here...
+        savePost: function () {    
             console.log("projectName:",this.projectName)
             console.log("description:",this.description)
-            console.log("description:",this.privacyOption)
+            console.log("privacyOption:",this.privacyOption)
+        
+
+            if(!this.projectName || this.projectName.length==0){
+                  this.createProjectError="Invalid project name";
+                  return;
+            }else{
+                this.createProjectError="";
+            }
+            if(!this.privacyOption || this.privacyOption.length==0) {
+                  this.privacyMsg="Select privacy";
+                  return;
+            }else{
+                this.privacyMsg="";
+            }
+
+            var request={
+                data:{pName:this.projectName,pDescription:this.description,pPrivacy:this.privacyOption,createBy:this.$store.state.userObject._id},
+                callback:this.projectResponse
+            }
+             this.$store.dispatch('insertProject',request)
             
-            this.projectName = ''
-            this.description = ''
-            this.privacyOption = ''
         }
     }
 }
@@ -351,6 +387,16 @@ a:focus {
     color: #898e95;
     display: inline-block;
     font-size: 11px;
+    margin-right: 10px;
+    padding-top: 2px;
+    text-align: right;
+    text-transform: uppercase;
+}
+
+.LabelError {
+    color: red;
+    display: inline-block;
+    font-size: 8px;
     margin-right: 10px;
     padding-top: 2px;
     text-align: right;

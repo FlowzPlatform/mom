@@ -15,6 +15,9 @@ module.exports = function() {
 
   // Initialize our service with any options it requires 
   app.use('/role', service(options));
-   app.service('/role');
+  app.service('/role');
+   app.service('role').init().then(role => {
+      console.log('Created role', role)
+  });
 
 }

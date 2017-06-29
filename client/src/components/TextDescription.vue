@@ -36,7 +36,7 @@ export default {
   props: ['filteredTodo'],
   methods: {
     ...mapActions([
-      'editTaskName',
+      // 'editTaskName',
       'toggleTodo'
     ]),
     updateTaskName: function() {
