@@ -677,7 +677,7 @@ export const store = new Vuex.Store({
       console.log(deleteElement)
       let dbId = deleteElement.id
       if (dbId) {
-        services.tasksService.patch(dbId, {isDelete: true }).then(response => {
+        services.tasksService.patch(dbId, { isDelete: true, deleteBy: store.state.userObject._id }).then(response => {
           console.log("Response deleteTodp Flag Update:", response)
         })
         // Vue.http.delete('/deteletask/' + dbId, {

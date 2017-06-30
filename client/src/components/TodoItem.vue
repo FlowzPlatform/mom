@@ -3,9 +3,16 @@
     <div :id="getLevelClass(todo.level,todo.id)" style="padding-bottom: 5px;"> 
       <div class="view" style="margin-left: 10px;">
         <span class="dreg-move"></span>
-        <input :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="toggleTodo(todo)">
+        <input v-if="!$store.state.deleteItemsSelected" :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="toggleTodo(todo)">
         <label for="checkbox8"></label>
-        <!--v-bind:class= "[ ''+todo.level, todo.id ]"-->
+        <div v-if="$store.state.deleteItemsSelected" class="trash" :id="todo.id">
+          <span class="trashcan">
+            <span class="hover-glyph ">
+              <span class="fa fa-trash-o svgIcon hover-glyph-default"/>
+              <span class="fa fa-undo svgIcon hover-glyph-hover" @click="undelete(todo)"/>
+            </span>
+          </span>
+        </div>
         <input class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
           v-model="todo.taskName" 
           @click="SHOW_DIV(todo)"
@@ -20,10 +27,17 @@
         </span>
         <div class="task-row-overlay grid-tags-and-date">
           <a class="taskRow">
-            <span class="grid_due_date ">{{todo.dueDate | formatDate_todo}}</span>
+            <span class="grid_due_date">{{todo.dueDate | formatDate_todo}}</span>
             <span v-if="todo.isTaskUpdate" style="color: red">&#x25cf;</span><span v-else></span>
           </a>
         </div>
+        <div v-if="$store.state.deleteItemsSelected" class="delete-view">
+          <div class="react-mount-node photoView-reactMount">
+            <div data-reactroot="" class="Avatar Avatar--medium Avatar--color4">
+              <!--<span> {{ getUserLetters() }}<img v-bind:src="$store.state.userObject.image_url" /></span>-->
+            </div>
+          </div>
+      </div>
         <!--<button class="destroy" @click="deleteTodo({todo : todo})">
             <a class="fa fa-close"/>
             <i class="fa fa-trash-o"></i>
@@ -90,6 +104,9 @@
       ]),
       getLevelClass(level, id) {
         return id + "_" + String(level)
+      },
+      undelete: function () {
+        this.$store.dispatch('undelete', this.todo)
       },
       // deleteTodo: function () {
       //   this.$store.dispatch('deleteTodo', this.todo)
