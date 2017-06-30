@@ -25,12 +25,13 @@
                     <path d="M19.976,1c-0.365-0.009-0.509,0.288-0.762,0.611L9.701,12.297C9.5,12.703,9.58,12.993,9.947,13h5   c0.428,2.583,0.674,6.494-1.772,10.603c-3.737,6.276-11.228,6.64-11.228,6.64l0.77,0.154c0,0,9.032,2.668,16.058-3.228   c5.887-4.94,6.495-11.399,6.172-14.17h4c0.537,0.016,0.787-0.172,0.671-0.64L20.746,1.712C20.48,1.378,20.339,1.006,19.976,1z"></path>
                 </svg>
             </div>
-            <div class="SidebarReportsItemRow"><span class="SidebarReportsItemRow-name" title="Deleted Items" @click="showDeleteTasks">Deleted Items</span></div>
+            <div class="SidebarReportsItemRow" @click="showDeleteTasks"><span class="SidebarReportsItemRow-name" title="Deleted Items" >Deleted Items</span></div>
             <hr>
             <!-- Project list -->
             <div class="DragContainer">
                 <draggable v-model="projectList">
-                    <Collapse v-for="project in projectList">
+                    <Collapse v-for="(project, index) in projectList"
+                            v-bind:key="project">
                         <Panel>
                             <!-- Project name header -->
                             <span :id="'panelProjectName-'+project.id" @click="projectSelect(project.id)" @mouseleave="hideOption(project.id)" @mouseover="showOption(project.id)" class="spanPanel">

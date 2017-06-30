@@ -2275,9 +2275,8 @@ text-rendering: auto; -webkit-font-smoothing: antialiased;  vertical-align: top;
 .uplod-list-file li {width: auto; color: #000;}
 .uplod-list-file li a {color: #999; text-decoration: none; display: inline-block;position: relative;}
 .uplod-list-file li a:hover {color: #1AAFD0;}
-.uplod-list-file li button {display: none;}
-.uplod-list-file li:hover button {display: inline-block; background-color: #ccc; color: #1AAFD0; width: 10px; height: 10px; border-radius: 5px; height: auto;
-width: 17px;font-size: 12px;border-radius: 12px;line-height: 17px;color: rgba(0, 0, 0, 0.57); margin-left: 20px;}
+.uplod-list-file li button { opacity: 0; display: inline-block; background-color: #ccc; color: #1AAFD0; width: 10px; height: 10px; border-radius: 5px; height: auto; width: 17px;font-size: 12px;border-radius: 12px;line-height: 17px;color: rgba(0, 0, 0, 0.57); margin-left: 8px;}
+.uplod-list-file li:hover button  { opacity: 1;} 
 .uplod-list-file li:hover button:hover {background-color: #1AAFD0; color: #fff;}
 .uplod-list-file li .ui-progress-linear {margin: 0 !important;padding: 0;width: 100% !important;position: absolute;left: 0; right: 0;}
 
@@ -3015,15 +3014,15 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
     color: #ad151d;
 }
 .MessageBanner {
-    -webkit-box-align: center;
+    /*-webkit-box-align: center;
     -webkit-align-items: center;
-    -ms-flex-align: center;
+    -ms-flex-align: center;*/
     align-items: center;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    display: -webkit-box;
+    /*-moz-box-sizing: border-box;*/
+    /*box-sizing: border-box;*/
+    /*display: -webkit-box;
     display: -webkit-flex;
-    display: -ms-flexbox;
+    display: -ms-flexbox;*/
     display: flex;
 }
 .TaskUndeleteBanner-message {
@@ -3031,18 +3030,20 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
     -webkit-flex: 1 0 auto;
     -ms-flex: 1 0 auto;
     flex: 1 0 auto;
+    margin-left: 10px;
 }
 .Button.Button--secondary:not(.Button--disabled) {
     background: #fff;
     border-color: #1aafd0;
     color: #1aafd0;
     fill: #1aafd0;
-    margin-right: 10px;
+    margin-left: 10px;
 }
 .Button.Button--small {
     height: 30px;
     line-height: 30px;
     padding: 0 9px;
+     margin-left: 10px;
 }
 .TaskUndeleteBanner-permadeleteButton.Button--primary:not(.Button--disabled) {
     background: #fc636b;

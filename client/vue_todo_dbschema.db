@@ -101,9 +101,10 @@ tbl_project:
 {
     id,
     project_name,
-    created_by_user_id - FK,
+    project_description
+    created_by - FK,
     created_at
-    project_status : { 0:public to all, 1: private to project member, 2: private to me}
+    project_privacy: { 0:public to all, 1: private to project member, 2: private to me}
 }
 
 tbl_project_member:

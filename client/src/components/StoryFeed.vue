@@ -10,7 +10,7 @@
                             <div class="photo-view photo-view-remix inbox-size photo-view-rounded-corners taskCommentsView-photo">
                                 <div class="react-mount-node photoView-reactMount">
                                     <div data-reactroot="" class="Avatar Avatar--medium Avatar--color4">
-                                        <span v-if="imageURlProfilePic"><img v-bind:src="imageURlProfilePic" /></span>
+                                        <span v-if="imageURlProfilePic"><img v-bind:src="comment.image_url" /></span>
                                         <span v-else>{{ capitalizeLetters }}</span>
                                     </div>
                                 </div>
@@ -20,7 +20,7 @@
                             <div class="BlockStory-header">
                                 <div class="BlockStory-headerContent">
                                     <span class="BlockStory-storyContent">
-                                            <a class="DeprecatedNavigationLink BlockStory-actorLink">{{comment.commentBy}}</a>
+                                            <a class="DeprecatedNavigationLink BlockStory-actorLink">{{comment.username}}</a>
                                         </span>
                                     <span class="BlockStory-metadata">
                                             <span class="BlockStory-timestamp">
@@ -48,7 +48,7 @@
     import { mapGetters } from 'vuex'
     Vue.filter('formatDate', function (value) {
         if (value) {
-            return moment(String(value)).format('MMM DD')
+            return moment(String(value)).format('MMM DD, h:mm')
         }
     })
     export default {
@@ -59,7 +59,7 @@
             }
         },
         created() {
-            this.$store.dispatch('getTaskComment', this.filteredTodo.id)
+            // this.$store.dispatch('getTaskComment', this.filteredTodo.id)
         },
         computed: {
             capitalizeLetters: function () {

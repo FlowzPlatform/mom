@@ -20,7 +20,8 @@
         </span>
         <div class="task-row-overlay grid-tags-and-date">
           <a class="taskRow">
-            <span class="grid_due_date ">{{todo.dueDate | formatDate}}</span>
+            <span class="grid_due_date ">{{todo.dueDate | formatDate_todo}}</span>
+            <span v-if="todo.isTaskUpdate" style="color: red">&#x25cf;</span><span v-else></span>
           </a>
         </div>
         <!--<button class="destroy" @click="deleteTodo({todo : todo})">
@@ -56,7 +57,7 @@
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import { mapMutations, mapGetters, mapActions } from 'vuex'
-  Vue.filter('formatDate', function (value) {
+  Vue.filter('formatDate_todo', function (value) {
     if (value) {
       return moment(String(value)).format('MMM DD')
     }
@@ -133,11 +134,15 @@
         //   }
         // }, 400);
        },
-      onFocusClick(id,level){
+    onFocusClick(id,level){
       $("#"+id+"_"+level).addClass("lifocus")
+      if(this.todo.isTaskUpdate){
+       this.todo.isTaskUpdate = false
+     }
     },
        onBlurCall(id,level){
       $("#"+id+"_"+level).removeClass("lifocus")
+      
     },
     performAction(e)
     {

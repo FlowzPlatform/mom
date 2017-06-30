@@ -4,8 +4,8 @@
 <section class="todoapp right_bar">
   <right-toolbar :filteredTodo="todoObject"></right-toolbar>
    <div class="taskbarsect">
-  <div v-if="$store.state.deleteItemsSelected" class="MessageBanner MessageBanner--error MessageBanner--medium TaskUndeleteBanner TaskMessageBanner">
-    <span class="fa fa-trash-o "/>
+  <div v-if="todoObject.isDelete" class="MessageBanner MessageBanner--error MessageBanner--medium TaskUndeleteBanner TaskMessageBanner">
+    <span class="fa fa-trash-o"  style="margin-right: 10px"/>
 		<span class="TaskUndeleteBanner-message">This task is deleted.</span>
 	  <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" @click="undelete(todoObject)">Undelete</a>
 		<a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" data-target="#deleteModal">Delete Permanently</a>

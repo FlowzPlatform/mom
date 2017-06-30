@@ -8,7 +8,7 @@
         </ui-progress-linear>-->
         <!--{{filteredTodo.attachmentprogress}} | {{filteredTodo.deleteprogress}}-->
          <ul class="uplod-list-file list-inline">
-            <li v-for="(files, index) in attachmentList">
+            <li v-for="(files, index) in attachmentList" style="padding:0 0 5px 0;">
             <span>
                 <a target="_blank" v-bind:href="files.file_url">{{ files.file_name }} 
                     <ui-progress-linear

@@ -19,6 +19,7 @@ exports.before = {
       })
       .merge({ 'progress': 0 })
       .merge({ 'progress_count': '' })
+      .merge({ 'isTaskUpdate': false })
       .merge({ 'attachmentprogress': 0 })
       .merge({ 'deleteprogress': 0 }).orderBy('index')
       console.log('query===>', hook.params.rethinkdb )
