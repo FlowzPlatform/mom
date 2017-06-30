@@ -5,7 +5,6 @@
         <span class="dreg-move"></span>
         <input v-if="!$store.state.deleteItemsSelected" :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="toggleTodo(todo)">
         <label for="checkbox8"></label>
-        <!--v-bind:class= "[ ''+todo.level, todo.id ]"-->
         <div v-if="$store.state.deleteItemsSelected" class="trash" :id="todo.id">
           <span class="trashcan">
             <span class="hover-glyph ">

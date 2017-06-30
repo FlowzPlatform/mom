@@ -3,7 +3,6 @@
         <div class="StoryFeed">
             <hr class="StoryFeed-separator StoryFeed-topSeparator">
             <div v-for="comment in commentList">
-
                 <div class="FeedBlockStory StoryFeed-blockStory">
                     <div class="BlockStory">
                         <div class="BlockStory-icon">
@@ -57,11 +56,16 @@
             return firstLetters.toUpperCase()
         }
     })
+    Vue.filter('capitalizeLetters', function(str){
+        if(str){
+            var firstLetters = str.substr(0, 2)
+            return firstLetters.toUpperCase()
+        }
+    })
     export default {
         props: ['filteredTodo'],
         data: function () {
             return {
-                // imageURlProfilePic: this.$store.state.userObject.image_url,
             }
         },
         created() {
@@ -70,16 +74,16 @@
         methods:{
             commentDetailList:function(commentList){
                 commentList.forEach(function(c) {
-                    let userId =c.commentBy
-                    let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
-                    if(userIndex < 0){
-                    } else {
-                        var id = this.$store.state.arrAllUsers[userIndex]._id
-                        c.fullname = this.$store.state.arrAllUsers[userIndex].fullname
-                        c.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
-                        c.email = this.$store.state.arrAllUsers[userIndex].email
-                    }
-                    
+                let userId =c.commentBy
+                let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
+                if(userIndex < 0){
+                } else {
+                    var id = this.$store.state.arrAllUsers[userIndex]._id
+                    c.fullname = this.$store.state.arrAllUsers[userIndex].fullname
+                    c.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
+                    c.email = this.$store.state.arrAllUsers[userIndex].email
+                }
+                
                 }, this)
             }
         },
@@ -91,6 +95,7 @@
                 let commentList = this.getComment(this.filteredTodo.id)
                 this.commentDetailList(commentList)
                 return commentList
+
             }
         }
     }

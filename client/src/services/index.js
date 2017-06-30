@@ -8,7 +8,7 @@ import io from 'socket.io-client'
 // const config = require('config');
 // const socket_io = config.get('SOCKET_IO')
 
-console.log('socket..')
+//const socket = io('http://localhost:3030')
 
 // const socket = io('http://172.16.105.110:3030')
 
