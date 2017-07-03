@@ -9,7 +9,7 @@ services:
     - 28015:28015
     - 29015:29015
  server:
-   image: 80017/todo_server_jenkins
+   image: 80017/serverfortodoapp
    depends_on:
     - db
    ports:

@@ -5,7 +5,7 @@ node {
         checkout scm
     }
     stage('Build image server') {
-       app = docker.build("80017/todo_server_jenkins","./server/")
+       app = docker.build("80017/serverfortodoapp","./server/")
     }
     stage('Push image server') {
             docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
