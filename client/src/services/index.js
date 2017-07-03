@@ -2,8 +2,13 @@
 import feathers from 'feathers/client'
 import socketio from 'feathers-socketio/client'
 import io from 'socket.io-client'
+// const config = require('config');
+// const socket_io = config.get('SOCKET_IO')
 
-const socket = io('http://172.16.105.110:3030')
+// console.log('socket..', socket_io)
+
+// const socket = io('http://172.16.105.110:3030')
+const socket = io('localhost:3030')
 
 export const app = feathers().configure(socketio(socket))
 // repeat this line for every service in our backend

@@ -1,21 +1,22 @@
 'use strict';
 const service = require('feathers-rethinkdb');
 // const hooks = require('./hooks');
-// var config = require('config');
+const config = require('config');
+const db = config.get('dbName')
+const db_host = config.get('db_host')
+const db_port = config.get('db_port')
 const r = require('rethinkdbdash')({
-    db: 'vue_todo'
+    db: db,
+    host: db_host,
+    port:db_port
   });
+const table = config.get('tbl_permission')
 
 module.exports = function() {
   const app = this;
-  // const r = require('rethinkdbdash')({
-  //   db: 'vue_todo'
-  // });
-
   const options = {
     Model: r,
-    name: 'permission',
-    
+    name: table,
   };
 
   // Initialize our service with any options it requires 
@@ -24,8 +25,26 @@ module.exports = function() {
 
   app.service('permission').init().then(permission => {
       console.log('Created permission', permission)
-      if(permission.created === 0)
-          console.log('table exist')
+      if(permission.tables_created === 1)
+      {
+        r.db(db).table(table).insert([
+          {'name': 'Task create','index': 0},
+          {'name': 'Task update','index': 1},
+          {'name': 'Task delete','index': 2},
+          {'name': 'Task read','index': 3},
+          {'name': 'Task patch','index': 4},
+          {'name': 'Task assign','index': 5},
+          {'name': 'Due_date','index': 6},
+          {'name': 'Comment','index': 7},
+          {'name': 'Add tag','index': 8},
+          {'name': 'Delete Tag','index': 9},
+          {'name': 'Add attachment','index': 10},
+          {'name': 'Delete attachment','index': 11},
+          {'name': 'Task priority','index': 12},
+          {'name': 'Estimated hours','index': 13},
+          {'name': 'Login', 'index':14}
+        ]).run()
+      }
       else
       {
           console.log('table created')

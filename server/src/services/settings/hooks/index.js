@@ -18,7 +18,13 @@ exports.before = {
         const table = "settings"
         r.db(db).tableList().contains(table) // create table if not exists
         .do(tableExists => r.branch(tableExists, { created: 0 }, r.db(db).tableCreate(table)))
-        .run();
+        .run().then(result => {
+            console.log('table created', result)
+            // r.db(db).table(table).insert([
+            //     {'settings_name': 'Track task by progress', 'type':'progress'},
+            //     {'settings_name': 'Track task by duedate', 'type':'duedate'}
+            // ]).run()
+        });
         // end table create
 
         hook.params.rethinkdb = r.table('settings').merge(function (settings) {

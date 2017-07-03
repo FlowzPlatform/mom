@@ -1,18 +1,23 @@
 'use strict';
 const service = require('feathers-rethinkdb');
 const hooks = require('./hooks');
+const config = require('config');
+const db = config.get('dbName')
+const table = config.get('tbl_user_settings')
+const db_host = config.get('db_host')
+const db_port = config.get('db_port')
 
 module.exports = function() {
   const app = this;
   const r = require('rethinkdbdash')({
-    db: 'vue_todo'
+    db: db,
+    host: db_host,
+    port:db_port
   });
 
   const options = {
     Model: r,
-    db: 'vue_todo', //must be on the same connection as rethinkdbdash
-    name: 'user_settings',
-     // Enable pagination
+    name: table,
   };
 
   // Initialize our service with any options it requires 
@@ -22,7 +27,7 @@ module.exports = function() {
   const tasks_Settings = app.service('/getSettings');
   app.service('getSettings').init().then(user_settings => {
       console.log('Created user_settings', user_settings)
-  });
+  }); 
 
   // Set up our before hooks
   tasks_Settings.before(hooks.before);

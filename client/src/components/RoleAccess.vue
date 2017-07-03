@@ -4,7 +4,7 @@
     <div id="app" class="ui vertical stripe segment">
         <div class="ui container">
             <div id="content" class="ui basic segment">
-                <h3 class="ui header">List of Users</h3>
+                <h3 class="ui header">User Group</h3>
                 
               
                 <vuetable v-ref:vuetable
@@ -189,8 +189,7 @@ Vue.use(Resource)
             //   this.fields.push(tableColumns);  
            this.callTaskList();
        });
-   }
-   ,
+   },
         methods: {
             callTaskList:function(){
                 this.$http.get('http://localhost:3030/accessright').then(response => {

@@ -23,7 +23,7 @@
   <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#tags">Tags</button>
   <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
   <tags :filteredTodo="todoObject"></tags>
-  <main-left-section :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
+  <main-left-section v-if="!$store.state.deleteItemsSelected" :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
   </div>
   <story-feed :filteredTodo="todoObject"></story-feed>
 </section>

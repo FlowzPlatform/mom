@@ -3052,3 +3052,68 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
     fill: #fff;
 }
 .ui-progress-circular {position: absolute;}
+.ui-progress-circular {position: absolute;}
+.todo-list li .trash {
+    text-align: center;
+    /* width: 40px; */
+    width: 25px;
+    /*height: auto;*/
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    border: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.taskRowView-completionCell .trashcan {
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    box-pack: center;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    -ms-justify-content: center;
+    -o-justify-content: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    width: 100%;
+}
+.trashcan .hover-glyph {
+    cursor: pointer;
+    
+}
+.hover-glyph .hover-glyph-default {
+    margin-top: 10px;
+    margin-left: 30px;
+}
+.hover-glyph .hover-glyph-hover {
+    fill: #02CEFF;
+    margin-top: 10px;
+    margin-left: 30px;
+}
+.trashcan .hover-glyph:hover {
+    margin-left: -4px;
+    color: #1AAFD0;
+}
+.hover-glyph:hover .hover-glyph-default {
+    display: none;
+}
+.hover-glyph:not(:hover) .hover-glyph-hover {
+    display: none;
+}
+.fa-trash-o:before {
+    -webkit-text-fill-color: gray;
+}
+.delete-view {
+    z-index: 60;
+    position: absolute;
+    right: 10px;
+    top: 7px;
+}

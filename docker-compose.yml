@@ -1,0 +1,18 @@
+version: "2"
+services:
+ db:
+   image: rethinkdb
+   volumes:
+    - /var/www/html/todo_new/data:/data
+   ports:
+    - 8080:8080
+    - 28015:28015
+    - 29015:29015
+ server:
+   image: 80017/todo_server_jenkins
+   depends_on:
+    - db
+   ports:
+   - 3030:3030
+
+ 

@@ -1,10 +1,17 @@
 'use strict';
 const service = require('feathers-rethinkdb');
+const config = require('config');
+const db = config.get('dbName')
+const table = config.get('tbl_tags')
+const db_host = config.get('db_host')
+const db_port = config.get('db_port')
 
 module.exports = function() {
   const app = this;
   const r = require('rethinkdbdash')({
-    db: 'vue_todo'
+    db: db,
+    host: db_host,
+    port:db_port
   });
 
   const options = {

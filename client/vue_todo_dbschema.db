@@ -67,7 +67,7 @@ tbl_attachment:
 tbl_user_role:
 {
     id,
-    role_name
+    name
 }
 
 tbl_user_role_permission:
