@@ -3,16 +3,24 @@ services:
  db:
    image: rethinkdb
    volumes:
-    - /var/www/html/todo_new/data:/data
+    - ./data:/data
    ports:
     - 8080:8080
     - 28015:28015
     - 29015:29015
- server:
-   image: 80017/serverfortodoapp
-   depends_on:
+
+ wait:
+  image: waisbrot/wait
+  links:
     - db
+  environment:
+    - TARGETS=db:28015
+  #  - TIMEOUT=10000
+
+ server:
+   image: 80017/ServerForTodoApp
+   links:
+    - db
+#   entrypoint: "./wait-for-it.sh db:28015"
    ports:
    - 3030:3030
-
- 
