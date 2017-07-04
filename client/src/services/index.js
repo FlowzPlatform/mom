@@ -1,13 +1,17 @@
 // /services/index.js
+console.log('service', process.env.SECRET_MESSAGE)
+console.log('service', process.env.SOCKET_IO)
 import feathers from 'feathers/client'
 import socketio from 'feathers-socketio/client'
 import io from 'socket.io-client'
+// require('dotenv/config')
 // const config = require('config');
 // const socket_io = config.get('SOCKET_IO')
 
-// console.log('socket..', socket_io)
+console.log('socket..')
 
 // const socket = io('http://172.16.105.110:3030')
+
 const socket = io('localhost:3030')
 
 export const app = feathers().configure(socketio(socket))

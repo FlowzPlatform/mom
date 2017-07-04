@@ -7,8 +7,8 @@ const db_host = config.get('db_host')
 const db_port = config.get('db_port')
 const r = require('rethinkdbdash')({
     db: db,
-    // host: db_host,
-    // port:db_port
+    host: db_host,
+    port:db_port
   });
 const table = config.get('tbl_task_comments')
 
