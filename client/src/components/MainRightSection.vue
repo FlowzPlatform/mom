@@ -14,15 +14,29 @@
 	</div>
 	<text-description :filteredTodo="todoObject">
   </text-description>
-  <attachments :filteredTodo="todoObject"> </attachments>
+  <collapse class="CollapseView">
+    <panel v-show='showAttachment'>
+      Attachments
+      <p class='PanelAttach' slot="content">
+        <attachments :filteredTodo="todoObject"> </attachments>
+      </p>
+    </panel>
+    <panel>
+      Tags
+      <p class='PanelTag' slot="content">
+        <tags :filteredTodo="todoObject"></tags>
+      </p>
+    </panel>
+  </collapse>
+  <!--<attachments :filteredTodo="todoObject"> </attachments>-->
   <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#attachment">Attachments</div>-->
   <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#attachment">Attachents</button>-->
   <!--<attachments id="attachment" class="collapse" :filteredTodo="todoObject"> </attachments>-->
-   <hr>
+   <!--<hr>-->
   <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#tags">Tags</div>-->
   <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#tags">Tags</button>
   <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
-  <tags :filteredTodo="todoObject"></tags>
+  <!--<tags :filteredTodo="todoObject"></tags>-->
   <main-left-section v-if="!$store.state.deleteItemsSelected" :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
   </div>
   <story-feed :filteredTodo="todoObject"></story-feed>
@@ -51,6 +65,7 @@
 </template> 
 <script>
   /* eslint-disable*/
+import Vue from 'vue'
 import MainLeftSection from './MainLeftSection.vue'
 import TextDescription from './TextDescription.vue'
 import RightFooter from './RightFooter.vue'
@@ -59,6 +74,10 @@ import Attachments from './Attachments.vue'
 import StoryFeed from './StoryFeed.vue'
 import Tags from './Tags.vue'
 import { mapGetters } from 'vuex'
+import iView from 'iview';
+import 'iview/dist/styles/iview.css';
+
+Vue.use(iView);
 
 export default {
   props: ['pholder', 'todoObject'],
@@ -142,6 +161,9 @@ export default {
        })
        this.todolistSubTasks = taskArray
        return taskArray
+     },
+     showAttachment() {
+        return this.$store.state.arrAttachment.length > 0 ? true : false
      }
   },
   components: {

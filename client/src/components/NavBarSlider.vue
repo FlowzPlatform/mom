@@ -1261,7 +1261,7 @@ ul {
 
 /* Arrow icon color */
 
-i.ivu-icon.ivu-icon-arrow-right-b {
+.i.ivu-icon.ivu-icon-arrow-right-b {
     color: rgba(255, 255, 255, 0.2)
 }
 span .ItemRowMenu {
