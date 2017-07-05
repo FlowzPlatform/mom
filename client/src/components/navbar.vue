@@ -169,7 +169,7 @@
       }
     },
     created() {
-      // this.$store.dispatch('eventListener');
+      //  this.$store.dispatch('getAllUsersList')
     },
     computed: {
       ...mapGetters([

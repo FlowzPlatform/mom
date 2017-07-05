@@ -41,4 +41,17 @@ module.exports = function() {
   taskService.after(hooks.after);
 
 
+
+  taskService.filter('created', function(data, connection, hook) {
+     console.log("Tassk Create  data:-->",data);
+    console.log("Tassk Create connection:-->",connection);
+    console.log("Tassk Create hook:-->",hook);
+    app.service('projectmember').find({query:{'create_by':"594cdf504b5d41138302f19a"}}).then(response => {
+      console.log("cerated_by-->",response);
+    })
+    
+
+    return data
+});
+
 }

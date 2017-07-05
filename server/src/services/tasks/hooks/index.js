@@ -9,7 +9,6 @@ exports.before = {
   find(hook){
     const query = this.createQuery(hook.params.query);
     const r = this.options.r;
-    console.log('query', query)
     
     hook.params.rethinkdb = query.merge(function (todo) {
       return { subtask_count: r.table('tasks').filter({ 'parentId': todo('id') }).count() }
@@ -22,10 +21,16 @@ exports.before = {
       .merge({ 'isTaskUpdate': false })
       .merge({ 'attachmentprogress': 0 })
       .merge({ 'deleteprogress': 0 }).orderBy('index')
-      console.log('query===>', hook.params.rethinkdb )
+
+  console.log("--> query=======",query);
+      
   },
   get: [],
-  create: [],
+  create(hook){
+    console.log("--> result=======",hook);
+
+    return hook;
+  },
   update:[],
   patch: [],
   remove: []
