@@ -98,7 +98,9 @@ export const store = new Vuex.Store({
     deleteItemsSelected: false,
     deletedTaskArr: [],
     arrAllUsers: [],
-    projectlist:[]
+    projectlist:[],
+    userRoles:[],
+    currentProjectId:""
   },
   mutations: {
     userData: state => state.userObject,
@@ -113,6 +115,20 @@ export const store = new Vuex.Store({
     deleteAttachmentProgress(state, data) {
       let index = _.findIndex(state.todolist, function (d) { return d.id == data.id })
       state.todolist[index].deleteprogress = data.isProgress
+    },
+    GET_ROLES(state,data)
+    {
+      if(data)
+      {
+        for (var i = 0; i < data.length; i++) {
+          let index = _.findIndex(state.userRoles, function (d) { return d.id == data[i].id })
+          // console.log('index', index)
+          if (index <0) {
+             state.userRoles.push(data[i])
+          }
+        }
+
+      }
     },
     GET_TODO(state, data) {
       // state.todolist = data
@@ -158,7 +174,7 @@ export const store = new Vuex.Store({
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
         // window.history.pushState("", "Title", "http://localhost:3000/navbar/task/" + (payload.level + 1) + "/" + payload.id);
-        await store.dispatch('getAllTodos', { 'parentId': payload.id });
+        await store.dispatch('getAllTodos', { 'parentId': payload.id,project_id:state.currentProjectId });
         await store.dispatch('getAttachmentFromDB', payload.id)
         await store.dispatch('getAllTaskTags', payload.id);
         await store.dispatch('getTaskComment', payload.id)
@@ -526,6 +542,14 @@ export const store = new Vuex.Store({
     // }
   },
   actions: {
+
+    getUsersRoles({commit})
+    {
+      services.roleService.find().then(response => {
+        console.log("Role list->>",response)
+        commit('GET_ROLES', response)
+      });
+    },
     eventListener({ commit }) {
       console.log("<-----addMessage:-->")
       // A new message has been created on the server, so dispatch a mutation to update our state/view
@@ -533,6 +557,8 @@ export const store = new Vuex.Store({
         console.log("Message Cretaed:-->", message)
         commit('ADD_NEW_TODOS', message)
       })
+
+ 
 
 
       services.tasksService.on('removed', message => {
@@ -576,8 +602,13 @@ export const store = new Vuex.Store({
       })
     },
     getAllTodos({ commit }, payload) {
-      console.log('parentId', payload.parentId);
-            services.tasksService.find({ query: { parentId: payload.parentId} }).then(response => {
+
+      console.log('getAllTodos-->', payload);
+  
+            services.tasksService.find({ query:{ $or: [
+              {  parentId: payload.parentId,project_id:payload.project_id,created_by:store.state.userObject._id},
+              {  parentId: payload.parentId,project_id:payload.project_id,assigned_to: store.state.userObject._id }
+                ]}}).then(response => {
         commit('GET_TODO', response)
       });
       // Vue.http.post('/tasks_parentId', { parentId: payload.parentId }).then(function (response) {
@@ -618,9 +649,10 @@ export const store = new Vuex.Store({
           created_by: store.state.userObject._id,
           assigned_by: store.state.userObject._id,
           assigned_to: store.state.userObject._id,
-          isDelete: false
+          isDelete: false,
+          project_id:insertElement.project_id
         }).then(response => {
-          console.log("Reesponse create::", response);
+          console.log("Reesponse create::---->", response);
           //  commit('addTodo', {"data":response, "todo": insertElement})
         });
         // Vue.http.post('/tasks', {
@@ -971,6 +1003,26 @@ export const store = new Vuex.Store({
         commit('ADD_COMMENT', response)
       })
     },
+     insertProjectInvite({ commit }, inviteDetail) {
+      console.log('inviteDetail-->', inviteDetail)
+
+
+
+      services.projectMemberService.create(inviteDetail).then(function (response) {
+        console.log("Reesponse create Invite Member  From DB::", response);
+        // commit('ADD_COMMENT', response)
+      })
+    },
+     insertProjectInvite({ commit }, inviteDetail) {
+      console.log('inviteDetail-->', inviteDetail)
+
+
+
+      services.projectMemberService.create(inviteDetail).then(function (response) {
+        console.log("Reesponse create Invite Member  From DB::", response);
+        // commit('ADD_COMMENT', response)
+      })
+    },
     getAllTaskTags({ commit }, taskId) {
       console.log("getAllTaskTags tsakId::", taskId);
       services.taskTagsService.find({ query: { task_id: taskId, is_deleted: false } }).then(response => {
@@ -1193,8 +1245,8 @@ export const store = new Vuex.Store({
         services.projectService.find({
           query: {
             $or: [
-              { pPrivacy: '0' },
-              { pPrivacy: '2', createBy: userId }
+              { project_privacy: '0' },
+              { project_privacy: '2', create_by: userId }
             ]
           }
         }).then(response => {
@@ -1205,7 +1257,7 @@ export const store = new Vuex.Store({
         // });
       },
       insertProject({commit},object){
-      console.log("call back::", object);
+      console.log("call back::", object.data);
        var self=this;
          services.projectService.create(object.data).then(response => {
           console.log("Response Project create::", response);
@@ -1281,6 +1333,23 @@ export const store = new Vuex.Store({
         return state.taskTags.filter(tags => tags.task_id === id)
       }
     },
+    getMemberProfiledETAIL:(state,getters) => {
+      return function (uId) {
+        let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === uId })
+        console.log("User Detail",state.arrAllUsers);
+        if (userIndex < 0) {
+          return { user_id: uId }
+        } else {
+          return { user_id: uId, url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name }
+        }
+      }
+    },
+     getMemberName:(state,getters) => {
+      return function(uId){
+        let userIndex= _.findIndex(state.arrAllUsers,function(user){ return user_id===uId})
+         return  state.arrAllUsers[userIndex].fullname
+        }
+    },    
     getObjectById: state => state.todoObjectByID,
     getAllUserList: state => state.arrAllUsers,
     getProjectList: state=> state.projectlist,

@@ -36,6 +36,13 @@ module.exports = function() {
   });
 
 
+project.filter(function(data, connection, hook) {
+    console.log("Project Service data:-->",data);
+    console.log("Project Service connection:-->",connection);
+    console.log("Project Service hook:-->",hook);
+    return data
+})
+
   // Set up our before hooks
   project.before(hooks.before);
 

@@ -138,13 +138,14 @@ export default {
         projectResponse:function(response)
         {
                   if(!response.error){
-                      this.close(); 
+                    console.log("-->",response)                     
                       this.projectName = ''
                       this.description = ''
                       this.privacyOption = ''
                       this.$store.state.projectlist.push(response)
+                      this.close(); 
                   }else{
-                        console.log("-->",response.error)
+                        // console.log("-->",response.error)
                         this.createProjectError=response.error;
                   }
         },
@@ -172,7 +173,7 @@ export default {
             }
 
             var request={
-                data:{pName:this.projectName,pDescription:this.description,pPrivacy:this.privacyOption,createBy:this.$store.state.userObject._id},
+                data:{project_name:this.projectName,project_description:this.description,project_privacy:this.privacyOption,create_by:this.$store.state.userObject._id,created_at:new Date()},
                 callback:this.projectResponse
             }
              this.$store.dispatch('insertProject',request)
