@@ -46,4 +46,3 @@ app.configure(middleware);
 app.hooks(appHooks);
 app.use(errorHandler());
 module.exports = app;
-
