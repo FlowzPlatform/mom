@@ -1013,6 +1013,16 @@ export const store = new Vuex.Store({
         // commit('ADD_COMMENT', response)
       })
     },
+     insertProjectInvite({ commit }, inviteDetail) {
+      console.log('inviteDetail-->', inviteDetail)
+
+
+
+      services.projectMemberService.create(inviteDetail).then(function (response) {
+        console.log("Reesponse create Invite Member  From DB::", response);
+        // commit('ADD_COMMENT', response)
+      })
+    },
     getAllTaskTags({ commit }, taskId) {
       console.log("getAllTaskTags tsakId::", taskId);
       services.taskTagsService.find({ query: { task_id: taskId, is_deleted: false } }).then(response => {
