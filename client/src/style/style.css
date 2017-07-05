@@ -2724,13 +2724,13 @@ hr {
 
     .taskTagsView {
         float: left;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         position: relative;
         left: 0;
         width: 100%;
     }
     .task-tag-icon{    display: inline-block;}
-.task-tag-box { width: calc(100% - 95px);
+.task-tag-box { width: calc(100% - 66px);
     background-color: #fff;
     padding: 5px;
     display: inline-block;
@@ -3117,3 +3117,14 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
     right: 10px;
     top: 7px;
 }
+/*******/
+.todoapp .ivu-collapse-content>.ivu-collapse-content-box {
+    background-color:white;
+    padding-bottom: 0px
+}
+.todoapp>.taskbarsect>.CollapseView>.ivu-collapse-item>.ivu-collapse-content{
+        padding: 0 0px;
+        background-color: white
+}
+.todoapp .ivu-collapse .ivu-collapse-content {overflow: inherit}
+.todoapp .ivu-collapse {border: none}
