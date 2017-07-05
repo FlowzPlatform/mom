@@ -158,7 +158,7 @@ export default {
       // imageURlProfilePic: this.$store.state.userObject.image_url,
       imageURlProfilePic: '',
       index: this.filteredTodo.index,
-      popName:'',
+      poproject_name:'',
       estimated_time: false,
       task_priority:false,
       userName: ''

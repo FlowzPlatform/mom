@@ -1,5 +1,6 @@
 <template>
     <div class="Sidebar">
+    
         <!--Company logo-->
         <div class="SidebarHeader-companyLogo">
             <a class="CloseButton SidebarHeader-closeIcon">
@@ -35,7 +36,7 @@
                             <!-- Project name header -->
                             <span :id="'panelProjectName-'+project.id" @click="projectSelect(project.id)" @mouseleave="hideOption(project.id)" @mouseover="showOption(project.id)" class="spanPanel">
                                 <a class="DeprecatedNavigationLink">
-                                    <span  class="panelProjectName">{{project.pName}}</span>
+                                    <span  class="panelProjectName">{{project.project_name}}</span>
                                     <span :id="'ItemRowMenu-'+project.id" class="hidden ItemRowMenu">
                                         <svg class="Icon MoreIcon SidebarItemRow-icon SidebarItemRow-defaultIcon" title="MoreIcon" viewBox="0 0 32 32">
                                             <circle cx="3" cy="16" r="3"></circle>
@@ -47,18 +48,18 @@
                             </span>
                             <!-- Collapse content -->
                             <!-- Invite team member -->
+                            
                             <p class="teamList" slot="content">
                                 <!--Added Member list -->
                                 <span :id="'itemRow-'+project.id" class="SidebarItemRow-name">
-                                    
-                                    <div  class="SidebarTeamMembersList">
+                                    <div  class="SidebarTeamMembersList" >
                                         <div class="SidebarTeamMembersList-facepileRow">
                                             <div class="Facepile Facepile--small SidebarTeamMembersList-facepile">
-    
                                                 <!-- Member 1 -->
-                                                <div v-if="members[0]?true:false" class="Avatar Avatar--small Avatar--color1 Facepile-avatar">
-                                                    <img v-if="members[0].url" v-bind:src="members[1].url" />
-                                                    <span v-else>{{getLetters(members[0].name)}}</span>
+                                                <div v-if="isMemberAvailable(project,0)" class="Avatar Avatar--small Avatar--color1 Facepile-avatar">
+            
+                                                    <img v-if="project.members[0].url" v-bind:src="project.members[0].url" />
+                                                    <span v-else>{{getLetters(project.members[0].name)}}</span>
                                                 </div>
                                                 <a id="member1" v-else @click="showMemberDetail($event)" class="CircularButton CircularButton--enabled CircularButton--small Facepile-placeholder" tabindex="0" aria-role="button">
                                                     <div class="CircularButton-label">
@@ -69,9 +70,9 @@
                                                 </a>
     
                                                 <!--Member 2 -->
-                                                 <div v-if="members[1]?true:false" class="Avatar Avatar--small Avatar--color2 Facepile-avatar">
-                                                    <img v-if="members[1].url" v-bind:src="members[1].url" />
-                                                    <span v-else>{{getLetters(members[1].name)}}</span>
+                                                 <div v-if="isMemberAvailable(project,1)" class="Avatar Avatar--small Avatar--color2 Facepile-avatar">
+                                                    <img v-if="project.members[1].url" v-bind:src="project.members[1].url" />
+                                                    <span v-else>{{getLetters(project.members[1].name)}}</span>
                                                 </div>
                                                 <a id="member2" v-else @click="showMemberDetail($event)" class="CircularButton CircularButton--enabled CircularButton--small Facepile-placeholder" tabindex="0" aria-role="button">
                                                     <div class="CircularButton-label">
@@ -81,9 +82,9 @@
                                                     </div>
                                                 </a>
                                                 <!--Member 3-->
-                                               <div v-if="members[2]?true:false" class="Avatar Avatar--small Avatar--color3 Facepile-avatar">
-                                                    <img v-if="members[2].url" v-bind:src="members[2].url" />
-                                                    <span v-else>{{getLetters(members[2].name)}}</span>
+                                               <div v-if="isMemberAvailable(project,2)" class="Avatar Avatar--small Avatar--color3 Facepile-avatar">
+                                                    <img v-if="project.members[2].url" v-bind:src="project.members[2].url" />
+                                                    <span v-else>{{getLetters(project.members[2].name)}}</span>
                                                 </div>
                                                 <a id="member3" v-else @click="showMemberDetail($event)" class="CircularButton CircularButton--enabled CircularButton--small Facepile-placeholder" tabindex="0" aria-role="button">
                                                     <div class="CircularButton-label">
@@ -93,9 +94,9 @@
                                                     </div>
                                                 </a>
                                                 <!--Member 4-->
-                                                <div v-if="members[3]?true:false" class="Avatar Avatar--small Avatar--color4 Facepile-avatar">
-                                                    <img v-if="members[3].url" v-bind:src="members[1].url" />
-                                                    <span v-else>{{getLetters(members[3].name)}}</span>
+                                                <div v-if="isMemberAvailable(project,3)" class="Avatar Avatar--small Avatar--color4 Facepile-avatar">
+                                                    <img v-if="project.members[3].url" v-bind:src="project.members[1].url" />
+                                                    <span v-else>{{getLetters(project.members[3].name)}}</span>
                                                 </div>
                                                 <a id="member4" v-else @click="showMemberDetail($event)" class="CircularButton CircularButton--enabled CircularButton--small Facepile-placeholder" tabindex="0" aria-role="button">
                                                     <div class="CircularButton-label">
@@ -105,9 +106,9 @@
                                                     </div>
                                                 </a>
                                                 <!--Member 5 -->
-                                               <div v-if="members[4]?true:false" class="Avatar Avatar--small Avatar--color5 Facepile-avatar">
-                                                    <img v-if="members[4].url" v-bind:src="members[4].url" />
-                                                    <span v-else>{{getLetters(members[4].name)}}</span>
+                                               <div v-if="isMemberAvailable(project,4)" class="Avatar Avatar--small Avatar--color5 Facepile-avatar">
+                                                    <img v-if="project.members[4].url" v-bind:src="project.members[4].url" />
+                                                    <span v-else>{{getLetters(project.members[4].name)}}</span>
                                                 </div>
                                                 <a id="member5" v-else @click="showMemberDetail($event)" class="CircularButton CircularButton--enabled CircularButton--small Facepile-placeholder" tabindex="0" aria-role="button">
                                                     <div class="CircularButton-label">
@@ -117,9 +118,9 @@
                                                     </div>
                                                 </a>
                                                 <!--Member 6 -->
-                                                <div v-if="members[5]?true:false" class="Avatar Avatar--small Avatar--color6 Facepile-avatar">
-                                                    <img v-if="members[5].url" v-bind:src="members[5].url" />
-                                                    <span v-else>{{getLetters(members[5].name)}}</span>
+                                                <div v-if="isMemberAvailable(project,5)" class="Avatar Avatar--small Avatar--color6 Facepile-avatar">
+                                                    <img v-if="project.members[5].url" v-bind:src="project.members[5].url" />
+                                                    <span v-else>{{getLetters(project.members[5].name)}}</span>
                                                 </div>
                                                 <a id="member6" v-else @click="showMemberDetail($event)" class="CircularButton CircularButton--enabled CircularButton--small Facepile-placeholder" tabindex="0" aria-role="button">
                                                     <div class="CircularButton-label">
@@ -162,7 +163,8 @@
                                         </div>
                                         <div class="ser-dro-lis">
                                         <!-- Search text box -->
-                                        <input @blur="closeExpandableList(project.id)" @keyup="showList(project.id)" type="text" v-model="inputValue" class="textInput textInput--medium TeamInviteTypeahead-input" value="" name="">
+                                        
+                                    <input @blur="closeExpandableList(project.id)" @keyup="showList(project.id)" type="text" v-model="inputValue" class="textInput textInput--medium TeamInviteTypeahead-input" value="" name="">
                                         <!-- Drop down list -->
                                         <div :id="'layerPositioner-'+project.id" class="hidden layerPositioner layerPositioner--offsetLeft layerPositioner--alignLeft layerPositioner--below">
                                             <ul class="TypeaheadView-scrollable">
@@ -170,15 +172,23 @@
                                                     <div class="TypeaheadItem">
                                                         <div class="TypeaheadItem-content">
                                                             <div class="TypeaheadItem-icon">
-                                                                <div class="Avatar Avatar--medium Avatar--color3">
-                                                                    <!-- react-text: 38 -->he
-                                                                    <!-- /react-text -->
+                                                                <div v-if="member?true:false" class="Avatar Avatar--small Avatar--color2 Facepile-avatar">
+                                                                    <img v-if="member.image_url" v-bind:src="member.image_url" />
+                                                                    <span v-else>{{getLetters(member.fullname)}}</span>
                                                                 </div>
+                                                                <a id="member2" v-else @click="showMemberDetail($event)" class="CircularButton CircularButton--enabled CircularButton--small Facepile-placeholder"
+                                                                    tabindex="0" aria-role="button">
+                                                                    <div class="CircularButton-label">
+                                                                        <svg class="Icon UserIcon Facepile-placeholderIcon" title="UserIcon" viewBox="0 0 32 32">
+                                                                            <path d="M20.534,16.765C23.203,15.204,25,12.315,25,9c0-4.971-4.029-9-9-9S7,4.029,7,9c0,3.315,1.797,6.204,4.466,7.765C5.962,18.651,2,23.857,2,30c0,0.681,0.065,1.345,0.159,2h27.682C29.935,31.345,30,30.681,30,30C30,23.857,26.038,18.651,20.534,16.765z M9,9c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S9,12.86,9,9z M4,30c0-6.617,5.383-12,12-12s12,5.383,12,12H4z"></path>
+                                                                        </svg>
+                                                                    </div>
+                                                                </a>
                                                             </div>
                                                             <div class="TypeaheadItem-textWrapper">
                                                                 <div class="TypeaheadItem-title">
                                                                     <span>
-                                                                        <!-- react-text: 42 -->{{member.name}}
+                                                                        <!-- react-text: 42 -->{{member.fullname}}
                                                                         <!-- /react-text -->
                                                                     </span>
                                                                 </div>
@@ -220,9 +230,26 @@
                                                             <div class="validatedTextInput validatedTextInput--invalid QuickInvitePopup-emailInputValidator">
                                                                 <input type="text" class="validatedTextInput-input textInput textInput--medium QuickInvitePopup-input QuickInvitePopup-emailInput" :value="email">
                                                                 
-                                                                <div class="validatedTextInput-message">Please enter a real email address.</div>
+                                                                <div class="validatedTextInput-message">{{emailValidationError}}</div>
                                                             </div>
                                                         </div>
+                                                        <div class="projectRole">
+
+                                                            <div class="QuickInvitePopup-inputArea QuickInvitePopup-emailInputArea">
+                                                                <label class="Label">Role</label>
+                                                                <div class="validatedTextInput validatedTextInput--invalid QuickInvitePopup-emailInputValidator">
+                                                                    <select class="textInput textInput--medium QuickInvitePopup-input" v-model="selected">
+                                                                                    <option value="" disabled selected hidden>Select Role</option>
+                                                                                    <option v-for="role in roles" v-bind:value="role.name">
+                                                                                        {{ role.name }}
+                                                                                    </option>
+                                                                            </select>
+                                                                    <div class="validatedTextInput-message">{{roleValidationError}}</div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
                                                         <div class="QuickInvitePopup-inputArea">
                                                             <label class="Label">Name (Optional)</label>
                                                             <input type="text" class="textInput textInput--medium QuickInvitePopup-input QuickInvitePopup-nameInput" :value="name">
@@ -230,7 +257,7 @@
                                                     </div>
                                                     <div class="QuickInvitePopup-buttonRow">
                                                         <a class="Button Button--small Button--secondary QuickInvitePopup-cancelButton" tabindex="0" aria-role="button" @click="closeInvite(project.id)">Cancel</a>
-                                                        <a class="Button Button--disabled Button--small Button--primary QuickInvitePopup-shareButton" aria-role="button">Send Invite</a>
+                                                        <a class="Button Button--disabled Button--small Button--primary QuickInvitePopup-shareButton" aria-role="button" @click="inviteUserSubmit(project.id)">Send Invite</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -238,7 +265,7 @@
                                         <!--project wise member list-->
                                         <div :id="'listContent-'+project.id" class="hidden SidebarTeamMembersExpandedList-contents">
     
-                                            <a class="DeprecatedNavigationLink SidebarItemRow SidebarTeamMembersExpandedMember-itemRow is-selected" href="https://app.asana.com/0/313961692275953/313961692275953">
+                                            <a class="DeprecatedNavigationLink SidebarItemRow SidebarTeamMembersExpandedMember-itemRow is-selected" href="#">
                                                 <div class="SidebarItemRow-avatar">
                                                     <div class="Avatar Avatar--small Avatar--color3">
                                                         <!-- react-text: 225 -->he
@@ -285,6 +312,7 @@ import draggable from 'vuedraggable'
 import ProjectItem from './ProjectItem.vue'
 import iView from 'iview';
 import { mapGetters, mapMutations } from 'vuex'
+ import CmnFunc from './CommonFunc.js'
 
 import 'iview/dist/styles/iview.css';
 
@@ -297,14 +325,8 @@ export default {
             isNewProjectDialogShow: false,
             // projectList: [{id:"1",name:"project 1"},{id:"2",name:"project 2"}, 
             // {id:"3",name:"project 3"},{id:"4",name:"project 4"}],
-            members: [
-                { id: '1', name: 'Hemant Patel', email: 'user1@gmail.com', url: '' },
-                { id: '2', name: 'user 2', email: 'user2@gmail.com', url: 'https://s3.amazonaws.com/profile_photos/313005078195995.bbPK2BmmbsdpblbUzYT1_60x60.png' },
-                { id: '3', name: 'user 3', email: 'user3@gmail.com', url: '' },
-                { id: '4', name: 'user 4', email: 'user4@gmail.com', url: '' },
-                { id: '5', name: 'user 5', email: 'user5@gmail.com', url: '' },
-                { id: '6', name: 'user 6', email: 'user6@gmail.com', url: '' }
-            ],
+            members: [],
+            users:this.$store.state.arrAllUsers,
             searchText: '', // If value is falsy, reset searchText & searchItem 
             item: {
                 value: '',
@@ -314,34 +336,51 @@ export default {
             email:'',
             name:'',
             lastOpenDialogId:'',
-            lastProjectSelected:''
+            lastProjectSelected:'',
+            selected: '',
+            roles: this.$store.state.userRoles,
+            emailValidationError:'',
+            roleValidationError:'',
+            // projectList:this.$store.state.projectlist
 
         }
     },
     created(){
+             this.$store.dispatch("getAllUsersList")        
           this.$store.dispatch('getAllProjects',this.$store.state.userObject._id);
+            this.$store.dispatch('getUsersRoles');
     },
     computed: {
         ...mapGetters({
-            projectList: 'getProjectList'
+            getProjectList: 'getProjectList',
+            // memberProfile:'getMemberProfile',
+            memberName:'getMemberName'
         }),
         searchItems: function () {
-
+            
             var self = this
             var sameMatch = false;
-            var itemList = self.members.filter(function (item) {
+            console.log("userList:--",self.users)
+            var itemList = self.users.filter(function (item) {
                 if (!sameMatch) {
-                    sameMatch = (item.name.toLowerCase() == self.inputValue.toLowerCase())
+                    sameMatch = (item.fullname.toLowerCase() == self.inputValue.toLowerCase())
                 }
 
-                return item.name.toLowerCase().indexOf(self.inputValue.toLowerCase()) != -1
+                return item.fullname.toLowerCase().indexOf(self.inputValue.toLowerCase()) != -1
             })
-            //console.log("itemList", itemList)
-            // if (!sameMatch)
-            //     itemList.push({ "id": "0", "name": self.inputValue });
+            console.log("itemList", itemList)
+            if (!sameMatch)
+                itemList.push({ "id": "0", "name": self.inputValue });
             return itemList;
+        },
+        projectList:function(){
+            console.log("projectlist")
+            // this.memberProfileDetail
+            var projects=this.getProjectList;
+            var projects=this.$store.state.projectlist;            
+            this.memberProfileDetail(projects)
+            return projects;
         }
-
     },
     mounted: function () {
         var self = this;
@@ -350,10 +389,7 @@ export default {
             if ($(this).val().length > 0) {
                 this.searchText = "data:" + $(this).val();
             }
-
-        });
-
-
+        })
     },
     beforeMount() {
         this.displayToolTips()
@@ -362,6 +398,76 @@ export default {
         ...mapMutations([
             'showDeleteTasks'
         ]),
+        isMemberAvailable:function(project,index)
+        {
+
+            console.log("Project index:--",project && project.members && project.members[index]);
+            return project && project.members && project.members[index]
+        },
+        getMemberProfile:function(uId) {
+        let userIndex = _.findIndex(this.users, function (user) { return user._id === uId })
+        if (userIndex < 0) {
+          return { user_id: uId }
+        } else {
+          return { user_id: uId, url: this.users[userIndex].image_url, name: this.users[userIndex].email }
+        }
+      
+    },
+        memberProfileDetail:function(projects)        {
+
+          projects.forEach(function(project) {
+                    var members = project.members;
+                    if (members) {
+                       members.forEach(function(member) {
+                           
+                                var uId = member.user_id;
+                                var memberDetail = this.getMemberProfile(uId);
+                                let memberIndex = _.findIndex(members, function (m) { return m.user_id === uId })
+                                if (memberIndex < 0) {
+                                    project.members.push(memberDetail);
+                                } else {
+                                    project.members[memberIndex]=memberDetail;
+                                }
+
+                        }, this);
+                    }else{
+                       
+                    }
+
+           }, this);
+             console.log("<----Project Member:-->",projects)
+        },
+        inviteUserSubmit:function(projectId){
+            var inviteEmail = this.email;
+            console.log("Selected:-->", inviteEmail);
+            if (!inviteEmail || inviteEmail.length == 0 || !CmnFunc.checkValidEmail(inviteEmail)) {
+                this.emailValidationError = "Invalid user email"
+                return;
+            }
+            var roleSelect = this.selected;
+            if (!roleSelect || roleSelect.length == 0) {
+                this.roleValidationError = "Select role"
+                return;
+            }
+
+            // var roleId=this.roles.filter(role=> role.name ==roleSelect);
+            let index = _.findIndex(this.roles, function (d) { return d.name == roleSelect })
+             let indexUser = _.findIndex(this.users, function (d) { return d.email == inviteEmail })
+            console.log("Selected:-->", index);
+
+            var insertInvite={
+                project_id:projectId,
+                user_id:this.$store.state.arrAllUsers[indexUser]._id,
+                create_by:this.$store.state.userObject._id,
+                user_email:this.$store.state.userObject.email,
+                user_role_id:this.roles[index].id,
+                invitation_status:"p",
+                invited_date:new Date()
+            }
+            console.log("Insert Invite:-->", insertInvite);
+            
+             this.$store.dispatch('insertProjectInvite',insertInvite)  
+        },
         closeNav: function () {
 
             document.getElementById("top-bar").style.marginLeft = "0px";
@@ -374,7 +480,10 @@ export default {
 
         },
         projectSelect(id){
-             
+             this.$store.state.currentProjectId=id;
+             this.$store.state.todolist=[] 
+             this.$store.commit('CLOSE_DIV','')
+             this.$store.dispatch('getAllTodos', { 'parentId':'' ,project_id:id});
               // Close last open dialog
             if(this.lastProjectSelected !==''){
                 console.log(this.lastProjectSelected);
@@ -383,6 +492,9 @@ export default {
             // Open Invite member dialog
             $("#panelProjectName-"+id).addClass("project-selected");
             this.lastProjectSelected = id;
+
+
+            // this.memberProfileDetail()
         },
         // This method show when user mouse hover on project name
         showOption(id){
@@ -488,7 +600,10 @@ export default {
            //$(".SidebarTeamMembersExpandedList").removeClass("hidden");
         },
         getLetters(name) {
-             var str = name;      
+             var str = name;
+             if(!str || str.length==0)
+                return "X";      
+
              var firstLetters = str.substr(0, 2);     
               return firstLetters ;
       }

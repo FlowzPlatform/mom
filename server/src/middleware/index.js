@@ -9,4 +9,7 @@ module.exports = function () {
 
   app.use(notFound());
   app.use(handler());
+  app.use(function(error, req, res, next){
+      console.log("Middleware-------->",req);
+  })
 };

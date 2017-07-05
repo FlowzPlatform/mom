@@ -219,7 +219,14 @@
 
       this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
       this.$store.commit('DELETE_ALLTAGS')
-      this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '' });
+      this.$store.state.todolist=[]
+      var projectId=this.$store.state.currentProjectId
+      if(!projectId && this.$store.state.projectlist.length>0){
+          projectId=this.$store.state.projectlist[0].id
+      }
+      if(projectId){
+        this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '' ,project_id:projectId});
+      }
       // if(this.$store.state.deleteItemsSelected)
       // {
       //   this.$store.dispatch('getDeleteTask');
@@ -300,7 +307,8 @@
             completed: false,
             dueDate: '',
             createdAt: new Date().toJSON(),
-            updatedAt: new Date().toJSON()
+            updatedAt: new Date().toJSON(),
+            project_id:this.$store.state.currentProjectId
           })
           this.todolist = taskArray
           return filters[this.$store.state.visibility](taskArray)
