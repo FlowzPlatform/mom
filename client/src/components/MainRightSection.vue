@@ -68,7 +68,6 @@ export default {
     }
   },
   created() {
-    console.log('MainRight created')
     // let self = this;
     //      socket.on('feed-change', function(item){
     //           //  console.log("TodoItem.vue:item***",item);
