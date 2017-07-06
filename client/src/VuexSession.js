@@ -169,7 +169,6 @@ export const store = new Vuex.Store({
         scrollLeft: totalWidth
       }, 800)
       // END scroll to last opened right div 
-
       // console.log('SHOW_DIV')
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
@@ -228,7 +227,7 @@ export const store = new Vuex.Store({
       state.taskComment.splice(0, state.taskComment.length)
       state.taskTags.splice(0, state.taskTags.length)
       state.tagsList.splice(0, state.tagsList.length)
-      // state.deletedTaskArr.splice(0, state.deletedTaskArr.length)
+      state.tempGroupByArr.splice(0, state.tempGroupByArr.length)
       // state.userObject={}
     },
     changeFilters(state, key) {
@@ -424,6 +423,10 @@ export const store = new Vuex.Store({
         image_url:state.userObject.image_url
       })
     },
+    DELETE_COMMENT(state, data){
+      let removeTaskComments = _.findIndex(state.taskComment, function (d) { return d.id == data.id })
+      state.taskComment.splice(removeTaskComments, 1)
+    },
     updateTodo(state, todoObject) {
       // setCheckboxColor(state, todoObject)
     },
@@ -521,25 +524,26 @@ export const store = new Vuex.Store({
       console.log("Projectc List:--",data);
       state.projectlist=data;
     },
-    showDeleteTasks(state){
-      console.log('Shoe deleted task')
+    async showDeleteTasks(state){
+      // console.log('Shoe deleted task')
       state.deleteItemsSelected = true
       state.parentIdArr.splice(0, state.parentIdArr.length)
-      let temp = state.todolist.filter(todo => todo.isDelete)
-      state.deletedTaskArr = store.getters.getdeleteArray
-      if(state.deletedTaskArr.length===0){
-        console.log(state.deletedTaskArr.length)
-        state.deletedTaskArr = temp
-      }
+      // let temp = state.todolist.filter(todo => todo.isDelete)
+      // state.deletedTaskArr = store.getters.getdeleteArray
+      // if(state.deletedTaskArr.length===0){
+      //   console.log(state.deletedTaskArr.length)
+      //   state.deletedTaskArr = temp
+      // }
+      await store.dispatch('getDeleteTask')
     },
     showMyTasks(state){
       state.deleteItemsSelected = false
       state.parentIdArr.splice(0, state.parentIdArr.length)
     },
-    // DELETED_TASKS(state, deletedArray){
-    //   console.log(deletedArray)
-    //   state.deletedTaskArr = deletedArray
-    // }
+    DELETED_TASKS(state, deletedArray){
+      console.log(deletedArray)
+      state.deletedTaskArr = deletedArray
+    }
   },
   actions: {
 
@@ -599,6 +603,10 @@ export const store = new Vuex.Store({
       services.taskHistoryLogs.on('created', message => {
         console.log("Message history Logs Cretaed:-->", message)
         // commit('ADD_COMMENT', message)
+      }),
+      services.taskHistoryLogs.on('removed', message => {
+        console.log("Message History log Removed:-->", message)
+        commit('DELETE_COMMENT', message)
       })
     },
     getAllTodos({ commit }, payload) {
@@ -673,7 +681,7 @@ export const store = new Vuex.Store({
       }
     },
     editTaskName({ commit }, editObject) {
-      console.log(editObject.selectedDate)
+      // console.log(editObject.selectedDate)
       if (editObject.todo.id) {
         services.tasksService.patch(editObject.todo.id, {
           taskName: editObject.todo.taskName,
@@ -709,7 +717,7 @@ export const store = new Vuex.Store({
       console.log(deleteElement)
       let dbId = deleteElement.id
       if (dbId) {
-        services.tasksService.patch(dbId, { isDelete: true, deleteBy: store.state.userObject._id }).then(response => {
+        services.tasksService.patch(dbId, { isDelete: true, deletedBy: store.state.userObject._id }).then(response => {
           console.log("Response deleteTodp Flag Update:", response)
         })
         // Vue.http.delete('/deteletask/' + dbId, {
@@ -912,7 +920,6 @@ export const store = new Vuex.Store({
       });
     },
     getAttachmentFromDB({ commit }, taskId) {
-      console.log('get attachment called: ', taskId)
       services.taskAttachmentService.find({
         query: {
           task_id: taskId,
@@ -1013,18 +1020,7 @@ export const store = new Vuex.Store({
         // commit('ADD_COMMENT', response)
       })
     },
-     insertProjectInvite({ commit }, inviteDetail) {
-      console.log('inviteDetail-->', inviteDetail)
-
-
-
-      services.projectMemberService.create(inviteDetail).then(function (response) {
-        console.log("Reesponse create Invite Member  From DB::", response);
-        // commit('ADD_COMMENT', response)
-      })
-    },
     getAllTaskTags({ commit }, taskId) {
-      console.log("getAllTaskTags tsakId::", taskId);
       services.taskTagsService.find({ query: { task_id: taskId, is_deleted: false } }).then(response => {
         console.log("Reesponse TaskTag::", response);
         commit('GET_TASK_TAGS', response)
@@ -1265,11 +1261,11 @@ export const store = new Vuex.Store({
           //  commit('addTodo', {"data":response, "todo": insertElement})
         });
     },
-    // getDeleteTask({ commit }, payload){
-    //   services.tasksService.find({ query: { isDelete: true } }).then(response => {
-    //     commit('DELETED_TASKS', response)
-    //   });
-    // },
+    getDeleteTask({ commit }, payload){
+      services.tasksService.find({ query: { isDelete: true } }).then(response => {
+        commit('DELETED_TASKS', response)
+      });
+    },
       undelete({commit}, undeleteElement){
       let dbId = undeleteElement.id
       if (dbId) {
@@ -1283,8 +1279,15 @@ export const store = new Vuex.Store({
       services.tasksService.remove(dbId, { query: { 'id': dbId } }).then(response => {
           console.log("Reesponse deleteTodo::", response);
       });
+    },
+    delete_Comment({commit}, deleteCommentObj){
+      console.log(deleteCommentObj)
+      let commentId = deleteCommentObj.id
+      services.taskHistoryLogs.remove(commentId, {query: { 'id' : commentId}}).then(response => {
+        console.log("Response To Delete Comment:--", response)
+      })
     }
-},
+  },
   getters: {
     // getTodoById: (state, getters) => {
     //   return function (id, level) {
@@ -1322,14 +1325,16 @@ export const store = new Vuex.Store({
     },
     settingArr: state => state.settingsObject,
     getCommentById: (state, getters) => {
-      return function (id) {
-        return state.taskComment.filter(comment => comment.task_id === id)
-      }
-    },
+      console.log("---getCommentById---")
+        return function (id) {
+          var comment = state.taskComment.filter(c => c.task_id === id)
+          return comment
+        }
+    }, 
     // getTaskTags: state => state.taskTags,
     getTaskTagsById: (state, getters) => {
       return function (id) {
-        console.log(state.taskTags.filter(tags => tags.task_id === id))
+        // console.log(state.taskTags.filter(tags => tags.task_id === id))
         return state.taskTags.filter(tags => tags.task_id === id)
       }
     },
