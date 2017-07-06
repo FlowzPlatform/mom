@@ -1,35 +1,21 @@
-// /services/index.js
-console.log('service', process.env.SECRET_MESSAGE)
-console.log('service', process.env.SOCKET_IO)
+/* eslint-disable*/
+// console.log('service', process.env.SECRET_MESSAGE)
+// console.log('service', process.env.SOCKET_IO)
 import feathers from 'feathers/client'
 import socketio from 'feathers-socketio/client'
 import io from 'socket.io-client'
 // require('dotenv/config')
 // const config = require('config');
-// const socket_io = config.get('SOCKET_IO')
 
-console.log('socket..')
+const socket = io('http://172.16.105.110:3030')
+export const app = feathers().configure(socketio(socket));
 
-// const socket = io('http://172.16.105.110:3030')
-
-const socket = io('localhost:3030')
-
-
-
-//  io.use(function(socket, next) {
-//      socket.feathers.user = { name: 'David' };
-//       next();
-//     });
-
-
- export const app = feathers().configure(socketio(socket));
-
- socket.on('connect',function(){
-  console.log("socket connection",socket)
-  // socket.emit('hello', 'world');
-  // socket.user="ada"
-    //  socket.feathers.connection.custom = { name: 'David' };
-})
+//  socket.on('connect',function(){
+//  console.log("socket connection",socket)
+//   // socket.emit('hello', 'world');
+//   // socket.user="ada"
+//     //  socket.feathers.connection.custom = { name: 'David' };
+// })
   // app.listen(3030);
 // export const app = feathers().configure(socketio(function(io) {
 //     io.on('connection', function(socket) {
@@ -54,7 +40,6 @@ const socket = io('localhost:3030')
 //       next();
 //     })
 // });
-
 
 // app.listen('http://localhost:3030');
 //  socketio.on('connection', function(socket) {
@@ -125,7 +110,3 @@ export const projectMemberService = app.service('projectmember')
 //      });
 //   });
 // }));
-
-
-
-
