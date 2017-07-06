@@ -105,7 +105,7 @@
         data: function () {
             return {
                 result: [],
-                commentList: []
+                commentList: [],
             }
         },
         created() {
