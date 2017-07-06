@@ -137,7 +137,7 @@
     </div>
     </div>-->
   </section>
-</template>
+</template>taskById
 <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 <script>
   /* eslint-disable*/
@@ -294,12 +294,9 @@
       ...mapGetters({
         todoById: 'getTodoById',
         parentIdArray: 'parentIdArr',
-        // userSettings: 'user_setting',
         todoObjectById: 'getObjectById',
-        // deletedTasks:'getDeletedTaskById'
       }),
       taskById() {
-        console.log('taskById() called')
           let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', this.url_level)
           taskArray.push({
             id: '-1',
@@ -316,6 +313,7 @@
             project_id:this.$store.state.currentProjectId
           })
           this.todolist = taskArray
+          this.userDetail(this.todolist)
           return filters[this.$store.state.visibility](taskArray)
         
       },
@@ -335,6 +333,17 @@
       }
     },
     methods: {
+      userDetail(deletedTasks){
+        deletedTasks.forEach(function(c) {
+          let userId =c.deletedBy
+          let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
+          if(userIndex < 0){
+          } else {
+            c.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
+            c.email = this.$store.state.arrAllUsers[userIndex].email
+          }
+        }, this)
+      },
       btnLogoutClicked() {
         // this.$store.commit('DELETE_ATTACHMENTS')
         // this.$store.state.userObject = {}
@@ -349,7 +358,7 @@
          this.$store.dispatch('getAllUsersList')                   
           .catch(function(error) {           
             if (error.response.status === 401) {               
-              CmnFunc.deleteAutheticationDetail()               
+              CmnFunc.deleteAutheticationDetail()
               self.$router.replace('/')               
               return           
             }                    

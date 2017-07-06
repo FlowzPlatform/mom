@@ -299,7 +299,7 @@ export default {
       }else{
         objUser = _.find(this.$store.state.arrAllUsers, ['_id', this.filteredTodo.assigned_to])
       }
-      console.log('User', objUser)
+      // console.log('User', objUser)
       return objUser
     }
   },

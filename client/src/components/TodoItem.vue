@@ -1,11 +1,11 @@
 <template id="items">
   <li v-bind:key="todo" class="todo">
+    <!--{{todo.deletedBy}}-->
     <div :id="getLevelClass(todo.level,todo.id)" style="padding-bottom: 5px;"> 
       <div class="view" style="margin-left: 10px;">
         <span class="dreg-move"></span>
         <input v-if="!$store.state.deleteItemsSelected" :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="toggleTodo(todo)">
         <label for="checkbox8"></label>
-        <!--v-bind:class= "[ ''+todo.level, todo.id ]"-->
         <div v-if="$store.state.deleteItemsSelected" class="trash" :id="todo.id">
           <span class="trashcan">
             <span class="hover-glyph ">
@@ -34,8 +34,9 @@
         </div>
         <div v-if="$store.state.deleteItemsSelected" class="delete-view">
           <div class="react-mount-node photoView-reactMount">
-            <div data-reactroot="" class="Avatar Avatar--medium Avatar--color4">
-              <!--<span> {{ getUserLetters() }}<img v-bind:src="$store.state.userObject.image_url" /></span>-->
+            <div data-reactroot="" class="Avatar Avatar--small Avatar--color4">
+              <span v-if="todo.image_url"><img v-bind:src="todo.image_url" /></span>
+              <span v-else>{{ todo.email | capitalizeLetters }}</span>
             </div>
           </div>
       </div>
@@ -89,15 +90,10 @@
       }
     },
     computed: {
-      // ...mapGetters([
-      //     'selectedTodo'
-      //   ])
+     
     },
     methods: {
       ...mapMutations([
-        // 'set_selected_todo',
-        // 'addTodo',
-        // 'deleteTodo',
         'SHOW_DIV'
       ]),
       ...mapActions([
