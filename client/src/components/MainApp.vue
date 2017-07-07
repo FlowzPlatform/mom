@@ -323,7 +323,7 @@
       ...mapGetters({
         todoById: 'getTodoById',
         parentIdArray: 'parentIdArr',
-        //userSettings: 'user_setting',
+        // userSettings: 'user_setting',
          todoObjectById: 'getObjectById',
           projectListData: 'getProjectList'
         // deletedTasks:'getDeletedTaskById'
