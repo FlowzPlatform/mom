@@ -2275,9 +2275,8 @@ text-rendering: auto; -webkit-font-smoothing: antialiased;  vertical-align: top;
 .uplod-list-file li {width: auto; color: #000;}
 .uplod-list-file li a {color: #999; text-decoration: none; display: inline-block;position: relative;}
 .uplod-list-file li a:hover {color: #1AAFD0;}
-.uplod-list-file li button {display: none;}
-.uplod-list-file li:hover button {display: inline-block; background-color: #ccc; color: #1AAFD0; width: 10px; height: 10px; border-radius: 5px; height: auto;
-width: 17px;font-size: 12px;border-radius: 12px;line-height: 17px;color: rgba(0, 0, 0, 0.57); margin-left: 20px;}
+.uplod-list-file li button { opacity: 0; display: inline-block; background-color: #ccc; color: #1AAFD0; width: 10px; height: 10px; border-radius: 5px; height: auto; width: 17px;font-size: 12px;border-radius: 12px;line-height: 17px;color: rgba(0, 0, 0, 0.57); margin-left: 8px;}
+.uplod-list-file li:hover button  { opacity: 1;} 
 .uplod-list-file li:hover button:hover {background-color: #1AAFD0; color: #fff;}
 .uplod-list-file li .ui-progress-linear {margin: 0 !important;padding: 0;width: 100% !important;position: absolute;left: 0; right: 0;}
 
@@ -2725,13 +2724,13 @@ hr {
 
     .taskTagsView {
         float: left;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         position: relative;
         left: 0;
         width: 100%;
     }
     .task-tag-icon{    display: inline-block;}
-.task-tag-box { width: calc(100% - 95px);
+.task-tag-box { width: calc(100% - 66px);
     background-color: #fff;
     padding: 5px;
     display: inline-block;
@@ -3015,15 +3014,15 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
     color: #ad151d;
 }
 .MessageBanner {
-    -webkit-box-align: center;
+    /*-webkit-box-align: center;
     -webkit-align-items: center;
-    -ms-flex-align: center;
+    -ms-flex-align: center;*/
     align-items: center;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    display: -webkit-box;
+    /*-moz-box-sizing: border-box;*/
+    /*box-sizing: border-box;*/
+    /*display: -webkit-box;
     display: -webkit-flex;
-    display: -ms-flexbox;
+    display: -ms-flexbox;*/
     display: flex;
 }
 .TaskUndeleteBanner-message {
@@ -3031,18 +3030,20 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
     -webkit-flex: 1 0 auto;
     -ms-flex: 1 0 auto;
     flex: 1 0 auto;
+    margin-left: 10px;
 }
 .Button.Button--secondary:not(.Button--disabled) {
     background: #fff;
     border-color: #1aafd0;
     color: #1aafd0;
     fill: #1aafd0;
-    margin-right: 10px;
+    margin-left: 10px;
 }
 .Button.Button--small {
     height: 30px;
     line-height: 30px;
     padding: 0 9px;
+     margin-left: 10px;
 }
 .TaskUndeleteBanner-permadeleteButton.Button--primary:not(.Button--disabled) {
     background: #fc636b;
@@ -3063,6 +3064,21 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
     -o-align-items: center;
     align-items: center;
     -ms-flex-align: center;
+.ui-progress-circular {position: absolute;}
+.todo-list li .trash {
+    text-align: center;
+    /* width: 40px; */
+    width: 25px;
+    /*height: auto;*/
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    border: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.taskRowView-completionCell .trashcan {
     display: -webkit-box;
     display: -moz-box;
     display: box;
@@ -3116,3 +3132,57 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
     margin-right: auto; 
     width: 100%;
 }
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    box-pack: center;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    -ms-justify-content: center;
+    -o-justify-content: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    width: 100%;
+}
+.trashcan .hover-glyph {
+    cursor: pointer;
+    
+}
+.hover-glyph .hover-glyph-default {
+    margin-top: 10px;
+    margin-left: 30px;
+}
+.hover-glyph .hover-glyph-hover {
+    fill: #02CEFF;
+    margin-top: 10px;
+    margin-left: 30px;
+}
+.trashcan .hover-glyph:hover {
+    margin-left: -4px;
+    color: #1AAFD0;
+}
+.hover-glyph:hover .hover-glyph-default {
+    display: none;
+}
+.hover-glyph:not(:hover) .hover-glyph-hover {
+    display: none;
+}
+.fa-trash-o:before {
+    -webkit-text-fill-color: gray;
+}
+.delete-view {
+    z-index: 60;
+    position: absolute;
+    right: 10px;
+    top: 7px;
+}
+/*******/
+.todoapp .ivu-collapse-content>.ivu-collapse-content-box {
+    background-color:white;
+    padding-bottom: 0px
+}
+.todoapp>.taskbarsect>.CollapseView>.ivu-collapse-item>.ivu-collapse-content{
+        padding: 0 0px;
+        background-color: white
+}
+.todoapp .ivu-collapse .ivu-collapse-content {overflow: inherit}
+.todoapp .ivu-collapse {border: none}

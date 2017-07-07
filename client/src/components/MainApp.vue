@@ -168,7 +168,7 @@
   import MainLeftSection from './MainLeftSection.vue'
   import MainRightSection from './MainRightSection.vue'
   import LeftToolbar from './LeftToolbar.vue'
-
+  import CmnFunc from './CommonFunc.js'
   import Vue from 'vue'
   import BootstrapVue from 'bootstrap-vue'
   Vue.use(BootstrapVue)
@@ -176,6 +176,7 @@
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import { mapGetters, mapActions } from 'vuex'
   Vue.use(require('vue-moment'))
+  var md5 = require('md5');
 
   const filters = {
     all: todos => todos,
@@ -217,6 +218,8 @@
       }
     },
     created() {
+      // console.log(md5('urvashi@officebrain.com'));
+      // console.log(md5('uhirani@officebrain.com'));
       this.$store.dispatch('eventListener');
       this.getAllUsers()
       // ...mapActions([
@@ -240,6 +243,7 @@
         this.$store.dispatch('getTodoObject', this.url_parentId);
         this.$store.dispatch('getAttachmentFromDB', this.url_parentId)
         this.$store.dispatch('getAllTaskTags', this.url_parentId);
+        this.$store.dispatch('getTaskComment', this.url_parentId)
       }
 
       this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
@@ -320,7 +324,7 @@
       ...mapGetters({
         todoById: 'getTodoById',
         parentIdArray: 'parentIdArr',
-        userSettings: 'user_setting',
+        // userSettings: 'user_setting',
          todoObjectById: 'getObjectById',
           projectListData: 'getProjectList'
         // deletedTasks:'getDeletedTaskById'
@@ -340,6 +344,7 @@
         return this.$store.state.projectlist;
       },
       taskById() {
+        console.log('taskById() called')
           let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', this.url_level)
           taskArray.push({
             id: '-1',

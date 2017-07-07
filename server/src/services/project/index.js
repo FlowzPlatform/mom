@@ -2,17 +2,27 @@
 const service = require('feathers-rethinkdb');
 const hooks = require('./hooks');
 const errorHandler = require('feathers-errors/handler');
+const config = require('config');
+const db = config.get('dbName')
+const db_host = config.get('db_host')
+const db_port = config.get('db_port')
+
+const r = require('rethinkdbdash')({
+    db: db,
+    host: db_host,
+    port:db_port
+  });
+const table = config.get('tbl_project')
 
 module.exports = function() {
   const app = this;
-  const r = require('rethinkdbdash')({
-    db: 'vue_todo'
-  });
+  // const r = require('rethinkdbdash')({
+  //   db: 'vue_todo'
+  // });
 
   const options = {
     Model: r,
-    name: 'project',
-    
+    name: table,
   };
 
   // Initialize our service with any options it requires 

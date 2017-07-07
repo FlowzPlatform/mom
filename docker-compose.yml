@@ -1,0 +1,26 @@
+version: "2"
+services:
+ db:
+   image: rethinkdb
+   volumes:
+    - ./data:/data
+   ports:
+    - 8080:8080
+    - 28015:28015
+    - 29015:29015
+
+ wait:
+  image: waisbrot/wait
+  links:
+    - db
+  environment:
+    - TARGETS=db:28015
+  #  - TIMEOUT=10000
+
+ server:
+   image: 80017/serverfortodoapp
+   links:
+    - db
+#   entrypoint: "./wait-for-it.sh db:28015"
+   ports:
+   - 3030:3030

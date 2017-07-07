@@ -1,14 +1,14 @@
-const express = require('express')
-const r = require('rethinkdbdash')()
-const bodyParser = require('body-parser')
-const webpack = require('webpack')
-const config = require('./build/webpack.dev.conf')
-const _ = require('lodash')
+// const express = require('express')
+// const r = require('rethinkdbdash')()
+// const bodyParser = require('body-parser')
+// const webpack = require('webpack')
+// const config = require('./build/webpack.dev.conf')
+// const _ = require('lodash')
 
-const app = express()
-const router = express.Router()
-const compiler = webpack(config)
-const jsonParser = bodyParser.json()
+// const app = express()
+// const router = express.Router()
+// const compiler = webpack(config)
+// const jsonParser = bodyParser.json()
 
 // var sockio = require("socket.io");
 // console.log("App is listening on 3000");
@@ -160,85 +160,85 @@ app.use(require('webpack-hot-middleware')(compiler))
 // })
 
 // Insert new user in the db
-app.post('/insertUsers', jsonParser, (req, res) => {
-  console.log('request: ', req.body)
-  const user = {
-    'email': req.body.email,
-    'password': req.body.password,
-    'username': req.body.username,
-    'role': req.body.role,
-    'aboutme': req.body.aboutme,
-    'signup_type': req.body.signup_type,
-    'image_url': req.body.image_url,
-    // 'profile_pic': req.body.profile_pic,
-    // 'dob': req.body.dob,
-    'createdAt': new Date().toJSON(),
-    'updatedAt': new Date().toJSON()
-  }
-  r.db("vue_todo").table('users').insert(user).run().then(result => {
-    res.send(result)
-  }).catch(err => {
-    console.log('Error:', err)
-  })
-})
+// app.post('/insertUsers', jsonParser, (req, res) => {
+//   console.log('request: ', req.body)
+//   const user = {
+//     'email': req.body.email,
+//     'password': req.body.password,
+//     'username': req.body.username,
+//     'role': req.body.role,
+//     'aboutme': req.body.aboutme,
+//     'signup_type': req.body.signup_type,
+//     'image_url': req.body.image_url,
+//     // 'profile_pic': req.body.profile_pic,
+//     // 'dob': req.body.dob,
+//     'createdAt': new Date().toJSON(),
+//     'updatedAt': new Date().toJSON()
+//   }
+//   r.db("vue_todo").table('users').insert(user).run().then(result => {
+//     res.send(result)
+//   }).catch(err => {
+//     console.log('Error:', err)
+//   })
+// })
 
-// Fetch login credentials
-app.post('/getUser', jsonParser, (req, res) => {
-  r.db("vue_todo").table("users").filter({'email': req.body.email, 'password': req.body.password, 'signup_type': req.body.signup_type}).run().then(result => {
-    res.send(result)
-  }).catch(err => {
-    console.log("Error:", err)
-  })
-})
+// // Fetch login credentials
+// app.post('/getUser', jsonParser, (req, res) => {
+//   r.db("vue_todo").table("users").filter({'email': req.body.email, 'password': req.body.password, 'signup_type': req.body.signup_type}).run().then(result => {
+//     res.send(result)
+//   }).catch(err => {
+//     console.log("Error:", err)
+//   })
+// })
 
-//Check whether Email address exists or not
-app.post('/getUserEmail',(req, res) => {
-  console.log('Req', req.body)
-    r.db('vue_todo').table('users').filter({'email': req.body.email, 'signup_type':  req.body.signup_type}).count().run().then(result => {
-    res.send((result).toString())
-  }).catch(err => {
-    console.log("Error:", err)
-  })
-})
+// //Check whether Email address exists or not
+// app.post('/getUserEmail',(req, res) => {
+//   console.log('Req', req.body)
+//     r.db('vue_todo').table('users').filter({'email': req.body.email, 'signup_type':  req.body.signup_type}).count().run().then(result => {
+//     res.send((result).toString())
+//   }).catch(err => {
+//     console.log("Error:", err)
+//   })
+// })
 
-app.post('/getUserDetail', jsonParser, (req, res) => {
-  r.db("vue_todo").table("users").filter({'email': req.body.email, 'signup_type': req.body.signup_type}).run().then(result => {
-    res.send(result)
-  }).catch(err => {
-    console.log("Error:", err)
-  })
-})
+// app.post('/getUserDetail', jsonParser, (req, res) => {
+//   r.db("vue_todo").table("users").filter({'email': req.body.email, 'signup_type': req.body.signup_type}).run().then(result => {
+//     res.send(result)
+//   }).catch(err => {
+//     console.log("Error:", err)
+//   })
+// })
 
-// Update user profile
-app.post('/updateUserProfile', jsonParser, (req, res) => {
-  //var taskToUpdate = []
-   var taskToUpdate = {
-      'username': req.body.username,
-      'role': req.body.role,
-      'aboutme': req.body.aboutme,
-      'dob': req.body.dob,
-      'updatedAt': new Date().toJSON()
-    }
-  r.db("vue_todo").table("users").filter({'email': req.body.email, 'signup_type': req.body.signup_type}).update(taskToUpdate).run().then(result => {
-    res.send(result)
-  }).catch(err => {
-    // console.log("Error:", err)
-  })
-})
+// // Update user profile
+// app.post('/updateUserProfile', jsonParser, (req, res) => {
+//   //var taskToUpdate = []
+//    var taskToUpdate = {
+//       'username': req.body.username,
+//       'role': req.body.role,
+//       'aboutme': req.body.aboutme,
+//       'dob': req.body.dob,
+//       'updatedAt': new Date().toJSON()
+//     }
+//   r.db("vue_todo").table("users").filter({'email': req.body.email, 'signup_type': req.body.signup_type}).update(taskToUpdate).run().then(result => {
+//     res.send(result)
+//   }).catch(err => {
+//     // console.log("Error:", err)
+//   })
+// })
 
-//Update image url
-app.post('/updateImageURL', jsonParser, (req, res) => {
-    const taskToUpdate = {
-      'image_url': req.body.image_url,
-      'image_name': req.body.image_name
-    }
+// //Update image url
+// app.post('/updateImageURL', jsonParser, (req, res) => {
+//     const taskToUpdate = {
+//       'image_url': req.body.image_url,
+//       'image_name': req.body.image_name
+//     }
   
-  r.db("vue_todo").table("users").filter({'email': req.body.email, 'signup_type': req.body.signup_type}).update(taskToUpdate).run().then(result => {
-    res.send(result)
-  }).catch(err => {
-    console.log("Error:", err)
-  })
-})
+//   r.db("vue_todo").table("users").filter({'email': req.body.email, 'signup_type': req.body.signup_type}).update(taskToUpdate).run().then(result => {
+//     res.send(result)
+//   }).catch(err => {
+//     console.log("Error:", err)
+//   })
+// })
 
 
 // Insert new attachment in the db
@@ -457,12 +457,12 @@ app.post('/updateImageURL', jsonParser, (req, res) => {
 //   })
 // })
 
-app.use('/api', router)
+// app.use('/api', router)
 
-app.listen(3000, function (err) {
-  if (err) {
-    console.log(err)
-    return
-  }
-  console.log('Listening at http://172.16.105.110:3000')
-})
+// app.listen(3000, function (err) {
+//   if (err) {
+//     console.log(err)
+//     return
+//   }
+//   console.log('Listening at http://172.16.105.110:3000')
+// })

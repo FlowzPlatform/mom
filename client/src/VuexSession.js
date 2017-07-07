@@ -156,11 +156,21 @@ export const store = new Vuex.Store({
     //   state.todolist.push(todo)    
     // },
     async SHOW_DIV(state, payload) {
-      // console.log('payload.level', payload)
+      
+      // START scroll to last opened right div 
+      var children = document.getElementById('main-container').children;
+      var totalWidth = 0;
+      console.log('Children-->', children.length)
+      for (var i = 0; i < children.length; i++) {
+          totalWidth += children[i].offsetWidth;
+      }
+      var leftPos = $('#main-container').scrollLeft();
+      $("div#main-container").animate({
+        scrollLeft: totalWidth
+      }, 800)
+      // END scroll to last opened right div 
 
-      // var x = document.getElementById('right_pane_container');
-      // x.style.visibility="visible"; 
-      console.log('SHOW_DIV')
+      // console.log('SHOW_DIV')
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
         // window.history.pushState("", "Title", "http://localhost:3000/navbar/task/" + (payload.level + 1) + "/" + payload.id);
@@ -171,20 +181,27 @@ export const store = new Vuex.Store({
 
         var parentIdArrObj = payload
         var tempParentIds = _.chain([]).union(state.parentIdArr).sortBy([function (o) { return o.level; }]).value();
-        if (state.parentIdArr.length > 0) {
-          state.parentIdArr.splice(0, state.parentIdArr.length);
-          for (var i = 0; i < tempParentIds.length; i++) {
-            if (tempParentIds[i].level < parentIdArrObj.level) {
-              state.parentIdArr.push(tempParentIds[i]);
+        
+        if(state.deleteItemsSelected){
+            state.parentIdArr.splice(0, state.parentIdArr.length);
+            state.parentIdArr.push(parentIdArrObj);
+        } else {
+          if (state.parentIdArr.length > 0) {
+            state.parentIdArr.splice(0, state.parentIdArr.length);
+            for (var i = 0; i < tempParentIds.length; i++) {
+              if (tempParentIds[i].level < parentIdArrObj.level) {
+                state.parentIdArr.push(tempParentIds[i]);
+              }
             }
+            state.parentIdArr.push(parentIdArrObj);
           }
-          state.parentIdArr.push(parentIdArrObj);
-        }
-        else {
-          state.parentIdArr.push(parentIdArrObj);
+          else {
+            state.parentIdArr.push(parentIdArrObj);
+          }
         }
         // console.log('parentIdArr', state.parentIdArr)
       }
+
     },
     CLOSE_DIV(state, payload) {
       //  console.log('CLOSE_DIV', payload)
@@ -218,13 +235,7 @@ export const store = new Vuex.Store({
       state.visibility = key
     },
     UPDATE_TODO(state, item) {
-      // console.log('Update TODO')
       let updateTodoIndex = _.findIndex(state.todolist, function (d) { return d.id == item.id })
-      //  console.log('item Before:', updateTodoIndex) 
-      // updateObject(state.todolist[updateTodoIndex], item)
-      // state.todolist.filter(todo => todo.id === item.id) == item
-      // console.log('Todolist Obj After:', state.todolist)
-      //console.log('new obj', obj)
 
       if (updateTodoIndex < 0) {
         if (state.todoObjectByID)
@@ -233,14 +244,27 @@ export const store = new Vuex.Store({
           let deleteTodoIndex = _.findIndex(state.deletedTaskArr, function (d) { return d.id == item.id })
           state.todolist.push(item)
           state.deletedTaskArr.splice(deleteTodoIndex, 1)
+          state.parentIdArr.find(todo => todo.id === item.id).isDelete = item.isDelete
         }
       } else {
         var isValueAvailable = state.todolist[updateTodoIndex].isDelete
         updateObject(state.todolist[updateTodoIndex], item)
+
+        // show if any updates found for TODO
+        if(item.updatedBy !== state.userObject._id){
+          state.todolist[updateTodoIndex].isTaskUpdate = true
+        }
+
         if(isValueAvailable !== item.isDelete){
           if(item.isDelete){
             state.deletedTaskArr.push(item)
+            console.log('deletedTaskArr', state.deletedTaskArr)
             state.todolist.splice(updateTodoIndex, 1)
+             state.parentIdArr.find(todo => todo.id === item.id).isDelete = item.isDelete
+          }else{
+            let deleteTodoIndex = _.findIndex(state.deletedTaskArr, function (d) { return d.id == item.id })
+            state.deletedTaskArr.splice(deleteTodoIndex, 1)
+            state.parentIdArr.find(todo => todo.id === item.id).isDelete = item.isDelete
           }
         }
       }
@@ -395,7 +419,9 @@ export const store = new Vuex.Store({
         task_id: data.task_id,
         commentBy: data.commentBy,
         comment: data.comment,
-        createdAt: new Date().toJSON()
+        createdAt: new Date().toJSON(),
+        username:state.userObject.fullname,
+        image_url:state.userObject.image_url
       })
     },
     updateTodo(state, todoObject) {
@@ -500,17 +526,24 @@ export const store = new Vuex.Store({
       }
     },
     showDeleteTasks(state){
+      console.log('Shoe deleted task')
       state.deleteItemsSelected = true
       state.parentIdArr.splice(0, state.parentIdArr.length)
+      let temp = state.todolist.filter(todo => todo.isDelete)
+      state.deletedTaskArr = store.getters.getdeleteArray
+      if(state.deletedTaskArr.length===0){
+        console.log(state.deletedTaskArr.length)
+        state.deletedTaskArr = temp
+      }
     },
     showMyTasks(state){
       state.deleteItemsSelected = false
       state.parentIdArr.splice(0, state.parentIdArr.length)
     },
-    DELETED_TASKS(state, deletedArray){
-      console.log(deletedArray)
-      state.deletedTaskArr = deletedArray
-    }
+    // DELETED_TASKS(state, deletedArray){
+    //   console.log(deletedArray)
+    //   state.deletedTaskArr = deletedArray
+    // }
   },
   actions: {
 
@@ -565,7 +598,7 @@ export const store = new Vuex.Store({
       })
       services.taskHistoryLogs.on('created', message => {
         console.log("Message history Logs Cretaed:-->", message)
-        commit('ADD_COMMENT', message)
+        // commit('ADD_COMMENT', message)
       })
     },
     getAllTodos({ commit }, payload) {
@@ -592,7 +625,7 @@ export const store = new Vuex.Store({
       if (!(insertElement.taskName && insertElement.taskName.trim()))
         return
       if (dbId != -1) {
-        services.tasksService.patch(dbId, { taskName: insertElement.taskName, taskDesc: '' }, { query: { 'id': dbId } }).then(response => {
+        services.tasksService.patch(dbId, { taskName: insertElement.taskName, taskDesc: '', updatedBy: store.state.userObject._id }, { query: { 'id': dbId } }).then(response => {
           console.log("Reesponse patch::", response);
           // commit('UPDATE_TODO', insertElement)
         });
@@ -651,7 +684,8 @@ export const store = new Vuex.Store({
           estimatedTime: editObject.estimatedTime,
           priority: editObject.taskPriority,
           assigned_by: editObject.assigned_by,
-          assigned_to: editObject.assigned_to
+          assigned_to: editObject.assigned_to,
+          updatedBy: store.state.userObject._id
         }, { query: { 'id': editObject.todo.id } }).then(response => {
           console.log("Reesponse editTaskName::", response);
            if(editObject.isAssigned){
@@ -677,7 +711,7 @@ export const store = new Vuex.Store({
       console.log(deleteElement)
       let dbId = deleteElement.id
       if (dbId) {
-        services.tasksService.patch(dbId, {isDelete: true }).then(response => {
+        services.tasksService.patch(dbId, { isDelete: true, deleteBy: store.state.userObject._id }).then(response => {
           console.log("Response deleteTodp Flag Update:", response)
         })
         // Vue.http.delete('/deteletask/' + dbId, {
@@ -724,7 +758,8 @@ export const store = new Vuex.Store({
       if (dbId) {
         services.tasksService.patch(dbId, {
           id: dbId,
-          completed: changeTodo.completed
+          completed: changeTodo.completed,
+          updatedBy: store.state.userObject._id
         }, { query: { 'id': dbId } }).then(response => {
           console.log("Reesponse toggleTodo::", response);
           //  commit('UPDATE_TODO', insertElement)
@@ -963,10 +998,20 @@ export const store = new Vuex.Store({
       services.taskHistoryLogs.create({
         task_id: payload.id,
         commentBy: payload.commentBy,
-        comment: payload.comment,
+        comment: payload.comment.trim(),
         createdAt: new Date().toJSON()
       }).then(function (response) {
         console.log("Reesponse create Commnets From DB::", response);
+        commit('ADD_COMMENT', response)
+      })
+    },
+     insertProjectInvite({ commit }, inviteDetail) {
+      console.log('inviteDetail-->', inviteDetail)
+
+
+
+      services.projectMemberService.create(inviteDetail).then(function (response) {
+        console.log("Reesponse create Invite Member  From DB::", response);
         // commit('ADD_COMMENT', response)
       })
     },
@@ -1254,6 +1299,7 @@ export const store = new Vuex.Store({
       getTodoById: (state, getters) => {
       if(state.deleteItemsSelected){
         return function (id, level) {
+          console.log('deleted task getter')
           var todolist = state.deletedTaskArr
           todolist = _.sortBy(todolist, 'index')        
           return todolist

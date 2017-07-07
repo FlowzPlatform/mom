@@ -109,6 +109,9 @@
                     <li><a id="delete_task" class="menu-item" title="">               
                       <span class="dropdown-menu-item-label" @click="deleteTodo({filteredTodo : filteredTodo})">Delete Task</span>
                     </a></li>
+                    <li><a id="export_pdf" class="menu-item" title="">               
+                      <span class="dropdown-menu-item-label" >Export PDF</span>
+                    </a></li>
                     <!--<li><a id="convert_to_project" class="menu-item" title="">
                       <span class="dropdown-menu-item-label">Convert to a Project...</span>
                     </a></li>

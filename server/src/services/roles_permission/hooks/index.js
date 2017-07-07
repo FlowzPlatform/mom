@@ -16,8 +16,7 @@ exports.before = {
              'roleid': query.filter({'pId':permission('id')}).pluck('rId')
              .coerceTo('array')
            }
-         }
-           )
+         }).orderBy('index')
     // hook.params.rethinkdb = query.merge(function (todo) {
     //   return { subtask_count: query.filter({ 'parentId': todo('id') }).count() }
     // })
