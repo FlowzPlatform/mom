@@ -162,6 +162,7 @@ export default {
        return taskArray
      },
      showAttachment() {
+       console.log('show attachment', this.$store.state.arrAttachment.length)
         return this.$store.state.arrAttachment.length > 0 ? true : false
      }
   },

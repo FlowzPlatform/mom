@@ -100,7 +100,7 @@ export const store = new Vuex.Store({
     arrAllUsers: [],
     projectlist:[],
     userRoles:[],
-    currentProjectId:""
+    currentProjectId:"",
   },
   mutations: {
     userData: state => state.userObject,

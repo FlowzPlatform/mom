@@ -1,6 +1,4 @@
 /* eslint-disable*/
-// console.log('service', process.env.SECRET_MESSAGE)
-// console.log('service', process.env.SOCKET_IO)
 import feathers from 'feathers/client'
 import socketio from 'feathers-socketio/client'
 import io from 'socket.io-client'
@@ -9,6 +7,9 @@ import io from 'socket.io-client'
 
 const socket = io('http://172.16.105.110:3030')
 export const app = feathers().configure(socketio(socket));
+
+//const dotenv = require('../config')
+// console.log('service', dotenv.SOCKET_IO_PATH)
 
 //  socket.on('connect',function(){
 //  console.log("socket connection",socket)
