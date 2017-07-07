@@ -1,4 +1,5 @@
 // /services/index.js
+  /* eslint-disable*/
 console.log('service', process.env.SECRET_MESSAGE)
 console.log('service', process.env.SOCKET_IO)
 import feathers from 'feathers/client'
@@ -14,13 +15,10 @@ console.log('socket..')
 
 const socket = io('localhost:3030')
 
-
-
 //  io.use(function(socket, next) {
 //      socket.feathers.user = { name: 'David' };
 //       next();
 //     });
-
 
  export const app = feathers().configure(socketio(socket));
 

@@ -176,7 +176,6 @@
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import { mapGetters, mapActions } from 'vuex'
   Vue.use(require('vue-moment'))
-  var md5 = require('md5');
 
   const filters = {
     all: todos => todos,
