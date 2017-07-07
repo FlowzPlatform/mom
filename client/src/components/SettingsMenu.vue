@@ -24,7 +24,7 @@ export default {
   props: ['showModal', 'closeAction', 'settingArr'],
   components: { Modal },
   created(){
-    this.$store.dispatch('getSettings', this.$store.state.userObject.id);
+    // this.$store.dispatch('getSettings', this.$store.state.userObject.id);
   },
   methods:{
     ...mapActions([

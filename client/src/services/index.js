@@ -1,3 +1,4 @@
+/* eslint-disable*/
 // /services/index.js
 console.log('service', process.env.SECRET_MESSAGE)
 console.log('service', process.env.SOCKET_IO)
@@ -24,12 +25,12 @@ const socket = io('localhost:3030')
 
  export const app = feathers().configure(socketio(socket));
 
- socket.on('connect',function(){
-  console.log("socket connection",socket)
-  // socket.emit('hello', 'world');
-  // socket.user="ada"
-    //  socket.feathers.connection.custom = { name: 'David' };
-})
+//  socket.on('connect',function(){
+//   console.log("socket connection",socket)
+//   // socket.emit('hello', 'world');
+//   // socket.user="ada"
+//     //  socket.feathers.connection.custom = { name: 'David' };
+// })
   // app.listen(3030);
 // export const app = feathers().configure(socketio(function(io) {
 //     io.on('connection', function(socket) {

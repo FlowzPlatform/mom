@@ -6,28 +6,23 @@
                 <div class="dropdown">
                     <button class="btn btn-defualt glyphicon glyphicon-cog" type="button" data-toggle="dropdown"></button>
                     <ul class="dropdown-menu">
-                        <!--<li>
-                            <a @click="clearFilter" >None</a>
-                        </li>-->
-                        <li>
-                            <a @click="getSortByName">Sort By Name</a>
+                       <li v-for="(val, key) in commentFilter">
+                            <a :href="'#/' + key" @click="getSortByName(key)" >{{key | capitalizeFirstLetter}}</a>
                         </li>
                     </ul>
                 </div>
             </div>
             <hr class="StoryFeed-separator StoryFeed-topSeparator">
-            <div v-for="comment in result">
+            <div v-for="comment in test">
                 <div class="FeedBlockStory StoryFeed-blockStory">
                     <div class="BlockStory">
                         <div class="BlockStory-icon">
                             <div class="photo-view presulthoto-view-remix inbox-size photo-view-rounded-corners taskCommentsView-photo">
                                 <div class="react-mount-node photoView-reactMount">
                                     <div data-reactroot="" class="Avatar Avatar--medium Avatar--color4">
-                                        <div v-if="!filteredTodo.groupBy">
                                             <span v-if="comment.image_url"><img v-bind:src="comment.image_url" /></span>
                                             <span v-else>{{ comment.email | capitalizeLetters }}</span>
-                                        </div>
-                                        <div v-if="filteredTodo.groupBy">
+                                        <div v-if="visibleFilter === 'groupByComment'">
                                             <span v-if="comment.list[0].image_url"><img v-bind:src="comment.list[0].image_url" /></span>
                                             <span v-else>{{ comment.list[0].email | capitalizeLetters }}</span>
                                         </div>
@@ -39,8 +34,8 @@
                             <div class="BlockStory-header">
                                 <div class="BlockStory-headerContent">
                                     <span class="BlockStory-storyContent">
-                                            <a v-if="!filteredTodo.groupBy" class="DeprecatedNavigationLink BlockStory-actorLink">{{comment.fullname  }}</a>
-                                            <a v-if="filteredTodo.groupBy" class="DeprecatedNavigationLink BlockStory-actorLink">{{comment.list[0].fullname }}</a>
+                                            <a class="DeprecatedNavigationLink BlockStory-actorLink">{{comment.fullname  }}</a>
+                                            <a v-if="visibleFilter === 'groupByComment'" class="DeprecatedNavigationLink BlockStory-actorLink">{{comment.list[0].fullname }}</a>
                                         </span>
                                     <span class="BlockStory-metadata">
                                         <span class="BlockStory-timestamp">
@@ -52,7 +47,7 @@
                             <div class="BlockStory-body">
                                 <div class="truncatedRichText">
                                     <div class="richText truncatedRichText-richText">{{comment.comment}}</div>
-                                    <div v-if="filteredTodo.groupBy" v-for="userComment in comment.list">
+                                    <div v-if="visibleFilter === 'groupByComment'" v-for="userComment in comment.list">
                                         <div class="richText truncatedRichText-richText">{{userComment.comment}}</div>
                                         <span class="BlockStory-metadata">
                                         <span class="BlockStory-timestamp">
@@ -99,18 +94,22 @@
     Vue.filter('capitalizeFirstLetter', function (str) {
         return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
     })
-
+    const commentFilter = {
+        allCommnet: totalComment => totalComment,
+        groupByComment: totalComment => _(totalComment).groupBy(x => x.fullname)
+                        .map((value, key) => ({ fname: key, list: value })).value()
+    }
     export default {
         props: ['filteredTodo'],
         data: function () {
             return {
-                result: [],
-                commentList: [],
+                commentFilter: commentFilter,
+                visibleFilter: 'allCommnet'
             }
         },
         created() {
-            this.filteredTodo.groupBy = true
-            this.getSortByName();
+            this.filteredTodo.groupBy = false
+            // this.getSortByName();
         },
         methods: {
             commentDetailList: function (comment_list) {
@@ -126,20 +125,24 @@
                     }
                 }, this)
             },
-            getSortByName: function () {
-                this.commentList =this.test
+            // getSortByName: function () {
+            //     this.commentList =this.test
+            //     this.filteredTodo.groupBy = !this.filteredTodo.groupBy
+            //     this.commentDetailList(this.commentList)
+            //     console.log("commentList",this.commentList)
+            //     if (!this.filteredTodo.groupBy) {
+            //         console.log("commentList false",this.commentList)
+            //         this.result = this.commentList;
+            //     } else {
+            //         console.log("commentList true",this.commentList)
+            //         this.result = _(this.commentList).groupBy(x => x.fullname)
+            //             .map((value, key) => ({ fname: key, list: value })).value()
+            //         console.log("result", this.result)
+            //     }
+            // },
+            getSortByName:function(key){
                 this.filteredTodo.groupBy = !this.filteredTodo.groupBy
-                this.commentDetailList(this.commentList)
-                console.log("commentList",this.commentList)
-                if (!this.filteredTodo.groupBy) {
-                    console.log("commentList false",this.commentList)
-                    this.result = this.commentList;
-                } else {
-                    console.log("commentList true",this.commentList)
-                    this.result = _(this.commentList).groupBy(x => x.fullname)
-                        .map((value, key) => ({ fname: key, list: value })).value()
-                    console.log("result", this.result)
-                }
+                this.visibleFilter = key
             },
             deleteCommnet:function(commentObj){
                 this.$store.dispatch('delete_Comment', commentObj)
@@ -151,8 +154,14 @@
                 getComment:'getCommentById',
             }),
            test(){
-                this.result = []
-                return this.getComment(this.filteredTodo.id)
+                let commentList = this.getComment(this.filteredTodo.id)
+                this.commentDetailList(commentList)
+                console.log("Test Called",commentFilter[this.visibleFilter](commentList))
+                return commentFilter[this.visibleFilter](commentList)   
+                
+            },
+            totalComment: function () {
+                return this.$store.getters.getCommentById(this.filteredTodo.id)
             }
         }
     }

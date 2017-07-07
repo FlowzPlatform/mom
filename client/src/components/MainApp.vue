@@ -60,7 +60,7 @@
       </div>
       <div :id="n.level" class="right_pane_container" v-for="(n, index) in parentIdArray">
         <div id="right_pane">
-          <main-right-section :id="n.level" :pholder="subtaskPholder" :todoObject="n"></main-right-section>
+          <main-right-section :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>
         </div>
       </div>
       <div class="asanaView-paneGutter"></div>
