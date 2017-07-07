@@ -112,7 +112,7 @@
                         this.$store.state.isAuthorized = true
                         this.$store.commit('userData')
                         this.$store.commit('authorize')
-                        this.$router.replace('/navbar')
+                        this.$router.replace('/navbar/mainapp')
                     } else {
                         this.insertUserData(profile.getEmail(), '', 'gmail', profile.getImageUrl(), profile.getName())
                         //this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName(), role:'', aboutme:'', dob: new Date()}
@@ -120,7 +120,7 @@
                         this.$store.state.isAuthorized = true
                         this.$store.commit('userData')
                         this.$store.commit('authorize')
-                        this.$router.replace('/navbar')
+                        this.$router.replace('/navbar/mainapp')
                     }
                 })
 
@@ -273,7 +273,7 @@
                     self.$store.commit('authorize')             
                     self.$store.dispatch('getUserDetail')             
                     .then(function () {                 
-                         self.$router.replace('/navbar')               
+                         self.$router.replace('/navbar/mainapp')               
                     })             
                     .catch(function(error) {      
                        if (error.response.status === 401) { 

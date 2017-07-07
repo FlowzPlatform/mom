@@ -113,7 +113,6 @@
                 </div>
             </div>
         </div>
-        {{show}}
         <div class="ModalLayer-bottomBuffer"></div>
     </div>
 </template>
@@ -143,7 +142,9 @@ export default {
                       this.description = ''
                       this.privacyOption = ''
                       this.$store.state.projectlist.push(response)
+                      this.$store.state.currentProjectId=response.id
                       this.close(); 
+                     
                   }else{
                         // console.log("-->",response.error)
                         this.createProjectError=response.error;
