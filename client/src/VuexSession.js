@@ -491,9 +491,13 @@ export const store = new Vuex.Store({
     DELETE_ALLUSERSLIST(state) {
       state.arrAllUsers = []
     },
-    GET_PROJECT_LIST(state,data){
+    async GET_PROJECT_LIST(state,data){
       console.log("Projectc List:--",data);
       state.projectlist=data;
+      if(!state.currentProjectId && data.length>0){
+       state.currentProjectId=data[0].id
+         await store.dispatch('getAllTodos', { 'parentId': "",project_id:state.currentProjectId });
+      }
     },
     showDeleteTasks(state){
       state.deleteItemsSelected = true
@@ -524,10 +528,6 @@ export const store = new Vuex.Store({
         console.log("Message Cretaed:-->", message)
         commit('ADD_NEW_TODOS', message)
       })
-
- 
-
-
       services.tasksService.on('removed', message => {
         console.log("Message Removed:-->", message)
         commit('deleteTodo', message)
@@ -569,13 +569,15 @@ export const store = new Vuex.Store({
       })
     },
     getAllTodos({ commit }, payload) {
-
       console.log('getAllTodos-->', payload);
-  
-            services.tasksService.find({ query:{ $or: [
-              {  parentId: payload.parentId,project_id:payload.project_id,created_by:store.state.userObject._id},
-              {  parentId: payload.parentId,project_id:payload.project_id,assigned_to: store.state.userObject._id }
-                ]}}).then(response => {
+      services.tasksService.find({
+        query: {
+          $or: [
+            { parentId: payload.parentId, project_id: payload.project_id, created_by: store.state.userObject._id },
+            { parentId: payload.parentId, project_id: payload.project_id, assigned_to: store.state.userObject._id }
+          ]
+        }
+      }).then(response => {
         commit('GET_TODO', response)
       });
       // Vue.http.post('/tasks_parentId', { parentId: payload.parentId }).then(function (response) {
