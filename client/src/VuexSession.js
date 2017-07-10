@@ -64,12 +64,30 @@ function setCheckboxColor(state) {
   }
 }
 
+function updateTaskCount(state, todoObject){
+  if(todoObject.isDelete){
+    if (todoObject.parentId) {
+      let tempObj = state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count
+      state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count = tempObj - 1
+      console.log(todoObject.completed)
+      if (todoObject.completed) {
+        let completedObj = state.todolist.find(todo => todo.id === todoObject.parentId).completed_subtask_count
+        state.todolist.find(todo => todo.id === todoObject.parentId).completed_subtask_count = completedObj - 1
+      }
+      setProgressBar(state, todoObject)
+    }
+  }else {
+      let tempObj = state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count
+      state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count = tempObj + 1
+  }
+}
 function updateObject(oldObject, newObject) {
   var keys = Object.keys(oldObject)
   // console.log("Keys-->", keys);
   for (var i = 0; i < keys.length; i++) {
-
-    oldObject[keys[i]] = newObject[keys[i]];
+    if(newObject[keys[i]]){
+       oldObject[keys[i]] = newObject[keys[i]];
+    }
   }
 }
 
@@ -150,11 +168,6 @@ export const store = new Vuex.Store({
       }
       // console.log('todolist', state.todolist)
     },
-    // ADD_NEW_TODOS(state,todo)     
-    // {       
-    //   console.log('Add TODO', state.todolist)
-    //   state.todolist.push(todo)    
-    // },
     async SHOW_DIV(state, payload) {
       
       // START scroll to last opened right div 
@@ -223,11 +236,10 @@ export const store = new Vuex.Store({
       state.parentIdArr.splice(0, state.parentIdArr.length)
       state.todolist.splice(0, state.todolist.length)
       state.arrAttachment.splice(0, state.arrAttachment.length)
-      // state.settingsObject.splice(0, state.settingsObject.length)
       state.taskComment.splice(0, state.taskComment.length)
       state.taskTags.splice(0, state.taskTags.length)
       state.tagsList.splice(0, state.tagsList.length)
-state.tempGroupByArr.splice(0, state.tempGroupByArr.length)
+      state.tempGroupByArr.splice(0, state.tempGroupByArr.length)
       // state.userObject={}
       state.currentProjectId = ''
     },
@@ -236,7 +248,6 @@ state.tempGroupByArr.splice(0, state.tempGroupByArr.length)
     },
     UPDATE_TODO(state, item) {
       let updateTodoIndex = _.findIndex(state.todolist, function (d) { return d.id == item.id })
-
       if (updateTodoIndex < 0) {
         if (state.todoObjectByID)
           updateObject(state.todoObjectByID, item)
@@ -245,48 +256,51 @@ state.tempGroupByArr.splice(0, state.tempGroupByArr.length)
           state.todolist.push(item)
           state.deletedTaskArr.splice(deleteTodoIndex, 1)
           state.parentIdArr.find(todo => todo.id === item.id).isDelete = item.isDelete
+          updateTaskCount(state, item)
         }
       } else {
         var isValueAvailable = state.todolist[updateTodoIndex].isDelete
-        updateObject(state.todolist[updateTodoIndex], item)
-
+        // updateObject(state.todolist[updateTodoIndex], item)
         // show if any updates found for TODO
         if(item.updatedBy !== state.userObject._id){
           state.todolist[updateTodoIndex].isTaskUpdate = true
         }
-
         if(isValueAvailable !== item.isDelete){
           if(item.isDelete){
             state.deletedTaskArr.push(item)
             console.log('deletedTaskArr', state.deletedTaskArr)
             state.todolist.splice(updateTodoIndex, 1)
-             state.parentIdArr.find(todo => todo.id === item.id).isDelete = item.isDelete
+            state.parentIdArr.find(todo => todo.id === item.id).isDelete = item.isDelete  
           }else{
             let deleteTodoIndex = _.findIndex(state.deletedTaskArr, function (d) { return d.id == item.id })
             state.deletedTaskArr.splice(deleteTodoIndex, 1)
             state.parentIdArr.find(todo => todo.id === item.id).isDelete = item.isDelete
           }
+          updateTaskCount(state, item)
         }
       }
-
-      var isObjectAvailable = state.todolist.find(todo => todo.id === item.parentId)
-      if (isObjectAvailable) {
-        if (item.parentId) {
-          var p_id = item.parentId
-          var completedSubtaskCount = state.todolist.find(todo => todo.id === p_id).completed_subtask_count
-          var subtask_count = state.todolist.find(todo => todo.id === p_id).subtask_count
-          if (item.completed) {
-            state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount + 1
-          }
-          else {
-            state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount - 1
-          }
-          setProgressBar(state, item)
-        } 
-      }
+      // var isObjectAvailable = state.todolist.find(todo => todo.id === item.parentId)
+      //  console.log("isObjectAvailable",isObjectAvailable)
+      // if (isObjectAvailable) {
+      //   if (item.parentId) {
+      //     console.log("item",isObjectAvailable)
+      //     var p_id = item.parentId
+      //     var completedSubtaskCount = state.todolist.find(todo => todo.id === p_id).completed_subtask_count
+      //     var subtask_count = state.todolist.find(todo => todo.id === p_id).subtask_count
+      //     console.log(subtask_count +""+ completedSubtaskCount)
+      //     if (item.completed) {
+      //       state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount + 1
+      //     }
+      //     else {
+      //       state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount - 1
+      //     }
+      //     setProgressBar(state, item)
+      //   }
+      // }
       setCheckboxColor(state)
     },
     ADD_NEW_TODOS(state, todoObject) {
+      console.log("Add New Todos", todoObject)
       todoObject.subtask_count = 0
       todoObject.completed_subtask_count = 0
       todoObject.progress_count = ''
@@ -304,13 +318,11 @@ state.tempGroupByArr.splice(0, state.tempGroupByArr.length)
         state.todolist.push(state.currentTodoObj)
         // state.currentTodoObj = {}
         state.isDeleteObj = true
-      }
-
-      // console.log("add todo")
+      }      
       var isObjectAvailable = state.todolist.find(todo => todo.id === todoObject.parentId)
+      console.log("add todo", isObjectAvailable)
       if (isObjectAvailable) {
         if (todoObject.parentId) {
-          // console.log("add todo element",state.todolist.find(todo => todo.id === todoElement.parentId) )
           let tempObj = state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count
           state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count = tempObj + 1
           setProgressBar(state, todoObject)
@@ -320,38 +332,19 @@ state.tempGroupByArr.splice(0, state.tempGroupByArr.length)
     deleteTodo(state, todoObject) {
       let removeTodoIndex = _.findIndex(state.deletedTaskArr, function (d) { return d.id == todoObject.id })
       state.deletedTaskArr.splice(removeTodoIndex, 1)
-      var isObjectAvailable = state.todolist.find(todo => todo.id === todoObject.parentId)
-      if (isObjectAvailable) {
-        if (todoObject.parentId) {
-          let tempObj = state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count
-          state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count = tempObj - 1
-          if (todoObject.completed === true) {
-            let completedObj = state.todolist.find(todo => todo.id === todoObject.parentId).completed_subtask_count
-            state.todolist.find(todo => todo.id === todoObject.parentId).completed_subtask_count = completedObj - 1
-          }
-          setProgressBar(state, todoObject)
-        }
-      }
     },
-    // toggleTodo(state, todoObject) {
+    // TOGGLE_TODO(state, todoObject) {
     //   if (todoObject.todo.parentId) {
     //     var p_id = todoObject.todo.parentId
     //     var completedSubtaskCount = state.todolist.find(todo => todo.id === p_id).completed_subtask_count
     //     var subtask_count = state.todolist.find(todo => todo.id === p_id).subtask_count
-    //     if (todoObject.isCheck) {
+    //     if (todoObject.todo.completed) {
     //       state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount + 1
     //     }
     //     else {
     //       state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount - 1
     //     }
     //     setProgressBar(state, todoObject)
-    //     // var totalSubtask= subtask_count ? subtask_count : 0
-    //     // var completedSubtask = state.todolist.find(todo => todo.id === p_id).completed_subtask_count ? state.todolist.find(todo => todo.id === p_id).completed_subtask_count : 0
-    //     // state.progress_count = completedSubtask + " / " + totalSubtask;
-    //     // if (totalSubtask > 0) {
-    //     //     var percentage = (completedSubtask / totalSubtask) * 100
-    //     //     state.todolist.find(todo => todo.id === p_id).progress = percentage
-    //     // }
     //   }
     // },
     SELECT_FILE(state, fileObject) {
@@ -603,7 +596,7 @@ state.tempGroupByArr.splice(0, state.tempGroupByArr.length)
       })
       services.taskHistoryLogs.on('created', message => {
         console.log("Message history Logs Cretaed:-->", message)
-        // commit('ADD_COMMENT', message)
+        commit('ADD_COMMENT', message)
       }),
       services.taskHistoryLogs.on('removed', message => {
         console.log("Message History log Removed:-->", message)
@@ -636,7 +629,6 @@ state.tempGroupByArr.splice(0, state.tempGroupByArr.length)
       if (dbId != -1) {
         services.tasksService.patch(dbId, { taskName: insertElement.taskName, taskDesc: '', updatedBy: store.state.userObject._id }, { query: { 'id': dbId } }).then(response => {
           console.log("Reesponse patch::", response);
-          // commit('UPDATE_TODO', insertElement)
         });
         // Vue.http.post('/updatetasks', {
         //   id: dbId,
@@ -762,7 +754,7 @@ state.tempGroupByArr.splice(0, state.tempGroupByArr.length)
       }
     },
     toggleTodo({ commit }, changeTodo) {
-      // console.log(changeTodo)
+      console.log("changeTodo", changeTodo)
       let dbId = changeTodo.id
       if (dbId) {
         services.tasksService.patch(dbId, {
@@ -771,7 +763,6 @@ state.tempGroupByArr.splice(0, state.tempGroupByArr.length)
           updatedBy: store.state.userObject._id
         }, { query: { 'id': dbId } }).then(response => {
           console.log("Reesponse toggleTodo::", response);
-          //  commit('UPDATE_TODO', insertElement)
         });
         // Vue.http.post('/updatetasks', {
         //   id: dbId,
@@ -1010,7 +1001,6 @@ state.tempGroupByArr.splice(0, state.tempGroupByArr.length)
         createdAt: new Date().toJSON()
       }).then(function (response) {
         console.log("Reesponse create Commnets From DB::", response);
-        commit('ADD_COMMENT', response)
       })
     },
      insertProjectInvite({ commit }, inviteDetail) {
@@ -1366,4 +1356,3 @@ state.tempGroupByArr.splice(0, state.tempGroupByArr.length)
   
   plugins: [createPersistedState()]
 })
-

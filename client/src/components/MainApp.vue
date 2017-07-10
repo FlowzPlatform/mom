@@ -82,7 +82,7 @@
         </div>
       <div :id="n.level" class="right_pane_container" v-for="(n, index) in parentIdArray">
         <div id="right_pane">
-          <main-right-section :id="n.level" :pholder="subtaskPholder" :todoObject="n"></main-right-section>
+          <main-right-section :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>
         </div>
       </div>
       <div class="asanaView-paneGutter"></div>
@@ -244,7 +244,7 @@
         this.$store.dispatch('getAllTaskTags', this.url_parentId);
         this.$store.dispatch('getTaskComment', this.url_parentId)
       }
-
+      this.$store.dispatch('getSettings', this.$store.state.userObject._id);
       this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
       this.$store.commit('DELETE_ALLTAGS')
       this.$store.state.todolist=[]
