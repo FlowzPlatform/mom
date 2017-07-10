@@ -220,7 +220,7 @@
         this.$store.dispatch('getAllTaskTags', this.url_parentId);
         this.$store.dispatch('getTaskComment', this.url_parentId)
       }
-
+      this.$store.dispatch('getSettings', this.$store.state.userObject._id);
       this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
       this.$store.commit('DELETE_ALLTAGS')
       this.$store.state.todolist=[]

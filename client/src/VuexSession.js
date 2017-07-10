@@ -168,11 +168,6 @@ export const store = new Vuex.Store({
       }
       // console.log('todolist', state.todolist)
     },
-    // ADD_NEW_TODOS(state,todo)     
-    // {       
-    //   console.log('Add TODO', state.todolist)
-    //   state.todolist.push(todo)    
-    // },
     async SHOW_DIV(state, payload) {
       
       // START scroll to last opened right div 
@@ -303,6 +298,7 @@ export const store = new Vuex.Store({
       setCheckboxColor(state)
     },
     ADD_NEW_TODOS(state, todoObject) {
+      console.log("Add New Todos", todoObject)
       todoObject.subtask_count = 0
       todoObject.completed_subtask_count = 0
       todoObject.progress_count = ''
