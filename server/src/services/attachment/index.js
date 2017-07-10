@@ -14,10 +14,7 @@ const table = config.get('tbl_attachment')
 
 module.exports = function() {
   const app = this;
-  // const r = require('rethinkdbdash')({
-  //   db: 'vue_todo'
-  // });
-
+  
   const options = {
     Model: r,
     // db: db, //must be on the same connection as rethinkdbdash
@@ -32,15 +29,6 @@ module.exports = function() {
   // Initialize our service with any options it requires 
   app.use('/task_attachment', service(options));
 
-  // app.use('/tasks', {
-  //   get(id, params) {
-  //     return Promise.resolve({
-  //       id,
-  //       text: `You have to do ${id}!`
-  //     });
-  //   }
-  // });
-
   // Get our initialize service to that we can bind hooks
   const taskAttachmentService = app.service('/task_attachment');
   app.service('task_attachment').init().then(task_attachment => {
@@ -53,6 +41,5 @@ module.exports = function() {
 
   // Set up our after hooks
   taskAttachmentService.after(hooks.after);
-
 
 }

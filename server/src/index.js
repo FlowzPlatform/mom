@@ -8,6 +8,10 @@ process.on('unhandledRejection', (reason, p) =>
   logger.error('Unhandled Rejection at: Promise ', p, reason)
 );
 
+server.on('listening', () =>
+  logger.info(`Feathers application started on ${app.get('host')}:${port}`)
+);
+
 // let services = Promise.resolve();
 
 // Object.keys(app.services).forEach(path => {
@@ -25,6 +29,3 @@ process.on('unhandledRejection', (reason, p) =>
 //   );
 // });
 
-server.on('listening', () =>
-  logger.info(`Feathers application started on ${app.get('host')}:${port}`)
-);

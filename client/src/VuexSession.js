@@ -279,24 +279,24 @@ export const store = new Vuex.Store({
           updateTaskCount(state, item)
         }
       }
-      // var isObjectAvailable = state.todolist.find(todo => todo.id === item.parentId)
-      //  console.log("isObjectAvailable",isObjectAvailable)
-      // if (isObjectAvailable) {
-      //   if (item.parentId) {
-      //     console.log("item",isObjectAvailable)
-      //     var p_id = item.parentId
-      //     var completedSubtaskCount = state.todolist.find(todo => todo.id === p_id).completed_subtask_count
-      //     var subtask_count = state.todolist.find(todo => todo.id === p_id).subtask_count
-      //     console.log(subtask_count +""+ completedSubtaskCount)
-      //     if (item.completed) {
-      //       state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount + 1
-      //     }
-      //     else {
-      //       state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount - 1
-      //     }
-      //     setProgressBar(state, item)
-      //   }
-      // }
+      var isObjectAvailable = state.todolist.find(todo => todo.id === item.parentId)
+       console.log("isObjectAvailable",isObjectAvailable)
+      if (isObjectAvailable) {
+        if (item.parentId) {
+          console.log("item",isObjectAvailable)
+          var p_id = item.parentId
+          var completedSubtaskCount = state.todolist.find(todo => todo.id === p_id).completed_subtask_count
+          var subtask_count = state.todolist.find(todo => todo.id === p_id).subtask_count
+          console.log(subtask_count +""+ completedSubtaskCount)
+          if (item.completed) {
+            state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount + 1
+          }
+          else {
+            state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount - 1
+          }
+          setProgressBar(state, item)
+        }
+      }
       setCheckboxColor(state)
     },
     ADD_NEW_TODOS(state, todoObject) {
