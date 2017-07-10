@@ -46,23 +46,74 @@
           </div>
         </div>-->
     <!--<div class="row asanaView-body" style="padding-top: 15px; margin: 10px 10px 10px 10px;">-->
+    <div class="lunaUiProjectPageHeaderView-mountNode react-mount-node">
+      <div data-reactroot="">
+        <div class="PageHeaderStructure ProjectPageHeader">
+          <div class="PageHeaderStructure-left">
+            <!--  <a class="PageHeaderStructure-collapseButton">
+              <svg class="Icon DoubleUpIcon PageHeaderStructure-collapseIcon" title="DoubleUpIcon" viewBox="0 0 32 32">
+                <polygon points="7.842,15.726 9.615,17.5 16.061,11.176 22.385,17.5 24.158,15.726 16,7.568"></polygon>
+                <polygon points="7.842,22.658 9.615,24.432 16.061,18.108 22.385,24.432 24.158,22.658 16,14.5"></polygon>
+              </svg>
+            </a>-->
+          </div>
+          <div class="PageHeaderStructure-center">
+            <div class="PageHeaderStructure-titleRow">
+              <!--<div class="PageHeaderStructure-titleLeftElement">
+                <a>
+                  <svg class="Icon StarIcon FavoriteStar ProjectPageHeader-uncollapsedStar ProjectPageHeader-star FavoriteStar-notFavorited"
+                    title="StarIcon" viewBox="0 0 32 32">
+                    <path d="M16,4.78l3.71,6.37l0.44,0.76L21,12.07l7.21,1.56l-4.91,5.5l-0.58,0.65l0.09,0.88l0.74,7.33l-6.75-3L16,24.67l-0.81,0.36l-6.75,3l0.74-7.33l0.1-0.92l-0.59-0.66l-4.91-5.5L11,12.07l0.86-0.19l0.44-0.76L16,4.78 M16,0.78l-5.44,9.34L0,12.4l7.2,8.06L6.11,31.21L16,26.86l9.89,4.36L24.8,20.46L32,12.4l-10.56-2.28L16,0.78L16,0.78z"></path>
+                  </svg>
+                </a>
+              </div>-->
+              <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName">{{$store.state.currentProjectName}}</div>
+              <!-- <div class="PageHeaderStructure-titleRightElement">
+                <a class="ProjectDropdownMenuButton">
+                  <svg class="Icon DownIcon ProjectDropdownMenuButton-downIcon" title="DownIcon" viewBox="0 0 32 32">
+                    <path d="M4.686,12.686l9.899,9.9c0.781,0.781,2.047,0.781,2.828,0l9.9-9.9l-2.475-2.475L16,19.05l-8.839-8.839L4.686,12.686z"></path>
+                  </svg>
+                  <noscript></noscript>
+                  <noscript></noscript>
+                  <noscript></noscript>
+                </a>
+              </div>-->
+            </div>
+
+          </div>
+          <div class="PageHeaderStructure-right">
+            <div class="projectHeaderFacepile-content">
 
 
-
-
-        <div id="main-container" class="row asanaView-body" style="padding-top: 15px; margin: 10px 10px 10px 10px;">
+              <div class="projectHeaderFacepile-privacySummary projectHeaderFacepile-privacySummaryDropdown">
+                <svg class="Icon UsersIcon projectHeaderFacepile-privacySummaryDropdownLeftIcon" title="UsersIcon" viewBox="0 0 32 32">
+                  <path d="M24.23,16.781C26.491,15.368,28,12.863,28,10c0-4.418-3.582-8-8-8s-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C11.233,18.494,8,22.864,8,28c0,0.683,0.07,1.348,0.18,2h23.64c0.11-0.652,0.18-1.317,0.18-2C32,22.864,28.767,18.494,24.23,16.781z M14,10c0-3.308,2.692-6,6-6s6,2.692,6,6s-2.692,6-6,6S14,13.308,14,10z M10,28c0-5.514,4.486-10,10-10c5.514,0,10,4.486,10,10H10z"></path>
+                  <path d="M2,28c0-4.829,3.441-8.869,8-9.798V15.65C7.673,14.824,6,12.606,6,10c0-3.308,2.692-6,6-6V2c-4.418,0-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C3.233,18.494,0,22.864,0,28c0,0.683,0.07,1.348,0.18,2H6v-2H2z"></path>
+                </svg>
+                <div class="projectHeaderFacepile-privacySummaryDropdownTextDownIconContainer">
+                  <div class="projectHeaderFacepile-privacySummaryDropdownText">Public to Asana team </div>
+                  <svg class="Icon DownIcon projectHeaderFacepile-privacySummaryDropdownDownIcon" title="DownIcon" viewBox="0 0 32 32">
+                    <path d="M4.686,12.686l9.899,9.9c0.781,0.781,2.047,0.781,2.828,0l9.9-9.9l-2.475-2.475L16,19.05l-8.839-8.839L4.686,12.686z"></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+    <div id="main-container" class="row asanaView-body" style="padding-top: 15px; margin: 10px 10px 10px 10px;">
       <div class="asanaView-paneGutter"></div>
       <!--<settings-menu :showModal="settings_menu" :closeAction="closeDialog"></settings-menu>-->
-        
+
       <div id="center_pane_container" class="known-list">
-       
         <div id="center_pane">
           <div v-if="$store.state.currentProjectId.length>0">
             <left-toolbar v-if="!isCopyLink" :filters="filters">
             </left-toolbar>
             <main-left-section :isCopyLink="isCopyLink" :todoObject="todoObjectById" :pholder="taskPholder" :filtered-todos="taskById"></main-left-section>
           </div>
-
           <div class="outer" v-else>
             <div class="middle">
               <div class="inner">
@@ -74,19 +125,18 @@
                   <div class="text gridPaneSearchEmptyView-noProjectItemsText">You have no project created.
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
         </div>
-        </div>
+      </div>
       <div :id="n.level" class="right_pane_container" v-for="(n, index) in parentIdArray">
         <div id="right_pane">
           <main-right-section :id="n.level" :pholder="subtaskPholder" :todoObject="n"></main-right-section>
         </div>
       </div>
       <div class="asanaView-paneGutter"></div>
-      <create-project-dialog :show="isNewProjectDialogShow"  v-on:updateDialog='updateDialogShow'></create-project-dialog>
+      <create-project-dialog :show="isNewProjectDialogShow" v-on:updateDialog='updateDialogShow'></create-project-dialog>
     </div>
     <!--<div id="myModal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
       <div class="modal-dialog" role="document">
@@ -213,7 +263,7 @@
         url_parentId: '',
         url_level: 0,
         isCopyLink: false,
-                 isNewProjectDialogShow: false,
+        isNewProjectDialogShow: false,
       }
     },
     created() {
@@ -247,19 +297,20 @@
 
       this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
       this.$store.commit('DELETE_ALLTAGS')
-      this.$store.state.todolist=[]
+      this.$store.state.todolist = []
       // this.getProjectWiseTodo;
-      var projects=this.getProjectWiseTodo;
-      var projectId=this.$store.state.currentProjectId
-      if(!projectId && projects.length>0){
-          projectId=projects[0].id
-          this.$store.state.currentProjectId=projects[0].id
-          this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '' ,project_id:projectId});
-      }else{
+      var projects = this.getProjectWiseTodo;
+      var projectId = this.$store.state.currentProjectId
+      if (!projectId && projects.length > 0) {
+        projectId = projects[0].id
+        this.$store.state.currentProjectId = projects[0].id
+        this.$store.state.currentProjectName = projects[0].project_name
+        this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '', project_id: projectId });
+      } else {
         console.log("cant set projectc id")
       }
-   
-   
+
+
       // if(this.$store.state.deleteItemsSelected)
       // {
       //   this.$store.dispatch('getDeleteTask');
@@ -324,44 +375,43 @@
         todoById: 'getTodoById',
         parentIdArray: 'parentIdArr',
         // userSettings: 'user_setting',
-         todoObjectById: 'getObjectById',
-          projectListData: 'getProjectList'
+        todoObjectById: 'getObjectById',
+        projectListData: 'getProjectList'
         // deletedTasks:'getDeletedTaskById'
       }),
-      getProjectWiseTodo()
-      {
-      //   var projectList= this.projectListData;
-      //   var projectId=this.$store.state.currentProjectId
-      // if(!projectId && projectList.length>0){
-      //     // projectId=this.$store.state.projectlist[0].id
-      //     this.$store.state.currentProjectId=projectList[0].id
-      //     this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '' ,project_id:projectId});
-      // }else{
-      //   console.log("cant set projectc id")
-      // }
+      getProjectWiseTodo() {
+        //   var projectList= this.projectListData;
+        //   var projectId=this.$store.state.currentProjectId
+        // if(!projectId && projectList.length>0){
+        //     // projectId=this.$store.state.projectlist[0].id
+        //     this.$store.state.currentProjectId=projectList[0].id
+        //     this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '' ,project_id:projectId});
+        // }else{
+        //   console.log("cant set projectc id")
+        // }
 
         return this.$store.state.projectlist;
       },
       taskById() {
-          let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', this.url_level)
-          taskArray.push({
-            id: '-1',
-            parentId: this.url_parentId,
-            taskName: '',
-            taskDesc: '',
-            level: this.url_level,
-            //  level: 0,
-            index: taskArray.length,
-            completed: false,
-            dueDate: '',
-            createdAt: new Date().toJSON(),
-            updatedAt: new Date().toJSON(),
-            project_id:this.$store.state.currentProjectId
-          })
-          this.todolist = taskArray
-          this.userDetail(this.todolist)
-          return filters[this.$store.state.visibility](taskArray)
-        
+        let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', this.url_level)
+        taskArray.push({
+          id: '-1',
+          parentId: this.url_parentId,
+          taskName: '',
+          taskDesc: '',
+          level: this.url_level,
+          //  level: 0,
+          index: taskArray.length,
+          completed: false,
+          dueDate: '',
+          createdAt: new Date().toJSON(),
+          updatedAt: new Date().toJSON(),
+          project_id: this.$store.state.currentProjectId
+        })
+        this.todolist = taskArray
+        this.userDetail(this.todolist)
+        return filters[this.$store.state.visibility](taskArray)
+
       },
       todos: function () {
         return this.$store.getters.getTodoById('', 0)
@@ -379,24 +429,24 @@
       }
     },
     methods: {
-      userDetail(deletedTasks){
-        deletedTasks.forEach(function(c) {
-          let userId =c.deletedBy
+      userDetail(deletedTasks) {
+        deletedTasks.forEach(function (c) {
+          let userId = c.deletedBy
           let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
-          if(userIndex < 0){
+          if (userIndex < 0) {
           } else {
             c.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
-            c.email = this.$store.state.arrAllUsers[userIndex].email
+              c.email = this.$store.state.arrAllUsers[userIndex].email
           }
         }, this)
       },
-      openCreateDialogs(){
+      openCreateDialogs() {
         this.isNewProjectDialogShow = true;
       },
-       updateDialogShow(isDialogVal) {
-            console.log('dialog val: ', isDialogVal)
-            this.isNewProjectDialogShow = isDialogVal
-        },
+      updateDialogShow(isDialogVal) {
+        console.log('dialog val: ', isDialogVal)
+        this.isNewProjectDialogShow = isDialogVal
+      },
       btnLogoutClicked() {
         // this.$store.commit('DELETE_ATTACHMENTS')
         // this.$store.state.userObject = {}
@@ -406,58 +456,58 @@
         CmnFunc.deleteAutheticationDetail()
         window.location = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:3000"
       },
-       getAllUsers () {       
-         var self = this       
-         this.$store.dispatch('getAllUsersList')                   
-          .catch(function(error) {           
-            if (error.response.status === 401) {               
+      getAllUsers() {
+        var self = this
+        this.$store.dispatch('getAllUsersList')
+          .catch(function (error) {
+            if (error.response.status === 401) {
               CmnFunc.deleteAutheticationDetail()
-              self.$router.replace('/')               
-              return           
-            }                    
-            $.notify.defaults({ className: "error" })                           
-            $.notify(error.message, { globalPosition:"top center"})                   
-          })     
-        }
+              self.$router.replace('/')
+              return
+            }
+            $.notify.defaults({ className: "error" })
+            $.notify(error.message, { globalPosition: "top center" })
+          })
+      }
       // btnUpdateProfileClicked() {
-        //   var bucket = new AWS.S3({params: {Bucket: 'obexpense'}});
-        //   var fileChooser = document.getElementById('file');
-        //   var file = fileChooser.files[0];
-        //   if (file) {
-        //     console.log('file type: ', file.type)
-        //     console.log('body: ', file)
-        //     var params = {Key: file.name, ContentType: file.type, Body: file};
-        //     bucket.upload(params).on('httpUploadProgress', function(evt) {
-        //     console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total)+'%');
-        //     }).send(function(err, data) {
-        //       alert("File uploaded successfully.");
-        //       console.log('data: ', data)
-        //       console.log('error: ', err)
-        //     });
-        // }
-        // return false;
+      //   var bucket = new AWS.S3({params: {Bucket: 'obexpense'}});
+      //   var fileChooser = document.getElementById('file');
+      //   var file = fileChooser.files[0];
+      //   if (file) {
+      //     console.log('file type: ', file.type)
+      //     console.log('body: ', file)
+      //     var params = {Key: file.name, ContentType: file.type, Body: file};
+      //     bucket.upload(params).on('httpUploadProgress', function(evt) {
+      //     console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total)+'%');
+      //     }).send(function(err, data) {
+      //       alert("File uploaded successfully.");
+      //       console.log('data: ', data)
+      //       console.log('error: ', err)
+      //     });
+      // }
+      // return false;
 
-        // this.$store.state.userObject.username = this.username
-        // this.$store.state.userObject.role = this.role
-        // if (this.dob) {
-        //   this.$store.state.userObject.dob = this.dob
-        // }
-        // this.$store.state.userObject.aboutme = this.aboutme
-        // this.$store.commit('userData')
-        // this.$http.post('/updateUserProfile', {
-        //   email: this.$store.state.userObject.email,
-        //   username: this.username,
-        //   role: this.role,
-        //   dob: this.dob,
-        //   aboutme: this.aboutme,
-        //   signup_type: this.$store.state.userObject.signup_type,
-        //   image_url: this.imageURlProfilePic
-        // }).then(response => response.json())
-        // .then(json => {
-        //   if (json.replaced) {
-        //     $.notify.defaults({ className: "success" })
-        //     $.notify("Profile updated successfully.", { globalPosition:"top center"})
-        //   }
+      // this.$store.state.userObject.username = this.username
+      // this.$store.state.userObject.role = this.role
+      // if (this.dob) {
+      //   this.$store.state.userObject.dob = this.dob
+      // }
+      // this.$store.state.userObject.aboutme = this.aboutme
+      // this.$store.commit('userData')
+      // this.$http.post('/updateUserProfile', {
+      //   email: this.$store.state.userObject.email,
+      //   username: this.username,
+      //   role: this.role,
+      //   dob: this.dob,
+      //   aboutme: this.aboutme,
+      //   signup_type: this.$store.state.userObject.signup_type,
+      //   image_url: this.imageURlProfilePic
+      // }).then(response => response.json())
+      // .then(json => {
+      //   if (json.replaced) {
+      //     $.notify.defaults({ className: "success" })
+      //     $.notify("Profile updated successfully.", { globalPosition:"top center"})
+      //   }
       //   var self = this
       //   this.$store.dispatch('updateUserProfile', {
       //     'fullname': this.username,

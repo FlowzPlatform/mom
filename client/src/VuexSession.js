@@ -100,7 +100,8 @@ export const store = new Vuex.Store({
     arrAllUsers: [],
     projectlist:[],
     userRoles:[],
-    currentProjectId:""
+    currentProjectId:"",
+    currentProjectName:""
   },
   mutations: {
     userData: state => state.userObject,
@@ -520,11 +521,15 @@ export const store = new Vuex.Store({
     DELETE_ALLUSERSLIST(state) {
       state.arrAllUsers = []
     },
+    updateProjectList(state,value){
+      state.projectlist = value;
+    },
     async GET_PROJECT_LIST(state,data){
       console.log("Projectc List:--",data);
       state.projectlist=data;
       if(!state.currentProjectId && data.length>0){
        state.currentProjectId=data[0].id
+       state.currentProjectName=data[0].project_name
          await store.dispatch('getAllTodos', { 'parentId': "",project_id:state.currentProjectId });
       }
     },
