@@ -227,8 +227,9 @@ export const store = new Vuex.Store({
       state.taskComment.splice(0, state.taskComment.length)
       state.taskTags.splice(0, state.taskTags.length)
       state.tagsList.splice(0, state.tagsList.length)
-      state.tempGroupByArr.splice(0, state.tempGroupByArr.length)
+state.tempGroupByArr.splice(0, state.tempGroupByArr.length)
       // state.userObject={}
+      state.currentProjectId = ''
     },
     changeFilters(state, key) {
       state.visibility = key

@@ -1,4 +1,5 @@
 console.log('config--->', process.env.SOCKET_IO)
+console.log('Temp-->', process.env.TEST_URL)
 var SOCKET_IO_PATH = process.env.SOCKET_IO
 console.log('socket_io-->', SOCKET_IO_PATH)
 
