@@ -28,6 +28,9 @@ return  this.find({query:{project_name:hookData.project_name}}).then(reponse=>{
       hook.result ={error:"Project already exist"}
       // return hook;
     }
+    
+    console.log("-----Before created Success------")
+
     return hook;
   })
 
@@ -43,7 +46,27 @@ exports.after = {
   all:[],
   find:[],
   get: [],
-  create:[],
+  create(hook){
+    console.log("-----After created Success------")
+/*    var projectData=hook.result;
+     console.log("Hook Result--->",{
+          project_id:projectData.id,
+                user_id:projectData.create_by,
+                create_by:projectData.create_by,
+                invited_date:new Date()
+      })
+     
+      hook.app.service('/projectmember').create({
+          project_id:projectData.id,
+                user_id:projectData.create_by,
+                create_by:projectData.create_by,
+                invited_date:new Date()
+      }).then(result => {
+         console.log("Project Created");
+      });
+    */
+
+},
   update: [],
   patch: [],
   remove: []
