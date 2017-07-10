@@ -1,3 +1,4 @@
+
 'use strict';
 const service = require('feathers-rethinkdb');
 
@@ -9,8 +10,7 @@ module.exports = function() {
 
   const options = {
     Model: r,
-    name: 'projectmember',
-    
+    name: 'projectmember',  
   };
 
   // Initialize our service with any options it requires 

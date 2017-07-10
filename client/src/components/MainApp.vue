@@ -46,24 +46,47 @@
           </div>
         </div>-->
     <!--<div class="row asanaView-body" style="padding-top: 15px; margin: 10px 10px 10px 10px;">-->
-      <div id="main-container" class="row asanaView-body" style="padding-top: 15px; margin: 10px 10px 10px 10px;">
+
+
+
+
+        <div id="main-container" class="row asanaView-body" style="padding-top: 15px; margin: 10px 10px 10px 10px;">
       <div class="asanaView-paneGutter"></div>
       <!--<settings-menu :showModal="settings_menu" :closeAction="closeDialog"></settings-menu>-->
-
+        
       <div id="center_pane_container" class="known-list">
+       
         <div id="center_pane">
+          <div v-if="$store.state.currentProjectId.length>0">
+            <left-toolbar v-if="!isCopyLink" :filters="filters">
+            </left-toolbar>
+            <main-left-section :isCopyLink="isCopyLink" :todoObject="todoObjectById" :pholder="taskPholder" :filtered-todos="taskById"></main-left-section>
+          </div>
 
-          <left-toolbar v-if="!isCopyLink" :filters="filters">
-          </left-toolbar>
-          <main-left-section :isCopyLink="isCopyLink" :todoObject="todoObjectById" :pholder="taskPholder" :filtered-todos="taskById"></main-left-section>
+          <div class="outer" v-else>
+            <div class="middle">
+              <div class="inner">
+                <div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems">
+                  <!--<img src="https://d3ki9tyy5l5ruj.cloudfront.net/obj/d32a704d4c647781c2bc7d59ff880ce5e30fc2d0/Deleted.svg" class="gridPaneSearchEmptyView-noDeletedItemsImage">-->
+                  <span class="fa fa-file-text-o fa-5x" @click="openCreateDialogs" />
+                  <div class="text gridPaneSearchEmptyView-noProjectItemsTitleText">Add New Project
+                  </div>
+                  <div class="text gridPaneSearchEmptyView-noProjectItemsText">You have no project created.
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+        </div>
       <div :id="n.level" class="right_pane_container" v-for="(n, index) in parentIdArray">
         <div id="right_pane">
           <main-right-section :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>
         </div>
       </div>
       <div class="asanaView-paneGutter"></div>
+      <create-project-dialog :show="isNewProjectDialogShow"  v-on:updateDialog='updateDialogShow'></create-project-dialog>
     </div>
     <!--<div id="myModal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
       <div class="modal-dialog" role="document">
@@ -141,6 +164,7 @@
 <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 <script>
   /* eslint-disable*/
+  import CreateProjectDialog from './CreateProjectDialog.vue'
   import MainLeftSection from './MainLeftSection.vue'
   import MainRightSection from './MainRightSection.vue'
   import LeftToolbar from './LeftToolbar.vue'
@@ -152,7 +176,6 @@
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import { mapGetters, mapActions } from 'vuex'
   Vue.use(require('vue-moment'))
-  var md5 = require('md5');
 
   const filters = {
     all: todos => todos,
@@ -189,7 +212,8 @@
         filters: filters,
         url_parentId: '',
         url_level: 0,
-        isCopyLink: false
+        isCopyLink: false,
+                 isNewProjectDialogShow: false,
       }
     },
     created() {
@@ -224,13 +248,18 @@
       this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
       this.$store.commit('DELETE_ALLTAGS')
       this.$store.state.todolist=[]
+      // this.getProjectWiseTodo;
+      var projects=this.getProjectWiseTodo;
       var projectId=this.$store.state.currentProjectId
-      if(!projectId && this.$store.state.projectlist.length>0){
-          projectId=this.$store.state.projectlist[0].id
+      if(!projectId && projects.length>0){
+          projectId=projects[0].id
+          this.$store.state.currentProjectId=projects[0].id
+          this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '' ,project_id:projectId});
+      }else{
+        console.log("cant set projectc id")
       }
-      if(projectId){
-        this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '' ,project_id:projectId});
-      }
+   
+   
       // if(this.$store.state.deleteItemsSelected)
       // {
       //   this.$store.dispatch('getDeleteTask');
@@ -294,8 +323,25 @@
       ...mapGetters({
         todoById: 'getTodoById',
         parentIdArray: 'parentIdArr',
-        todoObjectById: 'getObjectById',
+        // userSettings: 'user_setting',
+         todoObjectById: 'getObjectById',
+          projectListData: 'getProjectList'
+        // deletedTasks:'getDeletedTaskById'
       }),
+      getProjectWiseTodo()
+      {
+      //   var projectList= this.projectListData;
+      //   var projectId=this.$store.state.currentProjectId
+      // if(!projectId && projectList.length>0){
+      //     // projectId=this.$store.state.projectlist[0].id
+      //     this.$store.state.currentProjectId=projectList[0].id
+      //     this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '' ,project_id:projectId});
+      // }else{
+      //   console.log("cant set projectc id")
+      // }
+
+        return this.$store.state.projectlist;
+      },
       taskById() {
           let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', this.url_level)
           taskArray.push({
@@ -344,6 +390,13 @@
           }
         }, this)
       },
+      openCreateDialogs(){
+        this.isNewProjectDialogShow = true;
+      },
+       updateDialogShow(isDialogVal) {
+            console.log('dialog val: ', isDialogVal)
+            this.isNewProjectDialogShow = isDialogVal
+        },
       btnLogoutClicked() {
         // this.$store.commit('DELETE_ATTACHMENTS')
         // this.$store.state.userObject = {}
@@ -604,6 +657,7 @@
       MainLeftSection,
       MainRightSection,
       LeftToolbar,
+      CreateProjectDialog
 
     }
   }
