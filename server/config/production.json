@@ -1,8 +1,8 @@
 {
   "host": "feathers-sample-app.feathersjs.com",
-  "port": "PORT",
+  "port": "3030",
   "dbName": "vue_todo",
-  "db_host": "db",
+  "db_host": "todo_db",
   "db_port": "28015",
   "tbl_tasks":"tasks",
   "tbl_attachment":"attachment",
