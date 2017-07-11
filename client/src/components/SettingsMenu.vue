@@ -7,7 +7,7 @@
           <tr>
           <td>{{arr.settings_name}}</td>
             <td>
-            <input type="checkbox" :id="arr.id" :checked="checkFlag(arr)" @change="toggleSetting({arr:arr, event:$event.target.checked, uId: $store.state.userObject.id})" class="toggleSetting">
+            <input type="checkbox" :id="arr.id" :checked="checkFlag(arr)" @change="toggleSetting({arr:arr, event:$event.target.checked, uId: $store.state.userObject._id})" class="toggleSetting">
           </td>
           </tr>
         </table>
@@ -24,6 +24,7 @@ export default {
   props: ['showModal', 'closeAction', 'settingArr'],
   components: { Modal },
   created(){
+    // this.$store.dispatch('getSettings', this.$store.state.userObject._id);
   },
   methods:{
     ...mapActions([

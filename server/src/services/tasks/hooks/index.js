@@ -32,7 +32,7 @@ exports.before = {
     return hook;
   },
   update:[],
-  patch: [],
+  patch:[],
   remove: []
 };
 
@@ -42,6 +42,6 @@ exports.after = {
   get: [],
   create: [],
   update: [],
-  patch: [],
+  patch:[],
   remove: []
 };
