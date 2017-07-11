@@ -230,7 +230,6 @@ export const store = new Vuex.Store({
             }
           }
         }
-        // console.log('parentIdArr', state.parentIdArr)
       }
     },
     REMOVE_PARENT_ID_ARRAY(state) {
@@ -261,7 +260,7 @@ export const store = new Vuex.Store({
         }
       } else {
         var isValueAvailable = state.todolist[updateTodoIndex].isDelete
-        // updateObject(state.todolist[updateTodoIndex], item)
+        updateObject(state.todolist[updateTodoIndex], item)
         // show if any updates found for TODO
         if(item.updatedBy !== state.userObject._id){
           state.todolist[updateTodoIndex].isTaskUpdate = true
@@ -281,27 +280,21 @@ export const store = new Vuex.Store({
         }
       }
       var isObjectAvailable = state.todolist.find(todo => todo.id === item.parentId)
-       console.log("isObjectAvailable",isObjectAvailable)
       if (isObjectAvailable) {
         if (item.parentId) {
-          console.log("item",isObjectAvailable)
           var p_id = item.parentId
-          var completedSubtaskCount = state.todolist.find(todo => todo.id === p_id).completed_subtask_count
-          var subtask_count = state.todolist.find(todo => todo.id === p_id).subtask_count
-          console.log(subtask_count +""+ completedSubtaskCount)
-          if (item.completed) {
-            state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount + 1
-          }
-          else {
-            state.todolist.find(todo => todo.id === p_id).completed_subtask_count = completedSubtaskCount - 1
-          }
+          var totalCount = state.todolist.filter(function(todo){
+            console.log("Update Todo",todo.id === p_id && todo.completed)
+            return todo.parentId === p_id && todo.completed
+          }).length
+          console.log("Total Count",totalCount)
+          state.todolist.find(todo => todo.id === p_id).completed_subtask_count = totalCount          
           setProgressBar(state, item)
         }
       }
       setCheckboxColor(state)
     },
     ADD_NEW_TODOS(state, todoObject) {
-      console.log("Add New Todos", todoObject)
       todoObject.subtask_count = 0
       todoObject.completed_subtask_count = 0
       todoObject.progress_count = ''
@@ -322,6 +315,7 @@ export const store = new Vuex.Store({
       }      
       var isObjectAvailable = state.todolist.find(todo => todo.id === todoObject.parentId)
       console.log("add todo", isObjectAvailable)
+      console.log("Add New Todos", todoObject)
       if (isObjectAvailable) {
         if (todoObject.parentId) {
           let tempObj = state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count
@@ -574,7 +568,6 @@ export const store = new Vuex.Store({
         commit('UPDATE_TODO', message)
       })
 
-
       services.taskAttachmentService.on('created', message => {
         console.log("Message Attachement Cretaed:-->", message)
         commit('SELECT_FILE', message)
@@ -762,10 +755,10 @@ export const store = new Vuex.Store({
       console.log("changeTodo", changeTodo)
       let dbId = changeTodo.id
       if (dbId) {
-        services.tasksService.patch(dbId, {
+        services.tasksService.patch(dbId,{
           id: dbId,
           completed: changeTodo.completed,
-          updatedBy: store.state.userObject._id
+          updatedBy: store.state.userObject._id,
         }, { query: { 'id': dbId } }).then(response => {
           console.log("Reesponse toggleTodo::", response);
         });
@@ -945,13 +938,13 @@ export const store = new Vuex.Store({
       //   commit('GET_SETTINGS', response.data)
       //   console.log("Get Settings", response.data)
       // })
-      console.log("UserId",payload)
+      console.log("UserId:---",payload)
       services.settingService.find({
         query: {
           'user_id': payload
         }
       }).then(response => {
-        // console.log("Reesponse getSettings From DB::", response);
+        console.log("Reesponse getSettings From DB::", response);
         commit('GET_SETTINGS', response)
       });
     },
