@@ -229,7 +229,6 @@ export const store = new Vuex.Store({
             }
           }
         }
-        // console.log('parentIdArr', state.parentIdArr)
       }
     },
     REMOVE_PARENT_ID_ARRAY(state) {
