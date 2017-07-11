@@ -1,19 +1,6 @@
 {
   "host": "feathers-sample-app.feathersjs.com",
   "port": "PORT",
-  // "rethinkdb": {
-  //   "db": "vue_todo",
-  //   "servers": [
-  //     {
-  //       "host": "db",
-  //       "port": 28015
-  //     }
-  //   ]
-  // },
-  // "rdb_host": "db",
-  // "rdb_port": 28015,
-  // "rdb_db": "vue_todo",
-
   "dbName": "vue_todo",
   "db_host": "db",
   "db_port": "28015",
@@ -27,5 +14,6 @@
   "tbl_user_settings":"user_settings",
   "tbl_accessright":"accessright",
   "tbl_permission":"permission",
-  "tbl_project":"project"
+  "tbl_project":"project",
+  "tbl_projectmember": "projectmember"
 }

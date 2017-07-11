@@ -11,14 +11,13 @@ module.exports = function() {
   const app = this;
   const r = require('rethinkdbdash')({
     db: db,
-    // host: db_host,
-    // port:db_port
+    host: db_host,
+    port:db_port
   });
 
   const options = {
     Model: r,
     name: table,
-    
   };
 
   // Initialize our service with any options it requires 
@@ -27,7 +26,6 @@ module.exports = function() {
   app.service('task_tags').init().then(task_tags => {
       console.log('Created task_tags', task_tags)
   });
-
 
   // Set up our before hooks
   taskTags.before(hooks.before);

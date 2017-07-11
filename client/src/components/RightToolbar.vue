@@ -228,7 +228,8 @@ export default {
       //window.clipboardData.setData("Text", location.href);
       var $temp = $("<input>");
       $("body").append($temp);
-      var url = "http://localhost:3000/navbar/task/" + (this.filteredTodo.level + 1) + "/" + this.filteredTodo.id
+      // var url = "http://localhost:3000/navbar/task/" + (this.filteredTodo.level + 1) + "/" + this.filteredTodo.id
+      var url = process.env.COPY_URL_PATH+"/navbar/task/" + (this.filteredTodo.level + 1) + "/" + this.filteredTodo.id
       $temp.val(url).select();
       document.execCommand("copy");
       $temp.remove(); 

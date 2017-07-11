@@ -1116,8 +1116,7 @@ export const store = new Vuex.Store({
       })
     },
     userRegistrationProcess({ commit }, regObject) {
-      // axios.post('https://recipehub-backend-mmquqjzpbv.now.sh/api/setup', {
-      return axios.post('http://172.16.120.64:3000/api/setup', {
+      return axios.post(process.env.USER_AUTH+'/api/setup', {
         email: regObject.email,
         password: regObject.password,
         username: regObject.email,
@@ -1145,8 +1144,7 @@ export const store = new Vuex.Store({
         });
     },
     userLoginProcess({ commit }, loginObj) {
-      // axios.post('https://recipehub-backend-mmquqjzpbv.now.sh/api/login', {
-      return axios.post('http://172.16.120.64:3000/api/login', {
+      return axios.post(process.env.USER_AUTH+'/api/login', {
         email: loginObj.email,
         password: loginObj.password
       }, {
@@ -1165,7 +1163,8 @@ export const store = new Vuex.Store({
     },
     getUserDetail({ commit }) {
       console.log('token: ', store.state.userToken)
-      return axios.get('http://172.16.120.64:3000/api/userdetails', {
+        console.log('env-USER_AUTH', process.env.USER_AUTH+'/api/userdetails')
+        return axios.get(process.env.USER_AUTH+'/api/userdetails', {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'Authorization': store.state.userToken
@@ -1179,7 +1178,7 @@ export const store = new Vuex.Store({
         })
     },
     updateUserProfile({ commit }, objProfile) {
-      var url = ('http://172.16.120.64:3005/updateuserdetails/' + store.state.userObject._id)
+      var url = (process.env.USER_DETAIL+'/updateuserdetails/' + store.state.userObject._id)
       console.log('profile', objProfile)
       return axios.put(url, {
         fullname: objProfile.fullname,
@@ -1206,7 +1205,7 @@ export const store = new Vuex.Store({
     async getAllUsersList({ commit }) {
       try{
         console.log('Token', store.state.userToken)
-      let {data}  = await axios.get('http://172.16.120.64:3005/alluserdetails',{
+      let {data}  = await axios.get(process.env.USER_DETAIL+'/alluserdetails',{
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
           'Authorization': store.state.userToken

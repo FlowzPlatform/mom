@@ -1,10 +1,5 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
-// require('dotenv/config')
-// require('../src/config')
-//require('../src/services/index')
-// console.log('indexjs', process.env.SOCKET_IO);
-
 
 module.exports = {
   build: {

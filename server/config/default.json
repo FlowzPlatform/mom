@@ -6,21 +6,8 @@
     "default": 50,
     "max": 100
   },
-  // "rethinkdb": {
-  //   "db": "vue_todo",
-  //   "servers": [
-  //     {
-  //       "host": "localhost",
-  //       "port": 28015
-  //     }
-  //   ]
-  // },
-  // "rdb_host": "db",
-  // "rdb_port": 28015,
-  // "rdb_db": "vue_todo",
-
   "dbName": "vue_todo",
-  "db_host": "db",
+  "db_host": "localhost",
   "db_port": "28015",
   "tbl_tasks":"tasks",
   "tbl_attachment":"attachment",
@@ -32,7 +19,8 @@
   "tbl_user_settings":"user_settings",
   "tbl_accessright":"accessright",
   "tbl_permission":"permission",
-  "tbl_project":"project"
+  "tbl_project":"project",
+  "tbl_projectmember": "projectmember"
 
   // "tablelist" : {
   //   "tables":[

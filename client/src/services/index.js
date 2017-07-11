@@ -2,7 +2,8 @@
 import feathers from 'feathers/client'
 import socketio from 'feathers-socketio/client'
 import io from 'socket.io-client'
-const socket = io('http://172.16.105.110:3030')
+// const socket = io('http://172.16.105.110:3030')
+const socket = io(process.env.SOCKET_IO)
 export const app = feathers().configure(socketio(socket));
 
 export const tasksService = app.service('tasks')

@@ -506,6 +506,7 @@ export default {
 
         },
         projectSelect(id,name) {
+            this.$store.commit('showMyTasks')
             this.$store.state.currentProjectName=name;
             this.$store.state.currentProjectId = id;
             this.$store.state.todolist = []

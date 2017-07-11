@@ -4,19 +4,16 @@ const config = require('config');
 const db = config.get('dbName')
 const db_host = config.get('db_host')
 const db_port = config.get('db_port')
+const table = config.get('tbl_role')
 const r = require('rethinkdbdash')({
     db: db,
-    // host: db_host,
-    // port:db_port
+    host: db_host,
+    port:db_port
   });
-const table = config.get('tbl_role')
+
 
 module.exports = function() {
   const app = this;
-  // const r = require('rethinkdbdash')({
-  //   db: 'vue_todo'
-  // });
-
   const options = {
     Model: r,
     name: table,

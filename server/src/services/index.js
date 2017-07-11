@@ -31,7 +31,6 @@ module.exports = function () {
   //   } catch (error) {
   //     console.log('error===>', error);
   //   }
-
   
   app.configure(tasks);
   app.configure(taskAttachment);
