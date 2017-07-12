@@ -393,7 +393,7 @@ export default {
             return itemList;
         },
         projectList: function () {
-            console.log("projectlist")
+            console.log("projectlist", this.getProjectList)
             // this.memberProfileDetail
             var projects = this.getProjectList;
             var projects = this.$store.state.projectlist;
