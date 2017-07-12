@@ -24,6 +24,7 @@ RUN mkdir -p /opt/app
 #working directory
 WORKDIR /opt/app
 ADD . /opt/app
+RUN npm install
 
 #build application
 RUN npm run build
