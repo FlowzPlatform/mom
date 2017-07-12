@@ -4,7 +4,7 @@ exports.before = {
 
   all:[],
   find(hook){
-      const query = this.createQuery(hook.params.query);
+    const query = this.createQuery(hook.params.query);
     const r = this.options.r;
     console.log("Find query:--",query)
 

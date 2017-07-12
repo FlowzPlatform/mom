@@ -393,7 +393,7 @@ export default {
             return itemList;
         },
         projectList: function () {
-            console.log("projectlist")
+            console.log("projectlist", this.getProjectList)
             // this.memberProfileDetail
             var projects = this.getProjectList;
             var projects = this.$store.state.projectlist;
@@ -506,6 +506,7 @@ export default {
 
         },
         projectSelect(id,name) {
+            this.$store.commit('showMyTasks')
             this.$store.state.currentProjectName=name;
             this.$store.state.currentProjectId = id;
             this.$store.state.todolist = []
