@@ -36,7 +36,7 @@
                     <Collapse v-for="(project, index) in projectList" v-bind:key="project">
                         <Panel>
                             <!-- Project name header -->
-                            <span :id="'panelProjectName-'+project.id" @click="projectSelect(project.id,project.project_name)" @mouseleave="hideOption(project.id)" @mouseover="showOption(project.id)" class="spanPanel">
+                            <span :id="'panelProjectName-'+project.id" @click="projectSelect(project)" @mouseleave="hideOption(project.id)" @mouseover="showOption(project.id)" class="spanPanel">
                                 <a class="DeprecatedNavigationLink">
                                     <span class="panelProjectName">{{project.project_name}}</span>
                                     <span :id="'ItemRowMenu-'+project.id" class="hidden ItemRowMenu">
@@ -505,10 +505,11 @@ export default {
             this.$store.commit('UPDATE_SLIDER_VALUE', this.isOpen)
 
         },
-        projectSelect(id,name) {
+        projectSelect(project) {
             this.$store.commit('showMyTasks')
-            this.$store.state.currentProjectName=name;
-            this.$store.state.currentProjectId = id;
+            this.$store.state.currentProjectName=project.project_name;
+            this.$store.state.currentProjectId = project.id;
+            this.$store.state.currentProjectPrivacy = project.project_privacy;
             this.$store.state.todolist = []
             this.$store.commit('CLOSE_DIV', '')
             this.$store.dispatch('getAllTodos', { 'parentId': '', project_id: id });

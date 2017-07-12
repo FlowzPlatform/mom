@@ -119,7 +119,8 @@ export const store = new Vuex.Store({
     projectlist:[],
     userRoles:[],
     currentProjectId:"",
-    currentProjectName:""
+    currentProjectName:"",
+    currentProjectPrivacy: ''
   },
   mutations: {
     userData: state => state.userObject,
@@ -1205,7 +1206,7 @@ export const store = new Vuex.Store({
     async getAllUsersList({ commit }) {
       try{
         console.log('Token', store.state.userToken)
-      let {data}  = await axios.get(process.env.USER_DETAIL+'/alluserdetails',{
+      let {data}  = await axios.get(currentProjectPrivacy+'/alluserdetails',{
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
           'Authorization': store.state.userToken
