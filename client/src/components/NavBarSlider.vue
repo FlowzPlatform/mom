@@ -505,22 +505,23 @@ export default {
             this.$store.commit('UPDATE_SLIDER_VALUE', this.isOpen)
 
         },
-        projectSelect(id,name) {
+        projectSelect(project) {
             this.$store.commit('showMyTasks')
-            this.$store.state.currentProjectName=name;
-            this.$store.state.currentProjectId = id;
+            console.log('Project', project.id)
+            this.$store.state.currentProjectName=project.project_name;
+            this.$store.state.currentProjectId = project.id;
+            this.$store.state.currentProjectPrivacy = project.project_privacy;
             this.$store.state.todolist = []
             this.$store.commit('CLOSE_DIV', '')
-            this.$store.dispatch('getAllTodos', { 'parentId': '', project_id: id });
+            this.$store.dispatch('getAllTodos', { 'parentId': '', project_id: project.id });
             // Close last open dialog
             if (this.lastProjectSelected !== '') {
                 console.log(this.lastProjectSelected);
                 $("#panelProjectName-" + this.lastProjectSelected).removeClass("project-selected");
             }
             // Open Invite member dialog
-            $("#panelProjectName-" + id).addClass("project-selected");
-            this.lastProjectSelected = id;
-
+            $("#panelProjectName-" + project.id).addClass("project-selected");
+            this.lastProjectSelected = project.id;
 
             // this.memberProfileDetail()
         },
