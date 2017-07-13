@@ -1,0 +1,8 @@
+2017-07-12T10:59:08.077008740 0.073033s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-07-12T10:59:08.084219784 0.080248s notice: Running on Linux 4.4.0-81-generic x86_64
+2017-07-12T10:59:08.084328989 0.080353s notice: Loading data from directory /home/software/workspace/ob_products/project-3/todo-vue-dynamic-component/server/rethinkdb_data
+2017-07-12T10:59:08.099206036 0.095230s error: Inaccessible database file: "/home/software/workspace/ob_products/project-3/todo-vue-dynamic-component/server/rethinkdb_data/metadata": No such file or directory\nSome possible reasons:\n- the database file couldn't be created or opened for reading and writing\n- the user which was used to start the database is not an owner of the file
+2017-07-12T11:07:33.002464575 0.047409s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-07-12T11:07:33.019045807 0.063993s notice: Running on Linux 4.4.0-81-generic x86_64
+2017-07-12T11:07:33.019212278 0.064155s notice: Loading data from directory /home/software/workspace/ob_products/project-3/todo-vue-dynamic-component/server/rethinkdb_data
+2017-07-12T11:07:33.023467433 0.068411s error: Inaccessible database file: "/home/software/workspace/ob_products/project-3/todo-vue-dynamic-component/server/rethinkdb_data/metadata": No such file or directory\nSome possible reasons:\n- the database file couldn't be created or opened for reading and writing\n- the user which was used to start the database is not an owner of the file

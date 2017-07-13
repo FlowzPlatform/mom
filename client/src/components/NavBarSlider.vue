@@ -8,9 +8,9 @@
                     <polygon points="24.485,27.314 27.314,24.485 18.828,16 27.314,7.515 24.485,4.686 16,13.172 7.515,4.686 4.686,7.515 13.172,16 4.686,24.485 7.515,27.314 16,18.828 "></polygon>
                 </svg>
             </a>
+            
         </div>
-        <!-- Project list -->
-        <div class="SidebarTeamDetailsProjectsList">
+        <div class="projectLable">
             <div class="text-left SidebarTeamDetailsProjectsList-header">Projects
                 <a @click="createProject" class="CircularButton CircularButton--enabled CircularButton--xxsmall SidebarTeamDetailsProjectsList-addProjectButton" tabindex="0" aria-role="button">
                     <div class="CircularButton-label">
@@ -30,7 +30,12 @@
                 <span class="SidebarReportsItemRow-name" title="Deleted Items">Deleted Items</span>
             </div>
             <hr>
+        </div>    
+        <!-- Project list -->
+        <div class="SidebarTeamDetailsProjectsList">
+            
             <!-- Project list -->
+            
             <div class="DragContainer">
                 <draggable v-model="myProjectList">
                     <Collapse v-for="(project, index) in projectList" v-bind:key="project">
@@ -39,11 +44,18 @@
                             <span :id="'panelProjectName-'+project.id" @click="projectSelect(project)" @mouseleave="hideOption(project.id)" @mouseover="showOption(project.id)" class="spanPanel">
                                 <a class="DeprecatedNavigationLink">
                                     <span class="panelProjectName">{{project.project_name}}</span>
-                                    <span :id="'ItemRowMenu-'+project.id" class="hidden ItemRowMenu">
+                                    
+
+                                    <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu">
                                         <svg class="Icon MoreIcon SidebarItemRow-icon SidebarItemRow-defaultIcon" title="MoreIcon" viewBox="0 0 32 32">
                                             <circle cx="3" cy="16" r="3"></circle>
                                             <circle cx="16" cy="16" r="3"></circle>
                                             <circle cx="29" cy="16" r="3"></circle>
+                                        </svg>
+                                    </span>
+                                    <span :id="'ItemRowPrivacy-'+project.id" v-if="project.project_privacy == '2' ? true:false" class="SidebarItemRow-statusIcon pull-right">
+                                        <svg class="Icon LockIcon" title="LockIcon" viewBox="0 0 32 32">
+                                            <path d="M24,12v-0.125V8c0-4.411-3.589-8-8-8S8,3.589,8,8v4H6v18h20V12H24z M14,12V8c0-1.103,0.897-2,2-2s2,0.897,2,2v4H14z M10,8c0-3.309,2.691-6,6-6s6,2.691,6,6v4h-2V8c0-2.206-1.794-4-4-4s-4,1.794-4,4v4h-2V8z M24,28H8V14h16V28z"></path>
                                         </svg>
                                     </span>
                                 </a>
@@ -157,7 +169,7 @@
                                                     </svg>
                                                 </div>
                                             </span>
-                                            <span @click="closedMemberSearch(project.id)" class="SidebarTeamMembersExpandedList-closeButton">
+                                            <span :id="'value-'+project.id" @click="closedMemberSearch(project.id)" class="SidebarTeamMembersExpandedList-closeButton">
                                                 <svg class="Icon XIcon" title="XIcon" viewBox="0 0 32 32">
                                                     <polygon points="24.485,27.314 27.314,24.485 18.828,16 27.314,7.515 24.485,4.686 16,13.172 7.515,4.686 4.686,7.515 13.172,16 4.686,24.485 7.515,27.314 16,18.828 "></polygon>
                                                 </svg>
@@ -166,11 +178,11 @@
                                         <div class="ser-dro-lis TeamInviteTypeahead">
                                             <!-- Search text box -->
     
-                                            <input @blur="closeExpandableList(project.id)" @keyup="showList(project.id)" type="text" v-model="inputValue" class="textInput textInput--medium TeamInviteTypeahead-input" value="" name="">
+                                            <input  @blur="closeExpandableList(project.id)" @keyup="showList(project.id)" type="text" v-model="inputValue" class="textInput textInput--medium TeamInviteTypeahead-input" value="" name="">
                                             <!-- Drop down list -->
                                             <div :id="'layerPositioner-'+project.id" class="hidden layerPositioner layerPositioner--offsetLeft layerPositioner--alignLeft layerPositioner--below">
                                                 <ul class="TypeaheadView-scrollable">
-                                                    <li v-for="member in searchItems" class="TypeaheadView-item" @click="selectMember(project,member)">
+                                                    <li v-for="member in searchItems" v-bind:key="member.id" class="TypeaheadView-item" @click="selectMember(project,member)">
                                                         <div class="TypeaheadItem">
                                                             <div class="TypeaheadItem-content">
                                                                 <div class="TypeaheadItem-icon">
@@ -241,7 +253,7 @@
                                                                 <div class="validatedTextInput validatedTextInput--invalid QuickInvitePopup-emailInputValidator">
                                                                     <select class="textInput textInput--medium QuickInvitePopup-input" v-model="selected">
                                                                         <option class="textInput textInput--medium" value="" disabled selected hidden>Select Role</option>
-                                                                        <option class="textInput textInput--medium" v-for="role in roles" v-bind:value="role.name">
+                                                                        <option class="textInput textInput--medium" v-for="role in roles" v-bind:key="role.id" v-bind:value="role.name">
                                                                             {{ role.name }}
                                                                         </option>
                                                                     </select>
@@ -265,7 +277,7 @@
                                         </div>
                                         <!--project wise member list-->
                                         <div  :id="'listContent-'+project.id" class="SidebarTeamMembersExpandedList-contents">
-                                            <div v-for="member in project.members" class="SidebarTeamMembersExpandedMember-itemRow" >
+                                            <div v-for="member in project.members" v-bind:key="member.id" class="SidebarTeamMembersExpandedMember-itemRow" >
                                                 <!--<div v-if="member.url" class="Avatar Avatar--small Avatar--color1 Facepile-avatar">
     
                                                     <img v-if="project.members[0].url" v-bind:src="project.member.url" />
@@ -308,7 +320,6 @@
                     </Collapse>
                 </draggable>
             </div>
-    
         </div>
         <create-project-dialog :show="isNewProjectDialogShow" v-on:updateDialog='updateDialogShow'></create-project-dialog>
     </div>
@@ -353,7 +364,6 @@ export default {
             roleValidationError: '',
             memberListShow:true,
             // projectList:this.$store.state.projectlist
-
         }
     },
     created() {
@@ -393,12 +403,12 @@ export default {
             return itemList;
         },
         projectList: function () {
-            console.log("projectlist", this.getProjectList)
+            //console.log("projectlist", this.getProjectList)
             // this.memberProfileDetail
             var projects = this.getProjectList;
             var projects = this.$store.state.projectlist;
             this.memberProfileDetail(projects)
-            return projects;
+            return this.getProjectList;
         }
     },
     mounted: function () {
@@ -419,7 +429,7 @@ export default {
         ]),
         isMemberAvailable: function (project, index) {
 
-            console.log("Project index:--", project && project.members && project.members[index]);
+            // console.log("Project index:--", project && project.members && project.members[index]);
             return project && project.members && project.members[index]
         },
         getMemberProfile: function (uId) {
@@ -518,7 +528,10 @@ export default {
             if (this.lastProjectSelected !== '') {
                 console.log(this.lastProjectSelected);
                 $("#panelProjectName-" + this.lastProjectSelected).removeClass("project-selected");
+                this.closedMemberSearch(this.lastProjectSelected);
             }
+            // Clear text
+             this.inputValue = '';
             // Open Invite member dialog
             $("#panelProjectName-" + project.id).addClass("project-selected");
             this.lastProjectSelected = project.id;
@@ -528,9 +541,11 @@ export default {
         // This method show when user mouse hover on project name
         showOption(id) {
             $("#ItemRowMenu-" + id).removeClass("hidden");
+             $("#ItemRowMenu-" + id).css({"fill":"white"});
         },
         hideOption(id) {
-            $("#ItemRowMenu-" + id).addClass("hidden");
+           // $("#ItemRowMenu-" + id).addClass("hidden");
+            $("#ItemRowMenu-" + id).css({"fill":"transparent"});
         },
         showList(id) {
             // Show search member list
@@ -1067,7 +1082,15 @@ ul {
 }
 
 
-
+.SidebarItemRow-statusIcon .Icon {
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    height: 16px;
+    margin: 0 5px;
+    width: 16px;
+    fill:#fff;
+}
 
 
 
@@ -1399,7 +1422,9 @@ span.SidebarTeamMembetransitionrsExpandedList-headerText {
 }
 
 
-
+.ivu-collapse>.ivu-collapse-item>.ivu-collapse-header>i{
+    transform-origin:0px
+}
 
 
 
