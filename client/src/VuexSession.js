@@ -240,7 +240,6 @@ export const store = new Vuex.Store({
       state.taskComment.splice(0, state.taskComment.length)
       state.taskTags.splice(0, state.taskTags.length)
       state.tagsList.splice(0, state.tagsList.length)
-      state.tempGroupByArr.splice(0, state.tempGroupByArr.length)
       // state.userObject={}
       state.currentProjectId = ''
     },
@@ -256,7 +255,9 @@ export const store = new Vuex.Store({
           let deleteTodoIndex = _.findIndex(state.deletedTaskArr, function (d) { return d.id == item.id })
           state.todolist.push(item)
           state.deletedTaskArr.splice(deleteTodoIndex, 1)
-          state.parentIdArr.find(todo => todo.id === item.id).isDelete = item.isDelete
+          if(state.parentIdArr.length > 0) {
+            state.parentIdArr.find(todo => todo.id === item.id).isDelete = item.isDelete
+          }
           updateTaskCount(state, item)
         }
       } else {
@@ -264,6 +265,7 @@ export const store = new Vuex.Store({
         updateObject(state.todolist[updateTodoIndex], item)
         // show if any updates found for TODO
         if(item.updatedBy !== state.userObject._id){
+          console.log('Task update found')
           state.todolist[updateTodoIndex].isTaskUpdate = true
         }
         if(isValueAvailable !== item.isDelete){
@@ -280,6 +282,8 @@ export const store = new Vuex.Store({
           updateTaskCount(state, item)
         }
       }
+
+      //For subtask total count and completed subtask count update
       var isObjectAvailable = state.todolist.find(todo => todo.id === item.parentId)
       if (isObjectAvailable) {
         if (item.parentId) {
@@ -1206,7 +1210,7 @@ export const store = new Vuex.Store({
     async getAllUsersList({ commit }) {
       try{
         console.log('Token', store.state.userToken)
-      let {data}  = await axios.get(currentProjectPrivacy+'/alluserdetails',{
+      let {data}  = await axios.get(process.env.USER_DETAIL+'/alluserdetails',{
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
           'Authorization': store.state.userToken
