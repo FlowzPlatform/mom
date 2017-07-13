@@ -376,7 +376,7 @@
         parentIdArray: 'parentIdArr',
         // userSettings: 'user_setting',
         todoObjectById: 'getObjectById',
-        projectListData: 'getProjectList'
+        // projectListData: 'getProjectList'
         // deletedTasks:'getDeletedTaskById'
       }),
       getProjectWiseTodo() {
