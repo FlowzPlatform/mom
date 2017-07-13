@@ -5,7 +5,7 @@ import io from 'socket.io-client'
 // const socket = io('http://172.16.105.110:3030')
 const socket = io(process.env.SOCKET_IO)
 export const app = feathers().configure(socketio(socket));
-
+console.log('index')
 export const tasksService = app.service('tasks')
 export const taskAttachmentService = app.service('task_attachment')
 export const roleAccessService = app.service('accessright')
