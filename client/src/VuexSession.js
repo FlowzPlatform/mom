@@ -1233,6 +1233,7 @@ export const store = new Vuex.Store({
           query: {
             $or: [
               { project_privacy: '0' },
+              { project_privacy: '1' },
               { project_privacy: '2', create_by: userId }
             ]
           }
