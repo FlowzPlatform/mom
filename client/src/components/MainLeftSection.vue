@@ -4,7 +4,7 @@
     </text-description>
     <attachments v-if="isCopyLink && $store.state.arrAttachment.length > 0" :filteredTodo="todoObject"> </attachments>
     <tags v-if="isCopyLink && $store.state.taskTags.length > 1" :filteredTodo="todoObject"></tags>
-    <ul class="todo-list main">
+      <ul class="todo-list main">
       <draggable v-model="filteredTodos" @end="onDragEnd">
         <transition-group name="list-complete">
           <todo-item v-for="(todo, ind) in filteredTodos" :prevIndex="getPrevToDo(ind)"

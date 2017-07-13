@@ -511,7 +511,10 @@ export const store = new Vuex.Store({
       state.arrAllUsers = []
     },
     updateProjectList(state,value){
-      state.projectlist = value;
+      let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
+      if (updateProjectIndex >= 0) {
+           state.projectlist[updateProjectIndex].project_privacy = value.project_privacy;
+      }
     },
     async GET_PROJECT_LIST(state,data){
       console.log("Projectc List:--",data);
@@ -601,9 +604,13 @@ export const store = new Vuex.Store({
         console.log("Message History log Removed:-->", message)
         commit('DELETE_COMMENT', message)
       })
+       services.projectService.on('patched', message => {
+         console.log("Project updated:-->", message)
+          commit('updateProjectList', message)
+       })
     },
     getAllTodos({ commit }, payload) {
-      console.log('getAllTodos-->', payload);
+      // console.log('getAllTodos-->', payload);
       services.tasksService.find({
         query: {
           $or: [
@@ -1100,15 +1107,13 @@ export const store = new Vuex.Store({
         console.log("Reesponse update task tags:", response);
         //  commit('UPDATE_TODO', insertElement)
       });
-      // Vue.http.post('/deleteTaskTags', {
-      //     task_id: taskTagObject.task_id,
-      //     tag_id: taskTagObject.id
-      // }).then(response => {
-      //     if (response.ok) {
-      //         console.log("deleteTaskTags api response:", response.bodyText);
-      //         commit('REMOVE_TASKTAG', taskTagObject)
-      //     }
-      // })
+    },
+     changeProjectPrivacy({ commit }, privacy_id) {
+      services.projectService.patch(null, {
+        project_privacy : privacy_id 
+      }, { query: { "id": store.state.currentProjectId} }).then(response => {
+        console.log("Reesponse update Project privacy:", response);
+      });
     },
     getTodoObject({ commit }, todoObjectId) {
       services.tasksService.get(todoObjectId).then(function (response) {
@@ -1293,7 +1298,7 @@ export const store = new Vuex.Store({
       getTodoById: (state, getters) => {
       if(state.deleteItemsSelected){
         return function (id, level) {
-          console.log('deleted task getter')
+          // console.log('deleted task getter')
           var todolist = state.deletedTaskArr
           todolist = _.sortBy(todolist, 'index')        
           return todolist

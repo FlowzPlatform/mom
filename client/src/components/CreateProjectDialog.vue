@@ -1,6 +1,6 @@
 <template id="modal-template">
     <div class="my-dialog">
-        <div class="ModalLayer-topBuffer"></div>
+        <div class="hidden ModalLayer-topBuffer"></div>
         <div class="modal-mask" @click="close" v-show="show" data-toggle="modal" transition="modal">
             <div class="modal-container" @click.stop>
                 <div class="modal-header">
@@ -59,7 +59,7 @@
                         <div class="NewProjectForm-privacyOptions NewProjectForm-privacyOptions--noBorder">
                             <label class="NewProjectForm-privacyOption">
                                 <div class="NewProjectForm-radioButton">
-                                    <input type="radio" v-model="privacyOption" name="privacy" value="0" class="NewProjectForm-publicRadio">
+                                    <input type="radio"  v-model="privacyOption" name="privacy" value="0" class="NewProjectForm-publicRadio">
                                 </div>
                                 <svg class="Icon UsersIcon NewProjectForm-privacyIcon" title="UsersIcon" viewBox="0 0 32 32">
                                     <path d="M24.23,16.781C26.491,15.368,28,12.863,28,10c0-4.418-3.582-8-8-8s-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C11.233,18.494,8,22.864,8,28c0,0.683,0.07,1.348,0.18,2h23.64c0.11-0.652,0.18-1.317,0.18-2C32,22.864,28.767,18.494,24.23,16.781z M14,10c0-3.308,2.692-6,6-6s6,2.692,6,6s-2.692,6-6,6S14,13.308,14,10z M10,28c0-5.514,4.486-10,10-10c5.514,0,10,4.486,10,10H10z"></path>
@@ -95,7 +95,7 @@
                                     <path d="M2,28c0-4.829,3.441-8.869,8-9.798V15.65C7.673,14.824,6,12.606,6,10c0-3.308,2.692-6,6-6V2c-4.418,0-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C3.233,18.494,0,22.864,0,28c0,0.683,0.07,1.348,0.18,2H6v-2H2z"></path>
                                 </svg>
                                 <div class="NewProjectForm-privacyOptionLabel">
-                                    <div class="NewProjectForm-privacyOptionText">Private to Team</div>
+                                    <div class="NewProjectForm-privacyOptionText">Private to project members</div>
                                 </div>
                             </label>
                             <label class="NewProjectForm-privacyOption">
@@ -120,7 +120,7 @@
 
                 </div>
 
-                <div class="modal-footer text-right">
+                <div class="hidden modal-footer text-right">
 
                 </div>
             </div>
@@ -295,10 +295,10 @@
     }
 
     .my-dialog .modal-mask {
-        display: -webkit-box;
+        /* display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
-        display: flex;
+        display: flex; */
         -webkit-box-flex: 0;
         -webkit-flex: 0 1 auto;
         -ms-flex: 0 1 auto;
@@ -737,6 +737,7 @@
         line-height: 16px;
         overflow: hidden;
         text-overflow: ellipsis;
+        color:#898e95
     }
 
     .NewProjectForm-privacyOptionText,
