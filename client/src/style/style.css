@@ -3487,4 +3487,399 @@ svg:not(:root), symbol, image, marker, pattern, foreignObject {
     display: -ms-flexbox;
     display: flex;
 }
+.layerPositioner-layer {
+    margin-top: -40px;
+    margin-right: -20px;
+}
+.is-highlighted:hover .projectHeaderFacepile-privacyMenuItemUpgradeTextContainer{
+  color: #fff;
+}
+.layerPositioner.layerPositioner--left, .layerPositioner.layerPositioner--alignRight {
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+}
+.layerPositioner {
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    font-size: 13px;
+    height: 0;
+    position: absolute;
+    width: 100vw;
+    z-index: 10000;
+}
+.projectHeaderFacepile-privacySummaryDropdown {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    margin-top: -2px;
+}
+.Dropdown {
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,0.1);
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #cdcfd2;
+}
+.menu.menu--long {
+    max-width: 600px;
+}
+.menu {
+    font-size: 13px;
+    max-width: 300px;
+    min-width: 215px;
+    padding: 5px 0;
+}
+.menu-item {
+    margin-bottom: 1px;
+}
+ol, ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+ol, ul {
+    list-style: none;
+}
+.menu-item>.projectHeaderFacepile-privacyMenuItem {
+    padding: 0 10px 0 25px;
+}
+.menuItem-button.menuItem--small {
+    height: 30px;
+}
+.menuItem-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.menuItem-button:hover {
+    background-color: #1aafd0;
+    color: #fff;
+    fill: #fff;
+    text-decoration: none;
+}
+a:hover, a:focus {
+    color: #02ceff;
+    text-decoration: underline;
+}
+.menuItem-button {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: #1b2432;
+    cursor: pointer;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    height: 30px;
+    padding: 0 10px;
+    position: relative;
+}
+
+a {
+    color: #1AAFD0;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+svg:not(:root) {
+    overflow: hidden;
+}
+.projectHeaderFacepile-privacyMenuItemIcon {
+    fill: #b9bcc0;
+    margin-right: 5px;
+}
+
+.Icon {
+    height: 16px;
+    width: 16px;
+}
+.projectHeaderFacepile-privacyMenuItemText {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.projectHeaderFacepile-privacyMenuItemUpgradeTextContainer {
+    color: #ffb900;
+    fill: #ffb900;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    line-height: 16px;
+    margin-left: 20px;
+    margin-top: 2px;
+    white-space: normal;
+    width: 180px;
+    display: flex;
+    text-align: initial;
+}
+.projectHeaderFacepile-privacyMenuItemUpgradeText{
+    border-bottom: 1px dotted;
+    text-decoration: none;
+}
+
+
+.menuItem-button.menuItem--extralarge {
+    height: 60px;
+}
+.projectHeaderFacepile-privacyMenuItemUpgradeOption {
+    color: #cdcfd2;
+}
+.projectHeaderFacepile-privacyMenuItemIconText {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.PageHeaderStructure-right {
+    -webkit-box-align: end;
+    -webkit-align-items: flex-end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+.PageHeaderStructure-left, .PageHeaderStructure-right {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 280px;
+    -ms-flex: 0 0 280px;
+    flex: 0 0 280px;
+}
+
+.projectHeaderFacepile-content {
+    text-align: right;
+}
+.projectHeaderFacepile-facepile {
+    vertical-align: middle;
+}
+.Facepile {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+}
+.projectHeaderFacepile-facepile .Facepile-avatar--clickable {
+    cursor: pointer;
+}
+
+.Facepile-avatar, .Facepile-avatar--clickable, .Facepile-empty, .Facepile-placeholder, .Facepile-loadingPlaceholder {
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-right: 5px;
+}
+.Avatar--color2 {
+    background-color: #e362e3;
+}
+.Avatar--large {
+    font-size: 13px;
+    height: 36px;
+    line-height: 36px;
+    width: 36px;
+}
+.Avatar {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background: center/cover #cdcfd2;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #fff;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    position: relative;
+    vertical-align: top;
+}
+.Facepile--grouped>.Facepile-overflow, .Facepile--grouped>.Facepile-empty, .Facepile--grouped>.Facepile-placeholder, .Facepile--grouped>.Facepile-loadingPlaceholder {
+    font-size: 11px;
+}
+.CircularButton.CircularButton--small {
+    font-size: 11px;
+    height: 24px;
+    line-height: 22px;
+    width: 24px;
+}
+.Facepile-placeholder {
+    border: 1px dashed #b9bcc0;
+    fill: #b9bcc0;
+}
+.Facepile-overflow, .Facepile-empty, .Facepile-placeholder, .Facepile-loadingPlaceholder {
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+.Facepile-avatar, .Facepile-avatar--clickable, .Facepile-empty, .Facepile-placeholder, .Facepile-loadingPlaceholder {
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-right: 5px;
+}
+.CircularButton {
+    background: #fff;
+    border: 1px solid #b9bcc0;
+    border-radius: 50%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #b9bcc0;
+    fill: #b9bcc0;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    font-size: 13px;
+    height: 30px;
+    line-height: 1;
+    -webkit-transition: 200ms box-shadow,200ms color,200ms background,200ms fill;
+    transition: 200ms box-shadow,200ms color,200ms background,200ms fill;
+    width: 30px;
+    display: inline-block;
+}
+.projectHeaderFacepile-privacySummary {
+    color: #898e95;
+    display: block;
+    font-size: 11px;
+    max-width: 225px;
+    overflow: hidden;
+    padding-top: 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.projectHeaderFacepile-privacySummaryDropdown {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    margin-top: -2px;
+}
+.projectHeaderFacepile-privacySummaryDropdown {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    margin-top: -2px;
+}
+.projectHeaderFacepile-privacySummaryDropdownLeftIcon {
+    fill: #b9bcc0;
+    margin-bottom: 1px;
+    margin-right: 4px;
+}
+.projectHeaderFacepile-privacySummaryDropdownLeftIcon {
+    fill: #b9bcc0;
+    margin-bottom: 1px;
+    margin-right: 4px;
+}
+.projectHeaderFacepile-privacySummary {
+    color: #898e95;
+    display: block;
+    font-size: 11px;
+    max-width: 225px;
+    overflow: hidden;
+    padding-top: 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.projectHeaderFacepile-privacySummaryDropdown {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    margin-top: -2px;
+}
+
+.projectHeaderFacepile-privacySummaryDropdown .projectHeaderFacepile-privacySummaryDropdownTextDownIconContainer:hover {
+    color: #02ceff;
+}
+.Icon.CheckIcon.menuItem-selectedIcon {position: absolute;left: 3px;}
+.projectHeaderFacepile-privacySummaryDropdownTextDownIconContainer {
+    border-bottom: 1px dotted;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.projectHeaderFacepile-privacySummaryDropdownText {
+    max-width: 150px;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+}
+.projectHeaderFacepile-privacySummaryDropdownDownIcon {
+    fill: #898e95;
+    height: 10px;
+    margin-left: 5px;
+    width: 10px;
+}
+.projectHeaderFacepile-privacySummaryDropdown:hover .projectHeaderFacepile-privacySummaryDropdownLeftIcon {
+    fill: #02ceff;
+}
 

@@ -192,8 +192,8 @@
             'showMyTasks'
         ]),
       openCloseNav:function(){
-        console.log("Opennav")
-        console.log('==>',$('#center_pane'));
+        // console.log("Opennav")
+        // console.log('==>',$('#center_pane'));
          $('.Topbar-navButton').css('margin-left','-35px');
             document.getElementById('mySidenav').style.width = "250px"
             document.getElementById("top-bar").style.marginLeft = "250px"

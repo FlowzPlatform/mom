@@ -1,6 +1,6 @@
 <template id="items">
   <li v-bind:key="todo" class="todo">
-    <!--{{todo.deletedBy}}-->
+    <!-- {{todo.completed}} -->
     <div :id="getLevelClass(todo.level,todo.id)" style="padding-bottom: 5px;"> 
       <div class="view" style="margin-left: 10px;">
         <span class="dreg-move"></span>
