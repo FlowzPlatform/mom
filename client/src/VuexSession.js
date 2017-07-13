@@ -240,7 +240,6 @@ export const store = new Vuex.Store({
       state.taskComment.splice(0, state.taskComment.length)
       state.taskTags.splice(0, state.taskTags.length)
       state.tagsList.splice(0, state.tagsList.length)
-      state.tempGroupByArr.splice(0, state.tempGroupByArr.length)
       // state.userObject={}
       state.currentProjectId = ''
     },
@@ -285,10 +284,8 @@ export const store = new Vuex.Store({
         if (item.parentId) {
           var p_id = item.parentId
           var totalCount = state.todolist.filter(function(todo){
-            console.log("Update Todo",todo.id === p_id && todo.completed)
             return todo.parentId === p_id && todo.completed
           }).length
-          console.log("Total Count",totalCount)
           state.todolist.find(todo => todo.id === p_id).completed_subtask_count = totalCount          
           setProgressBar(state, item)
         }
@@ -315,8 +312,6 @@ export const store = new Vuex.Store({
         state.isDeleteObj = true
       }      
       var isObjectAvailable = state.todolist.find(todo => todo.id === todoObject.parentId)
-      console.log("add todo", isObjectAvailable)
-      console.log("Add New Todos", todoObject)
       if (isObjectAvailable) {
         if (todoObject.parentId) {
           let tempObj = state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count
@@ -1229,6 +1224,7 @@ export const store = new Vuex.Store({
         // })
     },
     getAllProjects({ commit }, userId) {
+      console.log("User Id:---", userId)
         services.projectService.find({
           query: {
             $or: [
@@ -1237,6 +1233,7 @@ export const store = new Vuex.Store({
             ]
           }
         }).then(response => {
+          console.log("Response from Project", response)
           commit('GET_PROJECT_LIST', response)
         });
         // Vue.http.post('/tasks_parentId', { parentId: payload.parentId }).then(function (response) {
@@ -1272,7 +1269,6 @@ export const store = new Vuex.Store({
       });
     },
     delete_Comment({commit}, deleteCommentObj){
-      console.log(deleteCommentObj)
       let commentId = deleteCommentObj.id
       services.taskHistoryLogs.remove(commentId, {query: { 'id' : commentId}}).then(response => {
         console.log("Response To Delete Comment:--", response)

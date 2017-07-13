@@ -393,7 +393,7 @@ export default {
             return itemList;
         },
         projectList: function () {
-            console.log("projectlist")
+            console.log("projectlist", this.getProjectList)
             // this.memberProfileDetail
             var projects = this.getProjectList;
             var projects = this.$store.state.projectlist;
@@ -505,11 +505,10 @@ export default {
             this.$store.commit('UPDATE_SLIDER_VALUE', this.isOpen)
 
         },
-        projectSelect(project) {
+        projectSelect(id,name) {
             this.$store.commit('showMyTasks')
-            this.$store.state.currentProjectName=project.project_name;
-            this.$store.state.currentProjectId = project.id;
-            this.$store.state.currentProjectPrivacy = project.project_privacy;
+            this.$store.state.currentProjectName=name;
+            this.$store.state.currentProjectId = id;
             this.$store.state.todolist = []
             this.$store.commit('CLOSE_DIV', '')
             this.$store.dispatch('getAllTodos', { 'parentId': '', project_id: id });

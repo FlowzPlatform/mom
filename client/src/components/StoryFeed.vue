@@ -22,7 +22,7 @@
                                     <div data-reactroot="" class="Avatar Avatar--medium Avatar--color4">
                                             <span v-if="comment.image_url"><img v-bind:src="comment.image_url" /></span>
                                             <span v-else>{{ comment.email | capitalizeLetters }}</span>
-                                        <div v-if="visibleFilter === 'groupByComment'">
+                                        <div v-if="visibleFilter === 'group_By'">
                                             <span v-if="comment.list[0].image_url"><img v-bind:src="comment.list[0].image_url" /></span>
                                             <span v-else>{{ comment.list[0].email | capitalizeLetters }}</span>
                                         </div>
@@ -30,12 +30,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="BlockStory-block">
+                        <div class="BlockStory-block commentbox">
                             <div class="BlockStory-header">
                                 <div class="BlockStory-headerContent">
                                     <span class="BlockStory-storyContent">
-                                            <a class="DeprecatedNavigationLink BlockStory-actorLink">{{comment.fullname  }}</a>
-                                            <a v-if="visibleFilter === 'groupByComment'" class="DeprecatedNavigationLink BlockStory-actorLink">{{comment.list[0].fullname }}</a>
+                                        <strong>
+                                            <a v-if="visibleFilter === 'all'" class="DeprecatedNavigationLink BlockStory-actorLink">{{comment.fullname | capitalizeFirstLetter }}</a>
+                                            <a v-if="visibleFilter === 'group_By'" class="DeprecatedNavigationLink BlockStory-actorLink">{{comment.fname | capitalizeFirstLetter}}</a>
+                                        </strong>
                                         </span>
                                     <span class="BlockStory-metadata">
                                         <span class="BlockStory-timestamp">
@@ -47,7 +49,7 @@
                             <div class="BlockStory-body">
                                 <div class="truncatedRichText">
                                     <div class="richText truncatedRichText-richText">{{comment.comment}}</div>
-                                    <div v-if="visibleFilter === 'groupByComment'" v-for="userComment in comment.list">
+                                    <div v-if="visibleFilter === 'group_By'" v-for="userComment in comment.list">
                                         <div class="richText truncatedRichText-richText">{{userComment.comment}}</div>
                                         <span class="BlockStory-metadata">
                                         <span class="BlockStory-timestamp">
@@ -57,7 +59,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="pull-right comment-delete">
+                            <div v-if="visibleFilter === 'all' " class="pull-right comment-delete">
                                 <span class="fa fa-close" @click="deleteCommnet(comment)"></span>
                             </div>
                         </div>
@@ -92,11 +94,12 @@
         }
     })
     Vue.filter('capitalizeFirstLetter', function (str) {
-        return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+        let str1 =  str.split('_').join(' ')
+        return str1.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
     })
     const commentFilter = {
-        allCommnet: totalComment => totalComment,
-        groupByComment: totalComment => _(totalComment).groupBy(x => x.fullname)
+        all: totalComment => totalComment,
+        group_By: totalComment => _(totalComment).groupBy(x => x.fullname)
                         .map((value, key) => ({ fname: key, list: value })).value()
     }
     export default {
@@ -104,12 +107,8 @@
         data: function () {
             return {
                 commentFilter: commentFilter,
-                visibleFilter: 'allCommnet'
+                visibleFilter: 'all'
             }
-        },
-        created() {
-            this.filteredTodo.groupBy = false
-            // this.getSortByName();
         },
         methods: {
             commentDetailList: function (comment_list) {
@@ -125,28 +124,13 @@
                     }
                 }, this)
             },
-            // getSortByName: function () {
-            //     this.commentList =this.test
-            //     this.filteredTodo.groupBy = !this.filteredTodo.groupBy
-            //     this.commentDetailList(this.commentList)
-            //     console.log("commentList",this.commentList)
-            //     if (!this.filteredTodo.groupBy) {
-            //         console.log("commentList false",this.commentList)
-            //         this.result = this.commentList;
-            //     } else {
-            //         console.log("commentList true",this.commentList)
-            //         this.result = _(this.commentList).groupBy(x => x.fullname)
-            //             .map((value, key) => ({ fname: key, list: value })).value()
-            //         console.log("result", this.result)
-            //     }
-            // },
             getSortByName:function(key){
-                this.filteredTodo.groupBy = !this.filteredTodo.groupBy
                 this.visibleFilter = key
             },
             deleteCommnet:function(commentObj){
                 this.$store.dispatch('delete_Comment', commentObj)
             }
+
 
         },
         computed: {
