@@ -8,7 +8,7 @@
     <span class="fa fa-trash-o"  style="margin-right: 10px"/>
 		<span class="TaskUndeleteBanner-message">This task is deleted.</span>
 	  <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" @click="undelete(todoObject)">Undelete</a>
-		<a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" :data-target="'#'+todoObject.id">Delete Permanently</a>
+		<a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
     <!--<a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" @click="deletePermently(todoObject)">Delete Permanently</a>-->
     <!--@click="deletePermently(todoObject)"-->
 		<noscript></noscript>
@@ -43,7 +43,7 @@
   </div>
   <story-feed :filteredTodo="todoObject"></story-feed>
 </section>
-  <div :id="todoObject.id" class="modal fade" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
+  <div :class="todoObject.id" class="modal fade" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
