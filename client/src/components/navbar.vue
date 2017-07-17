@@ -206,7 +206,8 @@
         this.settings_menu = false
       },
       btnLogoutClicked() {
-        CmnFunc.deleteAutheticationDetail()
+        // CmnFunc.deleteAutheticationDetail()
+         CmnFunc.resetProjectDefault()
         // this.$store.state.userObject = {}
         // this.$store.state.isAuthorized = false
         // this.$store.commit('userData')

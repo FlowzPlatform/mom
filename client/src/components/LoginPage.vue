@@ -128,6 +128,7 @@
                     email: profile.getEmail(),
                     signup_type: 'gmail'
                 }).then(response => {
+                        CmnFunc.resetProjectDefault()                    
                     if (response.data[0]) {
                         //  this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName()}
                         this.$store.state.userObject = response.data[0]
@@ -135,6 +136,7 @@
                         this.$store.commit('userData')
                         this.$store.commit('authorize')
                         this.$router.replace('/navbar/mainapp')
+                        
                     } else {
                         this.insertUserData(profile.getEmail(), '', 'gmail', profile.getImageUrl(), profile.getName())
                         //this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName(), role:'', aboutme:'', dob: new Date()}
@@ -144,6 +146,7 @@
                         this.$store.commit('authorize')
                         this.$router.replace('/navbar/mainapp')
                     }
+
                 })
 
             },
@@ -261,28 +264,30 @@
                     return
                 }
                 var self = this
-                this.$store.dispatch('userLoginProcess', { 'email': trimmedEmail, 'password': trimmedPwd })
-                    .then(function () {
-                        self.$store.state.isAuthorized = true
-                        self.$store.commit('authorize')
-                        self.$store.dispatch('getUserDetail')
-                            .then(function () {
-                                self.$router.replace('/navbar/mainapp')
-                            })
-                            .catch(function (error) {
-                                if (error.response.status === 401) {
-                                    console.log('error: ', error.response.status)
-                                    return
-                                }
-                                $.notify.defaults({ className: "error" })
-                                $.notify(error.message, { globalPosition: "top center" })
-                            })
-                    })
-                    .catch(function (error) {
-                        $.notify.defaults({ className: "error" })
-                        $.notify(error.message, { globalPosition: "top center" })
-                    });
-
+                CmnFunc.resetProjectDefault()                
+                this.$store.dispatch('userLoginProcess', {'email':trimmedEmail, 'password':trimmedPwd})         
+                .then(function () {             
+                    self.$store.state.isAuthorized = true             
+                    self.$store.commit('authorize')             
+                    self.$store.dispatch('getUserDetail')             
+                    .then(function () {                 
+                         self.$router.replace('/navbar/mainapp')     
+          
+                    })             
+                    .catch(function(error) {      
+                       if (error.response.status === 401) { 
+                           console.log('error: ', error.response.status) 
+                           return 
+                        }              
+                        $.notify.defaults({ className: "error" })                 
+                        $.notify(error.message, { globalPosition:"top center"})             
+                    })       
+                })       
+                .catch(function (error) {             
+                    $.notify.defaults({ className: "error" })             
+                    $.notify(error.message, { globalPosition:"top center"})       
+                });
+                
             },
             btnBackClicked() {
                 $(".container").toggleClass("log-in");

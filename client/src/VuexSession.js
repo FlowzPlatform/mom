@@ -241,7 +241,40 @@ export const store = new Vuex.Store({
       state.taskTags.splice(0, state.taskTags.length)
       state.tagsList.splice(0, state.tagsList.length)
       // state.userObject={}
-      state.currentProjectId = ''
+           state.currentProjectId = ""
+      state.currentProjectName = ""
+      state.currentProjectPrivacy = ''
+    },
+    CLEAR_PROJECT_DEFAULT(state)
+    {
+      state.userObject = {}
+        state.isAuthorized = false
+      state.todolist = []
+      state.parentIdArr = []
+      state.progress_count = ''
+      state.visibility = 'active'
+      state.arrAttachment = []
+      state.isLoading = false
+      state.settingsObject = []
+      state.taskComment = []
+      state.taskTags = []
+      state.tagsList = []
+      state.isProgress = false
+      state.isDueDate = false
+      state.todoObjectByID = {}
+      state.userToken = ''
+      state.isSliderOpen = false
+      state.currentTodoObj = {}
+      state.currentModified = false
+      state.isDeleteObj = false
+      state.deleteItemsSelected = false
+      state.deletedTaskArr = []
+      state.arrAllUsers = []
+      state.projectlist = []
+      state.userRoles = []
+      state.currentProjectId = ""
+      state.currentProjectName = ""
+      state.currentProjectPrivacy = ''
     },
     changeFilters(state, key) {
       state.visibility = key
@@ -377,6 +410,9 @@ export const store = new Vuex.Store({
     },
     DELETE_ATTACHMENTS(state) {
       state.arrAttachment = []
+    },
+    DELETE_PROJECT_LIST(state) {
+      state.projectlist = []
     },
     GET_SETTINGS(state, data) {
       state.settingsObject = data
@@ -516,6 +552,9 @@ export const store = new Vuex.Store({
            state.projectlist[updateProjectIndex].project_privacy = value.project_privacy;
       }
     },
+    updateDragableProjectList(state,value){
+        state.projectlist = value
+    },
     async GET_PROJECT_LIST(state,data){
       console.log("Projectc List:--",data);
       state.projectlist=data;
@@ -610,7 +649,7 @@ export const store = new Vuex.Store({
        })
     },
     getAllTodos({ commit }, payload) {
-      // console.log('getAllTodos-->', payload);
+      console.log('getAllTodos-->', payload);
       services.tasksService.find({
         query: {
           $or: [
