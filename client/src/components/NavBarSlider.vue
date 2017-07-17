@@ -178,7 +178,7 @@
                                         <div class="ser-dro-lis TeamInviteTypeahead">
                                             <!-- Search text box -->
     
-                                            <input  @blur="closeExpandableList(project.id)" @keyup="showList(project.id)" type="text" v-model="inputValue" class="textInput textInput--medium TeamInviteTypeahead-input" value="" name="">
+                                            <input :id="'input-'+project.id" @keyup="showList(project.id)" type="text" v-model="inputValue" class="textInput textInput--medium TeamInviteTypeahead-input" value="" name="">
                                             <!-- Drop down list -->
                                             <div :id="'layerPositioner-'+project.id" class="hidden layerPositioner layerPositioner--offsetLeft layerPositioner--alignLeft layerPositioner--below">
                                                 <ul class="TypeaheadView-scrollable">
@@ -555,9 +555,10 @@ export default {
         closeExpandableList(id) {
             console.log("on blur closeExpandableList:", id);
             // Hide expandable list
-           //  $("#layerPositioner-"+id).addClass("hidden");
+            $("#layerPositioner-"+id).addClass("hidden");
            //  $("#listContent-"+id).removeClass("hidden");
              this.memberListShow = true;
+             
         },
         selectMember: function (project, item) {
             
@@ -620,12 +621,16 @@ export default {
             this.item = this.options[0]
         },
         closedMemberSearch(id) {
+            console.log("id:",id);
             // Hide expandable list
             //  $(".SidebarTeamMembersExpandedList").addClass("hidden");
             $("#expandableList" + id).addClass("hidden");
             // Show horizontal member list
             // $(".SidebarItemRow-name").removeClass("hidden");
             $("#itemRow-" + id).removeClass("hidden");
+            $("#layerPositioner-" + id).addClass("hidden");
+            // Clear value
+            $("#input-"+id).val("");
         },
         closeInvite(id) {
 
@@ -1015,9 +1020,9 @@ ul {
     -webkit-flex: 0 1 auto;
     -ms-flex: 0 1 auto;
     flex: 0 1 auto;
+    overflow-y: scroll;
     min-height: 1px;
-    overflow-x: hidden;
-    overflow-y: auto;
+    z-index: 99999;
 }
 
 .TypeaheadItem.TypeaheadItem--highlighted {
