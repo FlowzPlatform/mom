@@ -3181,7 +3181,8 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
 /*******/
 .todoapp .ivu-collapse-content>.ivu-collapse-content-box {
     background-color:white;
-    padding-bottom: 0px
+    padding-bottom: 0px;
+    margin-top:5px;
 }
 .todoapp>.taskbarsect>.CollapseView>.ivu-collapse-item>.ivu-collapse-content{
         padding: 0 0px;
@@ -3913,8 +3914,28 @@ svg:not(:root) {
     margin-left: -30px;
     transform: rotate(90deg)
 }
+
+span.privateProject {
+    text-align: left;
+    height: 38px;
+    line-height: 38px;
+    padding-left: 21px;
+    color: #666;
+    cursor: pointer;
+    position: relative;
+}
 /* .layerPositioner.layerPositioner--offsetLeft.layerPositioner--alignLeft.layerPositioner--below > ul {
     width: 214px;
     overflow: auto;
     max-height: 250px;
 } */
+
+span.privateProject {
+    text-align: left;
+    height: 38px;
+    line-height: 38px;
+    padding-left: 21px;
+    color: #666;
+    cursor: pointer;
+    position: relative;
+}

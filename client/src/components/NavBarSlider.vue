@@ -38,13 +38,13 @@
             
             <div class="DragContainer">
                 <draggable v-model="myProjectList">
-                    <Collapse v-for="(project, index) in projectList" v-bind:key="project">
-                        <Panel>
+                    <div v-for="(project, index) in projectList">
+                    <Collapse  v-bind:key="project" v-if="project.project_privacy!=2">
+                        <Panel >
                             <!-- Project name header -->
                             <span :id="'panelProjectName-'+project.id" @click="projectSelect(project)" @mouseleave="hideOption(project.id)" @mouseover="showOption(project.id)" class="spanPanel">
                                 <a class="DeprecatedNavigationLink">
-                                    <span class="panelProjectName">{{project.project_name}}</span>
-                                    
+                                    <span class="panelProjectName">{{project.project_name}}</span>                                    
 
                                     <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu">
                                         <svg class="Icon MoreIcon SidebarItemRow-icon SidebarItemRow-defaultIcon" title="MoreIcon" viewBox="0 0 32 32">
@@ -53,7 +53,7 @@
                                             <circle cx="29" cy="16" r="3"></circle>
                                         </svg>
                                     </span>
-                                    <span :id="'ItemRowPrivacy-'+project.id" v-if="project.project_privacy == '2' ? true:false" class="SidebarItemRow-statusIcon pull-right">
+                                    <span :id="'ItemRowPrivacy-'+project.id" v-show="project.project_privacy == 2" class="SidebarItemRow-statusIcon pull-right">
                                         <svg class="Icon LockIcon" title="LockIcon" viewBox="0 0 32 32">
                                             <path d="M24,12v-0.125V8c0-4.411-3.589-8-8-8S8,3.589,8,8v4H6v18h20V12H24z M14,12V8c0-1.103,0.897-2,2-2s2,0.897,2,2v4H14z M10,8c0-3.309,2.691-6,6-6s6,2.691,6,6v4h-2V8c0-2.206-1.794-4-4-4s-4,1.794-4,4v4h-2V8z M24,28H8V14h16V28z"></path>
                                         </svg>
@@ -260,7 +260,6 @@
                                                                     <div class="validatedTextInput-message">{{roleValidationError}}</div>
                                                                 </div>
                                                             </div>
-    
                                                         </div>
     
                                                         <div class="hidden QuickInvitePopup-inputArea">
@@ -309,15 +308,34 @@
                                                         </svg>
                                                     </span>
                                                 </a>
-    
                                             </div>
-    
                                         </div>
                                     </div>
                                 </span>
                             </p>
                         </Panel>
+                           
                     </Collapse>
+                            <!-- Project name header -->
+                            <span  v-else :id="'panelProjectName-'+project.id" @click="projectSelect(project)" @mouseleave="hideOption(project.id)" @mouseover="showOption(project.id)" class="spanPanel privateProject">
+                                <a class="DeprecatedNavigationLink">
+                                    <span class="panelProjectName">{{project.project_name}}</span>                                    
+
+                                    <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu">
+                                        <svg class="Icon MoreIcon SidebarItemRow-icon SidebarItemRow-defaultIcon" title="MoreIcon" viewBox="0 0 32 32">
+                                            <circle cx="3" cy="16" r="3"></circle>
+                                            <circle cx="16" cy="16" r="3"></circle>
+                                            <circle cx="29" cy="16" r="3"></circle>
+                                        </svg>
+                                    </span>
+                                    <span :id="'ItemRowPrivacy-'+project.id" v-show="project.project_privacy == 2" class="SidebarItemRow-statusIcon pull-right">
+                                        <svg class="Icon LockIcon" title="LockIcon" viewBox="0 0 32 32">
+                                            <path d="M24,12v-0.125V8c0-4.411-3.589-8-8-8S8,3.589,8,8v4H6v18h20V12H24z M14,12V8c0-1.103,0.897-2,2-2s2,0.897,2,2v4H14z M10,8c0-3.309,2.691-6,6-6s6,2.691,6,6v4h-2V8c0-2.206-1.794-4-4-4s-4,1.794-4,4v4h-2V8z M24,28H8V14h16V28z"></path>
+                                        </svg>
+                                    </span>
+                                </a>
+                            </span>
+                        </div>
                 </draggable>
             </div>
         </div>
@@ -382,7 +400,7 @@ export default {
                 return this.$store.state.projectlist
             },
             set(value) {
-                this.$store.commit('updateProjectList', value)
+                this.$store.commit('updateDragableProjectList', value)
             }
         },
         searchItems: function () {
@@ -517,13 +535,15 @@ export default {
         },
         projectSelect(project) {
             this.$store.commit('showMyTasks')
-            console.log('Project', project.id)
+            console.log('Project', project.project_privacy)
             this.$store.state.currentProjectName=project.project_name;
             this.$store.state.currentProjectId = project.id;
             this.$store.state.currentProjectPrivacy = project.project_privacy;
             this.$store.state.todolist = []
             this.$store.commit('CLOSE_DIV', '')
             this.$store.dispatch('getAllTodos', { 'parentId': '', project_id: project.id });
+
+
             // Close last open dialog
             if (this.lastProjectSelected !== '') {
                 console.log(this.lastProjectSelected);
@@ -532,8 +552,11 @@ export default {
             }
             // Clear text
              this.inputValue = '';
-            // Open Invite member dialog
-            $("#panelProjectName-" + project.id).addClass("project-selected");
+           
+           if(project.project_privacy=="1"){
+              // Open Invite member dialog
+                $("#panelProjectName-" + project.id).addClass("project-selected");
+            }
             this.lastProjectSelected = project.id;
 
             // this.memberProfileDetail()
@@ -685,7 +708,7 @@ a.Button.Button.Button--small.Button--primary.QuickInvitePopup-shareButton:hover
     fill: #fff;
 }
 .ser-dro-lis {
-    margin-left: 10px;
+    margin-left: 0px;
     display: inline-block;
     width: 100%;
 }
@@ -1107,7 +1130,7 @@ ul {
 }
 
 .TeamInviteTypeahead {
-    margin: 0 15px 15px 20px;
+    /* margin: 0 15px 15px 20px; */
 }
 
 .textInput .textInput--medium {
@@ -1193,7 +1216,7 @@ span.SidebarTeamMembetransitionrsExpandedList-headerText {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    margin-left: 20px;
+    margin-left: 0px;
     /*margin-right: -5px; close button margin */
     padding-bottom: 10px;
     padding-top: 0;
@@ -1249,7 +1272,7 @@ span.SidebarTeamMembetransitionrsExpandedList-headerText {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    margin: 0 10px 15px 15px;
+    margin: 5px 0px 5px 0px;
 }
 
 .Facepile {
@@ -1421,9 +1444,11 @@ span.SidebarTeamMembetransitionrsExpandedList-headerText {
 }
 
 .ivu-collapse-content>.ivu-collapse-content-box {
-    background-color: #2e3c54;
-    /*margin-left: -1px;
-    margin-right: -16px;*/
+   background-color:transparent;
+    padding-top: 5px;
+    padding-bottom: 0px;
+    margin-left: 30px;
+    
 }
 
 
@@ -1432,16 +1457,11 @@ span.SidebarTeamMembetransitionrsExpandedList-headerText {
 }
 
 
-
-
-
-
 /* Content background color */
 
 .ivu-collapse .ivu-collapse-content {
     overflow: hidden;
     color: #495060;
-    padding: 0 16px;
     background-color: transparent;
 }
 
