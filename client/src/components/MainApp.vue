@@ -129,14 +129,9 @@
                   <path d="M4.686,12.686l9.899,9.9c0.781,0.781,2.047,0.781,2.828,0l9.9-9.9l-2.475-2.475L16,19.05l-8.839-8.839L4.686,12.686z"></path>
                 </svg>
               </div>
-            </div>
-            
-          </div>
-          
-        </div>
-         <!-- Project privacy section  -->
-                      <div v-show="showPrivacyPopup" @mouseleave="hidePopup" class="layerPositioner layerPositioner--offsetRight layerPositioner--alignRight layerPositioner--below" data-layerid="4" style="top: 101.339px; right: 20px;">
-                        <div class="layerPositioner-layer">
+              <!-- Change privacy  -->
+               <div v-show="showPrivacyPopup"  @mouseleave="hidePopup" class="layerPositioner-privacy layerPositioner--offsetRight layerPositioner--alignRight layerPositioner--below" data-layerid="4" style="top: 101.339px; right: 20px;">
+                        <div class="layerPositioner-layer-privacy">
                           <div class="Dropdown projectHeaderFacepile-privacySummaryDropdown">
                             <ul class="menu menu--long">
                               <li class="menu-item" @click="publicMode">
@@ -203,6 +198,16 @@
                           </div>
                         </div>
                       </div>
+
+                      
+            </div>
+            
+          </div>
+          
+        </div>
+         <!-- Project privacy section  -->
+                      
+                     
         
           <div class="hidden PageHeaderStructure-right">
             <div class="projectHeaderFacepile-content">
