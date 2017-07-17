@@ -106,6 +106,7 @@
                     email: profile.getEmail(),
                     signup_type: 'gmail'
                 }).then(response => {
+                        CmnFunc.resetProjectDefault()                    
                     if (response.data[0]) {
                         //  this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName()}
                         this.$store.state.userObject = response.data[0]
@@ -113,6 +114,7 @@
                         this.$store.commit('userData')
                         this.$store.commit('authorize')
                         this.$router.replace('/navbar/mainapp')
+                        
                     } else {
                         this.insertUserData(profile.getEmail(), '', 'gmail', profile.getImageUrl(), profile.getName())
                         //this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName(), role:'', aboutme:'', dob: new Date()}
@@ -122,6 +124,7 @@
                         this.$store.commit('authorize')
                         this.$router.replace('/navbar/mainapp')
                     }
+
                 })
 
             },
@@ -266,14 +269,16 @@
                     $("#password_input").notify("Password should not be blank")
                     return
                 }
-                var self = this         
+                var self = this
+                CmnFunc.resetProjectDefault()                
                 this.$store.dispatch('userLoginProcess', {'email':trimmedEmail, 'password':trimmedPwd})         
                 .then(function () {             
                     self.$store.state.isAuthorized = true             
                     self.$store.commit('authorize')             
                     self.$store.dispatch('getUserDetail')             
                     .then(function () {                 
-                         self.$router.replace('/navbar/mainapp')               
+                         self.$router.replace('/navbar/mainapp')     
+          
                     })             
                     .catch(function(error) {      
                        if (error.response.status === 401) { 
