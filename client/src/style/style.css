@@ -3914,6 +3914,16 @@ svg:not(:root) {
     margin-left: -30px;
     transform: rotate(90deg)
 }
+
+span.privateProject {
+    text-align: left;
+    height: 38px;
+    line-height: 38px;
+    padding-left: 21px;
+    color: #666;
+    cursor: pointer;
+    position: relative;
+}
 /* .layerPositioner.layerPositioner--offsetLeft.layerPositioner--alignLeft.layerPositioner--below > ul {
     width: 214px;
     overflow: auto;
