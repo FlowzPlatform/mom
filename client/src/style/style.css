@@ -1584,7 +1584,7 @@ a:hover, a:focus{
 .Topbar {position: fixed;top: 0;left: 0;right: 0;z-index: 1;}
 .PageHeaderStructure {position: fixed;top: 40px;left: 0;right: 0;}
 .known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;overflow: auto;min-width: 450px;}
-.asanaView-body { position: fixed;top: 100px;left: 0;right: 0;bottom: 0;overflow-x: auto;  width: 100%;}
+.asanaView-body { position: fixed;top: 100px;left: 0;right: 0;bottom: 0;overflow-x: auto; }
 .right_bar{position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: calc(100% - 135px);overflow: auto;}
 .right_pane_container #right_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;}
 #details_pane_footer {position: absolute; width: 99.75%; bottom: 0;}

@@ -182,7 +182,7 @@
                                             <!-- Drop down list -->
                                             <div :id="'layerPositioner-'+project.id" class="hidden layerPositioner layerPositioner--offsetLeft layerPositioner--alignLeft layerPositioner--below">
                                                 <ul class="TypeaheadView-scrollable">
-                                                    <li v-for="member in searchItems" v-bind:key="member.id" class="TypeaheadView-item" @click="selectMember(project,member)">
+                                                    <li v-for="member in searchItems"  v-bind:key="member.id" class="TypeaheadView-item" @click="selectMember(project,member)">
                                                         <div class="TypeaheadItem">
                                                             <div class="TypeaheadItem-content">
                                                                 <div class="TypeaheadItem-icon">
