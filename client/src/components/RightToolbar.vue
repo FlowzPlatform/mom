@@ -20,7 +20,7 @@
                     <span class="dropdown">
                       <a tabindex="-1" class="token_name" data-toggle="dropdown" id='userlist' @click='getAllUsers()'>{{ getAssignedUserName () }}</a>
                       <ul class='dropdown-menu userlist' aria-labelledby="userlist">
-                        <li v-for="(user, index) in getAllUserList"><a @click="btnUserClicked(user)"> 
+                        <li v-for="(user, index) in getUserList"><a @click="btnUserClicked(user)"> 
                           <span><img v-if="user.image_url" v-bind:src="user.image_url" /><div v-else>{{capitalizeLetters(user.email)}}</div></span>{{user.email}}</a><hr>
                           <!--<span><img v-if="user.image_url" v-bind:src="user.image_url" /><div v-else>{{capitalizeLetters(user)}}</div></span>{{user.email}}</a><hr>-->
                         </li>
@@ -111,7 +111,7 @@
                       <span class="dropdown-menu-item-label" @click="deleteTodo({filteredTodo : filteredTodo})">Delete Task</span>
                     </a></li>
                     <li><a id="export_pdf" class="menu-item" title="">               
-                      <span class="dropdown-menu-item-label" >Export PDF</span>
+                      <span class="dropdown-menu-item-label" @click="exportToPDF">Export To PDF</span>
                     </a></li>
                     <!--<li><a id="convert_to_project" class="menu-item" title="">
                       <span class="dropdown-menu-item-label">Convert to a Project...</span>
@@ -155,7 +155,7 @@ Vue.filter('formatDate', function(value) {
 })
 
 export default {
-  props: ['filteredTodo'],
+  props: ['filteredTodo','subTasksArray'],
   data() {
     return {
       picker1: null,
@@ -169,9 +169,19 @@ export default {
     }
   },
     computed: {
-     ...mapGetters([
-      'getAllUserList'
-    ])
+     ...mapGetters({
+      getUserList:'getAllUserList',
+      getFiles: 'getAttachment',
+      taskTagsById: 'getTaskTagsById'      
+    }), 
+    attachmentList(){
+      var arrayAttchment = this.getFiles(this.filteredTodo.id)
+      return arrayAttchment
+    },
+    taskTags() {
+      let arrTags = this.taskTagsById(this.filteredTodo.id)
+      return arrTags;
+      },
     // uname: function(){
     //   var str = this.$store.state.userObject.email
     //   var n = str.indexOf("@")
@@ -234,6 +244,102 @@ export default {
       $temp.val(url).select();
       document.execCommand("copy");
       $temp.remove(); 
+    },
+    exportToPDF(){
+      console.log('Export to pdf called', this.taskTags)
+
+          var doc = new jsPDF();
+          console.log('pdf content height',doc.internal.pageSize.height);
+          var pageHeight = doc.internal.pageSize.height;
+          // Before adding new content
+          //y = 500 // Height position of new content
+          doc.setFontSize(15);
+          doc.setFillColor(205,207,210);
+          doc.circle(15, 15, 6, 'FD');
+          doc.setTextColor(255, 255, 255);
+          doc.text(11.5,16.5, 'PA');
+
+          doc.setTextColor(0, 0, 0);
+          doc.text(24,16, 'pathan');
+
+          doc.setFontSize(15);
+          doc.circle(55, 15, 6);
+          doc.text(64,16.5, '10 Jul 2017');
+
+          doc.circle(115, 15, 6);
+          doc.circle(130, 15, 6);
+          doc.circle(145, 15, 6);
+          doc.circle(160, 15, 6);
+
+          doc.setLineWidth(0.1);
+          doc.line(0, 25, 210, 25);
+
+          doc.setFontSize(20);
+          doc.text(11.5,40, this.filteredTodo.taskName);
+          doc.setFontSize(13);
+          doc.text(11.5,50, this.filteredTodo.taskDesc);
+
+          if(this.attachmentList.length > 0){
+             doc.setFontSize(14);
+             doc.setTextColor(0, 76, 153);
+             doc.text(11, 63, 'Attachments:');
+          }
+           doc.setFontSize(13);
+           doc.setTextColor(0, 0, 0);
+
+           var yPositionAttachments = 70;
+           for (var i = 0; i < this.attachmentList.length; i++) {
+              var attachment = this.attachmentList[i]
+              console.log("Task Name", attachment.file_name)
+              doc.text(15,yPositionAttachments, '~> ' + attachment.file_name + '(' +attachment.file_url+')');
+              yPositionAttachments += 10;
+          }
+
+          if(this.taskTags.length > 0){
+             doc.setFontSize(14);
+             doc.setTextColor(0, 76, 153);
+             doc.text(11, 95, 'Tags:');
+          }
+           doc.setFontSize(13);
+           doc.setTextColor(0, 0, 0);
+
+          var xPositionTags = 15;
+           for (var i = 0; i < this.taskTags.length; i++) {
+              var tag = this.taskTags[i]
+              console.log("Tag Name", this.taskTags.name)
+              doc.text(xPositionTags, 102, tag.name+' ');
+              xPositionTags += 10;
+          }
+
+           if(this.filteredTodo.subtask_count > 0){
+             doc.setFontSize(14);
+             doc.setTextColor(0, 76, 153);
+             doc.text(11, 115, 'Subtasks:');
+             doc.setLineWidth(0.1);
+             doc.line(0, 118, 510, 120);
+          }
+          doc.setFontSize(13);
+          doc.setTextColor(0, 0, 0);
+
+          var yPositionSubtasks = 125;
+          for (var i = 0; i < this.filteredTodo.subtask_count; i++) {
+              var subTask = this.subTasksArray[i]
+              console.log("Task Name", subTask.taskName)
+              doc.setLineWidth(0.1);
+              doc.line(0, yPositionSubtasks+3.5, 510, yPositionSubtasks + 5);
+              doc.text(20,yPositionSubtasks, subTask.taskName);
+              yPositionSubtasks += 10;
+          }
+
+          // if (y>=pageHeight)
+          // {
+          //     doc.addPage();
+          //     // y = 0 // Restart height position
+          // }
+         // doc.text(x, y, "value");
+         // doc.text(20, 20, 'Do you like that?');
+          doc.save('task.pdf')
+      
     },
     removeAttachmentPopUp () {
        setTimeout(function(){ $('.attachmentsMenuView').removeClass('open') }, 1000);
