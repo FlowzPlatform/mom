@@ -201,6 +201,7 @@ export default {
         this.$store.dispatch('delete_Todo', this.filteredTodo)
       },
       dateFormatter(dateTo){
+        console.log('Date toS',dateTo)
          var selectedDate = moment(dateTo, 'YYYY-MM-DD').format('MMM DD');
         this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "selectedDate": dateTo})
         // var d = new Date()
@@ -256,15 +257,21 @@ export default {
           doc.setFillColor(205,207,210);
           doc.circle(15, 15, 6, 'FD');
           doc.setTextColor(255, 255, 255);
-          doc.text(11.5,16.5, 'PA');
-
+          var letters = this.getUserLetters()
+          if(letters){
+             doc.text(11.5,16.5, letters);
+          }
+         
           doc.setTextColor(0, 0, 0);
-          doc.text(24,16, 'pathan');
+          doc.text(24,16, this.getAssignedUserName());
 
-          doc.setFontSize(15);
-          doc.circle(55, 15, 6);
-          doc.text(64,16.5, '10 Jul 2017');
-
+          var dueDt = moment(this.filteredTodo.dueDate).isValid();
+          if(dueDt){
+            doc.setFontSize(15);
+            doc.circle(55, 15, 6);
+            doc.text(64,16.5, moment(this.filteredTodo.dueDate).format('DD MMM YYYY'));
+          }
+          
           doc.circle(115, 15, 6);
           doc.circle(130, 15, 6);
           doc.circle(145, 15, 6);
@@ -319,7 +326,7 @@ export default {
           }
           doc.setFontSize(13);
           doc.setTextColor(0, 0, 0);
-
+          
           var yPositionSubtasks = 125;
           for (var i = 0; i < this.filteredTodo.subtask_count; i++) {
               var subTask = this.subTasksArray[i]
@@ -337,7 +344,7 @@ export default {
           // }
          // doc.text(x, y, "value");
          // doc.text(20, 20, 'Do you like that?');
-          doc.save('task.pdf')
+          doc.save(this.filteredTodo.id+'.pdf')
       
     },
     removeAttachmentPopUp () {
