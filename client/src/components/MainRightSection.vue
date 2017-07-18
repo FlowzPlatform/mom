@@ -2,7 +2,7 @@
 <div class="rightsection-view">
 <div class="DropTargetAttachment">
 <section class="todoapp right_bar">
-  <right-toolbar :filteredTodo="todoObject"></right-toolbar>
+  <right-toolbar :filteredTodo="todoObject" :subTasksArray="todolistSubTasks"></right-toolbar>
    <div class="taskbarsect">
   <div v-if="todoObject.isDelete" class="MessageBanner MessageBanner--error MessageBanner--medium TaskUndeleteBanner TaskMessageBanner">
     <span class="fa fa-trash-o"  style="margin-right: 10px"/>
@@ -36,7 +36,7 @@
   <!--<attachments id="attachment" class="collapse" :filteredTodo="todoObject"> </attachments>-->
    <!--<hr>-->
   <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#tags">Tags</div>-->
-  <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#tags">Tags</button>
+  <!--<button type="button" class="btn btn-info button-collapse" <data-togg></data-togg>le="collapse" data-target="#tags">Tags</button>
   <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
   <!--<tags :filteredTodo="todoObject"></tags>-->
   <main-left-section v-if="!$store.state.deleteItemsSelected" :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
