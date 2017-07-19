@@ -120,7 +120,8 @@ export const store = new Vuex.Store({
     userRoles:[],
     currentProjectId:"",
     currentProjectName:"",
-    currentProjectPrivacy: ''
+    currentProjectPrivacy: '',
+    projectSettingMenuOffset:0
   },
   mutations: {
     userData: state => state.userObject,
