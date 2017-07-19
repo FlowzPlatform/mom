@@ -721,6 +721,7 @@ export default {
             }.bind(this));
             e.preventDefault();
         },
+<<<<<<< HEAD
         showProjectSetting: function(project) {
             // Show option icon white
             $("#ItemRowMenu-" + project.id).css({"fill":"white"});
@@ -734,6 +735,19 @@ export default {
             $("div.project-setting").removeClass("hidden");
             $("div.project-setting").css({"margin-top":+top+"px","margin-left":+left+"px"})
             this.$store.state.currentProjectMember = project.members; 
+=======
+        onMouseMove: function(event,project) {
+           
+             $("#ItemRowMenu-" + project.id).css({"fill":"red"});
+             var pos = $('#ItemRowMenu-' + project.id+'').offset();
+             
+            console.log("mouse down event(x,y)", pos);
+            this.$store.state.projectSettingMenuOffset = pos;
+            var top = pos.top - 32;
+            var left = pos.left;
+            $("div.project-setting").css({"margin-top":+top+"px","margin-left":+left+"px"})
+            
+>>>>>>> project setting dialog
         }
       
 

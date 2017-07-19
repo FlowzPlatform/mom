@@ -455,6 +455,7 @@ export default {
           $("#updateprofile_btn").attr('disabled', true);
         }
       }
+<<<<<<< HEAD
     },
     /***
      * Hide project setting menu
@@ -478,12 +479,19 @@ export default {
       }
     
 >>>>>>> resolved issue
+=======
+    }
+>>>>>>> project setting dialog
 
   },
   components: {
     SettingsMenu,
+<<<<<<< HEAD
     NavBarSlider,
     MembersDialog
+=======
+    NavBarSlider
+>>>>>>> project setting dialog
   }
 }
 </script>
