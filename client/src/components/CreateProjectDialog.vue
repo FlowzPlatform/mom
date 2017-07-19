@@ -24,7 +24,7 @@
                                 <label class="Label" for="new_project_dialog_content_name_input">Project Name</label>
                             </div>
                             <div class="NewProjectFormRowStructure-contents">
-                                <input type="text" @keyup.esc="close" v-model="projectName" id="new_project_dialog_content_name_input" class="textInput textInput--large NewProjectForm-nameInput" value="" name="">
+                                <input type="text"  @keyup.esc="close" v-model="projectName" id="new_project_dialog_content_name_input" class="textInput textInput--large NewProjectForm-nameInput" value="" name="">
                             </div>
                             <div class="NewProjectFormRowStructure-label">
                                 <label class="LabelError">{{ createProjectError}}</label>
@@ -141,7 +141,8 @@
                 description: '',
                 privacyOption: '',
                 createProjectError: '',
-                privacyMsg: ''
+                privacyMsg: '',
+                focused: true
             }
         },
         mounted: function () {
