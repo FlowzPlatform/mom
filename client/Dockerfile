@@ -28,9 +28,9 @@ RUN npm install
 
 #build application
 RUN npm run build
-RUN cp -a /opt/app/dist/* /var/www/html/dist/
-RUN cp /opt/app/.htaccess /var/www/html/dist/
-RUN cp /opt/app/vhost.conf /etc/apache2/sites-enabled/
+RUN cp -a -f /opt/app/dist/* /var/www/html/
+#RUN cp /opt/app/.htaccess /var/www/html/
+#RUN cp /opt/app/vhost.conf /etc/apache2/sites-enabled/
 RUN rm -rf /opt/app/*
 RUN a2enmod rewrite
 RUN service apache2 restart
