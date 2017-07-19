@@ -45,13 +45,5 @@ module.exports = function () {
   app.configure(history_logs)
   app.configure(project)
   app.configure(project_member)
-<<<<<<< HEAD
-<<<<<<< HEAD
-  
-=======
   app.configure(hello)
->>>>>>> added test service for docker dry run
-=======
-  app.configure(hello)
->>>>>>> bc8132acc4582c25f4a6faeb30567ad7e65ee9cb
 };
