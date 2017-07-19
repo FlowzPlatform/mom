@@ -10,6 +10,8 @@
             </a>
             
         </div>
+       
+
         <div class="projectLable">
             <div class="text-left SidebarTeamDetailsProjectsList-header">Projects
                 <a @click="createProject" class="CircularButton CircularButton--enabled CircularButton--xxsmall SidebarTeamDetailsProjectsList-addProjectButton" tabindex="0" aria-role="button">
@@ -26,11 +28,12 @@
                     <path d="M19.976,1c-0.365-0.009-0.509,0.288-0.762,0.611L9.701,12.297C9.5,12.703,9.58,12.993,9.947,13h5   c0.428,2.583,0.674,6.494-1.772,10.603c-3.737,6.276-11.228,6.64-11.228,6.64l0.77,0.154c0,0,9.032,2.668,16.058-3.228   c5.887-4.94,6.495-11.399,6.172-14.17h4c0.537,0.016,0.787-0.172,0.671-0.64L20.746,1.712C20.48,1.378,20.339,1.006,19.976,1z"></path>
                 </svg>
             </div>
+          
             <div class="SidebarReportsItemRow" @click="showDeleteTasks">
                 <span class="SidebarReportsItemRow-name" title="Deleted Items">Deleted Items</span>
             </div>
             <hr>
-        </div>    
+            </div>    
         <!-- Project list -->
         <div class="SidebarTeamDetailsProjectsList">
             
@@ -46,7 +49,7 @@
                                     <span class="panelProjectName">{{project.project_name}}</span>
                                     
 
-                                    <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu">
+                                    <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu" @click="onMouseMove($event,project)">
                                         <svg class="Icon MoreIcon SidebarItemRow-icon SidebarItemRow-defaultIcon" title="MoreIcon" viewBox="0 0 32 32">
                                             <circle cx="3" cy="16" r="3"></circle>
                                             <circle cx="16" cy="16" r="3"></circle>
@@ -58,6 +61,9 @@
                                             <path d="M24,12v-0.125V8c0-4.411-3.589-8-8-8S8,3.589,8,8v4H6v18h20V12H24z M14,12V8c0-1.103,0.897-2,2-2s2,0.897,2,2v4H14z M10,8c0-3.309,2.691-6,6-6s6,2.691,6,6v4h-2V8c0-2.206-1.794-4-4-4s-4,1.794-4,4v4h-2V8z M24,28H8V14h16V28z"></path>
                                         </svg>
                                     </span>
+                                    
+                                  
+
                                 </a>
                             </span>
                             <!-- Collapse content -->
@@ -382,7 +388,7 @@ export default {
                 return this.$store.state.projectlist
             },
             set(value) {
-                this.$store.commit('updateProjectList', value)
+                this.$store.commit('updateDragableProjectList', value)
             }
         },
         searchItems: function () {
@@ -664,6 +670,28 @@ export default {
 
             var firstLetters = str.substr(0, 2);
             return firstLetters;
+        },
+        openMenu: function(e) {
+            this.viewMenu = true;
+
+            Vue.nextTick(function() {
+                this.$$.right.focus();
+
+                this.setMenu(e.y, e.x)
+            }.bind(this));
+            e.preventDefault();
+        },
+        onMouseMove: function(event,project) {
+           
+             $("#ItemRowMenu-" + project.id).css({"fill":"red"});
+             var pos = $('#ItemRowMenu-' + project.id+'').offset();
+             
+            console.log("mouse down event(x,y)", pos);
+            this.$store.state.projectSettingMenuOffset = pos;
+            var top = pos.top - 32;
+            var left = pos.left;
+            $("div.project-setting").css({"margin-top":+top+"px","margin-left":+left+"px"})
+            
         }
 
     },
@@ -677,6 +705,11 @@ export default {
 </script>
 
 <style>
+.context-menu {
+    color: red;
+    background: darkblue;
+    width: 432px;
+}
 a.Button.Button.Button--small.Button--primary.QuickInvitePopup-shareButton:hover {
     background: #02ceff;
     border-color: #02ceff;
@@ -970,7 +1003,7 @@ a {
 
 /* Invite pop up end*/
 
-.layerPositioner {}
+
 
 ul {
     list-style: none;
@@ -1020,7 +1053,7 @@ ul {
     -webkit-flex: 0 1 auto;
     -ms-flex: 0 1 auto;
     flex: 0 1 auto;
-    overflow-y: scroll;
+    overflow-y: visible;
     min-height: 1px;
     z-index: 99999;
 }

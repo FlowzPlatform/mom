@@ -120,7 +120,8 @@ export const store = new Vuex.Store({
     userRoles:[],
     currentProjectId:"",
     currentProjectName:"",
-    currentProjectPrivacy: ''
+    currentProjectPrivacy: '',
+    projectSettingMenuOffset:0
   },
   mutations: {
     userData: state => state.userObject,
@@ -515,6 +516,9 @@ export const store = new Vuex.Store({
       if (updateProjectIndex >= 0) {
            state.projectlist[updateProjectIndex].project_privacy = value.project_privacy;
       }
+    },
+    updateDragableProjectList(state,value){
+        state.projectlist = value
     },
     async GET_PROJECT_LIST(state,data){
       console.log("Projectc List:--",data);
