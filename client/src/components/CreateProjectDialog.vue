@@ -150,7 +150,7 @@
 
             },
             created: function () {
-                console.log("show:", this.show);
+                // console.log("show:", this.show);
                 $("#new_project_dialog_content_name_input").focus();
             },
         methods: {
@@ -774,15 +774,6 @@
     a:not([href]):not([tabindex]) {
         color: inherit;
         text-decoration: none;
-    }
-
-    .Icon {
-        height: 16px;
-        width: 16px;
-    }
-
-    svg:not(:root) {
-        overflow: hidden;
     }
 
     .NewProjectForm-upsellLink.NewProjectForm-upsellLinkColored {

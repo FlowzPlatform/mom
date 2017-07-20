@@ -2,9 +2,12 @@
     <div class="task">
           <div class="view">
             <input type="checkbox" class="toggleTask" v-model="filteredTodo.completed" @change="toggleTodo(filteredTodo)">
-            <input class="field-description generic-input hypertext-input notranslate header-name" 
+            <textarea id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
             placeholder="New Task" 
             style="height: 40px;"
+            rows="1"
+            @keydown="autoresize"
+            @click="autoresize"
             autofocus autocomplete="off"
             @keyup.enter="updateTaskName"
             v-model="filteredTodo.taskName"
@@ -41,7 +44,14 @@ export default {
     ]),
     updateTaskName: function() {
       this.$store.dispatch('editTaskName', {"todo":this.filteredTodo})
-    }  
+    },
+    autoresize: function() {
+      var el = document.getElementById('text-area')
+      setTimeout(function(){
+        el.style.cssText = 'height:auto; padding:12';
+        el.style.cssText = 'height:' + el.scrollHeight + 'px';
+      }, 0)
+    }
   },
   component: {
     TodoItem
