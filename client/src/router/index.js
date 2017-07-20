@@ -5,6 +5,7 @@ import Login from '@/components/LoginPage'
 import MainApp from '@/components/MainApp'
 import RoleAccess from '@/components/RoleAccess'
 import navbar from '@/components/navbar'
+import ShowTaskList from '@/components/ShowTaskList'
 import '../style/style.css'
 import '../style/style1.css'
 import '../style/newStyle.css'
@@ -63,6 +64,11 @@ export default new Router({
           name: 'RoleAccess',
           component: RoleAccess
         },
+        {
+          path: 'tasklist',
+          name: 'TaskList',
+          component: ShowTaskList
+        }
         // {
         //   path: 'task/:level/:id',
         //   //query: {id:''},

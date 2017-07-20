@@ -119,7 +119,10 @@ export const store = new Vuex.Store({
     currentProjectName:"",
     currentProjectPrivacy: '',
     projectSettingId:0,
-    currentProjectMember:''
+    currentProjectMember:'',
+    createdByTaskList: [],
+    recentlyCompletedTasks: [],
+    searchView: ''
   },
   mutations: {
     userData: state => state.userObject,
@@ -166,7 +169,6 @@ export const store = new Vuex.Store({
       }
     },
     async SHOW_DIV(state, payload) {
-      
       // START scroll to last opened right div 
       var children = document.getElementById('main-container').children;
       var totalWidth = 0;
@@ -188,8 +190,7 @@ export const store = new Vuex.Store({
 
         var parentIdArrObj = payload
         var tempParentIds = _.chain([]).union(state.parentIdArr).sortBy([function (o) { return o.level; }]).value();
-        
-        if(state.deleteItemsSelected){
+        if(state.deleteItemsSelected || state.createdByTaskList.length > 0){
             state.parentIdArr.splice(0, state.parentIdArr.length);
             state.parentIdArr.push(parentIdArrObj);
         } else {
@@ -231,6 +232,7 @@ export const store = new Vuex.Store({
       state.taskComment.splice(0, state.taskComment.length)
       state.taskTags.splice(0, state.taskTags.length)
       state.tagsList.splice(0, state.tagsList.length)
+      state.createdByTaskList.splice(0, state.createdByTaskList.length)
       // state.userObject={}
            state.currentProjectId = ""
       state.currentProjectName = ""
@@ -527,20 +529,22 @@ export const store = new Vuex.Store({
     async showDeleteTasks(state){
       state.deleteItemsSelected = true
       state.parentIdArr.splice(0, state.parentIdArr.length)
-      // let temp = state.todolist.filter(todo => todo.isDelete)
-      // state.deletedTaskArr = store.getters.getdeleteArray
-      // if(state.deletedTaskArr.length===0){
-      //   console.log(state.deletedTaskArr.length)
-      //   state.deletedTaskArr = temp
-      // }
-      await store.dispatch('getDeleteTask')
+      // state.createdByTaskList.splice(0, state.createdByTaskList.length)
+      await store.dispatch('getDeleteTask', state.currentProjectId )
     },
     showMyTasks(state){
       state.deleteItemsSelected = false
       state.parentIdArr.splice(0, state.parentIdArr.length)
     },
     DELETED_TASKS(state, deletedArray){
+      console.log("Delete Array",deletedArray)
       state.deletedTaskArr = deletedArray
+    },
+    showTasksList(state, payload){
+      state.createdByTaskList = payload
+    },
+    showRecentlyCompletedTasks(state, payload){
+      state.recentlyCompletedTasks = payload
     }
   },
   actions: {
@@ -548,11 +552,11 @@ export const store = new Vuex.Store({
     getUsersRoles({commit})
     {
       services.roleService.find().then(response => {
+        // console.log("Role list->>",response)
         commit('GET_ROLES', response)
       });
     },
     eventListener({ commit }) {
-      console.log("<-----addMessage:-->")
       // A new message has been created on the server, so dispatch a mutation to update our state/view
       services.tasksService.on('created', message => {
         console.log("Message Cretaed:-->", message)
@@ -1182,7 +1186,7 @@ export const store = new Vuex.Store({
     },
     async getAllUsersList({ commit }) {
       try{
-        console.log('Token', store.state.userToken)
+        // console.log('Token', store.state.userToken)
       let {data}  = await axios.get(process.env.USER_DETAIL+'/alluserdetails',{
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -1206,7 +1210,6 @@ export const store = new Vuex.Store({
         // })
     },
     getAllProjects({ commit }, userId) {
-      console.log("User Id:---", userId)
         services.projectService.find({
           query: {
             $or: [
@@ -1232,7 +1235,17 @@ export const store = new Vuex.Store({
         });
     },
     getDeleteTask({ commit }, payload){
-      services.tasksService.find({ query: { isDelete: true } }).then(response => {
+      // services.tasksService.find({ query: { isDelete: true } }).then(response => {
+      //   commit('DELETED_TASKS', response)
+      // });
+      services.tasksService.find({
+        query: {
+          $or: [
+            { isDelete: true, project_id: payload, created_by: store.state.userObject._id },
+            { isDelete: true, project_id: payload, assigned_to: store.state.userObject._id }
+          ]
+        }
+      }).then(response => {
         commit('DELETED_TASKS', response)
       });
     },
@@ -1255,6 +1268,23 @@ export const store = new Vuex.Store({
       services.taskHistoryLogs.remove(commentId, {query: { 'id' : commentId}}).then(response => {
         console.log("Response To Delete Comment:--", response)
       })
+    },
+    getTaskCreatedBy({commit}, payload){
+      services.tasksService.find({
+        query: {
+          $or: [
+            {  created_by: payload.userID, isDelete: false, project_id: payload.project_id }
+          ]}
+        }).then(response => {
+          console.log("Response To Find Created by User Tasks List:--", response)
+          commit('showTasksList', response)
+        });
+    },
+    getRecentlyCompletedTasks({commit}, payload){
+      services.tasksService.find({ query: {project_id: payload.project_id, created_by: payload.userID, completed:true } }).then(response => {
+        console.log("Response To Find Created by Recently Completed Tasks List:--", response)
+        commit('showRecentlyCompletedTasks', response)
+      });
     }
   },
   getters: {
@@ -1327,6 +1357,8 @@ export const store = new Vuex.Store({
     getAllUserList: state => state.arrAllUsers,
     getProjectList: state=> state.projectlist,
     getdeleteArray: state => state.deletedTaskArr,
+    getTaskLists: state => state.createdByTaskList,
+    getRecentlyCompletedLists: state => state.recentlyCompletedTasks
   },
   
   plugins: [createPersistedState()]

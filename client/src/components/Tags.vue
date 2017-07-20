@@ -88,7 +88,7 @@
 
                     return item.name.toLowerCase().indexOf(self.inputValue.toLowerCase()) != -1
                 })
-                console.log("itemList", itemList)
+                // console.log("itemList", itemList)
                 if (!sameMatch)
                     itemList.push({ "id": "0", "name": self.inputValue });
                 return itemList;
