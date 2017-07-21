@@ -27,7 +27,6 @@ function uploadFileOnAmazonS3(file, fileTimeStamp, cb) {
   if (file) {
     var params = { Key: fileTimeStamp, ContentType: file.type, Body: file };
     bucket.upload(params).on('httpUploadProgress', function (evt) {
-      console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total) + '%');
       store.state.progress = parseInt((evt.loaded * 100) / evt.total)
       store.commit('progressVal')
     }).send(function (err, data) {
@@ -69,7 +68,6 @@ function updateTaskCount(state, todoObject){
     if (todoObject.parentId) {
       let tempObj = state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count
       state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count = tempObj - 1
-      console.log(todoObject.completed)
       if (todoObject.completed) {
         let completedObj = state.todolist.find(todo => todo.id === todoObject.parentId).completed_subtask_count
         state.todolist.find(todo => todo.id === todoObject.parentId).completed_subtask_count = completedObj - 1
@@ -83,7 +81,6 @@ function updateTaskCount(state, todoObject){
 }
 function updateObject(oldObject, newObject) {
   var keys = Object.keys(oldObject)
-  // console.log("Keys-->", keys);
   for (var i = 0; i < keys.length; i++) {
     if(newObject[keys[i]]){
        oldObject[keys[i]] = newObject[keys[i]];
@@ -142,7 +139,6 @@ export const store = new Vuex.Store({
       {
         for (var i = 0; i < data.length; i++) {
           let index = _.findIndex(state.userRoles, function (d) { return d.id == data[i].id })
-          // console.log('index', index)
           if (index <0) {
              state.userRoles.push(data[i])
           }
@@ -155,9 +151,7 @@ export const store = new Vuex.Store({
       if (state.todolist.length > 0) {
 
         for (var i = 0; i < data.length; i++) {
-          // console.log('Inside forloop', data)
           let index = _.findIndex(state.todolist, function (d) { return d.id == data[i].id })
-          // console.log('index', index)
           if (index > -1) {
             state.todolist.splice(index, 1, data[i]);
           } else {
@@ -168,14 +162,12 @@ export const store = new Vuex.Store({
       else {
         state.todolist = data
       }
-      // console.log('todolist', state.todolist)
     },
     async SHOW_DIV(state, payload) {
       
       // START scroll to last opened right div 
       var children = document.getElementById('main-container').children;
       var totalWidth = 0;
-      console.log('Children-->', children.length)
       for (var i = 0; i < children.length; i++) {
           totalWidth += children[i].offsetWidth;
       }
@@ -184,7 +176,6 @@ export const store = new Vuex.Store({
         scrollLeft: totalWidth
       }, 800)
       // END scroll to last opened right div 
-      // console.log('SHOW_DIV')
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
         // window.history.pushState("", "Title", "http://localhost:3000/navbar/task/" + (payload.level + 1) + "/" + payload.id);
@@ -213,12 +204,10 @@ export const store = new Vuex.Store({
             state.parentIdArr.push(parentIdArrObj);
           }
         }
-        // console.log('parentIdArr', state.parentIdArr)
       }
 
     },
     CLOSE_DIV(state, payload) {
-      //  console.log('CLOSE_DIV', payload)
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
         var parentIdArrObj = payload
@@ -298,13 +287,11 @@ export const store = new Vuex.Store({
         updateObject(state.todolist[updateTodoIndex], item)
         // show if any updates found for TODO
         if(item.updatedBy !== state.userObject._id){
-          console.log('Task update found')
           state.todolist[updateTodoIndex].isTaskUpdate = true
         }
         if(isValueAvailable !== item.isDelete){
           if(item.isDelete){
             state.deletedTaskArr.push(item)
-            console.log('deletedTaskArr', state.deletedTaskArr)
             state.todolist.splice(updateTodoIndex, 1)
             state.parentIdArr.find(todo => todo.id === item.id).isDelete = item.isDelete  
           }else{
@@ -344,7 +331,6 @@ export const store = new Vuex.Store({
       state.todolist.push(todoObject)
 
       if (state.currentModified) {
-        console.log('modified true', state.currentTodoObj)
         state.todolist.push(state.currentTodoObj)
         // state.currentTodoObj = {}
         state.isDeleteObj = true
@@ -380,32 +366,17 @@ export const store = new Vuex.Store({
       if (fileObject instanceof Array) {
         _.forEach(fileObject, function (object) {
           let index = _.findIndex(state.arrAttachment, function (d) { return d.id == object.id })
-          // console.log('index: ', index)
           if (index < 0) {
             state.arrAttachment.push(object)
           }
         });
       }
       else if (fileObject instanceof Object) {
-        // console.log("File:-->", fileObject);
-        // console.log("state.arrAttachment before:-->", state.arrAttachment.length)
-        // if(fileObject.id){
-        //   // Replacing array to display name when uploading started
-        //    console.log("<--Replace--->");
-        //   var start_index = state.arrAttachment.length - 1
-        //   var number_of_elements_to_remove = 1
-        //   state.arrAttachment.splice(start_index, number_of_elements_to_remove, fileObject)
-        // }else{
-        //   console.log("<--Firstime--->");
-        //   state.arrAttachment.push(fileObject)
-        // }
         state.arrAttachment.push(fileObject)
-        // console.log("state.arrAttachment after:-->", state.arrAttachment)
       }
     },
     DELETE_ATTACHMENT(state, deleteAttachment) {
       let removeAttachementIndex = _.findIndex(state.arrAttachment, function (d) { return d.id == deleteAttachment.id })
-      // console.log("removeAttachementIndex Index-->", removeAttachementIndex)
       state.arrAttachment.splice(removeAttachementIndex, 1)
     },
     DELETE_ATTACHMENTS(state) {
@@ -430,9 +401,7 @@ export const store = new Vuex.Store({
     },
     GET_TASK_COMMENT(state, data) {
         for (var i = 0; i < data.length; i++) {
-          // console.log('Inside forloop', data)
           let index = _.findIndex(state.taskComment, function (d) { return d.id == data[i].id })
-          // console.log('index', index)
           if (index < 0) {
            state.taskComment.push(data[i])
           }
@@ -461,7 +430,6 @@ export const store = new Vuex.Store({
       for   (var i = 0; i < state.settingsObject.length; i++) {
         let index = _.findIndex(state.settingsObject, function (d) { return d.id == todoObject.settings_id })
         if (state.settingsObject[index].id === todoObject.settings_id) {
-          console.log(state.settingsObject[index].user_setting[0] = todoObject)
           state.settingsObject[index].user_setting[0] = todoObject
         }
       }
@@ -482,22 +450,16 @@ export const store = new Vuex.Store({
       setCheckboxColor(state)
     },
     INSERT_TAG(state, tagObject) {
-      // console.log('Insert tags-----------: ', tagObject);
       state.tagsList.push(tagObject); // this line added by hemant
-      // state.taskTags.push(tagObject)
-      // console.log('arrTags: ', state.taskTags);
     },
     DELETE_ALLTAGS(state) {
       state.taskTags = []
     },
     GET_TASK_TAGS(state, datas) {
-      // console.log('before state.taskTags:',state.taskTags.length);
-      // console.log('TASK_TAGS before', datas)
-      // state.taskTags.push(datas)
+      
       if (datas instanceof Array) {
         _.forEach(datas, function (data) {
           let index = _.findIndex(state.taskTags, function (d) { return d.id == data.id })
-          // console.log('index: ', index)
           if (index < 0) {
             state.taskTags.push(data)
           }
@@ -505,7 +467,6 @@ export const store = new Vuex.Store({
       } else if (datas instanceof Object) {
         state.taskTags.push(datas)
       }
-      // console.log('TASK_TAGS', state.taskTags)
     },
     GET_TAGS_LIST(state, data) {
       state.tagsList = data
@@ -519,7 +480,6 @@ export const store = new Vuex.Store({
       state.taskTags.splice(removeTodoIndex, 1)
     },
     GET_OBJECT_BYID(state, todoObject) {
-      console.log("todoObject By Id:--", todoObject)
       state.todoObjectByID = todoObject
     },
     SAVE_USERTOKEN(state, token) {
@@ -532,7 +492,6 @@ export const store = new Vuex.Store({
       state.userToken = ''
     },
     UPDATE_SLIDER_VALUE(state, sliderVal) {
-      console.log('slider value', sliderVal)
       state.isSliderOpen = sliderVal
     },
     GET_ALL_USERS(state, objAllUsers) {
@@ -556,7 +515,6 @@ export const store = new Vuex.Store({
         state.projectlist = value
     },
     async GET_PROJECT_LIST(state,data){
-      console.log("Projectc List:--",data);
       state.projectlist=data;
       if(!state.currentProjectId && data.length>0){
        state.currentProjectId=data[0].id
@@ -565,7 +523,6 @@ export const store = new Vuex.Store({
       }
     },
     async showDeleteTasks(state){
-      // console.log('Shoe deleted task')
       state.deleteItemsSelected = true
       state.parentIdArr.splice(0, state.parentIdArr.length)
       // let temp = state.todolist.filter(todo => todo.isDelete)
@@ -581,7 +538,6 @@ export const store = new Vuex.Store({
       state.parentIdArr.splice(0, state.parentIdArr.length)
     },
     DELETED_TASKS(state, deletedArray){
-      console.log(deletedArray)
       state.deletedTaskArr = deletedArray
     }
   },
@@ -590,7 +546,6 @@ export const store = new Vuex.Store({
     getUsersRoles({commit})
     {
       services.roleService.find().then(response => {
-        console.log("Role list->>",response)
         commit('GET_ROLES', response)
       });
     },
@@ -649,7 +604,6 @@ export const store = new Vuex.Store({
        })
     },
     getAllTodos({ commit }, payload) {
-      console.log('getAllTodos-->', payload);
       services.tasksService.find({
         query: {
           $or: [
@@ -673,7 +627,7 @@ export const store = new Vuex.Store({
         return
       if (dbId != -1) {
         services.tasksService.patch(dbId, { taskName: insertElement.taskName, taskDesc: '', updatedBy: store.state.userObject._id }, { query: { 'id': dbId } }).then(response => {
-          console.log("Reesponse patch::", response);
+          console.log("Response patch::", response);
         });
         // Vue.http.post('/updatetasks', {
         //   id: dbId,
@@ -700,7 +654,7 @@ export const store = new Vuex.Store({
           isDelete: false,
           project_id:insertElement.project_id
         }).then(response => {
-          console.log("Reesponse create::---->", response);
+          console.log("Response create::---->", response);
           //  commit('addTodo', {"data":response, "todo": insertElement})
         });
         // Vue.http.post('/tasks', {
@@ -721,7 +675,6 @@ export const store = new Vuex.Store({
       }
     },
     editTaskName({ commit }, editObject) {
-      // console.log(editObject.selectedDate)
       if (editObject.todo.id) {
         services.tasksService.patch(editObject.todo.id, {
           taskName: editObject.todo.taskName,
@@ -733,9 +686,8 @@ export const store = new Vuex.Store({
           assigned_to: editObject.assigned_to,
           updatedBy: store.state.userObject._id
         }, { query: { 'id': editObject.todo.id } }).then(response => {
-          console.log("Reesponse editTaskName::", response);
+          console.log("Response editTaskName::", response);
            if(editObject.isAssigned){
-            console.log('is assigned called')
             editObject.callback()
           }
           //  commit('UPDATE_TODO', insertElement)
@@ -758,7 +710,7 @@ export const store = new Vuex.Store({
       let dbId = deleteElement.id
       if (dbId) {
         services.tasksService.patch(dbId, { isDelete: true, deletedBy: store.state.userObject._id }).then(response => {
-          console.log("Response deleteTodp Flag Update:", response)
+          console.log("Response deleteTodo Flag Update:", response)
         })
         // Vue.http.delete('/deteletask/' + dbId, {
         // }).then(response => {
@@ -792,14 +744,12 @@ export const store = new Vuex.Store({
             id: dragTodo[i].id,
             index: i
           }, { query: { 'id': dragTodo[i].id } }).then(response => {
-            //console.log("Reesponse dragtodo::",response);
           });
 
         }
       }
     },
     toggleTodo({ commit }, changeTodo) {
-      console.log("changeTodo", changeTodo)
       let dbId = changeTodo.id
       if (dbId) {
         services.tasksService.patch(dbId,{
@@ -807,7 +757,7 @@ export const store = new Vuex.Store({
           completed: changeTodo.completed,
           updatedBy: store.state.userObject._id,
         }, { query: { 'id': dbId } }).then(response => {
-          console.log("Reesponse toggleTodo::", response);
+          console.log("Response toggleTodo::", response);
         });
         // Vue.http.post('/updatetasks', {
         //   id: dbId,
@@ -833,7 +783,6 @@ export const store = new Vuex.Store({
       // commit('SELECT_FILE', attachArr)
 
       //store.state.isProgress = true
-      console.log('Task ID', fileObject.taskId)
       store.commit('showAttachmentProgress', { 'isProgress': true, 'id': fileObject.taskId })
       uploadFileOnAmazonS3(file, fileTimeStamp, function (src) {
         // store.state.isProgress = false
@@ -851,10 +800,7 @@ export const store = new Vuex.Store({
           level: fileObject.level,
           file_name_timestamp: fileTimeStamp
         }).then(response => {
-          // console.log("Reesponse Attachment create::", response);
-          // console.log("Attachment Remove Before---->::", store.state.arrAttachment.length);
           store.state.arrAttachment.splice(store.state.arrAttachment.indexOf(attachArr), 1)
-          // console.log("Attachment Remove After---->::", store.state.arrAttachment.length);
           var tempArr = {
             id: response.id,
             task_id: fileObject.taskId,
@@ -893,18 +839,14 @@ export const store = new Vuex.Store({
       })
     },
     deleteAttachmentFromDB({ commit }, deleteObject) {
-
       //store.state.isLoading = true
-      console.log('deleted Task ID', deleteObject)
       store.commit('deleteAttachmentProgress', { 'id': deleteObject.task_id, 'isProgress': true })
       //Delete image from amazon
       var bucketInstance = new AWS.S3();
-      console.log('timestamp_before', deleteObject.file_name_timestamp)
       var params = {
         Bucket: 'airflowbucket1/obexpense/expenses',
         Key: deleteObject.file_name_timestamp
       }
-      console.log('timestamp_after', deleteObject.file_name_timestamp)
       bucketInstance.deleteObject(params, function (err, data) {
         if (data) {
           //Update attachment fields in DB
@@ -913,7 +855,7 @@ export const store = new Vuex.Store({
             // file_url: '',
             // deletedBy: store.state.userObject.id
           }, { query: { 'id': deleteObject.id } }).then(response => {
-            console.log("Reesponse deleteAttachment::", response);
+            console.log("Response deleteAttachment::", response);
             // commit('DELETE_ATTACHMENT', deleteObject.objAttachment)
             // store.state.isLoading = false
             store.commit('deleteAttachmentProgress', { 'id': deleteObject.task_id, 'isProgress': false })
@@ -941,7 +883,7 @@ export const store = new Vuex.Store({
           rId: data.rId
         }
       }).then(response => {
-        console.log("Reesponse remove permission::", response);
+        console.log("Response remove permission::", response);
         // if(response.data.length > 0){
         // commit('SELECT_FILE', response.data) 
         // }
@@ -952,7 +894,7 @@ export const store = new Vuex.Store({
         pId: data.pId,
         rId: data.rId
       }).then(response => {
-        console.log("Reesponse remove permission::", response);
+        console.log("Response remove permission::", response);
         // if(response.data.length > 0){
         // commit('SELECT_FILE', response.data) 
         // }
@@ -964,7 +906,7 @@ export const store = new Vuex.Store({
           task_id: taskId,
         }
       }).then(response => {
-        console.log("Reesponse getAttachmentFromDB::", response.data);
+        console.log("Response getAttachmentFromDB::", response.data);
         if (response.data.length > 0) {
           commit('SELECT_FILE', response.data)
         }
@@ -985,13 +927,12 @@ export const store = new Vuex.Store({
       //   commit('GET_SETTINGS', response.data)
       //   console.log("Get Settings", response.data)
       // })
-      console.log("UserId:---",payload)
       services.settingService.find({
         query: {
           'user_id': payload
         }
       }).then(response => {
-        console.log("Reesponse getSettings From DB::", response);
+        console.log("Response getSettings From DB::", response);
         commit('GET_SETTINGS', response)
       });
     },
@@ -1006,29 +947,27 @@ export const store = new Vuex.Store({
       //   commit('SETTING_UPDATE', setting)
       // })
       if (setting.arr.user_setting[0]) {
-        console.log("true", setting.arr.user_setting[0].id)
         services.settingService.patch(setting.arr.user_setting[0].id,
           { setting_value: setting.event }, {
             query: { 'settings_id': setting.arr.id, 'user_id': setting.uId }
           }).then(response => {
-            console.log("Reesponse SETTING_UPDATE From DB::", response);
+            console.log("Response SETTING_UPDATE From DB::", response);
             commit('SETTING_UPDATE', response)
           });
       } else {
-        console.log("false", setting.arr.user_setting[0])
         services.settingService.create({
           settings_id: setting.arr.id,
           user_id: setting.uId,
           setting_value: setting.event
         }).then(response => {
-          console.log("Reesponse SETTING_INSERT From DB::", response);
+          console.log("Response SETTING_INSERT From DB::", response);
           commit('SETTING_UPDATE', response)
         });
       }
     },
     getTaskComment({ commit }, payload) {
       services.taskHistoryLogs.find({ query: { task_id: payload } }).then(response => {
-        console.log("Reesponse getCommnets From DB::", response);
+        console.log("Response getCommnets From DB::", response);
         commit('GET_TASK_COMMENT', response)
       });
       // Vue.http.get('/getComment').then(function (response) {
@@ -1036,7 +975,6 @@ export const store = new Vuex.Store({
       // });
     },
     insertTaskComment({ commit }, payload) {
-      console.log('payload', payload)
       if (!(payload.comment && payload.comment.trim()))
         return
       services.taskHistoryLogs.create({
@@ -1049,10 +987,6 @@ export const store = new Vuex.Store({
       })
     },
      insertProjectInvite({ commit }, inviteDetail) {
-      console.log('inviteDetail-->', inviteDetail)
-
-
-
       services.projectMemberService.create(inviteDetail).then(function (response) {
         console.log("Reesponse create Invite Member  From DB::", response);
         // commit('ADD_COMMENT', response)
@@ -1060,7 +994,7 @@ export const store = new Vuex.Store({
     },
     getAllTaskTags({ commit }, taskId) {
       services.taskTagsService.find({ query: { task_id: taskId, is_deleted: false } }).then(response => {
-        console.log("Reesponse TaskTag::", response);
+        console.log("Response TaskTag::", response);
         commit('GET_TASK_TAGS', response)
       });
       // Vue.http.post('/getTaskTags', {
@@ -1071,7 +1005,7 @@ export const store = new Vuex.Store({
     },
     getTagsList({ commit }) {
       services.tagsService.find().then(response => {
-        console.log("Reesponse Tag Find::", response);
+        console.log("Response Tag Find::", response);
         commit('GET_TAGS_LIST', response)
       });
       // Vue.http.get('/getTags').then(function(response) {
@@ -1079,12 +1013,11 @@ export const store = new Vuex.Store({
       //   });
     },
     insertTagsInDB({ commit }, tagObject) {
-      console.log('tagObj: ', tagObject)
       services.tagsService.create({
         name: tagObject.tagName,
         created_by_user_id: store.state.userObject.id
       }).then(response => {
-        console.log("Reesponse Tag Cerate::", response);
+        console.log("Response Tag Cerate::", response);
         services.taskTagsService.create({
           tag_id: response.id,
           task_id: tagObject.taskId,
@@ -1116,7 +1049,6 @@ export const store = new Vuex.Store({
       // })
     },
     insertIntoTaskTags({ commit }, taskTagObject) {
-      console.log("taskTagObject", taskTagObject)
       services.taskTagsService.create({
         tag_id: taskTagObject.tag.id,
         task_id: taskTagObject.taskId,
@@ -1139,11 +1071,10 @@ export const store = new Vuex.Store({
       // })
     },
     removeTaskTagsFromDB({ commit }, taskTagObject) {
-      console.log('TAsk tags', taskTagObject)
       services.taskTagsService.patch(null, {
         is_deleted: true, deleted_by_user_id: store.state.userObject.id
       }, { query: { "task_id": taskTagObject.task_id, "tag_id": taskTagObject.tag_id } }).then(response => {
-        console.log("Reesponse update task tags:", response);
+        console.log("Response update task tags:", response);
         //  commit('UPDATE_TODO', insertElement)
       });
     },
@@ -1151,7 +1082,7 @@ export const store = new Vuex.Store({
       services.projectService.patch(null, {
         project_privacy : privacy_id 
       }, { query: { "id": store.state.currentProjectId} }).then(response => {
-        console.log("Reesponse update Project privacy:", response);
+        console.log("Response update Project privacy:", response);
       });
     },
     getTodoObject({ commit }, todoObjectId) {
@@ -1291,7 +1222,6 @@ export const store = new Vuex.Store({
         // });
       },
       insertProject({commit},object){
-      console.log("call back::", object.data);
        var self=this;
          services.projectService.create(object.data).then(response => {
           console.log("Response Project create::", response);
@@ -1362,7 +1292,6 @@ export const store = new Vuex.Store({
     },
     settingArr: state => state.settingsObject,
     getCommentById: (state, getters) => {
-      console.log("---getCommentById---")
         return function (id) {
           var comment = state.taskComment.filter(c => c.task_id === id)
           return comment
@@ -1386,7 +1315,7 @@ export const store = new Vuex.Store({
         }
       }
     },
-     getMemberName:(state,getters) => {
+    getMemberName:(state,getters) => {
       return function(uId){
         let userIndex= _.findIndex(state.arrAllUsers,function(user){ return user_id===uId})
          return  state.arrAllUsers[userIndex].fullname

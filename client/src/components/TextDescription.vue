@@ -16,7 +16,7 @@
           <span class="autogrow-textarea">
               <textarea rows="3" cols="50"
               v-model="filteredTodo.taskDesc"
-              @keyup="updateTaskName"
+              @keyup="updateTaskName()" 
               contenteditable="true" disable_highlighting_for_diagnostics="true" 
               tabindex="10" 
               class="field-description generic-input hypertext-input notranslate" 
@@ -32,6 +32,8 @@
   /* eslint-disable*/
 import TodoItem from './TodoItem.vue'
 import { mapActions } from 'vuex'
+import _ from 'lodash'
+
 export default {
   props: ['filteredTodo'],
   methods: {
@@ -39,9 +41,9 @@ export default {
       // 'editTaskName',
       'toggleTodo'
     ]),
-    updateTaskName: function() {
+    updateTaskName: _.debounce(function() {
       this.$store.dispatch('editTaskName', {"todo":this.filteredTodo})
-    }  
+    }, 2000)
   },
   component: {
     TodoItem
