@@ -1,0 +1,6 @@
+node_modules
+.gitignore
+.npmignore
+Jenkins_server
+README.md
+LICENSE

@@ -1,44 +1,63 @@
 <template>
-    <div class="dialog--nux-container" id="dialog-container">
-        <div class="dialog--nux-content">
-            <!--<a href="#" onclick="signOut();">Sign out</a>-->
-            <h1 class="title">Log In</h1>
-            <!--<div class="g-signin2" data-onsuccess="onSignInSuccess"></div>-->
-            <g-signin-button class="buttonView buttonView--primary buttonView--large" id="google_auth_button" :params="googleSignInParams"
-                @success="onSignInSuccess" @error="onSignInError">
-                Use Google Account
-            </g-signin-button>
-            <div class="dialog--nux-seperator" id="seprator"> or </div>
-
-            <div id="normal_login_contents">
-
-                <div class="form-input" style="margin-left: 30px; margin-right: 30px">
-                    <label>Email Address</label>
-                    <input tabindex="1" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
-                </div><span class="field-no-status"></span>
-                <div class="form-input" style="margin-left: 30px; margin-right: 30px;">
-                    <label>Password</label>
-                    <input tabindex="2" type="password" name="p" id="password_input" v-model="pwd"><span class="input--help">
-                <!--<a href="/-/forgot_password" tabindex="-1">Forgot your password?</a>-->
-                </span>
+    <div class="login-pages">
+        <div class="container">
+            <div class="box"></div>
+            <div class="container-forms">
+                <div class="container-info">
+                    <div class="info-item">
+                        <div class="table">
+                            <div class="table-cell">
+                                <p>
+                                    Have an account?
+                                </p>
+                                <div class="btn" id="back_btn" @click="btnBackClicked()">
+                                    Log in
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="table">
+                            <div class="table-cell">
+                                <p>
+                                    Don't have an account?
+                                </p>
+                                <div class="btn" id="signup_btn" @click="btnSignUpClicked()">
+                                    Sign up
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-input" id="confirmpwd" style="display:none; margin-left: 30px; margin-right: 30px;">
-                    <label>Confirm Password</label>
-                    <input tabindex="3" type="password" v-model="confPwd">
-                </div>
-                <div :passData="passData" class="form-input form-input--button" style="margin-right: 30px; padding-bottom: 30px;">
-                    <button id="back_btn" @click="btnBackClicked()" style="display: none" class="buttonView buttonView--default buttonView--primary buttonView--large"><span>Back</span></button>
-                    <button tabindex="4" id="signup_btn" @click="btnSignUpClicked()" class="buttonView buttonView--default buttonView--primary buttonView--large"><span>Sign Up</span></button>
-                    <button tabindex="5" class="buttonView buttonView--default buttonView--primary buttonView--large is-disabled" id="login_btn"
-                        @click="btnLogInClicked()"><span>Log In</span></button>
+                <div class="container-form">
+                    <div class="form-item log-in">
+                        <div class="table">
+                            <div class="table-cell">
+                                <g-signin-button class="buttonView buttonView--primary buttonView--large" id="google_auth_button" :params="googleSignInParams"
+                                    @success="onSignInSuccess" @error="onSignInError">
+                                    <p>Use Google Account</p>
+                                </g-signin-button>
+                                <div class="dialog--nux-seperator" id="seprator"> or </div>
+                                <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
+                                <input placeholder="Password" tabindex="2" type="password" name="p" id="password_input" v-model="pwd">
+                                <div tabindex="3" class="btn" id="login_btn" @click="btnLogInClicked()">Log in</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item sign-up">
+                        <div class="table">
+                            <div class="table-cell">
+                                <input placeholder="Email" tabindex="4" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
+                                <input placeholder="Password" tabindex="5" type="password" name="p" id="password_input" v-model="pwd">
+                                <input placeholder="Confirm Password" tabindex="6" type="password" v-model="confPwd">
+                                <div tabindex="7" class="btn" id="signup_btn" @click="btnSubmitClicked()">
+                                    Submit
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!--<script>
-            Dialog.makeElementSubmit('email_input');
-            Dialog.makeElementSubmit('password_input');
-            Dialog.makeElementSubmit('submit_button');
-        </script>-->
-            <!--</form>-->
         </div>
     </div>
 </template>
@@ -93,6 +112,9 @@
             }
         },
         methods: {
+            login() {
+                $(".container").toggleClass("log-in");
+            },
             onSignInSuccess(googleUser) {
                 // `googleUser` is the GoogleUser object that represents the just-signed-in user. 
                 // See https://developers.google.com/identity/sign-in/web/reference#users 
@@ -106,6 +128,7 @@
                     email: profile.getEmail(),
                     signup_type: 'gmail'
                 }).then(response => {
+                        CmnFunc.resetProjectDefault()                    
                     if (response.data[0]) {
                         //  this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName()}
                         this.$store.state.userObject = response.data[0]
@@ -113,6 +136,7 @@
                         this.$store.commit('userData')
                         this.$store.commit('authorize')
                         this.$router.replace('/navbar/mainapp')
+                        
                     } else {
                         this.insertUserData(profile.getEmail(), '', 'gmail', profile.getImageUrl(), profile.getName())
                         //this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName(), role:'', aboutme:'', dob: new Date()}
@@ -122,6 +146,7 @@
                         this.$store.commit('authorize')
                         this.$router.replace('/navbar/mainapp')
                     }
+
                 })
 
             },
@@ -130,93 +155,65 @@
                 console.log('OH NOES', error)
             },
             btnSignUpClicked() {
+                this.emailId = ''
+                this.pwd = ''
+                this.confPwd = ''
+                $(".container").toggleClass("log-in");
+            },
+            btnSubmitClicked() {
+                console.log("-----")
+                var trimmedEmail = this.emailId.trim()
+                var trimmedPwd = this.pwd.trim()
+                var trimmedConfPwd = this.confPwd.trim()
 
-                if ($('#signup_btn').text() == "Sign Up") {
-                    $('#confirmpwd').show();
-                    $('#back_btn').show();
-                    $('#login_btn').hide()
-                    $('#google_auth_button').hide()
-                    $('#seprator').hide()
-                    $('.title').text('Sign Up')
-                    $('#signup_btn').text('Submit')
-                    this.emailId = ''
-                    this.pwd = ''
-                    this.confPwd = ''
-                    $("#login_btn").attr('disabled', true);
-                    $("#signup_btn").attr('disabled', true);
-                } else if ($('#signup_btn').text() == "Submit") {
-
-                    // $('#google_auth_button').show()
-                    // $('#seprator').show()
-                    // $("#login_btn").attr('disabled', true);
-                    var trimmedEmail = this.emailId.trim()
-                    var trimmedPwd = this.pwd.trim()
-                    var trimmedConfPwd = this.confPwd.trim()
-
-                    var validateEmail = CmnFunc.checkBlankField(trimmedEmail)
-                    if (!validateEmail) {
-                        $("#email_input").notify("Email address field should not be blank")
-                        return
-                    }
-
-                    var validEmail = CmnFunc.checkValidEmail(trimmedEmail)
-                    if (!validEmail) {
-                        $("#email_input").notify("Please enter valid email address")
-                        return
-                    }
-
-                    var validatePwd = CmnFunc.checkBlankField(trimmedPwd)
-                    if (!validatePwd) {
-                        $("#password_input").notify("Password should not be blank")
-                        return
-                    }
-                    var validateConfPwd = CmnFunc.checkBlankField(trimmedConfPwd)
-                    if (!validateConfPwd) {
-                        $("#confirmpwd").notify("Confirm password field should not be blank")
-                        return
-                    }
-                    var matchPwd = CmnFunc.matchPassword(trimmedPwd, trimmedConfPwd)             
-                    if(!matchPwd) { 
-                        $("#confirmpwd").notify("Password and Confirm password fields do not match")                 
-                        return             
-                    } 
-                    var self = this
-                    this.$store.dispatch('userRegistrationProcess', { 'email': trimmedEmail, 'password': trimmedPwd, 'signup_type': 'email', 'image_url': '' })
-                    .then(function (response) {                 
-                        console.log('response successful')                 
-                        self.emailId = ''                
-                        self.pwd = ''                 
-                        self.confPwd = ''                 
-                        $('#confirmpwd').hide();                 
-                        $('#login_btn').show()                 
-                        $('.title').text('Log In')                 
-                        $('#signup_btn').text('Sign Up')                 
-                        $('#google_auth_button').show()                 
-                        $('#seprator').show()                 
-                        $('#back_btn').hide()                 
-                        $("#login_btn").attr('disabled', true);             
-                    })
-                    .catch(function(error) {                 
-                        console.log('error with signup')                 
-                        $("#email_input").notify(error.message)             
-                    })
-
-                    //         var matchPwd = CmnFunc.matchPassword(trimmedPwd, trimmedConfPwd)
-                    //         if(!matchPwd) {
-                    //             // console.log ('Password and Cofirm password fields do not match')
-                    //             // this.$swal('Message', 'Password and Cofirm password fields do not match')
-                    //             $("#confirmpwd").notify("Password and Confirm password fields do not match")
-                    //             return
-                    //         }
-                    //         $('#google_auth_button').show()
-                    //         $('#seprator').show() 
-                    //         $('#back_btn').hide()
-                    //         $("#login_btn").attr('disabled', true);
-                    //        // insert
-                    //        this.insertUserData(trimmedEmail, trimmedPwd, 'email', null,'')
-                    //     }
-                    // })
+                var validateEmail = CmnFunc.checkBlankField(trimmedEmail)
+                if (!validateEmail) {
+                    $("#email_input").notify("Email address field should not be blank")
+                    return
                 }
+
+                var validEmail = CmnFunc.checkValidEmail(trimmedEmail)
+                if (!validEmail) {
+                    $("#email_input").notify("Please enter valid email address")
+                    return
+                }
+
+                var validatePwd = CmnFunc.checkBlankField(trimmedPwd)
+                if (!validatePwd) {
+                    $("#password_input").notify("Password should not be blank")
+                    return
+                }
+                var validateConfPwd = CmnFunc.checkBlankField(trimmedConfPwd)
+                if (!validateConfPwd) {
+                    $("#confirmpwd").notify("Confirm password field should not be blank")
+                    return
+                }
+                var matchPwd = CmnFunc.matchPassword(trimmedPwd, trimmedConfPwd)
+                if (!matchPwd) {
+                    $("#confirmpwd").notify("Password and Confirm password fields do not match")
+                    return
+                }
+                var self = this
+                this.$store.dispatch('userRegistrationProcess', { 'email': trimmedEmail, 'password': trimmedPwd, 'signup_type': 'email', 'image_url': '' })
+                    .then(function (response) {
+                        console.log('response successful')
+                        self.emailId = ''
+                        self.pwd = ''
+                        self.confPwd = ''
+                        $('#confirmpwd').hide();
+                        $('#login_btn').show()
+                        $('.title').text('Log In')
+                        $('#signup_btn').text('Sign Up')
+                        $('#google_auth_button').show()
+                        $('#seprator').show()
+                        $('#back_btn').hide()
+                        $("#login_btn").attr('disabled', true);
+                    })
+                    .catch(function (error) {
+                        console.log('error with signup')
+                        $("#email_input").notify(error.message)
+                    })
+                $(".container").toggleClass("log-in");
             },
             insertUserData(emailID, pwd, usertype, profilePic, uname) {
                 //insert user into rethink db
@@ -266,14 +263,16 @@
                     $("#password_input").notify("Password should not be blank")
                     return
                 }
-                var self = this         
+                var self = this
+                CmnFunc.resetProjectDefault()                
                 this.$store.dispatch('userLoginProcess', {'email':trimmedEmail, 'password':trimmedPwd})         
                 .then(function () {             
                     self.$store.state.isAuthorized = true             
                     self.$store.commit('authorize')             
                     self.$store.dispatch('getUserDetail')             
                     .then(function () {                 
-                         self.$router.replace('/navbar/mainapp')               
+                         self.$router.replace('/navbar/mainapp')     
+          
                     })             
                     .catch(function(error) {      
                        if (error.response.status === 401) { 
@@ -291,17 +290,18 @@
                 
             },
             btnBackClicked() {
-                $('#confirmpwd').hide()
-                $('#back_btn').hide()
-                $('.title').text('Log In')
-                $('#signup_btn').text('Sign Up')
-                $('#login_btn').show()
-                $('#google_auth_button').show()
-                $('#seprator').show()
-                $('#signup_btn').removeClass('is-disabled')
-                $("#signup_btn").attr('disabled', false)
-                $('#login_btn').addClass('is-disabled')
-                $("#login_btn").attr('disabled', true)
+                $(".container").toggleClass("log-in");
+                // $('#confirmpwd').hide()
+                // $('#back_btn').hide()
+                // $('.title').text('Log In')
+                // $('#signup_btn').text('Sign Up')
+                // $('#login_btn').show()
+                // $('#google_auth_button').show()
+                // $('#seprator').show()
+                // $('#signup_btn').removeClass('is-disabled')
+                // $("#signup_btn").attr('disabled', false)
+                // $('#login_btn').addClass('is-disabled')
+                // $("#login_btn").attr('disabled', true)
                 this.emailId = ''
                 this.pwd = ''
                 this.confPwd = ''
@@ -336,5 +336,14 @@
         background-color: #3c82f7;
         color: #fff;
         box-shadow: 0 3px 0 #0f69ff;
+    }
+
+    .login-pages {
+        background-color: #5356ad;
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
     }
 </style>
