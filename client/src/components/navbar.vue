@@ -255,7 +255,7 @@ export default {
       // this.$store.commit('authorize')
       window.location = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:3000"
     },
-    methods: {
+   
       ...mapMutations([
         'showMyTasks'
       ]),
@@ -501,7 +501,7 @@ export default {
         $("div.project-setting").addClass("hidden");
         $("#project-setting-dialog").removeClass("hidden");
       }
-    }
+    
 
   },
   components: {
