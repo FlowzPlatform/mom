@@ -472,7 +472,12 @@ export default {
        // Hide project setting menu
         $("div.project-setting").addClass("hidden");
         $("#project-setting-dialog").removeClass("hidden");
+<<<<<<< d0061614746716088a362f28d4f748fc2c65386e
      }
+=======
+      }
+    
+>>>>>>> resolved issue
 
   },
   components: {
