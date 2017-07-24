@@ -140,7 +140,7 @@
   </div>
   <!--Profile dialog end-->
   <!-- Project setting menu  -->
-      <div class="project-setting">
+      <div class="hidden project-setting" @mouseleave="hideProjectSetting">
         <div data-reactroot="" class="layerPositioner-project-setting layerPositioner--offsetLeft layerPositioner--alignLeft layerPositioner--below" data-layerid="1">
             <div class="layerPositioner-layer">
               <div class="Dropdown-project-setting SidebarItemRowMenu-dropdown">
@@ -162,17 +162,20 @@
                     <li class="hidden menu-item">
                         <div class="menuSeparator"></div>
                     </li>
-                    <li class="menu-item"><a class="menuItem-button menuItem--small SidebarItemRowMenu-toggleFavorite"><span class="menuItem-label">Add to Favorites</span></a></li>
-                    <li class="menu-item"><a class="menuItem-button menuItem--small SidebarItemRowMenu-removeRecent"><span class="menuItem-label">Remove from Recents</span></a></li>
-                    <li class="menu-item"><a class="menuItem-button menuItem--small SidebarItemRows-addToDashboard"><span class="menuItem-label">Add to Dashboard</span></a></li>
-                    <li class="menu-item"><a class="menuItem-button menuItem--small SidebarItemRows-copyProjectMenuItem"><span class="menuItem-label">Copy Project…</span></a></li>
-                    <li class="menu-item"><a class="menuItem-button menuItem--small SidebarItemRows-projectToggleIsArchived"><span class="menuItem-label">Archive Project</span></a></li>
+                    <li class="hidden menu-item"><a class="menuItem-button menuItem--small SidebarItemRowMenu-toggleFavorite"><span class="menuItem-label">Add to Favorites</span></a></li>
+                    <li class="hidden menu-item"><a class="menuItem-button menuItem--small SidebarItemRowMenu-removeRecent"><span class="menuItem-label">Remove from Recents</span></a></li>
+                    <li class="hidden menu-item"><a class="menuItem-button menuItem--small SidebarItemRows-addToDashboard"><span class="menuItem-label">Add to Dashboard</span></a></li>
+                    <li class="hidden menu-item"><a class="menuItem-button menuItem--small SidebarItemRows-copyProjectMenuItem"><span class="menuItem-label">Copy Project…</span></a></li>
+                    <li class="hidden menu-item"><a class="menuItem-button menuItem--small SidebarItemRows-projectToggleIsArchived"><span class="menuItem-label">Archive Project</span></a></li>
+                    <li class="menu-item" @click="showMemberDialog"><a class="menuItem-button menuItem--small SidebarItemRows-deletePotMenuItem"><span class="menuItem-label">Members</span></a></li>
                     <li class="menu-item"><a class="menuItem-button menuItem--small SidebarItemRows-deletePotMenuItem"><span class="menuItem-label">Delete Project</span></a></li>
                   </ul>
               </div>
             </div>
           </div>
         </div>
+        <!-- Member setting dialog  -->
+        <members-dialog></members-dialog>
   </div>
 </template>
 <script>
@@ -186,7 +189,10 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import SettingsMenu from './SettingsMenu.vue'
 import NavBarSlider from './NavBarSlider.vue'
 import CmnFunc from './CommonFunc.js'
+import MembersDialog from './MembersDialog.vue'
+
 import { mapGetters, mapMutations } from 'vuex'
+
 export default {
   name: 'navbar',
   data: function () {
@@ -449,12 +455,30 @@ export default {
           $("#updateprofile_btn").attr('disabled', true);
         }
       }
-    }
+    },
+    /***
+     * Hide project setting menu
+     * 
+     * */
+    hideProjectSetting(){
+              this.$store.state.projectSettingId
+              $("div.project-setting").addClass("hidden");
+    },
+    /***
+     * Show project member dialog
+     * 
+     * */
+     showMemberDialog(){
+       // Hide project setting menu
+        $("div.project-setting").addClass("hidden");
+        $("#project-setting-dialog").removeClass("hidden");
+     }
 
   },
   components: {
     SettingsMenu,
-    NavBarSlider
+    NavBarSlider,
+    MembersDialog
   }
 }
 </script>
