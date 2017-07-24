@@ -472,14 +472,54 @@ export default {
        // Hide project setting menu
         $("div.project-setting").addClass("hidden");
         $("#project-setting-dialog").removeClass("hidden");
-<<<<<<< d0061614746716088a362f28d4f748fc2c65386e
      }
-=======
-      }
-    
->>>>>>> resolved issue
-
-  },
+        //       .then(function () {
+        //         self.imageURlProfilePic = data.Location
+        //         self.$store.state.userObject.image_url = self.imageURlProfilePic
+        //         self.$store.state.userObject.image_name = ''
+        //         self.$store.commit('userData')
+        //         self.loading = false
+        //       })
+        //       .catch(function (error) {
+        //         // $.notify.defaults({ className: "error" })
+        //         // $.notify(error.message, { globalPosition:"top center"})
+        //       });
+        //   }
+        //   else {
+        //     console.log("Check if you have sufficient permissions : ", err.stack);
+        //   }
+        // });
+      },
+      enableUpdateProfileBtn() {
+        console.log('UN', this.username)
+        if (this.username) {
+          var trimmedusername = this.username.trim()
+          if (trimmedusername.length >= 1) {
+            $('#updateprofile_btn').removeClass('is-disabled')
+            $("#updateprofile_btn").attr('disabled', false);
+          } else {
+            $('#updateprofile_btn').addClass('is-disabled')
+            $("#updateprofile_btn").attr('disabled', true);
+          }
+        }
+      },
+      /***
+       * Hide project setting menu
+       * 
+       * */
+      // hideProjectSetting() {
+      //   this.$store.state.projectSettingId
+      //   $("div.project-setting").addClass("hidden");
+      // },
+      // /***
+      //  * Show project member dialog
+      //  * 
+      //  * */
+      // showMemberDialog() {
+      //   // Hide project setting menu
+      //   $("div.project-setting").addClass("hidden");
+      //   $("#project-setting-dialog").removeClass("hidden");
+      // }
   components: {
     SettingsMenu,
     NavBarSlider,
