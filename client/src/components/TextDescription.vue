@@ -2,9 +2,12 @@
     <div class="task">
           <div class="view">
             <input type="checkbox" class="toggleTask" v-model="filteredTodo.completed" @change="toggleTodo(filteredTodo)">
-            <input class="field-description generic-input hypertext-input notranslate header-name" 
+            <textarea id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
             placeholder="New Task" 
             style="height: 40px;"
+            rows="1"
+            @keydown="autoresize"
+            @click="autoresize"
             autofocus autocomplete="off"
             @keyup.enter="updateTaskName"
             v-model="filteredTodo.taskName"

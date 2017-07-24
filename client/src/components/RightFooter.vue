@@ -31,7 +31,7 @@
                     </span>
                 </div>
                     <div class="taskCommentsView-toolbar">
-                                                <div id="details_property_sheet__new_comment_button" @click="insertComment(filteredTodo.id)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton" style="" tabindex="710">
+                        <div id="details_property_sheet__new_comment_button" @click="insertComment(filteredTodo.id)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton" style="" tabindex="710">
                             <span class="left-button-icon"></span>
                             <span class="new-button-text">Comment</span>
                             <span class="right-button-icon"></span>
