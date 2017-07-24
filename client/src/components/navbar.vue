@@ -487,24 +487,8 @@
         // Hide project setting menu
         $("div.project-setting").addClass("hidden");
         $("#project-setting-dialog").removeClass("hidden");
-      }
-      //       .then(function () {
-      //         self.imageURlProfilePic = data.Location
-      //         self.$store.state.userObject.image_url = self.imageURlProfilePic
-      //         self.$store.state.userObject.image_name = ''
-      //         self.$store.commit('userData')
-      //         self.loading = false
-      //       })
-      //       .catch(function (error) {
-      //         // $.notify.defaults({ className: "error" })
-      //         // $.notify(error.message, { globalPosition:"top center"})
-      //       });
-      //   }
-      //   else {
-      //     console.log("Check if you have sufficient permissions : ", err.stack);
-      //   }
-      // });
-    },
+      },
+     
     enableUpdateProfileBtn() {
       if (this.username) {
         var trimmedusername = this.username.trim()
@@ -532,11 +516,12 @@
       this.$store.state.searchView = "Tasks I've Assigned to Others"
       this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
       this.$store.dispatch('getTaskToAssignOthers', { 'project_id': this.$store.state.currentProjectId, 'userID': this.$store.state.userObject._id })
-    },
+    }
+  },
     components: {
       SettingsMenu,
-      NavBarSlider
+      NavBarSlider,
+      MembersDialog
     }
   }
-
 </script>
