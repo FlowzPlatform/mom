@@ -140,7 +140,7 @@
            test(){
                 let commentList = this.getComment(this.filteredTodo.id)
                 this.commentDetailList(commentList)
-                console.log("Test Called",commentFilter[this.visibleFilter](commentList))
+                // console.log("Test Called",commentFilter[this.visibleFilter](commentList))
                 return commentFilter[this.visibleFilter](commentList)   
                 
             },
