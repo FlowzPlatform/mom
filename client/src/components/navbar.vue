@@ -476,7 +476,6 @@ export default {
 
      }
 
-
   },
   components: {
     SettingsMenu,
