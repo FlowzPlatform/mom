@@ -41,6 +41,7 @@
                     <div v-for="(project, index) in projectList">
                     <Collapse  v-bind:key="project" v-if="project.project_privacy!=2">
                         <Panel >
+
                             <!-- Project name header -->
                             <span :id="'panelProjectName-'+project.id" @click="projectSelect(project)" @mouseleave="hideOption(project.id)" @mouseover="showOption(project.id)" class="spanPanel">
                                 <a class="DeprecatedNavigationLink">
