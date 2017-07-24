@@ -48,8 +48,8 @@
                                 <a class="DeprecatedNavigationLink">
                                     <span class="panelProjectName">{{project.project_name}}</span>
                                     
-
-                                    <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu" @click="onMouseMove($event,project)">
+                                    <!-- Project setting menu  -->
+                                    <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu" @click="showProjectSetting(project)" style="fill:transparent">
                                         <svg class="Icon MoreIcon SidebarItemRow-icon SidebarItemRow-defaultIcon" title="MoreIcon" viewBox="0 0 32 32">
                                             <circle cx="3" cy="16" r="3"></circle>
                                             <circle cx="16" cy="16" r="3"></circle>
@@ -376,6 +376,7 @@ export default {
         this.$store.dispatch("getAllUsersList")
         this.$store.dispatch('getAllProjects', this.$store.state.userObject._id);
         this.$store.dispatch('getUsersRoles');
+        this.$store.state.projectSettingId = "";
     },
     computed: {
         ...mapGetters({
@@ -395,7 +396,7 @@ export default {
 
             var self = this
             var sameMatch = false;
-            console.log("userList:--", self.users)
+           // console.log("userList:--", self.users)
             var itemList = self.users.filter(function (item) {
                 if (!sameMatch) {
                     sameMatch = (item.fullname.toLowerCase() == self.inputValue.toLowerCase())
@@ -403,7 +404,7 @@ export default {
 
                 return item.fullname.toLowerCase().indexOf(self.inputValue.toLowerCase()) != -1
             })
-            console.log("itemList", itemList)
+          //  console.log("itemList", itemList)
             if (!sameMatch)
                 itemList.push({ "id": "0", "name": self.inputValue });
             return itemList;
@@ -522,8 +523,14 @@ export default {
 
         },
         projectSelect(project) {
+            // Hide project setting diaglog
+            // Remove project setting icon selection make it transparent
+           if(this.lastProjectSelected != ''){
+               $("#ItemRowMenu-" + this.lastProjectSelected).css({"fill":"transparent"});
+               // this.$store.state.projectSettingId = "";
+           }
             this.$store.commit('showMyTasks')
-            console.log('Project', project.id)
+          //  console.log('Project', project.id)
             this.$store.state.currentProjectName=project.project_name;
             this.$store.state.currentProjectId = project.id;
             this.$store.state.currentProjectPrivacy = project.project_privacy;
@@ -532,7 +539,6 @@ export default {
             this.$store.dispatch('getAllTodos', { 'parentId': '', project_id: project.id });
             // Close last open dialog
             if (this.lastProjectSelected !== '') {
-                console.log(this.lastProjectSelected);
                 $("#panelProjectName-" + this.lastProjectSelected).removeClass("project-selected");
                 this.closedMemberSearch(this.lastProjectSelected);
             }
@@ -547,11 +553,17 @@ export default {
         // This method show when user mouse hover on project name
         showOption(id) {
             $("#ItemRowMenu-" + id).removeClass("hidden");
-             $("#ItemRowMenu-" + id).css({"fill":"white"});
+            $("#ItemRowMenu-" + id).css({"fill":"white"});
         },
         hideOption(id) {
-           // $("#ItemRowMenu-" + id).addClass("hidden");
-            $("#ItemRowMenu-" + id).css({"fill":"transparent"});
+           // Check project setting click 
+           // If id is not blank then skip transparent
+
+           var pid = this.$store.state.projectSettingId;
+           var cid = this.$store.state.currentProjectId; 
+           if( pid != id){
+                $("#ItemRowMenu-" + id).css({"fill":"transparent"});
+           }
         },
         showList(id) {
             // Show search member list
@@ -627,7 +639,7 @@ export default {
             this.item = this.options[0]
         },
         closedMemberSearch(id) {
-            console.log("id:",id);
+           // console.log("id:",id);
             // Hide expandable list
             //  $(".SidebarTeamMembersExpandedList").addClass("hidden");
             $("#expandableList" + id).addClass("hidden");
@@ -681,18 +693,21 @@ export default {
             }.bind(this));
             e.preventDefault();
         },
-        onMouseMove: function(event,project) {
-           
-             $("#ItemRowMenu-" + project.id).css({"fill":"red"});
-             var pos = $('#ItemRowMenu-' + project.id+'').offset();
-             
-            console.log("mouse down event(x,y)", pos);
+        showProjectSetting: function(project) {
+            // Show option icon white
+            $("#ItemRowMenu-" + project.id).css({"fill":"white"});
+            this.$store.state.projectSettingId = project.id;
+           //  $("#ItemRowMenu-" + project.id).css({"fill":"red"});
+            var pos = $('#ItemRowMenu-' + project.id+'').offset();
+            // console.log("mouse down event(x,y)", pos);
             this.$store.state.projectSettingMenuOffset = pos;
             var top = pos.top - 32;
             var left = pos.left;
+            $("div.project-setting").removeClass("hidden");
             $("div.project-setting").css({"margin-top":+top+"px","margin-left":+left+"px"})
-            
+            this.$store.state.currentProjectMember = project.members; 
         }
+      
 
     },
     components: {

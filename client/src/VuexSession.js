@@ -121,7 +121,8 @@ export const store = new Vuex.Store({
     currentProjectId:"",
     currentProjectName:"",
     currentProjectPrivacy: '',
-    projectSettingMenuOffset:0
+    projectSettingId:0,
+    currentProjectMember:''
   },
   mutations: {
     userData: state => state.userObject,
