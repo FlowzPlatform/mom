@@ -91,12 +91,21 @@
                 <div class="form-input">
                   <div class="img-part">
                     <span class="upl-img">
+<<<<<<< HEAD
                   <ui-progress-circular color="black" type="indeterminate" v-show="loading" class="circularProgress">
                   </ui-progress-circular>
                   <img v-bind:src="imageURlProfilePic"/>
                 </span>
                 </div>
                 <span class="pro-part">
+=======
+                <ui-progress-circular color="black" type="indeterminate" v-show="loading" class="circularProgress">
+                </ui-progress-circular>
+                <img v-bind:src="imageURlProfilePic"/>
+              </span>
+                  </div>
+                  <span class="pro-part">
+>>>>>>> b5323fb107cf76f2f08b501687acef515b196cfd
                   <input type="username" v-model='username' @keyup='enableUpdateProfileBtn'>
                   <div class="picture-action-label" v-if='!imageURlProfilePic'>
                       <input autocomplete="off" type="file" id="file" name="file" title="" class="photo-file-input" accept="image/gif,image/png,image/jpeg,image/tiff,image/bmp" @change="onFileChange">

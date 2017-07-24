@@ -10,16 +10,6 @@
               <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName">{{$store.state.currentProjectName}}</div>
             </div>
           </div>
-<<<<<<< 6742d92309dccd3d4d7b62ca8637b599e0b485e5
-          
-         
-        <div class="PageHeaderStructure-right">
-          <div class="projectHeaderFacepile-content">
-            <div class="Facepile Facepile--grouped projectHeaderFacepile-facepile hidden">
-              <div class="Avatar Avatar--large Avatar--color2 Facepile-avatar--clickable">
-                <!-- react-text: 28 -->he
-                <!-- /react-text -->
-=======
           <div class="PageHeaderStructure-right">
             <div class="projectHeaderFacepile-content">
               <div class="Facepile Facepile--grouped projectHeaderFacepile-facepile">
@@ -40,7 +30,6 @@
                     </svg>
                   </div>
                 </a>
->>>>>>> Search Functinality
               </div>
               <a id="ProjectPageHeader-facepileAddButton" class="CircularButton CircularButton--enabled CircularButton--small projectHeaderFacepile-addButton"
                 tabindex="0" aria-role="button">
@@ -60,7 +49,6 @@
                     <path d="M4.686,12.686l9.899,9.9c0.781,0.781,2.047,0.781,2.828,0l9.9-9.9l-2.475-2.475L16,19.05l-8.839-8.839L4.686,12.686z"></path>
                   </svg>
                 </div>
-<<<<<<< 6742d92309dccd3d4d7b62ca8637b599e0b485e5
               </a>
             </div>
             <a id="ProjectPageHeader-facepileAddButton" class="CircularButton CircularButton--enabled CircularButton--small projectHeaderFacepile-addButton hidden" tabindex="0" aria-role="button">
@@ -136,11 +124,9 @@
                                   </span>
                                 </a>
                               </li>
-=======
               </div>
             </div>
           </div>
->>>>>>> Search Functinality
 
           <!-- Project privacy section  -->
           <div v-show="showPrivacyPopup" @mouseleave="hidePopup" class="layerPositioner layerPositioner--offsetRight layerPositioner--alignRight layerPositioner--below"
@@ -190,7 +176,6 @@
                       <div class="hidden projectHeaderFacepile-privacyMenuItemUpgradeTextContainer">
                         <u class="projectHeaderFacepile-privacyMenuItemUpgradeText">Upgrade to create Private Projects with multiple members</u>
                       </div>
-<<<<<<< 6742d92309dccd3d4d7b62ca8637b599e0b485e5
 
                       
             </div>
@@ -202,7 +187,6 @@
                       
                      
         
-=======
                       </span>
                     </a>
                   </li>
@@ -223,7 +207,6 @@
               </div>
             </div>
           </div>
->>>>>>> Search Functinality
           <div class="hidden PageHeaderStructure-right">
             <div class="projectHeaderFacepile-content">
               <div class="projectHeaderFacepile-privacySummary projectHeaderFacepile-privacySummaryDropdown">

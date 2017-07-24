@@ -3478,7 +3478,7 @@ textarea{
     padding-bottom: 4px;
     padding-top: 4px;
 }
-.TopbarSearch-input, .TopbarPlaceholder-searchtransitionBox {
+.TopbarSearch-input, .TopbarPlaceholder-searchBox {
     background: transparent;
     border: 1px solid #cdcfd2;
     border-radius: 15px;
