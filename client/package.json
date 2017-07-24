@@ -33,6 +33,7 @@
     "uberproto": "^1.2.0",
     "uws": "^8.14.0",
     "vue": "^2.2.2",
+    "vue-esc": "^2.0.0",
     "vue-focus": "^2.1.0",
     "vue-google-signin-button": "^1.0.2",
     "vue-input-tag": "0.0.11",
