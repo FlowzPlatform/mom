@@ -35,15 +35,17 @@
             ...mapGetters([
                 'getTaskLists',
                 'parentIdArr',
-                'getRecentlyCompletedLists'
+                'getRecentlyCompletedLists',
+                'getTaskAssignedToOthers'
             ]),
             searchList(){
                 var list = []
                 if(this.$store.state.searchView === "Tasks I've Created"){
-                    console.log("aaaaaaaaaaa", this.getTaskLists)
                     list = this.getTaskLists
                 } else if (this.$store.state.searchView === "Recently Completed Tasks"){
                     list = this.getRecentlyCompletedLists
+                } else if (this.$store.state.searchView === "Tasks I've Assigned to Others"){
+                    list = this.getTaskAssignedToOthers
                 }
                 return list
             }

@@ -1,72 +1,5 @@
 <template lang="html">
   <div>
-<<<<<<< 6742d92309dccd3d4d7b62ca8637b599e0b485e5
-     <div id="mySidenav" class="sidenav">
-        <nav-bar-slider></nav-bar-slider>
-     </div>
-     <div >
-        <div data-reactroot="" id="top-bar" class="Topbar">
-          <div class="Topbar-navButtonContainer">
-            <a class="Topbar-navButton" @click="openCloseNav">
-              <svg class="Icon HamburgerIcon Topbar-sidebarToggleIcon" title="HamburgerIcon" viewBox="0 0 32 32">
-                <rect x="2" y="4" width="28" height="4"></rect>
-                <rect x="2" y="14" width="28" height="4"></rect>
-                <rect x="2" y="24" width="28" height="4"></rect>
-              </svg>
-            </a>
-          </div>
-          <router-link class="NavigationLink Topbar-myTasksButton is-selected"  v-on:click.native="showMyTasks" to="/navbar/mainapp">
-            My Tasks
-          </router-link>
-          <router-link class="NavigationLink Topbar-myTasksButton is-selected" to="/navbar/inbox">
-            Inbox
-          </router-link>
-          <router-link class="NavigationLink Topbar-myTasksButton is-selected" to="/navbar/mainapp">
-            Dashboard
-          </router-link>
-          <router-link class="NavigationLink Topbar-myTasksButton is-selected" to="/navbar/roleaccess">
-            Role Access
-          </router-link>
-          <!--<div class="PageHeaderStructure-center PageHeaderStructure-title MyTasksPageHeader-title">My Tasks</div>-->
-          <div class="Topbar-accountInfo">
-            <a class="Button Button--small Button--primary topbarContingentUpgradeButton-button" tabindex="0" aria-role="button">
-            Upgrade</a>
-            <a class="Topbar-settingsMenuButton">
-              <span class="Topbar-settingsMenuDomainName"><span>Welcome {{ uname }}</span></span>
-
-              <div class="dropdown-toggle Avatar Avatar--medium Avatar--color4 Topbar-settingsMenuAvatar" data-toggle="dropdown" role="button"
-                aria-haspopup="true" aria-expanded="false">
-                <!-- react-text: 28 -->
-                <!-- /react-text -->
-                <span v-if="imageURlProfilePic"><img v-bind:src="imageURlProfilePic" /></span>
-                <span v-else>{{ capitalizeLetters }}</span>
-              </div>
-              <ul class="dropdown-menu">
-                <li><a data-toggle="modal" data-target="#myModal2" @click="btnProfileClicked()">Profile</a></li>
-                <hr>
-                <li @click="settings_menu = true">
-                  <a id="settings" class="menu-item" title="">
-                    <span class="dropdown-menu-item-label" >Settings</span>
-                  </a>
-                </li>
-                <hr>
-                <li><a href="#" @click="btnLogoutClicked()">Sign out</a></li>
-              </ul>
-              </li>
-            </a>
-          </div>
-
-        </div>
-        <section class="">
-          <div class="">
-            <router-view></router-view>
-          </div>
-        </section>
-    <!--Profile dialog start-->
-    <settings-menu :settingArr="settingArr" :showModal="settings_menu" :closeAction="closeDialog">
-
-    </settings-menu>
-=======
     <div id="mySidenav" class="sidenav">
       <nav-bar-slider></nav-bar-slider>
     </div>
@@ -106,7 +39,7 @@
                   </router-link>
               </li>
               <li><router-link v-on:click.native="recentlyCompletedTasks" to="/navbar/tasklist">Recently Completed Tasks</router-link></li>
-              <li><a>Tasks I've Assigned to others</a></li>
+              <li><router-link v-on:click.native="taskToAssignOther" to="/navbar/tasklist">Tasks I've Assigned to Others</router-link></li>
               <li><a>Search Projects</a></li>
             </ul>
           </div>
@@ -146,7 +79,6 @@
       </section>
       <!--Profile dialog start-->
       <settings-menu :settingArr="settingArr" :showModal="settings_menu" :closeAction="closeDialog"></settings-menu>
->>>>>>> Search Functinality
       <div class="todoapp">
         <div id="myModal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
           <div class="modal-dialog" role="document">
@@ -159,21 +91,12 @@
                 <div class="form-input">
                   <div class="img-part">
                     <span class="upl-img">
-<<<<<<< 6742d92309dccd3d4d7b62ca8637b599e0b485e5
                   <ui-progress-circular color="black" type="indeterminate" v-show="loading" class="circularProgress">
                   </ui-progress-circular>
                   <img v-bind:src="imageURlProfilePic"/>
                 </span>
                 </div>
                 <span class="pro-part">
-=======
-                <ui-progress-circular color="black" type="indeterminate" v-show="loading" class="circularProgress">
-                </ui-progress-circular>
-                <img v-bind:src="imageURlProfilePic"/>
-              </span>
-                  </div>
-                  <span class="pro-part">
->>>>>>> Search Functinality
                   <input type="username" v-model='username' @keyup='enableUpdateProfileBtn'>
                   <div class="picture-action-label" v-if='!imageURlProfilePic'>
                       <input autocomplete="off" type="file" id="file" name="file" title="" class="photo-file-input" accept="image/gif,image/png,image/jpeg,image/tiff,image/bmp" @change="onFileChange">
@@ -373,33 +296,31 @@ export default {
             return
           }
 
-          $.notify.defaults({ className: "error" })
-          $.notify(error.message, { globalPosition: "top center" })
-        });
-    },
-    btnProfileClicked() {
-      console.log('UserName', this.$store.state.userObject.fullname)
-      this.username = this.$store.state.userObject.fullname,
-        console.log('UserName11', this.username)
-      this.role = this.$store.state.userObject.role,
-        this.aboutme = this.$store.state.userObject.aboutme,
-        this.imageURlProfilePic = this.$store.state.userObject.image_url
-      if (this.$store.state.userObject.dob) {
-        this.datepicker = new Date(this.$store.state.userObject.dob)
-      }
-      this.enableUpdateProfileBtn()
-    },
-    picker9Formatter(date) {
-      this.dob = Vue.moment(date).format('L');
-      return this.dob
-    },
-    updateProfileImage() {
-      this.loading = true
-      let self = this
-      var bucket = new AWS.S3({ params: { Bucket: 'airflowbucket1/obexpense/expenses' } });
-      var fileChooser = document.getElementById('file');
-      var file = fileChooser.files[0];
-      var imageKey = self.$store.state.userObject.image_name
+            $.notify.defaults({ className: "error" })
+            $.notify(error.message, { globalPosition: "top center" })
+          });
+      },
+      btnProfileClicked() {
+        this.username = this.$store.state.userObject.fullname,
+        this.role = this.$store.state.userObject.role,
+          this.aboutme = this.$store.state.userObject.aboutme,
+          this.imageURlProfilePic = this.$store.state.userObject.image_url
+        if (this.$store.state.userObject.dob) {
+          this.datepicker = new Date(this.$store.state.userObject.dob)
+        }
+        this.enableUpdateProfileBtn()
+      },
+      picker9Formatter(date) {
+        this.dob = Vue.moment(date).format('L');
+        return this.dob
+      },
+      updateProfileImage() {
+        this.loading = true
+        let self = this
+        var bucket = new AWS.S3({ params: { Bucket: 'airflowbucket1/obexpense/expenses' } });
+        var fileChooser = document.getElementById('file');
+        var file = fileChooser.files[0];
+        var imageKey = self.$store.state.userObject.image_name
 
       if (file) {
         var params = { Key: file.name, ContentType: file.type, Body: file };
@@ -582,7 +503,6 @@ export default {
         // });
       },
       enableUpdateProfileBtn() {
-        console.log('UN', this.username)
         if (this.username) {
           var trimmedusername = this.username.trim()
           if (trimmedusername.length >= 1) {
@@ -594,28 +514,26 @@ export default {
           }
         }
       },
-      /***
-       * Hide project setting menu
-       * 
-       * */
-      // hideProjectSetting() {
-      //   this.$store.state.projectSettingId
-      //   $("div.project-setting").addClass("hidden");
-      // },
-      // /***
-      //  * Show project member dialog
-      //  * 
-      //  * */
-      // showMemberDialog() {
-      //   // Hide project setting menu
-      //   $("div.project-setting").addClass("hidden");
-      //   $("#project-setting-dialog").removeClass("hidden");
-      // }
-  components: {
-    SettingsMenu,
-    NavBarSlider,
-    MembersDialog
-  }
+      showTaskCreatedBy: function(){
+        this.$store.state.searchView = "Tasks I've Created"
+        this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
+        this.$store.commit('showMyTasks')
+        this.$store.dispatch('getTaskCreatedBy', {'project_id': this.$store.state.currentProjectId,'userID':this.$store.state.userObject._id})
+      },
+      recentlyCompletedTasks: function(){
+        this.$store.state.searchView = "Recently Completed Tasks"
+        this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
+        this.$store.dispatch('getRecentlyCompletedTasks', {'project_id': this.$store.state.currentProjectId,'userID':this.$store.state.userObject._id})
+      },
+      taskToAssignOther: function() {
+        this.$store.state.searchView = "Tasks I've Assigned to Others"
+        this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
+        this.$store.dispatch('getTaskToAssignOthers', {'project_id': this.$store.state.currentProjectId,'userID':this.$store.state.userObject._id})
+    },
+    components: {
+      SettingsMenu,
+      NavBarSlider
+    }
 }
 </script>
 <style>
