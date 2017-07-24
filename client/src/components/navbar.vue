@@ -39,7 +39,7 @@
                   </router-link>
               </li>
               <li><router-link v-on:click.native="recentlyCompletedTasks" to="/navbar/tasklist">Recently Completed Tasks</router-link></li>
-              <li><a>Tasks I've Assigned to others</a></li>
+              <li><router-link v-on:click.native="taskToAssignOther" to="/navbar/tasklist">Tasks I've Assigned to Others</router-link></li>
               <li><a>Search Projects</a></li>
             </ul>
           </div>
@@ -262,9 +262,7 @@
           });
       },
       btnProfileClicked() {
-        console.log('UserName', this.$store.state.userObject.fullname)
         this.username = this.$store.state.userObject.fullname,
-          console.log('UserName11', this.username)
         this.role = this.$store.state.userObject.role,
           this.aboutme = this.$store.state.userObject.aboutme,
           this.imageURlProfilePic = this.$store.state.userObject.image_url
@@ -419,7 +417,6 @@
         });
       },
       enableUpdateProfileBtn() {
-        console.log('UN', this.username)
         if (this.username) {
           var trimmedusername = this.username.trim()
           if (trimmedusername.length >= 1) {
@@ -433,13 +430,19 @@
       },
       showTaskCreatedBy: function(){
         this.$store.state.searchView = "Tasks I've Created"
+        this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
         this.$store.commit('showMyTasks')
         this.$store.dispatch('getTaskCreatedBy', {'project_id': this.$store.state.currentProjectId,'userID':this.$store.state.userObject._id})
       },
       recentlyCompletedTasks: function(){
         this.$store.state.searchView = "Recently Completed Tasks"
-        console.log("Recently Completed Tasks")
+        this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
         this.$store.dispatch('getRecentlyCompletedTasks', {'project_id': this.$store.state.currentProjectId,'userID':this.$store.state.userObject._id})
+      },
+      taskToAssignOther: function() {
+        this.$store.state.searchView = "Tasks I've Assigned to Others"
+        this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
+        this.$store.dispatch('getTaskToAssignOthers', {'project_id': this.$store.state.currentProjectId,'userID':this.$store.state.userObject._id})
       }
     },
     components: {
@@ -450,8 +453,5 @@
 
 </script>
 <style>
-  #center_pane {
-    transition: margin-left .5s;
-    padding: 16px;
-  }
+
 </style>

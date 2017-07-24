@@ -123,7 +123,8 @@ export const store = new Vuex.Store({
     currentProjectPrivacy: '',
     createdByTaskList: [],
     recentlyCompletedTasks: [],
-    searchView: ''
+    searchView: '',
+    assignedToOthers: []
   },
   mutations: {
     userData: state => state.userObject,
@@ -197,7 +198,7 @@ export const store = new Vuex.Store({
 
         var parentIdArrObj = payload
         var tempParentIds = _.chain([]).union(state.parentIdArr).sortBy([function (o) { return o.level; }]).value();
-        if(state.deleteItemsSelected || state.createdByTaskList.length > 0){
+        if(state.deleteItemsSelected || state.createdByTaskList.length > 0 || state.recentlyCompletedTasks.length > 0 || state.assignedToOthers.length > 0){
             state.parentIdArr.splice(0, state.parentIdArr.length);
             state.parentIdArr.push(parentIdArrObj);
         } else {
@@ -242,6 +243,8 @@ export const store = new Vuex.Store({
       state.taskTags.splice(0, state.taskTags.length)
       state.tagsList.splice(0, state.tagsList.length)
       state.createdByTaskList.splice(0, state.createdByTaskList.length)
+      state.recentlyCompletedTasks.splice(0, state.recentlyCompletedTasks.length)
+      state.assignedToOthers.splice(0, state.assignedToOthers.length)
       // state.userObject={}
       state.currentProjectId = ''
     },
@@ -537,7 +540,6 @@ export const store = new Vuex.Store({
       state.parentIdArr.splice(0, state.parentIdArr.length)
     },
     DELETED_TASKS(state, deletedArray){
-      console.log("Delete Array",deletedArray)
       state.deletedTaskArr = deletedArray
     },
     showTasksList(state, payload){
@@ -545,6 +547,9 @@ export const store = new Vuex.Store({
     },
     showRecentlyCompletedTasks(state, payload){
       state.recentlyCompletedTasks = payload
+    },
+    showTaskToAssignOthers(state, payload){
+      state.assignedToOthers = payload
     }
   },
   actions: {
@@ -558,6 +563,10 @@ export const store = new Vuex.Store({
     },
     eventListener({ commit }) {
       // A new message has been created on the server, so dispatch a mutation to update our state/view
+       services.tasksService.on('toggleTodoTask', message => {
+        console.log("Message Toggle Todo Event:-->", message)
+        // commit('ADD_NEW_TODOS', message)
+      })
       services.tasksService.on('created', message => {
         console.log("Message Cretaed:-->", message)
         commit('ADD_NEW_TODOS', message)
@@ -1309,6 +1318,13 @@ export const store = new Vuex.Store({
         console.log("Response To Find Created by Recently Completed Tasks List:--", response)
         commit('showRecentlyCompletedTasks', response)
       });
+    },
+    getTaskToAssignOthers({commit}, payload){
+      services.tasksService.find({ query: { project_id: payload.project_id, assigned_by: payload.userID, isDelete: false}
+      }).then(response => {
+        console.log("Response To Tasks I've assigned To Others:--", response)
+        commit('showTaskToAssignOthers', response)
+      })
     }
   },
   getters: {
@@ -1382,7 +1398,8 @@ export const store = new Vuex.Store({
     getProjectList: state=> state.projectlist,
     getdeleteArray: state => state.deletedTaskArr,
     getTaskLists: state => state.createdByTaskList,
-    getRecentlyCompletedLists: state => state.recentlyCompletedTasks
+    getRecentlyCompletedLists: state => state.recentlyCompletedTasks,
+    getTaskAssignedToOthers: state => state.assignedToOthers
   },
   
   plugins: [createPersistedState()]

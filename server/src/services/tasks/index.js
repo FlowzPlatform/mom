@@ -17,7 +17,8 @@ module.exports = function() {
 
   const options = {
     Model: r,
-    name: 'tasks'
+    name: 'tasks',
+    events: ['toggleTodoTask']
   };
 
   // Initialize our service with any options it requires 
@@ -44,7 +45,7 @@ module.exports = function() {
     app.service('projectmember').find({query:{'create_by':"594cdf504b5d41138302f19a"}}).then(response => {
       console.log("cerated_by-->",response);
     })
-
+    
     return data
 });
 
