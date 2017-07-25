@@ -46,7 +46,14 @@ export default {
     ]),
     updateTaskName: _.debounce(function() {
       this.$store.dispatch('editTaskName', {"todo":this.filteredTodo})
-    }, 2000)
+    }, 2000),
+    autoresize: function() {
+      var el = document.getElementById('text-area')
+      setTimeout(function(){
+        el.style.cssText = 'height:auto; padding:12';
+        el.style.cssText = 'height:' + el.scrollHeight + 'px';
+      }, 0)
+    }
   },
   component: {
     TodoItem
