@@ -467,7 +467,6 @@
       }
     },
     created() {
-      this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh      
       // console.log(md5('urvashi@officebrain.com'));
       // console.log(md5('uhirani@officebrain.com'));
       this.$store.dispatch('eventListener');
@@ -496,6 +495,7 @@
         this.$store.dispatch('getTaskComment', this.url_parentId)
       }
       this.$store.dispatch('getSettings', this.$store.state.userObject._id);
+      this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
       this.$store.commit('DELETE_ALLTAGS')
       this.$store.state.todolist = []
       // this.getProjectWiseTodo;
@@ -655,7 +655,6 @@
         // this.$store.commit('userData')
         // this.$store.commit('authorize')
         CmnFunc.deleteAutheticationDetail()
-        //  CmnFunc.resetProjectDefault()
         window.location = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:3000"
       },
       getAllUsers() {
@@ -715,7 +714,7 @@
         this.showPrivateMember = false;
         this.$store.dispatch('changeProjectPrivacy', "2")
         this.$store.state.currentProjectPrivacy = "2"
-        this.showPrivacyPopup = false;
+        showPrivacyPopup = false;
       },
       hidePopup(){
         console.log("onblur call:");

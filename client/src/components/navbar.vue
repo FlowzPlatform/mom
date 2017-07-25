@@ -26,7 +26,7 @@
         <router-link class="NavigationLink Topbar-myTasksButton is-selected" to="/navbar/roleaccess">
           Role Access
         </router-link>
-        <!-- Search Bar -->
+          <!-- Search Bar -->
         <div class="TopbarSearch dropdown">
           <i class="fa fa-search Icon MagnifyerIcon TopbarSearch-icon" />
           <div class="TopbarSearchTypeahead">
@@ -34,16 +34,12 @@
               placeholder="Search" id="topbar-search-input" rows="1" value="">
             <ul class="dropdown-menu">
               <li>
-                <router-link v-on:click.native="showTaskCreatedBy" to="/navbar/tasklist">
-                  Tasks I've created
-                </router-link>
+                  <router-link v-on:click.native="showTaskCreatedBy" to="/navbar/tasklist">
+                    Tasks I've created
+                  </router-link>
               </li>
-              <li>
-                <router-link v-on:click.native="recentlyCompletedTasks" to="/navbar/tasklist">Recently Completed Tasks</router-link>
-              </li>
-              <li>
-                <router-link v-on:click.native="taskToAssignOther" to="/navbar/tasklist">Tasks I've Assigned to Others</router-link>
-              </li>
+              <li><router-link v-on:click.native="recentlyCompletedTasks" to="/navbar/tasklist">Recently Completed Tasks</router-link></li>
+              <li><router-link v-on:click.native="taskToAssignOther" to="/navbar/tasklist">Tasks I've Assigned to Others</router-link></li>
               <li><a>Search Projects</a></li>
             </ul>
           </div>
