@@ -3095,7 +3095,7 @@ svg:not(:root), symbol, image, marker, pattern, foreignObject {
     width: 180px;
     z-index: 10000;
 } 
-.projectHeaderFacepile-privacySummaryDropdown {
+/* .projectHeaderFacepile-privacySummaryDropdown {
     -webkit-box-align: center;
     -webkit-align-items: center;
     -ms-flex-align: center;
@@ -3110,7 +3110,7 @@ svg:not(:root), symbol, image, marker, pattern, foreignObject {
     -ms-flex-pack: end;
     justify-content: flex-end;
     margin-top: -2px;
-}
+} */
 .Dropdown {
     background: #fff;
     border-radius: 3px;
@@ -3297,7 +3297,7 @@ ol, ul {
     width: 30px;
     display: inline-block;
 }
-.projectHeaderFacepile-privacySummary {
+/* .projectHeaderFacepile-privacySummary {
     color: #898e95;
     display: block;
     font-size: 11px;
@@ -3306,8 +3306,8 @@ ol, ul {
     padding-top: 5px;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-.projectHeaderFacepile-privacySummaryDropdown {
+} */
+/* .projectHeaderFacepile-privacySummaryDropdown {
     -webkit-box-align: center;
     -webkit-align-items: center;
     -ms-flex-align: center;
@@ -3322,8 +3322,8 @@ ol, ul {
     -ms-flex-pack: end;
     justify-content: flex-end;
     margin-top: -2px;
-}
-.projectHeaderFacepile-privacySummaryDropdown {
+} */
+/* .projectHeaderFacepile-privacySummaryDropdown {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
@@ -3335,7 +3335,7 @@ ol, ul {
     -ms-flex-pack: end;
     justify-content: flex-end;
     margin-top: -2px;
-}
+} */
 .projectHeaderFacepile-privacySummaryDropdownLeftIcon {
     fill: #b9bcc0;
     margin-bottom: 1px;
@@ -3346,7 +3346,7 @@ ol, ul {
     margin-bottom: 1px;
     margin-right: 4px;
 }
-.projectHeaderFacepile-privacySummary {
+/* .projectHeaderFacepile-privacySummary {
     color: #898e95;
     display: block;
     font-size: 11px;
@@ -3355,9 +3355,9 @@ ol, ul {
     padding-top: 5px;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
+} */
 
-.projectHeaderFacepile-privacySummaryDropdown {
+/* .projectHeaderFacepile-privacySummaryDropdown {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
@@ -3369,7 +3369,7 @@ ol, ul {
     -ms-flex-pack: end;
     justify-content: flex-end;
     margin-top: -2px;
-}
+} */
 
 .projectHeaderFacepile-privacySummaryDropdown .projectHeaderFacepile-privacySummaryDropdownTextDownIconContainer:hover {
     color: #02ceff;
@@ -4148,7 +4148,6 @@ a.CloseButton.QuickInvitePopup-closeButton {
         font-weight: 400;
         line-height: 20px;
         border: 1px solid #cdcfd2;
-        border-radius: 3px;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
         /* padding: 0 9px; */
