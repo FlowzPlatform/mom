@@ -266,7 +266,7 @@
         // this.$store.state.isAuthorized = false
         // this.$store.commit('userData')
         // this.$store.commit('authorize')
-        window.location = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:3000"
+        window.location = "/"
       },
       btnUpdateProfileClicked() {
         var self = this
