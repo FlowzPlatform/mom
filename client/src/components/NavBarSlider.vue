@@ -8,6 +8,8 @@
                 </svg>
             </a>
         </div>
+       
+
         <div class="projectLable">
             <div class="text-left SidebarTeamDetailsProjectsList-header">Projects
                 <a @click="createProject" class="CircularButton CircularButton--enabled CircularButton--xxsmall SidebarTeamDetailsProjectsList-addProjectButton"
@@ -52,8 +54,12 @@
                                 <a class="DeprecatedNavigationLink">
                                     <span class="panelProjectName">{{project.project_name}}</span>
 
+<<<<<<< HEAD
                                 <!-- Project setting menu  -->
                                 <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu" @click="showProjectSetting(project)" style="fill:transparent">
+=======
+                                    <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu" @click="onMouseMove($event,project)">
+>>>>>>> project setting dialog
                                         <svg class="Icon MoreIcon SidebarItemRow-icon SidebarItemRow-defaultIcon" title="MoreIcon" viewBox="0 0 32 32">
                                             <circle cx="3" cy="16" r="3"></circle>
                                             <circle cx="16" cy="16" r="3"></circle>
