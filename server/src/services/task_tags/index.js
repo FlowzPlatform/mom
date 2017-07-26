@@ -33,4 +33,15 @@ module.exports = function() {
   // Set up our after hooks
   taskTags.after(hooks.after);
 
+      taskTags.filter(function(data, connection, hook) {
+     console.log("taskTags Create  data:-->",data);
+    console.log("taskTags Create connection:-->",connection);
+    console.log("taskTags Create hook:-->",hook);
+    // app.service('projectmember').find({query:{'create_by':"594cdf504b5d41138302f19a"}}).then(response => {
+    //   console.log("cerated_by-->",response);
+    // })
+
+    return data
+});
+
 }

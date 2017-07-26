@@ -19,7 +19,10 @@ module.exports = function() {
   const options = {
     Model: r,
     name: table,
+    events:['logproject']
   };
+
+  
 
   // Initialize our service with any options it requires 
   app.use('/project', service(options));
@@ -31,12 +34,28 @@ module.exports = function() {
       console.log('Project created', project)
   });
 
-
-project.filter(function(data, connection, hook) {
+project.filter('created',function(data, connection, hook) {
     console.log("Project Service data:-->",data);
     console.log("Project Service connection:-->",connection);
     console.log("Project Service hook:-->",hook);
-    return data
+
+     if (!connection.userId) {
+      return false;
+    }
+
+    return app.service('projectmember').find({ query: { 'create_by': connection.userId } }).then(response => {
+      
+      if(response && response.length>0)
+        {
+          return data;
+        }else
+        {
+          return false;
+        }
+    })
+
+
+    // return data
 })
 
   // Set up our before hooks
