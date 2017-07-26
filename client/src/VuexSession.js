@@ -127,7 +127,7 @@ export const store = new Vuex.Store({
     currentProjectName:"",
     currentProjectPrivacy: '',
     projectSettingId:0,
-    currentProjectMember:''
+    currentProjectMember:'',
     projectSettingMenuOffset:0
   },
   mutations: {
