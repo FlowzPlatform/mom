@@ -549,7 +549,6 @@ export default {
                // this.$store.state.projectSettingId = "";
            }
             this.$store.commit('showMyTasks')
-
             this.$store.state.currentProjectName=project.project_name;
             this.$store.state.currentProjectId = project.id;
             this.$store.state.currentProjectPrivacy = project.project_privacy;
@@ -717,7 +716,6 @@ export default {
             }.bind(this));
             e.preventDefault();
         },
-
         showProjectSetting: function(project) {
             // Show option icon white
             $("#ItemRowMenu-" + project.id).css({"fill":"white"});

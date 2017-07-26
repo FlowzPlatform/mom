@@ -455,7 +455,6 @@ export default {
           $("#updateprofile_btn").attr('disabled', true);
         }
       }
-
     },
     /***
      * Hide project setting menu
