@@ -36,24 +36,34 @@ module.exports = function() {
 
 
 project.filter('created',function(data, connection, hook) {
-    console.log("Project Service data:-->",data);
-    console.log("Project Service connection:-->",connection);
+   
+   console.log(">>>>>>>>>>Project Members<<<<<<<<<<<<<<<<");
+  console.log("Project Service data:-->",data);
+    console.log("Project Service connection:-->",connection.userId);
     console.log("Project Service hook:-->",hook);
-
+   console.log("============================================");
      if (!connection.userId) {
       return false;
-    }
+    }  
+     console.log("============================================");
 
-    return app.service('projectmember').find({ query: { 'create_by': connection.userId } }).then(response => {
-      
-      if(response && response.length>0)
-        {
-          return data;
-        }else
-        {
-          return false;
-        }
-    })
+    if(data.project_privacy==='0' || connection.userId===data.create_by)
+      return data;
+    else
+      return false;
+
+    // return app.service('projectmember').find({ query: { 'create_by': connection.userId,'project_id':data.id } }).then(response => {
+    //  console.log("============================================",response);
+    //   if(response && response.length>0)
+    //     {
+    //       return data;
+    //     }else
+    //     {
+    //       return false;
+    //     }
+    // })
+
+
 
 
     // return data

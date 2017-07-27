@@ -8,8 +8,7 @@ exports.before = {
     var client=hook.params.query.$client;
     console.log("Find query:-->>",hook.params.query.$client)
 
-    if(client && client.flag && client.flag=='allprojectlist')
-      {
+    if (client && client.flag && client.flag == 'allprojectlist') {
       const query = this.createQuery(hook.params.query);
       const r = this.options.r;
       // console.log("Find query:--",hook.params)
@@ -26,7 +25,18 @@ exports.before = {
         return project("project_privacy").eq('0').or(project("project_privacy").eq('2'))
           .or(project('members')('user_id').contains(userid))
       }).orderBy('created_at')
+    } else if (client && client.flag && client.flag == 'projectmember') {
+        const query = this.createQuery(hook.params.query);
+      const r = this.options.r;
+         hook.params.rethinkdb = query.merge(function (projectid) {
+        return {
+          'members': r.table('projectmember')
+            .filter({ 'project_id': projectid('id') })
+            .coerceTo('array').pluck('user_id')
+        }
       }
+      ).orderBy('created_at')
+    }
   },
   get: [],
   create(hook) {

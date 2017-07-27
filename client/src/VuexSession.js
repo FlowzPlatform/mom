@@ -9,10 +9,10 @@ import axios from 'axios'
 Vue.use(Vuex)
 
 
-services.sockett.on("reconnect", function () {
-  console.log('reconnect fired!');
-  services.sockett.emit("userdata", store.state.userObject._id);
-});
+// services.sockett.on("reconnect", function () {
+//   console.log('reconnect fired!');
+//   services.sockett.emit("userdata", store.state.userObject._id);
+// });
 
 function setProgressBar(state, todoObject) {
   var p_id = todoObject.parentId
@@ -591,9 +591,27 @@ export const store = new Vuex.Store({
         
         }, 2000);
         
+      }else{
+        services.projectService.find({query:{'id':assignMember.project_id, $client: {
+              flag: 'projectmember'
+            }}}).then(response =>{
+              // console.log("Project Assign To you:-->",response)
+              // 
+               var project=response[0];
+               var projectMembers=project.members;
+              //  projectMembers.forEach(function(member) {
+              //      let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === member.user_id })
+              //       console.log("User Detail", userIndex);
+              //       if (userIndex < 0) {
+              //        project.members.push({ user_id: assignMember.user_id  })
+              //       } else {
+              //        project.members.push({ user_id: assignMember.user_id , url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name,email: state.arrAllUsers[userIndex].email  })
+              //       }  
+              //       console.log("state.projectlist[index]", state.projectlist[index]);
+              //  }, this);
 
-
-
+                state.projectlist.push(project);
+            })
       }
 
       // state.deletedTaskArr = deletedArray
