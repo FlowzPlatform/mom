@@ -28,7 +28,8 @@ module.exports = function() {
       console.log('projectmember created', project)
   });
 
-  app.service('/projectmember').filter( function (data, connection, hook) {
+
+    app.service('/projectmember').filter( function (data, connection, hook) {
 
     if (!connection.userId) {
       return false;
@@ -51,6 +52,5 @@ module.exports = function() {
     //   retrun false;
     // }
   });
-
 
 }

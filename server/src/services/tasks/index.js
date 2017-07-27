@@ -19,6 +19,7 @@ module.exports = function() {
   const options = {
     Model: r,
     name: table,
+    events: ['toggleTodoTask']
   };
 
   // Initialize our service with any options it requires 
@@ -55,6 +56,12 @@ module.exports = function() {
 
 
 
+<<<<<<< HEAD
+=======
+ 
+
+
+>>>>>>> 91a9c09fd22e14d8b6120051b529558174654c5d
   taskService.filter(function(data, connection, hook) {
      console.log("<========Tassk Filter Call=====>",connection);
     var userId=connection.userId;

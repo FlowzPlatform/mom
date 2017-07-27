@@ -16,6 +16,7 @@ module.exports = function() {
   });
 
   const options = {
+    
     Model: r,
     name: table,
   };
@@ -33,15 +34,41 @@ module.exports = function() {
   // Set up our after hooks
   taskTags.after(hooks.after);
 
-      taskTags.filter(function(data, connection, hook) {
-     console.log("taskTags Create  data:-->",data);
-    console.log("taskTags Create connection:-->",connection);
-    console.log("taskTags Create hook:-->",hook);
-    // app.service('projectmember').find({query:{'create_by':"594cdf504b5d41138302f19a"}}).then(response => {
-    //   console.log("cerated_by-->",response);
-    // })
 
-    return data
-});
+  taskTags.filter(function (data, connection, hook) {
+    // console.log("<========Task Tags Filter Call=====>", data);
+    var userId = connection.userId;
+    if (!userId) {
+      return false;
+    }
+    var self = this;
 
+    return app.service('tasks').get(data.task_id).then(response => {
+      var dataTask=response
+      // console.log("<========Tassk data reponse=====>",dataTask);  
+      return app.service('project').get(dataTask.project_id).then(response => {
+      // console.log("<========Tassk project response=====>",response);  
+       var dataProject=response
+      // console.log("<========Tassk Filter userid=====>",userId);
+      if (dataProject.project_privacy === "0") {
+        return data;
+      } else {
+        //  console.log("<========Tassk Filter Call=====>",userId);
+        return app.service('projectmember').find({ query: { 'user_id': userId, project_id: dataProject.id } }).then(response => {
+          // console.log("<========Tasskprojectmember  Call=====>",response);
+          if (response && response.length > 0) {
+            return data;
+          } else {
+            return false;
+          }
+        })
+
+      }
+    })
+
+    })
+
+    
+
+  });
 }

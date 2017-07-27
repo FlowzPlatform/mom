@@ -4,53 +4,20 @@ import socketio from 'feathers-socketio/client'
 import io from 'socket.io-client'
 import * as vuex from '../VuexSession.js'
 
-export const sockett = io(process.env.SOCKET_IO, {transports: ['websocket'], upgrade: false});
+export const socket = io(process.env.SOCKET_IO, {transports: ['websocket'], upgrade: false});
 
- sockett.on("connect", function(){
+ socket.on("connect", function(){
      var userId=vuex.store.state.userObject._id;
      console.log('io connected!')
      if (userId) {
-      sockett.emit("userdata",userId );   
+      socket.emit("userdata",userId );   
      }
  });
-sockett.on("reconnect", function () {
-//   console.log('reconnect fired!',src.store.state.userObject._id);
-//   sockett.emit("userdata", "13456");
-});
+export const app = feathers().configure(socketio(socket));
 
-// sockett.on("disconnect", function () {
-//   console.log('disconnect fired!');
-// //   sockett.emit("userdata", store.state.userObject._id);
-// });
-//   io.use(function(socket, next) {
-//       socket.feathers.data1 = 'Hello world';
-//       next();
-//     });
-export const app = feathers().configure(socketio(sockett));
-// app.configure(socketio(sockett,function(io) {
-//        console.log("io--->",io)
-//     io.on('connect', function(socket) {
-        
-//         socket.feathers.data1 = 'Hello world';
-//         // console.log("Socket--->",socket)
-//         // socket.emit('ehlo', data);
-  
-//     });
 
-//     io.use(function(socket, next) {
-//       socket.feathers.data1 = 'Hello world';
-//       next();
-//     });
 
-// }));
 
-// app.listen(process.env.SOCKET_IO);
-
-// sockett.on('connect',function(socket){ 
-//     console.log("Socket--->",sockett)
-//     // Send ehlo event right after connect:
-//     sockett.feathers.data = 'Hello world';
-// });
 export const tasksService = app.service('tasks')
 export const taskAttachmentService = app.service('task_attachment')
 export const roleAccessService = app.service('accessright')

@@ -4,8 +4,7 @@ exports.before = {
 
   all:[],
   find(hook){
- 
-    const userid=hook.params.userId;
+     const userid=hook.params.userId;
     var client=hook.params.query.$client;
     console.log("Find query:-->>",hook.params.query.$client)
 
@@ -28,7 +27,6 @@ exports.before = {
           .or(project('members')('user_id').contains(userid))
       }).orderBy('created_at')
       }
-    //  console.log("Find query:-->",hook.params.rethinkdb)
   },
   get: [],
   create(hook) {
