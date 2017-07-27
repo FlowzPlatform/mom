@@ -16,6 +16,7 @@ module.exports = function() {
   });
 
   const options = {
+    
     Model: r,
     name: table,
   };
