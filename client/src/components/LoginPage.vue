@@ -68,6 +68,7 @@
     import Resource from 'vue-resource'
     import CmnFunc from './CommonFunc.js'
     import notify from './notify.js'
+    import * as services from '../services'
     import VueRouter from 'vue-router'
 
     Vue.use(Resource)
@@ -268,15 +269,19 @@
                 this.$store.dispatch('userLoginProcess', {'email':trimmedEmail, 'password':trimmedPwd})         
                 .then(function () {             
                     self.$store.state.isAuthorized = true             
-                    self.$store.commit('authorize')             
+                    self.$store.commit('authorize')      
                     self.$store.dispatch('getUserDetail')             
+                    //  self.$store.dispatch('getUserRegister')                           
                     .then(function () {                 
-                         self.$router.replace('/navbar/mainapp')     
+                         self.$router.replace('/navbar/mainapp')   
+                         
+                         console.log("Socket-->",)
           
                     })             
                     .catch(function(error) {      
+                        console.log("login error",error)
                        if (error.response.status === 401) { 
-                           console.log('error: ', error.response.status) 
+                          // console.log('error: ', error.response.status) 
                            return 
                         }              
                         $.notify.defaults({ className: "error" })                 

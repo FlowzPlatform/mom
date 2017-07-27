@@ -29,6 +29,7 @@ app.use(cors());
 app.use(helmet());
 app.use(compress());
 app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
 // Host the public folder
@@ -38,7 +39,25 @@ app.use('/', feathers.static(app.get('public')));
 app.configure(hooks());
 // Enable the REST provider for services.
 app.configure(rest())
-app.configure(socketio());
+// app.configure(socketio());
+app.configure(socketio(function(io) {
+    io.on('connection', function(socket) {
+        console.log("connection handshaken-->",socket.feathers)
+    //   socket.emit('news', { hello: 'world' });
+      socket.on('userdata', function (data) {
+                socket.feathers.userId=data ;
+      });
+
+
+    });
+
+    io.use(function(socket, next) {
+        
+      next();
+    });
+
+}));
+
 
 // Set up our services (see `services/index.js`)
 app.configure(services);

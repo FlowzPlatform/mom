@@ -8,6 +8,12 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
+
+services.sockett.on("reconnect", function () {
+  console.log('reconnect fired!');
+  services.sockett.emit("userdata", store.state.userObject._id);
+});
+
 function setProgressBar(state, todoObject) {
   var p_id = todoObject.parentId
   var totalSubtask = state.todolist.find(todo => todo.id === p_id).subtask_count ? state.todolist.find(todo => todo.id === p_id).subtask_count : 0
@@ -75,9 +81,11 @@ function updateTaskCount(state, todoObject){
       setProgressBar(state, todoObject)
     }
   }else {
-      let tempObj = state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count
+     var todo=state.todolist.find(todo => todo.id === todoObject.parentId);
+     if(todo){
+      let tempObj =todo.subtask_count
       state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count = tempObj + 1
-  }
+  }}
 }
 function updateObject(oldObject, newObject) {
   var keys = Object.keys(oldObject)
@@ -120,6 +128,7 @@ export const store = new Vuex.Store({
     currentProjectPrivacy: '',
     projectSettingId:0,
     currentProjectMember:'',
+    projectSettingMenuOffset:0,
     createdByTaskList: [],
     recentlyCompletedTasks: [],
     searchView: '',
@@ -276,6 +285,8 @@ export const store = new Vuex.Store({
       state.visibility = key
     },
     UPDATE_TODO(state, item) {
+
+        if(item.project_id===state.currentProjectId){
       let updateTodoIndex = _.findIndex(state.todolist, function (d) { return d.id == item.id })
       if (updateTodoIndex < 0) {
         if (state.todoObjectByID)
@@ -285,7 +296,9 @@ export const store = new Vuex.Store({
           state.todolist.push(item)
           state.deletedTaskArr.splice(deleteTodoIndex, 1)
           if(state.parentIdArr.length > 0) {
-            state.parentIdArr.find(todo => todo.id === item.id).isDelete = item.isDelete
+            var todo=state.parentIdArr.find(todo => todo.id === item.id);
+            if(todo)
+              todo.isDelete = item.isDelete
           }
           updateTaskCount(state, item)
         }
@@ -323,8 +336,12 @@ export const store = new Vuex.Store({
         }
       }
       setCheckboxColor(state)
+        }
     },
     ADD_NEW_TODOS(state, todoObject) {
+
+      if(todoObject.project_id===state.currentProjectId){
+
       todoObject.subtask_count = 0
       todoObject.completed_subtask_count = 0
       todoObject.progress_count = ''
@@ -349,6 +366,7 @@ export const store = new Vuex.Store({
           state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count = tempObj + 1
           setProgressBar(state, todoObject)
         }
+      }
       }
     },
     deleteTodo(state, todoObject) {
@@ -550,9 +568,50 @@ export const store = new Vuex.Store({
     },
     showTaskToAssignOthers(state, payload){
       state.assignedToOthers = payload
+    },
+     ASSIGN_PROJECT_MEMBER(state, assignMember){
+      
+      let index = _.findIndex(state.projectlist, function (d) { return d.id ==  assignMember.project_id })
+      console.log("Index Found:--",index)
+      if (index > -1) {
+        if (!state.projectlist[index].members)
+          state.projectlist[index].members = []
+
+
+        
+        setTimeout(function() {
+        let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === assignMember.user_id })
+        console.log("User Detail", userIndex);
+        if (userIndex < 0) {
+          state.projectlist[index].members.push({ user_id: assignMember.user_id  })
+        } else {
+          state.projectlist[index].members.push({ user_id: assignMember.user_id , url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name,email: state.arrAllUsers[userIndex].email  })
+        }  
+        console.log("state.projectlist[index]", state.projectlist[index]);
+        
+        }, 2000);
+        
+
+
+
+      }
+
+      // state.deletedTaskArr = deletedArray
+    },
+    ADD_PROJECT(state,project){
+      state.projectlist.push(project);
     }
   },
   actions: {
+    getUserRegister({commit})
+    {
+       console.log("<<---getUserRegister->>",store.state.userObject._id)
+ services.paymentsService.find({userId:store.state.userObject._id}).then(response => {
+        console.log("Create->>",response)
+        // commit('GET_ROLES', response)
+      });
+    }
+    ,
 
     getUsersRoles({commit})
     {
@@ -601,31 +660,41 @@ export const store = new Vuex.Store({
         var object = message
         commit('INSERT_TASKTAGS', message)
       })
+
       services.taskTagsService.on('patched', message => {
         console.log("Message Task Tag updated:-->", message)
         commit('REMOVE_TASKTAG', message)
       })
+
       services.taskHistoryLogs.on('created', message => {
         console.log("Message history Logs Cretaed:-->", message)
         commit('ADD_COMMENT', message)
-      }),
+      })
+
       services.taskHistoryLogs.on('removed', message => {
         console.log("Message History log Removed:-->", message)
         commit('DELETE_COMMENT', message)
       })
-       services.projectService.on('patched', message => {
+           services.projectService.on('patched', message => {
          console.log("Project updated:-->", message)
           commit('updateProjectList', message)
        })
+
+        services.projectMemberService.on('created', message => {
+         console.log("ASSIGN_PROJECT_MEMBER:-->", message)
+          commit('ASSIGN_PROJECT_MEMBER', message)
+       })
+
+        services.projectService.on('created', message => {
+         message.members=[]          
+         console.log("Project updated:-->", message)
+         commit('ADD_PROJECT', message)
+       })
     },
     getAllTodos({ commit }, payload) {
-      services.tasksService.find({
-        query: {
-          $or: [
-            { parentId: payload.parentId, project_id: payload.project_id, created_by: store.state.userObject._id },
-            { parentId: payload.parentId, project_id: payload.project_id, assigned_to: store.state.userObject._id }
-          ]
-        }
+       services.tasksService.find({
+        query:
+            { parentId: payload.parentId, project_id: payload.project_id}
       }).then(response => {
         commit('GET_TODO', response)
       });
@@ -1163,6 +1232,7 @@ export const store = new Vuex.Store({
         })
         .then(function (response) {
           commit('GET_USERDETAIL', response.data.data)
+          services.socket.emit("userdata",response.data.data._id);
         })
         .catch(function (error) {
           throw error
@@ -1225,7 +1295,10 @@ export const store = new Vuex.Store({
               { project_privacy: '0' },
               { project_privacy: '1' },
               { project_privacy: '2', create_by: userId }
-            ]
+            ],
+            $client: {
+              flag: 'allprojectlist'
+            }
           }
         }).then(response => {
           console.log("Response from Project", response)
@@ -1352,7 +1425,7 @@ export const store = new Vuex.Store({
         return state.taskTags.filter(tags => tags.task_id === id)
       }
     },
-    getMemberProfiledETAIL:(state,getters) => {
+    getMemberProfileDetail:(state,getters) => {
       return function (uId) {
         let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === uId })
         console.log("User Detail",state.arrAllUsers);
