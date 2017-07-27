@@ -2,9 +2,21 @@
 import feathers from 'feathers/client'
 import socketio from 'feathers-socketio/client'
 import io from 'socket.io-client'
+import * as vuex from '../VuexSession.js'
 
-const socket = io(process.env.SOCKET_IO);
+export const socket = io(process.env.SOCKET_IO, {transports: ['websocket'], upgrade: false});
+
+ socket.on("connect", function(){
+     var userId=vuex.store.state.userObject._id;
+     console.log('io connected!')
+     if (userId) {
+      socket.emit("userdata",userId );   
+     }
+ });
 export const app = feathers().configure(socketio(socket));
+
+
+
 
 export const tasksService = app.service('tasks')
 export const taskAttachmentService = app.service('task_attachment')

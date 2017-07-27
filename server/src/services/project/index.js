@@ -32,12 +32,29 @@ module.exports = function() {
   });
 
 
-project.filter(function(data, connection, hook) {
+project.filter('created',function(data, connection, hook) {
     console.log("Project Service data:-->",data);
     console.log("Project Service connection:-->",connection);
     console.log("Project Service hook:-->",hook);
-    return data
-})
+
+     if (!connection.userId) {
+      return false;
+    }
+
+    return app.service('projectmember').find({ query: { 'create_by': connection.userId } }).then(response => {
+      
+      if(response && response.length>0)
+        {
+          return data;
+        }else
+        {
+          return false;
+        }
+    })
+
+
+    // return data
+})  
 
   // Set up our before hooks
   project.before(hooks.before);

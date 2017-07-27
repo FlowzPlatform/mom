@@ -42,4 +42,42 @@ module.exports = function() {
   // Set up our after hooks
   taskAttachmentService.after(hooks.after);
 
+
+    taskAttachmentService.filter(function (data, connection, hook) {
+    console.log("<========Attachment Tags Filter Call=====>", data);
+    var userId = connection.userId;
+    if (!userId) {
+      return false;
+    }
+    var self = this;
+
+    return app.service('tasks').get(data.task_id).then(response => {
+      var dataTask=response
+      // console.log("<========Attachment data reponse=====>",dataTask);  
+      return app.service('project').get(dataTask.project_id).then(response => {
+       var dataProject=response
+        // console.log("<========Attachment project response=====>",response);  
+      // console.log("<========Tassk Filter userid=====>",userId);
+      if (dataProject && dataProject.project_privacy === "0") {
+        return data;
+      } else {
+        //  console.log("<========Tassk Filter Call=====>",userId);
+        return app.service('projectmember').find({ query: { 'user_id': userId, project_id: dataProject.id } }).then(response => {
+          // console.log("<========Attachment projectmember  Call=====>",response);
+          if (response && response.length > 0) {
+            return data;
+          } else {
+            return false;
+          }
+        })
+
+      }
+    })
+
+    })
+
+    
+
+  });
+
 }
