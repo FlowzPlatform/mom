@@ -29,6 +29,7 @@ app.use(cors());
 app.use(helmet());
 app.use(compress());
 app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
 // Host the public folder
@@ -56,6 +57,7 @@ app.configure(socketio(function(io) {
     });
 
 }));
+
 
 // Set up our services (see `services/index.js`)
 app.configure(services);

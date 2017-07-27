@@ -28,3 +28,12 @@ export const settingService = app.service('getSettings')
 export const taskHistoryLogs = app.service('history_logs')
 export const projectService = app.service('project')
 export const projectMemberService = app.service('projectmember')
+export const paymentsService = app.service('payments')
+// paymentsService.filter('log', function (data, connection, hook) {
+//     console.log("client payments Create  data:-->", data);
+//     console.log("client payments Create connection:-->", connection);
+//     console.log("client  payments Create hook:-->", hook);
+//     // connection.userId = data.userId
+
+//     return data
+//   });

@@ -6,6 +6,7 @@ const db = config.get('dbName')
 const table = config.get('tbl_tasks')
 const db_host = config.get('db_host')
 const db_port = config.get('db_port')
+const socketio = require('feathers-socketio');
 
 module.exports = function() {
   const app = this;
@@ -23,6 +24,23 @@ module.exports = function() {
 
   // Initialize our service with any options it requires 
   app.use('/tasks', service(options));
+
+// app.configure(socketio(function(io) {
+//     io.on('connection', function(socket) {
+//     //   socket.emit('news', { hello: 'world' });
+//     //   socket.on('my other event', function (data) {
+//     //     console.log(data);
+//     //   });
+//     });
+
+//     io.use(function(socket, next) {
+//       socket.feathers.data = 'Server say hello india';
+//       next();
+//     });
+
+// }));
+
+  
 
   // Get our initialize service to that we can bind hooks
   const taskService = app.service('/tasks');
@@ -72,5 +90,5 @@ module.exports = function() {
 
     
 });
-
+  
 }

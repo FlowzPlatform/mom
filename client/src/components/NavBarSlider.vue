@@ -8,8 +8,6 @@
                 </svg>
             </a>
         </div>
-       
-
         <div class="projectLable">
             <div class="text-left SidebarTeamDetailsProjectsList-header">Projects
                 <a @click="createProject" class="CircularButton CircularButton--enabled CircularButton--xxsmall SidebarTeamDetailsProjectsList-addProjectButton"

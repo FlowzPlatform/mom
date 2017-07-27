@@ -29,21 +29,20 @@ exports.before = {
       }
   },
   get: [],
-  create(hook){
-  var hookData=hook.data;
+  create(hook) {
+    var hookData = hook.data;
 
-return  this.find({query:{project_name:hookData.project_name}}).then(reponse=>{
-    
-    if(reponse.length>0)
-    {
-      hook.result ={error:"Project already exist"}
-      // return hook;
-    }
-    
-    console.log("-----Before created Success------")
+    return this.find({ query: { project_name: hookData.project_name } }).then(reponse => {
 
-    return hook;
-  })
+      if (reponse.length > 0) {
+        hook.result = { error: "Project already exist" }
+        // return hook;
+      }
+
+      console.log("-----Before created Success------")
+
+      return hook;
+    })
 
   },
   update: [],

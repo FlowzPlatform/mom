@@ -19,7 +19,10 @@ module.exports = function() {
   const options = {
     Model: r,
     name: table,
+    events:['logproject']
   };
+
+  
 
   // Initialize our service with any options it requires 
   app.use('/project', service(options));

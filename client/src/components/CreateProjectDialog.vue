@@ -172,7 +172,7 @@
                     this.projectName = ''
                     this.description = ''
                     this.privacyOption = ''
-                    this.$store.state.projectlist.push(response)
+                    // this.$store.state.projectlist.push(response)
                     this.$store.state.currentProjectId = response.id
                     this.$store.state.currentProjectName=response.project_name
                     this.close();

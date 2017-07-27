@@ -10,7 +10,7 @@ const tasks_settings = require('./settings');
 const history_logs = require('./history_logs');
 const project = require('./project');
 const project_member = require('./projectmember');
-
+const loginuser = require('./loginuser');
 // const r = require('rethinkdbdash')({
 //     db: 'vue_todo'
 //   });
@@ -44,4 +44,6 @@ module.exports = function () {
   app.configure(history_logs)
   app.configure(project)
   app.configure(project_member)
-};
+  app.configure(loginuser)
+
+}
