@@ -70,10 +70,10 @@ module.exports = function() {
     //         { parentId: payload.parentId, project_id: payload.project_id, created_by: store.state.userObject._id },
     //         { parentId: payload.parentId, project_id: payload.project_id, assigned_to: store.state.userObject._id }
     //       ]  
-    return app.service('project').find({ query: { 'id': data.project_id } }).then(response => {
+    return app.service('project').get(data.project_id).then(response => {
       // console.log("<========Tassk Filter response=====>",response);  
       // console.log("<========Tassk Filter userid=====>",userId);
-      if (response.length>0 && response[0].project_privacy==="0") {
+      if (response.project_privacy==="0") {
         return data;
       } else {
         //  console.log("<========Tassk Filter Call=====>",userId);

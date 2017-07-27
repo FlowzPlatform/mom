@@ -29,22 +29,47 @@ module.exports = function() {
   });
 
 
-    app.service('/projectmember').filter( function (data, connection, hook) {
-
+    app.service('/projectmember').filter(function (data, connection, hook) {
+console.log("<========projectmember Filter response=====>",connection);
     if (!connection.userId) {
       return false;
     }
 
-  return app.service('projectmember').find({ query: { 'create_by': connection.userId } }).then(response => {
-      
-      if(response && response.length>0)
-        {
-          return data;
-        }else
-        {
-          return false;
-        }
+console.log("<========Tassk Filter res-->",data);
+
+
+    return app.service('project').get(data.project_id).then(response => {
+      var projectData=response;
+      console.log("<========project Filter response=====>",projectData);  
+      // console.log("<========Tassk Filter userid=====>",userId);
+      if (projectData.project_privacy==="0") {
+        return data;
+      } else {
+         console.log("<========Project member Filter Call=====>",connection.userId);
+        return app.service('projectmember').find({ query: { 'user_id':connection.userId, project_id: projectData.id } }).then(response => {
+          var pMember=response
+          
+          if (response && response.length > 0) {
+            return data;                                
+            
+          } else {
+            return false;
+          }
+        })
+
+      }
     })
+
+  // return app.service('projectmember').find({ query: { 'user_id': connection.userId,'project_id':data.project_id } }).then(response => {
+      
+  //     if(response && response.length>0)
+  //       {
+  //         return data;
+  //       }else
+  //       {
+  //         return false;
+  //       }
+  //   })
 
     // if (connection.userId === data.user_id) {
     //   return data;
