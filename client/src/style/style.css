@@ -3223,6 +3223,7 @@ ol, ul {
     justify-content: center;
     position: relative;
     vertical-align: top;
+    overflow: hidden
 }
 .Facepile--grouped>.Facepile-overflow, .Facepile--grouped>.Facepile-empty, .Facepile--grouped>.Facepile-placeholder, .Facepile--grouped>.Facepile-loadingPlaceholder {
     font-size: 11px;

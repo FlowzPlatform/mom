@@ -52,7 +52,7 @@ export default {
       setTimeout(function(){
         el.style.cssText = 'height:auto; padding:12';
         el.style.cssText = 'height:' + el.scrollHeight + 'px';
-      }, 0)
+      }, 300)
     }
   },
   component: {
