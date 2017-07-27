@@ -38,15 +38,39 @@ module.exports = function() {
 
 
 
-  taskService.filter('created', function(data, connection, hook) {
-    console.log("Tassk Create  data:-->",data);
-    console.log("Tassk Create connection:-->",connection);
-    console.log("Tassk Create hook:-->",hook);
-    app.service('projectmember').find({query:{'create_by':"594cdf504b5d41138302f19a"}}).then(response => {
-      console.log("cerated_by-->",response);
+ 
+
+
+  taskService.filter(function(data, connection, hook) {
+     console.log("<========Tassk Filter Call=====>",connection);
+    var userId=connection.userId;
+    if (!userId) {
+      return false;
+    }
+    var self=this;
+    //  $or: [
+    //         { parentId: payload.parentId, project_id: payload.project_id, created_by: store.state.userObject._id },
+    //         { parentId: payload.parentId, project_id: payload.project_id, assigned_to: store.state.userObject._id }
+    //       ]  
+    return app.service('project').find({ query: { 'id': data.project_id } }).then(response => {
+      // console.log("<========Tassk Filter response=====>",response);  
+      // console.log("<========Tassk Filter userid=====>",userId);
+      if (response.length>0 && response[0].project_privacy==="0") {
+        return data;
+      } else {
+        //  console.log("<========Tassk Filter Call=====>",userId);
+        return app.service('projectmember').find({ query: { 'user_id':userId, project_id: data.project_id } }).then(response => {
+          if (response && response.length > 0) {
+            return data;
+          } else {
+            return false;
+          }
+        })
+
+      }
     })
+
     
-    return data
 });
 
 }

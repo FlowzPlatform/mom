@@ -28,4 +28,29 @@ module.exports = function() {
       console.log('projectmember created', project)
   });
 
+
+    app.service('/projectmember').filter( function (data, connection, hook) {
+
+    if (!connection.userId) {
+      return false;
+    }
+
+  return app.service('projectmember').find({ query: { 'create_by': connection.userId } }).then(response => {
+      
+      if(response && response.length>0)
+        {
+          return data;
+        }else
+        {
+          return false;
+        }
+    })
+
+    // if (connection.userId === data.user_id) {
+    //   return data;
+    // } else {
+    //   retrun false;
+    // }
+  });
+
 }

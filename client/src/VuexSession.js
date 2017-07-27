@@ -550,6 +550,38 @@ export const store = new Vuex.Store({
     },
     showTaskToAssignOthers(state, payload){
       state.assignedToOthers = payload
+    },
+     ASSIGN_PROJECT_MEMBER(state, assignMember){
+      
+      let index = _.findIndex(state.projectlist, function (d) { return d.id ==  assignMember.project_id })
+      console.log("Index Found:--",index)
+      if (index > -1) {
+        if (!state.projectlist[index].members)
+          state.projectlist[index].members = []
+
+
+        
+        setTimeout(function() {
+        let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === assignMember.user_id })
+        console.log("User Detail", userIndex);
+        if (userIndex < 0) {
+          state.projectlist[index].members.push({ user_id: assignMember.user_id  })
+        } else {
+          state.projectlist[index].members.push({ user_id: assignMember.user_id , url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name,email: state.arrAllUsers[userIndex].email  })
+        }  
+        console.log("state.projectlist[index]", state.projectlist[index]);
+        
+        }, 2000);
+        
+
+
+
+      }
+
+      // state.deletedTaskArr = deletedArray
+    },
+    ADD_PROJECT(state,project){
+      state.projectlist.push(project);
     }
   },
   actions: {
@@ -613,19 +645,26 @@ export const store = new Vuex.Store({
         console.log("Message History log Removed:-->", message)
         commit('DELETE_COMMENT', message)
       })
-       services.projectService.on('patched', message => {
+           services.projectService.on('patched', message => {
          console.log("Project updated:-->", message)
           commit('updateProjectList', message)
        })
+
+        services.projectMemberService.on('created', message => {
+         console.log("ASSIGN_PROJECT_MEMBER:-->", message)
+          commit('ASSIGN_PROJECT_MEMBER', message)
+       })
+
+        services.projectService.on('created', message => {
+         message.members=[]          
+         console.log("Project updated:-->", message)
+         commit('ADD_PROJECT', message)
+       })
     },
     getAllTodos({ commit }, payload) {
-      services.tasksService.find({
-        query: {
-          $or: [
-            { parentId: payload.parentId, project_id: payload.project_id, created_by: store.state.userObject._id },
-            { parentId: payload.parentId, project_id: payload.project_id, assigned_to: store.state.userObject._id }
-          ]
-        }
+       services.tasksService.find({
+        query:
+            { parentId: payload.parentId, project_id: payload.project_id}
       }).then(response => {
         commit('GET_TODO', response)
       });
@@ -1163,6 +1202,7 @@ export const store = new Vuex.Store({
         })
         .then(function (response) {
           commit('GET_USERDETAIL', response.data.data)
+          services.socket.emit("userdata",response.data.data._id);
         })
         .catch(function (error) {
           throw error
@@ -1225,7 +1265,10 @@ export const store = new Vuex.Store({
               { project_privacy: '0' },
               { project_privacy: '1' },
               { project_privacy: '2', create_by: userId }
-            ]
+            ],
+            $client: {
+              flag: 'allprojectlist'
+            }
           }
         }).then(response => {
           console.log("Response from Project", response)
