@@ -1,15 +1,31 @@
-// const express = require('express')
-// const r = require('rethinkdbdash')()
-// const bodyParser = require('body-parser')
-// const webpack = require('webpack')
-// const config = require('./build/webpack.dev.conf')
-// const _ = require('lodash')
+ const express = require('express')
+const r = require('rethinkdbdash')()
+const bodyParser = require('body-parser')
+const webpack = require('webpack')
+const config = require('./build/webpack.dev.conf')
+const _ = require('lodash')
 
-// const app = express()
-// const router = express.Router()
-// const compiler = webpack(config)
-// const jsonParser = bodyParser.json()
+const app = express()
+const router = express.Router()
+const compiler = webpack(config)
+const jsonParser = bodyParser.json()
+var fs = require("fs");
+var wkhtmltopdf = require('wkhtmltopdf');
+var path = require('path');
+var mime = require('mime');
+var pdf = require('html-pdf');
+var options = { 
+  format: 'Letter',
+  "header": {
+    "height": "10mm"
+  },
+  "footer": {
+    "height": "10mm"
+   // "contents": '<div style="text-align: center;">Footer</div>'
+  }
 
+};
+ 
 // var sockio = require("socket.io");
 // console.log("App is listening on 3000");
 // try{
@@ -24,7 +40,15 @@
 // }catch(error){
 //     console.log("error");
 // }
-
+app.get('/report', (req, res) => {
+  var file = __dirname + '/out.pdf';
+  var filename = path.basename(file);
+  var mimetype = mime.lookup(file);
+  res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+  res.setHeader('Content-type', mimetype);
+  var filestream = fs.createReadStream(file);
+  filestream.pipe(res);
+});
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
@@ -42,12 +66,15 @@ app.use(require('webpack-dev-middleware')(compiler, {
   }
 }))
 
-// enable hot-reload and state-preserving
-// compilation error display
-app.use(require('webpack-hot-middleware')(compiler))
+//enable hot-reload and state-preserving
+//compilation error display
+//app.use(require('webpack-hot-middleware')(compiler))
 
 // Get all task from the db
-// app.get('/tasks', (req, res) => {
+//  app.get('/tasks', (req, res) => {
+//    console.log('Tasks caalled')
+//    res.send('hi');
+//  });
 //   r.db("vue_todo").table("tasks").run().then(result => {
 //     res.send(result)
 //   }).catch(err => {
@@ -347,7 +374,7 @@ app.use(require('webpack-hot-middleware')(compiler))
 
 // //Insert Comment in task_comment
 // app.post('/insertComment', jsonParser, (req, res) => {
-//   console.log('request: ', req.body)
+//   console.log('request: ', req.bo3000dy)
 //   const comment = {
 //     'task_id': req.body.task_id,
 //     'commentBy': req.body.commentBy,
@@ -420,11 +447,14 @@ app.use(require('webpack-hot-middleware')(compiler))
 
 // app.get('/getTags', (req, res) => {
 //   r.db("vue_todo").table('tags').run().then(result => {
+//     console.log('Result tags::',result)
 //     res.send(result);
 //   }).catch(err => {
 //     console.log('Error:', err)
 //   })
 // });
+
+
 
 // app.post('/getTaskTags', (req, res) => {
 //   var task_id = req.body.task_id;
@@ -457,12 +487,49 @@ app.use(require('webpack-hot-middleware')(compiler))
 //   })
 // })
 
-// app.use('/api', router)
+//Insert Comment in task_comment
+app.post('/getHtmlToPdf', jsonParser, (req, response) => {
+  // var file = __dirname + '/out.pdf';
+  // var filename = path.basename(file);
+  // var mimetype = mime.lookup(file);
+  // res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+  // res.setHeader('Content-type', mimetype);
+  // var filestream = fs.createReadStream(file);
+  // filestream.pipe(res);
 
-// app.listen(3000, function (err) {
-//   if (err) {
-//     console.log(err)
-//     return
-//   }
-//   console.log('Listening at http://172.16.105.110:3000')
-// })
+  var html = req.body.divHtml;
+  pdf.create(html, options).toFile(__dirname+'/out.pdf', function(err, res) {
+    if (err) return console.log(err);
+    response.send(__dirname);
+  });  
+});
+
+// fs.unlink('./server/upload/my.csv',function(err){
+//         if(err) return console.log(err);
+//         console.log('file deleted successfully');
+//    });
+
+// response.send(__dirname);
+
+//pdf.create(html,options).toBuffer(function(err, stream){
+   // var file = '/home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/client/out.pdf';
+   // response.send(file);
+    // var file = full path to tmp file (added 'c:' because I'm testing locally right now)
+    
+
+  //  response.send(stream);
+
+//})
+
+app.use('/api', router)
+
+
+// wkhtmltopdf('<h1>Test</h1><p>Hello world</p>', {output: 'out.pdf'});
+
+app.listen(3000, function (err) {
+  if (err) {
+    console.log(err)
+    return
+  }
+  console.log('Listening at http://172.16.105.110:3000')
+})

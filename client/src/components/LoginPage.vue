@@ -1,13 +1,18 @@
 <template>
+     <!-- <form action="http://ec2-34-229-146-53.compute-1.amazonaws.com/auth/Gplus" method="post">  -->
+     <!-- <input type="hidden" name="success_url" value="http://localhost:3000/navbar">
+    <input type="hidden" name="key" value="381524561267-3agj2flmlj546qsnufj8d6283e6eismb.apps.googleusercontent.com">
+    <input type="hidden" name="seceret" value="KFzqxuDKfGnF91QMRHiirZwW">   -->
     <div class="dialog--nux-container" id="dialog-container">
         <div class="dialog--nux-content">
             <!--<a href="#" onclick="signOut();">Sign out</a>-->
             <h1 class="title">Log In</h1>
             <!--<div class="g-signin2" data-onsuccess="onSignInSuccess"></div>-->
-            <g-signin-button class="buttonView buttonView--primary buttonView--large" id="google_auth_button" :params="googleSignInParams"
+              <g-signin-button class="buttonView buttonView--primary buttonView--large" id="google_auth_button" :params="googleSignInParams"
                 @success="onSignInSuccess" @error="onSignInError">
                 Use Google Account
-            </g-signin-button>
+            </g-signin-button>  
+             <!-- <button type="submit">Use Google Account</button>  -->
             <div class="dialog--nux-seperator" id="seprator"> or </div>
 
             <div id="normal_login_contents">
@@ -31,16 +36,17 @@
                     <button tabindex="4" id="signup_btn" @click="btnSignUpClicked()" class="buttonView buttonView--default buttonView--primary buttonView--large"><span>Sign Up</span></button>
                     <button tabindex="5" class="buttonView buttonView--default buttonView--primary buttonView--large is-disabled" id="login_btn"
                         @click="btnLogInClicked()"><span>Log In</span></button>
-                </div>
+                </div><!--</form>-->
             </div>
             <!--<script>
             Dialog.makeElementSubmit('email_input');
             Dialog.makeElementSubmit('password_input');
             Dialog.makeElementSubmit('submit_button');
         </script>-->
-            <!--</form>-->
+            <!-- </form> -->
         </div>
     </div>
+    <!-- </form> -->
 </template>
 <script src="https://apis.google.com/js/api:client.js" async defer></script>
 <script>
