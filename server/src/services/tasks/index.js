@@ -56,12 +56,9 @@ module.exports = function() {
 
 
 
-<<<<<<< HEAD
-=======
  
 
 
->>>>>>> 91a9c09fd22e14d8b6120051b529558174654c5d
   taskService.filter(function(data, connection, hook) {
      console.log("<========Tassk Filter Call=====>",connection);
     var userId=connection.userId;
