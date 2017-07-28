@@ -70,11 +70,11 @@
           </a>
         </div>
       </div>
-      <section class="">
-        <div class="">
+      <!-- <section class=""> -->
+        <!-- <div class=""> -->
           <router-view></router-view>
-        </div>
-      </section>
+        <!-- </div> -->
+      <!-- </section> -->
       <!--Profile dialog start-->
       <settings-menu :settingArr="settingArr" :showModal="settings_menu" :closeAction="closeDialog"></settings-menu>
       <div class="todoapp">

@@ -135,6 +135,7 @@ export const store = new Vuex.Store({
     searchView: '',
     assignedToOthers: [], 
     taskIndex: -1,
+    task_types_list: []
   },
   mutations: {
     userData: state => state.userObject,
@@ -640,19 +641,14 @@ export const store = new Vuex.Store({
     },
     ADD_PROJECT(state, project) {
       state.projectlist.push(project);
+    },
+    GET_TASK_TYPE(state, payload){
+      state.task_types_list = payload
     }
   },
   actions: {
-    getUserRegister({ commit }) {
-      console.log("<<---getUserRegister->>", store.state.userObject._id)
-      services.paymentsService.find({ userId: store.state.userObject._id }).then(response => {
-        console.log("Create->>", response)
-        // commit('GET_ROLES', response)
-      });
-    }
-    ,
-
-    getUsersRoles({ commit }) {
+    getUsersRoles({commit})
+    {
       services.roleService.find().then(response => {
         // console.log("Role list->>",response)
         commit('GET_ROLES', response)
@@ -727,6 +723,11 @@ export const store = new Vuex.Store({
         message.members = []
         console.log("Project updated:-->", message)
         commit('ADD_PROJECT', message)
+         console.log("Project updated:-->", message)
+          commit('updateProjectList', message)
+      })
+      services.roleServicePermission.on('created', message => {
+        console.log("Message To create Role permission:--", message)
       })
     },
     getAllTodos({ commit }, payload) {
@@ -1418,6 +1419,27 @@ export const store = new Vuex.Store({
         console.log("Response To Tasks I've assigned To Others:--", response)
         commit('showTaskToAssignOthers', response)
       })
+    },
+    insertNewRole({commit}, payload){
+      services.roleServicePermission.create({
+        name:payload.name,
+        index:payload.index
+      }).then(response => {
+        console.log("Response To Add New Role:--", response)
+      })
+    },
+    removeNewRole({commit}, payload){
+      services.roleServicePermission.remove(payload.id,
+      {query: {'id': payload.id}}
+      ).then(response => {
+        console.log("Delete Role Access: --", response)
+      })
+    },
+    getTaskTypes({commit}){
+      services.taskTypesService.find().then(response => {
+        console.log("Response task type Find::", response);
+        commit('GET_TASK_TYPE', response)
+      });
     }
   },
   getters: {
@@ -1492,7 +1514,8 @@ export const store = new Vuex.Store({
     getdeleteArray: state => state.deletedTaskArr,
     getTaskLists: state => state.createdByTaskList,
     getRecentlyCompletedLists: state => state.recentlyCompletedTasks,
-    getTaskAssignedToOthers: state => state.assignedToOthers
+    getTaskAssignedToOthers: state => state.assignedToOthers,
+    getTaskTypeList: state => state.task_types_list
   },
 
   plugins: [createPersistedState()]
