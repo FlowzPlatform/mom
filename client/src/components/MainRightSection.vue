@@ -2,7 +2,7 @@
 <div class="rightsection-view">
 <div class="DropTargetAttachment">
 <section class="todoapp right_bar">
-  <right-toolbar :filteredTodo="todoObject"></right-toolbar>
+  <!-- <right-toolbar :filteredTodo="todoObject"></right-toolbar> -->
    <div class="taskbarsect">
   <div v-if="todoObject.isDelete" class="MessageBanner MessageBanner--error MessageBanner--medium TaskUndeleteBanner TaskMessageBanner">
     <span class="fa fa-trash-o"  style="margin-right: 10px"/>

@@ -1297,7 +1297,13 @@ a:hover, a:focus{
     width: 6px;
     float: left;
 }
-.Topbar {position: fixed;top: 0;left: 0;right: 0;z-index: 1;}
+.Topbar {
+     position: fixed; 
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
 .PageHeaderStructure {position: fixed;top: 40px;left: 0;right: 0;}
 .known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;overflow: auto;min-width: 450px;}
 .asanaView-body { position: fixed;top: 100px;left: 0;right: 0;bottom: 0;overflow-x: auto; }
@@ -3223,6 +3229,7 @@ ol, ul {
     justify-content: center;
     position: relative;
     vertical-align: top;
+    overflow: hidden;
 }
 .Facepile--grouped>.Facepile-overflow, .Facepile--grouped>.Facepile-empty, .Facepile--grouped>.Facepile-placeholder, .Facepile--grouped>.Facepile-loadingPlaceholder {
     font-size: 11px;
@@ -5347,7 +5354,7 @@ table {
     vertical-align: middle;
 }
 
-/* input[type=text].generic-input,
+ input[type=text].generic-input,
 input[type=password].generic-input {
     height: 30px;
 }
@@ -5374,6 +5381,36 @@ textarea,
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     color: #151b26;
-    padding-left: 10px;
+     /* padding-left: 10px;  */
     border: 1px solid transparent;
-} */
+} 
+
+.ui.segment:first-child {
+    top: 5%;
+    margin-top: 5px; 
+}
+.taskType { position: fixed;top: 100px;bottom: 0;overflow-x: auto; }
+.taskType{
+	-webkit-transition: min-width 0.25s ease-out;
+    -moz-transition: min-width 0.25s ease-out;
+    transition: min-width 0.25s ease-out;
+    min-width: 920px;
+    background-color: transparent;
+    display: -webkit-box;
+    /* display: flex; */
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1;
+    -webkit-flex: 1;
+    -moz-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    min-height: 1px;
+    padding-top: 15px;
+    position: relative;
+    z-index: 0;
+    -webkit-transition: background-color 1s;
+    -moz-transition: background-color 1s;
+    transition: background-color 1s;
+    /*background-color: white;*/
+}

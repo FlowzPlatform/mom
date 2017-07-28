@@ -5,7 +5,7 @@
                 <tr>
                     <template v-for="field in fields">
                                 <th :class="field.titleClass">
-                                    {{ getTitle(field) | capitalize }}&nbsp;
+                                    {{ getTitle(field) | capitalizeLetters }}&nbsp;
                                 </th>
                         </template>
                 </tr>
@@ -19,6 +19,9 @@
                                         <component :class="field.dataClass" is="custom-action" :row-data="item" :row-index="itemNumber" :row-check="getObjectValue(item, field, '')" :row-field="field" ></component>
                                     </td>
                                 <td v-else :class="field.dataClass"  @dblclick="onCellDoubleClicked(item, field, $event)">
+                                    <i class="fa fa-pencil pull-left" aria-hidden="true" style="margin: 5px; cursor: pointer;" data-toggle="modal" data-target="#userGroup" @click="getObjectValue(item, field, '')"></i>
+                                    <i class="fa fa-trash-o svgIcon hover-glyph-default pull-left" style="margin: 5px; cursor: pointer;" @click="deleteRole(item)">
+                                    </i>
                                       {{ getObjectValue(item, field, "") }}
                                 </td>
                         </template>
@@ -104,18 +107,18 @@ export default {
             return this.selectedTo.indexOf(key) >= 0
         },
         rowSelected: function(dataItem, fieldName) {
-             console.log("fieldName-->",fieldName);
-             console.log("dataItem-->",dataItem);
+            //  console.log("fieldName-->",fieldName);
+            //  console.log("dataItem-->",dataItem);
             
             var idColumn = fieldName
-             console.log("idColumn-->",idColumn);
+            //  console.log("idColumn-->",idColumn);
             var key = dataItem[idColumn]
-            console.log("key-->",key);
+            // console.log("key-->",key);
             return key
         },
             itemAction: function(action,isChecked, data,rowCheck) {
                 //  var idColumn = this.extractArgs(fieldName)
-                console.log('custom-action: ' + action, data.name, isChecked, rowCheck)
+                // console.log('custom-action: ' + action, data.name, isChecked, rowCheck)
             },
         normalizeFields: function() {
             var self = this
@@ -146,8 +149,8 @@ export default {
         },
         getObjectValue: function(object, path, defaultValue) {
             defaultValue = (typeof defaultValue == 'undefined') ? null : defaultValue
-            console.log("object",object);
-            console.log("path",path.id);
+            // console.log("object",object);
+            // console.log("path",path.id);
             // console.log("defaultValue",defaultValue);
 
             if (path.id) {
@@ -236,8 +239,11 @@ export default {
             if (typeof this.$parent[func] == 'function') {
                 return this.$parent[func].call(this.$parent, item)
             } else {
-                console.error('Function "'+func+'()" does not exist!')
+                // console.error('Function "'+func+'()" does not exist!')
             }
+        },
+        deleteRole: function(item) {
+            this.$store.dispatch('removeNewRole', item)
         }
     },
     watch: {
@@ -314,4 +320,8 @@ export default {
       margin-top: auto;
       margin-bottom: auto;
     }
+    /* i.fa.fa-pencil.pull-left {
+        visibility: hidden;
+    } */
+
 </style>
