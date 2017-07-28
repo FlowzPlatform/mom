@@ -22,7 +22,7 @@
   height: 320px;
   background-color: #999ede;
   top: 50%;
-  /*margin-top: -160px;*/
+  margin-top: -160px;
   -moz-transition: all 0.5s;
   -o-transition: all 0.5s;
   -webkit-transition: all 0.5s;

@@ -87,12 +87,6 @@
             return firstLetters.toUpperCase()
         }
     })
-    Vue.filter('capitalizeLetters', function (str) {
-        if (str) {
-            var firstLetters = str.substr(0, 2)
-            return firstLetters.toUpperCase()
-        }
-    })
     Vue.filter('capitalizeFirstLetter', function (str) {
         let str1 =  str.split('_').join(' ')
         return str1.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
