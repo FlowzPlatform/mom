@@ -683,16 +683,8 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
-    getUserRegister({ commit }) {
-      console.log("<<---getUserRegister->>", store.state.userObject._id)
-      services.paymentsService.find({ userId: store.state.userObject._id }).then(response => {
-        console.log("Create->>", response)
-        // commit('GET_ROLES', response)
-      });
-    }
-    ,
-
-    getUsersRoles({ commit }) {
+    getUsersRoles({commit})
+    {
       services.roleService.find().then(response => {
         // console.log("Role list->>",response)
         commit('GET_ROLES', response)
@@ -784,6 +776,9 @@ export const store = new Vuex.Store({
       services.taskStatusService.on('removed', message => {
         console.log("Delete Task Status Service:--", message)
         commit('DELETE_TASK_STATUS', message)
+      })
+      services.roleServicePermission.on('created', message => {
+        console.log("Message To create Role permission:--", message)
       })
     },
     getAllTodos({ commit }, payload) {
@@ -1491,7 +1486,7 @@ export const store = new Vuex.Store({
         console.log("Delete Role Access: --", response)
       })
     },
-    getTaskTypes({ commit }) {
+    getTaskTypes({commit}){
       services.taskTypesService.find().then(response => {
         console.log("Response task type Find::", response);
         commit('GET_TASK_TYPE', response)

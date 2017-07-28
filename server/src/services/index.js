@@ -10,14 +10,9 @@ const tasks_settings = require('./settings');
 const history_logs = require('./history_logs');
 const project = require('./project');
 const project_member = require('./projectmember');
-<<<<<<< 30fefab7f3bac9320aa00d4a8eebd4ea682b49ff
-const loginuser = require('./loginuser');
-=======
 const taskType = require('./task_type')
 const taskStatus = require('./task_status')
 const taskTypeState = require('./task_type_state')
-
->>>>>>> task type get from db
 // const r = require('rethinkdbdash')({
 //     db: 'vue_todo'
 //   });
