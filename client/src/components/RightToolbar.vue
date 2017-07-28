@@ -245,193 +245,51 @@ export default {
       document.execCommand("copy");
       $temp.remove(); 
     },
-   toDataURL(url, callback) {
-  // var xhr = new XMLHttpRequest();
-  // xhr.onload = function() {
-  //   var reader = new FileReader();
-  //   reader.onloadend = function() {
-  //     callback(reader.result);
-  //   }
-  //   reader.readAsDataURL(xhr.response);
-  // };
-  // xhr.open('GET', url);
-  // xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
-  // xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=UTF-8');
-  // xhr.responseType = 'blob';
-  // xhr.send();
-
-var data = new FormData();
-
-var xhr = new XMLHttpRequest();
-xhr.withCredentials = true;
-
-xhr.addEventListener("readystatechange", function () {
-  if (this.readyState === 4) {
-    console.log(this.responseText);
-  }
-});
-
-xhr.open("GET", "https://s3-us-west-2.amazonaws.com/airflowbucket1%2Fobexpense%2Fexpenses/7up-logo-new%402x.png");
-xhr.setRequestHeader("cache-control", "no-cache");
-xhr.setRequestHeader("postman-token", "5669ea18-fb54-85de-c822-4f675d02b80f");
-
-xhr.send(data);
-},
     exportToPDF(){
-      console.log('Export to pdf called', this.taskTags)
-
-    //  this.toDataURL(this.imageURlProfilePic, function(dataUrl) {
-    //     console.log('RESULT:', dataUrl)
-    // })
-
-//     var form = new FormData();
-
-// var settings = {
-//   "async": true,
-//   "crossDomain": true,
-//   "url": "https://s3-us-west-2.amazonaws.com/airflowbucket1%2Fobexpense%2Fexpenses/7up-logo-new%402x.png",
-//   "method": "GET",
-//   "headers": {
-//     "cache-control": "no-cache",
-//     "postman-token": "3a804279-e7c4-c398-5af9-affe36f1158a"
-//   },
-//   "processData": false,
-//   "contentType": false,
-//   "mimeType": "multipart/form-data",
-//   "data": form
-// }
-//right_pane
-// $.ajax(settings).done(function (response) {
-//   console.log('Ajax response',response.data);
-// });
-          var rightPaneHtml = $("#center_pane").html();
           var htmlString = "<html><head></head><body>"
-          //   this.$http.get('/getTags').then(response => {
-          //       console.log('Get tags response', response.data)
-          //  })
-
-          var doc = new jsPDF();
-          console.log('pdf content height',doc.internal.pageSize.height);
-          var pageHeight = doc.internal.pageSize.height;
-          // Before adding new content
-          //y = 500 // Height position of new content
-          doc.setFontSize(15);
-          doc.setFillColor(205,207,210);
-          doc.circle(15, 15, 6, 'FD');
-          doc.setTextColor(255, 255, 255);
           var letters = this.getUserLetters()
-          if(letters){
-             doc.text(11.5,16.5, letters);
-          }
-         // alert(this.imageURlProfilePic)
           htmlString += (this.imageURlProfilePic.length > 0 ? "<div style='display: inline-block;width:30px;height:30px;border-radius:100%;overflow: hidden;vertical-align: middle; border:solid 1px #ddd'><img src="+this.imageURlProfilePic+" style='max-width:100%; max-height:100%'/></div>" : "<div style='display: inline-block;width:30px;height:30px;border-radius:100%;overflow: hidden;vertical-align: middle; border:solid 1px #ddd; line-height:32px;font-size:16px; text-align:center;'>"+ letters +"</div>");
-         
-          doc.setTextColor(0, 0, 0);
-          doc.text(24,16, this.getAssignedUserName());
           htmlString += "&nbsp;&nbsp;<span>"+ this.getAssignedUserName() +"</span>";
           var dueDt = moment(this.filteredTodo.dueDate).isValid();
           if(dueDt){
-            doc.setFontSize(15);
-            doc.circle(55, 15, 6);
-            doc.text(64,16.5, moment(this.filteredTodo.dueDate).format('DD MMM YYYY'));
-
             htmlString += "<span style='padding-left:8em;'> <div style='padding-left:5px; margin-right:10px; display: inline-block;width:25px;height:30px;border-radius:100%;overflow: hidden;vertical-align: middle; border:solid 1px #ddd; line-height:28px;font-size:16px; text-align:center; '>&#128197;</div>"+ moment(this.filteredTodo.dueDate).format('DD MMM YYYY') +"</span>";
           }
-          htmlString += "<br/><br/><hr/>"
-          // doc.circle(115, 15, 6);
-          // doc.circle(130, 15, 6);
-          // doc.circle(145, 15, 6);
-          // doc.circle(160, 15, 6);
+          htmlString += "<hr/>"
 
-          doc.setLineWidth(0.1);
-          doc.line(0, 25, 210, 25);
-
-          doc.setFontSize(20);
-          doc.text(11.5,40, this.filteredTodo.taskName);
           var imgChk = (this.filteredTodo.completed ? "checked" : "unchecked") 
-          htmlString += "<span style='display: inline-block;vertical-align: middle;'><img src='https://s3-us-west-2.amazonaws.com/airflowbucket1/obexpense/expenses/"+imgChk+".png'></span><span style='padding-left:1em;font-size: 130%;font-weight: bold;margin-left:-10px;'>"+ this.filteredTodo.taskName +"</span>";
-          //htmlString += "<h3>"+this.filteredTodo.taskName +"</h3>";
-          doc.setFontSize(13);
-          doc.text(11.5,50, this.filteredTodo.taskDesc);
-          htmlString += "<p>"+this.filteredTodo.taskDesc +"</p><br/>";
+          htmlString += "<span style='display: inline-block;vertical-align: middle;'><img src='https://s3-us-west-2.amazonaws.com/airflowbucket1/obexpense/expenses/"+imgChk+".png' style='width:20px'></span><span style='padding-left:1em;font-size:18px;font-weight: bold;margin-left:-10px;'>"+ this.filteredTodo.taskName +"</span>";
 
-          if(this.attachmentList.length > 0){
-             doc.setFontSize(14);
-             doc.setTextColor(0, 76, 153);
-             doc.text(11, 63, 'Attachments:');
-             htmlString += "<h2 style='color:gray;'>Attachments:</h2>";
-          }
-           doc.setFontSize(13);
-           doc.setTextColor(0, 0, 0);
+          if(this.filteredTodo.taskDesc.length > 0)
+              htmlString += "<p>"+this.filteredTodo.taskDesc +"</p><br/>";
+
+          if(this.attachmentList.length > 0)
+             htmlString += "<h3 style='color:gray;'>Attachments:</h3>";
 
            var yPositionAttachments = 70;
            for (var i = 0; i < this.attachmentList.length; i++) {
               var attachment = this.attachmentList[i]
-              console.log("Task Name", attachment.file_name)
-              doc.text(15,yPositionAttachments, '~> ' + attachment.file_name + '(' +attachment.file_url+')');
-              yPositionAttachments += 10;
               htmlString += "<a href="+ attachment.file_url +" target='_blank'>"+ attachment.file_name +"</a><br/>"
           }
 
-          if(this.taskTags.length > 0){
-             doc.setFontSize(14);
-             doc.setTextColor(0, 76, 153);
-             doc.text(11, 95, 'Tags:');
-             htmlString += "<br/><h2 style='color:gray;'>Tags:</h2>";
-          }
-           doc.setFontSize(13);
-           doc.setTextColor(0, 0, 0);
+          if(this.taskTags.length > 0)
+             htmlString += "<br/><h3 style='color:gray;'>Tags:</h3>";
 
           var xPositionTags = 15;
            for (var i = 0; i < this.taskTags.length; i++) {
               var tag = this.taskTags[i]
-              console.log("Tag Name", this.taskTags.name)
-              doc.text(xPositionTags, 102, tag.name+' ');
-              xPositionTags += 10;
               htmlString += (i == this.taskTags.length - 1 ? "<span>"+ tag.name +"</span>" : "<span>"+ tag.name +", </span>");
           }
 
-           if(this.filteredTodo.subtask_count > 0){
-             doc.setFontSize(14);
-             doc.setTextColor(0, 76, 153);
-             doc.text(11, 115, 'Subtasks:');
-             doc.setLineWidth(0.1);
-             doc.line(0, 118, 510, 120);
-             htmlString += "<br/><br/><h2 style='color:gray;'>Subtasks:</h2>";
-          }
-          doc.setFontSize(13);
-          doc.setTextColor(0, 0, 0);
+           if(this.filteredTodo.subtask_count > 0)
+             htmlString += "<br/><br/><h3 style='color:gray;'>Subtasks:</h3>";
           
-          var yPositionSubtasks = 125;
           for (var i = 0; i < this.filteredTodo.subtask_count; i++) {
               var subTask = this.subTasksArray[i]
-              console.log("Task Name", subTask.taskName)
-              doc.setLineWidth(0.1);
-              doc.line(0, yPositionSubtasks+3.5, 510, yPositionSubtasks + 5);
-              doc.text(20,yPositionSubtasks, subTask.taskName);
-              yPositionSubtasks += 10;
               var imgName = (subTask.completed ? "checked" : "unchecked") 
-              htmlString += "<span style='display: inline-block;vertical-align: middle;'><img src='https://s3-us-west-2.amazonaws.com/airflowbucket1/obexpense/expenses/"+imgName+".png'></span><span style='padding-left:1em;'>"+ subTask.taskName +"</span><hr>";
+              htmlString += "<span style='display: inline-block;vertical-align: middle;'><img src='https://s3-us-west-2.amazonaws.com/airflowbucket1/obexpense/expenses/"+imgName+".png' style='width:20px'></span><span style='padding-left:1em;'>"+ subTask.taskName +"</span><hr>";
           }
 
            htmlString += "</body></html>";
-
-           //alert(htmlString);
-
-    // var mywindow = window.open('', 'PRINT', 'height=400,width=600');
-
-    // mywindow.document.write('<html><head><title>' + document.title  + '</title>');
-    // mywindow.document.write('</head><body >');
-    // mywindow.document.write('<h1>' + document.title  + '</h1>');
-    // mywindow.document.write(document.getElementById("right_pane").innerHTML);
-    // mywindow.document.write('</body></html>');
-
-    // mywindow.document.close(); // necessary for IE >= 10
-    // mywindow.focus(); // necessary for IE >= 10*/
-
-    // mywindow.print();
-    // mywindow.close();
-
 
             this.$http.post('/getHtmlToPdf', {
                 divHtml: htmlString
@@ -439,34 +297,7 @@ xhr.send(data);
                 console.log('Response pdf', response.data);
                 //window.location.assign(response.data);
                  top.location.href = "/report";
-
-                // var blob=new Blob([response.data]);
-                // var link=document.createElement('a');
-                // link.href=window.URL.createObjectURL(blob);
-                // link.download="Dossier_"+new Date()+".pdf";
-                // link.click();
-
-                // var file = new Blob([response.data], {type: 'application/pdf;base64'});
-                // var fileURL = URL.createObjectURL(file);
-                // setTimeout(function() {
-                //    window.open(fileURL);
-                // }, 10000);
-
            });
-
-
-
-
-          //alert(htmlString);
-          // if (y>=pageHeight)
-          // {
-          //     doc.addPage();
-          //     // y = 0 // Restart height position
-          // }
-         // doc.text(x, y, "value");
-         // doc.text(20, 20, 'Do you like that?');
-         
-         // doc.save(this.filteredTodo.id+'.pdf')
       
     },
     removeAttachmentPopUp () {

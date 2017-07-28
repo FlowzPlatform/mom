@@ -261,3 +261,640 @@
 2017-07-18T19:07:55.708501328 275.235979s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
 2017-07-18T19:08:15.714706561 295.242184s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
 2017-07-18T19:08:35.720164134 315.247642s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:08:55.725200339 335.252678s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:09:15.730238298 355.257716s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:09:35.735653635 375.263131s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:09:55.741060860 395.268540s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:10:15.747162651 415.274641s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:10:35.753493314 435.280971s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:10:55.758136175 455.285615s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:11:15.763618134 475.291096s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:11:35.768829211 495.296307s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:11:55.774428192 515.301906s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:12:15.779800943 535.307279s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:12:35.785450577 555.312928s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:12:55.790786395 575.318264s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:13:15.796471031 595.323949s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:13:35.802121715 615.329600s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:13:55.807277094 635.334755s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:14:15.812850226 655.340328s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:14:35.818092356 675.345570s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:14:55.823942771 695.351420s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:15:15.829782004 715.357260s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:15:35.836122725 735.363601s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:15:55.841824987 755.369303s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:16:15.847235367 775.374714s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:16:35.852201131 795.379679s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:16:55.857795236 815.385273s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:17:15.864478895 835.391957s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:17:35.869677570 855.397156s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:17:55.875632106 875.403110s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:18:15.881075993 895.408554s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:18:35.886595409 915.414073s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:18:55.892537316 935.420015s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:19:15.897614302 955.425092s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:19:35.903320468 975.430798s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:19:55.908885804 995.436364s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:20:15.913994382 1015.441472s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:20:35.918850571 1035.446329s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:20:55.923550390 1055.451028s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:21:15.928236112 1075.455714s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:21:35.931560089 1095.459038s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:21:55.936890452 1115.464368s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:22:15.941425073 1135.468903s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:22:35.945645825 1155.473123s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:22:55.951114980 1175.478593s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:23:15.956820363 1195.484298s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:23:35.963537136 1215.491015s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:23:55.967750201 1235.495227s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:24:15.972052777 1255.499531s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:24:35.978083297 1275.505561s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:24:55.983865150 1295.511343s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:25:15.989034522 1315.516512s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:25:35.995050082 1335.522528s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:25:55.999958050 1355.527436s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:26:16.005834916 1375.533313s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:26:36.012122386 1395.539600s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:26:56.018486242 1415.545964s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:27:16.023147480 1435.550625s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:27:36.029180333 1455.556658s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:27:56.035386773 1475.562865s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:28:16.040934416 1495.568412s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:28:36.045501300 1515.572979s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:28:56.049835362 1535.577313s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:29:16.055324869 1555.582803s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:29:36.061704523 1575.589183s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:29:56.067575356 1595.595053s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:30:16.072396871 1615.599875s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:30:36.077259263 1635.604737s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:30:56.083359602 1655.610838s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:31:16.088989075 1675.616467s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:31:36.094662019 1695.622140s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:31:56.099679145 1715.627157s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:32:16.106377002 1735.633855s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:32:36.111601240 1755.639079s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:32:56.116756833 1775.644235s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:33:16.122204439 1795.649682s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:33:36.127732273 1815.655210s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:33:56.132549245 1835.660027s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:34:16.137570974 1855.665048s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:34:36.142081369 1875.669559s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:34:56.147316697 1895.674795s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:35:16.153063765 1915.680542s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:35:36.159864818 1935.687347s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:35:56.164226009 1955.691704s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:36:16.169595103 1975.697073s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:36:36.174689082 1995.702167s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:36:56.180388434 2015.707866s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:37:16.186314082 2035.713792s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:37:36.192012615 2055.719491s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:37:56.197572799 2075.725051s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:38:16.202858887 2095.730337s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:38:36.207001106 2115.734478s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:38:56.211103267 2135.738581s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:39:16.217595434 2155.745073s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:39:36.224145094 2175.751623s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:39:56.229099648 2195.756578s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:40:16.234887641 2215.762365s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:40:36.240581181 2235.768059s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:40:56.245870760 2255.773349s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:41:16.250767257 2275.778245s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:41:36.256289898 2295.783768s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:41:56.261968257 2315.789446s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:42:16.267586470 2335.795064s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:42:36.273081194 2355.800559s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:42:56.279103928 2375.806582s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:43:16.286341317 2395.813819s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:43:36.292475708 2415.819954s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:43:56.297626260 2435.825104s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:44:16.302730479 2455.830209s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:44:36.308322936 2475.835801s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:44:56.314491071 2495.841969s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:45:16.320070472 2515.847548s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:45:36.325972467 2535.853450s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:45:56.331531449 2555.859009s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:46:16.336825834 2575.864304s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:46:36.342716729 2595.870195s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:46:56.347891938 2615.875370s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:47:16.352943698 2635.880422s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:47:36.357924340 2655.885402s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:47:56.363090862 2675.890569s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:48:16.368971641 2695.896450s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:48:36.375095742 2715.902574s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:48:56.381599770 2735.909078s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:49:16.387085702 2755.914564s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:49:36.392908696 2775.920387s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:49:56.399283179 2795.926762s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:50:16.404880716 2815.932359s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:50:36.410509342 2835.937988s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:50:56.416816620 2855.944295s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:51:16.421998674 2875.949477s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:51:36.428245577 2895.955723s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:51:56.433852464 2915.961330s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:52:16.440955030 2935.968434s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:52:36.451331432 2955.978810s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:52:56.456640856 2975.984119s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:53:16.463886720 2995.991365s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:53:36.468484745 3015.995962s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:53:56.474235859 3036.001713s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:54:16.478312456 3056.005790s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:54:36.484098422 3076.011576s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:54:56.489700843 3096.017179s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:55:16.493975827 3116.021453s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:55:36.498634531 3136.026113s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:55:56.504491018 3156.031969s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:56:16.509596524 3176.037075s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:56:36.515693059 3196.043171s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:56:56.521486679 3216.048965s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:57:16.525607186 3236.053085s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:57:36.530824053 3256.058302s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:57:56.536661649 3276.064140s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:58:16.541888109 3296.069366s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:58:36.546022667 3316.073500s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:58:56.550718363 3336.078196s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:59:16.556478578 3356.083957s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:59:36.561569943 3376.089048s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T19:59:56.565637917 3396.093116s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:00:16.569869357 3416.097347s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:00:36.574700403 3436.102178s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:00:56.579288139 3456.106766s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:01:16.585327547 3476.112806s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:01:36.591459463 3496.118937s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:01:56.597077179 3516.124555s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:02:16.602191727 3536.129669s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:02:36.607605988 3556.135084s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:02:56.612666302 3576.140144s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:03:16.616902958 3596.144381s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:03:36.622746175 3616.150224s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:03:56.628698035 3636.156176s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:04:16.634373532 3656.161852s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:04:36.637844906 3676.165322s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:04:56.642032294 3696.169510s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:05:16.646619623 3716.174097s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:05:36.649601230 3736.177078s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:05:56.654573915 3756.182052s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:06:16.660686292 3776.188167s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:06:36.667376576 3796.194855s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:06:56.672916488 3816.200394s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:07:16.678491206 3836.205969s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:07:36.683933968 3856.211412s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:07:56.689530631 3876.217009s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:08:16.695319039 3896.222797s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:08:36.700640548 3916.228118s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:08:56.706308896 3936.233787s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:09:16.712113896 3956.239592s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:09:36.717720958 3976.245199s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:09:56.724062917 3996.251541s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:10:16.729669017 4016.257147s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:10:36.734371142 4036.261849s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:10:56.739860891 4056.267339s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:11:16.745805028 4076.273283s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:11:36.751110923 4096.278589s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:11:56.757061814 4116.284539s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:12:16.759754081 4136.287232s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:12:36.765305823 4156.292784s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:12:56.771315139 4176.298793s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:13:16.776799259 4196.304277s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:13:36.782583941 4216.310062s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:13:56.788634023 4236.316112s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:14:16.793404909 4256.320882s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:14:36.797876744 4276.325354s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:14:56.801779186 4296.329257s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:15:16.805860466 4316.333338s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:15:36.809324528 4336.336802s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:15:56.812616818 4356.340094s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:16:16.816142199 4376.343621s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:16:36.820261872 4396.347739s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:16:56.823549880 4416.351028s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:17:16.828690147 4436.356168s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:17:36.835636554 4456.363114s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:17:56.839370861 4476.366848s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:18:16.843957535 4496.371435s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:18:36.849021012 4516.376499s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:18:56.853397693 4536.380875s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:19:16.857622219 4556.385100s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:19:36.861706343 4576.389184s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:19:56.865055990 4596.392533s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-18T20:20:16.869751326 4616.397230s notice: Someone asked for the nonwhitelisted file "/__webpack_hmr".  If this should be accessible, add it to the static web assets.
+2017-07-19T16:41:33.579935413 0.064374s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-07-19T16:41:33.586229916 0.070674s notice: Running on Linux 4.4.0-83-generic x86_64
+2017-07-19T16:41:33.587034802 0.071474s notice: Loading data from directory /home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/server/rethinkdb_data
+2017-07-19T16:41:33.652373803 0.136812s info: Automatically using cache size of 5761 MB
+2017-07-19T16:41:33.653909481 0.138348s notice: Listening for intracluster connections on port 29015
+2017-07-19T16:41:33.986735976 0.471175s notice: Listening for client driver connections on port 28015
+2017-07-19T16:41:33.987117352 0.471557s notice: Listening for administrative HTTP connections on port 8080
+2017-07-19T16:41:33.987126446 0.471565s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-19T16:41:33.987206778 0.471645s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-19T16:41:33.987213394 0.471652s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-19T16:41:33.987219233 0.471658s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-07-19T16:41:33.987226181 0.471665s notice: Server ready, "OBLAP_84_q05" 09a9faec-ee82-4636-8f68-0ebe0c8848a9
+2017-07-19T16:41:34.966333268 1.450772s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: Starting a new Raft election for term 6.
+2017-07-19T16:41:34.971771083 1.456210s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: Starting a new Raft election for term 6.
+2017-07-19T16:41:34.978204608 1.462644s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: This server is Raft leader for term 6. Latest log index is 15.
+2017-07-19T16:41:34.981504223 1.465944s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: This server is Raft leader for term 6. Latest log index is 15.
+2017-07-19T16:41:35.099019216 1.583458s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: Starting a new Raft election for term 6.
+2017-07-19T16:41:35.106360684 1.590799s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: This server is Raft leader for term 6. Latest log index is 15.
+2017-07-19T16:41:35.164444672 1.648883s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: Starting a new Raft election for term 6.
+2017-07-19T16:41:35.175956662 1.660395s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: This server is Raft leader for term 6. Latest log index is 15.
+2017-07-19T16:41:35.190557405 1.674996s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: Starting a new Raft election for term 6.
+2017-07-19T16:41:35.198478555 1.682917s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: This server is Raft leader for term 6. Latest log index is 15.
+2017-07-19T16:41:35.238173815 1.722613s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: Starting a new Raft election for term 6.
+2017-07-19T16:41:35.245908432 1.730347s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: This server is Raft leader for term 6. Latest log index is 15.
+2017-07-19T16:41:35.280081905 1.764521s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: Starting a new Raft election for term 6.
+2017-07-19T16:41:35.293923594 1.778362s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: This server is Raft leader for term 6. Latest log index is 15.
+2017-07-19T16:41:35.295585967 1.780024s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: Starting a new Raft election for term 6.
+2017-07-19T16:41:35.303738506 1.788177s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: This server is Raft leader for term 6. Latest log index is 15.
+2017-07-19T16:41:35.361422398 1.845862s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: Starting a new Raft election for term 6.
+2017-07-19T16:41:35.361547614 1.845986s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: Starting a new Raft election for term 6.
+2017-07-19T16:41:35.368372103 1.852811s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: This server is Raft leader for term 6. Latest log index is 15.
+2017-07-19T16:41:35.373543309 1.857982s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: This server is Raft leader for term 6. Latest log index is 15.
+2017-07-19T16:41:35.558084457 2.042523s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: Starting a new Raft election for term 6.
+2017-07-19T16:41:35.580142183 2.064581s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: This server is Raft leader for term 6. Latest log index is 15.
+2017-07-19T16:41:35.778839865 2.263279s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: Starting a new Raft election for term 6.
+2017-07-19T16:41:35.790396745 2.274836s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: This server is Raft leader for term 6. Latest log index is 15.
+2017-07-20T10:14:39.940219340 0.065228s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-07-20T10:14:39.956302594 0.081318s notice: Running on Linux 4.4.0-83-generic x86_64
+2017-07-20T10:14:39.956485268 0.081494s notice: Loading data from directory /home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/server/rethinkdb_data
+2017-07-20T10:14:40.004742906 0.129751s info: Automatically using cache size of 6514 MB
+2017-07-20T10:14:40.005901708 0.130910s notice: Listening for intracluster connections on port 29015
+2017-07-20T10:14:40.165104314 0.290113s notice: Listening for client driver connections on port 28015
+2017-07-20T10:14:40.167090565 0.292099s notice: Listening for administrative HTTP connections on port 8080
+2017-07-20T10:14:40.167094238 0.292102s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-20T10:14:40.167096611 0.292105s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-20T10:14:40.167099610 0.292108s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-20T10:14:40.167102996 0.292111s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-07-20T10:14:40.167105461 0.292114s notice: Server ready, "OBLAP_84_q05" 09a9faec-ee82-4636-8f68-0ebe0c8848a9
+2017-07-20T10:14:41.173235089 1.298244s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: Starting a new Raft election for term 7.
+2017-07-20T10:14:41.185973371 1.310982s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: This server is Raft leader for term 7. Latest log index is 18.
+2017-07-20T10:14:41.197608536 1.322617s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: Starting a new Raft election for term 7.
+2017-07-20T10:14:41.205644840 1.330654s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: This server is Raft leader for term 7. Latest log index is 18.
+2017-07-20T10:14:41.245388539 1.370397s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: Starting a new Raft election for term 7.
+2017-07-20T10:14:41.257383997 1.382393s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: This server is Raft leader for term 7. Latest log index is 18.
+2017-07-20T10:14:41.320316538 1.445325s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: Starting a new Raft election for term 7.
+2017-07-20T10:14:41.331560470 1.456569s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: This server is Raft leader for term 7. Latest log index is 18.
+2017-07-20T10:14:41.343058885 1.468067s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: Starting a new Raft election for term 7.
+2017-07-20T10:14:41.350120867 1.475129s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: This server is Raft leader for term 7. Latest log index is 18.
+2017-07-20T10:14:41.498076274 1.623085s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: Starting a new Raft election for term 7.
+2017-07-20T10:14:41.508367865 1.633376s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: This server is Raft leader for term 7. Latest log index is 18.
+2017-07-20T10:14:41.561791777 1.686800s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: Starting a new Raft election for term 7.
+2017-07-20T10:14:41.574406044 1.699415s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: This server is Raft leader for term 7. Latest log index is 18.
+2017-07-20T10:14:41.713766083 1.838774s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: Starting a new Raft election for term 7.
+2017-07-20T10:14:41.721860053 1.846869s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: This server is Raft leader for term 7. Latest log index is 18.
+2017-07-20T10:14:41.761028585 1.886037s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: Starting a new Raft election for term 7.
+2017-07-20T10:14:41.784107990 1.909116s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: This server is Raft leader for term 7. Latest log index is 18.
+2017-07-20T10:14:41.899577338 2.024586s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: Starting a new Raft election for term 7.
+2017-07-20T10:14:41.915893462 2.040903s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: This server is Raft leader for term 7. Latest log index is 18.
+2017-07-20T10:14:41.975066316 2.100076s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: Starting a new Raft election for term 7.
+2017-07-20T10:14:41.989967639 2.114977s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: This server is Raft leader for term 7. Latest log index is 18.
+2017-07-20T10:14:41.998285901 2.123295s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: Starting a new Raft election for term 7.
+2017-07-20T10:14:42.023777901 2.148786s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: This server is Raft leader for term 7. Latest log index is 18.
+2017-07-20T10:19:51.421460615 0.033913s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-07-20T10:19:51.434542873 0.047000s notice: Running on Linux 4.4.0-83-generic x86_64
+2017-07-20T10:19:51.434722437 0.047175s notice: Loading data from directory /home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/server/rethinkdb_data
+2017-07-20T10:19:51.471994289 0.084449s info: Automatically using cache size of 6309 MB
+2017-07-20T10:19:51.472789611 0.085242s notice: Listening for intracluster connections on port 29015
+2017-07-20T10:19:51.569703435 0.182155s notice: Listening for client driver connections on port 28015
+2017-07-20T10:19:51.569814102 0.182266s notice: Listening for administrative HTTP connections on port 8080
+2017-07-20T10:19:51.569816669 0.182268s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-20T10:19:51.569887603 0.182339s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-20T10:19:51.569889547 0.182341s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-20T10:19:51.569891604 0.182343s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-07-20T10:19:51.569893768 0.182345s notice: Server ready, "OBLAP_84_q05" 09a9faec-ee82-4636-8f68-0ebe0c8848a9
+2017-07-20T10:19:52.601150346 1.213603s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: Starting a new Raft election for term 8.
+2017-07-20T10:19:52.616160043 1.228613s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: This server is Raft leader for term 8. Latest log index is 21.
+2017-07-20T10:19:52.628855222 1.241308s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: Starting a new Raft election for term 8.
+2017-07-20T10:19:52.641978511 1.254431s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: This server is Raft leader for term 8. Latest log index is 21.
+2017-07-20T10:19:52.779293146 1.391746s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: Starting a new Raft election for term 8.
+2017-07-20T10:19:52.796499761 1.408952s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: This server is Raft leader for term 8. Latest log index is 21.
+2017-07-20T10:19:52.842715669 1.455168s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: Starting a new Raft election for term 8.
+2017-07-20T10:19:52.853745409 1.466197s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: This server is Raft leader for term 8. Latest log index is 21.
+2017-07-20T10:19:52.867754743 1.480206s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: Starting a new Raft election for term 8.
+2017-07-20T10:19:52.886372193 1.498824s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: This server is Raft leader for term 8. Latest log index is 21.
+2017-07-20T10:19:52.908483498 1.520935s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: Starting a new Raft election for term 8.
+2017-07-20T10:19:52.917179631 1.529631s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: This server is Raft leader for term 8. Latest log index is 21.
+2017-07-20T10:19:52.924750853 1.537203s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: Starting a new Raft election for term 8.
+2017-07-20T10:19:52.935727562 1.548179s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: This server is Raft leader for term 8. Latest log index is 21.
+2017-07-20T10:19:52.945287650 1.557739s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: Starting a new Raft election for term 8.
+2017-07-20T10:19:52.957098616 1.569550s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: This server is Raft leader for term 8. Latest log index is 21.
+2017-07-20T10:19:52.989868160 1.602320s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: Starting a new Raft election for term 8.
+2017-07-20T10:19:53.006417668 1.618870s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: This server is Raft leader for term 8. Latest log index is 21.
+2017-07-20T10:19:53.249687164 1.862139s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: Starting a new Raft election for term 8.
+2017-07-20T10:19:53.263738332 1.876190s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: This server is Raft leader for term 8. Latest log index is 21.
+2017-07-20T10:19:53.363937524 1.976389s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: Starting a new Raft election for term 8.
+2017-07-20T10:19:53.378582649 1.991035s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: This server is Raft leader for term 8. Latest log index is 21.
+2017-07-20T10:19:53.511152905 2.123605s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: Starting a new Raft election for term 8.
+2017-07-20T10:19:53.520546673 2.132999s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: This server is Raft leader for term 8. Latest log index is 21.
+2017-07-21T10:52:25.579544457 0.066568s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-07-21T10:52:25.590311158 0.077340s notice: Running on Linux 4.4.0-83-generic x86_64
+2017-07-21T10:52:25.590444278 0.077468s notice: Loading data from directory /home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/server/rethinkdb_data
+2017-07-21T10:52:25.657797519 0.144821s info: Automatically using cache size of 6238 MB
+2017-07-21T10:52:25.660463064 0.147486s notice: Listening for intracluster connections on port 29015
+2017-07-21T10:52:25.872376949 0.359400s notice: Listening for client driver connections on port 28015
+2017-07-21T10:52:25.872604513 0.359628s notice: Listening for administrative HTTP connections on port 8080
+2017-07-21T10:52:25.872607746 0.359631s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-21T10:52:25.872609969 0.359633s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-21T10:52:25.872612071 0.359635s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-21T10:52:25.872613940 0.359637s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-07-21T10:52:25.872617030 0.359640s notice: Server ready, "OBLAP_84_q05" 09a9faec-ee82-4636-8f68-0ebe0c8848a9
+2017-07-21T10:52:26.833250729 1.320274s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: Starting a new Raft election for term 9.
+2017-07-21T10:52:26.848402289 1.335426s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: This server is Raft leader for term 9. Latest log index is 24.
+2017-07-21T10:52:26.852193275 1.339217s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: Starting a new Raft election for term 9.
+2017-07-21T10:52:26.870036361 1.357060s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: This server is Raft leader for term 9. Latest log index is 24.
+2017-07-21T10:52:26.872639921 1.359664s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: Starting a new Raft election for term 9.
+2017-07-21T10:52:26.887989101 1.375013s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: This server is Raft leader for term 9. Latest log index is 24.
+2017-07-21T10:52:26.905397397 1.392421s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: Starting a new Raft election for term 9.
+2017-07-21T10:52:26.914551106 1.401575s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: Starting a new Raft election for term 9.
+2017-07-21T10:52:26.927477034 1.414500s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: This server is Raft leader for term 9. Latest log index is 24.
+2017-07-21T10:52:26.935466887 1.422490s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: This server is Raft leader for term 9. Latest log index is 24.
+2017-07-21T10:52:27.008669000 1.495693s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: Starting a new Raft election for term 9.
+2017-07-21T10:52:27.020064466 1.507088s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: This server is Raft leader for term 9. Latest log index is 24.
+2017-07-21T10:52:27.087927141 1.574951s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: Starting a new Raft election for term 9.
+2017-07-21T10:52:27.107195650 1.594220s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: This server is Raft leader for term 9. Latest log index is 24.
+2017-07-21T10:52:27.409964055 1.896987s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: Starting a new Raft election for term 9.
+2017-07-21T10:52:27.421599852 1.908623s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: This server is Raft leader for term 9. Latest log index is 24.
+2017-07-21T10:52:27.482629895 1.969653s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: Starting a new Raft election for term 9.
+2017-07-21T10:52:27.494049565 1.981073s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: This server is Raft leader for term 9. Latest log index is 24.
+2017-07-21T10:52:27.582221663 2.069245s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: Starting a new Raft election for term 9.
+2017-07-21T10:52:27.594901759 2.081925s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: Starting a new Raft election for term 9.
+2017-07-21T10:52:27.594979899 2.082003s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: This server is Raft leader for term 9. Latest log index is 24.
+2017-07-21T10:52:27.601987310 2.089011s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: This server is Raft leader for term 9. Latest log index is 24.
+2017-07-21T10:52:27.608245798 2.095269s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: Starting a new Raft election for term 9.
+2017-07-21T10:52:27.625432545 2.112456s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: This server is Raft leader for term 9. Latest log index is 24.
+2017-07-21T11:03:40.109554169 674.596578s notice: Server got SIGINT from pid 0, uid 0; shutting down...
+2017-07-21T11:03:40.109740233 674.596764s notice: Shutting down client connections...
+2017-07-21T11:03:40.109900024 674.596924s notice: All client connections closed.
+2017-07-21T11:03:40.109907704 674.596931s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2017-07-21T11:03:40.159325337 674.646349s notice: Storage engine shut down.
+2017-07-21T12:02:45.047330109 0.101470s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-07-21T12:02:45.053199792 0.107343s notice: Running on Linux 4.4.0-83-generic x86_64
+2017-07-21T12:02:45.053326947 0.107466s notice: Loading data from directory /home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/server/rethinkdb_data
+2017-07-21T12:02:45.093788099 0.147928s info: Automatically using cache size of 6012 MB
+2017-07-21T12:02:45.094134141 0.148273s notice: Listening for intracluster connections on port 29015
+2017-07-21T12:02:45.189041010 0.243181s notice: Listening for client driver connections on port 28015
+2017-07-21T12:02:45.189476653 0.243616s notice: Listening for administrative HTTP connections on port 8080
+2017-07-21T12:02:45.189480335 0.243619s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-21T12:02:45.189581989 0.243721s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-21T12:02:45.189584902 0.243724s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-21T12:02:45.189587223 0.243726s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-07-21T12:02:45.189589429 0.243728s notice: Server ready, "OBLAP_84_q05" 09a9faec-ee82-4636-8f68-0ebe0c8848a9
+2017-07-21T12:02:46.155775664 1.209915s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: Starting a new Raft election for term 10.
+2017-07-21T12:02:46.167322301 1.221462s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: This server is Raft leader for term 10. Latest log index is 27.
+2017-07-21T12:02:46.191160954 1.245301s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: Starting a new Raft election for term 10.
+2017-07-21T12:02:46.203279145 1.257419s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: This server is Raft leader for term 10. Latest log index is 27.
+2017-07-21T12:02:46.238283590 1.292423s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: Starting a new Raft election for term 10.
+2017-07-21T12:02:46.250514398 1.304654s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: This server is Raft leader for term 10. Latest log index is 27.
+2017-07-21T12:02:46.478386031 1.532525s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: Starting a new Raft election for term 10.
+2017-07-21T12:02:46.484524664 1.538664s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: This server is Raft leader for term 10. Latest log index is 27.
+2017-07-21T12:02:46.535496926 1.589637s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: Starting a new Raft election for term 10.
+2017-07-21T12:02:46.548035117 1.602175s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: This server is Raft leader for term 10. Latest log index is 27.
+2017-07-21T12:02:46.576289322 1.630429s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: Starting a new Raft election for term 10.
+2017-07-21T12:02:46.588034717 1.642174s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: This server is Raft leader for term 10. Latest log index is 27.
+2017-07-21T12:02:46.644368497 1.698508s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: Starting a new Raft election for term 10.
+2017-07-21T12:02:46.657503571 1.711643s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: This server is Raft leader for term 10. Latest log index is 27.
+2017-07-21T12:02:46.687037958 1.741178s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: Starting a new Raft election for term 10.
+2017-07-21T12:02:46.698073566 1.752213s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: This server is Raft leader for term 10. Latest log index is 27.
+2017-07-21T12:02:46.739903218 1.794043s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: Starting a new Raft election for term 10.
+2017-07-21T12:02:46.751245458 1.805385s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: This server is Raft leader for term 10. Latest log index is 27.
+2017-07-21T12:02:46.829688515 1.883828s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: Starting a new Raft election for term 10.
+2017-07-21T12:02:46.836893556 1.891033s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: This server is Raft leader for term 10. Latest log index is 27.
+2017-07-21T12:02:46.927114380 1.981254s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: Starting a new Raft election for term 10.
+2017-07-21T12:02:46.936403940 1.990543s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: This server is Raft leader for term 10. Latest log index is 27.
+2017-07-21T12:02:47.021963554 2.076104s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: Starting a new Raft election for term 10.
+2017-07-21T12:02:47.028710466 2.082850s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: This server is Raft leader for term 10. Latest log index is 27.
+2017-07-24T11:54:37.348415957 0.058447s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-07-24T11:54:37.360104220 0.070139s notice: Running on Linux 4.4.0-83-generic x86_64
+2017-07-24T11:54:37.360236716 0.070268s notice: Loading data from directory /home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/server/rethinkdb_data
+2017-07-24T11:54:37.419825818 0.129857s info: Automatically using cache size of 6161 MB
+2017-07-24T11:54:37.422562125 0.132593s notice: Listening for intracluster connections on port 29015
+2017-07-24T11:54:37.574819569 0.284850s notice: Listening for client driver connections on port 28015
+2017-07-24T11:54:37.575250563 0.285281s notice: Listening for administrative HTTP connections on port 8080
+2017-07-24T11:54:37.575253544 0.285284s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-24T11:54:37.575255407 0.285286s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-24T11:54:37.575278310 0.285309s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-24T11:54:37.575280282 0.285310s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-07-24T11:54:37.575281957 0.285312s notice: Server ready, "OBLAP_84_q05" 09a9faec-ee82-4636-8f68-0ebe0c8848a9
+2017-07-24T11:54:38.601904549 1.311935s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: Starting a new Raft election for term 11.
+2017-07-24T11:54:38.614540980 1.324572s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: This server is Raft leader for term 11. Latest log index is 30.
+2017-07-24T11:54:38.698722883 1.408754s notice: A newer version of the RethinkDB server is available: 2.3.6. You can read the changelog at <https://github.com/rethinkdb/rethinkdb/releases>.
+2017-07-24T11:54:38.888822034 1.598853s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: Starting a new Raft election for term 11.
+2017-07-24T11:54:38.899816712 1.609847s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: This server is Raft leader for term 11. Latest log index is 30.
+2017-07-24T11:54:38.911465880 1.621497s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: Starting a new Raft election for term 11.
+2017-07-24T11:54:38.917852012 1.627882s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: This server is Raft leader for term 11. Latest log index is 30.
+2017-07-24T11:54:39.002207241 1.712238s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: Starting a new Raft election for term 11.
+2017-07-24T11:54:39.013300206 1.723331s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: This server is Raft leader for term 11. Latest log index is 30.
+2017-07-24T11:54:39.032415962 1.742446s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: Starting a new Raft election for term 11.
+2017-07-24T11:54:39.043532486 1.753563s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: This server is Raft leader for term 11. Latest log index is 30.
+2017-07-24T11:54:39.059720451 1.769751s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: Starting a new Raft election for term 11.
+2017-07-24T11:54:39.061220473 1.771251s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: Starting a new Raft election for term 11.
+2017-07-24T11:54:39.064408447 1.774439s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: Starting a new Raft election for term 11.
+2017-07-24T11:54:39.066433078 1.776463s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: This server is Raft leader for term 11. Latest log index is 30.
+2017-07-24T11:54:39.071684704 1.781715s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: This server is Raft leader for term 11. Latest log index is 30.
+2017-07-24T11:54:39.071725070 1.781755s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: This server is Raft leader for term 11. Latest log index is 30.
+2017-07-24T11:54:39.080122184 1.790152s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: Starting a new Raft election for term 11.
+2017-07-24T11:54:39.087195321 1.797226s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: This server is Raft leader for term 11. Latest log index is 30.
+2017-07-24T11:54:39.125840230 1.835872s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: Starting a new Raft election for term 11.
+2017-07-24T11:54:39.135463912 1.845495s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: This server is Raft leader for term 11. Latest log index is 30.
+2017-07-24T11:54:39.325692465 2.035723s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: Starting a new Raft election for term 11.
+2017-07-24T11:54:39.357957998 2.067990s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: This server is Raft leader for term 11. Latest log index is 30.
+2017-07-24T11:54:39.418372248 2.128403s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: Starting a new Raft election for term 11.
+2017-07-24T11:54:39.433176547 2.143207s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: This server is Raft leader for term 11. Latest log index is 30.
+2017-07-25T10:22:42.812469140 0.036282s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-07-25T10:22:42.825122437 0.048941s notice: Running on Linux 4.4.0-83-generic x86_64
+2017-07-25T10:22:42.826077419 0.049890s notice: Loading data from directory /home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/server/rethinkdb_data
+2017-07-25T10:22:42.896289591 0.120102s info: Automatically using cache size of 6525 MB
+2017-07-25T10:22:42.897499399 0.121311s notice: Listening for intracluster connections on port 29015
+2017-07-25T10:22:43.025782535 0.249594s notice: Listening for client driver connections on port 28015
+2017-07-25T10:22:43.025905111 0.249717s notice: Listening for administrative HTTP connections on port 8080
+2017-07-25T10:22:43.025908714 0.249720s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-25T10:22:43.025926779 0.249738s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-25T10:22:43.025928674 0.249740s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-25T10:22:43.025930895 0.249742s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-07-25T10:22:43.025932793 0.249745s notice: Server ready, "OBLAP_84_q05" 09a9faec-ee82-4636-8f68-0ebe0c8848a9
+2017-07-25T10:22:44.034823556 1.258636s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: Starting a new Raft election for term 12.
+2017-07-25T10:22:44.046171060 1.269983s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: This server is Raft leader for term 12. Latest log index is 33.
+2017-07-25T10:22:44.187299534 1.411111s notice: A newer version of the RethinkDB server is available: 2.3.6. You can read the changelog at <https://github.com/rethinkdb/rethinkdb/releases>.
+2017-07-25T10:22:44.360475742 1.584288s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: Starting a new Raft election for term 12.
+2017-07-25T10:22:44.368621218 1.592433s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: This server is Raft leader for term 12. Latest log index is 33.
+2017-07-25T10:22:44.372389499 1.596201s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: Starting a new Raft election for term 12.
+2017-07-25T10:22:44.384536433 1.608348s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: This server is Raft leader for term 12. Latest log index is 33.
+2017-07-25T10:22:44.412734218 1.636546s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: Starting a new Raft election for term 12.
+2017-07-25T10:22:44.420567709 1.644380s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: This server is Raft leader for term 12. Latest log index is 33.
+2017-07-25T10:22:44.446192542 1.670004s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: Starting a new Raft election for term 12.
+2017-07-25T10:22:44.454159683 1.677971s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: This server is Raft leader for term 12. Latest log index is 33.
+2017-07-25T10:22:44.460458362 1.684270s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: Starting a new Raft election for term 12.
+2017-07-25T10:22:44.472533696 1.696346s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: This server is Raft leader for term 12. Latest log index is 33.
+2017-07-25T10:22:44.550771746 1.774584s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: Starting a new Raft election for term 12.
+2017-07-25T10:22:44.559783398 1.783597s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: This server is Raft leader for term 12. Latest log index is 33.
+2017-07-25T10:22:44.641652834 1.865465s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: Starting a new Raft election for term 12.
+2017-07-25T10:22:44.668749318 1.892562s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: This server is Raft leader for term 12. Latest log index is 33.
+2017-07-25T10:22:44.705477274 1.929290s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: Starting a new Raft election for term 12.
+2017-07-25T10:22:44.727402175 1.951215s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: This server is Raft leader for term 12. Latest log index is 33.
+2017-07-25T10:22:44.742965451 1.966778s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: Starting a new Raft election for term 12.
+2017-07-25T10:22:44.770775490 1.994587s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: This server is Raft leader for term 12. Latest log index is 33.
+2017-07-25T10:22:44.956157003 2.179970s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: Starting a new Raft election for term 12.
+2017-07-25T10:22:44.973197564 2.197010s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: This server is Raft leader for term 12. Latest log index is 33.
+2017-07-25T10:22:45.010194394 2.234008s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: Starting a new Raft election for term 12.
+2017-07-25T10:22:45.028601590 2.252414s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: This server is Raft leader for term 12. Latest log index is 33.
+2017-07-26T11:44:57.667642033 0.064953s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-07-26T11:44:57.679688646 0.077005s notice: Running on Linux 4.4.0-83-generic x86_64
+2017-07-26T11:44:57.679839223 0.077151s notice: Loading data from directory /home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/server/rethinkdb_data
+2017-07-26T11:44:57.743519179 0.140831s info: Automatically using cache size of 6102 MB
+2017-07-26T11:44:57.746629488 0.143941s notice: Listening for intracluster connections on port 29015
+2017-07-26T11:44:58.009854993 0.407166s notice: Listening for client driver connections on port 28015
+2017-07-26T11:44:58.009936824 0.407248s notice: Listening for administrative HTTP connections on port 8080
+2017-07-26T11:44:58.009939941 0.407250s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-26T11:44:58.009941881 0.407253s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-26T11:44:58.009964521 0.407275s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-26T11:44:58.009966554 0.407277s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-07-26T11:44:58.009968577 0.407279s notice: Server ready, "OBLAP_84_q05" 09a9faec-ee82-4636-8f68-0ebe0c8848a9
+2017-07-26T11:44:59.072792355 1.470103s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: Starting a new Raft election for term 13.
+2017-07-26T11:44:59.086432483 1.483743s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: This server is Raft leader for term 13. Latest log index is 36.
+2017-07-26T11:44:59.171197331 1.568508s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: Starting a new Raft election for term 13.
+2017-07-26T11:44:59.184989722 1.582301s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: This server is Raft leader for term 13. Latest log index is 36.
+2017-07-26T11:44:59.197210357 1.594522s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: Starting a new Raft election for term 13.
+2017-07-26T11:44:59.208664458 1.605975s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: This server is Raft leader for term 13. Latest log index is 36.
+2017-07-26T11:44:59.328812263 1.726123s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: Starting a new Raft election for term 13.
+2017-07-26T11:44:59.341528278 1.738839s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: This server is Raft leader for term 13. Latest log index is 36.
+2017-07-26T11:44:59.344268558 1.741579s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: Starting a new Raft election for term 13.
+2017-07-26T11:44:59.365144059 1.762455s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: This server is Raft leader for term 13. Latest log index is 36.
+2017-07-26T11:44:59.422000199 1.819311s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: Starting a new Raft election for term 13.
+2017-07-26T11:44:59.433030654 1.830341s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: This server is Raft leader for term 13. Latest log index is 36.
+2017-07-26T11:44:59.436135452 1.833446s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: Starting a new Raft election for term 13.
+2017-07-26T11:44:59.454774601 1.852085s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: Starting a new Raft election for term 13.
+2017-07-26T11:44:59.456328071 1.853639s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: This server is Raft leader for term 13. Latest log index is 36.
+2017-07-26T11:44:59.469668723 1.866980s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: This server is Raft leader for term 13. Latest log index is 36.
+2017-07-26T11:44:59.617147256 2.014459s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: Starting a new Raft election for term 13.
+2017-07-26T11:44:59.634337937 2.031649s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: This server is Raft leader for term 13. Latest log index is 36.
+2017-07-26T11:44:59.716208117 2.113519s notice: A newer version of the RethinkDB server is available: 2.3.6. You can read the changelog at <https://github.com/rethinkdb/rethinkdb/releases>.
+2017-07-26T11:44:59.739408163 2.136719s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: Starting a new Raft election for term 13.
+2017-07-26T11:44:59.748982065 2.146296s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: This server is Raft leader for term 13. Latest log index is 36.
+2017-07-26T11:44:59.797376010 2.194687s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: Starting a new Raft election for term 13.
+2017-07-26T11:44:59.807191944 2.204503s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: This server is Raft leader for term 13. Latest log index is 36.
+2017-07-26T11:44:59.940786947 2.338098s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: Starting a new Raft election for term 13.
+2017-07-26T11:44:59.953257951 2.350569s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: This server is Raft leader for term 13. Latest log index is 36.
+2017-07-27T10:48:33.333048249 0.066874s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-07-27T10:48:33.344764328 0.078595s notice: Running on Linux 4.4.0-83-generic x86_64
+2017-07-27T10:48:33.344924718 0.078750s notice: Loading data from directory /home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/server/rethinkdb_data
+2017-07-27T10:48:33.400486911 0.134312s info: Automatically using cache size of 6473 MB
+2017-07-27T10:48:33.403183294 0.137009s notice: Listening for intracluster connections on port 29015
+2017-07-27T10:48:33.543327770 0.277153s notice: Listening for client driver connections on port 28015
+2017-07-27T10:48:33.543741394 0.277566s notice: Listening for administrative HTTP connections on port 8080
+2017-07-27T10:48:33.543745610 0.277570s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-27T10:48:33.543748241 0.277573s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-27T10:48:33.543787744 0.277612s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-27T10:48:33.543791839 0.277616s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-07-27T10:48:33.543795503 0.277620s notice: Server ready, "OBLAP_84_q05" 09a9faec-ee82-4636-8f68-0ebe0c8848a9
+2017-07-27T10:48:34.622766404 1.356591s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: Starting a new Raft election for term 14.
+2017-07-27T10:48:34.629327634 1.363152s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: Starting a new Raft election for term 14.
+2017-07-27T10:48:34.634487112 1.368312s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: This server is Raft leader for term 14. Latest log index is 39.
+2017-07-27T10:48:34.637681150 1.371506s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: This server is Raft leader for term 14. Latest log index is 39.
+2017-07-27T10:48:34.776719997 1.510545s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: Starting a new Raft election for term 14.
+2017-07-27T10:48:34.787758548 1.521583s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: This server is Raft leader for term 14. Latest log index is 39.
+2017-07-27T10:48:34.859164926 1.592989s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: Starting a new Raft election for term 14.
+2017-07-27T10:48:34.870416080 1.604241s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: This server is Raft leader for term 14. Latest log index is 39.
+2017-07-27T10:48:34.911333571 1.645158s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: Starting a new Raft election for term 14.
+2017-07-27T10:48:34.917435964 1.651260s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: Starting a new Raft election for term 14.
+2017-07-27T10:48:34.922389509 1.656214s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: This server is Raft leader for term 14. Latest log index is 39.
+2017-07-27T10:48:34.925079518 1.658904s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: This server is Raft leader for term 14. Latest log index is 39.
+2017-07-27T10:48:34.937638604 1.671463s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: Starting a new Raft election for term 14.
+2017-07-27T10:48:34.946975418 1.680800s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: This server is Raft leader for term 14. Latest log index is 39.
+2017-07-27T10:48:35.176521052 1.910346s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: Starting a new Raft election for term 14.
+2017-07-27T10:48:35.186469611 1.920294s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: This server is Raft leader for term 14. Latest log index is 39.
+2017-07-27T10:48:35.253680094 1.987505s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: Starting a new Raft election for term 14.
+2017-07-27T10:48:35.265353192 1.999178s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: This server is Raft leader for term 14. Latest log index is 39.
+2017-07-27T10:48:35.327339088 2.061164s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: Starting a new Raft election for term 14.
+2017-07-27T10:48:35.339256901 2.073082s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: This server is Raft leader for term 14. Latest log index is 39.
+2017-07-27T10:48:35.365441120 2.099266s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: Starting a new Raft election for term 14.
+2017-07-27T10:48:35.373956856 2.107782s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: This server is Raft leader for term 14. Latest log index is 39.
+2017-07-27T10:48:35.410664275 2.144489s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: Starting a new Raft election for term 14.
+2017-07-27T10:48:35.422730896 2.156556s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: This server is Raft leader for term 14. Latest log index is 39.
+2017-07-27T10:48:36.202480891 2.936306s notice: A newer version of the RethinkDB server is available: 2.3.6. You can read the changelog at <https://github.com/rethinkdb/rethinkdb/releases>.
+2017-07-27T15:16:17.329503703 13856.848521s notice: Server got SIGINT from pid 0, uid 0; shutting down...
+2017-07-27T15:16:17.329768220 13856.848785s notice: Shutting down client connections...
+2017-07-27T15:16:17.336780340 13856.855798s notice: All client connections closed.
+2017-07-27T15:16:17.336813051 13856.855829s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2017-07-27T15:16:17.377519143 13856.896536s notice: Storage engine shut down.
+2017-07-27T15:31:50.169263942 0.121140s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-07-27T15:31:50.176742820 0.128623s notice: Running on Linux 4.4.0-83-generic x86_64
+2017-07-27T15:31:50.176876024 0.128751s notice: Loading data from directory /home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/server/rethinkdb_data
+2017-07-27T15:31:50.215983189 0.167858s info: Automatically using cache size of 5154 MB
+2017-07-27T15:31:50.216390705 0.168265s error: TCP socket creation failed for port 29015: Address already in use.
+2017-07-27T15:32:07.886623410 0.182885s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-07-27T15:32:07.892920451 0.189187s notice: Running on Linux 4.4.0-83-generic x86_64
+2017-07-27T15:32:07.893052701 0.189314s notice: Loading data from directory /home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/server/rethinkdb_data
+2017-07-27T15:32:07.936159987 0.232421s info: Automatically using cache size of 5169 MB
+2017-07-27T15:32:07.938296755 0.234558s error: TCP socket creation failed for port 29015: Address already in use.
+2017-07-27T15:32:40.589820915 1.169066s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-07-27T15:32:40.612492252 1.191743s notice: Running on Linux 4.4.0-83-generic x86_64
+2017-07-27T15:32:40.613291893 1.192537s notice: Loading data from directory /home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/server/rethinkdb_data
+2017-07-27T15:32:40.684774075 1.264020s info: Automatically using cache size of 5257 MB
+2017-07-27T15:32:40.689394465 1.268639s notice: Listening for intracluster connections on port 29015
+2017-07-27T15:32:40.819056027 1.398300s notice: Listening for client driver connections on port 28015
+2017-07-27T15:32:40.819166696 1.398411s notice: Listening for administrative HTTP connections on port 8080
+2017-07-27T15:32:40.819275883 1.398520s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-27T15:32:40.819277675 1.398522s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-27T15:32:40.819279097 1.398523s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-27T15:32:40.819280569 1.398525s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-07-27T15:32:40.819282299 1.398526s notice: Server ready, "OBLAP_84_q05" 09a9faec-ee82-4636-8f68-0ebe0c8848a9
+2017-07-27T15:32:41.793751780 2.372999s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: Starting a new Raft election for term 15.
+2017-07-27T15:32:41.807162984 2.386408s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: This server is Raft leader for term 15. Latest log index is 42.
+2017-07-27T15:32:41.867912184 2.447157s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: Starting a new Raft election for term 15.
+2017-07-27T15:32:41.879765887 2.459011s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: This server is Raft leader for term 15. Latest log index is 42.
+2017-07-27T15:32:42.061198134 2.640443s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: Starting a new Raft election for term 15.
+2017-07-27T15:32:42.061581958 2.640827s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: Starting a new Raft election for term 15.
+2017-07-27T15:32:42.071828737 2.651074s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: This server is Raft leader for term 15. Latest log index is 42.
+2017-07-27T15:32:42.072201804 2.651447s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: This server is Raft leader for term 15. Latest log index is 42.
+2017-07-27T15:32:42.073953829 2.653198s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: Starting a new Raft election for term 15.
+2017-07-27T15:32:42.090320658 2.669566s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: This server is Raft leader for term 15. Latest log index is 42.
+2017-07-27T15:32:42.111301193 2.690547s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: Starting a new Raft election for term 15.
+2017-07-27T15:32:42.121462188 2.700707s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: This server is Raft leader for term 15. Latest log index is 42.
+2017-07-27T15:32:42.193898496 2.773143s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: Starting a new Raft election for term 15.
+2017-07-27T15:32:42.205960343 2.785205s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: This server is Raft leader for term 15. Latest log index is 42.
+2017-07-27T15:32:42.325089373 2.904334s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: Starting a new Raft election for term 15.
+2017-07-27T15:32:42.335957398 2.915202s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: This server is Raft leader for term 15. Latest log index is 42.
+2017-07-27T15:32:42.460220168 3.039465s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: Starting a new Raft election for term 15.
+2017-07-27T15:32:42.466778852 3.046024s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: This server is Raft leader for term 15. Latest log index is 42.
+2017-07-27T15:32:42.558852590 3.138097s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: Starting a new Raft election for term 15.
+2017-07-27T15:32:42.585088058 3.164332s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: This server is Raft leader for term 15. Latest log index is 42.
+2017-07-27T15:32:42.725452417 3.304697s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: Starting a new Raft election for term 15.
+2017-07-27T15:32:42.734324154 3.313568s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: This server is Raft leader for term 15. Latest log index is 42.
+2017-07-27T15:32:42.753770515 3.333015s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: Starting a new Raft election for term 15.
+2017-07-27T15:32:42.770032840 3.349277s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: This server is Raft leader for term 15. Latest log index is 42.
+2017-07-27T15:32:44.886691660 5.465936s notice: A newer version of the RethinkDB server is available: 2.3.6. You can read the changelog at <https://github.com/rethinkdb/rethinkdb/releases>.
+2017-07-28T10:52:42.804870634 0.030578s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-07-28T10:52:42.814278902 0.039990s notice: Running on Linux 4.4.0-83-generic x86_64
+2017-07-28T10:52:42.814426761 0.040134s notice: Loading data from directory /home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/server/rethinkdb_data
+2017-07-28T10:52:42.850999862 0.076706s info: Automatically using cache size of 6341 MB
+2017-07-28T10:52:42.851997042 0.077703s notice: Listening for intracluster connections on port 29015
+2017-07-28T10:52:42.950239778 0.175946s notice: Listening for client driver connections on port 28015
+2017-07-28T10:52:42.950330782 0.176037s notice: Listening for administrative HTTP connections on port 8080
+2017-07-28T10:52:42.950333265 0.176039s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-28T10:52:42.950360611 0.176067s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-28T10:52:42.950362659 0.176069s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-07-28T10:52:42.950365227 0.176071s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-07-28T10:52:42.950367106 0.176073s notice: Server ready, "OBLAP_84_q05" 09a9faec-ee82-4636-8f68-0ebe0c8848a9
+2017-07-28T10:52:43.930223374 1.155930s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: Starting a new Raft election for term 16.
+2017-07-28T10:52:43.939799586 1.165506s info: Table ad1bad8d-f276-4b57-8409-a8f7c6dd5600: This server is Raft leader for term 16. Latest log index is 45.
+2017-07-28T10:52:44.039321937 1.265029s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: Starting a new Raft election for term 16.
+2017-07-28T10:52:44.049371474 1.275079s info: Table bc130fba-8328-4451-acea-5c8d1b65b2bf: This server is Raft leader for term 16. Latest log index is 45.
+2017-07-28T10:52:44.061029476 1.286737s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: Starting a new Raft election for term 16.
+2017-07-28T10:52:44.072981035 1.298688s info: Table d06e5bed-be44-4d33-a0ce-6ea8ec56180c: This server is Raft leader for term 16. Latest log index is 45.
+2017-07-28T10:52:44.167349332 1.393056s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: Starting a new Raft election for term 16.
+2017-07-28T10:52:44.175590984 1.401297s info: Table 9b80733f-1cd6-46a8-a25f-19f0910d0e00: This server is Raft leader for term 16. Latest log index is 45.
+2017-07-28T10:52:44.247162772 1.472870s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: Starting a new Raft election for term 16.
+2017-07-28T10:52:44.263224767 1.488932s info: Table c785c19d-5941-4d31-ad7f-25972cd17b74: This server is Raft leader for term 16. Latest log index is 45.
+2017-07-28T10:52:44.324034137 1.549740s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: Starting a new Raft election for term 16.
+2017-07-28T10:52:44.337093941 1.562800s info: Table 66d37ed6-2cdf-4354-a0b6-95a14055f34b: This server is Raft leader for term 16. Latest log index is 45.
+2017-07-28T10:52:44.455802028 1.681509s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: Starting a new Raft election for term 16.
+2017-07-28T10:52:44.465836241 1.691543s info: Table f6a76a17-8216-46a3-894a-c20d7a8a85e8: This server is Raft leader for term 16. Latest log index is 45.
+2017-07-28T10:52:44.520500638 1.746208s notice: A newer version of the RethinkDB server is available: 2.3.6. You can read the changelog at <https://github.com/rethinkdb/rethinkdb/releases>.
+2017-07-28T10:52:44.606609926 1.832316s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: Starting a new Raft election for term 16.
+2017-07-28T10:52:44.628263357 1.853970s info: Table f11755cb-f0dc-472d-a7ef-561abd7a6400: This server is Raft leader for term 16. Latest log index is 45.
+2017-07-28T10:52:44.638092624 1.863799s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: Starting a new Raft election for term 16.
+2017-07-28T10:52:44.649712311 1.875419s info: Table 94807202-7484-4840-bdbb-65ccaeb07711: This server is Raft leader for term 16. Latest log index is 45.
+2017-07-28T10:52:44.735467451 1.961174s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: Starting a new Raft election for term 16.
+2017-07-28T10:52:44.753144085 1.978851s info: Table b8eb87da-8a4d-4be6-b62f-fbdeb06c0a1b: This server is Raft leader for term 16. Latest log index is 45.
+2017-07-28T10:52:44.794223342 2.019930s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: Starting a new Raft election for term 16.
+2017-07-28T10:52:44.863705285 2.089412s info: Table 8f93faae-81b8-4de6-a8d5-f90b13205c18: This server is Raft leader for term 16. Latest log index is 45.
+2017-07-28T10:52:44.907885634 2.133592s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: Starting a new Raft election for term 16.
+2017-07-28T10:52:44.925570156 2.151276s info: Table d565914f-38b2-4cc7-847e-726f52e415f6: This server is Raft leader for term 16. Latest log index is 45.
