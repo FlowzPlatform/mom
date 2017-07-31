@@ -1,5 +1,5 @@
 <template>
-    <div class="SingleTaskPane-feed">
+    <div class="SingleTaskPane-feed" v-if="test.length > 0">
         <div class="StoryFeed">
             <hr class="StoryFeed-separator StoryFeed-topSeparator">
             <div class="dropdown sort-menu">

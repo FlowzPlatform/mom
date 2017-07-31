@@ -15,17 +15,14 @@
             </span>
           </span>
         </div>
-        <input class="new-todo" autofocus autocomplete="off" 
-            :placeholder="pholder" 
-            v-bind:class="getLevelClass(todo.level,todo.id)"
-            v-model="todo.taskName" 
-            @click="SHOW_DIV(todo)" 
-            @keyup.enter="addTodo(nextIndex)"
-            @focus="onFocusClick(todo.id, todo.level)"
-            @blur=onBlurCall(todo.id,todo.level) 
-            @keyup="performAction"
-            @change="changeValue(nextIndex)">
-            <!--@change="changeValue(nextIndex)"-->
+        <!-- @click="SHOW_DIV(todo)" -->
+        <input class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
+          v-model="todo.taskName" 
+          @click="SHOW_DIV(todo)"
+          @keyup.enter="addTodo(nextIndex)" 
+          @focus="onFocusClick(todo.id, todo.level)"
+          @blur=onBlurCall(todo.id,todo.level)
+          @keyup="performAction">
         <span class=""><i>
           <b class="glyphicon glyphicon-option-vertical"></b>
           <b class="glyphicon glyphicon-option-vertical"></b>
@@ -49,6 +46,9 @@
             <a class="fa fa-close"/>
             <i class="fa fa-trash-o"></i>
         </button>-->
+        <button class="destroy" v-if="isTaskType" @click="deleteTaskType(todo)">
+            <a class="fa fa-close"/>
+        </button> 
       </div>
       <!--{{todo.progress > 50 ? Math.round(255 * (100 - todo.progress) / 100) : 255}} {{ todo.progress > 50 ? 255 : Math.round(todo.progress / 100 * 255)}}{{ 0}}-->
       <!--backgroundColor: 'rgb('+Math.round(255*(100-todo.progress)/100)+', '+Math.round(todo.progress / 100 * 255)+', 0)'-->
@@ -85,7 +85,7 @@
   })
 
   export default {
-    props: ['todo', 'pholder', 'nextIndex', 'prevIndex'],
+    props: ['todo', 'pholder', 'nextIndex', 'prevIndex','isTaskType'],
     data: function () {
       return {
         progress: 0,
@@ -112,9 +112,45 @@
       undelete: function () {
         this.$store.dispatch('undelete', this.todo)
       },
-      addTodo: function(todoId) {
-        //this.changeFocus(todoId)
-        this.$store.dispatch('insertTodo', this.todo)
+      // deleteTodo: function () {
+      //   this.$store.dispatch('deleteTodo', this.todo)
+        // console.log('Remove TODO:', this.filteredTodos);
+        // if(this.dbId)
+        // {
+        // this.$http.delete('/deteletask/'+ this.dbId, {
+        //   }).then(response => {
+        //       console.log('task deleted', response.data)
+        //       if(this.filteredTodos.length-1 > 0)
+        //       {
+        //         console.log('ID-Level:', this.filteredTodos[0].parentId, "===", this.filteredTodos[0].level);
+        //         var todoList = store.state.todo1(this.filteredTodos[0].parentId, (this.filteredTodos[0].level-1)); 
+        //         console.log('todoList:', todoList);
+        //         for(var i=0; i < todoList.length-1 ; i++)
+        //         {
+        //           if(todoList[i].id)
+        //             {
+        //               this.$http.post('/updatetasks', {
+        //               id: todoList[i].id,
+        //               index: i
+        //               }).then(response => {
+        //                 console.log('index updated after remove task', response.data)
+        //             })
+        //             }
+        //         }
+        //       }
+        //   })
+        //   }
+      // },
+      addTodo: function (todoId) {
+        if(this.isTaskType){
+          this.$store.dispatch('addTask_Type', this.todo)
+        }else {
+          this.changeFocus(todoId)
+          this.$store.dispatch('insertTodo', this.todo)
+        }
+      },
+      deleteTaskType: function(todo){
+          this.$store.dispatch('deleteTaskType', this.todo)
       },
       onFocusClick(id, level) {
         console.log('onFoucusclick')
