@@ -644,6 +644,16 @@ export const store = new Vuex.Store({
     },
     GET_TASK_TYPE(state, payload){
       state.task_types_list = payload
+    },
+    ADD_TASK_TYPE(state, payload){
+      state.task_types_list.push({
+        id: payload.id,
+        taskName:payload.taskName
+      })
+    },
+    DELETE_TASK_TYPE(state, payload){
+      let removeIndex = _.findIndex(state.task_types_list, function (d) { return d.id == payload.id })
+      state.task_types_list.splice(removeIndex, 1)
     }
   },
   actions: {
@@ -733,9 +743,6 @@ export const store = new Vuex.Store({
         commit('ADD_PROJECT', message)
          console.log("Project updated:-->", message)
           commit('updateProjectList', message)
-      })
-      services.roleServicePermission.on('created', message => {
-        console.log("Message To create Role permission:--", message)
       })
     },
     getAllTodos({ commit }, payload) {
@@ -1448,6 +1455,30 @@ export const store = new Vuex.Store({
         console.log("Response task type Find::", response);
         commit('GET_TASK_TYPE', response)
       });
+    },
+    addTask_Type({commit}, payload){
+      if(payload.id){
+        services.taskTypesService.patch(payload.id, { taskName: payload.taskName, taskDesc: '', updatedBy: store.state.userObject._id }, { query: { 'id': payload.id } }).then(response => {
+          console.log("Response patch Task Type::", response);
+        });
+      }else {
+        services.taskTypesService.create({
+          taskName: payload,
+          createdAt: new Date().toJSON()
+        }).then(response => {
+          console.log("Insert Task Type in DB:", response)
+          commit('ADD_TASK_TYPE', response)
+        })
+      }
+      
+    },
+    deleteTaskType({commit}, payload){
+      services.taskTypesService.remove(payload.id,
+      {query: {'id': payload.id}}
+      ).then(response => {
+        console.log("Delete Task Type: --", response)
+        commit('DELETE_TASK_TYPE', payload)
+      })
     }
   },
   getters: {

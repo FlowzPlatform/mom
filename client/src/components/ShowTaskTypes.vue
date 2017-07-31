@@ -3,15 +3,14 @@
         <div id="main-container" class="row asanaView-body" style="left: 20%;right: 20px;">
             <div id="center_pane_container" class="known-list">
                 <div id="center_pane">
-                    <main-left-section :filtered-todos="getTaskTypeList"></main-left-section>
+                    <main-left-section :isTaskType="isTaskType" :filtered-todos="getTaskTypeList"></main-left-section>
                 </div>
             </div>
-        
-        <div class="right_pane_container" v-for="(n, index) in parentIdArr">
-            <div id="right_pane">
-                <main-right-section :todoObject="n"></main-right-section>
+            <div class="right_pane_container" v-for="(n, index) in parentIdArr">
+                <div id="right_pane">
+                    <main-right-section :todoObject="n"></main-right-section>
+                </div>
             </div>
-        </div>
         </div>
     </div>
 </template>
@@ -23,7 +22,8 @@
     export default {
         data: function () {
             return {
-
+                taskType: '',
+                isTaskType: true
             }
         },
         created() {
@@ -35,10 +35,15 @@
                 'parentIdArr'
             ])
         },
+        methods:{
+            addTaskType: function(obj){
+                this.$store.dispatch('addTask_Type', obj)
+                this.taskType = ''
+            }
+        },
         components: {
             MainLeftSection,
             MainRightSection
         }
     }
-
 </script>
