@@ -14,6 +14,7 @@
             </span>
           </span>
         </div>
+        <!-- @click="SHOW_DIV(todo)" -->
         <input class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
           v-model="todo.taskName" 
           @click="SHOW_DIV(todo)"
@@ -44,6 +45,9 @@
             <a class="fa fa-close"/>
             <i class="fa fa-trash-o"></i>
         </button>-->
+        <button class="destroy" v-if="isTaskType" @click="deleteTaskType(todo)">
+            <a class="fa fa-close"/>
+        </button> 
       </div>
     <!--{{todo.progress > 50 ? Math.round(255 * (100 - todo.progress) / 100) : 255}} {{ todo.progress > 50 ? 255 : Math.round(todo.progress / 100 * 255)}}{{ 0}}-->
     <!--backgroundColor: 'rgb('+Math.round(255*(100-todo.progress)/100)+', '+Math.round(todo.progress / 100 * 255)+', 0)'-->
@@ -80,13 +84,13 @@
   })
 
   export default {
-    props: ['todo', 'pholder', 'nextIndex', 'prevIndex'],
+    props: ['todo', 'pholder', 'nextIndex', 'prevIndex','isTaskType'],
     data: function () {
       return {
         progress: 0,
         progress_count: '',
         isDate: this.todo.dueDate,
-        prgress_count: '',
+        prgress_count: ''
       }
     },
     computed: {
@@ -135,8 +139,15 @@
         //   }
       // },
       addTodo: function (todoId) {
-        this.changeFocus(todoId)
-        this.$store.dispatch('insertTodo', this.todo)
+        if(this.isTaskType){
+          this.$store.dispatch('addTask_Type', this.todo)
+        }else {
+          this.changeFocus(todoId)
+          this.$store.dispatch('insertTodo', this.todo)
+        }
+      },
+      deleteTaskType: function(todo){
+          this.$store.dispatch('deleteTaskType', this.todo)
       },
        setFocus: function(todoId)
        {

@@ -5,7 +5,7 @@
                 <tr>
                     <template v-for="field in fields">
                                 <th :class="field.titleClass">
-                                    {{ getTitle(field) | capitalizeLetters }}&nbsp;
+                                    {{ getTitle(field)  }}&nbsp;
                                 </th>
                         </template>
                 </tr>
