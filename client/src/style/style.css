@@ -5354,6 +5354,43 @@ table {
     padding: 4px 10px 4px 4px;
     vertical-align: middle;
 }
+.social-auth {
+   position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform: -webkit-translate(-50%, -50%);
+  transform: -moz-translate(-50%, -50%);
+  transform: -ms-translate(-50%, -50%);
+   background-color: #87a6ff;
+    padding: 15px;
+    border-radius: 5px;
+    border: solid 10px #fff;
+    max-width: 400px;
+}
+.social-auth-btn {
+    width: 100px;
+    height: 45px;
+    font-size: 15px;
+    color: white;
+    border-radius: 7%;
+    margin-top: 10px;
+    border: solid 2px #fff;
+}
+.social-auth .social-header {
+    border-bottom: solid 1px #eaeaea;
+    padding-bottom: 5px;
+    color: #fff;
+    font-size: 23px;
+}
+.social-auth  .form-input {
+    margin-top: 10px;
+    display: inline-block;
+    width: 100%;
+}
+.social-auth  .form-input label {color:#fff;font-size: 15px;font-weight: bold;}
+.social-auth  .form-input .pro-part {width:100%}
+
 
  input[type=text].generic-input,
 input[type=password].generic-input {

@@ -1315,6 +1315,23 @@ export const store = new Vuex.Store({
           }
         });
     },
+    socialAuthRegistration({ commit }, objSocialAuth){
+      return axios.post('http://ec2-34-229-146-53.compute-1.amazonaws.com/googleauthprocess', {
+        email: objSocialAuth.email,
+        aboutme: objSocialAuth.aboutme
+      },{
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      })
+      .then(function (response) {
+        console.log('resp: ', response)
+        // commit('SAVE_USERTOKEN', response.data.logintoken)
+      })
+      .catch(function (error) {
+        // if (error.response.status === 401) {
+        //   throw new Error('You have entered wrong credentials...')
+        // }
+      });
+    },
     getUserDetail({ commit }) {
       console.log('token: ', store.state.userToken)
       console.log('env-USER_AUTH', process.env.USER_AUTH + '/api/userdetails')

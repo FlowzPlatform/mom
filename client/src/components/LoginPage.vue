@@ -1,4 +1,9 @@
 <template>
+      <form action="http://ec2-34-229-146-53.compute-1.amazonaws.com/auth/Gplus" method="post">  
+      <input type="hidden" name="success_url" value="http://localhost:3000">
+    <input type="hidden" name="key" value="381524561267-3agj2flmlj546qsnufj8d6283e6eismb.apps.googleusercontent.com">
+    <input type="hidden" name="seceret" value="KFzqxuDKfGnF91QMRHiirZwW">
+    <input type="hidden" name="callbackUrl" value="http://ec2-34-229-146-53.compute-1.amazonaws.com/oauthCallback">   
     <div class="login-pages">
         <div class="container">
             <div class="box"></div>
@@ -33,15 +38,17 @@
                     <div class="form-item log-in">
                         <div class="table">
                             <div class="table-cell">
-                                <g-signin-button class="buttonView buttonView--primary buttonView--large" id="google_auth_button" :params="googleSignInParams"
+                                <!-- <g-signin-button class="buttonView buttonView--primary buttonView--large" id="google_auth_button" :params="googleSignInParams"
                                     @success="onSignInSuccess" @error="onSignInError">
                                     <p>Use Google Account</p>
-                                </g-signin-button>
+                                </g-signin-button> -->
+                                 <button type="submit">Use Google Account</button> 
                                 <div class="dialog--nux-seperator" id="seprator"> or </div>
                                 <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
                                 <input placeholder="Password" tabindex="2" type="password" name="p" id="password_input" v-model="pwd" @keyup.enter="btnLogInClicked()">
                                 <div tabindex="3" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in</div>
                             </div>
+                            
                         </div>
                     </div>
                     <div class="form-item sign-up">
@@ -56,11 +63,12 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
     </div>
-    <!-- </form> -->
+    </form>
 </template>
 <script src="https://apis.google.com/js/api:client.js" async defer></script>
 <script>
@@ -98,6 +106,22 @@
                 }
             }
         },
+        created () {
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var token = url.searchParams.get('token')
+            if (token){
+            console.log('token:', token)
+            this.$store.commit('SAVE_USERTOKEN', token)
+            this.userDetail(this)
+            //this.getAccessTokenAPI(code)
+        }
+        var status = url.searchParams.get('status')
+        if(status == 200){
+            console.log('status: ', status)
+            this.$router.replace('/socialAuth')
+        }
+  },
         computed: {
             //  getUserEmail: function()
             //  {  
@@ -270,7 +294,16 @@
                 .then(function () {             
                     self.$store.state.isAuthorized = true             
                     self.$store.commit('authorize')      
-                    self.$store.dispatch('getUserDetail')             
+                    self.userDetail(self)    
+                })       
+                .catch(function (error) {             
+                    $.notify.defaults({ className: "error" })             
+                    $.notify(error.message, { globalPosition:"top center"})       
+                });
+                
+            },
+            userDetail(self) {
+                self.$store.dispatch('getUserDetail')             
                     //  self.$store.dispatch('getUserRegister')                           
                     .then(function () {                 
                          self.$router.replace('/navbar/mainapp')   
@@ -286,13 +319,7 @@
                         }              
                         $.notify.defaults({ className: "error" })                 
                         $.notify(error.message, { globalPosition:"top center"})             
-                    })       
-                })       
-                .catch(function (error) {             
-                    $.notify.defaults({ className: "error" })             
-                    $.notify(error.message, { globalPosition:"top center"})       
-                });
-                
+                    })
             },
             btnBackClicked() {
                 $(".container").toggleClass("log-in");
