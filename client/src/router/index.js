@@ -6,6 +6,7 @@ import MainApp from '@/components/MainApp'
 import RoleAccess from '@/components/RoleAccess'
 import navbar from '@/components/navbar'
 import ShowTaskList from '@/components/ShowTaskList'
+import SocialAuth from '@/components/SocialAuthProcess'
 import '../style/style.css'
 import '../style/style1.css'
 import '../style/newStyle.css'
@@ -40,6 +41,11 @@ export default new Router({
       name: 'Login',
       component: Login,
       meta: { Auth: false }
+    },
+    {
+      path: '/socialAuth',
+      name: 'SocialAuth',
+      component: SocialAuth
     },
     {
       path: '/navbar/task/:level/:id',
