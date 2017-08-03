@@ -137,12 +137,14 @@ export const store = new Vuex.Store({
     taskIndex: -1,
     task_types_list: [],
     task_status_list: [],
-    task_types_state: []
+    task_types_state: [],
+    googleId: ''
   },
   mutations: {
     userData: state => state.userObject,
     authorize: state => state.isAuthorized,
     progressVal: state => state.progress,
+    googleId: state => state.googleId,
     // showProgress: state => state.isProgress,
     // showLoader: state => state.isLoading,
     showAttachmentProgress(state, data) {
@@ -1316,20 +1318,21 @@ export const store = new Vuex.Store({
         });
     },
     socialAuthRegistration({ commit }, objSocialAuth){
-      return axios.post('http://ec2-34-229-146-53.compute-1.amazonaws.com/googleauthprocess', {
+      return axios.post(process.env.USER_AUTH+'/api/googleauthprocess', {
         email: objSocialAuth.email,
-        aboutme: objSocialAuth.aboutme
+        aboutme: objSocialAuth.aboutme,
+        id: store.state.googleId
       },{
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
       })
       .then(function (response) {
         console.log('resp: ', response)
-        // commit('SAVE_USERTOKEN', response.data.logintoken)
+        commit('SAVE_USERTOKEN', response.data.logintoken)
       })
       .catch(function (error) {
-        // if (error.response.status === 401) {
-        //   throw new Error('You have entered wrong credentials...')
-        // }
+        if (error.response.status === 401) {
+          throw new Error('Wrong email address...')
+        }
       });
     },
     getUserDetail({ commit }) {

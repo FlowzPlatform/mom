@@ -116,9 +116,11 @@
             this.userDetail(this)
             //this.getAccessTokenAPI(code)
         }
-        var status = url.searchParams.get('status')
-        if(status == 200){
-            console.log('status: ', status)
+        var id = url.searchParams.get('mid')
+        if(id){
+            console.log('id: ', id)
+            this.$store.state.googleId = id
+            this.$store.commit('googleId')
             this.$router.replace('/socialAuth')
         }
   },

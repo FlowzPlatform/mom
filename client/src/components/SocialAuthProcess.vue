@@ -58,6 +58,27 @@
                     $.notify.defaults({ className: "error" })             
                     $.notify(error.message, { globalPosition:"top center"})       
                 });
+            },
+            userDetail(self) {
+                self.$store.dispatch('getUserDetail')             
+                    //  self.$store.dispatch('getUserRegister')                           
+                    .then(function () {                 
+                         self.$router.replace('/navbar/mainapp')   
+                         
+                         console.log("Socket-->",)
+          
+                    })             
+                    .catch(function(error) {      
+                        console.log("login error",error)
+                       if (error.response.status === 401) { 
+                          // console.log('error: ', error.response.status) 
+                          CmnFunc.deleteAutheticationDetail()
+                          self.$router.replace('/')
+                          return 
+                        }              
+                        $.notify.defaults({ className: "error" })                 
+                        $.notify(error.message, { globalPosition:"top center"})             
+                    })
             }
         }
     }
