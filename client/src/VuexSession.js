@@ -69,8 +69,8 @@ function setCheckboxColor(state) {
   }
 }
 
-function updateTaskCount(state, todoObject){
-  if(todoObject.isDelete){
+function updateTaskCount(state, todoObject) {
+  if (todoObject.isDelete) {
     if (todoObject.parentId) {
       let tempObj = state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count
       state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count = tempObj - 1
@@ -80,18 +80,19 @@ function updateTaskCount(state, todoObject){
       }
       setProgressBar(state, todoObject)
     }
-  }else {
-     var todo=state.todolist.find(todo => todo.id === todoObject.parentId);
-     if(todo){
-      let tempObj =todo.subtask_count
+  } else {
+    var todo = state.todolist.find(todo => todo.id === todoObject.parentId);
+    if (todo) {
+      let tempObj = todo.subtask_count
       state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count = tempObj + 1
-  }}
+    }
+  }
 }
 function updateObject(oldObject, newObject) {
   var keys = Object.keys(oldObject)
   for (var i = 0; i < keys.length; i++) {
-    if(newObject[keys[i]]){
-       oldObject[keys[i]] = newObject[keys[i]];
+    if (newObject[keys[i]]) {
+      oldObject[keys[i]] = newObject[keys[i]];
     }
   }
 }
@@ -121,18 +122,19 @@ export const store = new Vuex.Store({
     deleteItemsSelected: false,
     deletedTaskArr: [],
     arrAllUsers: [],
-    projectlist:[],
-    userRoles:[],
-    currentProjectId:"",
-    currentProjectName:"",
+    projectlist: [],
+    userRoles: [],
+    currentProjectId: "",
+    currentProjectName: "",
     currentProjectPrivacy: '',
-    projectSettingId:0,
-    currentProjectMember:'',
-    projectSettingMenuOffset:0,
+    projectSettingId: 0,
+    currentProjectMember: '',
+    projectSettingMenuOffset: 0,
     createdByTaskList: [],
     recentlyCompletedTasks: [],
     searchView: '',
-    assignedToOthers: []
+    assignedToOthers: [], 
+    taskIndex: -1,
   },
   mutations: {
     userData: state => state.userObject,
@@ -148,14 +150,12 @@ export const store = new Vuex.Store({
       let index = _.findIndex(state.todolist, function (d) { return d.id == data.id })
       state.todolist[index].deleteprogress = data.isProgress
     },
-    GET_ROLES(state,data)
-    {
-      if(data)
-      {
+    GET_ROLES(state, data) {
+      if (data) {
         for (var i = 0; i < data.length; i++) {
           let index = _.findIndex(state.userRoles, function (d) { return d.id == data[i].id })
-          if (index <0) {
-             state.userRoles.push(data[i])
+          if (index < 0) {
+            state.userRoles.push(data[i])
           }
         }
 
@@ -180,10 +180,22 @@ export const store = new Vuex.Store({
     },
     async SHOW_DIV(state, payload) {
       // START scroll to last opened right div 
+
+      //set focus on selected TODO Item. 
+      //CAUTION:Take care before add any code here. If made any change in focus set code it may interrupt functionality.03/08/2017
+      state.taskIndex = payload.id+"_"+payload.level
+      setTimeout(function () {
+          var el = $('.' + state.taskIndex);
+          if (el) {
+            el.focus();
+          }
+      },100)
+      //****************************************************** */
+
       var children = document.getElementById('main-container').children;
       var totalWidth = 0;
       for (var i = 0; i < children.length; i++) {
-          totalWidth += children[i].offsetWidth;
+        totalWidth += children[i].offsetWidth;
       }
       var leftPos = $('#main-container').scrollLeft();
       $("div#main-container").animate({
@@ -193,16 +205,16 @@ export const store = new Vuex.Store({
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
         // window.history.pushState("", "Title", "http://localhost:3000/navbar/task/" + (payload.level + 1) + "/" + payload.id);
-        await store.dispatch('getAllTodos', { 'parentId': payload.id,project_id:state.currentProjectId });
+        await store.dispatch('getAllTodos', { 'parentId': payload.id, project_id: state.currentProjectId });
         await store.dispatch('getAttachmentFromDB', payload.id)
         await store.dispatch('getAllTaskTags', payload.id);
         await store.dispatch('getTaskComment', payload.id)
 
         var parentIdArrObj = payload
         var tempParentIds = _.chain([]).union(state.parentIdArr).sortBy([function (o) { return o.level; }]).value();
-        if(state.deleteItemsSelected || state.createdByTaskList.length > 0 || state.recentlyCompletedTasks.length > 0 || state.assignedToOthers.length > 0){
-            state.parentIdArr.splice(0, state.parentIdArr.length);
-            state.parentIdArr.push(parentIdArrObj);
+        if (state.deleteItemsSelected || state.createdByTaskList.length > 0 || state.recentlyCompletedTasks.length > 0 || state.assignedToOthers.length > 0) {
+          state.parentIdArr.splice(0, state.parentIdArr.length);
+          state.parentIdArr.push(parentIdArrObj);
         } else {
           if (state.parentIdArr.length > 0) {
             state.parentIdArr.splice(0, state.parentIdArr.length);
@@ -246,14 +258,13 @@ export const store = new Vuex.Store({
       state.recentlyCompletedTasks.splice(0, state.recentlyCompletedTasks.length)
       state.assignedToOthers.splice(0, state.assignedToOthers.length)
       // state.userObject={}
-           state.currentProjectId = ""
+      state.currentProjectId = ""
       state.currentProjectName = ""
       state.currentProjectPrivacy = ''
     },
-    CLEAR_PROJECT_DEFAULT(state)
-    {
+    CLEAR_PROJECT_DEFAULT(state) {
       state.userObject = {}
-        state.isAuthorized = false
+      state.isAuthorized = false
       state.todolist = []
       state.parentIdArr = []
       state.progress_count = ''
@@ -286,88 +297,95 @@ export const store = new Vuex.Store({
     },
     UPDATE_TODO(state, item) {
 
-        if(item.project_id===state.currentProjectId){
-      let updateTodoIndex = _.findIndex(state.todolist, function (d) { return d.id == item.id })
-      if (updateTodoIndex < 0) {
-        if (state.todoObjectByID)
-          updateObject(state.todoObjectByID, item)
-        if(!item.isDelete){
-          let deleteTodoIndex = _.findIndex(state.deletedTaskArr, function (d) { return d.id == item.id })
-          state.todolist.push(item)
-          state.deletedTaskArr.splice(deleteTodoIndex, 1)
-          if(state.parentIdArr.length > 0) {
-            var todo=state.parentIdArr.find(todo => todo.id === item.id);
-            if(todo)
-              todo.isDelete = item.isDelete
-          }
-          updateTaskCount(state, item)
-        }
-      } else {
-        var isValueAvailable = state.todolist[updateTodoIndex].isDelete
-        updateObject(state.todolist[updateTodoIndex], item)
-        // show if any updates found for TODO
-        if(item.updatedBy !== state.userObject._id){
-          state.todolist[updateTodoIndex].isTaskUpdate = true
-        }
-        if(isValueAvailable !== item.isDelete){
-          if(item.isDelete){
-            state.deletedTaskArr.push(item)
-            state.todolist.splice(updateTodoIndex, 1)
-            state.parentIdArr.find(todo => todo.id === item.id).isDelete = item.isDelete  
-          }else{
+      if (item.project_id === state.currentProjectId) {
+        let updateTodoIndex = _.findIndex(state.todolist, function (d) { return d.id == item.id })
+        if (updateTodoIndex < 0) {
+          if (state.todoObjectByID)
+            updateObject(state.todoObjectByID, item)
+          if (!item.isDelete) {
             let deleteTodoIndex = _.findIndex(state.deletedTaskArr, function (d) { return d.id == item.id })
+            state.todolist.push(item)
             state.deletedTaskArr.splice(deleteTodoIndex, 1)
-            state.parentIdArr.find(todo => todo.id === item.id).isDelete = item.isDelete
+            if (state.parentIdArr.length > 0) {
+              var todo = state.parentIdArr.find(todo => todo.id === item.id);
+              if (todo)
+                todo.isDelete = item.isDelete
+            }
+            updateTaskCount(state, item)
           }
-          updateTaskCount(state, item)
+        } else {
+          var isValueAvailable = state.todolist[updateTodoIndex].isDelete
+          updateObject(state.todolist[updateTodoIndex], item)
+          // show if any updates found for TODO
+          if (item.updatedBy !== state.userObject._id) {
+            state.todolist[updateTodoIndex].isTaskUpdate = true
+          }
+          if (isValueAvailable !== item.isDelete) {
+            if (item.isDelete) {
+              state.deletedTaskArr.push(item)
+              state.todolist.splice(updateTodoIndex, 1)
+              state.parentIdArr.find(todo => todo.id === item.id).isDelete = item.isDelete
+            } else {
+              let deleteTodoIndex = _.findIndex(state.deletedTaskArr, function (d) { return d.id == item.id })
+              state.deletedTaskArr.splice(deleteTodoIndex, 1)
+              state.parentIdArr.find(todo => todo.id === item.id).isDelete = item.isDelete
+            }
+            updateTaskCount(state, item)
+          }
         }
-      }
 
-      //For subtask total count and completed subtask count update
-      var isObjectAvailable = state.todolist.find(todo => todo.id === item.parentId)
-      if (isObjectAvailable) {
-        if (item.parentId) {
-          var p_id = item.parentId
-          var totalCount = state.todolist.filter(function(todo){
-            return todo.parentId === p_id && todo.completed
-          }).length
-          state.todolist.find(todo => todo.id === p_id).completed_subtask_count = totalCount          
-          setProgressBar(state, item)
+        //For subtask total count and completed subtask count update
+        var isObjectAvailable = state.todolist.find(todo => todo.id === item.parentId)
+        if (isObjectAvailable) {
+          if (item.parentId) {
+            var p_id = item.parentId
+            var totalCount = state.todolist.filter(function (todo) {
+              return todo.parentId === p_id && todo.completed
+            }).length
+            state.todolist.find(todo => todo.id === p_id).completed_subtask_count = totalCount
+            setProgressBar(state, item)
+          }
         }
+        setCheckboxColor(state)
       }
-      setCheckboxColor(state)
-        }
     },
     ADD_NEW_TODOS(state, todoObject) {
 
-      if(todoObject.project_id===state.currentProjectId){
+      // Add new created todo object in list if not exist in db
+      // let todoIndex = _.findIndex(state.todolist, function (todo) { return todo.id == todoObject.id })
+      // console.log('INSERT TODO INDEX', todoIndex)
+      // if (todoIndex == -1) {
+        if (todoObject.project_id === state.currentProjectId) {
 
-      todoObject.subtask_count = 0
-      todoObject.completed_subtask_count = 0
-      todoObject.progress_count = ''
-      todoObject.isDelete = false
+          todoObject.subtask_count = 0
+          todoObject.completed_subtask_count = 0
+          todoObject.progress_count = ''
+          todoObject.isDelete = false
 
-      // Manage code for the real-time data from multi browser for the new todo created on same index
-      if (state.isDeleteObj) {
-        state.todolist.splice(state.todolist.length - 1)
-        state.isDeleteObj = false
-      }
-      state.todolist.push(todoObject)
+          // Manage code for the real-time data from multi browser for the new todo created on same index
+          if (state.isDeleteObj) {
+            state.todolist.splice(state.todolist.length - 1)
+            state.isDeleteObj = false
+          }
 
-      if (state.currentModified) {
-        state.todolist.push(state.currentTodoObj)
-        // state.currentTodoObj = {}
-        state.isDeleteObj = true
-      }      
-      var isObjectAvailable = state.todolist.find(todo => todo.id === todoObject.parentId)
-      if (isObjectAvailable) {
-        if (todoObject.parentId) {
-          let tempObj = state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count
-          state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count = tempObj + 1
-          setProgressBar(state, todoObject)
+          state.todolist.push(todoObject)
+
+          // if (state.currentModified) {
+          //   console.log('current modified')
+          //   state.todolist.push(state.currentTodoObj)
+          //   // state.currentTodoObj = {}
+          //   state.isDeleteObj = true
+          // }
+          var isObjectAvailable = state.todolist.find(todo => todo.id === todoObject.parentId)
+          if (isObjectAvailable) {
+            if (todoObject.parentId) {
+              let tempObj = state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count
+              state.todolist.find(todo => todo.id === todoObject.parentId).subtask_count = tempObj + 1
+              setProgressBar(state, todoObject)
+            }
+          }
         }
-      }
-      }
+      // }
     },
     deleteTodo(state, todoObject) {
       let removeTodoIndex = _.findIndex(state.deletedTaskArr, function (d) { return d.id == todoObject.id })
@@ -415,22 +433,22 @@ export const store = new Vuex.Store({
       for (var i = 0; i < data.length; i++) {
         let index = _.findIndex(state.settingsObject, function (d) { return d.id == data[i].id })
         if (state.settingsObject[index].user_setting > 0) {
-        if (state.settingsObject[index].type === "progress") {
-          state.isProgress = state.settingsObject[index].user_setting[0].setting_value
+          if (state.settingsObject[index].type === "progress") {
+            state.isProgress = state.settingsObject[index].user_setting[0].setting_value
+          }
+          if (state.settingsObject[index].type === "duedate") {
+            state.isDueDate = state.settingsObject[index].user_setting[0].setting_value
+          }
         }
-        if (state.settingsObject[index].type === "duedate") {
-          state.isDueDate = state.settingsObject[index].user_setting[0].setting_value
-        }
-      }
       }
     },
     GET_TASK_COMMENT(state, data) {
-        for (var i = 0; i < data.length; i++) {
-          let index = _.findIndex(state.taskComment, function (d) { return d.id == data[i].id })
-          if (index < 0) {
-           state.taskComment.push(data[i])
-          }
+      for (var i = 0; i < data.length; i++) {
+        let index = _.findIndex(state.taskComment, function (d) { return d.id == data[i].id })
+        if (index < 0) {
+          state.taskComment.push(data[i])
         }
+      }
     },
     ADD_COMMENT(state, data) {
       state.taskComment.push({
@@ -439,11 +457,11 @@ export const store = new Vuex.Store({
         commentBy: data.commentBy,
         comment: data.comment,
         createdAt: new Date().toJSON(),
-        username:state.userObject.fullname,
-        image_url:state.userObject.image_url
+        username: state.userObject.fullname,
+        image_url: state.userObject.image_url
       })
     },
-    DELETE_COMMENT(state, data){
+    DELETE_COMMENT(state, data) {
       let removeTaskComments = _.findIndex(state.taskComment, function (d) { return d.id == data.id })
       state.taskComment.splice(removeTaskComments, 1)
     },
@@ -452,7 +470,7 @@ export const store = new Vuex.Store({
     },
     SETTING_UPDATE(state, todoObject) {
 
-      for   (var i = 0; i < state.settingsObject.length; i++) {
+      for (var i = 0; i < state.settingsObject.length; i++) {
         let index = _.findIndex(state.settingsObject, function (d) { return d.id == todoObject.settings_id })
         if (state.settingsObject[index].id === todoObject.settings_id) {
           state.settingsObject[index].user_setting[0] = todoObject
@@ -481,7 +499,7 @@ export const store = new Vuex.Store({
       state.taskTags = []
     },
     GET_TASK_TAGS(state, datas) {
-      
+
       if (datas instanceof Array) {
         _.forEach(datas, function (data) {
           let index = _.findIndex(state.taskTags, function (d) { return d.id == data.id })
@@ -530,109 +548,111 @@ export const store = new Vuex.Store({
     DELETE_ALLUSERSLIST(state) {
       state.arrAllUsers = []
     },
-    updateProjectList(state,value){
+    updateProjectList(state, value) {
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
       if (updateProjectIndex >= 0) {
-           state.projectlist[updateProjectIndex].project_privacy = value.project_privacy;
+        state.projectlist[updateProjectIndex].project_privacy = value.project_privacy;
       }
     },
-    updateDragableProjectList(state,value){
-        state.projectlist = value
+    updateDragableProjectList(state, value) {
+      state.projectlist = value
     },
-    async GET_PROJECT_LIST(state,data){
-      state.projectlist=data;
-      if(!state.currentProjectId && data.length>0){
-       state.currentProjectId=data[0].id
-       state.currentProjectName=data[0].project_name
-         await store.dispatch('getAllTodos', { 'parentId': "",project_id:state.currentProjectId });
+    async GET_PROJECT_LIST(state, data) {
+      state.projectlist = data;
+      if (!state.currentProjectId && data.length > 0) {
+        state.currentProjectId = data[0].id
+        state.currentProjectName = data[0].project_name
+        await store.dispatch('getAllTodos', { 'parentId': "", project_id: state.currentProjectId });
       }
     },
-    async showDeleteTasks(state){
+    async showDeleteTasks(state) {
       state.deleteItemsSelected = true
       state.parentIdArr.splice(0, state.parentIdArr.length)
       // state.createdByTaskList.splice(0, state.createdByTaskList.length)
-      await store.dispatch('getDeleteTask', state.currentProjectId )
+      await store.dispatch('getDeleteTask', state.currentProjectId)
     },
-    showMyTasks(state){
+    showMyTasks(state) {
       state.deleteItemsSelected = false
       state.parentIdArr.splice(0, state.parentIdArr.length)
     },
-    DELETED_TASKS(state, deletedArray){
+    DELETED_TASKS(state, deletedArray) {
       state.deletedTaskArr = deletedArray
     },
-    showTasksList(state, payload){
+    showTasksList(state, payload) {
       state.createdByTaskList = payload
     },
-    showRecentlyCompletedTasks(state, payload){
+    showRecentlyCompletedTasks(state, payload) {
       state.recentlyCompletedTasks = payload
     },
-    showTaskToAssignOthers(state, payload){
+    showTaskToAssignOthers(state, payload) {
       state.assignedToOthers = payload
     },
-     ASSIGN_PROJECT_MEMBER(state, assignMember){
-      
-      let index = _.findIndex(state.projectlist, function (d) { return d.id ==  assignMember.project_id })
-      console.log("Index Found:--",index)
+    ASSIGN_PROJECT_MEMBER(state, assignMember) {
+
+      let index = _.findIndex(state.projectlist, function (d) { return d.id == assignMember.project_id })
+      console.log("Index Found:--", index)
       if (index > -1) {
         if (!state.projectlist[index].members)
           state.projectlist[index].members = []
 
 
-        
-        setTimeout(function() {
-        let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === assignMember.user_id })
-        console.log("User Detail", userIndex);
-        if (userIndex < 0) {
-          state.projectlist[index].members.push({ user_id: assignMember.user_id  })
-        } else {
-          state.projectlist[index].members.push({ user_id: assignMember.user_id , url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name,email: state.arrAllUsers[userIndex].email  })
-        }  
-        console.log("state.projectlist[index]", state.projectlist[index]);
-        
-        }, 2000);
-        
-      }else{
-        services.projectService.find({query:{'id':assignMember.project_id, $client: {
-              flag: 'projectmember'
-            }}}).then(response =>{
-              // console.log("Project Assign To you:-->",response)
-              // 
-               var project=response[0];
-               var projectMembers=project.members;
-              //  projectMembers.forEach(function(member) {
-              //      let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === member.user_id })
-              //       console.log("User Detail", userIndex);
-              //       if (userIndex < 0) {
-              //        project.members.push({ user_id: assignMember.user_id  })
-              //       } else {
-              //        project.members.push({ user_id: assignMember.user_id , url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name,email: state.arrAllUsers[userIndex].email  })
-              //       }  
-              //       console.log("state.projectlist[index]", state.projectlist[index]);
-              //  }, this);
 
-                state.projectlist.push(project);
-            })
+        setTimeout(function () {
+          let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === assignMember.user_id })
+          console.log("User Detail", userIndex);
+          if (userIndex < 0) {
+            state.projectlist[index].members.push({ user_id: assignMember.user_id })
+          } else {
+            state.projectlist[index].members.push({ user_id: assignMember.user_id, url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name, email: state.arrAllUsers[userIndex].email })
+          }
+          console.log("state.projectlist[index]", state.projectlist[index]);
+
+        }, 2000);
+
+      } else {
+        services.projectService.find({
+          query: {
+            'id': assignMember.project_id, $client: {
+              flag: 'projectmember'
+            }
+          }
+        }).then(response => {
+          // console.log("Project Assign To you:-->",response)
+          // 
+          var project = response[0];
+          var projectMembers = project.members;
+          //  projectMembers.forEach(function(member) {
+          //      let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === member.user_id })
+          //       console.log("User Detail", userIndex);
+          //       if (userIndex < 0) {
+          //        project.members.push({ user_id: assignMember.user_id  })
+          //       } else {
+          //        project.members.push({ user_id: assignMember.user_id , url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name,email: state.arrAllUsers[userIndex].email  })
+          //       }  
+          //       console.log("state.projectlist[index]", state.projectlist[index]);
+          //  }, this);
+
+          state.projectlist.push(project);
+        })
       }
 
       // state.deletedTaskArr = deletedArray
     },
-    ADD_PROJECT(state,project){
+    ADD_PROJECT(state, project) {
       state.projectlist.push(project);
     }
   },
   actions: {
-    getUserRegister({commit})
-    {
-       console.log("<<---getUserRegister->>",store.state.userObject._id)
- services.paymentsService.find({userId:store.state.userObject._id}).then(response => {
-        console.log("Create->>",response)
+    getUserRegister({ commit }) {
+      console.log("<<---getUserRegister->>", store.state.userObject._id)
+      services.paymentsService.find({ userId: store.state.userObject._id }).then(response => {
+        console.log("Create->>", response)
         // commit('GET_ROLES', response)
       });
     }
     ,
 
-    getUsersRoles({commit})
-    {
+    getUsersRoles({ commit }) {
       services.roleService.find().then(response => {
         // console.log("Role list->>",response)
         commit('GET_ROLES', response)
@@ -640,7 +660,7 @@ export const store = new Vuex.Store({
     },
     eventListener({ commit }) {
       // A new message has been created on the server, so dispatch a mutation to update our state/view
-       services.tasksService.on('toggleTodoTask', message => {
+      services.tasksService.on('toggleTodoTask', message => {
         console.log("Message Toggle Todo Event:-->", message)
         // commit('ADD_NEW_TODOS', message)
       })
@@ -693,26 +713,26 @@ export const store = new Vuex.Store({
         console.log("Message History log Removed:-->", message)
         commit('DELETE_COMMENT', message)
       })
-           services.projectService.on('patched', message => {
-         console.log("Project updated:-->", message)
-          commit('updateProjectList', message)
-       })
+      services.projectService.on('patched', message => {
+        console.log("Project updated:-->", message)
+        commit('updateProjectList', message)
+      })
 
-        services.projectMemberService.on('created', message => {
-         console.log("ASSIGN_PROJECT_MEMBER:-->", message)
-          commit('ASSIGN_PROJECT_MEMBER', message)
-       })
+      services.projectMemberService.on('created', message => {
+        console.log("ASSIGN_PROJECT_MEMBER:-->", message)
+        commit('ASSIGN_PROJECT_MEMBER', message)
+      })
 
-        services.projectService.on('created', message => {
-         message.members=[]          
-         console.log("Project updated:-->", message)
-         commit('ADD_PROJECT', message)
-       })
+      services.projectService.on('created', message => {
+        message.members = []
+        console.log("Project updated:-->", message)
+        commit('ADD_PROJECT', message)
+      })
     },
     getAllTodos({ commit }, payload) {
-       services.tasksService.find({
+      services.tasksService.find({
         query:
-            { parentId: payload.parentId, project_id: payload.project_id}
+        { parentId: payload.parentId, project_id: payload.project_id }
       }).then(response => {
         commit('GET_TODO', response)
       });
@@ -724,6 +744,7 @@ export const store = new Vuex.Store({
       commit('REMOVE_PARENT_ID_ARRAY')
     },
     insertTodo({ commit }, insertElement) {
+      console.log('taskID', insertElement.id)
       let dbId = insertElement.id
       if (!(insertElement.taskName && insertElement.taskName.trim()))
         return
@@ -754,7 +775,7 @@ export const store = new Vuex.Store({
           assigned_by: store.state.userObject._id,
           assigned_to: store.state.userObject._id,
           isDelete: false,
-          project_id:insertElement.project_id
+          project_id: insertElement.project_id
         }).then(response => {
           console.log("Response create::---->", response);
           //  commit('addTodo', {"data":response, "todo": insertElement})
@@ -789,7 +810,7 @@ export const store = new Vuex.Store({
           updatedBy: store.state.userObject._id
         }, { query: { 'id': editObject.todo.id } }).then(response => {
           console.log("Response editTaskName::", response);
-           if(editObject.isAssigned){
+          if (editObject.isAssigned) {
             editObject.callback()
           }
           //  commit('UPDATE_TODO', insertElement)
@@ -854,7 +875,7 @@ export const store = new Vuex.Store({
     toggleTodo({ commit }, changeTodo) {
       let dbId = changeTodo.id
       if (dbId) {
-        services.tasksService.patch(dbId,{
+        services.tasksService.patch(dbId, {
           id: dbId,
           completed: changeTodo.completed,
           updatedBy: store.state.userObject._id,
@@ -1008,7 +1029,6 @@ export const store = new Vuex.Store({
           task_id: taskId,
         }
       }).then(response => {
-        console.log("Response getAttachmentFromDB::", response.data);
         if (response.data.length > 0) {
           commit('SELECT_FILE', response.data)
         }
@@ -1069,7 +1089,7 @@ export const store = new Vuex.Store({
     },
     getTaskComment({ commit }, payload) {
       services.taskHistoryLogs.find({ query: { task_id: payload } }).then(response => {
-        console.log("Response getCommnets From DB::", response);
+        // console.log("Response getCommnets From DB::", response);
         commit('GET_TASK_COMMENT', response)
       });
       // Vue.http.get('/getComment').then(function (response) {
@@ -1088,7 +1108,7 @@ export const store = new Vuex.Store({
         console.log("Reesponse create Commnets From DB::", response);
       })
     },
-     insertProjectInvite({ commit }, inviteDetail) {
+    insertProjectInvite({ commit }, inviteDetail) {
       services.projectMemberService.create(inviteDetail).then(function (response) {
         console.log("Reesponse create Invite Member  From DB::", response);
         // commit('ADD_COMMENT', response)
@@ -1096,7 +1116,7 @@ export const store = new Vuex.Store({
     },
     getAllTaskTags({ commit }, taskId) {
       services.taskTagsService.find({ query: { task_id: taskId, is_deleted: false } }).then(response => {
-        console.log("Response TaskTag::", response);
+        // console.log("Response TaskTag::", response);
         commit('GET_TASK_TAGS', response)
       });
       // Vue.http.post('/getTaskTags', {
@@ -1180,10 +1200,10 @@ export const store = new Vuex.Store({
         //  commit('UPDATE_TODO', insertElement)
       });
     },
-     changeProjectPrivacy({ commit }, privacy_id) {
+    changeProjectPrivacy({ commit }, privacy_id) {
       services.projectService.patch(null, {
-        project_privacy : privacy_id 
-      }, { query: { "id": store.state.currentProjectId} }).then(response => {
+        project_privacy: privacy_id
+      }, { query: { "id": store.state.currentProjectId } }).then(response => {
         console.log("Response update Project privacy:", response);
       });
     },
@@ -1194,7 +1214,7 @@ export const store = new Vuex.Store({
       })
     },
     userRegistrationProcess({ commit }, regObject) {
-      return axios.post(process.env.USER_AUTH+'/api/setup', {
+      return axios.post(process.env.USER_AUTH + '/api/setup', {
         email: regObject.email,
         password: regObject.password,
         username: regObject.email,
@@ -1222,7 +1242,7 @@ export const store = new Vuex.Store({
         });
     },
     userLoginProcess({ commit }, loginObj) {
-      return axios.post(process.env.USER_AUTH+'/api/login', {
+      return axios.post(process.env.USER_AUTH + '/api/login', {
         email: loginObj.email,
         password: loginObj.password
       }, {
@@ -1241,23 +1261,23 @@ export const store = new Vuex.Store({
     },
     getUserDetail({ commit }) {
       console.log('token: ', store.state.userToken)
-        console.log('env-USER_AUTH', process.env.USER_AUTH+'/api/userdetails')
-        return axios.get(process.env.USER_AUTH+'/api/userdetails', {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            'Authorization': store.state.userToken
-          },
-        })
+      console.log('env-USER_AUTH', process.env.USER_AUTH + '/api/userdetails')
+      return axios.get(process.env.USER_AUTH + '/api/userdetails', {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          'Authorization': store.state.userToken
+        },
+      })
         .then(function (response) {
           commit('GET_USERDETAIL', response.data.data)
-          services.socket.emit("userdata",response.data.data._id);
+          services.socket.emit("userdata", response.data.data._id);
         })
         .catch(function (error) {
           throw error
         })
     },
     updateUserProfile({ commit }, objProfile) {
-      var url = (process.env.USER_DETAIL+'/updateuserdetails/' + store.state.userObject._id)
+      var url = (process.env.USER_DETAIL + '/updateuserdetails/' + store.state.userObject._id)
       console.log('profile', objProfile)
       return axios.put(url, {
         fullname: objProfile.fullname,
@@ -1278,63 +1298,63 @@ export const store = new Vuex.Store({
 
         })
         .catch(function (error) {
-          throw error 
+          throw error
         })
     },
     async getAllUsersList({ commit }) {
-      try{
+      try {
         // console.log('Token', store.state.userToken)
-      let {data}  = await axios.get(process.env.USER_DETAIL+'/alluserdetails',{
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-          'Authorization': store.state.userToken
-        }
-      })
-      commit('GET_ALL_USERS', data.data)
-      return data.data 
-      }catch(error){
+        let { data } = await axios.get(process.env.USER_DETAIL + '/alluserdetails', {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'Authorization': store.state.userToken
+          }
+        })
+        commit('GET_ALL_USERS', data.data)
+        return data.data
+      } catch (error) {
         throw error
       }
-        // .then(function (response) {
-        //   console.log('resp: ', response)
-        //   return response
-        // })
-        // .catch(function (error) {
-        //   console.log('error: ', error)
-        //   if (error.response.status === 403) {
-        //     throw new Error('Token is invalid')
-        //   }
-        // })
+      // .then(function (response) {
+      //   console.log('resp: ', response)
+      //   return response
+      // })
+      // .catch(function (error) {
+      //   console.log('error: ', error)
+      //   if (error.response.status === 403) {
+      //     throw new Error('Token is invalid')
+      //   }
+      // })
     },
     getAllProjects({ commit }, userId) {
-        services.projectService.find({
-          query: {
-            $or: [
-              { project_privacy: '0' },
-              { project_privacy: '1' },
-              { project_privacy: '2', create_by: userId }
-            ],
-            $client: {
-              flag: 'allprojectlist'
-            }
+      services.projectService.find({
+        query: {
+          $or: [
+            { project_privacy: '0' },
+            { project_privacy: '1' },
+            { project_privacy: '2', create_by: userId }
+          ],
+          $client: {
+            flag: 'allprojectlist'
           }
-        }).then(response => {
-          console.log("Response from Project", response)
-          commit('GET_PROJECT_LIST', response)
-        });
-        // Vue.http.post('/tasks_parentId', { parentId: payload.parentId }).then(function (response) {
-        //   commit('GET_TODO', response.data)
-        // });
-      },
-      insertProject({commit},object){
-       var self=this;
-         services.projectService.create(object.data).then(response => {
-          console.log("Response Project create::", response);
-          object.callback(response);
-          //  commit('addTodo', {"data":response, "todo": insertElement})
-        });
+        }
+      }).then(response => {
+        console.log("Response from Project", response)
+        commit('GET_PROJECT_LIST', response)
+      });
+      // Vue.http.post('/tasks_parentId', { parentId: payload.parentId }).then(function (response) {
+      //   commit('GET_TODO', response.data)
+      // });
     },
-    getDeleteTask({ commit }, payload){
+    insertProject({ commit }, object) {
+      var self = this;
+      services.projectService.create(object.data).then(response => {
+        console.log("Response Project create::", response);
+        object.callback(response);
+        //  commit('addTodo', {"data":response, "todo": insertElement})
+      });
+    },
+    getDeleteTask({ commit }, payload) {
       // services.tasksService.find({ query: { isDelete: true } }).then(response => {
       //   commit('DELETED_TASKS', response)
       // });
@@ -1349,45 +1369,47 @@ export const store = new Vuex.Store({
         commit('DELETED_TASKS', response)
       });
     },
-      undelete({commit}, undeleteElement){
+    undelete({ commit }, undeleteElement) {
       let dbId = undeleteElement.id
       if (dbId) {
-        services.tasksService.patch(dbId, {isDelete: false }).then(response => {
+        services.tasksService.patch(dbId, { isDelete: false }).then(response => {
           console.log("Response unDeteleTodo Flag Update:", response)
         })
       }
     },
-    deletePermently({commit}, deletePermentlyEle){
+    deletePermently({ commit }, deletePermentlyEle) {
       let dbId = deletePermentlyEle.id
       services.tasksService.remove(dbId, { query: { 'id': dbId } }).then(response => {
-          console.log("Reesponse deleteTodo::", response);
+        console.log("Reesponse deleteTodo::", response);
       });
     },
-    delete_Comment({commit}, deleteCommentObj){
+    delete_Comment({ commit }, deleteCommentObj) {
       let commentId = deleteCommentObj.id
-      services.taskHistoryLogs.remove(commentId, {query: { 'id' : commentId}}).then(response => {
+      services.taskHistoryLogs.remove(commentId, { query: { 'id': commentId } }).then(response => {
         console.log("Response To Delete Comment:--", response)
       })
     },
-    getTaskCreatedBy({commit}, payload){
+    getTaskCreatedBy({ commit }, payload) {
       services.tasksService.find({
         query: {
           $or: [
-            {  created_by: payload.userID, isDelete: false, project_id: payload.project_id }
-          ]}
-        }).then(response => {
-          console.log("Response To Find Created by User Tasks List:--", response)
-          commit('showTasksList', response)
-        });
+            { created_by: payload.userID, isDelete: false, project_id: payload.project_id }
+          ]
+        }
+      }).then(response => {
+        console.log("Response To Find Created by User Tasks List:--", response)
+        commit('showTasksList', response)
+      });
     },
-    getRecentlyCompletedTasks({commit}, payload){
-      services.tasksService.find({ query: {project_id: payload.project_id, created_by: payload.userID, completed:true } }).then(response => {
+    getRecentlyCompletedTasks({ commit }, payload) {
+      services.tasksService.find({ query: { project_id: payload.project_id, created_by: payload.userID, completed: true } }).then(response => {
         console.log("Response To Find Created by Recently Completed Tasks List:--", response)
         commit('showRecentlyCompletedTasks', response)
       });
     },
-    getTaskToAssignOthers({commit}, payload){
-      services.tasksService.find({ query: { project_id: payload.project_id, assigned_by: payload.userID, isDelete: false}
+    getTaskToAssignOthers({ commit }, payload) {
+      services.tasksService.find({
+        query: { project_id: payload.project_id, assigned_by: payload.userID, isDelete: false }
       }).then(response => {
         console.log("Response To Tasks I've assigned To Others:--", response)
         commit('showTaskToAssignOthers', response)
@@ -1403,18 +1425,18 @@ export const store = new Vuex.Store({
     //     return todolist
     //   }
     // },
-      getTodoById: (state, getters) => {
-      if(state.deleteItemsSelected){
+    getTodoById: (state, getters) => {
+      if (state.deleteItemsSelected) {
         return function (id, level) {
           // console.log('deleted task getter')
           var todolist = state.deletedTaskArr
-          todolist = _.sortBy(todolist, 'index')        
+          todolist = _.sortBy(todolist, 'index')
           return todolist
-        }  
+        }
       } else {
         return function (id, level) {
-          var todolist = state.todolist.filter(function(todo){
-              return !todo.isDelete && todo.parentId === id
+          var todolist = state.todolist.filter(function (todo) {
+            return !todo.isDelete && todo.parentId === id
           })
           todolist = _.sortBy(todolist, 'index')
           return todolist
@@ -1431,11 +1453,11 @@ export const store = new Vuex.Store({
     },
     settingArr: state => state.settingsObject,
     getCommentById: (state, getters) => {
-        return function (id) {
-          var comment = state.taskComment.filter(c => c.task_id === id)
-          return comment
-        }
-    }, 
+      return function (id) {
+        var comment = state.taskComment.filter(c => c.task_id === id)
+        return comment
+      }
+    },
     // getTaskTags: state => state.taskTags,
     getTaskTagsById: (state, getters) => {
       return function (id) {
@@ -1443,10 +1465,10 @@ export const store = new Vuex.Store({
         return state.taskTags.filter(tags => tags.task_id === id)
       }
     },
-    getMemberProfileDetail:(state,getters) => {
+    getMemberProfileDetail: (state, getters) => {
       return function (uId) {
         let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === uId })
-        console.log("User Detail",state.arrAllUsers);
+        console.log("User Detail", state.arrAllUsers);
         if (userIndex < 0) {
           return { user_id: uId }
         } else {
@@ -1454,20 +1476,20 @@ export const store = new Vuex.Store({
         }
       }
     },
-    getMemberName:(state,getters) => {
-      return function(uId){
-        let userIndex= _.findIndex(state.arrAllUsers,function(user){ return user_id===uId})
-         return  state.arrAllUsers[userIndex].fullname
-        }
-    },    
+    getMemberName: (state, getters) => {
+      return function (uId) {
+        let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user_id === uId })
+        return state.arrAllUsers[userIndex].fullname
+      }
+    },
     getObjectById: state => state.todoObjectByID,
     getAllUserList: state => state.arrAllUsers,
-    getProjectList: state=> state.projectlist,
+    getProjectList: state => state.projectlist,
     getdeleteArray: state => state.deletedTaskArr,
     getTaskLists: state => state.createdByTaskList,
     getRecentlyCompletedLists: state => state.recentlyCompletedTasks,
     getTaskAssignedToOthers: state => state.assignedToOthers
   },
-  
+
   plugins: [createPersistedState()]
 })

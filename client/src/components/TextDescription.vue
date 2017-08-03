@@ -9,7 +9,7 @@
             @keydown="autoresize"
             @click="autoresize"
             autofocus autocomplete="off"
-            @keyup.enter="updateTaskName"
+            @change="updateTaskName()"
             v-model="filteredTodo.taskName"
             />
           </div>
@@ -19,7 +19,7 @@
           <span class="autogrow-textarea">
               <textarea rows="3" cols="50"
               v-model="filteredTodo.taskDesc"
-              @keyup="updateTaskName()" 
+              @change="updateTaskName()" 
               contenteditable="true" disable_highlighting_for_diagnostics="true" 
               tabindex="10" 
               class="field-description generic-input hypertext-input notranslate" 
@@ -46,12 +46,13 @@ export default {
     ]),
     updateTaskName: _.debounce(function() {
       this.$store.dispatch('editTaskName', {"todo":this.filteredTodo})
-    }, 2000),
+    }, 500),
     autoresize: function() {
       var el = document.getElementById('text-area')
       setTimeout(function(){
         el.style.cssText = 'height:auto; padding:12';
         el.style.cssText = 'height:' + el.scrollHeight + 'px';
+        el.focus();
       }, 300)
     }
   },
