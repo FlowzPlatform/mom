@@ -2,7 +2,7 @@
     <div class="task">
           <div class="view">
             <input type="checkbox" class="toggleTask" v-model="filteredTodo.completed" @change="toggleTodo(filteredTodo)">
-            <textarea id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
+            <textarea v-if="id !== 'rightTaskTypes' && id !== 'rightTaskStatus'" id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
             placeholder="New Task" 
             style="height: 40px;"
             rows="1"
@@ -12,14 +12,52 @@
             @keyup.enter="updateTaskName"
             v-model="filteredTodo.taskName"
             />
+            <textarea v-if="id === 'rightTaskTypes'" id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
+            placeholder="New Task" 
+            style="height: 40px;"
+            rows="1"
+            @keydown="autoresize"
+            @click="autoresize"
+            autofocus autocomplete="off"
+            @keyup.enter="updateType"
+            v-model="filteredTodo.type"
+            />
+            <textarea v-if="id === 'rightTaskStatus'" id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
+            placeholder="New Task" 
+            style="height: 40px;"
+            rows="1"
+            @keydown="autoresize"
+            @click="autoresize"
+            autofocus autocomplete="off"
+            @keyup.enter="updateStatus"
+            v-model="filteredTodo.status"
+            />
           </div>
           <br>
         <div class="property description taskDetailsView-description">
         <div class="multiline">
           <span class="autogrow-textarea">
-              <textarea rows="3" cols="50"
+              <textarea v-if="id !== 'rightTaskTypes' && id !== 'rightTaskStatus'" rows="3" cols="50"
               v-model="filteredTodo.taskDesc"
               @keyup="updateTaskName()" 
+              contenteditable="true" disable_highlighting_for_diagnostics="true" 
+              tabindex="10" 
+              class="field-description generic-input hypertext-input notranslate" 
+              id="property_sheet:details_property_sheet_field:description"
+              placeholder="Description">
+            </textarea><br>
+            <textarea v-if="id === 'rightTaskTypes'" rows="3" cols="50"
+              v-model="filteredTodo.typeDesc"
+              @keyup="updateType()" 
+              contenteditable="true" disable_highlighting_for_diagnostics="true" 
+              tabindex="10" 
+              class="field-description generic-input hypertext-input notranslate" 
+              id="property_sheet:details_property_sheet_field:description"
+              placeholder="Description">
+            </textarea><br>
+            <textarea v-if="id === 'rightTaskStatus'" rows="3" cols="50"
+              v-model="filteredTodo.statusDesc"
+              @keyup="updateStatus()" 
               contenteditable="true" disable_highlighting_for_diagnostics="true" 
               tabindex="10" 
               class="field-description generic-input hypertext-input notranslate" 
@@ -38,10 +76,14 @@ import { mapActions } from 'vuex'
 import _ from 'lodash'
 
 export default {
-  props: ['filteredTodo'],
+  props: ['filteredTodo', 'id'],
+    data: function () {
+      return {
+        textName:''
+      }
+    },
   methods: {
     ...mapActions([
-      // 'editTaskName',
       'toggleTodo'
     ]),
     updateTaskName: _.debounce(function() {
@@ -49,11 +91,17 @@ export default {
     }, 2000),
     autoresize: function() {
       var el = document.getElementById('text-area')
-      setTimeout(function(){
+      setTimeout(function () {
         el.style.cssText = 'height:auto; padding:12';
         el.style.cssText = 'height:' + el.scrollHeight + 'px';
       }, 0)
-    }
+    },
+    updateType: _.debounce(function() {
+      this.$store.dispatch('editTypes', this.filteredTodo)
+    }, 2000),
+    updateStatus: _.debounce(function() {
+      this.$store.dispatch('editStatus', this.filteredTodo)
+    }, 2000)
   },
   component: {
     TodoItem

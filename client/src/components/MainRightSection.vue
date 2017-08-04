@@ -2,7 +2,7 @@
 <div class="rightsection-view">
 <div class="DropTargetAttachment">
 <section class="todoapp right_bar">
-  <!-- <right-toolbar :filteredTodo="todoObject"></right-toolbar> -->
+   <right-toolbar v-if="id !== 'rightTaskTypes' && id !== 'rightTaskStatus' " :filteredTodo="todoObject"></right-toolbar> 
    <div class="taskbarsect">
   <div v-if="todoObject.isDelete" class="MessageBanner MessageBanner--error MessageBanner--medium TaskUndeleteBanner TaskMessageBanner">
     <span class="fa fa-trash-o"  style="margin-right: 10px"/>
@@ -14,9 +14,9 @@
 		<noscript></noscript>
 	</div>
   
-	<text-description :filteredTodo="todoObject">
+	<text-description :id="id" :filteredTodo="todoObject">
   </text-description>
-  <collapse class="CollapseView">
+  <collapse v-if="id !== 'rightTaskTypes' && id !== 'rightTaskStatus'" class="CollapseView">
     <panel v-show='showAttachment'>
       Attachments
       <p class='PanelAttach' slot="content">
@@ -30,6 +30,7 @@
       </p>
     </panel>
   </collapse>
+  <statuses :filteredTodo="todoObject" :id="id"></statuses>
   <!--<attachments :filteredTodo="todoObject"> </attachments>-->
   <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#attachment">Attachments</div>-->
   <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#attachment">Attachents</button>-->
@@ -39,7 +40,7 @@
   <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#tags">Tags</button>
   <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
   <!--<tags :filteredTodo="todoObject"></tags>-->
-  <main-left-section v-if="!$store.state.deleteItemsSelected" :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
+  <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskStatus'" :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
   </div>
   <story-feed :filteredTodo="todoObject"></story-feed>
 </section>
@@ -61,7 +62,7 @@
     </div>
   </div>
 </div>
-<right-footer :filteredTodo="todoObject"></right-footer>
+<right-footer v-if="id !== 'rightTaskTypes' && id !== 'rightTaskStatus'" :filteredTodo="todoObject"></right-footer>
 </div>
 </template> 
 <script>
@@ -73,6 +74,7 @@ import RightFooter from './RightFooter.vue'
 import RightToolbar from './RightToolbar.vue'
 import Attachments from './Attachments.vue'
 import StoryFeed from './StoryFeed.vue'
+import Statuses from './Statuses.vue'
 import Tags from './Tags.vue'
 import { mapGetters } from 'vuex'
 import iView from 'iview';
@@ -81,7 +83,7 @@ import 'iview/dist/styles/iview.css';
 Vue.use(iView);
 
 export default {
-  props: ['pholder', 'todoObject'],
+  props: ['pholder', 'todoObject','id'],
   data: function () {
     return {
         todolistSubTasks: [],
@@ -175,7 +177,8 @@ export default {
     RightToolbar,
     Attachments,
     StoryFeed,
-    Tags
+    Tags,
+    Statuses
   }
 }
 </script>

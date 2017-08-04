@@ -17,14 +17,6 @@ exports.before = {
              .coerceTo('array')
            }
          }).orderBy('index')
-    // hook.params.rethinkdb = query.merge(function (todo) {
-    //   return { subtask_count: query.filter({ 'parentId': todo('id') }).count() }
-    // })
-    //   .merge(function (todo) {
-    //     return { completed_subtask_count: query.filter({ 'parentId': todo('id'), 'completed': true }).count() }
-    //   })
-    //   .merge({ 'progress': 0 })
-    //   .merge({ 'progress_count': '' }).orderBy('index')
 
   },
   get: [],

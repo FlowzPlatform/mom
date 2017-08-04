@@ -21,7 +21,8 @@
   "tbl_permission":"permission",
   "tbl_project":"project",
   "tbl_projectmember": "projectmember",
-  "tbl_task_types": "task_types"
+  "tbl_task_types": "task_types",
+  "tbl_task_status": "task_status"
 
   // "tablelist" : {
   //   "tables":[

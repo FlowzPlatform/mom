@@ -414,10 +414,15 @@
                 // console.log("userList:--", self.users)
                 var itemList = self.users.filter(function (item) {
                     if (!sameMatch) {
-                        sameMatch = (item.fullname.toLowerCase() == self.inputValue.toLowerCase())
+                        if (item.fullname != null) {
+                            sameMatch = (item.fullname.toLowerCase() == self.inputValue.toLowerCase())
+                            return item.fullname.toLowerCase().indexOf(self.inputValue.toLowerCase()) != -1
+                        }
+                        else if (item.emil != null) {
+                            sameMatch = (item.email.toLowerCase() == self.inputValue.toLowerCase())
+                            return item.email.toLowerCase().indexOf(self.inputValue.toLowerCase()) != -1
+                        }
                     }
-
-                    return item.fullname.toLowerCase().indexOf(self.inputValue.toLowerCase()) != -1
                 })
                 // console.log("itemList", itemList)
                 if (!sameMatch)
