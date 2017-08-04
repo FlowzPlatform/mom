@@ -1,15 +1,15 @@
 <template>
     <div>
-        <h3 class="ui header">Types</h3>
+        <h3 class="ui header">Status</h3>
         <div id="main-container" class="row asanaView-body" style="left: 20%;right: 20px;">
             <div id="center_pane_container" class="known-list">
                 <div id="center_pane">
-                    <main-left-section id="taskTypes" :filtered-todos="taskTypeList"></main-left-section>
+                    <main-left-section id="taskStatus" :filtered-todos="taskStausList"></main-left-section>
                 </div>
             </div>
-            <div class="right_pane_container" v-for="(n, index) in parentIdArr">
+            <div class="right_pane_container" v-for="(n, index) in pidArr">
                 <div id="right_pane">
-                    <main-right-section id="rightTaskTypes" :todoObject="n"></main-right-section>
+                    <main-right-section id="rightTaskStatus" :todoObject="n"></main-right-section>
                 </div>
             </div>
         </div>
@@ -26,19 +26,19 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('getTaskTypes')
+        this.$store.dispatch('getTaskStaus')
     },
-    computed: {
+    computed:{
         ...mapGetters({
-            typeList:'getTaskTypeList',
-            parentIdArr:'parentIdArr'
+            statusList: 'getTaskStausList',
+            pidArr:'parentIdArr'
         }),
-        taskTypeList: function(){
-            this.typeList.push({
-                type:'',
+        taskStausList(){
+            this.statusList.push({
+                status:'',
                 createdAt: new Date().toJSON()
             })
-            return this.typeList
+            return this.statusList
         }
     },
     components: {
