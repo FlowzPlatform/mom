@@ -1,6 +1,5 @@
 <template id="items">
   <li v-bind:key="todo" class="todo">
-    <!-- {{todo.completed}} -->
     <div :id="getLevelClass(todo.level,todo.id)" style="padding-bottom: 5px;">
       <div class="view" style="margin-left: 10px;">
         <span class="dreg-move"></span>
@@ -15,14 +14,13 @@
             </span>
           </span>
         </div>
-        <!-- @click="SHOW_DIV(todo)" -->
-        <input class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
-          v-model="todo.taskName" 
-          @click="SHOW_DIV(todo)"
-          @keyup.enter="addTodo(nextIndex)" 
-          @focus="onFocusClick(todo.id, todo.level)"
-          @blur=onBlurCall(todo.id,todo.level)
-          @keyup="performAction">
+        <input v-if="id !== 'taskTypes' && id !== 'taskStatus'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder"
+          v-bind:class="getLevelClass(todo.level,todo.id)" v-model="todo.taskName" @click="SHOW_DIV(todo)" @keyup.enter="addTodo(nextIndex)"
+          @focus="onFocusClick(todo.id, todo.level)" @blur=onBlurCall(todo.id,todo.level) @keyup="performAction">
+        <input v-if="id === 'taskTypes'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
+          v-model="todo.type" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
+        <input v-if="id === 'taskStatus'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
+          v-model="todo.status" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
         <span class=""><i>
           <b class="glyphicon glyphicon-option-vertical"></b>
           <b class="glyphicon glyphicon-option-vertical"></b>
@@ -46,9 +44,9 @@
             <a class="fa fa-close"/>
             <i class="fa fa-trash-o"></i>
         </button>-->
-        <button class="destroy" v-if="isTaskType" @click="deleteTaskType(todo)">
+        <button class="destroy" v-if="id === 'taskTypes' || id === 'taskStatus'" @click="deleteTaskType(todo)">
             <a class="fa fa-close"/>
-        </button> 
+        </button>
       </div>
       <!--{{todo.progress > 50 ? Math.round(255 * (100 - todo.progress) / 100) : 255}} {{ todo.progress > 50 ? 255 : Math.round(todo.progress / 100 * 255)}}{{ 0}}-->
       <!--backgroundColor: 'rgb('+Math.round(255*(100-todo.progress)/100)+', '+Math.round(todo.progress / 100 * 255)+', 0)'-->
@@ -85,11 +83,9 @@
   })
 
   export default {
-    props: ['todo', 'pholder', 'nextIndex', 'prevIndex','isTaskType'],
+    props: ['todo', 'pholder', 'nextIndex', 'prevIndex', 'id'],
     data: function () {
       return {
-        progress: 0,
-        progress_count: '',
         isDate: this.todo.dueDate,
         prgress_count: '',
         prevSelectedItem:'',
@@ -114,43 +110,49 @@
       },
       // deleteTodo: function () {
       //   this.$store.dispatch('deleteTodo', this.todo)
-        // console.log('Remove TODO:', this.filteredTodos);
-        // if(this.dbId)
-        // {
-        // this.$http.delete('/deteletask/'+ this.dbId, {
-        //   }).then(response => {
-        //       console.log('task deleted', response.data)
-        //       if(this.filteredTodos.length-1 > 0)
-        //       {
-        //         console.log('ID-Level:', this.filteredTodos[0].parentId, "===", this.filteredTodos[0].level);
-        //         var todoList = store.state.todo1(this.filteredTodos[0].parentId, (this.filteredTodos[0].level-1)); 
-        //         console.log('todoList:', todoList);
-        //         for(var i=0; i < todoList.length-1 ; i++)
-        //         {
-        //           if(todoList[i].id)
-        //             {
-        //               this.$http.post('/updatetasks', {
-        //               id: todoList[i].id,
-        //               index: i
-        //               }).then(response => {
-        //                 console.log('index updated after remove task', response.data)
-        //             })
-        //             }
-        //         }
-        //       }
-        //   })
-        //   }
+      // console.log('Remove TODO:', this.filteredTodos);
+      // if(this.dbId)
+      // {
+      // this.$http.delete('/deteletask/'+ this.dbId, {
+      //   }).then(response => {
+      //       console.log('task deleted', response.data)
+      //       if(this.filteredTodos.length-1 > 0)
+      //       {
+      //         console.log('ID-Level:', this.filteredTodos[0].parentId, "===", this.filteredTodos[0].level);
+      //         var todoList = store.state.todo1(this.filteredTodos[0].parentId, (this.filteredTodos[0].level-1)); 
+      //         console.log('todoList:', todoList);
+      //         for(var i=0; i < todoList.length-1 ; i++)
+      //         {
+      //           if(todoList[i].id)
+      //             {
+      //               this.$http.post('/updatetasks', {
+      //               id: todoList[i].id,
+      //               index: i
+      //               }).then(response => {
+      //                 console.log('index updated after remove task', response.data)
+      //             })
+      //             }
+      //         }
+      //       }
+      //   })
+      //   }
       // },
       addTodo: function (todoId) {
-        if(this.isTaskType){
-          this.$store.dispatch('addTask_Type', this.todo)
-        }else {
+        if (this.id === "todoTask") {
           this.changeFocus(todoId)
           this.$store.dispatch('insertTodo', this.todo)
+        } else if (this.id === "taskTypes") {
+          this.$store.dispatch('addTask_Type', this.todo)
+        } else if(this.id === "taskStatus"){
+          this.$store.dispatch('addTask_Status', {"status":this.todo})
         }
       },
-      deleteTaskType: function(todo){
+      deleteTaskType: function (todo) {
+        if (this.id === 'taskTypes') {
           this.$store.dispatch('deleteTaskType', this.todo)
+        } else if (this.id === 'taskStatus') {
+          this.$store.dispatch('deleteTaskStatus', this.todo)
+        }
       },
       onFocusClick(id, level) {
         console.log('onFoucusclick')
@@ -198,38 +200,34 @@
             self.$store.commit('SHOW_DIV', self.$store.state.todolist[showTodoIndex])
         }, 100);
       }
-
     },
     component: {
       txtDesc
     },
     mounted() {
-      var totalSubtask = this.todo.subtask_count ? this.todo.subtask_count : 0
-      var completedSubtask = this.todo.completed_subtask_count ? this.todo.completed_subtask_count : 0
-      this.todo.progress_count = completedSubtask + " / " + totalSubtask;
-      if (totalSubtask > 0) {
-        var percentage = (completedSubtask / totalSubtask) * 100
-        this.todo.progress = percentage
-      }
-      //   console.log('check_settings', this.$store.state.settingsObject)
-      // if(this.$store.state.settingsObject && this.$store.state.settingsObject.length > 0){
-      //   var checkSetting = this.$store.state.settingsObject.find(setting => setting.type === "duedate")
-      //   console.log('check_settings', checkSetting)
-      if (this.$store.state.isDueDate) {
-        var d = new Date()
-        d.setDate(d.getDate() + 2)
-        if (this.todo.dueDate) {
-          if (moment(this.todo.dueDate).isBetween(new Date(), d)) {
-            $('#' + this.todo.id).addClass('DueDate--soon')
-          } else if (moment(this.todo.dueDate).isBefore(new Date())) {
-            $('#' + this.todo.id).addClass('DueDate--overdue')
-          } else if (moment(this.todo.dueDate).isAfter(new Date())) {
-            $('#' + this.todo.id).addClass('DueDate--future')
+      if (this.id !== 'taskTypes' && this.id !== 'taskStatus') {
+        var totalSubtask = this.todo.subtask_count ? this.todo.subtask_count : 0
+        var completedSubtask = this.todo.completed_subtask_count ? this.todo.completed_subtask_count : 0
+        this.todo.progress_count = completedSubtask + " / " + totalSubtask;
+        if (totalSubtask > 0) {
+          var percentage = (completedSubtask / totalSubtask) * 100
+          this.todo.progress = percentage
+        }
+        if (this.$store.state.isDueDate) {
+          var d = new Date()
+          d.setDate(d.getDate() + 2)
+          if (this.todo.dueDate) {
+            if (moment(this.todo.dueDate).isBetween(new Date(), d)) {
+              $('#' + this.todo.id).addClass('DueDate--soon')
+            } else if (moment(this.todo.dueDate).isBefore(new Date())) {
+              $('#' + this.todo.id).addClass('DueDate--overdue')
+            } else if (moment(this.todo.dueDate).isAfter(new Date())) {
+              $('#' + this.todo.id).addClass('DueDate--future')
+            }
           }
         }
       }
     }
-    // }
   }
 
 </script>

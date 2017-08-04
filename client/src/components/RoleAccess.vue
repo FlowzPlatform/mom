@@ -76,8 +76,8 @@
                                 <div class="ui container">
                                     <div id="content" class="ui basic segment">
                                         <h3 class="ui header">ACL</h3>
-                                        <vuetable v-ref:vuetable wrapper-class="vuetable-wrapper ui basic segment" table-wrapper=".vuetable-wrapper" :fields="fields"
-                                            row-class-callback="rowClassCB" :tableData="tableData"></vuetable>
+                                        <!-- <vuetable v-ref:vuetable wrapper-class="vuetable-wrapper ui basic segment" table-wrapper=".vuetable-wrapper" :fields="fields"
+                                            row-class-callback="rowClassCB" :tableData="tableData"></vuetable> -->
                                     </div>
                                 </div>
                                 <div class="col-lg-offset-3 col-lg-6 pull-right">
@@ -108,6 +108,9 @@
                             </div>
                             <div id="app" class="ui vertical stripe segment" v-show = "isTaskType">
                                 <show-task-types></show-task-types>
+                            </div>
+                            <div id="app" class="ui vertical stripe segment" v-show = "isTaskStatus">
+                                <show-task-status></show-task-status>
                             </div>
                         </div>
                     </div>
@@ -344,6 +347,7 @@
     import Vue from 'vue'
     import Resource from 'vue-resource'
     import ShowTaskTypes from './ShowTaskTypes.vue'
+    import ShowTaskStatus from './ShowTaskStatus.vue'
     Vue.component('vuetable', require('./Vuetable.vue'));
     Vue.use(Resource)
 
@@ -421,6 +425,7 @@
             }
         },
         created() {
+            this.$store.dispatch('eventListener');
             this.$http.get('http://localhost:3030/role').then(response => {
                 console.log("Response roles:--", response.body)
                 tableColumns = [{
@@ -493,7 +498,8 @@
             }
         },
         components: {
-            ShowTaskTypes
+            ShowTaskTypes,
+            ShowTaskStatus
         }   
     }
 </script>
