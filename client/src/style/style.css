@@ -5382,6 +5382,13 @@ table {
 }
 .social-auth  .form-input label {color:#fff;font-size: 15px;font-weight: bold;}
 .social-auth  .form-input .pro-part {width:100%}
+.googleAuthBtn {
+    background-color: #1AAFD0;
+    width: 150px;
+    height: 35px;
+    border-radius: 5%;
+    color: white;
+}
 
 
 /* input[type=text].generic-input,
