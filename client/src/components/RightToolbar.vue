@@ -22,6 +22,7 @@
                       <ul class='dropdown-menu userlist' aria-labelledby="userlist">
                         <li v-for="(user, index) in getAllUserList"><a @click="btnUserClicked(user)"> 
                           <span><img v-if="user.image_url" v-bind:src="user.image_url" /><div v-else>{{capitalizeLetters(user.email)}}</div></span>{{user.email}}</a><hr>
+                          <!--<span><img v-if="user.image_url" v-bind:src="user.image_url" /><div v-else>{{capitalizeLetters(user)}}</div></span>{{user.email}}</a><hr>-->
                         </li>
                       </ul>
                     </span>
@@ -287,7 +288,16 @@ export default {
       return res
     },
     capitalizeLetters (name){
-      var str = name
+      var str = "null"
+      if(name != null)
+      {
+        str = name
+      }
+      // else if(name.fullname != null){
+      //   console.log('Name', name.fullname)
+      //   str = name.fullname
+      // }
+      // var str = name.email
       var firstLetters = str.substr(0,2)
       return firstLetters.toUpperCase()
     },
