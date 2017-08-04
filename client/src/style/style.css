@@ -4486,6 +4486,7 @@ span .ItemRowMenu {
         -ms-flex-align: center;
         align-items: center;
         background-image: url('../assets/ob_logo.png');
+        /*background-image: url('../assets/ob_logo1.jpg');*/
         background-position: 13px 10px;
         background-repeat: no-repeat;
         background-size: 110px;
