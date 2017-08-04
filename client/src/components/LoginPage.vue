@@ -42,7 +42,7 @@
                                     @success="onSignInSuccess" @error="onSignInError">
                                     <p>Use Google Account</p>
                                 </g-signin-button> -->
-                                 <button type="submit">Use Google Account</button> 
+                                 <button class="googleAuthBtn" type="submit">Use Google Account</button> 
                                 <div class="dialog--nux-seperator" id="seprator"> or </div>
                                 <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
                                 <input placeholder="Password" tabindex="2" type="password" name="p" id="password_input" v-model="pwd" @keyup.enter="btnLogInClicked()">
