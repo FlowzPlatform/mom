@@ -76,8 +76,8 @@
                                 <div class="ui container">
                                     <div id="content" class="ui basic segment">
                                         <h3 class="ui header">ACL</h3>
-                                        <vuetable v-ref:vuetable wrapper-class="vuetable-wrapper ui basic segment" table-wrapper=".vuetable-wrapper" :fields="fields"
-                                            row-class-callback="rowClassCB" :tableData="tableData"></vuetable>
+                                        <!-- <vuetable v-ref:vuetable wrapper-class="vuetable-wrapper ui basic segment" table-wrapper=".vuetable-wrapper" :fields="fields"
+                                            row-class-callback="rowClassCB" :tableData="tableData"></vuetable> -->
                                     </div>
                                 </div>
                                 <div class="col-lg-offset-3 col-lg-6 pull-right">

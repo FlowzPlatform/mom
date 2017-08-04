@@ -1486,7 +1486,7 @@ export const store = new Vuex.Store({
         console.log("Delete Role Access: --", response)
       })
     },
-    getTaskTypes({commit}){
+    getTaskTypes({ commit }) {
       services.taskTypesService.find().then(response => {
         console.log("Response task type Find::", response);
         commit('GET_TASK_TYPE', response)
