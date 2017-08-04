@@ -5,21 +5,64 @@
         <div class="ui container">
             <div id="content" class="ui basic segment">
                 <h3 class="ui header">User Group</h3>
-                
-              
-                <vuetable v-ref:vuetable
-                    wrapper-class="vuetable-wrapper ui basic segment"
-                    table-wrapper=".vuetable-wrapper"
-                    :fields="fields"
-                    row-class-callback="rowClassCB"
-                    :tableData="tableData"
-                ></vuetable>
+                       <div v-for="n in 2">
+                    <Widget>
+                        <WidgetHeading :id="1" :Title="'Sales'" :TextColor="false" :DeleteButton="false" :ColorBox="false" :Expand="false" :Collapse="true"
+                            :HeaderEditable="false">
+                                    Sales
+                        </WidgetHeading>
+                        <WidgetBody>
+                            <vuetable v-ref:vuetable wrapper-class="vuetable-wrapper ui basic segment" table-wrapper=".vuetable-wrapper" :fields="fields"
+                                row-class-callback="rowClassCB" :tableData="tableData"></vuetable>
+                        </WidgetBody>
+                    </Widget>
+                </div>
             </div>
         </div>
     </div>
     </div>
 </template>
   <style type="text/css">
+
+.ui.container {
+        background-color: transparent;
+        position: relative;
+        top: 0;
+        left: inherit;
+        right: inherit;
+        width: 100%;
+        max-height: inherit;
+        height: inherit;
+        -ms-transform: translateX(0%) translateY(0%);
+        transform: translateX(0%) translateY(0%);
+        -webkit-transform: translateX(0%) translateY(0%);
+    }
+     .ui.segment {
+        top: 0 !important;
+        margin-top: 0px !important;
+    }
+
+     .ui.blue.table {
+        width: 100%;
+        padding: 0 !important;
+        margin: 0 !important;
+            overflow-x: scroll;
+        
+    }
+
+    .ui.blue.table td {
+        margin: 0;
+        text-align: center
+    }
+    
+
+    .ui.blue.table td input {
+        width: 20px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        align-items: center;
+    }
+
         .ui.vertical.stripe h3 {
           font-size: 2em;
         }
@@ -87,8 +130,10 @@
 <script>
  /* eslint-disable*/
 import Vue from 'vue'
+import VueWidgets from 'vue-widgets'
 import Resource from 'vue-resource'
-
+import 'vue-widgets/dist/styles/vue-widgets.css'
+Vue.use(VueWidgets)
 Vue.component('vuetable', require('./Vuetable.vue'));
 Vue.use(Resource)
 
