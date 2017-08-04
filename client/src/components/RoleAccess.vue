@@ -4,8 +4,8 @@
     <div id="app" class="ui vertical stripe segment">
         <div class="ui container">
             <div id="content" class="ui basic segment">
-                <h3 class="ui header">User Group</h3>
-                       <div v-for="n in 2">
+                <h3 class="ui header">User Group</h3>     
+                <div v-for="n in 2">
                     <Widget>
                         <WidgetHeading :id="1" :Title="'Sales'" :TextColor="false" :DeleteButton="false" :ColorBox="false" :Expand="false" :Collapse="true"
                             :HeaderEditable="false">
@@ -63,6 +63,7 @@
         align-items: center;
     }
 
+
         .ui.vertical.stripe h3 {
           font-size: 2em;
         }
@@ -74,9 +75,7 @@
         .vuetable {
             margin-top: 1em !important;
         }
-        .vuetable-wrapper.ui.basic.segment {
-            padding: 0em;
-        }
+    
         .vuetable button.ui.button {
             padding: .5em .5em;
             font-weight: 400;
@@ -101,7 +100,7 @@
           margin-bottom: auto;
         }
         [v-cloak] {
-            display: none;
+            display: block;
         }
         .highlight {
             background-color: yellow;
@@ -125,6 +124,8 @@
         body {
             overflow-y: scroll;
         }
+
+        
     </style>
 <script src="../../dist/vue-table.js"></script>  
 <script>
@@ -140,7 +141,7 @@ Vue.use(Resource)
  Vue.component('custom-action', {
         template: [
             '<div>',
-                '<input type="checkbox"  @click="itemAction(\'check-item\', $event.target.checked,rowData,rowField)" :checked="rowCheck"/>',
+                '<input type="checkbox"  @click="itemAction(\'check-item\', $event.target.checked,rowData,rowField,roleValue)" :checked="rowCheck"/>',
             '</div>'
         ].join(''),
         props: {
@@ -153,22 +154,37 @@ Vue.use(Resource)
             },
              rowField:{
                 required: true
+            },
+             roleValue:{
+                required: true
             }
         },
         methods: {
-            itemAction: function(action,isChecked, data,rowField) {
-                if (isChecked) {
-                    this.$store.dispatch('addAccessPermision', {
-                        rId: rowField.id,
-                        pId: data.id
-                    })
-                } else {
-                    this.$store.dispatch('removeAccessPermision', {
-                        rId: rowField.id,
-                        pId: data.id
-                    })
+            itemAction: function(action,isChecked, data,rowField,roleValue) {
+                
+                  let roleIndex = _.findIndex(data.roleid, function (role) { return role.rId === rowField.id })
+                 if(roleIndex>-1)
+                 {
+                      var role = data.roleid[roleIndex];
+                     var accessValues = role.accessValue ? role.accessValue : 0
+                     var patchValue = isChecked ? accessValues + roleValue : accessValues - roleValue
+                     this.$store.dispatch('patchAccessPermision', {
+                         rId: rowField.id,
+                         pId: data.id,
+                         accessValue: patchValue
+                     })
 
-                }
+                     role.accessValue=patchValue;
+
+                 }else{
+                     this.$store.dispatch('addAccessPermision', {
+                         rId: rowField.id,
+                         pId: data.id,
+                         accessValue:  roleValue
+                     })
+                        data.roleid.push({rId: rowField.id,accessValue:roleValue})
+                 }
+             
             },
             onClick: function(event) {
                 console.log('custom-action: on-click----->', event.target)
@@ -219,14 +235,16 @@ Vue.use(Resource)
           name: 'name',
           title: '',
           sortField: 'name'
-         }];
+            }];
             this.fields=tableColumns;
            response.body.forEach(function (row) {
                row.titleClass = 'center aligned'
                row.dataClass = 'center aligned'
                console.log("Field row", row);
+               tableColumns.push(row)
             //    tableColumns.push(row)
-             tableColumns.push(row)
+               
+             
             //    this.fields.push(row);
              console.log("Field tablerow", tableColumns);
          

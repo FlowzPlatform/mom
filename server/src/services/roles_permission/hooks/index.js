@@ -13,7 +13,7 @@ exports.before = {
       hook.params.rethinkdb = r.table('permission')
          .merge(function (permission) {
            return {
-             'roleid': query.filter({'pId':permission('id')}).pluck('rId')
+             'roleid': query.filter({'pId':permission('id')}).pluck('rId','accessValue')
              .coerceTo('array')
            }
          }).orderBy('index')
