@@ -124,7 +124,6 @@
                 console.log('Name: ' + profile.getName());
                 console.log('Image URL: ' + profile.getImageUrl());
                 console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-0
                 this.$http.post('/getUserDetail', {
                     email: profile.getEmail(),
                     signup_type: 'gmail'
