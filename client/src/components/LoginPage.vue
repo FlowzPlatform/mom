@@ -16,7 +16,6 @@
             <div class="dialog--nux-seperator" id="seprator"> or </div>
 
             <div id="normal_login_contents">
-
                 <div class="form-input" style="margin-left: 30px; margin-right: 30px">
                     <label>Email Address</label>
                     <input tabindex="1" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">

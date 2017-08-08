@@ -171,7 +171,8 @@ export default {
      ...mapGetters({
       getUserList:'getAllUserList',
       getFiles: 'getAttachment',
-      taskTagsById: 'getTaskTagsById'      
+      taskTagsById: 'getTaskTagsById',
+      getComment: 'getCommentById'
     }), 
     attachmentList(){
       var arrayAttchment = this.getFiles(this.filteredTodo.id)
@@ -181,6 +182,10 @@ export default {
       let arrTags = this.taskTagsById(this.filteredTodo.id)
       return arrTags;
       },
+    getCommentByTaskId(){
+            let commentList = this.getComment(this.filteredTodo.id)
+            return commentList
+        },
     // uname: function(){
     //   var str = this.$store.state.userObject.email
     //   var n = str.indexOf("@")
@@ -246,6 +251,7 @@ export default {
       $temp.remove(); 
     },
     exportToPDF(){
+        
           var htmlString = "<html><head></head><body>"
           var letters = this.getUserLetters()
           htmlString += (this.imageURlProfilePic.length > 0 ? "<div style='display: inline-block;width:30px;height:30px;border-radius:100%;overflow: hidden;vertical-align: middle; border:solid 1px #ddd'><img src="+this.imageURlProfilePic+" style='max-width:100%; max-height:100%'/></div>" : "<div style='display: inline-block;width:30px;height:30px;border-radius:100%;overflow: hidden;vertical-align: middle; border:solid 1px #ddd; line-height:32px;font-size:16px; text-align:center;'>"+ letters +"</div>");
@@ -280,7 +286,7 @@ export default {
               htmlString += (i == this.taskTags.length - 1 ? "<span>"+ tag.name +"</span>" : "<span>"+ tag.name +", </span>");
           }
 
-           if(this.filteredTodo.subtask_count > 0)
+          if(this.filteredTodo.subtask_count > 0)
              htmlString += "<br/><br/><h3 style='color:gray;'>Subtasks:</h3>";
           
           for (var i = 0; i < this.filteredTodo.subtask_count; i++) {
@@ -289,6 +295,15 @@ export default {
               htmlString += "<span style='display: inline-block;vertical-align: middle;'><img src='https://s3-us-west-2.amazonaws.com/airflowbucket1/obexpense/expenses/"+imgName+".png' style='width:20px'></span><span style='padding-left:1em;'>"+ subTask.taskName +"</span><hr>";
           }
 
+          // if(this.getCommentByTaskId.length > 0)
+          //    htmlString += "<br/><br/><h3 style='color:gray;'>Comments:</h3>";
+
+          //  for (var i = 0; i <  this.getCommentByTaskId.length; i++) {
+          //    var commentObj = this.getCommentByTaskId[i]
+          //    console.log("Comment user",commentObj.comment)
+             
+          //  }
+            
            htmlString += "</body></html>";
 
             this.$http.post('/getHtmlToPdf', {
@@ -296,7 +311,10 @@ export default {
              }).then(response => {
                 console.log('Response pdf', response.data);
                 //window.location.assign(response.data);
-                 top.location.href = "/report";
+                // top.location.href = "/report";
+                  var link = document.createElement('a');
+                  link.href = "/report";
+                  link.dispatchEvent(new MouseEvent('click'));
            });
       
     },
