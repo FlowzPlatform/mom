@@ -2,8 +2,8 @@
     <div>
         <hr>
         <div class="[ row ]" style="margin-left: 0; margin-right: 0" v-if="id === 'rightTaskTypes'">
-            <h4 class="uiStatus"><b>Statuses</b></h4>
-            <div class="[ form-group ]" v-for="status in getTaskStausList" style="margin: 5px;">
+            <h4 class="uiStatus"><b>State</b></h4>
+            <div class="[ form-group ]" @change="toggleStatus(status)" v-for="status in getTaskStausList" style="margin: 5px;" v-if="status.id !== '-1'">
                 <input type="checkbox" :name="status.status" :id="status.id" autocomplete="off" />
                 <div class="[ btn-group ]">
                     <label :for="status.id" class="[ btn btn-default ]" :style="{'border-color':'#adadad',  'background-color':status.color }">
@@ -41,9 +41,12 @@
                 'getTaskStausList'
             ])
         },
-        methods:{
-            getColorVal: function(val){
-                this.$store.dispatch('addTask_Status', {"status": this.filteredTodo, "color": val})
+        methods: {
+            getColorVal: function (val) {
+                this.$store.dispatch('addTask_Status', { "status": this.filteredTodo, "color": val })
+            },
+            toggleStatus: function (status) {
+                this.$store.dispatch('toggle_status', {"status": status, "taskType":this.filteredTodo})
             }
         }
     }

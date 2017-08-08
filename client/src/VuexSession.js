@@ -556,25 +556,28 @@ export const store = new Vuex.Store({
       state.assignedToOthers = payload
     },
     GET_TASK_TYPE(state, payload){
+      state.parentIdArr.splice(0, state.parentIdArr.length)
       state.task_types_list = payload
     },
     ADD_TASK_TYPE(state, payload){
-    state.task_types_list.push(payload)
+      Vue.set(state.task_types_list, state.task_types_list.length-1, payload)
       console.log(state.task_types_list)
     },
     DELETE_TASK_TYPE(state, payload){
       let removeIndex = _.findIndex(state.task_types_list, function (d) { return d.id == payload.id })
-      state.task_types_list.splice(removeIndex, 1)
+      // state.task_types_list.splice(removeIndex, 1)
+      Vue.delete(state.task_types_list, removeIndex)
     },
     GET_TASK_STATUS(state, payload){
+      state.parentIdArr.splice(0, state.parentIdArr.length)
       state.task_status_list = payload
     },
     ADD_TASK_STATUS(state, payload){
-      state.task_status_list.push(payload)
+      Vue.set(state.task_status_list, state.task_status_list.length-1, payload)
     },
     DELETE_TASK_STATUS(state, payload){
       let removeIndex = _.findIndex(state.task_status_list, function (d) { return d.id == payload.id })
-      state.task_status_list.splice(removeIndex, 1)
+      Vue.delete(state.task_status_list, removeIndex)
     }
   },
   actions: {
@@ -649,7 +652,7 @@ export const store = new Vuex.Store({
         commit('DELETE_TASK_TYPE', message)
       }),
       services.taskStatusService.on('created', message => {
-        console.log("Delete Task Staus Service:--", message)
+        console.log("Add Task Staus Service:--", message)
         commit('ADD_TASK_STATUS', message)
       })
       services.taskStatusService.on('removed', message => {
@@ -1364,7 +1367,8 @@ export const store = new Vuex.Store({
     },
     addTask_Type({ commit }, payload) {
       if (payload.id != -1) {
-        services.taskTypesService.patch(payload.id, { type: payload.type, typeDesc: payload.typeDesc, updatedBy: store.state.userObject._id }, { query: { 'id': payload.id } }).then(response => {
+        services.taskTypesService.patch(payload.id, { type: payload.type, typeDesc: payload.typeDesc, updatedBy: store.state.userObject._id },
+          { query: { 'id': payload.id } }).then(response => {
           console.log("Response patch Task Type::", response);
         });
       } else {
@@ -1383,6 +1387,14 @@ export const store = new Vuex.Store({
         console.log("Delete Task Type: --", response)
       })
     },
+    toggle_status({commit}, payload){
+      console.log(payload)
+      services.taskTypesService.patch(payload.taskType.id, {type_status: [{"status_id":payload.status.id,"status": payload.status.status}]},
+      {query: {'id': payload.taskType.id} 
+      }).then(response => {
+        console.log("Change Toggle Status:-", response)
+      })
+    },
     getTaskStaus({ commit }) {
       services.taskStatusService.find().then(response => {
         console.log("Response task Staus Find::", response);
@@ -1391,7 +1403,7 @@ export const store = new Vuex.Store({
     },
     addTask_Status({ commit }, payload) {
       console.log(payload)
-      if (payload.status.id) {
+      if (payload.status.id  != -1) {
         services.taskStatusService.patch(payload.status.id,
           { status: payload.status.status, statusDesc: payload.status.statusDesc, color: payload.color }, {
             query: { 'id': payload.id }
@@ -1505,7 +1517,10 @@ export const store = new Vuex.Store({
     getTaskLists: state => state.createdByTaskList,
     getRecentlyCompletedLists: state => state.recentlyCompletedTasks,
     getTaskAssignedToOthers: state => state.assignedToOthers,
-    getTaskTypeList: state => state.task_types_list,
+    getTaskTypeList: (state) => {
+      // console.log("Getters:---",state.task_types_list.length)
+      return state.task_types_list
+    },
     getTaskStausList : state => state.task_status_list
   },
   

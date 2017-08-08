@@ -33,13 +33,23 @@ export default {
             typeList:'getTaskTypeList',
             parentIdArr:'parentIdArr'
         }),
-        taskTypeList: function(){
-            this.typeList.push({
+         taskTypeList: function(){
+           var types=this.typeList;
+            // console.log("computed in task type before", types)
+            if(types.length==0 || types[types.length-1].id!=='-1'){
+           types.push({
+                id:'-1',
                 type:'',
                 createdAt: new Date().toJSON()
             })
-            return this.typeList
+            }
+            // console.log("computed in task type after", types)
+            return types
         }
+       
+    },
+    methods:{
+        
     },
     components: {
         MainLeftSection,

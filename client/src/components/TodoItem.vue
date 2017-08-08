@@ -135,7 +135,7 @@
       //   }
       // },
       addTodo: function (todoId) {
-        if (this.id === "todoTask") {
+        if (this.id !== 'taskTypes' && this.id !== 'taskStatus') {
           this.changeFocus(todoId)
           this.$store.dispatch('insertTodo', this.todo)
         } else if (this.id === "taskTypes") {

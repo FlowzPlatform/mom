@@ -33,11 +33,17 @@ export default {
             statusList: 'getTaskStausList',
             pidArr:'parentIdArr'
         }),
-        taskStausList(){
-            this.statusList.push({
+        taskStausList() {
+            var types=this.statusList;
+            // console.log("computed in task type before", types)
+            if(this.statusList.length==0 || this.statusList[this.statusList.length-1].id!=='-1'){
+           this.statusList.push({
+                id:'-1',
                 status:'',
                 createdAt: new Date().toJSON()
             })
+            }
+            // console.log("computed in task type after", types)
             return this.statusList
         }
     },

@@ -415,11 +415,13 @@
                 this.isTaskType = true
                 this.isUserGroup = false
                 this.isTaskStatus = false
+                this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
             },
             showTaskStatus: function() {
                 this.isTaskType = false
                 this.isUserGroup = false
                 this.isTaskStatus = true
+                this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
             }
 
         },
