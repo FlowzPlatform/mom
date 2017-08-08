@@ -11,7 +11,13 @@ exports.before = {
   get: [],
   create: [],
   update: [],
-  patch: [],
+  patch(hook){
+    // const query = this.createQuery(hook.params.query);
+    // const r = this.options.r;
+    // hook.params.rethinkdb =query.append(hook.daya)
+    // console.log("Before hook in task type", hook)
+  },
+  // patch: [],
   remove: []
 };
 
