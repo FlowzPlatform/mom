@@ -1250,7 +1250,6 @@ export const store = new Vuex.Store({
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
       })
       .then(function (response) {
-        console.log('resp: ', response)
         commit('SAVE_USERTOKEN', response.data.logintoken)
       })
       .catch(function (error) {
