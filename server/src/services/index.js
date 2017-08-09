@@ -15,6 +15,7 @@ const loginuser = require('./loginuser');
 =======
 const taskType = require('./task_type')
 const taskStatus = require('./task_status')
+const taskTypeState = require('./task_type_state')
 
 >>>>>>> task type get from db
 // const r = require('rethinkdbdash')({
@@ -52,4 +53,5 @@ module.exports = function () {
   app.configure(project_member)
   app.configure(taskType),
   app.configure(taskStatus)
+  app.configure(taskTypeState)
 };
