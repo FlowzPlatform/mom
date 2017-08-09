@@ -5,15 +5,15 @@
         <div class="ui container">
             <div id="content" class="ui basic segment">
                 <h3 class="ui header">User Group</h3>     
-                <div v-for="n in 2">
+                <div v-for="(item, itemNumber) in tableData">
                     <Widget>
                         <WidgetHeading :id="1" :Title="'Sales'" :TextColor="false" :DeleteButton="false" :ColorBox="false" :Expand="false" :Collapse="true"
                             :HeaderEditable="false">
-                                    Sales
+                                    {{item.name}}
                         </WidgetHeading>
                         <WidgetBody>
                             <vuetable v-ref:vuetable wrapper-class="vuetable-wrapper ui basic segment" table-wrapper=".vuetable-wrapper" :fields="fields"
-                                row-class-callback="rowClassCB" :tableData="tableData"></vuetable>
+                                row-class-callback="rowClassCB" :tableData="item.permission" :taskTypeId="item.id"></vuetable>
                         </WidgetBody>
                     </Widget>
                 </div>
@@ -141,7 +141,7 @@ Vue.use(Resource)
  Vue.component('custom-action', {
         template: [
             '<div>',
-                '<input type="checkbox"  @click="itemAction(\'check-item\', $event.target.checked,rowData,rowField,roleValue)" :checked="rowCheck"/>',
+                '<input type="checkbox"  @click="itemAction(\'check-item\', $event.target.checked,rowData,rowField,roleValue,taskTypeId)" :checked="rowCheck" />',
             '</div>'
         ].join(''),
         props: {
@@ -157,10 +157,13 @@ Vue.use(Resource)
             },
              roleValue:{
                 required: true
+            },
+            taskTypeId:{
+                required: true
             }
         },
         methods: {
-            itemAction: function(action,isChecked, data,rowField,roleValue) {
+            itemAction: function(action,isChecked, data,rowField,roleValue,taskTypeId) {
                 
                   let roleIndex = _.findIndex(data.roleid, function (role) { return role.rId === rowField.id })
                  if(roleIndex>-1)
@@ -173,14 +176,13 @@ Vue.use(Resource)
                          pId: data.id,
                          accessValue: patchValue
                      })
-
                      role.accessValue=patchValue;
-
                  }else{
                      this.$store.dispatch('addAccessPermision', {
                          rId: rowField.id,
                          pId: data.id,
-                         accessValue:  roleValue
+                         accessValue:  roleValue,
+                         taskType:taskTypeId
                      })
                         data.roleid.push({rId: rowField.id,accessValue:roleValue})
                  }

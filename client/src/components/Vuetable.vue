@@ -39,7 +39,7 @@
                             <td :style="getSectionBorderClass(fieldNumber-1,n)">  
                                 <!-- {{getObjectValue(item, field, n)}} -->
                                 <component :class="field.dataClass" is="custom-action" :row-data="item" :row-index="itemNumber" :row-check="getObjectValue(item, field, n)"
-                                    :row-field="field" :role-value="getRoleValue(n)"></component>
+                                    :row-field="field" :role-value="getRoleValue(n)" :task-type-id="taskTypeId"></component>
                             </td>
                         </template>
               </template>
@@ -90,6 +90,11 @@ export default {
         },
         tableData:{
             type: Array,
+            required: true
+        }
+        ,
+        taskTypeId:{
+            type: String,
             required: true
         }
         
