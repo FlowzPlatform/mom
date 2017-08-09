@@ -136,7 +136,8 @@ export const store = new Vuex.Store({
     assignedToOthers: [], 
     taskIndex: -1,
     task_types_list: [],
-    task_status_list: []
+    task_status_list: [],
+    task_types_state: []
   },
   mutations: {
     userData: state => state.userObject,
@@ -212,6 +213,7 @@ export const store = new Vuex.Store({
         await store.dispatch('getAttachmentFromDB', payload.id)
         await store.dispatch('getAllTaskTags', payload.id);
         await store.dispatch('getTaskComment', payload.id)
+        await store.dispatch('getTypeState', payload.id)
 
         var parentIdArrObj = payload
         var tempParentIds = _.chain([]).union(state.parentIdArr).sortBy([function (o) { return o.level; }]).value();
@@ -668,6 +670,16 @@ export const store = new Vuex.Store({
     DELETE_TASK_STATUS(state, payload){
       let removeIndex = _.findIndex(state.task_status_list, function (d) { return d.id == payload.id })
       Vue.delete(state.task_status_list, removeIndex)
+    },
+    GET_TYPE_STATE(state, payload){
+      state.task_types_state = payload
+    },
+    ADD_TASK_STATE(state, payload){
+      state.task_types_state.push(payload)
+    },
+    DELETE_TASK_STATE(state, payload){
+      let removeIndex = _.findIndex(state.task_types_state, function (d) { return d.id == payload.id })
+      Vue.delete(state.task_types_state, removeIndex)
     }
   },
   actions: {
@@ -1499,12 +1511,29 @@ export const store = new Vuex.Store({
         console.log("Delete Task Type: --", response)
       })
     },
-    toggle_status({commit}, payload){
-      console.log(payload)
-      services.taskTypesService.patch(payload.taskType.id, {type_status: [{"status_id":payload.status.id,"status": payload.status.status}]},
-      {query: {'id': payload.taskType.id} 
+    getTypeState({commit}, payload){
+       services.taskTypeStateService.find({ query: { type_id: payload } }).then(response => {
+          console.log("log type_state", response)
+          commit("GET_TYPE_STATE", response)
+        })
+    },
+    insert_type_state({ commit }, payload){
+      services.taskTypeStateService.create({
+          type_id: payload.taskType.id,
+          state_id: payload.status.id,
+          state: payload.status.status,
+          createdAt: new Date().toJSON()
+        }).then(response => {
+          console.log("State Selected for task type in DB:", response)
+          commit('ADD_TASK_STATE', response)
+        })
+    },
+    remove_type_state({commit}, payload){
+      services.taskTypeStateService.remove(payload.id,
+        { query: {'id': payload.id}
       }).then(response => {
-        console.log("Change Toggle Status:-", response)
+        console.log("Delete From task type state in db:", response)
+        commit('DELETE_TASK_STATE', response)
       })
     },
     getTaskStaus({ commit }) {
@@ -1633,7 +1662,8 @@ export const store = new Vuex.Store({
       // console.log("Getters:---",state.task_types_list.length)
       return state.task_types_list
     },
-    getTaskStausList : state => state.task_status_list
+    getTaskStausList : state => state.task_status_list,
+    getTask_types_state: state => state.task_types_state
   },
 
   plugins: [createPersistedState()]
