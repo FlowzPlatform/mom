@@ -7,6 +7,7 @@ import RoleAccess from '@/components/RoleAccess'
 import navbar from '@/components/navbar'
 import ShowTaskList from '@/components/ShowTaskList'
 import SocialAuth from '@/components/SocialAuthProcess'
+import LoadProcess from '@/components/LoadProcess'
 import '../style/style.css'
 import '../style/style1.css'
 import '../style/newStyle.css'
@@ -46,6 +47,11 @@ export default new Router({
       path: '/socialAuth',
       name: 'SocialAuth',
       component: SocialAuth
+    },
+    {
+      path: '/loadProcess',
+      name:'LoadProcess',
+      component: LoadProcess
     },
     {
       path: '/navbar/task/:level/:id',

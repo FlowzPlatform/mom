@@ -1256,6 +1256,9 @@ export const store = new Vuex.Store({
         if (error.response.status === 401) {
           throw new Error('Wrong email address...')
         }
+        if (error.response.status === 409) {
+          throw new Error('This Email id already exists')
+        }
       });
     },
     getUserDetail({ commit }) {
