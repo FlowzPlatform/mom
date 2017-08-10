@@ -999,14 +999,17 @@ export const store = new Vuex.Store({
         }
       });
     },
-    removeAccessPermision({ commit }, data) {
-      services.roleAccessService.remove(data.id, {
-        query: {
-          pId: data.pId,
-          rId: data.rId
+     patchAccessPermision({ commit }, data) {
+      services.roleAccessService.patch(data.id,  {
+         
+           accessValue:data.accessValue
+        },
+        {query :{ 
+            pId: data.pId,
+            rId: data.rId}
         }
-      }).then(response => {
-        console.log("Response remove permission::", response);
+      ).then(response => {
+        console.log("Response patch permission::", response);
         // if(response.data.length > 0){
         // commit('SELECT_FILE', response.data) 
         // }
@@ -1015,9 +1018,10 @@ export const store = new Vuex.Store({
     addAccessPermision({ commit }, data) {
       services.roleAccessService.create({
         pId: data.pId,
-        rId: data.rId
+        rId: data.rId,
+         accessValue:data.accessValue
       }).then(response => {
-        console.log("Response remove permission::", response);
+        console.log("Response add permission::", response);
         // if(response.data.length > 0){
         // commit('SELECT_FILE', response.data) 
         // }
