@@ -60,6 +60,7 @@
             </div>
         </div>
     </div>
+    <!-- </form> -->
 </template>
 <script src="https://apis.google.com/js/api:client.js" async defer></script>
 <script>

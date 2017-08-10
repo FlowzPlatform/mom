@@ -25,6 +25,7 @@
             @blur=onBlurCall(todo.id,todo.level) 
             @keyup="performAction"
             @change="changeValue(nextIndex)">
+            <!--@change="changeValue(nextIndex)"-->
         <span class=""><i>
           <b class="glyphicon glyphicon-option-vertical"></b>
           <b class="glyphicon glyphicon-option-vertical"></b>
@@ -116,6 +117,7 @@
         this.$store.dispatch('insertTodo', this.todo)
       },
       onFocusClick(id, level) {
+        console.log('onFoucusclick')
         $("#" + id + "_" + level).addClass("lifocus")
         if (this.todo.isTaskUpdate) {
           this.todo.isTaskUpdate = false

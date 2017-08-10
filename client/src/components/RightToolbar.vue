@@ -20,7 +20,7 @@
                     <span class="dropdown">
                       <a tabindex="-1" class="token_name" data-toggle="dropdown" id='userlist' @click='getAllUsers()'>{{ getAssignedUserName () }}</a>
                       <ul class='dropdown-menu userlist' aria-labelledby="userlist">
-                        <li v-for="(user, index) in getAllUserList"><a @click="btnUserClicked(user)"> 
+                        <li v-for="(user, index) in getUserList"><a @click="btnUserClicked(user)"> 
                           <span><img v-if="user.image_url" v-bind:src="user.image_url" /><div v-else>{{capitalizeLetters(user.email)}}</div></span>{{user.email}}</a><hr>
                           <!--<span><img v-if="user.image_url" v-bind:src="user.image_url" /><div v-else>{{capitalizeLetters(user)}}</div></span>{{user.email}}</a><hr>-->
                         </li>
@@ -111,7 +111,7 @@
                       <span class="dropdown-menu-item-label" @click="deleteTodo({filteredTodo : filteredTodo})">Delete Task</span>
                     </a></li>
                     <li><a id="export_pdf" class="menu-item" title="">               
-                      <span class="dropdown-menu-item-label" >Export PDF</span>
+                      <span class="dropdown-menu-item-label" @click="exportToPDF">Export To PDF</span>
                     </a></li>
                     <!--<li><a id="convert_to_project" class="menu-item" title="">
                       <span class="dropdown-menu-item-label">Convert to a Project...</span>
@@ -155,7 +155,7 @@ Vue.filter('formatDate', function(value) {
 })
 
 export default {
-  props: ['filteredTodo'],
+  props: ['filteredTodo','subTasksArray'],
   data() {
     return {
       picker1: null,
@@ -169,9 +169,24 @@ export default {
     }
   },
     computed: {
-     ...mapGetters([
-      'getAllUserList'
-    ])
+     ...mapGetters({
+      getUserList:'getAllUserList',
+      getFiles: 'getAttachment',
+      taskTagsById: 'getTaskTagsById',
+      getComment: 'getCommentById'
+    }), 
+    attachmentList(){
+      var arrayAttchment = this.getFiles(this.filteredTodo.id)
+      return arrayAttchment
+    },
+    taskTags() {
+      let arrTags = this.taskTagsById(this.filteredTodo.id)
+      return arrTags;
+      },
+    getCommentByTaskId(){
+            let commentList = this.getComment(this.filteredTodo.id)
+            return commentList
+        },
     // uname: function(){
     //   var str = this.$store.state.userObject.email
     //   var n = str.indexOf("@")
@@ -192,6 +207,7 @@ export default {
         this.$store.dispatch('delete_Todo', this.filteredTodo)
       },
       dateFormatter(dateTo){
+        console.log('Date toS',dateTo)
          var selectedDate = moment(dateTo, 'YYYY-MM-DD').format('MMM DD');
         this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "selectedDate": dateTo})
         // var d = new Date()
@@ -235,6 +251,74 @@ export default {
       document.execCommand("copy");
       $temp.remove(); 
     },
+    exportToPDF(){
+        
+          var htmlString = "<html><head></head><body>"
+          var letters = this.getUserLetters()
+          htmlString += (this.imageURlProfilePic.length > 0 ? "<div style='display: inline-block;width:30px;height:30px;border-radius:100%;overflow: hidden;vertical-align: middle; border:solid 1px #ddd'><img src="+this.imageURlProfilePic+" style='max-width:100%; max-height:100%'/></div>" : "<div style='display: inline-block;width:30px;height:30px;border-radius:100%;overflow: hidden;vertical-align: middle; border:solid 1px #ddd; line-height:32px;font-size:16px; text-align:center;'>"+ letters +"</div>");
+          htmlString += "&nbsp;&nbsp;<span>"+ this.getAssignedUserName() +"</span>";
+          var dueDt = moment(this.filteredTodo.dueDate).isValid();
+          if(dueDt){
+            htmlString += "<span style='padding-left:8em;'> <div style='padding-left:5px; margin-right:10px; display: inline-block;width:25px;height:30px;border-radius:100%;overflow: hidden;vertical-align: middle; border:solid 1px #ddd; line-height:28px;font-size:16px; text-align:center; '>&#128197;</div>"+ moment(this.filteredTodo.dueDate).format('DD MMM YYYY') +"</span>";
+          }
+          htmlString += "<hr/>"
+
+          var imgChk = (this.filteredTodo.completed ? "checked" : "unchecked") 
+          htmlString += "<span style='display: inline-block;vertical-align: middle;'><img src='https://s3-us-west-2.amazonaws.com/airflowbucket1/obexpense/expenses/"+imgChk+".png' style='width:20px'></span><span style='padding-left:1em;font-size:18px;font-weight: bold;margin-left:-10px;'>"+ this.filteredTodo.taskName +"</span>";
+
+          if(this.filteredTodo.taskDesc.length > 0)
+              htmlString += "<p>"+this.filteredTodo.taskDesc +"</p><br/>";
+
+          if(this.attachmentList.length > 0)
+             htmlString += "<h3 style='color:gray;'>Attachments:</h3>";
+
+           var yPositionAttachments = 70;
+           for (var i = 0; i < this.attachmentList.length; i++) {
+              var attachment = this.attachmentList[i]
+              htmlString += "<a href="+ attachment.file_url +" target='_blank'>"+ attachment.file_name +"</a><br/>"
+          }
+
+          if(this.taskTags.length > 0)
+             htmlString += "<br/><h3 style='color:gray;'>Tags:</h3>";
+
+          var xPositionTags = 15;
+           for (var i = 0; i < this.taskTags.length; i++) {
+              var tag = this.taskTags[i]
+              htmlString += (i == this.taskTags.length - 1 ? "<span>"+ tag.name +"</span>" : "<span>"+ tag.name +", </span>");
+          }
+
+          if(this.filteredTodo.subtask_count > 0)
+             htmlString += "<br/><br/><h3 style='color:gray;'>Subtasks:</h3>";
+          
+          for (var i = 0; i < this.filteredTodo.subtask_count; i++) {
+              var subTask = this.subTasksArray[i]
+              var imgName = (subTask.completed ? "checked" : "unchecked") 
+              htmlString += "<span style='display: inline-block;vertical-align: middle;'><img src='https://s3-us-west-2.amazonaws.com/airflowbucket1/obexpense/expenses/"+imgName+".png' style='width:20px'></span><span style='padding-left:1em;'>"+ subTask.taskName +"</span><hr>";
+          }
+
+          // if(this.getCommentByTaskId.length > 0)
+          //    htmlString += "<br/><br/><h3 style='color:gray;'>Comments:</h3>";
+
+          //  for (var i = 0; i <  this.getCommentByTaskId.length; i++) {
+          //    var commentObj = this.getCommentByTaskId[i]
+          //    console.log("Comment user",commentObj.comment)
+             
+          //  }
+            
+           htmlString += "</body></html>";
+
+            this.$http.post('/getHtmlToPdf', {
+                divHtml: htmlString
+             }).then(response => {
+                console.log('Response pdf', response.data);
+                //window.location.assign(response.data);
+                // top.location.href = "/report";
+                  var link = document.createElement('a');
+                  link.href = "/report";
+                  link.dispatchEvent(new MouseEvent('click'));
+           });
+      
+    },
     removeAttachmentPopUp () {
        setTimeout(function(){ $('.attachmentsMenuView').removeClass('open') }, 1000);
     },
@@ -272,6 +356,7 @@ export default {
       var user = this.getAssignedUserObj()
       if(user.image_url){
         this.imageURlProfilePic = user.image_url
+        console.log('Image url',user.image_url)
         return
       }
       this.imageURlProfilePic = ''
