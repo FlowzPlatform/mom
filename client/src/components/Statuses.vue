@@ -3,49 +3,32 @@
         <hr>
         <div class="[ row ]" style="margin-left: 0; margin-right: 0" v-if="id === 'rightTaskTypes'">
             <h4 class="uiStatus"><b>State</b></h4>
-            <select id="AvailableSelectedMembers" multiple="multiple" name="AvailableSelectedMembers" style="width: 200px; height: 200px">
-                <option @click="insertTypeState(status)"  :value="status.status" v-for="status in getTaskStausList">{{status.status}}</option>
-            </select>
-            <div class="verticalbutton">
-            <div class="btn-group buttons">
-                <button type="button" class="btn moveall btn-primary" title="Move all">
-                    <i class="glyphicon glyphicon-arrow-right"></i>
-                    <i class="glyphicon glyphicon-arrow-right"></i>
-                </button>
-                <button  type="button" class="btn move btn-primary" title="Move selected">
-                    <i class="glyphicon glyphicon-arrow-right"></i>
-                </button>
-            </div>
-            <div class="btn-group buttons">
-                <button type="button" class="btn remove btn-primary" title="Remove selected">
-                    <i class="glyphicon glyphicon-arrow-left"></i>
-                </button>
-                <button type="button" class="btn removeall btn-primary" title="Remove all">
-                    <i class="glyphicon glyphicon-arrow-left"></i>
-                    <i class="glyphicon glyphicon-arrow-left"></i>
-                </button>
-            </div>
-            </div>
-            <select id="RequestedSelectedMembers" multiple="multiple" name="RequestedSelectedMembers" style="width: 200px; height: 200px">
-                <option @click="removeTypeState(status)" :value="status.status" v-for="status in getTask_types_state">{{status.state}}</option>
-            </select>
-            <!-- <div class="[ form-group ]" @change="toggleStatus(status, $event)" v-for="status in getTaskStausList" style="margin: 5px;" v-if="status.id !== '-1'">
-                <input type="checkbox" :name="status.status" :id="status.id" autocomplete="off" />
-                <div class="[ btn-group ]">
-                    <label :for="status.id" class="[ btn btn-default ]" :style="{'border-color':'#adadad',  'background-color':status.color }">
-                    <span class="[ glyphicon glyphicon-ok ]"></span>
-                    <span> </span>
-                </label>
-                    <label :for="status.id" class="[ btn btn-default active ]">
-                        {{status.status}}
-                </label>
+            <div class="left-multipleselect">
+                <div class="btn-group buttons">
+                    <button  type="button" class="btn move btn-primary" title="Move selected">
+                        <i class="glyphicon glyphicon-arrow-right"></i>
+                    </button>
                 </div>
-            </div> -->
+            <ul class="multipleselect" id="AvailableSelectedMembers" name="AvailableSelectedMembers" style="width: 200px; height: 200px" >
+                 <li @click="insertTypeState(status)"  :value="status.status" v-for="status in getTaskStausList" v-if="status.id !== '-1'"><span :style="{'background-color': status.color}"> </span>{{status.status}} 
+                </li>
+            </ul>
+            </div>
+            <div class="right-multipleselect ">
+                <div class="btn-group buttons">
+                    <button type="button" class="btn remove btn-primary" title="Remove selected">
+                        <i class="glyphicon glyphicon-arrow-left"></i>
+                    </button>
+                </div>
+            <ul class="multipleselect" id="RequestedSelectedMembers" multiple="multiple" name="RequestedSelectedMembers" style="width: 200px; height: 200px">
+                <li @click="removeTypeState(status)" :value="status.status" v-for="status in getTask_types_state"><span :style="{'background-color': status.color}"> </span>{{status.state}}</li>
+            </ul>
+            </div>
         </div>
         <div v-if="id === 'rightTaskStatus'">
             <div class="control-group">
                 <label for="input-color">Color:</label>
-                 <input type="color" id="bgcolor" v-model="filteredTodo.color" value="#ffffff" @change="getColorVal($event.target.value)" />
+                  <input type="color" id="bgcolor" v-model="filteredTodo.color" value="#ffffff" @change="getColorVal($event.target.value)" style="height:25px; width:25px;" />
             </div>
         </div>
     </div>
@@ -74,7 +57,6 @@
                 this.$store.dispatch('addTask_Status', { "status": this.filteredTodo, "color": val })
             },
             insertTypeState: function (status) {
-                console.log(status)
                 this.$store.dispatch('insert_type_state', {"status": status, "taskType":this.filteredTodo})
             },
             removeTypeState: function(status) {
@@ -121,4 +103,19 @@
         margin-top: auto;
         margin-bottom: auto;
     }
+    .colorswatches {
+    width: 25px;
+    height: 25px;
+    border: 1px solid gray;
+    }
+    .multipleselect li span {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background-color: #ccc;
+    vertical-align: middle; 
+    margin-right: 5px;
+}
+.multipleselect li {width: 100%; text-align: left; display: inline-block; margin: 5px 2px 0 2px; border-bottom:solid 1px #ccc; padding-bottom: 5px; cursor: pointer}
+.multipleselect {border: solid 1px #ccc; margin-left: 10px; max-height: 200px; overflow: auto; margin-top: 10px;padding: 5px;}
 </style>
