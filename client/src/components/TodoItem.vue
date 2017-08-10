@@ -59,6 +59,18 @@
     </div>
   </li>
 </template>
+<style>
+col-md-2.border-right:after {
+content: "";
+border-right: solid 1px #ccc;
+top: 0;
+left: 16.55%;
+height: 100%;
+bottom: 0;
+position: fixed;
+}
+.ui.vertical.segment {border-bottom: 0px;}
+</style>
 <script>
   /* eslint-disable*/
   import txtDesc from './TextDescription.vue'

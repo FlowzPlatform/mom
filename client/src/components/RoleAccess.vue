@@ -100,6 +100,7 @@
         </div>
 </template>
 <style type="text/css">
+    .col-md-2.border-right::after {position: fixed; left: 16.55%;border-right: solid 1px #ccc; content: ""; height: 100%; top: 0px; bottom: 0px;}
     .col-md-2.border-right {
         border-right: solid 1px #ccc
     }

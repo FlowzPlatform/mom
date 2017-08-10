@@ -1410,6 +1410,7 @@ export const store = new Vuex.Store({
           type_id: payload.taskType.id,
           state_id: payload.status.id,
           state: payload.status.status,
+          color:payload.status.color,
           createdAt: new Date().toJSON()
         }).then(response => {
           console.log("State Selected for task type in DB:", response)
