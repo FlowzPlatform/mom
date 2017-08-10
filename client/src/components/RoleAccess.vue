@@ -118,49 +118,8 @@
             </div>
         </div>
 </template>
-  <style type="text/css">
-
-.ui.container {
-        background-color: transparent;
-        position: relative;
-        top: 0;
-        left: inherit;
-        right: inherit;
-        width: 100%;
-        max-height: inherit;
-        height: inherit;
-        -ms-transform: translateX(0%) translateY(0%);
-        transform: translateX(0%) translateY(0%);
-        -webkit-transform: translateX(0%) translateY(0%);
-    }
-     .ui.segment {
-        top: 0 !important;
-        margin-top: 0px !important;
-    }
-
-     .ui.blue.table {
-        width: 100%;
-        padding: 0 !important;
-        margin: 0 !important;
-            overflow-x: scroll;
-        
-    }
-
-    .ui.blue.table td {
-        margin: 0;
-        text-align: center
-    }
-    
-
-    .ui.blue.table td input {
-        width: 20px;
-        margin-top: 5px;
-        margin-bottom: 5px;
-        align-items: center;
-    }
-    .ui.vertical.stripe h3 {
-          font-size: 2em;
-        }
+<style type="text/css">
+    .col-md-2.border-right::after {position: fixed; left: 16.55%;border-right: solid 1px #ccc; content: ""; height: 100%; top: 0px; bottom: 0px;}
     .col-md-2.border-right {
         border-right: solid 1px #ccc
     }
