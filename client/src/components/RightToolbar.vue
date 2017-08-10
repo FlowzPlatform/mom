@@ -154,7 +154,6 @@
         userName: ''
       }
     },
-
     computed: {
       ...mapGetters({
         getUserList: 'getAllUserList',
