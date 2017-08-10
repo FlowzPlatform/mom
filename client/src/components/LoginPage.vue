@@ -38,10 +38,6 @@
                     <div class="form-item log-in">
                         <div class="table">
                             <div class="table-cell">
-                                <!-- <g-signin-button class="buttonView buttonView--primary buttonView--large" id="google_auth_button" :params="googleSignInParams"
-                                    @success="onSignInSuccess" @error="onSignInError">
-                                    <p>Use Google Account</p>
-                                </g-signin-button> -->
                                  <button class="googleAuthBtn" type="submit">Use Google Account</button> 
                                 <div class="dialog--nux-seperator" id="seprator"> or </div>
                                 <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
@@ -70,7 +66,7 @@
     </div>
     </form>
 </template>
-<script src="https://apis.google.com/js/api:client.js" async defer></script>
+
 <script>
     /* eslint-disable*/
     import Vue from 'vue'
@@ -95,46 +91,32 @@
                 pwd: '',
                 confPwd: '',
                 passData: 'Send to next vue..',
-                /**
-                 * The Auth2 parameters, as seen on
-                 * https://developers.google.com/identity/sign-in/web/reference#gapiauth2initparams.
-                 * As the very least, a valid client_id must present.
-                 * @type {Object}
-                 */
-                googleSignInParams: {
-                    client_id: '121571575113-vcsgo986qvvimdpgll6febunvvjqmcog.apps.googleusercontent.com'
-                }
+                
             }
         },
         created () {
             var url_string = window.location.href;
             var url = new URL(url_string);
+
             var token = url.searchParams.get('token')
             if (token){
-            console.log('token:', token)
-            this.$store.commit('SAVE_USERTOKEN', token)
-            this.userDetail(this)
-            //this.getAccessTokenAPI(code)
-        }
-        var id = url.searchParams.get('mid')
-        if(id){
-            console.log('id: ', id)
-            this.$store.state.googleId = id
-            this.$store.commit('googleId')
-            this.$router.replace('/socialAuth')
-        }
+                console.log('token:', token)
+                this.$store.commit('SAVE_USERTOKEN', token)
+                this.$router.replace('/loadProcess')
+                //this.userDetail(this)
+                //this.getAccessTokenAPI(code)
+            }
+            
+            var id = url.searchParams.get('ob_id')
+            if(id){
+                console.log('id: ', id)
+                this.$store.state.googleId = id
+                this.$store.commit('googleId')
+                this.$router.replace('/socialAuth')
+            }
   },
         computed: {
-            //  getUserEmail: function()
-            //  {  
-            //     console.log('getUserEmail - computed')
-            //     this.$http.post('/getUserEmail', {
-            //             email: 'uhirani@officebrain.com',
-            //             signup_type: 'email'
-            //         }).then(response => {
-            //             console.log('Response from get user email', response.data)
-            //         });
-            //  },
+            
             uname: function () {
                 return this.$store.state.userObject.email
             }
@@ -143,44 +125,7 @@
             login() {
                 $(".container").toggleClass("log-in");
             },
-            onSignInSuccess(googleUser) {
-                // `googleUser` is the GoogleUser object that represents the just-signed-in user. 
-                // See https://developers.google.com/identity/sign-in/web/reference#users 
-                var profile = googleUser.getBasicProfile() // etc etc 
-                console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-                console.log('Name: ' + profile.getName());
-                console.log('Image URL: ' + profile.getImageUrl());
-                console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-                this.$http.post('/getUserDetail', {
-                    email: profile.getEmail(),
-                    signup_type: 'gmail'
-                }).then(response => {
-                        CmnFunc.resetProjectDefault()                    
-                    if (response.data[0]) {
-                        //  this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName()}
-                        this.$store.state.userObject = response.data[0]
-                        this.$store.state.isAuthorized = true
-                        this.$store.commit('userData')
-                        this.$store.commit('authorize')
-                        this.$router.replace('/navbar/mainapp')
-                        
-                    } else {
-                        this.insertUserData(profile.getEmail(), '', 'gmail', profile.getImageUrl(), profile.getName())
-                        //this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName(), role:'', aboutme:'', dob: new Date()}
-                        this.$store.state.userObject = { id: profile.getId(), email: profile.getEmail(), username: profile.getName(), role: '', aboutme: '', signup_type: 'gmail', image_url: profile.getImageUrl() }
-                        this.$store.state.isAuthorized = true
-                        this.$store.commit('userData')
-                        this.$store.commit('authorize')
-                        this.$router.replace('/navbar/mainapp')
-                    }
-
-                })
-
-            },
-            onSignInError(error) {
-                // `error` contains any error occurred. 
-                console.log('OH NOES', error)
-            },
+            
             btnSignUpClicked() {
                 this.emailId = ''
                 this.pwd = ''
@@ -310,8 +255,6 @@
                     .then(function () {                 
                          self.$router.replace('/navbar/mainapp')   
                          
-                         console.log("Socket-->",)
-          
                     })             
                     .catch(function(error) {      
                         console.log("login error",error)
@@ -325,17 +268,7 @@
             },
             btnBackClicked() {
                 $(".container").toggleClass("log-in");
-                // $('#confirmpwd').hide()
-                // $('#back_btn').hide()
-                // $('.title').text('Log In')
-                // $('#signup_btn').text('Sign Up')
-                // $('#login_btn').show()
-                // $('#google_auth_button').show()
-                // $('#seprator').show()
-                // $('#signup_btn').removeClass('is-disabled')
-                // $("#signup_btn").attr('disabled', false)
-                // $('#login_btn').addClass('is-disabled')
-                // $("#login_btn").attr('disabled', true)
+                
                 this.emailId = ''
                 this.pwd = ''
                 this.confPwd = ''
@@ -362,16 +295,6 @@
 
 </script>
 <style>
-    .g-signin-button {
-        /* This is where you control how the button looks. Be creative! */
-        display: inline-block;
-        padding: 4px 8px;
-        border-radius: 3px;
-        background-color: #3c82f7;
-        color: #fff;
-        box-shadow: 0 3px 0 #0f69ff;
-    }
-
     .login-pages {
         background-color: #5356ad;
         position: fixed;

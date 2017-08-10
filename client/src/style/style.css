@@ -5397,6 +5397,13 @@ table {
     border-radius: 5%;
     color: white;
 }
+.logo-setUp {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    
+}
 
 
  input[type=text].generic-input,
