@@ -87,7 +87,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="app" class="ui vertical stripe segment">
+                            <div id="app" class="ui vertical stripe segment" v-show = "isUserGroup">
                                 <div class="ui container">
                                     <div id="content" class="ui basic segment">
                                         <h3 class="ui header">User Group</h3>     
@@ -95,7 +95,7 @@
                                             <Widget>
                                                 <WidgetHeading :id="1" :Title="'Sales'" :TextColor="false" :DeleteButton="false" :ColorBox="false" :Expand="false" :Collapse="true"
                                                     :HeaderEditable="false">
-                                                            {{item.name}}
+                                                            {{item.type}}
                                                 </WidgetHeading>
                                                 <WidgetBody>
                                                     <vuetable v-ref:vuetable wrapper-class="vuetable-wrapper ui basic segment" table-wrapper=".vuetable-wrapper" :fields="fields"
@@ -350,6 +350,9 @@
     /* eslint-disable*/
     import Vue from 'vue'
     import Resource from 'vue-resource'
+    import VueWidgets from 'vue-widgets'
+    import 'vue-widgets/dist/styles/vue-widgets.css'
+    Vue.use(VueWidgets)
     import ShowTaskTypes from './ShowTaskTypes.vue'
     import ShowTaskStatus from './ShowTaskStatus.vue'
     Vue.component('vuetable', require('./Vuetable.vue'));
@@ -505,7 +508,8 @@
         },
         components: {
             ShowTaskTypes,
-            ShowTaskStatus
+            ShowTaskStatus,
+            VueWidgets
         }   
     }
 </script>

@@ -10,7 +10,7 @@ exports.before = {
     const query = this.createQuery(hook.params.query);
     const r = this.options.r;
 
-    hook.params.rethinkdb =r.table("task_type")
+    hook.params.rethinkdb =r.table("task_types")
         .merge(function(task_type){
           return {
             permission: r.table('permission')
