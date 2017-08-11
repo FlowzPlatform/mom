@@ -47,8 +47,6 @@ module.exports = function () {
   app.configure(history_logs)
   app.configure(project)
   app.configure(project_member)
-  app.configure(loginuser)
-  app.configure(taskType)
   app.configure(taskType),
   app.configure(taskStatus)
   app.configure(taskTypeState)

@@ -11,28 +11,28 @@
                     <div class="react-mount-node photoView-reactMount">
                       <div data-reactroot="" class="Avatar Avatar--medium Avatar--color4">
                         <span> {{ getUserLetters() }}<img v-bind:src="imageURlProfilePic" /></span>
-  </div>
-  </div>
-  </div>
-  <span class="dropdown">
+                      </div>
+                    </div>
+                  </div>
+                  <span class="dropdown">
                     <a tabindex="-1" class="token_name" data-toggle="dropdown" id='userlist' @click='getAllUsers()'>{{ getAssignedUserName () }}</a>
                       <ul class='dropdown-menu userlist' aria-labelledby="userlist">
-                        <li v-for="(user, index) in getUserList"><a @click="btnUserClicked(user)"> 
+                        <li v-for="(user, index) in getAllUserList"><a @click="btnUserClicked(user)"> 
                           <span><img v-if="user.image_url" v-bind:src="user.image_url" /><div v-else>{{user.email | capitalizeLetters}}</div></span>{{user.email}}</a>
-  <hr>
-  </li>
-  </ul>
-  </span>
-  </span>
-  </span>
-  </div>
-  </div>
-  </div>
-  <div class="loading-boundary taskDetailsView-toolbarProperty">
-    <div class="redesign-due-date-container">
-      <div class="property due_date value-set">
-        <div class="property-name">
-          <span>
+                          <hr>
+                        </li>
+                      </ul>
+                    </span>
+                 </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="loading-boundary taskDetailsView-toolbarProperty">
+          <div class="redesign-due-date-container">
+            <div class="property due_date value-set">
+              <div class="property-name">
+                <span>
                   <datepicker 
                       placeholder="Due Date"
                       class="wrapperClass temp"
@@ -46,6 +46,9 @@
                       v-model="filteredTodo.dueDate">
                   </datepicker>
                 </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -60,18 +63,18 @@
                     <span class="circularButtonView-label">
                       <i class="fa fa-heart-o" aria-hidden="true"></i>
                     </span>
-    </div>
-  </div>
-  </div>
-  </span>
-  </div>
-  <div id="property_tags" class="circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active"
-    tabindex="410">
-    <span class="circularButtonView-label">
+                  </div>
+                </div>
+              </div>
+            </span>
+          </div>
+          <div id="property_tags" class="circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active"
+            tabindex="410">
+            <span class="circularButtonView-label">
               <i class="fa fa-tag" aria-hidden="true"></i>    
             </span>
-  </div>
-  <span class="attachmentsMenuView dropdown">
+          </div>
+          <span class="attachmentsMenuView dropdown">
           <input autocomplete="off" id="attachments_menu_view_hidden_file_input_3" type="file" name="file" class="hidden-file-input"
             multiple="true" tabindex="-1">
             <a id="details_property_sheetproperty_attach_attach_menu" tabindex="-1" data-toggle="dropdown" class=" dropdown-menu-link attach-menu  circularButtonView property attach circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active">  
@@ -80,48 +83,48 @@
             <ul class="dropdown-menu" aria-labelledby="details_property_sheetproperty_attach_attach_menu">
               <li><a id="add_from_computer" for="attachments_menu_view_hidden_file_input_3" class="menu-item" title="">
                 <span class="dropdown-menu-item-label upload-file-dropdown"><input type="file" id="file" @change="onFileChange($event)" @click="removeAttachmentPopUp"><span>Attach From Computer</span></span>
-  </a>
-  </li>
-  </ul>
-  </span>
-  </div>
-  <div class="loading-boundary reskinToolbarActionMenu">
-    <a id="details_action_menu" tabindex="-1" class="dropdown-menu-link">
-      <div class="circularButtonView action-menu-label circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active"
-        data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-        <i class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></i>
-      </div>
-      <ul class="dropdown-menu" style="top: 52px;max-height: 250px;left: 408.31px;min-width: 30px;z-index: 2000;">
-        <li><a id="estimated_hours" class="menu-item" title="">
+                </a>
+              </li>
+            </ul>
+          </span>
+        </div>
+        <div class="loading-boundary reskinToolbarActionMenu">
+          <a id="details_action_menu" tabindex="-1" class="dropdown-menu-link">
+            <div class="circularButtonView action-menu-label circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active"
+              data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <i class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></i>
+            </div>
+            <ul class="dropdown-menu" style="top: 52px;max-height: 250px;left: 408.31px;min-width: 30px;z-index: 2000;">
+              <li><a id="estimated_hours" class="menu-item" title="">
                 <button class="dropdown-menu-item-label" @click="estimated_time = true">Estimated Hours</button>
               </a></li>
-        <li><a id="task_priority" class="menu-item" title="">
+              <li><a id="task_priority" class="menu-item" title="">
                 <span class="dropdown-menu-item-label" @click="task_priority = true">Task Priority</span>
               </a></li>
-        <li><a id="copy_task_url" class="menu-item" title="">
+              <li><a id="copy_task_url" class="menu-item" title="">
                 <span class="dropdown-menu-item-label" @click="copyTaskURL">Copy Task URL</span>
               </a></li>
-        <li><a id="delete_task" class="menu-item" title="">               
+              <li><a id="delete_task" class="menu-item" title="">               
                 <span class="dropdown-menu-item-label" @click="deleteTodo({filteredTodo : filteredTodo})">Delete Task</span>
               </a></li>
-        <li><a id="export_pdf" class="menu-item" title="">               
+              <li><a id="export_pdf" class="menu-item" title="">               
                 <span class="dropdown-menu-item-label" >Export PDF</span>
               </a></li>
-      </ul>
-    </a>
-  </div>
-  </span>
-  <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-    tabindex="410" @click="openfullwinodw(filteredTodo.level)">
-    <span class="circularButtonView-label">
+            </ul>
+           </a>
+          </div>
+        </span>
+        <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+          tabindex="410" @click="openfullwinodw(filteredTodo.level)">
+          <span class="circularButtonView-label">
               <i class="fa fa-expand" aria-hidden="true"></i>    
             </span>
-  </div>
-  <estimated-hours :showModal="estimated_time" :closeAction="closeDialog" :filteredTodo="filteredTodo"></estimated-hours>
-  <task-priority :showModal="task_priority" :closeAction="closeDialog" :filteredTodo="filteredTodo"></task-priority>
-  <!--<settings-menu :showModal="settings_menu" :closeAction="closeDialog" :filteredTodo="filteredTodo"></settings-menu>-->
-  <span id="close" class="destroy" @click="CLOSE_DIV(filteredTodo)"><i class="fa fa-close"></i></span>
-  </div>
+        </div>
+        <estimated-hours :showModal="estimated_time" :closeAction="closeDialog" :filteredTodo="filteredTodo"></estimated-hours>
+        <task-priority :showModal="task_priority" :closeAction="closeDialog" :filteredTodo="filteredTodo"></task-priority>
+        <!--<settings-menu :showModal="settings_menu" :closeAction="closeDialog" :filteredTodo="filteredTodo"></settings-menu>-->
+        <span id="close" class="destroy" @click="CLOSE_DIV(filteredTodo)"><i class="fa fa-close"></i></span>
+    </div>
 </template>
 <script>
   /* eslint-disable*/

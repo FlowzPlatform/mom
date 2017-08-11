@@ -63,6 +63,24 @@
               class="field-description generic-input hypertext-input notranslate" 
               id="property_sheet:details_property_sheet_field:description"
               placeholder="Description">
+            </textarea><br>
+            <textarea v-if="id === 'rightTaskTypes'" rows="3" cols="50"
+              v-model="filteredTodo.typeDesc"
+              @keyup="updateType()" 
+              contenteditable="true" disable_highlighting_for_diagnostics="true" 
+              tabindex="10" 
+              class="field-description generic-input hypertext-input notranslate" 
+              id="property_sheet:details_property_sheet_field:description"
+              placeholder="Description">
+            </textarea><br>
+            <textarea v-if="id === 'rightTaskStatus'" rows="3" cols="50"
+              v-model="filteredTodo.statusDesc"
+              @keyup="updateStatus()" 
+              contenteditable="true" disable_highlighting_for_diagnostics="true" 
+              tabindex="10" 
+              class="field-description generic-input hypertext-input notranslate" 
+              id="property_sheet:details_property_sheet_field:description"
+              placeholder="Description">
             </textarea><br> 
             </span>
           </div>
