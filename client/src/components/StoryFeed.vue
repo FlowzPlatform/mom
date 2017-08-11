@@ -1,5 +1,5 @@
 <template>
-    <div class="SingleTaskPane-feed">
+    <div class="SingleTaskPane-feed" v-if="test.length > 0">
         <div class="StoryFeed">
             <hr class="StoryFeed-separator StoryFeed-topSeparator">
             <div class="dropdown sort-menu">
@@ -83,12 +83,6 @@
     })
     Vue.filter('capitalizeLetters', function(str){
         if(str){
-            var firstLetters = str.substr(0, 2)
-            return firstLetters.toUpperCase()
-        }
-    })
-    Vue.filter('capitalizeLetters', function (str) {
-        if (str) {
             var firstLetters = str.substr(0, 2)
             return firstLetters.toUpperCase()
         }

@@ -175,18 +175,18 @@ export default {
             return this.selectedTo.indexOf(key) >= 0
         },
         rowSelected: function(dataItem, fieldName) {
-             console.log("fieldName-->",fieldName);
-             console.log("dataItem-->",dataItem);
+            //  console.log("fieldName-->",fieldName);
+            //  console.log("dataItem-->",dataItem);
             
             var idColumn = fieldName
-             console.log("idColumn-->",idColumn);
+            //  console.log("idColumn-->",idColumn);
             var key = dataItem[idColumn]
-            console.log("key-->",key);
+            // console.log("key-->",key);
             return key
         },
             itemAction: function(action,isChecked, data,rowCheck) {
                 //  var idColumn = this.extractArgs(fieldName)
-                console.log('custom-action: ' + action, data.name, isChecked, rowCheck)
+                // console.log('custom-action: ' + action, data.name, isChecked, rowCheck)
             },
         normalizeFields: function() {
             var self = this
@@ -323,8 +323,11 @@ export default {
             if (typeof this.$parent[func] == 'function') {
                 return this.$parent[func].call(this.$parent, item)
             } else {
-                console.error('Function "'+func+'()" does not exist!')
+                // console.error('Function "'+func+'()" does not exist!')
             }
+        },
+        deleteRole: function(item) {
+            this.$store.dispatch('removeNewRole', item)
         }
     },
     watch: {
