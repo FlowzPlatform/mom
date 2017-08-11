@@ -175,6 +175,22 @@
         top: 40px;
         overflow: auto;
     }
+    .ui.vertical.stripe h3 {
+        font-size: 2em;
+    }
+    .col-md-2.border-right {
+        border-right: solid 1px #ccc
+    }
+    .ui.segment {
+        top: 0 !important;
+        margin-top: 0px !important;
+    }
+    .ui.blue.table td,
+    .ui.blue.table th {
+        margin: 0;
+        padding: 5px 0;
+        text-align: center
+    }
 
     .side-filter__wrapper {
         position: relative;
