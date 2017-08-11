@@ -1,39 +1,5 @@
 <template>
     <div>
-        <div id="userGroup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">User Access Roles</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <label for="recipient-name" class="form-control-label">Add User Access Right:</label>
-                                <input type="text" class="form-control" id="recipient-name" v-model="addRole">
-                            </div>
-                            <div class="form-group">
-                                <div class="col-lg-6" v-for="row in roles">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <input type="checkbox" aria-label="Checkbox for following text input">
-                                        </span>
-                                        <label class="form-control" aria-label="Text input with checkbox">{{row.name}}</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" @click="AddSubmit(addRole)">Submit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="content content--full">
                 <div class="row">
                     <div class="col-md-2 border-right">
@@ -78,12 +44,6 @@
                                         <h3 class="ui header">ACL</h3>
                                         <!-- <vuetable v-ref:vuetable wrapper-class="vuetable-wrapper ui basic segment" table-wrapper=".vuetable-wrapper" :fields="fields"
                                             row-class-callback="rowClassCB" :tableData="tableData"></vuetable> -->
-                                    </div>
-                                </div>
-                                <div class="col-lg-offset-3 col-lg-6 pull-right">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Add User Group name" v-model="addRole">
-                                        <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#userGroup">Add</button>
                                     </div>
                                 </div>
                             </div>
