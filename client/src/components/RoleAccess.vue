@@ -149,8 +149,7 @@
         margin: 0 !important;
     }
 
-    .ui.blue.table td,
-    .ui.blue.table th {
+    .ui.blue.table td{
         margin: 0;
         padding: 5px 0;
         text-align: center
@@ -167,71 +166,6 @@
     .col-md-2.border-right {
         border-right: solid 1px #ccc
     }
-    .ui.segment {
-        top: 0 !important;
-        margin-top: 0px !important;
-    }
-    .ui.blue.table td,
-    .ui.blue.table th {
-        margin: 0;
-        padding: 5px 0;
-        text-align: center
-    }
-
-    .content--full {
-        max-width: 100%;
-        padding: 0 15px;
-        position: fixed;
-        width: 100%;
-        height: calc( 100% - 40px);
-        top: 40px;
-        overflow: auto;
-    }
-
-    .side-filter__wrapper {
-        position: relative;
-        display: block;
-
-        overflow: hidden;
-        margin-bottom: 10px;
-        -webkit-transition: max-height .2s ease;
-        transition: max-height .2s ease;
-    }
-
-    .side-filter__category-list {
-        padding-left: 0;
-        margin-top: 3px;
-    }
-
-    .side-filter__category-item {
-        list-style: none;
-        line-height: 3rem;
-    }
-
-    .side-filter__category-label {
-        color: #4c5766;
-        cursor: pointer;
-        display: block;
-        font-weight: 400;
-        margin: 0;
-        padding: 0 10px;
-        position: relative;
-    }
-
-    .side-filter__category-content {
-        text-transform: capitalize;
-    }
-
-    .side-filter__category-content-text--nockeckbox {
-        bottom: 0;
-    }
-
-    .ui.blue.table td input {
-        width: auto;
-        margin-top: 5px;
-        margin-bottom: 5px;
-    }
-
     .content--full {
         max-width: 100%;
         padding: 0 15px;
