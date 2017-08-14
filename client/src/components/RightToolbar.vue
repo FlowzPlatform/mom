@@ -21,13 +21,18 @@
                       <a tabindex="-1" class="token_name" data-toggle="dropdown" id='userlist' @click='getAllUsers()'>{{ getAssignedUserName () }}</a>
                       <ul class='dropdown-menu userlist' aria-labelledby="userlist">
                         <li v-for="(user, index) in getAllUserList"><a @click="btnUserClicked(user)"> 
-                          <span><img v-if="user.image_url" v-bind:src="user.image_url" /><div v-else>{{capitalizeLetters(user.email)}}</div></span>{{user.email}}</a><hr>
+                          <span><img v-if="user.image_url" v-bind:src="user.image_url" /><div v-else>{{user.email|capitalizeLettersr}}</div></span>{{user.email}}</a><hr>
                         </li>
                       </ul>
                     </span>
                 </span>
               </span>
             </div>
+          </div>
+        </div>
+        <div class="statusBorderClass">
+          <div class="statusClass">
+            {{getUserLetters()}}
           </div>
         </div>
         <div class="loading-boundary taskDetailsView-toolbarProperty">
