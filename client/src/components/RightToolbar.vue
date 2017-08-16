@@ -31,9 +31,18 @@
           </div>
         </div>
         <div class="statusBorderClass">
-          <div class="statusClass">
-            {{getUserLetters()}}
-          </div>
+          <span class="dropdown">
+            <div class="statusClass" data-toggle="dropdown" @click="btnPressed">
+              {{getUserLetters()}}
+            </div>
+            <ul class="dropdown-menu statusList">
+              <li><a>HTML</a></li>
+              <hr>
+              <li><a>CSS</a></li>
+              <hr>
+              <li><a>JavaScript</a></li>
+            </ul>
+          </span>
         </div>
         <div class="loading-boundary taskDetailsView-toolbarProperty">
             <div class="redesign-due-date-container">
@@ -194,6 +203,9 @@ export default {
       ]),
       deleteTodo: function () {
         this.$store.dispatch('delete_Todo', this.filteredTodo)
+      },
+      btnPressed (){
+        console.log('button pressed');
       },
       dateFormatter(dateTo){
          var selectedDate = moment(dateTo, 'YYYY-MM-DD').format('MMM DD');
