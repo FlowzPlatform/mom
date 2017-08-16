@@ -11,29 +11,42 @@
                     <div class="react-mount-node photoView-reactMount">
                       <div data-reactroot="" class="Avatar Avatar--medium Avatar--color4">
                         <span> {{ getUserLetters() }}<img v-bind:src="imageURlProfilePic" /></span>
-  </div>
-  </div>
-  </div>
-  <span class="dropdown">
+                      </div>
+                    </div>
+                  </div>
+                  <span class="dropdown">
                     <a tabindex="-1" class="token_name" data-toggle="dropdown" id='userlist' @click='getAllUsers()'>{{ getAssignedUserName () }}</a>
                       <ul class='dropdown-menu userlist' aria-labelledby="userlist">
                         <li v-for="(user, index) in getUserList"><a @click="btnUserClicked(user)"> 
-                          <span><img v-if="user.image_url" v-bind:src="user.image_url" /><div v-else>{{user.email | capitalizeLetters}}</div></span>{{user.email}}</a>
-  <hr>
-  </li>
-  </ul>
-  </span>
-  </span>
-  </span>
-  </div>
-  </div>
-  </div>
-  <div class="loading-boundary taskDetailsView-toolbarProperty">
-    <div class="redesign-due-date-container">
-      <div class="property due_date value-set">
-        <div class="property-name">
-          <span>
-                  <datepicker 
+                          <span><img v-if="user.image_url" v-bind:src="user.image_url" /><div v-else>{{user.email| capitalizeLetters }}</div></span>{{user.email}}</a><hr>
+                        </li>
+                      </ul>
+                    </span>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="statusBorderClass">
+          <span class="dropdown">
+            <div class="statusClass" data-toggle="dropdown" @click="btnPressed">
+              {{getUserLetters()}}
+            </div>
+            <ul class="dropdown-menu statusList">
+              <li><a>HTML</a></li>
+              <hr>
+              <li><a>CSS</a></li>
+              <hr>
+              <li><a>JavaScript</a></li>
+            </ul>
+          </span>
+        </div>
+        <div class="loading-boundary taskDetailsView-toolbarProperty">
+            <div class="redesign-due-date-container">
+                <div class="property due_date value-set">
+                    <div class="property-name">
+                    <span>
+                     <datepicker 
                       placeholder="Due Date"
                       class="wrapperClass temp"
                       v-on:selected="dateFormatter"
@@ -178,6 +191,9 @@
         ]),
         deleteTodo: function () {
           this.$store.dispatch('delete_Todo', this.filteredTodo)
+        },
+        btnPressed (){
+          console.log('button pressed');
         },
         dateFormatter(dateTo) {
           var selectedDate = moment(dateTo, 'YYYY-MM-DD').format('MMM DD');

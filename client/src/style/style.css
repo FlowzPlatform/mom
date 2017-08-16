@@ -5354,6 +5354,96 @@ table {
     padding: 4px 10px 4px 4px;
     vertical-align: middle;
 }
+.social-auth {
+   position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform: -webkit-translate(-50%, -50%);
+  transform: -moz-translate(-50%, -50%);
+  transform: -ms-translate(-50%, -50%);
+   background-color: #87a6ff;
+    padding: 15px;
+    border-radius: 5px;
+    border: solid 10px #fff;
+    max-width: 400px;
+}
+.social-auth-btn {
+    width: 100px;
+    height: 45px;
+    font-size: 15px;
+    color: white;
+    border-radius: 7%;
+    margin-top: 10px;
+    border: solid 2px #fff;
+}
+.social-auth .social-header {
+    border-bottom: solid 1px #eaeaea;
+    padding-bottom: 5px;
+    color: #fff;
+    font-size: 23px;
+}
+.social-auth  .form-input {
+    margin-top: 10px;
+    display: inline-block;
+    width: 100%;
+}
+.social-auth  .form-input label {color:#fff;font-size: 15px;font-weight: bold;}
+.social-auth  .form-input .pro-part {width:100%}
+.googleAuthBtn {
+    background-color: #1AAFD0;
+    width: 150px;
+    height: 35px;
+    border-radius: 5%;
+    color: white;
+}
+.logo-setUp {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    
+}
+.statusBorderClass {
+    border-style: solid;
+    border-width: 3px;
+    margin-right: 10px;
+    border-color: #ffffff;
+    border-radius: 20px;
+}
+.statusBorderClass:hover {
+    border-style: solid;
+    border-width: 3px;
+    margin-right: 10px;
+    border-color: #02ceff;
+    border-radius: 20px;
+}
+.statusClass {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+.statusClass:hover {
+    text-decoration: underline;
+    color: #02ceff;
+    cursor: pointer;
+}
+.statusList {
+    max-height: 200px;
+    overflow: auto;
+}
+.statusList li a {
+    line-height: 40px
+}
+.statusList li hr{
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+.statusList li a:hover{
+   background-color: #1aafd0; 
+   color: #fff !important;
+}
 
  input[type=text].generic-input,
 input[type=password].generic-input {
