@@ -5404,6 +5404,13 @@ table {
     align-items: center;
     
 }
+.statusBorderClass {
+    border-style: solid;
+    border-width: 3px;
+    margin-right: 10px;
+    border-color: #ffffff;
+    border-radius: 20px;
+}
 .statusBorderClass:hover {
     border-style: solid;
     border-width: 3px;
@@ -5419,7 +5426,23 @@ table {
 }
 .statusClass:hover {
     text-decoration: underline;
-    color: #02ceff
+    color: #02ceff;
+    cursor: pointer;
+}
+.statusList {
+    max-height: 200px;
+    overflow: auto;
+}
+.statusList li a {
+    line-height: 40px
+}
+.statusList li hr{
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+.statusList li a:hover{
+   background-color: #1aafd0; 
+   color: #fff !important;
 }
 
  input[type=text].generic-input,
