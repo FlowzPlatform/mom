@@ -183,7 +183,6 @@ export const store = new Vuex.Store({
     },
     async SHOW_DIV(state, payload) {
       // START scroll to last opened right div 
-
       //set focus on selected TODO Item. 
       //CAUTION:Take care before add any code here. If made any change in focus set code it may interrupt functionality.03/08/2017
       state.taskIndex = payload.id+"_"+payload.level
