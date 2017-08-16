@@ -42,15 +42,6 @@
                                 <div class="ui container">
                                     <div id="content" class="ui basic segment">
                                         <h3 class="ui header">ACL</h3>
-                                        <!-- <vuetable v-ref:vuetable wrapper-class="vuetable-wrapper ui basic segment" table-wrapper=".vuetable-wrapper" :fields="fields"
-                                            row-class-callback="rowClassCB" :tableData="tableData"></vuetable> -->
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="app" class="ui vertical stripe segment" v-show = "isUserGroup">
-                                <div class="ui container">
-                                    <div id="content" class="ui basic segment">
-                                        <h3 class="ui header">User Group</h3>     
                                         <div v-for="(item, itemNumber) in tableData">
                                             <Widget>
                                                 <WidgetHeading :id="1" :Title="'Sales'" :TextColor="false" :DeleteButton="false" :ColorBox="false" :Expand="false" :Collapse="true"
@@ -58,8 +49,8 @@
                                                             {{item.type}}
                                                 </WidgetHeading>
                                                 <WidgetBody>
-                                                    <vuetable v-ref:vuetable wrapper-class="vuetable-wrapper ui basic segment" table-wrapper=".vuetable-wrapper" :fields="fields"
-                                                        row-class-callback="rowClassCB" :tableData="item.permission" :taskTypeId="item.id"></vuetable>
+                                                    <!-- <vuetable v-ref:vuetable wrapper-class="vuetable-wrapper ui basic segment" table-wrapper=".vuetable-wrapper" :fields="fields"
+                                                        row-class-callback="rowClassCB" :tableData="item.permission" :taskTypeId="item.id"></vuetable> -->
                                                 </WidgetBody>
                                             </Widget>
                                         </div>
@@ -104,20 +95,21 @@
     }
 
     .ui.blue.table {
-        width: 100% !important;
+        width: 100%;
         padding: 0 !important;
         margin: 0 !important;
+            overflow-x: scroll;
+        
     }
-
-    .ui.blue.table td{
+    .ui.blue.table td {
         margin: 0;
-        padding: 5px 0;
         text-align: center
     }
     .ui.blue.table td input {
-        width: auto;
+        width: 20px;
         margin-top: 5px;
         margin-bottom: 5px;
+        align-items: center;
     }
     .ui.vertical.stripe h3 {
         font-size: 2em;
@@ -134,23 +126,9 @@
         top: 40px;
         overflow: auto;
     }
-    .ui.vertical.stripe h3 {
-        font-size: 2em;
-    }
     .col-md-2.border-right {
         border-right: solid 1px #ccc
     }
-    .ui.segment {
-        top: 0 !important;
-        margin-top: 0px !important;
-    }
-    .ui.blue.table td,
-    .ui.blue.table th {
-        margin: 0;
-        padding: 5px 0;
-        text-align: center
-    }
-
     .side-filter__wrapper {
         position: relative;
         display: block;
@@ -213,11 +191,6 @@
     li.side-filter__category-item:active {
         background-color: #02ceff;
     }
-
-    .ui.vertical.stripe h3 {
-        font-size: 2em;
-    }
-
     .secondary.pointing.menu .toc.item {
         display: none;
     }

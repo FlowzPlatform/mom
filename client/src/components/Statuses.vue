@@ -5,14 +5,14 @@
             <h4 class="uiStatus"><b>State</b></h4>
             <div class="left-multipleselect">
                 <div class="btn-group buttons">
-                    <button  type="button" class="btn move btn-primary" title="Move selected">
+                    <button type="button" class="btn move btn-primary" title="Move selected">
                         <i class="glyphicon glyphicon-arrow-right"></i>
                     </button>
                 </div>
-            <ul class="multipleselect" id="AvailableSelectedMembers" name="AvailableSelectedMembers" style="width: 200px; height: 200px" >
-                 <li @click="insertTypeState(status)"  :value="status.status" v-for="status in getTaskStausList" v-if="status.id !== '-1'"><span :style="{'background-color': status.color}"> </span>{{status.status}} 
-                </li>
-            </ul>
+                <ul class="multipleselect" id="AvailableSelectedMembers" name="AvailableSelectedMembers" style="width: 200px; height: 200px">
+                    <li @click="insertTypeState(status)" :value="status.status" v-for="status in getTaskStausList" v-if="status.id !== '-1'"><span :style="{'background-color': status.color}"> </span>{{status.status}}
+                    </li>
+                </ul>
             </div>
             <div class="right-multipleselect ">
                 <div class="btn-group buttons">
@@ -20,15 +20,16 @@
                         <i class="glyphicon glyphicon-arrow-left"></i>
                     </button>
                 </div>
-            <ul class="multipleselect" id="RequestedSelectedMembers" multiple="multiple" name="RequestedSelectedMembers" style="width: 200px; height: 200px">
-                <li @click="removeTypeState(status)" :value="status.status" v-for="status in getTask_types_state"><span :style="{'background-color': status.color}"> </span>{{status.state}}</li>
-            </ul>
+                <ul class="multipleselect" id="RequestedSelectedMembers" multiple="multiple" name="RequestedSelectedMembers" style="width: 200px; height: 200px">
+                    <li @click="removeTypeState(status)" :value="status.status" v-for="status in taskState"><span :style="{'background-color': status.color}"> </span>{{status.state}}</li>
+                </ul>
             </div>
         </div>
         <div v-if="id === 'rightTaskStatus'">
             <div class="control-group">
                 <label for="input-color">Color:</label>
-                  <input type="color" id="bgcolor" v-model="filteredTodo.color" value="#ffffff" @change="getColorVal($event.target.value)" style="height:25px; width:25px;" />
+                <input type="color" id="bgcolor" v-model="filteredTodo.color" value="#ffffff" @change="getColorVal($event.target.value)"
+                    style="height:25px; width:25px;" />
             </div>
         </div>
     </div>
@@ -40,30 +41,49 @@
         props: ['id', 'filteredTodo'],
         data: function () {
             return {
-                value:''
+                value: ''
             }
         },
         created() {
-            this.$store.dispatch('getTypeState')
+            // this.$store.dispatch('getTypeState')
         },
         computed: {
             ...mapGetters([
                 'getTaskStausList',
                 'getTask_types_state'
-            ])
+            ]),
+            taskState() {
+                let stateList = this.getTask_types_state
+                this.taskStateList(stateList)
+                return stateList
+            },
         },
         methods: {
             getColorVal: function (val) {
                 this.$store.dispatch('addTask_Status', { "status": this.filteredTodo, "color": val })
             },
             insertTypeState: function (status) {
-                this.$store.dispatch('insert_type_state', {"status": status, "taskType":this.filteredTodo})
+                this.$store.dispatch('insert_type_state', { "status": status, "taskType": this.filteredTodo })
             },
-            removeTypeState: function(status) {
+            removeTypeState: function (status) {
                 this.$store.dispatch('remove_type_state', status)
+            },
+            taskStateList: function (state) {
+                state.forEach(function (c) {
+                    let stateId = c.state_id
+                    let stateIndex = _.findIndex(this.$store.state.task_status_list, function (m) {
+                        return m.id === stateId
+                    })
+                    if (stateIndex < 0) {
+                    } else {
+                        c.color = this.$store.state.task_status_list[stateIndex].color
+                        c.state = this.$store.state.task_status_list[stateIndex].status
+                    }
+                }, this)
             }
         }
     }
+
 </script>
 <style>
     .form-group input[type="checkbox"] {
@@ -89,33 +109,55 @@
     .form-group input[type="checkbox"]:checked+.btn-group>label span:last-child {
         display: none;
     }
-    .uiStatus{
+
+    .uiStatus {
         width: 100%;
         float: left;
         text-align: left;
     }
-    .glyphicon-ok:before{
+
+    .glyphicon-ok:before {
         color: white
     }
-    .verticalbutton{
+
+    .verticalbutton {
         margin: 10px;
         height: 100%;
         margin-top: auto;
         margin-bottom: auto;
     }
+
     .colorswatches {
-    width: 25px;
-    height: 25px;
-    border: 1px solid gray;
+        width: 25px;
+        height: 25px;
+        border: 1px solid gray;
     }
+
     .multipleselect li span {
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    background-color: #ccc;
-    vertical-align: middle; 
-    margin-right: 5px;
-}
-.multipleselect li {width: 100%; text-align: left; display: inline-block; margin: 5px 2px 0 2px; border-bottom:solid 1px #ccc; padding-bottom: 5px; cursor: pointer}
-.multipleselect {border: solid 1px #ccc; margin-left: 10px; max-height: 200px; overflow: auto; margin-top: 10px;padding: 5px;}
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        background-color: #ccc;
+        vertical-align: middle;
+        margin-right: 5px;
+    }
+
+    .multipleselect li {
+        width: 100%;
+        text-align: left;
+        display: inline-block;
+        margin: 5px 2px 0 2px;
+        border-bottom: solid 1px #ccc;
+        padding-bottom: 5px;
+        cursor: pointer
+    }
+
+    .multipleselect {
+        border: solid 1px #ccc;
+        margin-left: 10px;
+        max-height: 200px;
+        overflow: auto;
+        margin-top: 10px;
+        padding: 5px;
+    }
 </style>
