@@ -100,7 +100,6 @@
 
             var token = url.searchParams.get('token')
             if (token){
-                console.log('token:', token)
                 this.$store.commit('SAVE_USERTOKEN', token)
                 this.$router.replace('/loadProcess')
                 //this.userDetail(this)
@@ -109,7 +108,6 @@
             
             var id = url.searchParams.get('ob_id')
             if(id){
-                console.log('id: ', id)
                 this.$store.state.googleId = id
                 this.$store.commit('googleId')
                 this.$router.replace('/socialAuth')
