@@ -42,8 +42,8 @@
             <!-- Project list -->
             <div class="DragContainer">
                 <draggable v-model="myProjectList">
-                    <div v-for="(project, index) in projectList">
-                        <Collapse v-bind:key="project" v-if="project.project_privacy!=2">
+                    <div v-show="project.is_deleted==false" v-bind:key="project.id" v-for="(project, index) in projectList">
+                        <Collapse v-bind:key="project.id" v-if="project.project_privacy!=2">
                             <Panel>
 
                                 <!-- Project name header -->
@@ -81,7 +81,7 @@
                                         <div class="SidebarTeamMembersList-facepileRow">
                                             <div class="Facepile Facepile--small SidebarTeamMembersList-facepile">
                                                 <!-- Member 1 -->
-                                                <div v-if="isMemberAvailable(project,0)" @click="showMemberDetail($event)" class="Avatar Avatar--small Avatar--color1 Facepile-avatar">
+                                                <div v-if="isMemberAvailable(project,0) && project.members[0].is_deleted !== true" @click="showMemberDetail($event)" class="Avatar Avatar--small Avatar--color1 Facepile-avatar">
                                                     <img v-if="project.members[0].url" v-bind:src="project.members[0].url" />
                                                     <span v-else>{{getLetters(project.members[0].email)}}</span>
                     </div>
@@ -94,7 +94,7 @@
                         </div>
                     </a>
                     <!--Member 2 -->
-                    <div v-if="isMemberAvailable(project,1)" @click="showMemberDetail($event)" class="Avatar Avatar--small Avatar--color2 Facepile-avatar">
+                    <div v-if="isMemberAvailable(project,1) && project.members[1].is_deleted !== true" @click="showMemberDetail($event)" class="Avatar Avatar--small Avatar--color2 Facepile-avatar">
                         <img v-if="project.members[1].url" v-bind:src="project.members[1].url" />
                         <span v-else>{{getLetters(project.members[1].email)}}</span>
                     </div>
@@ -107,7 +107,7 @@
                         </div>
                     </a>
                     <!--Member 3-->
-                    <div v-if="isMemberAvailable(project,2)" @click="showMemberDetail($event)" class="Avatar Avatar--small Avatar--color3 Facepile-avatar">
+                    <div v-if="isMemberAvailable(project,2) && project.members[2].is_deleted !== true" @click="showMemberDetail($event)" class="Avatar Avatar--small Avatar--color3 Facepile-avatar">
                         <img v-if="project.members[2].url" v-bind:src="project.members[2].url" />
                         <span v-else>{{getLetters(project.members[2].email)}}</span>
                     </div>
@@ -120,7 +120,7 @@
                         </div>
                     </a>
                     <!--Member 4-->
-                    <div v-if="isMemberAvailable(project,3)" @click="showMemberDetail($event)" class="Avatar Avatar--small Avatar--color4 Facepile-avatar">
+                    <div v-if="isMemberAvailable(project,3) && project.members[3].is_deleted !== true" @click="showMemberDetail($event)" class="Avatar Avatar--small Avatar--color4 Facepile-avatar">
                         <img v-if="project.members[3].url" v-bind:src="project.members[1].url" />
                         <span v-else>{{getLetters(project.members[3].email)}}</span>
                     </div>
@@ -133,7 +133,7 @@
                         </div>
                     </a>
                     <!--Member 5 -->
-                    <div v-if="isMemberAvailable(project,4)" @click="showMemberDetail($event)" class="Avatar Avatar--small Avatar--color5 Facepile-avatar">
+                    <div v-if="isMemberAvailable(project,4) && project.members[4].is_deleted !== true" @click="showMemberDetail($event)" class="Avatar Avatar--small Avatar--color5 Facepile-avatar">
                         <img v-if="project.members[4].url" v-bind:src="project.members[4].url" />
                         <span v-else>{{getLetters(project.members[4].email)}}</span>
                     </div>
@@ -146,7 +146,7 @@
                         </div>
                     </a>
                     <!--Member 6 -->
-                    <div v-if="isMemberAvailable(project,5)" @click="showMemberDetail($event)" class="Avatar Avatar--small Avatar--color6 Facepile-avatar">
+                    <div v-if="isMemberAvailable(project,5) && project.members[0].is_deleted !== true" @click="showMemberDetail($event)" class="Avatar Avatar--small Avatar--color6 Facepile-avatar">
                         <img v-if="project.members[5].url" v-bind:src="project.members[5].url" />
                         <span v-else>{{getLetters(project.members[5].email)}}</span>
                     </div>
@@ -262,7 +262,7 @@
                             <div class="validatedTextInput validatedTextInput--invalid QuickInvitePopup-emailInputValidator">
                                 <select class="textInput textInput--medium QuickInvitePopup-input" v-model="selected">
                                                                             <option class="textInput textInput--medium" value="" disabled selected hidden>Select Role</option>
-                                                                            <option class="textInput textInput--medium" v-for="role in roles" v-bind:key="role.id" v-bind:value="role.name">
+                                                                            <option v-show="role.name != 'Owner'" class="textInput textInput--medium" v-for="role in roles" v-bind:key="role.id" v-bind:value="role.name">
                                                                             {{ role.name }}
                                                                             </option>
                                                                         </select>
@@ -324,7 +324,7 @@
         class="spanPanel privateProject">
                             <a class="DeprecatedNavigationLink">
                                 <span class="panelProjectName">{{project.project_name}}</span>
-    <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu">
+    <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu" @click="showProjectSetting(project)">
                                     <svg class="Icon MoreIcon SidebarItemRow-icon SidebarItemRow-defaultIcon" title="MoreIcon" viewBox="0 0 32 32">
                                         <circle cx="3" cy="16" r="3"></circle>
                                         <circle cx="16" cy="16" r="3"></circle>
@@ -388,10 +388,14 @@
             }
         },
         created() {
-            this.$store.dispatch("getAllUsersList")
-            this.$store.dispatch('getAllProjects', this.$store.state.userObject._id);
             this.$store.dispatch('getUsersRoles');
-            this.$store.state.projectSettingId = "";
+            this.$store.dispatch("getAllUsersList")
+            var self = this;
+            setTimeout(function() {
+                self.$store.dispatch('getAllProjects', self.$store.state.userObject._id);
+                self.$store.state.projectSettingId = "";    
+            }, 2000);
+            
         },
         computed: {
             ...mapGetters({
@@ -436,7 +440,6 @@
             projectList: function () {
                 //console.log("projectlist", this.getProjectList)
                 // this.memberProfileDetail
-                var projects = this.getProjectList;
                 var projects = this.$store.state.projectlist;
                 this.memberProfileDetail(projects)
                 return this.getProjectList;
@@ -463,28 +466,52 @@
                 // console.log("Project index:--", project && project.members && project.members[index]);
                 return project && project.members && project.members[index]
             },
-            getMemberProfile: function (uId) {
-                let userIndex = _.findIndex(this.users, function (user) { return user._id === uId })
-                if (userIndex < 0) {
-                    return { user_id: uId }
-                } else {
-                    return { user_id: uId, url: this.users[userIndex].image_url, name: this.users[userIndex].name, email: this.users[userIndex].email }
-                }
+            getMemberProfile: function (uId,member) {
+           // console.log("member id:",member);
+            var userRoleId = member.user_role_id;
+            let userIndex = _.findIndex(this.users, function (user) { return user._id === uId })
+           // console.log("member userIndex:",userIndex);
+            if (userIndex < 0) {
+                return { user_id: uId }
+            } else {
+             //  console.log("Role roleId:--",userRoleId);
+                
+                var roleindex=_.findIndex(this.$store.state.userRoles,function(role){ return role.id==userRoleId})
+               //console.log("Role Index:--",roleindex);
+                var roleId ="";
+                var roleName="";
+                if(roleindex>-1){
+                    roleId=this.$store.state.userRoles[roleindex].id
+                   // console.log("userRoleId:",userRoleId)
+                   // console.log("roleId:",roleId)
+                    
+                   // console.log("this.$store.state.userRoles[roleindex]",this.$store.state.userRoles[roleindex]);
+                   // console.log("this.$store.state.userRoles[roleindex]",this.$store.state.userRoles[roleindex].name);
+                    roleName=this.$store.state.userRoles[roleindex].name
 
-            },
-            memberProfileDetail: function (projects) {
+                    return { user_id: uId, url: this.users[userIndex].image_url, name: this.users[userIndex].name,email: this.users[userIndex].email,role: this.users[userIndex].role,user_role_id:member.user_role_id,roleName:roleName,is_deleted:member.is_deleted,id:member.id} 
+                }else{
+                    return { user_id: uId }
+                }
+                    
+            }
+
+        },
+        memberProfileDetail: function (projects) {
 
                 projects.forEach(function (project) {
                     var members = project.members;
                     if (members) {
                         members.forEach(function (member) {
-
+                            console.log("Member :--->",member)
                             var uId = member.user_id;
-                            var memberDetail = this.getMemberProfile(uId);
+                            var memberDetail = this.getMemberProfile(uId,member);
                             let memberIndex = _.findIndex(members, function (m) { return m.user_id === uId })
+                            // console.log("MemberIndex :--->",memberDetail)
                             if (memberIndex < 0) {
                                 project.members.push(memberDetail);
-                            } else {
+                            } 
+                            else {
                                 project.members[memberIndex] = memberDetail;
                             }
 
@@ -498,7 +525,7 @@
             },
             inviteUserSubmit: function (projectId) {
                 var inviteEmail = this.email;
-                console.log("Selected:-->", inviteEmail);
+                //  console.log("Selected:-->", inviteEmail);
                 if (!inviteEmail || inviteEmail.length == 0 || !CmnFunc.checkValidEmail(inviteEmail)) {
                     this.emailValidationError = "Invalid user email"
                     return;
@@ -516,7 +543,7 @@
                 // var roleId=this.roles.filter(role=> role.name ==roleSelect);
                 let index = _.findIndex(this.roles, function (d) { return d.name == roleSelect })
                 let indexUser = _.findIndex(this.users, function (d) { return d.email == inviteEmail })
-                console.log("Selected:-->", indexUser);
+                //  console.log("Selected:-->", indexUser);
 
                 var insertInvite = {
                     project_id: projectId,
@@ -525,13 +552,15 @@
                     user_email: this.$store.state.userObject.email,
                     user_role_id: this.roles[index].id,
                     invitation_status: "p",
-                    invited_date: new Date()
+                    invited_date: new Date(),
+                    is_deleted: false,
+                    created_at: new Date()
                 }
-                console.log("Insert Invite:-->", insertInvite);
+                // console.log("Insert Invite:-->", insertInvite);
                 this.$store.dispatch('insertProjectInvite', insertInvite)
                 this.closeInvite(projectId);
                 // Hide member list
-                $("#layerPositioner-" + id).addClass("hidden");
+                $("#layerPositioner-" + projectId).addClass("hidden");
                 this.selected = '';
 
             },
@@ -551,6 +580,7 @@
                 // console.log('Project', project.id)
                 this.$store.state.currentProjectName = project.project_name;
                 this.$store.state.currentProjectId = project.id;
+                this.$store.state.currentProject = project;
                 this.$store.state.currentProjectPrivacy = project.project_privacy;
                 this.$store.state.todolist = []
                 this.$store.commit('CLOSE_DIV', '')
@@ -709,6 +739,7 @@
             e.preventDefault();
         },
         showProjectSetting: function(project) {
+            console.log("click")
             // Show option icon white
             $("#ItemRowMenu-" + project.id).css({"fill":"white"});
             this.$store.state.projectSettingId = project.id;
@@ -720,7 +751,10 @@
             var left = pos.left;
             $("div.project-setting").removeClass("hidden");
             $("div.project-setting").css({"margin-top":+top+"px","margin-left":+left+"px"})
-            this.$store.state.currentProjectMember = project.members; 
+
+           this.$store.state.currentProjectMember = project.members; 
+           // this.$store.commit('currentProjectMember')
+           this.$store.state.currentProjectCreatedBy = project.create_by;
         }
 
         },
