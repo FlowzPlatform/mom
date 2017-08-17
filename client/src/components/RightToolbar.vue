@@ -255,47 +255,48 @@ export default {
         
           var htmlString = "<html><head></head><body>"
           var letters = this.getUserLetters()
-          htmlString += (this.imageURlProfilePic.length > 0 ? "<div style='display: inline-block;width:30px;height:30px;border-radius:100%;overflow: hidden;vertical-align: middle; border:solid 1px #ddd'><img src="+this.imageURlProfilePic+" style='max-width:100%; max-height:100%'/></div>" : "<div style='display: inline-block;width:30px;height:30px;border-radius:100%;overflow: hidden;vertical-align: middle; border:solid 1px #ddd; line-height:32px;font-size:16px; text-align:center;'>"+ letters +"</div>");
-          htmlString += "&nbsp;&nbsp;<span>"+ this.getAssignedUserName() +"</span>";
+         // htmlString += (this.imageURlProfilePic.length > 0 ? "<div style='display: inline-block;width:30px;height:30px;border-radius:100%;overflow: hidden;vertical-align: middle; border:solid 1px #ddd'><img src="+this.imageURlProfilePic+" style='max-width:100%; max-height:100%'/></div>" : "<div style='display: inline-block;width:30px;height:30px;border-radius:100%;overflow: hidden;vertical-align: middle; border:solid 1px #ddd; line-height:32px;font-size:16px; text-align:center;'>"+ letters +"</div>");
+          htmlString += "<span style='font-size: 80%'>Assigned to: "+ this.getAssignedUserName() +"</span><span style='display: none;vertical-align: middle;'><img src='https://s3-us-west-2.amazonaws.com/airflowbucket1/obexpense/expenses/Flowz-logo.png' style='width:20px'></span><br/><span style='font-size: 80%;margin-top:10px;line-height: 200%;'>Assigned by: "+ this.getAssignedByUserName() +"</span>";
           var dueDt = moment(this.filteredTodo.dueDate).isValid();
           if(dueDt){
-            htmlString += "<span style='padding-left:8em;'> <div style='padding-left:5px; margin-right:10px; display: inline-block;width:25px;height:30px;border-radius:100%;overflow: hidden;vertical-align: middle; border:solid 1px #ddd; line-height:28px;font-size:16px; text-align:center; '>&#128197;</div>"+ moment(this.filteredTodo.dueDate).format('DD MMM YYYY') +"</span>";
+           // htmlString += "<span style='padding-left:8em;font-size: 80%'> <div style='padding-left:5px; margin-right:10px; display: inline-block;width:25px;height:30px;border-radius:100%;overflow: hidden;vertical-align: middle; border:solid 1px #ddd; line-height:28px;font-size:16px; text-align:center; '>&#128197;</div>"+ moment(this.filteredTodo.dueDate).format('DD MMM YYYY') +"</span>";
+            htmlString += "<br/><span style='font-size: 79%;'>Due date: "+ moment(this.filteredTodo.dueDate).format('DD MMM YYYY') +"</span>";
           }
           htmlString += "<hr/>"
 
           var imgChk = (this.filteredTodo.completed ? "checked" : "unchecked") 
-          htmlString += "<span style='display: inline-block;vertical-align: middle;'><img src='https://s3-us-west-2.amazonaws.com/airflowbucket1/obexpense/expenses/"+imgChk+".png' style='width:20px'></span><span style='padding-left:1em;font-size:18px;font-weight: bold;margin-left:-10px;'>"+ this.filteredTodo.taskName +"</span>";
+          htmlString += "<span style='display: inline-block;vertical-align: middle;'><img src='https://s3-us-west-2.amazonaws.com/airflowbucket1/obexpense/expenses/"+imgChk+".png' style='width:20px'></span><span style='padding-left:1em;font-size:16px;font-weight: bold;margin-left:-10px;'>"+ this.filteredTodo.taskName +"</span>";
 
           if(this.filteredTodo.taskDesc.length > 0)
-              htmlString += "<p>"+this.filteredTodo.taskDesc +"</p><br/>";
+              htmlString += "<p style='font-size: 80%'>"+this.filteredTodo.taskDesc +"</p><br/>";
 
           if(this.attachmentList.length > 0)
-             htmlString += "<h3 style='color:gray;'>Attachments:</h3>";
+             htmlString += "<h3 style='color:gray;font-size: 80%;'>Attachments:</h3>";
 
            var yPositionAttachments = 70;
            for (var i = 0; i < this.attachmentList.length; i++) {
               var attachment = this.attachmentList[i]
-              htmlString += "<a href="+ attachment.file_url +" target='_blank'>"+ attachment.file_name +"</a><br/>"
+              htmlString += "<a style='font-size: 80%;line-height: 1.5em;' href="+ attachment.file_url +" target='_blank'>"+ attachment.file_name +"</a><br/>"
           }
 
           if(this.taskTags.length > 0)
-             htmlString += "<br/><h3 style='color:gray;'>Tags:</h3>";
+             htmlString += "<br/><h3 style='color:gray;font-size: 80%;'>Tags:</h3>";
 
           var xPositionTags = 15;
            for (var i = 0; i < this.taskTags.length; i++) {
               var tag = this.taskTags[i]
-              htmlString += (i == this.taskTags.length - 1 ? "<span>"+ tag.name +"</span>" : "<span>"+ tag.name +", </span>");
+              htmlString += (i == this.taskTags.length - 1 ? "<span style='font-size: 80%'>"+ tag.name +"</span>" : "<span style='font-size: 80%'>"+ tag.name +", </span>");
           }
 
           if(this.filteredTodo.subtask_count > 0)
-             htmlString += "<br/><br/><h3 style='color:gray;'>Subtasks:</h3>";
+             htmlString += "<br/><br/><h3 style='color:gray;font-size: 80%;'>Subtasks:</h3>";
           
           for (var i = 0; i < this.filteredTodo.subtask_count; i++) {
               var subTask = this.subTasksArray[i]
               var imgName = (subTask.completed ? "checked" : "unchecked") 
-              htmlString += "<span style='display: inline-block;vertical-align: middle;'><img src='https://s3-us-west-2.amazonaws.com/airflowbucket1/obexpense/expenses/"+imgName+".png' style='width:20px'></span><span style='padding-left:1em;'>"+ subTask.taskName +"</span><hr>";
+              htmlString += "<span style='display: inline-block;vertical-align: middle;'><img src='https://s3-us-west-2.amazonaws.com/airflowbucket1/obexpense/expenses/"+imgName+".png' style='width:20px'></span><span style='padding-left:1em;font-size: 80%'>"+ subTask.taskName +"</span><hr>";
           }
-
+//https://s3-us-west-2.amazonaws.com/airflowbucket1/obexpense/expenses/Flowz-logo.png
           // if(this.getCommentByTaskId.length > 0)
           //    htmlString += "<br/><br/><h3 style='color:gray;'>Comments:</h3>";
 
@@ -353,7 +354,7 @@ export default {
     //   return this.capitalizeLetters(userUrl.email)
     // },
     getUserLetters () {
-      var user = this.getAssignedUserObj()
+      var user = this.getAssignedToUserObj()
       if(user.image_url){
         this.imageURlProfilePic = user.image_url
         console.log('Image url',user.image_url)
@@ -363,7 +364,11 @@ export default {
       return this.capitalizeLetters(user.email)
     },
     getAssignedUserName () {
-      var user = this.getAssignedUserObj()
+      var user = this.getAssignedToUserObj()
+      return this.getName(user.email)
+    },
+    getAssignedByUserName(){
+      var user = this.getAssignedByUserObj()
       return this.getName(user.email)
     },
     getName(name) {
@@ -386,7 +391,7 @@ export default {
       var firstLetters = str.substr(0,2)
       return firstLetters.toUpperCase()
     },
-    getAssignedUserObj (){
+    getAssignedToUserObj (){
       var objUser
       // console.log('filteredTodo.assigned_to', this.filteredTodo.assigned_to)
       // console.log('this.$store.state.userObject._id', this.$store.state.userObject)
@@ -394,6 +399,18 @@ export default {
         objUser =  this.$store.state.userObject
       }else{
         objUser = _.find(this.$store.state.arrAllUsers, ['_id', this.filteredTodo.assigned_to])
+      }
+      // console.log('User', objUser)
+      return objUser
+    },
+     getAssignedByUserObj (){
+      var objUser
+      // console.log('filteredTodo.assigned_to', this.filteredTodo.assigned_to)
+      // console.log('this.$store.state.userObject._id', this.$store.state.userObject)
+      if (this.filteredTodo.assigned_by === this.$store.state.userObject._id){
+        objUser =  this.$store.state.userObject
+      }else{
+        objUser = _.find(this.$store.state.arrAllUsers, ['_id', this.filteredTodo.assigned_by])
       }
       // console.log('User', objUser)
       return objUser
