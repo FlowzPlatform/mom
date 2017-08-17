@@ -18,10 +18,11 @@ var options = {
   format: 'Letter',
   "header": {
     "height": "30mm",
-    "contents": '<div style="width: 100%;height: 70px;background-color:#F7F4F4"><img style="widht:100%;height:100%" src="https://s3-us-west-2.amazonaws.com/airflowbucket1/obexpense/expenses/FLowz-logo.jpg"/><span style="float: right;margin-right:10px;margin-top:10px">Minutes of Meeting (MOM)</span></div>'
+    "contents": '<div style="width: 100%;height: 70px;background-color:#F7F4F4"><img style="widht:70%;height:70%" src="https://s3-us-west-2.amazonaws.com/airflowbucket1/obexpense/expenses/Flowz-logo.png"/><span style="float: right;margin-right:10px;margin-top:10px">Minutes of Meeting (MOM)</span></div>'
   },
   "footer": {
-    "height": "10mm"
+    "height": "20mm",
+    "contents": '<div style="background-color:#F7F4F4;height:40px"><span style="float: right;margin-right:10px;margin-top:10px;font-size:70%">Powered by &copy; Flows</span><span style="float: left;margin-left:10px;margin-top:10px;font-size:70%">Minutes of Meeting (MOM)</span></div>'
    // "contents": '<div style="text-align: center;">Footer</div>'
   }
 
