@@ -387,6 +387,6 @@
       // console.log('User', objUser)
       return objUser
     }
-      }
   }
+ }
 </script>
