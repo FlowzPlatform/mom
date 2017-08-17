@@ -27,11 +27,12 @@ module.exports = function() {
       if(role.tables_created)
       {
         r.db(db).table(table).insert([
-          {'name': 'Admin', 'index': 0},
-          {'name': 'Project Manager', 'index': 1},
-          {'name': 'Team Lead', 'index': 2},
-          {'name': 'Developer', 'index': 3},
-          {'name': 'Guest', 'index': 4}
+          {'name': 'Owner', 'index': 0},
+          {'name': 'Admin', 'index': 1},
+          {'name': 'Project Manager', 'index': 2},
+          {'name': 'Team Lead', 'index': 3},
+          {'name': 'Developer', 'index': 4},
+          {'name': 'Guest', 'index': 5}
         ]).run()
       }
   });

@@ -135,11 +135,14 @@ export const store = new Vuex.Store({
     searchView: '',
     assignedToOthers: [], 
     taskIndex: -1,
+    removeMember:{}
   },
   mutations: {
     userData: state => state.userObject,
     authorize: state => state.isAuthorized,
     progressVal: state => state.progress,
+    removeMember: state => state.removeMember,
+
     // showProgress: state => state.isProgress,
     // showLoader: state => state.isLoading,
     showAttachmentProgress(state, data) {
@@ -557,6 +560,47 @@ export const store = new Vuex.Store({
     updateDragableProjectList(state, value) {
       state.projectlist = value
     },
+     updateProjectServiceRoleList(state,value){
+        let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.project_id })
+       // console.log("updateProjectServiceRoleList:",updateProjectIndex);
+        console.log("value:updateProjectIndex",updateProjectIndex)
+       if (updateProjectIndex >= 0) {
+            // Find user roll name
+            var role = _.find(state.userRoles, ['id', value.user_role_id])
+            
+            let memberIndex = _.findIndex(state.currentProjectMember, function (member) { return member.user_id == value.user_id })
+            state.projectlist[updateProjectIndex].members[memberIndex].roleName = role.name;
+            state.currentProjectMember[memberIndex].roleName = role.name;
+            // console.log("updateProjectServiceRoleList", state.currentProjectMember)
+        }
+    },
+    /**
+    * Update project list deleted by user
+    */
+    updateDeletedProjectList(state,value){
+      console.log("updateDeletedProjectList:",value);
+      let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
+      if (updateProjectIndex >= 0) {
+           state.projectlist[updateProjectIndex].is_deleted = value.is_deleted;
+      }
+    },
+    /**
+    * Update current project member list
+    */
+    updateProjectMember(state,value){ 
+          console.log("updateProjectMember()")
+          let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.project_id })
+          if (updateProjectIndex >= 0) {
+          
+            var tempProject=state.projectlist[updateProjectIndex];
+
+            let memberIndex = _.findIndex(tempProject.members, function (member) { return member.user_id == value.user_id })
+    
+            if(memberIndex>-1){
+              Vue.delete(tempProject.members,memberIndex)  
+            }
+          }
+    },
     async GET_PROJECT_LIST(state, data) {
       state.projectlist = data;
       if (!state.currentProjectId && data.length > 0) {
@@ -641,6 +685,7 @@ export const store = new Vuex.Store({
     ADD_PROJECT(state, project) {
       state.projectlist.push(project);
     }
+    
   },
   actions: {
     getUserRegister({ commit }) {
@@ -714,7 +759,7 @@ export const store = new Vuex.Store({
         commit('DELETE_COMMENT', message)
       })
       services.projectService.on('patched', message => {
-        console.log("Project updated:-->", message)
+        console.log("Project patch:", message)
         commit('updateProjectList', message)
       })
 
@@ -728,6 +773,29 @@ export const store = new Vuex.Store({
         console.log("Project updated:-->", message)
         commit('ADD_PROJECT', message)
       })
+      services.projectMemberService.on('patched', message => {
+         console.log("projectMemberService updated:-->", message)
+         if(message.is_deleted === true){
+            services.projectMemberService.get(message.id).then(value =>{
+              commit('updateProjectMember', value)
+            })
+         }else{
+            commit('updateProjectServiceRoleList', message)
+         }
+          
+       })
+      // Project delete custom patch call
+      services.projectService.on('deleteProject', message =>{
+          commit('updateDeletedProjectList', message)
+      })
+      // Project member delete patch call
+      // services.projectMemberService.on('deleteProjectMember', message =>{
+      //    console.log("deleteProjectMember updated:-->", message)
+      //     services.projectMemberService.get(message).then(value =>{
+      //        commit('updateProjectMember', value)
+      //     })
+      // })  
+
     },
     getAllTodos({ commit }, payload) {
       services.tasksService.find({
@@ -1418,7 +1486,48 @@ export const store = new Vuex.Store({
         console.log("Response To Tasks I've assigned To Others:--", response)
         commit('showTaskToAssignOthers', response)
       })
+    },
+    changeUserRole({ commit }, data) {
+      // console.log("roleId:",data);
+        services.projectMemberService.patch(null, {
+          user_role_id: data.roleId
+        }, { query: { "project_id": data.projectId, "user_id": data.userId 
+                ,$client: {
+                    flag: 'changeRole'
+                }
+              } 
+           }).then(response => {
+          // console.log("Response update project member:", response);
+          //  commit('UPDATE_TODO', insertElement)
+        });
+    },
+      /**
+     * Delete project
+     */
+    deleteProject({ commit }, data) {
+       console.log("project:",data);
+     // console.log("state.user_id:",store.state.userObject._id);
+      services.projectService.patch(data.id, {
+        is_deleted: true,
+        deletedBy: store.state.userObject._id
+      }).then(response => {
+         // console.log("Response update project:", response);
+        //  commit('UPDATE_TODO', insertElement)
+      });
+    },
+    /**
+     * Delete project member
+     */
+    deleteProjectMember({ commit }) {
+      var member = store.state.removeMember;
+        services.projectMemberService.patch(member.id, {
+          is_deleted: true,
+          deletedBy: store.state.userObject._id
+        }).then(response => {
+
+        });
     }
+
   },
   getters: {
     // getTodoById: (state, getters) => {

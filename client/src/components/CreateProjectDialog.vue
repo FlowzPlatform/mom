@@ -164,7 +164,9 @@
                         user_id: this.$store.state.userObject._id,
                         create_by: this.$store.state.userObject._id,
                         user_email: this.$store.state.userObject.email,
-                        invited_date: new Date()
+                        invited_date: new Date(),
+                        is_deleted:false,
+                        user_role_id:this.getOwernerId()
                     }
                     console.log("Insert Invite:-->", insertInvite);
                     this.$store.dispatch('insertProjectInvite', insertInvite)
@@ -182,7 +184,13 @@
                     this.createProjectError = response.error;
                 }
             },
-            close: function () {
+            getOwernerId(){
+                this.$store.state.userRoles
+                
+                let owner = _.find(this.$store.state.userRoles, ['name', "Owner"])
+
+                return owner.id;
+            },close: function () {
                this.$emit('updateDialog', this.show != this.show);
                 this.projectName = ''
                 this.description = ''
@@ -208,7 +216,7 @@
                 }
 
                 var request = {
-                    data: { project_name: this.projectName, project_description: this.description, project_privacy: this.privacyOption, create_by: this.$store.state.userObject._id, created_at: new Date() },
+                    data: { project_name: this.projectName, project_description: this.description, project_privacy: this.privacyOption, create_by: this.$store.state.userObject._id, created_at: new Date(),is_deleted:false },
                     callback: this.projectResponse
                 }
                 this.$store.dispatch('insertProject', request)
