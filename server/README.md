@@ -55,3 +55,18 @@ __0.1.0__
 Copyright (c) 2016
 
 Licensed under the [MIT license](LICENSE).
+
+## Run Using Docker ##
+
+1.start the RethinkDb server.
+```
+docker run --name todo-rethink -v "$PWD:/data" -p 8080:8080 -p 28015:28015 -d rethinkdb
+```
+
+2.start the server of the project.
+```
+docker run --name todo-server -p 3030:3030 --link todo-rethink:todo_db fl0wz/server_for_todo_app
+```
+go to browser and search
+1. RethinkDb database on localhost:8080
+2. Todo-server on localhost:3030

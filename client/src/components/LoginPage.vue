@@ -1,10 +1,11 @@
 <template>
-      <form action="http://ec2-34-229-146-53.compute-1.amazonaws.com/auth/Gplus" method="post">  
+      <!--<form action="http://ec2-34-229-146-53.compute-1.amazonaws.com/auth/Gplus" method="post">  -->
+      <div>
+      <!--<form action="http://ec2-54-88-11-110.compute-1.amazonaws.com/auth/Gplus" method="post">-->
       <input type="hidden" name="success_url" value="http://localhost:3000">
     <input type="hidden" name="key" value="381524561267-3agj2flmlj546qsnufj8d6283e6eismb.apps.googleusercontent.com">
     <input type="hidden" name="seceret" value="KFzqxuDKfGnF91QMRHiirZwW">
-    <input type="hidden" name="callbackUrl" value="http://ec2-34-229-146-53.compute-1.amazonaws.com/oauthCallback">   
-    <div class="login-pages">
+    <input type="hidden" name="callbackUrl" value="http://ec2-54-88-11-110.compute-1.amazonaws.com/oauthCallback">   
         <div class="container">
             <div class="box"></div>
             <div class="container-forms">
@@ -64,7 +65,8 @@
             </div>
         </div>
     </div>
-    </form>
+    <!--</form>-->
+    </div>
 </template>
 
 <script>
@@ -95,11 +97,13 @@
             }
         },
         created () {
+            console.log('created called')
             var url_string = window.location.href;
             var url = new URL(url_string);
 
             var token = url.searchParams.get('token')
             if (token){
+                console.log('TOKEN exist')
                 this.$store.commit('SAVE_USERTOKEN', token)
                 this.$router.replace('/loadProcess')
                 //this.userDetail(this)
@@ -108,13 +112,13 @@
             
             var id = url.searchParams.get('ob_id')
             if(id){
+                console.log('//socialAuth....')
                 this.$store.state.googleId = id
                 this.$store.commit('googleId')
                 this.$router.replace('/socialAuth')
             }
   },
         computed: {
-            
             uname: function () {
                 return this.$store.state.userObject.email
             }
