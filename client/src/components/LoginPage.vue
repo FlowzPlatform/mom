@@ -64,7 +64,7 @@
             </div>
         </div>
     </div>
-    <!--</form>-->
+    </form>
     </div>
 </template>
 
