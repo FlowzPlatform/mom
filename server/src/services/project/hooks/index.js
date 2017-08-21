@@ -4,8 +4,8 @@ exports.before = {
 
   all:[],
   find(hook){
-     const userid=hook.params.userId;
-    var client=hook.params.query.$client;
+    const userid=hook.params.userId;
+    var client = hook.params.query.$client;
     console.log("Find query:-->>",hook.params.query.$client)
 
     if (client && client.flag && client.flag == 'allprojectlist') {
@@ -17,8 +17,9 @@ exports.before = {
       hook.params.rethinkdb = query.merge(function (projectid) {
         return {
           'members': r.table('projectmember')
-            .filter({ 'project_id': projectid('id') })
-            .coerceTo('array').pluck('user_id')
+            .filter({ 'project_id': projectid('id') ,'is_deleted':false})
+            .orderBy('created_at')
+            .coerceTo('array').pluck('user_id','user_role_id','is_deleted','id')
         }
       }
       ).filter(function (project) {
@@ -56,7 +57,11 @@ exports.before = {
 
   },
   update: [],
-  patch: [],
+  patch(hook){
+     //console.log("hook:",hook.result);
+    //this.emit('deleteProject',hook.result)
+    
+  },
   remove: []
 };
 
@@ -88,7 +93,10 @@ exports.after = {
 
 },
   update: [],
-  patch: [],
+  patch(hook){
+     //console.log("hook:",hook.result);
+    this.emit('deleteProject',hook.result)
+  },
   remove: []
 };
 

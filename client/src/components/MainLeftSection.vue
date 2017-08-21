@@ -7,8 +7,8 @@
       <ul class="todo-list main">
       <draggable v-model="filteredTodos" @end="onDragEnd">
         <transition-group name="list-complete">
-          <todo-item :id="id" v-for="(todo, ind) in filteredTodos" :prevIndex="getPrevToDo(ind)"
-         :todo="todo" :pholder="pholder" :nextIndex="getNextToDo(ind)" v-bind:key="todo">
+          <todo-item v-for="(todo, ind) in filteredTodos" :prevIndex="getPrevToDo(ind)"
+         :todo="todo" :pholder="pholder" :nextIndex="getNextToDo(ind)" v-bind:key="todo.id">
           </todo-item>
         </transition-group>
       </draggable>
