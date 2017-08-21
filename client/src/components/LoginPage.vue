@@ -64,10 +64,13 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
 <<<<<<< 8d047ad46e4798c6d67031286a5e7629bdf951d6
     <!--</form>-->
 =======
 >>>>>>> commit changes
+=======
+>>>>>>> 5132cf8ef4d0c1d0b103fa79d9ed0d01162accdb
     </div>
 </template>
 

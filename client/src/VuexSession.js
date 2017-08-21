@@ -1677,7 +1677,11 @@ export const store = new Vuex.Store({
         console.log("Edit Status from Right:-", response)
       })
     },
+<<<<<<< HEAD
     changeUserRole({ commit }, data){
+=======
+    changeUserRole({ commit }, data) {
+>>>>>>> 5132cf8ef4d0c1d0b103fa79d9ed0d01162accdb
       // console.log("roleId:",data);
         services.projectMemberService.patch(null, {
           user_role_id: data.roleId
