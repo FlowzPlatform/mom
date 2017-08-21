@@ -38,13 +38,12 @@
                     <div class="form-item log-in">
                         <div class="table">
                             <div class="table-cell">
-                                 <button class="googleAuthBtn">Use Google Account</button> 
+                                <button class="googleAuthBtn" type="submit">Use Google Account</button> 
                                 <div class="dialog--nux-seperator" id="seprator"> or </div>
                                 <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
                                 <input placeholder="Password" tabindex="2" type="password" name="p" id="password_input" v-model="pwd" @keyup.enter="btnLogInClicked()">
                                 <div tabindex="3" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in</div>
                             </div>
-                            
                         </div>
                     </div>
                     <div class="form-item sign-up">
