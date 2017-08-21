@@ -139,7 +139,8 @@ export const store = new Vuex.Store({
     task_status_list: [],
     task_types_state: [],
     googleId: '',
-    removeMember:{}
+    removeMember:{},
+    currentProject={}
   },
   mutations: {
     userData: state => state.userObject,
@@ -271,6 +272,7 @@ export const store = new Vuex.Store({
       state.currentProjectId = ""
       state.currentProjectName = ""
       state.currentProjectPrivacy = ''
+      
     },
     CLEAR_PROJECT_DEFAULT(state) {
       state.userObject = {}
