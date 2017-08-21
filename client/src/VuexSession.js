@@ -140,7 +140,7 @@ export const store = new Vuex.Store({
     task_types_state: [],
     googleId: '',
     removeMember:{},
-    currentProject={}
+    currentProject:{}
   },
   mutations: {
     userData: state => state.userObject,
