@@ -227,7 +227,6 @@
           $temp.remove();
         },
         exportToPDF() {
-          console.log("Export to pdf called")
           var htmlString = "<html><head></head><body>"
           var letters = this.getUserLetters()
          // htmlString += (this.imageURlProfilePic.length > 0 ? "<div style='display: inline-block;width:30px;height:30px;border-radius:100%;overflow: hidden;vertical-align: middle; border:solid 1px #ddd'><img src="+this.imageURlProfilePic+" style='max-width:100%; max-height:100%'/></div>" : "<div style='display: inline-block;width:30px;height:30px;border-radius:100%;overflow: hidden;vertical-align: middle; border:solid 1px #ddd; line-height:32px;font-size:16px; text-align:center;'>"+ letters +"</div>");
