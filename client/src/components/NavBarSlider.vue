@@ -394,7 +394,7 @@
             setTimeout(function() {
                 self.$store.dispatch('getAllProjects', self.$store.state.userObject._id);
                 self.$store.state.projectSettingId = "";    
-            }, 2000);
+            }, 5000);
             
         },
         computed: {
