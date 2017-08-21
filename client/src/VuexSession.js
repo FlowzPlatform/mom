@@ -129,6 +129,7 @@ export const store = new Vuex.Store({
     currentProjectPrivacy: '',
     projectSettingId: 0,
     currentProjectMember: '',
+    currentProject:{},
     projectSettingMenuOffset: 0,
     createdByTaskList: [],
     recentlyCompletedTasks: [],
