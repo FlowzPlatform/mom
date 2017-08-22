@@ -657,7 +657,7 @@ export const store = new Vuex.Store({
           if (userIndex < 0) {
             state.projectlist[index].members.push({ user_id: assignMember.user_id })
           } else {
-            state.projectlist[index].members.push({ user_id: assignMember.user_id, url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name, email: state.arrAllUsers[userIndex].email,user_role_id:assignMember.user_role_id,is_deleted:false })
+            state.projectlist[index].members.push({ user_id: assignMember.user_id, url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name, email: state.arrAllUsers[userIndex].email,user_role_id:assignMember.user_role_id,is_deleted:false,id:assignMember.id })
           }
        //   console.log("state.projectlist[index]", state.projectlist[index]);
 
@@ -1449,7 +1449,7 @@ export const store = new Vuex.Store({
           throw error
         })
     },
-    async getAllUsersList({ commit }) {
+    async getAllUsersList({ commit },callback) {
       try {
         // console.log('Token', store.state.userToken)
         let { data } = await axios.get(process.env.USER_DETAIL + '/alluserdetails', {
@@ -1459,6 +1459,7 @@ export const store = new Vuex.Store({
           }
         })
         commit('GET_ALL_USERS', data.data)
+        callback();
         return data.data
       } catch (error) {
         throw error
