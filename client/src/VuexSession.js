@@ -642,7 +642,7 @@ export const store = new Vuex.Store({
       state.assignedToOthers = payload
     },
     ASSIGN_PROJECT_MEMBER(state, assignMember) {
-
+      console.log("Assign Member:--", assignMember)
       let index = _.findIndex(state.projectlist, function (d) { return d.id == assignMember.project_id })
       console.log("Index Found:--", index)
       if (index > -1) {
@@ -653,13 +653,13 @@ export const store = new Vuex.Store({
 
         setTimeout(function () {
           let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === assignMember.user_id })
-          console.log("User Detail", userIndex);
+        //  console.log("User Detail", userIndex);
           if (userIndex < 0) {
             state.projectlist[index].members.push({ user_id: assignMember.user_id })
           } else {
-            state.projectlist[index].members.push({ user_id: assignMember.user_id, url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name, email: state.arrAllUsers[userIndex].email })
+            state.projectlist[index].members.push({ user_id: assignMember.user_id, url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name, email: state.arrAllUsers[userIndex].email,user_role_id:assignMember.user_role_id,is_deleted:false })
           }
-          console.log("state.projectlist[index]", state.projectlist[index]);
+       //   console.log("state.projectlist[index]", state.projectlist[index]);
 
         }, 2000);
 
@@ -799,7 +799,7 @@ export const store = new Vuex.Store({
       })
 
       services.projectMemberService.on('created', message => {
-        console.log("ASSIGN_PROJECT_MEMBER:-->", message)
+      //  console.log("ASSIGN_PROJECT_MEMBER:-->", message)
         commit('ASSIGN_PROJECT_MEMBER', message)
       })
 
@@ -1487,7 +1487,7 @@ export const store = new Vuex.Store({
           }
         }
       }).then(response => {
-        console.log("Response from Project", response)
+       // console.log("Response from Project", response)
         commit('GET_PROJECT_LIST', response)
       });
       // Vue.http.post('/tasks_parentId', { parentId: payload.parentId }).then(function (response) {
