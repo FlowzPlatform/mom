@@ -161,7 +161,6 @@ export const store = new Vuex.Store({
             state.userRoles.push(data[i])
           }
         }
-
       }
     },
     GET_TODO(state, data) {
@@ -213,8 +212,7 @@ export const store = new Vuex.Store({
         await store.dispatch('getAttachmentFromDB', payload.id)
         await store.dispatch('getAllTaskTags', payload.id);
         await store.dispatch('getTaskComment', payload.id)
-        await store.dispatch('getTypeState', payload.id)
-
+        await store.dispatch('getTypeState', payload.taskType)
         var parentIdArrObj = payload
         var tempParentIds = _.chain([]).union(state.parentIdArr).sortBy([function (o) { return o.level; }]).value();
         if (state.deleteItemsSelected || state.createdByTaskList.length > 0 || state.recentlyCompletedTasks.length > 0 || state.assignedToOthers.length > 0) {
@@ -357,9 +355,6 @@ export const store = new Vuex.Store({
     ADD_NEW_TODOS(state, todoObject) {
 
       // Add new created todo object in list if not exist in db
-      // let todoIndex = _.findIndex(state.todolist, function (todo) { return todo.id == todoObject.id })
-      // console.log('INSERT TODO INDEX', todoIndex)
-      // if (todoIndex == -1) {
         if (todoObject.project_id === state.currentProjectId) {
 
           todoObject.subtask_count = 0
@@ -375,12 +370,12 @@ export const store = new Vuex.Store({
 
           state.todolist.push(todoObject)
 
-          // if (state.currentModified) {
-          //   console.log('current modified')
-          //   state.todolist.push(state.currentTodoObj)
-          //   // state.currentTodoObj = {}
-          //   state.isDeleteObj = true
-          // }
+          if (state.currentModified) {
+            console.log('current modified')
+            state.todolist.push(state.currentTodoObj)
+            // state.currentTodoObj = {}
+            state.isDeleteObj = true
+          }
           var isObjectAvailable = state.todolist.find(todo => todo.id === todoObject.parentId)
           if (isObjectAvailable) {
             if (todoObject.parentId) {
@@ -390,7 +385,6 @@ export const store = new Vuex.Store({
             }
           }
         }
-      // }
     },
     deleteTodo(state, todoObject) {
       let removeTodoIndex = _.findIndex(state.deletedTaskArr, function (d) { return d.id == todoObject.id })
@@ -858,7 +852,8 @@ export const store = new Vuex.Store({
           priority: editObject.taskPriority,
           assigned_by: editObject.assigned_by,
           assigned_to: editObject.assigned_to,
-          updatedBy: store.state.userObject._id
+          updatedBy: store.state.userObject._id,
+          taskType: editObject.selectedType.id
         }, { query: { 'id': editObject.todo.id } }).then(response => {
           console.log("Response editTaskName::", response);
           if (editObject.isAssigned) {
