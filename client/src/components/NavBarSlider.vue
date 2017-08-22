@@ -389,12 +389,12 @@
         },
         created() {
             this.$store.dispatch('getUsersRoles');
-            this.$store.dispatch("getAllUsersList")
-            var self = this;
-            setTimeout(function() {
-                self.$store.dispatch('getAllProjects', self.$store.state.userObject._id);
-                self.$store.state.projectSettingId = "";    
-            }, 5000);
+            this.$store.dispatch("getAllUsersList",callAllProjectList)
+            // var self = this;
+            // setTimeout(function() {
+            //         self.$store.dispatch('getAllProjects', self.$store.state.userObject._id);
+            //         self.$store.state.projectSettingId = "";    
+            // }, 5000);
             
         },
         computed: {
@@ -461,6 +461,11 @@
             ...mapMutations([
                 'showDeleteTasks'
             ]),
+            callAllProjectList:function()
+            {
+                 this.$store.dispatch('getAllProjects', self.$store.state.userObject._id);
+                this.$store.state.projectSettingId = "";  
+            },
             isMemberAvailable: function (project, index) {
 
                 // console.log("Project index:--", project && project.members && project.members[index]);
