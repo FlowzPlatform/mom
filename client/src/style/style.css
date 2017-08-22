@@ -5683,3 +5683,47 @@ textarea,
     padding-bottom: 15px;
     padding-left: 30px;
 }
+li.poptip.text {
+    font-size: 14px;
+    cursor: pointer;
+}
+.statusBorderClass {
+    border-style: solid;
+    border-width: 3px;
+    margin-right: 10px;
+    border-color: #ffffff;
+    border-radius: 20px;
+}
+.statusBorderClass:hover {
+    border-style: solid;
+    border-width: 3px;
+    margin-right: 10px;
+    border-color: #02ceff;
+    border-radius: 20px;
+}
+.statusClass {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+.statusClass:hover {
+    text-decoration: underline;
+    color: #02ceff;
+    cursor: pointer;
+}
+.statusList {
+    max-height: 200px;
+    overflow: auto;
+}
+.statusList li a {
+    line-height: 40px
+}
+.statusList li hr{
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+.statusList li a:hover{
+   background-color: #1aafd0; 
+   color: #fff !important;
+}

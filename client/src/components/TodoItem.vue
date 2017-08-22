@@ -4,9 +4,17 @@
     <div :id="getLevelClass(todo.level,todo.id)" style="padding-bottom: 5px;">
       <div class="view" style="margin-left: 10px;">
         <span class="dreg-move"></span>
+         <Poptip  placement="bottom-start" trigger="focus" title="State">
         <input v-if="!$store.state.deleteItemsSelected" :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle"
           @change="toggleTodo(todo)">
         <label for="checkbox8"></label>
+        <div class="api" slot="content">
+          <ul style="width: 200px; height: 100px; overflow: auto">
+            <li class="poptip text" v-for="state in statusList">{{state.state}}
+            </li>
+          </ul>
+        </div>
+        </Poptip> 
         <div v-if="$store.state.deleteItemsSelected" class="trash" :id="todo.id">
           <span class="trashcan">
             <span class="hover-glyph ">
@@ -115,8 +123,18 @@ position: fixed;
         curSelectedItem: '',
       }
     },
+    created(){
+      // this.$store.dispatch('getTypeState', this.todo.taskType)
+    },
     computed: {
-
+       ...mapGetters({
+            statusList: 'getTask_types_state',
+        }),
+        taskState() {
+          let stateList = this.statusList
+          this.taskStateList(stateList)
+          return stateList
+        }
     },
     methods: {
       ...mapMutations([
@@ -162,7 +180,7 @@ position: fixed;
       // },
       addTodo: function (todoId) {
         if (this.id !== 'taskTypes' && this.id !== 'taskStatus') {
-          this.changeFocus(todoId)
+          this.changeFocus("todoId", todoId)
           this.$store.dispatch('insertTodo', this.todo)
         } else if (this.id === "taskTypes") {
           this.$store.dispatch('addTask_Type', this.todo)
@@ -229,6 +247,20 @@ position: fixed;
           if (showTodoIndex != -1)
             self.$store.commit('SHOW_DIV', self.$store.state.todolist[showTodoIndex])
         }, 100);
+      },
+      taskStateList: function (state) {
+        console.log("=========",state)
+        state.forEach(function (c) {
+          let stateId = c.state_id
+          let stateIndex = _.findIndex(this.$store.state.task_status_list, function (m) {
+            return m.id === stateId
+          })
+          if (stateIndex < 0) {
+          } else {
+            c.color = this.$store.state.task_status_list[stateIndex].color
+            c.state = this.$store.state.task_status_list[stateIndex].status
+          }
+        }, this)
       }
     },
     component: {

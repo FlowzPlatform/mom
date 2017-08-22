@@ -333,6 +333,9 @@
       }
       this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
       this.$store.commit('DELETE_ALLTAGS')
+      this.$store.dispatch('getTaskStaus')
+      this.$store.dispatch('getTaskTypes')
+
       this.$store.state.todolist = []
       // this.getProjectWiseTodo;
       var projects = this.getProjectWiseTodo;
