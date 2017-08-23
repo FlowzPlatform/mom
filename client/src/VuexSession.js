@@ -218,7 +218,7 @@ export const store = new Vuex.Store({
         await store.dispatch('getAttachmentFromDB', payload.id)
         await store.dispatch('getAllTaskTags', payload.id);
         await store.dispatch('getTaskComment', payload.id)
-        await store.dispatch('getTypeState', payload.taskType)
+        // await store.dispatch('getTypeState', payload.taskType)
         var parentIdArrObj = payload
         var tempParentIds = _.chain([]).union(state.parentIdArr).sortBy([function (o) { return o.level; }]).value();
         if (state.deleteItemsSelected || state.createdByTaskList.length > 0 || state.recentlyCompletedTasks.length > 0 || state.assignedToOthers.length > 0) {
@@ -1622,6 +1622,7 @@ export const store = new Vuex.Store({
       })
     },
     getTypeState({commit}, payload){
+      console.log('payload:', payload)
        services.taskTypeStateService.find({ query: { type_id: payload } }).then(response => {
           console.log("log type_state", response)
           commit("GET_TYPE_STATE", response)
@@ -1814,6 +1815,10 @@ export const store = new Vuex.Store({
     },
     getTaskStausList : state => state.task_status_list,
     getTask_types_state: state => state.task_types_state
+    // getTask_types_state: (state) => {
+    //   console.log('task type:', task_types_state)
+    //   return state.task_types_state
+    // }
   },
 
   plugins: [createPersistedState()]
