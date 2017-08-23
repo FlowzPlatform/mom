@@ -244,6 +244,10 @@
     </div>
   </section>
 </template>
+<<<<<<< HEAD
+=======
+
+>>>>>>> Permisisons
 <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 <script>
   /* eslint-disable*/
@@ -307,6 +311,7 @@
       this.$store.dispatch('getSettings', this.$store.state.userObject._id);
       // console.log(md5('urvashi@officebrain.com'));
       // console.log(md5('uhirani@officebrain.com'));
+      this.$store.dispatch('removeAllEventListners');
       this.$store.dispatch('eventListener');
       this.getAllUsers()
       // ...mapActions([
@@ -431,21 +436,26 @@
         return this.$store.state.projectlist;
       },
       taskById() {
+
+        var insertPermssion=CmnFunc.isCreatePermission(15);
+   
         let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', this.url_level)
-        taskArray.push({
-          id: '-1',
-          parentId: this.url_parentId,
-          taskName: '',
-          taskDesc: '',
-          level: this.url_level,
-          //  level: 0,
-          index: taskArray.length,
-          completed: false,
-          dueDate: '',
-          createdAt: new Date().toJSON(),
-          updatedAt: new Date().toJSON(),
-          project_id: this.$store.state.currentProjectId
-        })
+        if (insertPermssion) {
+            taskArray.push({
+              id: '-1',
+              parentId: this.url_parentId,
+              taskName: '',
+              taskDesc: '',
+              level: this.url_level,
+              //  level: 0,
+              index: taskArray.length,
+              completed: false,
+              dueDate: '',
+              createdAt: new Date().toJSON(),
+              updatedAt: new Date().toJSON(),
+              project_id: this.$store.state.currentProjectId
+            })
+          }
         this.todolist = taskArray
         this.userDetail(this.todolist)
         return filters[this.$store.state.visibility](taskArray)

@@ -114,7 +114,6 @@
         padding: 5px 0;
         text-align: center
     }
-
     .ui.blue.table td input {
         width: auto;
         margin-top: 5px;
@@ -161,6 +160,9 @@
         -webkit-transition: max-height .2s ease;
         transition: max-height .2s ease;
     }
+        .ui.vertical.stripe h3 {
+          font-size: 2em;
+        }
 
     .side-filter__category-list {
         padding-left: 0;

@@ -76,7 +76,7 @@ import Attachments from './Attachments.vue'
 import StoryFeed from './StoryFeed.vue'
 import Statuses from './Statuses.vue'
 import Tags from './Tags.vue'
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex' 
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 

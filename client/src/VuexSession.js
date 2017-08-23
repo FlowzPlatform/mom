@@ -8,11 +8,11 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
-
-// services.sockett.on("reconnect", function () {
-//   console.log('reconnect fired!');
-//   services.sockett.emit("userdata", store.state.userObject._id);
-// });
+services.socket.on("reconnect", function () {
+  console.log('----reconnect fired!-------');
+  
+ 
+});
 
 function setProgressBar(state, todoObject) {
   var p_id = todoObject.parentId
@@ -739,15 +739,36 @@ export const store = new Vuex.Store({
         commit('GET_ROLES', response)
       });
     },
+    removeAllEventListners({commit})
+    {
+      services.tasksService.removeListener("created")
+      services.tasksService.removeListener("removed")
+      services.tasksService.removeListener('patched')
+      services.taskAttachmentService.removeListener('created')
+      services.taskAttachmentService.removeListener('removed')
+      services.tagsService.removeListener('created')
+      services.taskTagsService.removeListener('created')
+      services.taskTagsService.removeListener('patched')
+      services.taskHistoryLogs.removeListener('created')
+      services.taskHistoryLogs.removeListener('removed')
+      services.projectService.removeListener('patched')
+      services.projectMemberService.removeListener('created')
+      services.projectService.removeListener('created')
+      
+    },
     eventListener({ commit }) {
       // A new message has been created on the server, so dispatch a mutation to update our state/view
       services.tasksService.on('toggleTodoTask', message => {
         console.log("Message Toggle Todo Event:-->", message)
       })
+
+      
       services.tasksService.on('created', message => {
         console.log("Message Cretaed:-->", message)
         commit('ADD_NEW_TODOS', message)
       })
+      
+      
       services.tasksService.on('removed', message => {
         console.log("Message Removed:-->", message)
         commit('deleteTodo', message)
@@ -885,6 +906,7 @@ export const store = new Vuex.Store({
         //   // console.log('task update', response.data)
         // })
       } else {
+        
         services.tasksService.create({
           parentId: insertElement.parentId,
           taskName: insertElement.taskName,
@@ -1138,7 +1160,7 @@ export const store = new Vuex.Store({
         // commit('SELECT_FILE', response.data) 
         // }
       });
-    },
+     },
     addAccessPermision({ commit }, data) {
       services.roleAccessService.create({
         pId: data.pId,
