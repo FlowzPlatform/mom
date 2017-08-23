@@ -5,11 +5,11 @@
         <span class="dreg-move"></span>
          <Poptip  placement="bottom-start" trigger="focus" title="State">
         <input v-if="!$store.state.deleteItemsSelected" :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle"
-          @change="toggleTodo(todo)">
+          @change="toggleTodo(todo)" @click="showStatusList">
         <label for="checkbox8"></label>
         <div class="api" slot="content">
           <ul style="width: 200px; height: 100px; overflow: auto">
-            <li class="poptip text" v-for="state in statusList">{{state.state}}
+            <li class="poptip text" v-for="state in taskState">{{state.state}}
             </li>
           </ul>
         </div>
@@ -117,7 +117,7 @@ position: fixed;
     },
     computed: {
        ...mapGetters({
-            statusList: 'getTask_types_state',
+            statusList: 'getTask_types_state'
         }),
         taskState() {
           let stateList = this.statusList
@@ -137,6 +137,9 @@ position: fixed;
       },
       undelete: function () {
         this.$store.dispatch('undelete', this.todo)
+      },
+      showStatusList() {
+        this.$store.dispatch('getTypeState', this.todo.taskType)
       },
       // deleteTodo: function () {
       //   this.$store.dispatch('deleteTodo', this.todo)
