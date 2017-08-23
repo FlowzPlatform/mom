@@ -187,7 +187,8 @@
           var objType = _.find(this.$store.state.task_types_list, ['id', this.filteredTodo.taskType])
           return objType.type
         }else {
-          //return this.$store.state.task_types_list.type
+          console.log(this.$store.state.task_types_list)
+          // return this.$store.state.task_types_list.type
           return 'todo'
         }
       }

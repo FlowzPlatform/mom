@@ -242,7 +242,6 @@ position: fixed;
         }, 100);
       },
       taskStateList: function (state) {
-        console.log("=========",state)
         state.forEach(function (c) {
           let stateId = c.state_id
           let stateIndex = _.findIndex(this.$store.state.task_status_list, function (m) {
