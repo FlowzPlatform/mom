@@ -34,7 +34,7 @@
             <div class="statusBorderClass">
                 <span class="dropdown">
                   <div class="statusClass" data-toggle="dropdown">
-                    {{ getAssignedType() }}
+                    {{ getAssignedType}}
                   </div>
                   <ul class="dropdown-menu statusList">
                     <li v-for="type in getTypes"><a @click="btnTypeClicked(type)">{{type.type}}</a><hr></li>
@@ -181,12 +181,23 @@
       getCommentByTaskId() {
         let commentList = this.getComment(this.filteredTodo.id)
         return commentList
+      },
+      getAssignedType: function() {
+        if (this.filteredTodo.taskType) {
+          var objType = _.find(this.$store.state.task_types_list, ['id', this.filteredTodo.taskType])
+          return objType.type
+        }else {
+          //return this.$store.state.task_types_list.type
+          return 'todo'
+        }
       }
     },
     methods: {
       ...mapMutations([
         'CLOSE_DIV'
       ]),
+      
+      
       deleteTodo: function () {
         this.$store.dispatch('delete_Todo', this.filteredTodo)
       },
@@ -309,17 +320,8 @@
       //   }
       //   this.imageURlProfilePic = ''
       //   return this.capitalizeLetters(userUrl.email)
-      // },
-      getAssignedType() {
-        console.log('filteredTodo:', this.filteredTodo)
-        if (this.filteredTodo.taskType) {
-          var objType = _.find(this.$store.state.task_types_list, ['id', this.filteredTodo.taskType])
-          return objType.type
-        }else {
-          //return this.$store.state.task_types_list.type
-          return 'todo'
-        }
-      },
+      // }
+    
       getUserLetters() {
         var user = this.getAssignedUserObj()
         if (user.image_url) {
@@ -366,7 +368,6 @@
         return objUser
       },
       btnTypeClicked(objType) {
-        console.log('type: ', objType.type)
         this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": objType })
       }
       // updateTypeInTask: function(value) {

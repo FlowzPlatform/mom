@@ -89,6 +89,7 @@ function updateTaskCount(state, todoObject) {
   }
 }
 function updateObject(oldObject, newObject) {
+  // console.log("New Object--->", newObject)
   var keys = Object.keys(oldObject)
   for (var i = 0; i < keys.length; i++) {
     if (newObject[keys[i]]) {
@@ -300,11 +301,15 @@ export const store = new Vuex.Store({
       state.visibility = key
     },
     UPDATE_TODO(state, item) {
+      console.log("Update Todo:--->",item)
       if (item.project_id === state.currentProjectId) {
         let updateTodoIndex = _.findIndex(state.todolist, function (d) { return d.id == item.id })
         if (updateTodoIndex < 0) {
           if (state.todoObjectByID)
             updateObject(state.todoObjectByID, item)
+            if(item.taskType)
+              Vue.set(state.todoObjectByID, 'taskType', item.taskType)
+            //state.todoObjectByID.taskType=item.taskType;
           if (!item.isDelete) {
             let deleteTodoIndex = _.findIndex(state.deletedTaskArr, function (d) { return d.id == item.id })
             state.todolist.push(item)
@@ -319,6 +324,9 @@ export const store = new Vuex.Store({
         } else {
           var isValueAvailable = state.todolist[updateTodoIndex].isDelete
           updateObject(state.todolist[updateTodoIndex], item)
+          if(item.taskType)
+            Vue.set(state.todolist[updateTodoIndex], 'taskType', item.taskType)
+            // state.todolist[updateTodoIndex].taskType=item.taskType;
           // show if any updates found for TODO
           if (item.updatedBy !== state.userObject._id) {
             state.todolist[updateTodoIndex].isTaskUpdate = true
@@ -593,9 +601,6 @@ export const store = new Vuex.Store({
       if (index > -1) {
         if (!state.projectlist[index].members)
           state.projectlist[index].members = []
-
-
-
         setTimeout(function () {
           let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === assignMember.user_id })
           console.log("User Detail", userIndex);
@@ -843,6 +848,7 @@ export const store = new Vuex.Store({
       }
     },
     editTaskName({ commit }, editObject) {
+      console.log("editObject-->",editObject)
       if (editObject.todo.id) {
         services.tasksService.patch(editObject.todo.id, {
           taskName: editObject.todo.taskName,
@@ -859,7 +865,6 @@ export const store = new Vuex.Store({
           if (editObject.isAssigned) {
             editObject.callback()
           }
-          //  commit('UPDATE_TODO', insertElement)
         });
         // Vue.http.post('/updatetasks', {
         //   id: editObject.todo.id,
@@ -1659,10 +1664,6 @@ export const store = new Vuex.Store({
     },
     getTaskStausList : state => state.task_status_list,
     getTask_types_state: state => state.task_types_state
-    // getTask_types_state: (state) => {
-    //   console.log('task type:', task_types_state)
-    //   return state.task_types_state
-    // }
   },
 
   plugins: [createPersistedState()]

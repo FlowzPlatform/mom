@@ -213,7 +213,7 @@ position: fixed;
       },
       changeValue: function(todoId){
         console.log('onChange()', todoId)
-        this.$store.dispatch('insertTodo', this.todo)
+        // this.$store.dispatch('insertTodo', this.todo)
         var nextTaskIndex = todoId.split('_')[0];
         if(nextTaskIndex == -1)
         {
