@@ -3,37 +3,8 @@
         <hr>
          <div class="[ row ]" style="margin-left: 0; margin-right: 0; display: inline-table; text-align: -webkit-auto;" v-if="id === 'rightTaskTypes'">
             <h4 class="uiStatus"><b>State</b></h4>
-            <!-- <div class="left-multipleselect">
-                <span class="multipleselect-filter">
-                    <input type="text" >
-                </span>
-                <ul class="multipleselect list-group" id="AvailableSelectedMembers" name="AvailableSelectedMembers">
-                    <li  class="list-group-item" @click="insertTypeState(status)" :value="status.status" v-for="status in getTaskStausList" v-if="status.id !== '-1'"><span :style="{'background-color': status.color}"> </span>{{status.status}}
-                    </li>
-                </ul>
-            </div>
-            <div class="state-btn-man">
-                <div class="btn-group buttons">
-                    <button type="button" class="btn move btn-primary" title="Move selected" @click="moveLeft">
-                        <i class="glyphicon glyphicon-arrow-right"></i>
-                    </button>
-                </div>
-                <div class="btn-group buttons">
-                    <button type="button" class="btn remove btn-primary" title="Remove selected">
-                        <i class="glyphicon glyphicon-arrow-left"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="right-multipleselect ">
-                <span class="multipleselect-filter">
-                    <input type="text" >
-                </span>
-                <ul class="multipleselect list-group" id="RequestedSelectedMembers" multiple="multiple" name="RequestedSelectedMembers">
-                    <li class="list-group-item" @click="removeTypeState(status)" :value="status.status" v-for="status in taskState"><span :style="{'background-color': status.color}"> </span>{{status.state}}</li>
-                </ul>
-            </div> -->
-            <div class="[ form-group ]"  v-for="status in getTaskStausList" style="margin: 5px;" v-if="status.id !== '-1'">
-            <input type="checkbox" @click="insertTypeState(status, $event.target.checked)" :name="status.status" :id="status.id" autocomplete="off" />
+            <div class="[ form-group ]"  v-for="status in setSelectedState" style="margin: 5px;" v-if="status.id !== '-1'">
+            <input type="checkbox" checked="" v-model="status.selected" @click="insertTypeState(status, $event.target.checked)" :name="status.status" :id="status.id" autocomplete="off" />
                 <div class="[ btn-group ]">
                     <label :for="status.id" class="[ btn btn-default ]" :style="{'border-color':'#adadad',  'background-color':status.color }">
                     <span class="[ glyphicon glyphicon-ok ]"></span>
@@ -48,7 +19,7 @@
         <div v-if="id === 'rightTaskStatus'">
             <div class="control-group">
                 <label for="input-color">Color:</label>
-                <input type="color" id="bgcolor" v-model="filteredTodo.color" value="#ffffff" @change="getColorVal($event.target.value)"
+                <input type="color" id="bgcolor" v-model="filteredTodo.color" value="#0000" @change="getColorVal($event.target.value)"
                     style="height:25px; width:25px;" />
             </div>
         </div> 
@@ -65,18 +36,23 @@
             }
         },
         created() {
-            this.$store.dispatch('getTypeState')
+            // this.$store.dispatch('getTypeState')
         },
         computed: {
             ...mapGetters([
                 'getTaskStausList',
                 'getTask_types_state'
             ]),
-            taskState() {
-                let stateList = this.getTask_types_state
-                this.taskStateList(stateList)
-                return stateList
-            },
+            // taskState() {
+            //     let stateList = this.getTask_types_state
+            //     this.taskStateList(stateList)
+            //     return stateList
+            // },
+            setSelectedState() {
+                let selectedList = this.getTaskStausList
+                this.stateSelectedList(selectedList)
+                return selectedList
+            }
         },
         methods: {
             getColorVal: function (val) {
@@ -86,22 +62,33 @@
                 if(event){
                     this.$store.dispatch('insert_type_state', { "status": status, "taskType": this.filteredTodo })
                 } else {
-                    this.$store.dispatch('remove_type_state', status)    
+                    let findObject = this.$store.state.task_types_state.find(type => type.state_id === status.id)
+                    this.$store.dispatch('remove_type_state', findObject)    
                 }
             },
-            // removeTypeState: function (status) {
-            //     this.$store.dispatch('remove_type_state', status)
+            // taskStateList: function (state) {
+            //     state.forEach(function (c) {
+            //         let stateId = c.state_id
+            //         let stateIndex = _.findIndex(this.$store.state.task_status_list, function (m) {
+            //             return m.id === stateId
+            //         })
+            //         if (stateIndex < 0) {
+            //         } else {
+            //             c.color = this.$store.state.task_status_list[stateIndex].color
+            //             c.state = this.$store.state.task_status_list[stateIndex].status
+            //         }
+            //     }, this)
             // },
-            taskStateList: function (state) {
-                state.forEach(function (c) {
-                    let stateId = c.state_id
-                    let stateIndex = _.findIndex(this.$store.state.task_status_list, function (m) {
-                        return m.id === stateId
+            stateSelectedList: function(list) {
+                list.forEach(function (c) {
+                    let stateId = c.id
+                    let stateIndex = _.findIndex(this.$store.state.task_types_state, function (m) {
+                        return m.state_id === stateId
                     })
                     if (stateIndex < 0) {
+                        c.selected = false
                     } else {
-                        c.color = this.$store.state.task_status_list[stateIndex].color
-                        c.state = this.$store.state.task_status_list[stateIndex].status
+                        c.selected = true
                     }
                 }, this)
             }

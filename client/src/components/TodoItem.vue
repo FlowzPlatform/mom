@@ -24,21 +24,21 @@
           </span>
         </div>
         <input v-if="id !== 'taskTypes' && id !== 'taskStatus'" 
-          class="new-todo" 
+          class="new-todo"
           autofocus autocomplete="off" 
           :placeholder="pholder"
-          v-bind:class="getLevelClass(todo.level,todo.id)" 
+          v-bind:class="getLevelClass(todo.level,todo.id)"
           v-model="todo.taskName" 
-          @click="SHOW_DIV(todo)" 
+          @click="SHOW_DIV(todo)"
           @keyup.enter="addTodo(nextIndex)"
-          @focus="onFocusClick(todo.id, todo.level,todo.created_by)" 
-          @blur=onBlurCall(todo.id,todo.level) 
-          @keyup="performAction" 
+          @focus="onFocusClick(todo.id, todo.level)"
+          @blur=onBlurCall(todo.id,todo.level)
+          @keyup="performAction"
           @change="changeValue(nextIndex)">
-        <input v-if="id === 'taskTypes'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
-          v-model="todo.type" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
-        <input v-if="id === 'taskStatus'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
-          v-model="todo.status" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
+          <input v-if="id === 'taskTypes'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
+            v-model="todo.type" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
+          <input v-if="id === 'taskStatus'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
+            v-model="todo.status" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
         <span class=""><i>
           <b class="glyphicon glyphicon-option-vertical"></b>
           <b class="glyphicon glyphicon-option-vertical"></b>
@@ -183,7 +183,6 @@ position: fixed;
       // },
       addTodo: function (todoId) {
         if (this.id !== 'taskTypes' && this.id !== 'taskStatus') {
-          this.changeFocus("todoId", todoId)
           this.$store.dispatch('insertTodo', this.todo)
         } else if (this.id === "taskTypes") {
           this.$store.dispatch('addTask_Type', this.todo)
