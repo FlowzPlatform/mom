@@ -2107,7 +2107,6 @@ text-rendering: auto; -webkit-font-smoothing: antialiased;  vertical-align: top;
     line-height: 22px;
 	border-radius: 50%;
 }
-
 .right_pane_container #right_pane > .rightsection-view.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar > div {width: 50%; float: left}
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar >  .details-pane-toolbar.toolbar-no-grad {width: 100%}

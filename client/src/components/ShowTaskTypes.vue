@@ -48,9 +48,6 @@ export default {
         }
        
     },
-    methods:{
-        
-    },
     components: {
         MainLeftSection,
         MainRightSection

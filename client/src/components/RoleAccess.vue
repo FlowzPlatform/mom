@@ -49,8 +49,8 @@
                                                             {{item.type}}
                                                 </WidgetHeading>
                                                 <WidgetBody>
-                                                     <!-- <vuetable v-ref:vuetable wrapper-class="vuetable-wrapper ui basic segment" table-wrapper=".vuetable-wrapper" :fields="fields"
-                                                        row-class-callback="rowClassCB" :tableData="item.permission" :taskTypeId="item.id"></vuetable>  -->
+                                                       <vuetable table-wrapper=".vuetable-wrapper" :fields="fields"
+                                                        row-class-callback="rowClassCB" :tableData="item.permission" :taskTypeId="item.id"></vuetable>   
                                                 </WidgetBody>
                                             </Widget>
                                         </div>

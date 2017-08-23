@@ -181,6 +181,7 @@ export const store = new Vuex.Store({
       }
     },
     async SHOW_DIV(state, payload) {
+      console.log(payload)
       // START scroll to last opened right div 
 
       //set focus on selected TODO Item. 
@@ -212,7 +213,7 @@ export const store = new Vuex.Store({
         await store.dispatch('getAttachmentFromDB', payload.id)
         await store.dispatch('getAllTaskTags', payload.id);
         await store.dispatch('getTaskComment', payload.id)
-        await store.dispatch('getTypeState', payload.taskType)
+        await store.dispatch('getTypeState', payload.id)
         var parentIdArrObj = payload
         var tempParentIds = _.chain([]).union(state.parentIdArr).sortBy([function (o) { return o.level; }]).value();
         if (state.deleteItemsSelected || state.createdByTaskList.length > 0 || state.recentlyCompletedTasks.length > 0 || state.assignedToOthers.length > 0) {
@@ -370,12 +371,12 @@ export const store = new Vuex.Store({
 
           state.todolist.push(todoObject)
 
-          if (state.currentModified) {
-            console.log('current modified')
-            state.todolist.push(state.currentTodoObj)
-            // state.currentTodoObj = {}
-            state.isDeleteObj = true
-          }
+          // if (state.currentModified) {
+          //   console.log('current modified')
+          //   state.todolist.push(state.currentTodoObj)
+          //   // state.currentTodoObj = {}
+          //   state.isDeleteObj = true
+          // }
           var isObjectAvailable = state.todolist.find(todo => todo.id === todoObject.parentId)
           if (isObjectAvailable) {
             if (todoObject.parentId) {
@@ -683,6 +684,23 @@ export const store = new Vuex.Store({
         commit('GET_ROLES', response)
       });
     },
+    removeAllEventListners({commit})
+    {
+      services.tasksService.removeListener("created")
+      services.tasksService.removeListener("removed")
+      services.tasksService.removeListener('patched')
+      services.taskAttachmentService.removeListener('created')
+      services.taskAttachmentService.removeListener('removed')
+      services.tagsService.removeListener('created')
+      services.taskTagsService.removeListener('created')
+      services.taskTagsService.removeListener('patched')
+      services.taskHistoryLogs.removeListener('created')
+      services.taskHistoryLogs.removeListener('removed')
+      services.projectService.removeListener('patched')
+      services.projectMemberService.removeListener('created')
+      services.projectService.removeListener('created')
+      
+    },
     eventListener({ commit }) {
       // A new message has been created on the server, so dispatch a mutation to update our state/view
       services.tasksService.on('toggleTodoTask', message => {
@@ -797,14 +815,6 @@ export const store = new Vuex.Store({
         services.tasksService.patch(dbId, { taskName: insertElement.taskName, taskDesc: '', updatedBy: store.state.userObject._id }, { query: { 'id': dbId } }).then(response => {
           console.log("Response patch::", response);
         });
-        // Vue.http.post('/updatetasks', {
-        //   id: dbId,
-        //   taskName: insertElement.taskName,
-        //   taskDesc: '',
-        // }).then(response => {
-        //   commit('UPDATE_TODO', insertElement)
-        //   // console.log('task update', response.data)
-        // })
       } else {
         services.tasksService.create({
           parentId: insertElement.parentId,
@@ -823,23 +833,7 @@ export const store = new Vuex.Store({
           project_id: insertElement.project_id
         }).then(response => {
           console.log("Response create::---->", response);
-          //  commit('addTodo', {"data":response, "todo": insertElement})
         });
-        // Vue.http.post('/tasks', {
-        //   parentId: insertElement.parentId,
-        //   taskName: insertElement.taskName,
-        //   taskDesc: '',
-        //   level: insertElement.level,
-        //   completed: false,
-        //   index: insertElement.index,
-        //   dueDate: '',
-        //   createdAt: new Date().toJSON(),
-        //   updatedAt: new Date().toJSON()
-        // })
-        //   .then(function (response) {
-        //     commit('addTodo', { "data": response.data, "todo": insertElement })
-        //     // console.log("Response:", response)
-        //   })
       }
     },
     editTaskName({ commit }, editObject) {
@@ -852,8 +846,8 @@ export const store = new Vuex.Store({
           priority: editObject.taskPriority,
           assigned_by: editObject.assigned_by,
           assigned_to: editObject.assigned_to,
-          updatedBy: store.state.userObject._id,
-          taskType: editObject.selectedType.id
+          updatedBy: store.state.userObject._id
+          // taskType: editObject.selectedType.id
         }, { query: { 'id': editObject.todo.id } }).then(response => {
           console.log("Response editTaskName::", response);
           if (editObject.isAssigned) {
@@ -1508,7 +1502,7 @@ export const store = new Vuex.Store({
     },
     getTypeState({commit}, payload){
        services.taskTypeStateService.find({ query: { type_id: payload } }).then(response => {
-          console.log("log type_state", response)
+          console.log("GET_TYPE_STATE log type_state", response)
           commit("GET_TYPE_STATE", response)
         })
     },

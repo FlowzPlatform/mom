@@ -1,5 +1,5 @@
 <template>
-<div class="rightsection-view">
+<div class="rightsection-view" :id="id">
 <div class="DropTargetAttachment">
 <section class="todoapp right_bar">
    <right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskStatus' " :filteredTodo="todoObject"></right-toolbar> 
@@ -30,7 +30,7 @@
       </p>
     </panel>
   </collapse>
-  <statuses :filteredTodo="todoObject" :id="id"></statuses>
+  <statuses :selectedState="typeStateList" :filteredTodo="todoObject" :id="id"></statuses>
   <!--<attachments :filteredTodo="todoObject"> </attachments>-->
   <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#attachment">Attachments</div>-->
   <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#attachment">Attachents</button>-->
@@ -83,7 +83,7 @@ import 'iview/dist/styles/iview.css';
 Vue.use(iView);
 
 export default {
-  props: ['pholder', 'todoObject','id'],
+  props: ['pholder', 'todoObject', 'id'],
   data: function () {
     return {
         todolistSubTasks: [],
@@ -145,7 +145,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      todoById: 'getTodoById'
+      todoById: 'getTodoById',
+      typeStateList :'getTask_types_state'
      }),
      taskById(){
        let taskArray = this.todoById(this.todoObject.id, this.todoObject.level)

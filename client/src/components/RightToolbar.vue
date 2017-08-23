@@ -105,11 +105,11 @@
                             <span class="dropdown-menu-item-label" @click="copyTaskURL">Copy Task URL</span>
                           </a></li>
               <li><a id="delete_task" class="menu-item" title="">               
-                            <span class="dropdown-menu-item-label" @click="deleteTodo({filteredTodo : filteredTodo})">Delete Task</span>
-                          </a></li>
+                <span class="dropdown-menu-item-label" @click="deleteTodo({filteredTodo : filteredTodo})">Delete Task</span>
+              </a></li>
               <li><a id="export_pdf" class="menu-item" title="">               
-                            <span class="dropdown-menu-item-label" >Export PDF</span>
-                          </a></li>
+                <span class="dropdown-menu-item-label" >Export PDF</span>
+              </a></li>
             </ul>
           </a>
         </div>
