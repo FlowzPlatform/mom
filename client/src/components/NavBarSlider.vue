@@ -389,12 +389,12 @@
         },
         created() {
             this.$store.dispatch('getUsersRoles');
-            this.$store.dispatch("getAllUsersList")
-            var self = this;
-            setTimeout(function() {
-                self.$store.dispatch('getAllProjects', self.$store.state.userObject._id);
-                self.$store.state.projectSettingId = "";    
-            }, 5000);
+            this.$store.dispatch("getAllUsersList",callAllProjectList)
+            // var self = this;
+            // setTimeout(function() {
+            //         self.$store.dispatch('getAllProjects', self.$store.state.userObject._id);
+            //         self.$store.state.projectSettingId = "";    
+            // }, 5000);
             
         },
         computed: {
@@ -461,6 +461,11 @@
             ...mapMutations([
                 'showDeleteTasks'
             ]),
+            callAllProjectList:function()
+            {
+                 this.$store.dispatch('getAllProjects', self.$store.state.userObject._id);
+                this.$store.state.projectSettingId = "";  
+            },
             isMemberAvailable: function (project, index) {
 
                 // console.log("Project index:--", project && project.members && project.members[index]);
@@ -474,10 +479,10 @@
             if (userIndex < 0) {
                 return { user_id: uId }
             } else {
-             //  console.log("Role roleId:--",userRoleId);
+   //            console.log("Role roleId:--",userRoleId);
                 
                 var roleindex=_.findIndex(this.$store.state.userRoles,function(role){ return role.id==userRoleId})
-               //console.log("Role Index:--",roleindex);
+  //              console.log("Role Index:--",roleindex);
                 var roleId ="";
                 var roleName="";
                 if(roleindex>-1){
@@ -503,7 +508,7 @@
                     var members = project.members;
                     if (members) {
                         members.forEach(function (member) {
-                            console.log("Member :--->",member)
+//                            console.log("Member :--->",member)
                             var uId = member.user_id;
                             var memberDetail = this.getMemberProfile(uId,member);
                             let memberIndex = _.findIndex(members, function (m) { return m.user_id === uId })
@@ -739,7 +744,7 @@
             e.preventDefault();
         },
         showProjectSetting: function(project) {
-            console.log("click")
+            console.log("click",project.members)
             // Show option icon white
             $("#ItemRowMenu-" + project.id).css({"fill":"white"});
             this.$store.state.projectSettingId = project.id;
@@ -753,7 +758,6 @@
             $("div.project-setting").css({"margin-top":+top+"px","margin-left":+left+"px"})
 
            this.$store.state.currentProjectMember = project.members; 
-           // this.$store.commit('currentProjectMember')
            this.$store.state.currentProjectCreatedBy = project.create_by;
         }
 

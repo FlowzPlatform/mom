@@ -551,7 +551,7 @@
         this.showPrivateMember = false;
         this.$store.dispatch('changeProjectPrivacy', "2")
         this.$store.state.currentProjectPrivacy = "2"
-        showPrivacyPopup = false;
+        this.showPrivacyPopup = false;
       },
       hidePopup() {
         console.log("onblur call:");
