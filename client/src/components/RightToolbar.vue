@@ -185,6 +185,11 @@
           return commentList
         }
       },
+    components: {
+      Datepicker,
+      EstimatedHours,
+      TaskPriority
+    },
       methods: {
         ...mapMutations([
           'CLOSE_DIV'

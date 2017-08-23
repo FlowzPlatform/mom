@@ -389,7 +389,7 @@
         },
         created() {
             this.$store.dispatch('getUsersRoles');
-            this.$store.dispatch("getAllUsersList",callAllProjectList)
+            this.$store.dispatch("getAllUsersList",this.callAllProjectList)
             // var self = this;
             // setTimeout(function() {
             //         self.$store.dispatch('getAllProjects', self.$store.state.userObject._id);
@@ -463,7 +463,7 @@
             ]),
             callAllProjectList:function()
             {
-                 this.$store.dispatch('getAllProjects', self.$store.state.userObject._id);
+                 this.$store.dispatch('getAllProjects', this.$store.state.userObject._id);
                 this.$store.state.projectSettingId = "";  
             },
             isMemberAvailable: function (project, index) {

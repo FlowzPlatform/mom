@@ -32,7 +32,7 @@ exports.before = {
          hook.params.rethinkdb = query.merge(function (projectid) {
         return {
           'members': r.table('projectmember')
-            .filter({ 'project_id': projectid('id') })
+            .filter({ 'project_id': projectid('id'),'is_deleted':false})
             .coerceTo('array').pluck('user_id')
         }
       }
