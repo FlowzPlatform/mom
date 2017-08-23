@@ -1,52 +1,46 @@
 <template>
   <div v-bind:class="wrapperClass">
         <table class="vuetable" v-bind:class="tableClass">
-            <thead >
-               
+            <thead>
                 <tr>
                     <template v-for="(field, fieldNumber) in fields">
-                    
-                                <th :class="field.titleClass" colspan="4" :style="getSectionBorderClass(fieldNumber-1,1) ">
-                                    {{ getTitle(field)  }}&nbsp;
-                                </th>
-                        </template>
+                        <th :class="field.titleClass" colspan="4" :style="getSectionBorderClass(fieldNumber-1,1) ">
+                            {{ getTitle(field) }}&nbsp;
+                        </th>
+                    </template>
                 </tr>
-                    
             </thead>
             <tbody v-cloak>
-                
                 <tr>
-                  <th class="center aligned" colspan="4">
-                     User Action
-                  </th>
+                    <th class="center aligned" colspan="4">
+                        User Action
+                    </th>
                     <template v-for="(field,fieldIndex) in fields.length-1">
                         <template v-for="n in 4">
-                        <td :style="getSectionBorderClass(fieldIndex,n)">
-                            {{ getFieldValue(n)}}
+                            <td :style="getSectionBorderClass(fieldIndex,n)">
+                                {{ getFieldValue(n)}}
 
-                        </td>
+                            </td>
                         </template>
                     </template>
                 </tr>
-            <template v-for="(item, itemNumber) in tableData">
+                <template v-for="(item, itemNumber) in tableData">
                     <tr @dblClick="onRowDoubleClicked(item, $event)" :class="onRowClass(item, itemNumber)">
-              <template v-for="(field,fieldNumber) in fields">
-                        <td v-if="fieldNumber ==0" :class="field.dataClass" @dblclick="onCellDoubleClicked(item, field, $event)" colspan="4">
-                                {{ item.name }} 
+                        <template v-for="(field,fieldNumber) in fields">
+                            <td v-if="fieldNumber ==0" :class="field.dataClass" @dblclick="onCellDoubleClicked(item, field, $event)" colspan="4">
+                                {{ item.name }}
                             </td>
 
-                        <template v-for="n in 4" v-else>       
-                            <td :style="getSectionBorderClass(fieldNumber-1,n)">  
-                                <!-- {{getObjectValue(item, field, n)}} -->
-                                <component :class="field.dataClass" is="custom-action" :row-data="item" :row-index="itemNumber" :row-check="getObjectValue(item, field, n)"
-                                    :row-field="field" :role-value="getRoleValue(n)" :task-type-id="taskTypeId"></component>
-                            </td>
+                            <template v-for="n in 4" v-else>
+                                <td :style="getSectionBorderClass(fieldNumber-1,n)">
+                                    <!-- {{getObjectValue(item, field, n)}} -->
+                                    <component :class="field.dataClass" is="custom-action" :row-data="item" :row-index="itemNumber" :row-check="getObjectValue(item, field, n)"
+                                        :row-field="field" :role-value="getRoleValue(n)" :task-type-id="taskTypeId"></component>
+                                </td>
+                            </template>
                         </template>
-              </template>
                     </tr>
                 </template>
-        
-               
             </tbody>
         </table>
     </div>
@@ -103,7 +97,6 @@ export default {
     data: function() {
         return {
             eventPrefix: 'vuetable:',
-           
             tablePagination: null,
             currentPage: 1,
             visibleDetailRows: []
@@ -129,38 +122,35 @@ export default {
 
         getSectionBorderClass:function(fieldIndex,colSpanIndex)
         {
-
                 if (colSpanIndex == 1 )
-                return "border-left: 1px solid #000000;"
-            // else if (colSpanIndex == 4 && fieldIndex < this.fields.length - 2)
-            //     return "border-right: 1px solid #000000;"
-            else
-                return ""
+                    return "border-left: 1px solid #000000;"
+                else
+                    return ""
                 
         },
         getRoleValue:function(index)
         {
-                if(index==1)
-                 return 8
-                 else if(index==2)
-                 return 4
-                 else if(index==3)
-                 return 2
-                 else
-                 return 1
+            if (index == 1)
+                return 8
+            else if (index == 2)
+                return 4
+            else if (index == 3)
+                return 2
+            else
+                return 1
         },
         getFieldValue:function(index)
         {
-                if(index==1)
-                 return "C"
-                 else if(index==2)
-                 return "R"
-                 else if(index==3)
-                 return "U"
-                  else if(index==4)
-                 return "D"
-                 else
-                 return ""
+            if (index == 1)
+                return "C"
+            else if (index == 2)
+                return "R"
+            else if (index == 3)
+                return "U"
+            else if (index == 4)
+                return "D"
+            else
+                return ""
         },
         
         onRowClass: function(dataItem, index) {
@@ -221,8 +211,6 @@ export default {
             // console.log("path",path.id);
             // console.log("defaultValue",defaultValue);
 
-
-
             if (path.id) {
                     var roleId = object.roleid;                   
                     let roleIndex = _.findIndex(roleId, function (role) { return role.rId === path.id })
@@ -249,8 +237,6 @@ export default {
                         }
                      
                     }
-
-
                    return false;
                 } else {
                     return object.name;
@@ -412,7 +398,7 @@ export default {
        overflow-x: overlay;
     display: grid;
     width: 100%;
-}
+    }
 
     .thead > span {
     display: inline-block;

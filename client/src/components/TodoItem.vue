@@ -23,7 +23,7 @@
           v-model="todo.taskName" 
           @click="SHOW_DIV(todo)" 
           @keyup.enter="addTodo(nextIndex)"
-          @focus="onFocusClick(todo.id, todo.level)" 
+          @focus="onFocusClick(todo.id, todo.level,todo.created_by)" 
           @blur=onBlurCall(todo.id,todo.level) 
           @keyup="performAction" 
           @change="changeValue(nextIndex)">
@@ -90,6 +90,7 @@ position: fixed;
   import Resource from 'vue-resource'
   import lodash from 'lodash'
   import VueLodash from 'vue-lodash/dist/vue-lodash.min'
+  import CmnFunc from './CommonFunc.js'
   import moment from 'moment'
   Vue.use(VueLodash, lodash)
   Vue.use(BootstrapVue)
@@ -176,8 +177,15 @@ position: fixed;
           this.$store.dispatch('deleteTaskStatus', this.todo)
         }
       },
-      onFocusClick(id, level) {
+      onFocusClick(id,level,created_by){
         console.log('onFoucusclick')
+      var updatePermssion=CmnFunc.isUpdatePermision(15);  
+      var inutTodo = $("#" + id + "_" + level + " .view .new-todo."+id + "_" + level);   // Get the first <inutTodo> element in the document        
+      if (!updatePermssion && id!=-1 && this.$store.state.userObject._id != created_by) {
+          inutTodo.prop("readonly", true);
+        } else {
+          inutTodo.prop("readonly", false);
+        }
         $("#" + id + "_" + level).addClass("lifocus")
         if (this.todo.isTaskUpdate) {
           this.todo.isTaskUpdate = false
