@@ -28,15 +28,19 @@
             </div>
           </div>
         </div>
-         <div class="statusBorderClass">
-          <span class="dropdown">
-            <div class="statusClass form-group">
-             <select v-model="type" @change="updateTypeInTask(type)"  class="form-control" style="width: 100% !important; border-color: rgba(255, 255, 255, 0) ">
+         <!-- <select v-model="type" @change="updateTypeInTask(type)"  class="form-control" style="width: 100% !important; border-color: rgba(255, 255, 255, 0) ">
               <option v-bind:value="type" v-for="type in getTypes">{{type.type}}</option>
-            </select> 
-            </div>
-          </span>
-        </div> 
+            </select>  -->
+            <div class="statusBorderClass">
+                <span class="dropdown">
+                  <div class="statusClass" data-toggle="dropdown">
+                    {{ getAssignedType}}
+                  </div>
+                  <ul class="dropdown-menu statusList">
+                    <li v-for="type in getTypes"><a @click="btnTypeClicked(type)">{{type.type}}</a><hr></li>
+                  </ul>
+                </span>
+              </div> 
         <div class="loading-boundary taskDetailsView-toolbarProperty">
           <div class="redesign-due-date-container">
             <div class="property due_date value-set">
@@ -177,12 +181,23 @@
       getCommentByTaskId() {
         let commentList = this.getComment(this.filteredTodo.id)
         return commentList
+      },
+      getAssignedType: function() {
+        if (this.filteredTodo.taskType) {
+          var objType = _.find(this.$store.state.task_types_list, ['id', this.filteredTodo.taskType])
+          return objType.type
+        }else {
+          //return this.$store.state.task_types_list.type
+          return 'todo'
+        }
       }
     },
     methods: {
       ...mapMutations([
         'CLOSE_DIV'
       ]),
+      
+      
       deleteTodo: function () {
         this.$store.dispatch('delete_Todo', this.filteredTodo)
       },
@@ -305,7 +320,8 @@
       //   }
       //   this.imageURlProfilePic = ''
       //   return this.capitalizeLetters(userUrl.email)
-      // },
+      // }
+    
       getUserLetters() {
         var user = this.getAssignedUserObj()
         if (user.image_url) {
@@ -351,10 +367,13 @@
         // console.log('User', objUser)
         return objUser
       },
-      updateTypeInTask: function(value) {
-        console.log("updateTypeInTask",value)
-        this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": value })
+      btnTypeClicked(objType) {
+        this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": objType })
       }
+      // updateTypeInTask: function(value) {
+      //   console.log("updateTypeInTask",value)
+      //   this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": value })
+      // }
     },
     components: {
       Datepicker,

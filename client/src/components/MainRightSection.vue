@@ -2,6 +2,7 @@
 <div class="rightsection-view" :id="id">
 <div class="DropTargetAttachment">
 <section class="todoapp right_bar">
+
    <right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskStatus' " :filteredTodo="todoObject"></right-toolbar> 
    <div class="taskbarsect">
   <div v-if="todoObject.isDelete" class="MessageBanner MessageBanner--error MessageBanner--medium TaskUndeleteBanner TaskMessageBanner">
@@ -47,6 +48,7 @@
   <div :class="todoObject.id" class="modal fade" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
+         
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           <h4 class="modal-title" id="myModalLabel2">Permanently Delete {{todoObject.taskName}}</h4>
