@@ -245,9 +245,13 @@
   </section>
 </template>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> Permisisons
+=======
+
+>>>>>>> 46002fba5372b574b6d6153aa35e9c61f46a8320
 <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 <script>
   /* eslint-disable*/
@@ -436,8 +440,8 @@
         return this.$store.state.projectlist;
       },
       taskById() {
-
         var insertPermssion=CmnFunc.isCreatePermission(15);
+
    
         let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', this.url_level)
         if (insertPermssion) {

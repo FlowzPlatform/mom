@@ -179,8 +179,6 @@ position: fixed;
       },
       onFocusClick(id,level,created_by){
         console.log('onFoucusclick')
-        
-   
       var updatePermssion=CmnFunc.isUpdatePermision(15);  
       var inutTodo = $("#" + id + "_" + level + " .view .new-todo."+id + "_" + level);   // Get the first <inutTodo> element in the document        
       if (!updatePermssion && id!=-1 && this.$store.state.userObject._id != created_by) {
