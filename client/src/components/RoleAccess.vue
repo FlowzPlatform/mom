@@ -1,27 +1,28 @@
 <template>
     <div>
-    <!-- Page Contents -->
-    <div id="app" class="ui vertical stripe segment">
-        <div class="ui container">
-            <div id="content" class="ui basic segment">
-                <h3 class="ui header">User Group</h3>     
-                <div v-for="(item, itemNumber) in tableData">
-                    <Widget>
-                        <WidgetHeading :id="1" :Title="'Sales'" :TextColor="false" :DeleteButton="false" :ColorBox="false" :Expand="false" :Collapse="true"
-                            :HeaderEditable="false">
-                                    {{item.name}}
-                        </WidgetHeading>
-                        <WidgetBody>
-                            <vuetable v-ref:vuetable wrapper-class="vuetable-wrapper ui basic segment" table-wrapper=".vuetable-wrapper" :fields="fields"
-                                row-class-callback="rowClassCB" :tableData="item.permission" :taskTypeId="item.id"></vuetable>
-                        </WidgetBody>
-                    </Widget>
+        <!-- Page Contents -->
+        <div id="app" class="ui vertical stripe segment">
+            <div class="ui container">
+                <div id="content" class="ui basic segment">
+                    <h3 class="ui header">User Group</h3>
+                    <div v-for="(item, itemNumber) in tableData">
+                        <Widget>
+                            <WidgetHeading :id="1" :Title="'Sales'" :TextColor="false" :DeleteButton="false" :ColorBox="false" :Expand="false" :Collapse="true"
+                                :HeaderEditable="false">
+                                {{item.name}}
+                            </WidgetHeading>
+                            <WidgetBody>
+                                <vuetable  wrapper-class="vuetable-wrapper ui basic segment" table-wrapper=".vuetable-wrapper" :fields="fields"
+                                    row-class-callback="rowClassCB" :tableData="item.permission" :taskTypeId="item.id"></vuetable>
+                            </WidgetBody>
+                        </Widget>
+                    </div>  
                 </div>
             </div>
         </div>
     </div>
-    </div>
 </template>
+
   <style type="text/css">
 
 .ui.container {
@@ -55,14 +56,12 @@
         text-align: center
     }
     
-
     .ui.blue.table td input {
         width: 20px;
         margin-top: 5px;
         margin-bottom: 5px;
         align-items: center;
     }
-
 
         .ui.vertical.stripe h3 {
           font-size: 2em;
@@ -103,7 +102,7 @@
             display: block;
         }
         .highlight {
-            background-color: yellow;
+            background-color:   yellow;
         }
         .vuetable-detail-row {
             height: 200px;

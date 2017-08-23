@@ -76,11 +76,10 @@
                   </svg>
                   <noscript></noscript>
                   <noscript></noscript>
-                  <noscript></noscript>
+                  <noscript></noscript> 
                 </a>
               </div>-->
             </div>
-
           </div>
           
          
@@ -129,7 +128,7 @@
                   <path d="M4.686,12.686l9.899,9.9c0.781,0.781,2.047,0.781,2.828,0l9.9-9.9l-2.475-2.475L16,19.05l-8.839-8.839L4.686,12.686z"></path>
                 </svg>
               </div>
-              <!-- Change privacy  -->
+              <!-- Change privacy  -->  
                <div v-show="showPrivacyPopup"  @mouseleave="hidePopup" class="layerPositioner-privacy layerPositioner--offsetRight layerPositioner--alignRight layerPositioner--below" data-layerid="4" style="top: 101.339px; right: 20px;">
                         <div class="layerPositioner-layer-privacy">
                           <div class="Dropdown projectHeaderFacepile-privacySummaryDropdown">
@@ -406,7 +405,8 @@
     </div>
     </div>-->
   </section>
-</template>taskById
+</template>
+
 <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 <script>
   /* eslint-disable*/
@@ -469,6 +469,7 @@
     created() {
       // console.log(md5('urvashi@officebrain.com'));
       // console.log(md5('uhirani@officebrain.com'));
+      this.$store.dispatch('removeAllEventListners');
       this.$store.dispatch('eventListener');
       this.getAllUsers()
       // ...mapActions([
@@ -594,21 +595,26 @@
         return this.$store.state.projectlist;
       },
       taskById() {
+
+        var insertPermssion=CmnFunc.isCreatePermission(8);
+   
         let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', this.url_level)
-        taskArray.push({
-          id: '-1',
-          parentId: this.url_parentId,
-          taskName: '',
-          taskDesc: '',
-          level: this.url_level,
-          //  level: 0,
-          index: taskArray.length,
-          completed: false,
-          dueDate: '',
-          createdAt: new Date().toJSON(),
-          updatedAt: new Date().toJSON(),
-          project_id: this.$store.state.currentProjectId
-        })
+        if (insertPermssion) {
+            taskArray.push({
+              id: '-1',
+              parentId: this.url_parentId,
+              taskName: '',
+              taskDesc: '',
+              level: this.url_level,
+              //  level: 0,
+              index: taskArray.length,
+              completed: false,
+              dueDate: '',
+              createdAt: new Date().toJSON(),
+              updatedAt: new Date().toJSON(),
+              project_id: this.$store.state.currentProjectId
+            })
+          }
         this.todolist = taskArray
         this.userDetail(this.todolist)
         return filters[this.$store.state.visibility](taskArray)

@@ -8,7 +8,7 @@ exports.before = {
   patch: [],
   remove: []
 };
-
+  
 exports.after = {
   all: [],
   find: [],

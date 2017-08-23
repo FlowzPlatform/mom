@@ -18,9 +18,10 @@
           v-model="todo.taskName" 
           @click="SHOW_DIV(todo)"
           @keyup.enter="addTodo(nextIndex)" 
-          @focus="onFocusClick(todo.id, todo.level)"
+          @focus="onFocusClick(todo.id, todo.level,todo.created_by)"
           @blur=onBlurCall(todo.id,todo.level)
-          @keyup="performAction">
+          @keyup="performAction"
+          >
         <span class=""><i>
           <b class="glyphicon glyphicon-option-vertical"></b>
           <b class="glyphicon glyphicon-option-vertical"></b>
@@ -65,6 +66,7 @@
   import Resource from 'vue-resource'
   import lodash from 'lodash'
   import VueLodash from 'vue-lodash/dist/vue-lodash.min'
+  import CmnFunc from './CommonFunc.js'
   import moment from 'moment'
   Vue.use(VueLodash, lodash)
   Vue.use(BootstrapVue)
@@ -148,30 +150,47 @@
         //   }
         // }, 400);
        },
-    onFocusClick(id,level){
-      $("#"+id+"_"+level).addClass("lifocus")
+      onFocusClick(id,level,created_by){
+   
+      var updatePermssion=CmnFunc.isUpdatePermision(4);  
+      var inutTodo = $("#" + id + "_" + level + " .view .new-todo."+id + "_" + level);   // Get the first <inutTodo> element in the document        
+      if (!updatePermssion && id!=-1 && this.$store.state.userObject._id != created_by) {
+          inutTodo.prop("readonly", true);
+        } else {
+          inutTodo.prop("readonly", false);
+        }
+
+        $("#"+id+"_"+level).addClass("lifocus")
       if(this.todo.isTaskUpdate){
        this.todo.isTaskUpdate = false
-     }
-    },
-       onBlurCall(id,level){
+      }
+      },
+    onBlurCall(id,level){
       $("#"+id+"_"+level).removeClass("lifocus")
-      
     },
     performAction(e)
     {
-      if (e.keyCode == 40) {
+      if (e.keyCode == 40) //down arrow
+      {
           $('.' + this.nextIndex).focus();
             this.changeFocus(this.nextIndex)
-        } else if (e.keyCode == 38) {
+        } else if (e.keyCode == 38) //up arrow
+         {
           $('.' + this.prevIndex).focus();
             this.changeFocus(this.prevIndex)
-        } else if(e.keyCode == 13) {
+        } else if(e.keyCode == 13) //enter key
+        {
           this.$store.state.currentModified = false
           return
         }
-      this.$store.state.currentTodoObj = this.todo
-      this.$store.state.currentModified = (this.todo.id == -1) ? true :false
+
+        var updatePermssion=CmnFunc.isUpdatePermision(4);
+        if(updatePermssion){
+          this.$store.state.currentTodoObj = this.todo
+          this.$store.state.currentModified = (this.todo.id == -1) ? true :false
+        }else{
+          
+        }
     },
     changeFocus(indexId){
        var self=this;

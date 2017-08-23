@@ -12,7 +12,7 @@ const r = require('rethinkdbdash')({
   });
 const table = config.get('tbl_permission')
 
-module.exports = function() {
+module.exports = function() { 
   const app = this;
   const options = {
     Model: r,
@@ -25,10 +25,11 @@ module.exports = function() {
 
   app.service('permission').init().then(permission => {
       console.log('Created permission', permission)
+      
       if(permission.tables_created === 1)
       {
         r.db(db).table(table).insert([
-            {'name': 'Task','index': 0},
+          {'name': 'Task','index': 0},
           {'name': 'Task assign','index': 1},
           {'name': 'Due_date','index': 2},
           {'name': 'Comment','index': 3},
