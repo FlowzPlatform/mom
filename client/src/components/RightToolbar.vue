@@ -184,11 +184,12 @@
       },
       getAssignedType: function() {
         if (this.filteredTodo.taskType) {
+          console.log('taskType:',this.$store.state.task_types_list)
           var objType = _.find(this.$store.state.task_types_list, ['id', this.filteredTodo.taskType])
           return objType.type
         }else {
-          //return this.$store.state.task_types_list.type
-          return 'todo'
+          var obj = _.find(this.$store.state.task_types_list, { 'type': 'Todo'});
+          return obj.type
         }
       }
     },
