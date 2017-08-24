@@ -8,7 +8,7 @@
         </span>
         <div class="task-tag-box">
             <span class="token-input-container">
-            <el-tag :key="tag" v-for="tag in taskTags" :closable="true" :close-transition="false" @close="handleClose(tag)">
+            <el-tag :key="tag.id" v-for="tag in taskTags" :closable="true" :close-transition="false" @close="handleClose(tag)">
                 {{getTagNameFromId(tag)}}
                 <!--{{tag.name}}-->
             </el-tag>
