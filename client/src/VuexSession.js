@@ -1501,9 +1501,9 @@ export const store = new Vuex.Store({
       services.projectService.find({
         query: {
           $or: [
-            { project_privacy: '0' },
-            { project_privacy: '1' },
-            { project_privacy: '2', create_by: userId }
+            { project_privacy: '0', is_deleted:false },
+            { project_privacy: '1' , is_deleted:false},
+            { project_privacy: '2', create_by: userId, is_deleted:false }
           ],
           $client: {
             flag: 'allprojectlist'
