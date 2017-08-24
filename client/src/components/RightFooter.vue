@@ -17,18 +17,9 @@
                             Write a comment…
                         </div>
                     </div>-->
-	                <div class="taskCommentsView-composer is-expanded">
-                        <span class="taskCommentsView-textarea">
-                            <textarea rows="5" cols="50"
-                                contenteditable="true" 
-                                v-model="commentText"
-                                disable_highlighting_for_diagnostics="true" 
-                                tabindex="10" 
-                                class="field-description hypertext-input notranslate" 
-                                id="property_sheet:details_property_sheet_field:description"
-                                placeholder="Write Comment...">
-                        </textarea><br> 
-                    </span>
+	            <div>
+                    <ckeditor v-model="commentText">
+                    </ckeditor>
                 </div>
                     <div class="taskCommentsView-toolbar">
                         <div id="details_property_sheet__new_comment_button" @click="insertComment(filteredTodo.id)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton" style="" tabindex="710">
@@ -40,15 +31,17 @@
                 </div>
             </div>
         </div>
-        <div>
-        </div>
     </div>
-</div>
 </template>
 <script>
   /* eslint-disable*/
 import { mapGetters } from 'vuex'
+import Ckeditor from 'vue-ckeditor2'
+
 export default {
+  components:{
+      Ckeditor
+  },
   props: ['filteredTodo'],
   data: function () {
     return {
@@ -59,9 +52,19 @@ export default {
   },
   methods:{
         insertComment: function(taskId){
-        this.$store.dispatch('insertTaskComment',{"id":this.filteredTodo.id, "comment":this.commentText, "commentBy": this.$store.state.userObject._id})
-        this.commentText = ''
-    }
+            //    var text = this.commentText
+            console.log('Comment by', this.$store.state.userObject.fullname)
+            this.$store.dispatch('insertTaskComment',{"id":this.filteredTodo.id, "comment":this.commentText, "commentBy": this.$store.state.userObject._id})
+            this.commentText = ''
+            let frame = document.getElementsByClassName('cke_reset')[3].contentWindow
+            frame.document.getElementsByClassName('cke_editable cke_editable_themed cke_contents_ltr cke_show_borders')[0].innerHTML = '';
+        }
+        //  strip: function(this.commentText)
+        // {
+        // var tmp = document.implementation.createHTMLDocument("New").body;
+        // tmp.innerHTML = this.commentText;
+        // return tmp.textContent || tmp.innerText || "";
+        // }
   },
   computed: {
     capitalizeLetters: function(){
