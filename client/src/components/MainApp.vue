@@ -244,14 +244,6 @@
     </div>
   </section>
 </template>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> Permisisons
-=======
-
->>>>>>> 46002fba5372b574b6d6153aa35e9c61f46a8320
 <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 <script>
   /* eslint-disable*/
@@ -313,8 +305,6 @@
     },
     created() {
       this.$store.dispatch('getSettings', this.$store.state.userObject._id);
-      // console.log(md5('urvashi@officebrain.com'));
-      // console.log(md5('uhirani@officebrain.com'));
       this.$store.dispatch('removeAllEventListners');
       this.$store.dispatch('eventListener');
       this.getAllUsers()
