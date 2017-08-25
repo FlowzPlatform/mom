@@ -28,11 +28,6 @@ exports.before = {
                     {'settings_name': 'Track task by duedate', 'type':'duedate'}
                 ]).run()
             }
-            
-            // r.db(db).table(table).insert([
-            //     {'settings_name': 'Track task by progress', 'type':'progress'},
-            //     {'settings_name': 'Track task by duedate', 'type':'duedate'}
-            // ]).run()
         });
         // end table create
 
