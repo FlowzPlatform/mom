@@ -65,10 +65,9 @@
         }
       },
       getPrevToDo(index){
-      if(index-1>=0)
-      {
-        return this.filteredTodos[index-1] ? this.filteredTodos[index-1].id +"_"+this.filteredTodos[index].level : -1+"_"+this.filteredTodos[index].level
-      }
+        if(index-1>=0){
+          return this.filteredTodos[index-1] ? this.filteredTodos[index-1].id +"_"+this.filteredTodos[index].level : -1+"_"+this.filteredTodos[index].level
+        }
       }
     }
   }

@@ -3,7 +3,7 @@
 <div class="DropTargetAttachment">
 <section class="todoapp right_bar">
 
-   <right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskStatus' " :filteredTodo="todoObject"></right-toolbar> 
+   <right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState' " :filteredTodo="todoObject"></right-toolbar> 
    <div class="taskbarsect">
   <div v-if="todoObject.isDelete" class="MessageBanner MessageBanner--error MessageBanner--medium TaskUndeleteBanner TaskMessageBanner">
     <span class="fa fa-trash-o"  style="margin-right: 10px"/>
@@ -17,7 +17,7 @@
   
 	<text-description :id="id" :filteredTodo="todoObject">
   </text-description>
-  <collapse v-if="id !== 'rightTaskTypes' && id !== 'rightTaskStatus'" class="CollapseView">
+  <collapse v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" class="CollapseView">
     <panel v-show='showAttachment'>
       Attachments
       <p class='PanelAttach' slot="content">
@@ -41,7 +41,7 @@
   <!--<button type="button" class="btn btn-info button-collapse" <data-togg></data-togg>le="collapse" data-target="#tags">Tags</button>
   <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
   <!--<tags :filteredTodo="todoObject"></tags>-->
-  <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskStatus'" :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
+  <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
   </div>
   <story-feed :filteredTodo="todoObject"></story-feed>
 </section>
@@ -64,7 +64,7 @@
     </div>
   </div>
 </div>
-<right-footer v-if="id !== 'rightTaskTypes' && id !== 'rightTaskStatus'" :filteredTodo="todoObject"></right-footer>
+<right-footer v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" :filteredTodo="todoObject"></right-footer>
 </div>
 </template> 
 <script>

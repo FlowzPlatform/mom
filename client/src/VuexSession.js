@@ -138,7 +138,7 @@ export const store = new Vuex.Store({
     assignedToOthers: [], 
     taskIndex: -1,
     task_types_list: [],
-    task_status_list: [],
+    task_state_list: [],
     task_types_state: [],
     googleId: '',
     removeMember:{},
@@ -268,7 +268,7 @@ export const store = new Vuex.Store({
       state.recentlyCompletedTasks.splice(0, state.recentlyCompletedTasks.length)
       state.assignedToOthers.splice(0, state.assignedToOthers.length)
       state.task_types_list.splice(0, state.task_types_list.length)
-      state.task_status_list.splice(0, state.task_status_list.length)
+      state.task_state_list.splice(0, state.task_state_list.length)
       state.task_types_state.splice(0, state.task_types_state.length)
       state.currentProjectId = ""
       state.currentProjectName = ""
@@ -709,14 +709,14 @@ export const store = new Vuex.Store({
     },
     GET_TASK_STATUS(state, payload){
       state.parentIdArr.splice(0, state.parentIdArr.length)
-      state.task_status_list = payload
+      state.task_state_list = payload
     },
     ADD_TASK_STATUS(state, payload){
-      Vue.set(state.task_status_list, state.task_status_list.length-1, payload)
+      Vue.set(state.task_state_list, state.task_state_list.length-1, payload)
     },
     DELETE_TASK_STATUS(state, payload){
-      let removeIndex = _.findIndex(state.task_status_list, function (d) { return d.id == payload.id })
-      Vue.delete(state.task_status_list, removeIndex)
+      let removeIndex = _.findIndex(state.task_state_list, function (d) { return d.id == payload.id })
+      Vue.delete(state.task_state_list, removeIndex)
     },
     GET_TYPE_STATE(state, payload){
       state.task_types_state = payload
@@ -838,12 +838,12 @@ export const store = new Vuex.Store({
         console.log("Delete Task Type Service:--", message)
         commit('DELETE_TASK_TYPE', message)
       }),
-      services.taskStatusService.on('created', message => {
+      services.taskStateService.on('created', message => {
         console.log("Add Task Staus Service:--", message)
         commit('ADD_TASK_STATUS', message)
       })
-      services.taskStatusService.on('removed', message => {
-        console.log("Delete Task Status Service:--", message)
+      services.taskStateService.on('removed', message => {
+        console.log("Delete Task state Service:--", message)
         commit('DELETE_TASK_STATUS', message)
       })
       services.roleServicePermission.on('created', message => {
@@ -930,7 +930,7 @@ export const store = new Vuex.Store({
           assigned_by: editObject.assigned_by,
           assigned_to: editObject.assigned_to,
           updatedBy: store.state.userObject._id,
-          taskType: editObject.selectedType.id,
+          type_id: editObject.selectedType,
           state_id: editObject.selectedType.state_id
         }, { query: { 'id': editObject.todo.id } }).then(response => {
           console.log("Response editTaskName::", response);
@@ -1613,12 +1613,12 @@ export const store = new Vuex.Store({
     },
     insert_type_state({ commit }, payload){
       let findDuplicate = store.state.task_types_state.find(function (type){
-        return type.type_id === payload.taskType.id && type.state_id === payload.status.id
+        return type.type_id === payload.taskType.id && type.state_id === payload.state.id
       })
       if(!findDuplicate){
         services.taskTypeStateService.create({
             type_id: payload.taskType.id,
-            state_id: payload.status.id,
+            state_id: payload.state.id,
             createdAt: new Date().toJSON()
           }).then(response => {
             console.log("State Selected for task type in DB:", response)
@@ -1635,34 +1635,35 @@ export const store = new Vuex.Store({
       })
     },
     getTaskStaus({ commit }) {
-      services.taskStatusService.find().then(response => {
+      services.taskStateService.find().then(response => {
         console.log("Response task Staus Find::", response);
         commit('GET_TASK_STATUS', response)
       });
     },
-    addTask_Status({ commit }, payload) {
-      if (payload.status.id  != -1) {
-        services.taskStatusService.patch(payload.status.id,
-          { status: payload.status.status, statusDesc: payload.status.statusDesc, color: payload.color }, {
+    addTask_State({ commit }, payload) {
+      console.log(payload)
+      if (payload.state.id  != -1) {
+        services.taskStateService.patch(payload.state.id,
+          { taskState: payload.state.taskState, stateDesc: payload.state.stateDesc, color: payload.color }, {
             query: { 'id': payload.id }
           }).then(response => {
-            console.log("Patch respnse Task Status Updated: ", response)
+            console.log("Patch respnse Task State Updated: ", response)
           })
       } else {
-        services.taskStatusService.create({
-          status: payload.status.status,
+        services.taskStateService.create({
+          taskState: payload.state.taskState,
           createdAt: new Date().toJSON()
         }).then(response => {
-          console.log("Insert Taks Status:--", response)
+          console.log("Insert Taks State:--", response)
         })
       }
     },
     deleteTaskStatus({ commit }, payload) {
-      services.taskStatusService.remove(payload.id,
+      services.taskStateService.remove(payload.id,
         {
           query: { 'id': payload.id }
         }).then(response => {
-          console.log("Remove From Task Status", response)
+          console.log("Remove From Task State", response)
         })
     },
     editTypes({ commit }, payload) {
@@ -1673,12 +1674,12 @@ export const store = new Vuex.Store({
         console.log("Edit Type from Right:-", response)
       })
     },
-    editStatus({ commit }, payload) {
-      services.taskStatusService.patch(payload.id, {
-        status: payload.status, 
-        statusDesc: payload.statusDesc
+    editState({ commit }, payload) {
+      services.taskStateService.patch(payload.id, {
+        taskState: payload.taskState, 
+        stateDesc: payload.stateDesc
       }).then(response => {
-        console.log("Edit Status from Right:-", response)
+        console.log("Edit State from Right:-", response)
       })
     },
     changeUserRole({ commit }, data) {
@@ -1796,7 +1797,7 @@ export const store = new Vuex.Store({
     getTaskTypeList: (state) => {
       return state.task_types_list
     },
-    getTaskStausList : state => state.task_status_list,
+    getTaskStausList : state => state.task_state_list,
     getTask_types_state: state => state.task_types_state
   },
 

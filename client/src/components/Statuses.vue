@@ -3,20 +3,20 @@
         <hr>
          <div class="[ row ]" style="margin-left: 0; margin-right: 0; display: inline-table; text-align: -webkit-auto;" v-if="id === 'rightTaskTypes'">
             <h4 class="uiStatus"><b>State</b></h4>
-            <div class="[ form-group ]"  v-for="status in setSelectedState" style="margin: 5px;" v-if="status.id !== '-1'">
-            <input type="checkbox" checked="" v-model="status.selected" @click="insertTypeState(status, $event.target.checked)" :name="status.status" :id="status.id" autocomplete="off" />
+            <div class="[ form-group ]"  v-for="state in setSelectedState" style="margin: 5px;" v-if="state.id !== '-1'">
+            <input type="checkbox" checked="" v-model="state.selected" @click="insertTypeState(state, $event.target.checked)" :name="state.taskState" :id="state.id" autocomplete="off" />
                 <div class="[ btn-group ]">
-                    <label :for="status.id" class="[ btn btn-default ]" :style="{'border-color':'#adadad',  'background-color':status.color }">
+                    <label :for="state.id" class="[ btn btn-default ]" :style="{'border-color':'#adadad',  'background-color':state.color }">
                     <span class="[ glyphicon glyphicon-ok ]"></span>
                     <span> </span>
                 </label>
-                    <label :for="status.id" class="[ btn btn-default active ]">
-                        {{status.status}}
+                    <label :for="state.id" class="[ btn btn-default active ]">
+                        {{state.taskState}}
                 </label>
                 </div>
             </div>
         </div>
-        <div v-if="id === 'rightTaskStatus'">
+        <div v-if="id === 'rightTaskState'">
             <div class="control-group">
                 <label for="input-color">Color:</label>
                 <input type="color" id="bgcolor" v-model="filteredTodo.color" value="#0000" @change="getColorVal($event.target.value)"
@@ -56,26 +56,26 @@
         },
         methods: {
             getColorVal: function (val) {
-                this.$store.dispatch('addTask_Status', { "status": this.filteredTodo, "color": val })
+                this.$store.dispatch('addTask_State', { "state": this.filteredTodo, "color": val })
             },
-            insertTypeState: function (status, event) {
+            insertTypeState: function (state, event) {
                 if(event){
-                    this.$store.dispatch('insert_type_state', { "status": status, "taskType": this.filteredTodo })
+                    this.$store.dispatch('insert_type_state', { "state": state, "taskType": this.filteredTodo })
                 } else {
-                    let findObject = this.$store.state.task_types_state.find(type => type.state_id === status.id)
+                    let findObject = this.$store.state.task_types_state.find(type => type.state_id === state.id)
                     this.$store.dispatch('remove_type_state', findObject)    
                 }
             },
             // taskStateList: function (state) {
             //     state.forEach(function (c) {
             //         let stateId = c.state_id
-            //         let stateIndex = _.findIndex(this.$store.state.task_status_list, function (m) {
+            //         let stateIndex = _.findIndex(this.$store.state.task_state_list, function (m) {
             //             return m.id === stateId
             //         })
             //         if (stateIndex < 0) {
             //         } else {
-            //             c.color = this.$store.state.task_status_list[stateIndex].color
-            //             c.state = this.$store.state.task_status_list[stateIndex].status
+            //             c.color = this.$store.state.task_state_list[stateIndex].color
+            //             c.state = this.$store.state.task_state_list[stateIndex].taskState
             //         }
             //     }, this)
             // },
