@@ -369,7 +369,7 @@
         return objUser
       },
       btnTypeClicked(objType) {
-        this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": objType })
+        this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": objType.id })
       }
       // updateTypeInTask: function(value) {
       //   console.log("updateTypeInTask",value)

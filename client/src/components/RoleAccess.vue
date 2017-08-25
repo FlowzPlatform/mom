@@ -23,11 +23,11 @@
                                     </span>
                                     </a>
                                 </li>
-                                <li class="side-filter__category-item" @click="showTaskStatus">
+                                <li class="side-filter__category-item" @click="showTaskState">
                                     <a class="side-filter__category-label">
                                     <span class="side-filter__category-content">
                                         <span class="side-filter__category-content-text side-filter__category-content-text--nockeckbox truncate">
-                                                Task Status
+                                                Task State
                                         </span>
                                     </span>
                                     </a>
@@ -60,8 +60,8 @@
                             <div id="app" class="ui vertical stripe segment" v-show = "isTaskType">
                                 <show-task-types></show-task-types>
                             </div>
-                            <div id="app" class="ui vertical stripe segment" v-show = "isTaskStatus">
-                                <show-task-status></show-task-status>
+                            <div id="app" class="ui vertical stripe segment" v-show = "isTaskState">
+                                <show-task-state></show-task-state>
                             </div>
                         </div>
                     </div>
@@ -284,7 +284,7 @@
     import 'vue-widgets/dist/styles/vue-widgets.css'
     Vue.use(VueWidgets)
     import ShowTaskTypes from './ShowTaskTypes.vue'
-    import ShowTaskStatus from './ShowTaskStatus.vue'
+    import ShowTaskState from './ShowTaskState.vue'
     Vue.component('vuetable', require('./Vuetable.vue'));
     Vue.use(Resource)
 
@@ -358,7 +358,7 @@
                 addRole: '',
                 isUserGroup: false,
                 isTaskType: false,
-                isTaskStatus: false 
+                isTaskState: false 
             }
         },
         created() {
@@ -402,18 +402,18 @@
             showACL: function() {
                 this.isUserGroup = true
                 this.isTaskType = false
-                this.isTaskStatus = false
+                this.isTaskState = false
             },
             showTaskType: function() {
                 this.isTaskType = true
                 this.isUserGroup = false
-                this.isTaskStatus = false
+                this.isTaskState = false
                 this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
             },
-            showTaskStatus: function() {
+            showTaskState: function() {
                 this.isTaskType = false
                 this.isUserGroup = false
-                this.isTaskStatus = true
+                this.isTaskState = true
                 this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
             }
 
@@ -438,7 +438,7 @@
         },
         components: {
             ShowTaskTypes,
-            ShowTaskStatus,
+            ShowTaskState,
             VueWidgets
         }   
     }

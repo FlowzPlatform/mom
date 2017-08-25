@@ -3,17 +3,9 @@
     <div :id="getLevelClass(todo.level,todo.id)" style="padding-bottom: 5px;">
       <div class="view" style="margin-left: 10px;">
         <span class="dreg-move"></span>
-         <Poptip  placement="bottom-start" trigger="focus" title="State">
         <input v-if="!$store.state.deleteItemsSelected" :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle"
-          @change="toggleTodo(todo)" @click="showStatusList">
-        <label for="checkbox8"></label>
-        <div class="api" slot="content">
-          <ul style="width: 200px; height: 100px; overflow: auto">
-            <li class="poptip text" v-for="state in taskState">{{state.state}}
-            </li>
-          </ul>
-        </div>
-        </Poptip> 
+            @change="toggleTodo(todo)" @click="showStatusList">
+          <label for="checkbox8"></label>
         <div v-if="$store.state.deleteItemsSelected" class="trash" :id="todo.id">
           <span class="trashcan">
             <span class="hover-glyph ">
@@ -22,7 +14,7 @@
             </span>
           </span>
         </div>
-        <input v-if="id !== 'taskTypes' && id !== 'taskStatus'" 
+        <input v-if="id !== 'taskTypes' && id !== 'taskState'" 
           class="new-todo"
           autofocus autocomplete="off" 
           :placeholder="pholder"
@@ -36,8 +28,8 @@
           @change="changeValue(nextIndex)">
           <input v-if="id === 'taskTypes'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
             v-model="todo.type" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
-          <input v-if="id === 'taskStatus'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
-            v-model="todo.status" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
+          <input v-if="id === 'taskState'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
+            v-model="todo.taskState" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
         <span class=""><i>
           <b class="glyphicon glyphicon-option-vertical"></b>
           <b class="glyphicon glyphicon-option-vertical"></b>
@@ -61,7 +53,7 @@
             <a class="fa fa-close"/>
             <i class="fa fa-trash-o"></i>
         </button>-->
-        <button class="destroy" v-if="id === 'taskTypes' || id === 'taskStatus'" @click="deleteTaskType(todo)">
+        <button class="destroy" v-if="id === 'taskTypes' || id === 'taskState'" @click="deleteTaskType(todo)">
             <a class="fa fa-close"/>
         </button>
       </div>
@@ -86,7 +78,9 @@ height: 100%;
 bottom: 0;
 position: fixed;
 }
-.ui.vertical.segment {border-bottom: 0px;}
+.ui.vertical.segment {
+  border-bottom: 0px;
+}
 </style>
 <script>
   /* eslint-disable*/
@@ -122,7 +116,7 @@ position: fixed;
       }
     },
     created(){
-      // this.$store.dispatch('getTypeState', this.todo.taskType)
+      // this.$store.dispatch('getTypeState', this.todo.type_id)
     },
     computed: {
        ...mapGetters({
@@ -135,6 +129,9 @@ position: fixed;
         }
     },
     methods: {
+      temp() {
+        console.log("Poptip----------")
+      },
       ...mapMutations([
         'SHOW_DIV'
       ]),
@@ -148,7 +145,7 @@ position: fixed;
         this.$store.dispatch('undelete', this.todo)
       },
       showStatusList() {
-        this.$store.dispatch('getTypeState', this.todo.taskType)
+        this.$store.dispatch('getTypeState', this.todo.type_id)
       },
       // deleteTodo: function () {
       //   this.$store.dispatch('deleteTodo', this.todo)
@@ -180,18 +177,18 @@ position: fixed;
       //   }
       // },
       addTodo: function (todoId) {
-        if (this.id !== 'taskTypes' && this.id !== 'taskStatus') {
+        if (this.id !== 'taskTypes' && this.id !== 'taskState') {
           this.$store.dispatch('insertTodo', this.todo)
         } else if (this.id === "taskTypes") {
           this.$store.dispatch('addTask_Type', this.todo)
-        } else if(this.id === "taskStatus"){
-          this.$store.dispatch('addTask_Status', {"status":this.todo})
+        } else if(this.id === "taskState"){
+          this.$store.dispatch('addTask_State', {"state":this.todo})
         }
       },
       deleteTaskType: function (todo) {
         if (this.id === 'taskTypes') {
           this.$store.dispatch('deleteTaskType', this.todo)
-        } else if (this.id === 'taskStatus') {
+        } else if (this.id === 'taskState') {
           this.$store.dispatch('deleteTaskStatus', this.todo)
         }
       },
@@ -244,22 +241,26 @@ position: fixed;
       taskStateList: function (state) {
         state.forEach(function (c) {
           let stateId = c.state_id
-          let stateIndex = _.findIndex(this.$store.state.task_status_list, function (m) {
+          let stateIndex = _.findIndex(this.$store.state.task_state_list, function (m) {
             return m.id === stateId
           })
           if (stateIndex < 0) {
           } else {
-            c.color = this.$store.state.task_status_list[stateIndex].color
-            c.state = this.$store.state.task_status_list[stateIndex].status
+            c.color = this.$store.state.task_state_list[stateIndex].color
+            c.state = this.$store.state.task_state_list[stateIndex].taskState
           }
         }, this)
+      },
+      insertState (){
+        console.log("add_state")
+        // this.$store.dispatch('insertTodo', this.todo)
       }
     },
     component: {
       txtDesc
     },
     mounted() {
-      if (this.id !== 'taskTypes' && this.id !== 'taskStatus') {
+      if (this.id !== 'taskTypes' && this.id !== 'taskState') {
         var totalSubtask = this.todo.subtask_count ? this.todo.subtask_count : 0
         var completedSubtask = this.todo.completed_subtask_count ? this.todo.completed_subtask_count : 0
         this.todo.progress_count = completedSubtask + " / " + totalSubtask;
