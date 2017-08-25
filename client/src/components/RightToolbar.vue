@@ -183,9 +183,9 @@
         return commentList
       },
       getAssignedType: function() {
-        if (this.filteredTodo.taskType) {
-          console.log('taskType:',this.$store.state.task_types_list)
-          var objType = _.find(this.$store.state.task_types_list, ['id', this.filteredTodo.taskType])
+        if (this.filteredTodo.type_id) {
+          console.log('type_id:',this.$store.state.task_types_list)
+          var objType = _.find(this.$store.state.task_types_list, ['id', this.filteredTodo.type_id])
           return objType.type
         }else {
           var obj = _.find(this.$store.state.task_types_list, { 'type': 'Todo'});

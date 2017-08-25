@@ -315,9 +315,9 @@ export const store = new Vuex.Store({
         if (updateTodoIndex < 0) {
           if (state.todoObjectByID)
             updateObject(state.todoObjectByID, item)
-            if(item.taskType)
-              Vue.set(state.todoObjectByID, 'taskType', item.taskType)
-            //state.todoObjectByID.taskType=item.taskType;
+            if(item.type_id)
+              Vue.set(state.todoObjectByID, 'type_id', item.type_id)
+            //state.todoObjectByID.type_id=item.type_id;
           if (!item.isDelete) {
             let deleteTodoIndex = _.findIndex(state.deletedTaskArr, function (d) { return d.id == item.id })
             state.todolist.push(item)
@@ -332,9 +332,9 @@ export const store = new Vuex.Store({
         } else {
           var isValueAvailable = state.todolist[updateTodoIndex].isDelete
           updateObject(state.todolist[updateTodoIndex], item)
-          if(item.taskType)
-            Vue.set(state.todolist[updateTodoIndex], 'taskType', item.taskType)
-            // state.todolist[updateTodoIndex].taskType=item.taskType;
+          if(item.type_id)
+            Vue.set(state.todolist[updateTodoIndex], 'type_id', item.type_id)
+            // state.todolist[updateTodoIndex].type_id=item.type_id;
           // show if any updates found for TODO
           if (item.updatedBy !== state.userObject._id) {
             state.todolist[updateTodoIndex].isTaskUpdate = true
@@ -931,7 +931,7 @@ export const store = new Vuex.Store({
           assigned_to: editObject.assigned_to,
           updatedBy: store.state.userObject._id,
           type_id: editObject.selectedType,
-          state_id: editObject.selectedType.state_id
+          state_id: editObject.selectedState
         }, { query: { 'id': editObject.todo.id } }).then(response => {
           console.log("Response editTaskName::", response);
           if (editObject.isAssigned) {
