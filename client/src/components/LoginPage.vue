@@ -5,6 +5,7 @@
     <input type="hidden" name="key" value="381524561267-3agj2flmlj546qsnufj8d6283e6eismb.apps.googleusercontent.com">
     <input type="hidden" name="seceret" value="KFzqxuDKfGnF91QMRHiirZwW">
     <input type="hidden" name="callbackUrl" value="http://ec2-54-88-11-110.compute-1.amazonaws.com/oauthCallback">   
+        <div class="login-pages">
         <div class="container">
             <div class="box"></div>
             <div class="container-forms">
@@ -64,7 +65,7 @@
             </div>
         </div>
     </div>
-
+    </div>
     <!--</form>-->
 
 </template>
@@ -135,7 +136,6 @@
                 $(".container").toggleClass("log-in");
             },
             btnSubmitClicked() {
-                console.log("-----")
                 var trimmedEmail = this.emailId.trim()
                 var trimmedPwd = this.pwd.trim()
                 var trimmedConfPwd = this.confPwd.trim()
@@ -257,12 +257,9 @@
                     //  self.$store.dispatch('getUserRegister')                           
                     .then(function () {                 
                          self.$router.replace('/navbar/mainapp')   
-                         
                     })             
                     .catch(function(error) {      
-                        console.log("login error",error)
                        if (error.response.status === 401) { 
-                          // console.log('error: ', error.response.status) 
                            return 
                         }              
                         $.notify.defaults({ className: "error" })                 

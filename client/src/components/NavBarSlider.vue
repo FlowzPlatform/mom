@@ -530,7 +530,6 @@
             },
             inviteUserSubmit: function (projectId) {
                 var inviteEmail = this.email;
-                //  console.log("Selected:-->", inviteEmail);
                 if (!inviteEmail || inviteEmail.length == 0 || !CmnFunc.checkValidEmail(inviteEmail)) {
                     this.emailValidationError = "Invalid user email"
                     return;
@@ -548,7 +547,6 @@
                 // var roleId=this.roles.filter(role=> role.name ==roleSelect);
                 let index = _.findIndex(this.roles, function (d) { return d.name == roleSelect })
                 let indexUser = _.findIndex(this.users, function (d) { return d.email == inviteEmail })
-                //  console.log("Selected:-->", indexUser);
 
                 var insertInvite = {
                     project_id: projectId,
@@ -561,7 +559,6 @@
                     is_deleted: false,
                     created_at: new Date()
                 }
-                // console.log("Insert Invite:-->", insertInvite);
                 this.$store.dispatch('insertProjectInvite', insertInvite)
                 this.closeInvite(projectId);
                 // Hide member list
@@ -632,8 +629,6 @@
             selectMember: function (project, item) {
 
                 let index = _.findIndex(project.members, function (d) { return d.email == item.email })
-                console.log("selectMember method call--------------------", project, " index:", index)
-
                 if (index < 0) {
                     this.email = item.email
                     this.name = item.name
@@ -644,7 +639,6 @@
 
                     // Close last open dialog
                     if (this.lastOpenDialogId !== '') {
-                        console.log("if ");
                         $("#popup-" + this.lastOpenDialogId).addClass("hidden");
                         // Show already added member list
                         $("#listContent-" + this.lastOpenDialogId).removeClass("hidden");
@@ -657,7 +651,6 @@
                 $("#layerPositioner-" + project.id).addClass("hidden");
             },
             selectNonMember(id) {
-                console.log("selectNonMember method call--------------------", this.inputValue)
                 this.email = this.inputValue;
                 this.name = this.inputValue;
 
@@ -672,11 +665,9 @@
                 $('.CircularButton').tooltip({ title: "Create a project", placement: "bottom" });
             },
             createProject: function () {
-                console.log("createProject")
                 this.isNewProjectDialogShow = true;
             },
             updateDialogShow(isDialogVal) {
-                console.log('dialog val: ', isDialogVal)
                 this.isNewProjectDialogShow = isDialogVal
             },
             onSelect(item) {
@@ -716,10 +707,8 @@
             },
             showMemberDetail(event) {
                 var targetId = event.currentTarget.id;
-                console.log(targetId);
             },
             addMemberClick(id) {
-                console.log("project_", id);
                 // Hide member horizontal list
                 $("#itemRow-" + id).addClass("hidden");
                 $("#expandableList" + id).removeClass("hidden");
@@ -750,7 +739,6 @@
             this.$store.state.projectSettingId = project.id;
            //  $("#ItemRowMenu-" + project.id).css({"fill":"red"});
             var pos = $('#ItemRowMenu-' + project.id+'').offset();
-            // console.log("mouse down event(x,y)", pos);
             this.$store.state.projectSettingMenuOffset = pos;
             var top = pos.top - 32;
             var left = pos.left;

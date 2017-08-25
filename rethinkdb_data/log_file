@@ -1,0 +1,8 @@
+2017-08-22T10:35:23.453747493 0.044876s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-08-22T10:35:23.457972837 0.049106s notice: Running on Linux 4.10.0-32-generic x86_64
+2017-08-22T10:35:23.459039389 0.050169s notice: Loading data from directory /home/kandrap/Desktop/WebProjects/GoogleSignUp/todo-vue-dynamic-component/rethinkdb_data
+2017-08-22T10:35:23.463603924 0.054733s error: Inaccessible database file: "/home/kandrap/Desktop/WebProjects/GoogleSignUp/todo-vue-dynamic-component/rethinkdb_data/metadata": No such file or directory\nSome possible reasons:\n- the database file couldn't be created or opened for reading and writing\n- the user which was used to start the database is not an owner of the file
+2017-08-22T10:36:46.525226456 0.065850s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-08-22T10:36:46.531512413 0.072141s notice: Running on Linux 4.10.0-32-generic x86_64
+2017-08-22T10:36:46.531670228 0.072293s notice: Loading data from directory /home/kandrap/Desktop/WebProjects/GoogleSignUp/todo-vue-dynamic-component/rethinkdb_data
+2017-08-22T10:36:46.535224739 0.075848s error: Inaccessible database file: "/home/kandrap/Desktop/WebProjects/GoogleSignUp/todo-vue-dynamic-component/rethinkdb_data/metadata": No such file or directory\nSome possible reasons:\n- the database file couldn't be created or opened for reading and writing\n- the user which was used to start the database is not an owner of the file

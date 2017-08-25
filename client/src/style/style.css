@@ -115,9 +115,12 @@ button {
 .todo-list li {
 	position: relative;
 	font-size: 24px;
-	border-bottom: 1px solid #ededed;
+    border-bottom: 1px solid #ededed;
+ 
 }
-
+.todo-list li.todo.sortable-chosen {
+    z-index: 2;
+}
 .todo-list li:last-child {
 	border-bottom: none;
 }
@@ -2107,7 +2110,6 @@ text-rendering: auto; -webkit-font-smoothing: antialiased;  vertical-align: top;
     line-height: 22px;
 	border-radius: 50%;
 }
-
 .right_pane_container #right_pane > .rightsection-view.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar > div {width: 50%; float: left}
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar >  .details-pane-toolbar.toolbar-no-grad {width: 100%}
@@ -5683,3 +5685,64 @@ textarea,
     padding-bottom: 15px;
     padding-left: 30px;
 }
+li.poptip.text {
+    font-size: 14px;
+    cursor: pointer;
+}
+.typeBorderClass {
+    border-style: solid;
+    border-width: 3px;
+    margin-right: 10px;
+    border-color: #ffffff;
+    border-radius: 20px;
+}
+.typeBorderClass:hover {
+    border-style: solid;
+    border-width: 3px;
+    margin-right: 10px;
+    border-color: #02ceff;
+    border-radius: 20px;
+}
+.typeClass {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+.typeClass:hover {
+    text-decoration: underline;
+    color: #02ceff;
+    cursor: pointer;
+}
+.typeList {
+    max-height: 200px;
+    overflow: auto;
+}
+.typeList li a {
+    line-height: 40px
+}
+.typeList li hr{
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+.typeList li a:hover{
+   background-color: #1aafd0; 
+   color: #fff !important;
+}
+.statusList {
+    max-height: 150px;
+    overflow: auto;
+}
+.statusList li a {
+    line-height: 35px;
+    font-size: 15px;
+}
+.statusList li hr{
+    margin-top: 1px;
+    /* margin-bottom: 1px; */
+}
+.statusList li a:hover{
+   background-color: #1aafd0; 
+   color: #fff !important;
+}
+ 

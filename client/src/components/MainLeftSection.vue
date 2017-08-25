@@ -7,7 +7,7 @@
       <ul class="todo-list main">
       <draggable v-model="filteredTodos" @end="onDragEnd">
         <transition-group name="list-complete">
-          <todo-item v-for="(todo, ind) in filteredTodos" :prevIndex="getPrevToDo(ind)"
+          <todo-item :id="id" v-for="(todo, ind) in filteredTodos" :prevIndex="getPrevToDo(ind)"
          :todo="todo" :pholder="pholder" :nextIndex="getNextToDo(ind)" v-bind:key="todo.id">
           </todo-item>
         </transition-group>
@@ -41,7 +41,6 @@
       //   'dragTodo'
       // ]),
       onDragEnd() {
-        // console.log('Drag todo', this.filteredTodos)
         this.$store.dispatch('dragTodo', this.filteredTodos)
         // for(var i=0; i < this.filteredTodos.length-1 ; i++)
         // {
@@ -65,10 +64,9 @@
         }
       },
       getPrevToDo(index){
-      if(index-1>=0)
-      {
-        return this.filteredTodos[index-1] ? this.filteredTodos[index-1].id +"_"+this.filteredTodos[index].level : -1+"_"+this.filteredTodos[index].level
-      }
+        if(index-1>=0){
+          return this.filteredTodos[index-1] ? this.filteredTodos[index-1].id +"_"+this.filteredTodos[index].level : -1+"_"+this.filteredTodos[index].level
+        }
       }
     }
   }
