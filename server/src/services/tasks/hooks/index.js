@@ -31,8 +31,8 @@ exports.before = {
   },
   update:[],
   patch(hook){
-    console.log("Hook Result in patch:", hook.data)
-    this.emit('toggleTodoTask', hook)
+    // console.log("Hook Result in patch:", hook.data)
+    // this.emit('toggleTodoTask', hook)
   },
   remove: []
 };

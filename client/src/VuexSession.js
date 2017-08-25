@@ -930,7 +930,8 @@ export const store = new Vuex.Store({
           assigned_by: editObject.assigned_by,
           assigned_to: editObject.assigned_to,
           updatedBy: store.state.userObject._id,
-          taskType: editObject.selectedType.id
+          taskType: editObject.selectedType.id,
+          state_id: editObject.selectedType.state_id
         }, { query: { 'id': editObject.todo.id } }).then(response => {
           console.log("Response editTaskName::", response);
           if (editObject.isAssigned) {
