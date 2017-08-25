@@ -3,9 +3,16 @@
     <div :id="getLevelClass(todo.level,todo.id)" style="padding-bottom: 5px;">
       <div class="view" style="margin-left: 10px;">
         <span class="dreg-move"></span>
+        <span class="dropdown">
         <input v-if="!$store.state.deleteItemsSelected" :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle"
-            @change="toggleTodo(todo)" @click="showStatusList">
-          <label for="checkbox8"></label>
+          @change="toggleTodo(todo)" @click="showStatusList" data-toggle="dropdown">
+        <label for="checkbox8"></label>
+        <ul class='dropdown-menu statusList'>
+          <li v-for="state in taskState"><a @click="selectStatus(state)">{{state.state}}</a>
+            <hr>
+          </li>
+        </ul>
+        </span>
         <div v-if="$store.state.deleteItemsSelected" class="trash" :id="todo.id">
           <span class="trashcan">
             <span class="hover-glyph ">
@@ -146,6 +153,10 @@ position: fixed;
       },
       showStatusList() {
         this.$store.dispatch('getTypeState', this.todo.type_id)
+      },
+      selectStatus(objStatus) {
+        console.log('objStatus:', objStatus)
+        this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedType": objStatus })
       },
       // deleteTodo: function () {
       //   this.$store.dispatch('deleteTodo', this.todo)
