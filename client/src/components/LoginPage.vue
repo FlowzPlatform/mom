@@ -135,7 +135,6 @@
                 $(".container").toggleClass("log-in");
             },
             btnSubmitClicked() {
-                console.log("-----")
                 var trimmedEmail = this.emailId.trim()
                 var trimmedPwd = this.pwd.trim()
                 var trimmedConfPwd = this.confPwd.trim()
@@ -256,13 +255,10 @@
                 self.$store.dispatch('getUserDetail')             
                     //  self.$store.dispatch('getUserRegister')                           
                     .then(function () {                 
-                         self.$router.replace('/navbar/mainapp')   
-                         
+                         self.$router.replace('/navbar/mainapp')            
                     })             
                     .catch(function(error) {      
-                        console.log("login error",error)
                        if (error.response.status === 401) { 
-                          // console.log('error: ', error.response.status) 
                            return 
                         }              
                         $.notify.defaults({ className: "error" })                 

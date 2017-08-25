@@ -269,9 +269,7 @@
   function getQueryString(field, url) {
     var href = url ? url : window.location.href;
     var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
-    console.log('reg', reg)
     var string = reg.exec(href);
-    console.log('string', string)
     return string ? string[1] : null;
   }
   export default {
@@ -315,14 +313,11 @@
       // get loaded URL to get querystring param
       //  var url = window.location.href;
       //  this.url_parentId = getQueryString('task', url)
-      //  console.log('pppID', this.url_parentId);
 
       var url = window.location.href;
       if (url.indexOf('task') > -1) {
         url = url.split('task/')
         var split_url = url[1].split('/')
-        console.log('level', split_url[0])
-        console.log('id', split_url[1])
         this.url_level = split_url[0] ? split_url[0] : ''
         this.url_parentId = split_url[1] ? split_url[1] : 0
         this.isCopyLink = true
@@ -340,7 +335,6 @@
       // this.getProjectWiseTodo;
       var projects = this.getProjectWiseTodo;
       var projectId = this.$store.state.currentProjectId
-      console.log("projects:", projects);
       if (!projectId && projects.length > 0) {
         projectId = projects[0].id
         this.$store.state.currentProjectId = projects[0].id
@@ -361,24 +355,18 @@
       // this.$store.dispatch('getAllTodos', {'parentId': ''});
       // let self = this;
       // socket.on('feed-change', function(item){
-      //          //console.log("TodoItem.vue:item***",item);
       //          if(item.new_val){
       //            var result = $.grep(self.taskById, function(e){ return e.id == item.new_val.id; })
       //             if (result.length == 0) {
       //               if(item.new_val.parentId.length == 0){
-      //               // console.log("Main Task Inserted")
-      //               // console.log('Length',self.taskById.length)
       //             // self.taskById.push(item.new_val)
       //               self.taskById.splice(self.taskById.length - 1, 0, item.new_val);
       //               // self.$store.state.todolist.push(item.new_val)
       //               }else{
-      //                 //console.log("Sub Task Inserted")
       //               }
       //             }else if(item.old_val){
       //               if(item.new_val.parentId.length == 0){
-      //               // console.log("Main Task Updated")
       //               let index = _.findIndex(self.taskById,function(d){return d.id == item.new_val.id})
-      //               // console.log('Index of object', index)
       //               if(index > -1){
       //                 self.taskById[index].taskName = item.new_val.taskName
       //               }
@@ -389,12 +377,7 @@
       //          }else if(item.old_val){
       //            // var index = self.taskById.indexOf(item.old_val);
       //            if(item.old_val.parentId.length == 0){
-      //           //  console.log("Main Task Deleted")
-      //           //  console.log("Row Deleted");
-      //           //  console.log('self.taskById',self.taskById)
-      //           //  console.log('item.old_val',item.old_val)
       //            let index = _.findIndex(self.taskById,function(d){return d.id == item.old_val.id})
-      //           //  console.log('Index of object', index)
       //            if(index > -1){
       //             self.taskById.splice(index, 1);
       //            }
@@ -489,7 +472,6 @@
         this.isNewProjectDialogShow = true;
       },
       updateDialogShow(isDialogVal) {
-        console.log('dialog val: ', isDialogVal)
         this.isNewProjectDialogShow = isDialogVal
       },
       btnLogoutClicked() {
@@ -561,7 +543,6 @@
         this.showPrivacyPopup = false;
       },
       hidePopup() {
-        console.log("onblur call:");
         this.showPrivacyPopup = false;
       }
       // btnUpdateProfileClicked() {

@@ -151,9 +151,6 @@ position: fixed;
         }
     },
     methods: {
-      temp() {
-        console.log("Poptip----------")
-      },
       ...mapMutations([
         'SHOW_DIV'
       ]),
@@ -170,7 +167,6 @@ position: fixed;
         this.$store.dispatch('getTypeState', this.todo.type_id)
       },
       selectStatus(objStatus) {
-        // console.log('objStatus:', objStatus)
         this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedState": objStatus.state_id })
       },
       // deleteTodo: function () {
@@ -250,8 +246,7 @@ position: fixed;
         this.$store.state.currentModified = (this.todo.id == -1) ? true : false
       },
       changeValue: function(todoId){
-        console.log('onChange()', todoId)
-        // this.$store.dispatch('insertTodo', this.todo)
+        this.$store.dispatch('insertTodo', this.todo)
         var nextTaskIndex = todoId.split('_')[0];
         if(nextTaskIndex == -1)
         {
@@ -283,10 +278,6 @@ position: fixed;
             c.taskState = this.$store.state.task_state_list[stateIndex].taskState
           }
         }, this)
-      },
-      insertState (){
-        console.log("add_state")
-        // this.$store.dispatch('insertTodo', this.todo)
       }
     },
     component: {

@@ -35,7 +35,6 @@ export default {
         }),
         taskStausList() {
             var types=this.stateList;
-            // console.log("computed in task type before", types)
         if(this.stateList.length==0 || this.stateList[this.stateList.length-1].id!=='-1'){
            this.stateList.push({
                 id:'-1',
