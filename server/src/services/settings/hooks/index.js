@@ -19,7 +19,16 @@ exports.before = {
         r.db(db).tableList().contains(table) // create table if not exists
         .do(tableExists => r.branch(tableExists, { created: 0 }, r.db(db).tableCreate(table)))
         .run().then(result => {
-            console.log('table created', result)
+            console.log('settings table created----->', result)
+            if(result.tables_created)
+            {
+                console.log('Settings value---->', result.tables_created)
+                r.db(db).table(table).insert([
+                    {'settings_name': 'Track task by progress', 'type':'progress'},
+                    {'settings_name': 'Track task by duedate', 'type':'duedate'}
+                ]).run()
+            }
+            
             // r.db(db).table(table).insert([
             //     {'settings_name': 'Track task by progress', 'type':'progress'},
             //     {'settings_name': 'Track task by duedate', 'type':'duedate'}
