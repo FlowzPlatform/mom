@@ -644,13 +644,11 @@ export const store = new Vuex.Store({
           state.projectlist[index].members = []
         setTimeout(function () {
           let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === assignMember.user_id })
-        //  console.log("User Detail", userIndex);
           if (userIndex < 0) {
             state.projectlist[index].members.push({ user_id: assignMember.user_id })
           } else {
             state.projectlist[index].members.push({ user_id: assignMember.user_id, url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name, email: state.arrAllUsers[userIndex].email,user_role_id:assignMember.user_role_id,is_deleted:false,id:assignMember.id })
           }
-       //   console.log("state.projectlist[index]", state.projectlist[index]);
 
         }, 2000);
 
