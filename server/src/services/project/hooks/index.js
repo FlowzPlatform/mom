@@ -4,16 +4,11 @@ exports.before = {
 
   all:[],
   find(hook){
-     const userid=hook.params.userId;
-    var client=hook.params.query.$client;
-    console.log("Find query:-->>",hook.params.query.$client)
-
+    const userid = hook.params.userId;
+    var client = hook.params.query.$client;
     if (client && client.flag && client.flag == 'allprojectlist') {
       const query = this.createQuery(hook.params.query);
       const r = this.options.r;
-      // console.log("Find query:--",hook.params)
-      // this.emit('logproject', { user_id:  });
-
       hook.params.rethinkdb = query.merge(function (projectid) {
         return {
           'members': r.table('projectmember')
@@ -26,9 +21,9 @@ exports.before = {
           .or(project('members')('user_id').contains(userid))
       }).orderBy('created_at')
     } else if (client && client.flag && client.flag == 'projectmember') {
-        const query = this.createQuery(hook.params.query);
+      const query = this.createQuery(hook.params.query);
       const r = this.options.r;
-         hook.params.rethinkdb = query.merge(function (projectid) {
+      hook.params.rethinkdb = query.merge(function (projectid) {
         return {
           'members': r.table('projectmember')
             .filter({ 'project_id': projectid('id') })
@@ -41,14 +36,11 @@ exports.before = {
   get: [],
   create(hook) {
     var hookData = hook.data;
-
     return this.find({ query: { project_name: hookData.project_name } }).then(reponse => {
-
       if (reponse.length > 0) {
         hook.result = { error: "Project already exist" }
         // return hook;
       }
-
       console.log("-----Before created Success------")
 
       return hook;

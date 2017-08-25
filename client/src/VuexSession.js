@@ -10,7 +10,6 @@ Vue.use(Vuex)
 
 
 // services.sockett.on("reconnect", function () {
-//   console.log('reconnect fired!');
 //   services.sockett.emit("userdata", store.state.userObject._id);
 // });
 
@@ -89,7 +88,6 @@ function updateTaskCount(state, todoObject) {
   }
 }
 function updateObject(oldObject, newObject) {
-  // console.log("New Object--->", newObject)
   var keys = Object.keys(oldObject)
   for (var i = 0; i < keys.length; i++) {
     if (newObject[keys[i]]) {
@@ -182,9 +180,7 @@ export const store = new Vuex.Store({
       }
     },
     async SHOW_DIV(state, payload) {
-      console.log(payload)
       // START scroll to last opened right div 
-
       //set focus on selected TODO Item. 
       //CAUTION:Take care before add any code here. If made any change in focus set code it may interrupt functionality.03/08/2017
       state.taskIndex = payload.id+"_"+payload.level
@@ -302,7 +298,6 @@ export const store = new Vuex.Store({
       state.visibility = key
     },
     UPDATE_TODO(state, item) {
-      console.log("Update Todo:--->",item)
       if (item.project_id === state.currentProjectId) {
         let updateTodoIndex = _.findIndex(state.todolist, function (d) { return d.id == item.id })
         if (updateTodoIndex < 0) {
@@ -380,7 +375,6 @@ export const store = new Vuex.Store({
           state.todolist.push(todoObject)
 
           // if (state.currentModified) {
-          //   console.log('current modified')
           //   state.todolist.push(state.currentTodoObj)
           //   // state.currentTodoObj = {}
           //   state.isDeleteObj = true
@@ -440,7 +434,7 @@ export const store = new Vuex.Store({
       state.settingsObject = data
       for (var i = 0; i < data.length; i++) {
         let index = _.findIndex(state.settingsObject, function (d) { return d.id == data[i].id })
-        if (state.settingsObject[index].user_setting > 0) {
+        if (state.settingsObject[index].user_setting.length > 0) {
           if (state.settingsObject[index].type === "progress") {
             state.isProgress = state.settingsObject[index].user_setting[0].setting_value
           }
@@ -598,19 +592,16 @@ export const store = new Vuex.Store({
     ASSIGN_PROJECT_MEMBER(state, assignMember) {
 
       let index = _.findIndex(state.projectlist, function (d) { return d.id == assignMember.project_id })
-      console.log("Index Found:--", index)
       if (index > -1) {
         if (!state.projectlist[index].members)
           state.projectlist[index].members = []
         setTimeout(function () {
           let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === assignMember.user_id })
-          console.log("User Detail", userIndex);
           if (userIndex < 0) {
             state.projectlist[index].members.push({ user_id: assignMember.user_id })
           } else {
             state.projectlist[index].members.push({ user_id: assignMember.user_id, url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name, email: state.arrAllUsers[userIndex].email })
           }
-          console.log("state.projectlist[index]", state.projectlist[index]);
 
         }, 2000);
 
@@ -622,7 +613,7 @@ export const store = new Vuex.Store({
             }
           }
         }).then(response => {
-          // console.log("Project Assign To you:-->",response)
+          console.log("Project Assign To you:-->",response)
           // 
           var project = response[0];
           var projectMembers = project.members;
@@ -652,7 +643,6 @@ export const store = new Vuex.Store({
     },
     ADD_TASK_TYPE(state, payload){
       Vue.set(state.task_types_list, state.task_types_list.length-1, payload)
-      console.log(state.task_types_list)
     },
     DELETE_TASK_TYPE(state, payload){
       let removeIndex = _.findIndex(state.task_types_list, function (d) { return d.id == payload.id })
@@ -812,7 +802,6 @@ export const store = new Vuex.Store({
       commit('REMOVE_PARENT_ID_ARRAY')
     },
     insertTodo({ commit }, insertElement) {
-      console.log('taskID', insertElement.id)
       let dbId = insertElement.id
       if (!(insertElement.taskName && insertElement.taskName.trim()))
         return
@@ -842,7 +831,6 @@ export const store = new Vuex.Store({
       }
     },
     editTaskName({ commit }, editObject) {
-      console.log("editObject-->",editObject)
       if (editObject.todo.id) {
         services.tasksService.patch(editObject.todo.id, {
           taskName: editObject.todo.taskName,
@@ -875,7 +863,6 @@ export const store = new Vuex.Store({
       }
     },
     delete_Todo({ commit }, deleteElement) {
-      console.log(deleteElement)
       let dbId = deleteElement.id
       if (dbId) {
         services.tasksService.patch(dbId, { isDelete: true, deletedBy: store.state.userObject._id }).then(response => {
@@ -1166,7 +1153,7 @@ export const store = new Vuex.Store({
     },
     getAllTaskTags({ commit }, taskId) {
       services.taskTagsService.find({ query: { task_id: taskId, is_deleted: false } }).then(response => {
-        // console.log("Response TaskTag::", response);
+        console.log("Response TaskTag::", response);
         commit('GET_TASK_TAGS', response)
       });
       // Vue.http.post('/getTaskTags', {
@@ -1507,7 +1494,7 @@ export const store = new Vuex.Store({
       })
     },
     getTypeState({commit}, payload){
-      console.log('payload:', payload)
+      console.log('payload getTypeState:', payload)
        services.taskTypeStateService.find({ query: { type_id: payload } }).then(response => {
           console.log("GET_TYPE_STATE log type_state", response)
           commit("GET_TYPE_STATE", response)
@@ -1543,7 +1530,6 @@ export const store = new Vuex.Store({
       });
     },
     addTask_State({ commit }, payload) {
-      console.log(payload)
       if (payload.state.id  != -1) {
         services.taskStateService.patch(payload.state.id,
           { taskState: payload.state.taskState, stateDesc: payload.state.stateDesc, color: payload.color }, {

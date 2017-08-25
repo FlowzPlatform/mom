@@ -41,7 +41,6 @@
       //   'dragTodo'
       // ]),
       onDragEnd() {
-        // console.log('Drag todo', this.filteredTodos)
         this.$store.dispatch('dragTodo', this.filteredTodos)
         // for(var i=0; i < this.filteredTodos.length-1 ; i++)
         // {

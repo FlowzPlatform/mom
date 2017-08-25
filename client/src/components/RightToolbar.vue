@@ -184,11 +184,11 @@
       },
       getAssignedType: function() {
         if (this.filteredTodo.type_id) {
-          console.log('type_id:',this.$store.state.task_types_list)
           var objType = _.find(this.$store.state.task_types_list, ['id', this.filteredTodo.type_id])
           return objType.type
         }else {
           var obj = _.find(this.$store.state.task_types_list, { 'type': 'Todo'});
+          this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": obj.id})
           return obj.type
         }
       }
@@ -215,7 +215,6 @@
         this.task_priority = false
       },
       onFileChange(e) {
-        console.log('file', )
         var fileChooser = e.target // document.getElementById('file');
         this.$store.dispatch('selectFile', {
           "file": fileChooser, "taskId": this.filteredTodo.id, "level": this.filteredTodo.level, "cb": function () {
@@ -291,7 +290,6 @@
         this.$http.post('/getHtmlToPdf', {
           divHtml: htmlString
         }).then(response => {
-          console.log('Response pdf', response.data);
           //window.location.assign(response.data);
           // top.location.href = "/report";
           var link = document.createElement('a');
@@ -327,7 +325,6 @@
         var user = this.getAssignedUserObj()
         if (user.image_url) {
           this.imageURlProfilePic = user.image_url
-          console.log('Image url', user.image_url)
           return
         }
         this.imageURlProfilePic = ''

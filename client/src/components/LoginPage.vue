@@ -101,12 +101,10 @@
         computed: {
             //  getUserEmail: function()
             //  {  
-            //     console.log('getUserEmail - computed')
             //     this.$http.post('/getUserEmail', {
             //             email: 'uhirani@officebrain.com',
             //             signup_type: 'email'
             //         }).then(response => {
-            //             console.log('Response from get user email', response.data)
             //         });
             //  },
             uname: function () {
@@ -162,7 +160,6 @@
                 $(".container").toggleClass("log-in");
             },
             btnSubmitClicked() {
-                console.log("-----")
                 var trimmedEmail = this.emailId.trim()
                 var trimmedPwd = this.pwd.trim()
                 var trimmedConfPwd = this.confPwd.trim()
@@ -274,14 +271,9 @@
                     //  self.$store.dispatch('getUserRegister')                           
                     .then(function () {                 
                          self.$router.replace('/navbar/mainapp')   
-                         
-                         console.log("Socket-->",)
-          
                     })             
                     .catch(function(error) {      
-                        console.log("login error",error)
                        if (error.response.status === 401) { 
-                          // console.log('error: ', error.response.status) 
                            return 
                         }              
                         $.notify.defaults({ className: "error" })                 

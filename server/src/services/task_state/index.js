@@ -25,6 +25,12 @@ module.exports = function() {
   const taskState =app.service('/task_state');
   app.service('task_state').init().then(taskState => {
       console.log('Created task_state', taskState)
+      if(taskState.tables_created)
+        {
+          r.db(db).table(table).insert([
+            {'taskState': 'Active', 'color': '#0ba93e' },
+          ]).run()
+        }
   });
 
   // Set up our before hooks
