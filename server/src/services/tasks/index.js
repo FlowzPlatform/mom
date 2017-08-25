@@ -60,7 +60,7 @@ module.exports = function() {
 
 
   taskService.filter(function(data, connection, hook) {
-     console.log("<========Tassk Filter Call=====>",connection);
+     console.log("<========Tassk Filter Call task =====>",data);
     var userId=connection.userId;
     if (!userId) {
       return false;
@@ -70,8 +70,9 @@ module.exports = function() {
     //         { parentId: payload.parentId, project_id: payload.project_id, created_by: store.state.userObject._id },
     //         { parentId: payload.parentId, project_id: payload.project_id, assigned_to: store.state.userObject._id }
     //       ]  
+      // console.log("<========Tassk Filter response= data.project_id ====>",data.project_id);  
+
     return app.service('project').get(data.project_id).then(response => {
-      // console.log("<========Tassk Filter response=====>",response);  
       // console.log("<========Tassk Filter userid=====>",userId);
       if (response.project_privacy==="0") {
         return data;

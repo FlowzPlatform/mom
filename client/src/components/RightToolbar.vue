@@ -31,12 +31,12 @@
          <!-- <select v-model="type" @change="updateTypeInTask(type)"  class="form-control" style="width: 100% !important; border-color: rgba(255, 255, 255, 0) ">
               <option v-bind:value="type" v-for="type in getTypes">{{type.type}}</option>
             </select>  -->
-            <div class="statusBorderClass">
+            <div class="typeBorderClass">
                 <span class="dropdown">
-                  <div class="statusClass" data-toggle="dropdown">
+                  <div class="typeClass" data-toggle="dropdown">
                     {{ getAssignedType}}
                   </div>
-                  <ul class="dropdown-menu statusList">
+                  <ul class="dropdown-menu typeList">
                     <li v-for="type in getTypes"><a @click="btnTypeClicked(type)">{{type.type}}</a><hr></li>
                   </ul>
                 </span>

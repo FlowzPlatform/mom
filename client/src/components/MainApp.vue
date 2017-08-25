@@ -307,7 +307,7 @@
       this.$store.dispatch('getSettings', this.$store.state.userObject._id);
       // console.log(md5('urvashi@officebrain.com'));
       // console.log(md5('uhirani@officebrain.com'));
-      this.$store.dispatch('removeAllEventListners');
+      // this.$store.dispatch('removeAllEventListners');
       this.$store.dispatch('eventListener');
       this.getAllUsers()
       // ...mapActions([
