@@ -8,7 +8,7 @@
           @change="toggleTodo(todo)" @click="showStatusList" data-toggle="dropdown">
         <label for="checkbox8"></label>
         <ul class='dropdown-menu statusList'>
-          <li v-for="state in taskState"><a @click="selectStatus(state)">{{state.state}}</a>
+          <li v-for="state in taskState"><a @click="selectStatus(state)">{{state.taskState}}</a>
             <hr>
           </li>
         </ul>
@@ -155,8 +155,8 @@ position: fixed;
         this.$store.dispatch('getTypeState', this.todo.type_id)
       },
       selectStatus(objStatus) {
-        console.log('objStatus:', objStatus)
-        this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedType": objStatus })
+        // console.log('objStatus:', objStatus)
+        this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedState": objStatus.state_id })
       },
       // deleteTodo: function () {
       //   this.$store.dispatch('deleteTodo', this.todo)
@@ -258,7 +258,7 @@ position: fixed;
           if (stateIndex < 0) {
           } else {
             c.color = this.$store.state.task_state_list[stateIndex].color
-            c.state = this.$store.state.task_state_list[stateIndex].taskState
+            c.taskState = this.$store.state.task_state_list[stateIndex].taskState
           }
         }, this)
       },
