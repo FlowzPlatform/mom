@@ -1901,7 +1901,7 @@ span.shortcut {
     height: 100%;
 }
 .task-row-overlay {
-    z-index: 60;
+    /* z-index: 60; */
     position: absolute;
     right: 30px;
     top: 0;

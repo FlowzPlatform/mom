@@ -51,9 +51,9 @@
                     <div class="form-item sign-up">
                         <div class="table">
                             <div class="table-cell">
-                                <input placeholder="Email" tabindex="4" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
-                                <input placeholder="Password" tabindex="5" type="password" name="p" id="password_input" v-model="pwd">
-                                <input placeholder="Confirm Password" tabindex="6" type="password" v-model="confPwd">
+                                <input placeholder="Email" tabindex="4" type="email" name="e" id="emailInput" value="" v-model="emailId" v-on:change="enableButtons()">
+                                <input placeholder="Password" tabindex="5" type="password" name="p" id="passwordInput" v-model="pwd">
+                                <input placeholder="Confirm Password" tabindex="6" type="password" v-model="confPwd" id="confirmpwd">
                                 <div tabindex="7" class="btn" id="signup_btn" @click="btnSubmitClicked()">
                                     Submit
                                 </div>
@@ -142,19 +142,19 @@
 
                 var validateEmail = CmnFunc.checkBlankField(trimmedEmail)
                 if (!validateEmail) {
-                    $("#email_input").notify("Email address field should not be blank")
+                    $("#emailInput").notify("Email address field should not be blank")
                     return
                 }
 
                 var validEmail = CmnFunc.checkValidEmail(trimmedEmail)
                 if (!validEmail) {
-                    $("#email_input").notify("Please enter valid email address")
+                    $("#emailInput").notify("Please enter valid email address")
                     return
                 }
 
                 var validatePwd = CmnFunc.checkBlankField(trimmedPwd)
                 if (!validatePwd) {
-                    $("#password_input").notify("Password should not be blank")
+                    $("#passwordInput").notify("Password should not be blank")
                     return
                 }
                 var validateConfPwd = CmnFunc.checkBlankField(trimmedConfPwd)

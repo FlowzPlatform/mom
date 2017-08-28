@@ -6,13 +6,8 @@
         <span class="dreg-move"></span>
         <span class="dropdown">
         <input v-if="!$store.state.deleteItemsSelected" :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle"
-          @change="toggleTodo(todo)" @click="showStatusList" data-toggle="dropdown">
+          @change="toggleTodo(todo)">
         <label for="checkbox8"></label>
-        <ul class='dropdown-menu statusList'>
-          <li v-for="state in taskState"><a @click="selectStatus(state)">{{state.taskState}}</a>
-            <hr>
-          </li>
-        </ul>
         </span>
         <div v-if="$store.state.deleteItemsSelected" class="trash" :id="todo.id">
           <span class="trashcan">
@@ -48,7 +43,14 @@
             <span class="grid_due_date">{{todo.dueDate | formatDate_todo}}</span>
             <span v-if="todo.isTaskUpdate" style="color: red">&#x25cf;</span><span v-else></span>
           </a>
-        </div>
+          <div class="stateCircle Avatar--small"  @click="showStatusList" data-toggle="dropdown">
+            <span>K</span></div>
+            <ul class='dropdown-menu statusList'>
+                <li v-for="state in taskState"><a @click="selectStatus(state)">{{state.taskState}}</a>
+                  <hr>
+                </li>
+              </ul>
+          </div>
         <div v-if="$store.state.deleteItemsSelected" class="delete-view">
           <div class="react-mount-node photoView-reactMount">
             <div data-reactroot="" class="Avatar Avatar--small Avatar--color4">
@@ -88,6 +90,32 @@ position: fixed;
 }
 .ui.vertical.segment {
   border-bottom: 0px;
+}
+.taskRow {
+  margin-right: 10px;
+}
+.stateCircle {
+  -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    /* background: center/cover #cdcfd2; */
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 3px rgba(10,10,10,1.2);
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #000;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    position: relative;
+    vertical-align: top;
+    overflow: hidden;
 }
 </style>
 <script>
@@ -155,6 +183,7 @@ position: fixed;
       },
       selectStatus(objStatus) {
         this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedState": objStatus.state_id })
+        console.log(this.taskState.filter(state => state.state_id === objStatus.state_id))
       },
       // deleteTodo: function () {
       //   this.$store.dispatch('deleteTodo', this.todo)
