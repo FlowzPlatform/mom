@@ -43,9 +43,9 @@
             <span class="grid_due_date">{{todo.dueDate | formatDate_todo}}</span>
             <span v-if="todo.isTaskUpdate" style="color: red">&#x25cf;</span><span v-else></span>
           </a>
-          <div class="stateCircle Avatar--small"  @click="showStatusList" data-toggle="dropdown">
+          <div class="stateCircle Avatar--small"  @click="showStatusList" data-toggle="dropdown" :style="{'box-shadow' : 'inset 0 0 0 3px' }">
             <span>K</span></div>
-            <ul class='dropdown-menu statusList'>
+            <ul class='dropdown-menu statusList' style="right: 0; left:-20px;">
                 <li v-for="state in taskState"><a @click="selectStatus(state)">{{state.taskState}}</a>
                   <hr>
                 </li>
@@ -101,7 +101,7 @@ position: fixed;
     align-items: center;
     /* background: center/cover #cdcfd2; */
     border-radius: 50%;
-    box-shadow: inset 0 0 0 3px rgba(10,10,10,1.2);
+    /* box-shadow: inset 0 0 0 3px rgba(10,10,10,1.2); */
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     color: #000;
@@ -150,10 +150,13 @@ position: fixed;
         prgress_count: '',
         prevSelectedItem:'',
         curSelectedItem: '',
+        selectedObject: {}
       }
     },
     created(){
       // this.$store.dispatch('getTypeState', this.todo.type_id)
+      // this.selectedObject = this.taskState.find(state => state.state_id === this.todo.state_id)
+      
     },
     computed: {
        ...mapGetters({
@@ -181,9 +184,9 @@ position: fixed;
       showStatusList() {
         this.$store.dispatch('getTypeState', this.todo.type_id)
       },
-      selectStatus(objStatus) {
+      selectStatus(objStatus) {   
         this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedState": objStatus.state_id })
-        console.log(this.taskState.filter(state => state.state_id === objStatus.state_id))
+        this.selectedObject = this.taskState.filter(state => state.state_id === objStatus.state_id)
       },
       // deleteTodo: function () {
       //   this.$store.dispatch('deleteTodo', this.todo)
@@ -301,6 +304,8 @@ position: fixed;
     },
     mounted() {
       if (this.id !== 'taskTypes' && this.id !== 'taskState') {
+        this.selectedObject = this.taskState.filter(state => state.state_id === this.todo.state_id)
+        console.log("selectedObject", this.selectedObject)
         var totalSubtask = this.todo.subtask_count ? this.todo.subtask_count : 0
         var completedSubtask = this.todo.completed_subtask_count ? this.todo.completed_subtask_count : 0
         this.todo.progress_count = completedSubtask + " / " + totalSubtask;

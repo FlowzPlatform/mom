@@ -5436,7 +5436,8 @@ table {
     overflow: auto;
 }
 .statusList li a {
-    line-height: 40px
+    line-height: 35px;
+    font-size: 15px;
 }
 .statusList li hr{
     margin-top: 1px;
@@ -5729,20 +5730,5 @@ li.poptip.text {
    background-color: #1aafd0; 
    color: #fff !important;
 }
-.statusList {
-    max-height: 150px;
-    overflow: auto;
-}
-.statusList li a {
-    line-height: 35px;
-    font-size: 15px;
-}
-.statusList li hr{
-    margin-top: 1px;
-    /* margin-bottom: 1px; */
-}
-.statusList li a:hover{
-   background-color: #1aafd0; 
-   color: #fff !important;
-}
+
  
