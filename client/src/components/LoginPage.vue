@@ -1,5 +1,4 @@
 <template>
-
     <div class="login-pages">
         <div class="container">
             <div class="box"></div>
@@ -66,7 +65,7 @@
             </div>
         </div>
     </div>
-
+</div>
 </template>
 
 <script>
