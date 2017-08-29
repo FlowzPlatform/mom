@@ -40,15 +40,15 @@ export default {
     return accessValue >= 8
   },
   isReadPermission: function(accessValue){
-    var readValue = [4, 5, 6, 7, 12, 13, 14, 15];
+    const readValue = [4, 5, 6, 7, 12, 13, 14, 15];
     return readValue.includes(accessValue)
   },
   isUpdatePermision: function(accessValue){
-    var updatevalue = [2, 3, 6, 7, 10, 11, 14, 15]
+    const updatevalue = [2, 3, 6, 7, 10, 11, 14, 15]
     return updatevalue.includes(accessValue)
   },
   isDeletePermision: function(accessValue){
-    var deletevalue = [1, 3, 5, 7, 9, 11, 13, 15]
+    const deletevalue = [1, 3, 5, 7, 9, 11, 13, 15]
     return deletevalue.includes(accessValue)
   }
 }
