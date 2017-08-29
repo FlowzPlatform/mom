@@ -1434,6 +1434,7 @@ export const store = new Vuex.Store({
         })
     },
     async getAllUsersList({ commit },callback) {
+      console.log('callbacck:', callback)
       try {
         let { data } = await axios.get(process.env.USER_DETAIL + '/alluserdetails', {
           headers: {
@@ -1442,7 +1443,10 @@ export const store = new Vuex.Store({
           }
         })
         commit('GET_ALL_USERS', data.data)
-        callback();
+        if(callback){
+          callback();
+        }
+        //callback();
         return data.data
       } catch (error) {
         throw error

@@ -1,9 +1,5 @@
 <template>
-      <form action="http://ec2-54-88-11-110.compute-1.amazonaws.com/auth/Gplus" method="post">  
-      <input type="hidden" name="success_url" value="http://localhost:3000">
-    <input type="hidden" name="key" value="381524561267-3agj2flmlj546qsnufj8d6283e6eismb.apps.googleusercontent.com">
-    <input type="hidden" name="seceret" value="KFzqxuDKfGnF91QMRHiirZwW">
-    <!-- <input type="hidden" name="callbackUrl" value="http://ec2-34-229-146-53.compute-1.amazonaws.com/oauthCallback">    -->
+      
     <div class="login-pages">
         <div class="container">
             <div class="box"></div>
@@ -38,7 +34,13 @@
                     <div class="form-item log-in">
                         <div class="table">
                             <div class="table-cell">
-                                <button class="googleAuthBtn" type="submit">Use Google Account</button> 
+                                <form action="http://ec2-54-88-11-110.compute-1.amazonaws.com/auth/Gplus" method="post">  
+                                        <input type="hidden" name="success_url" value="http://localhost:3000">
+                                      <input type="hidden" name="key" value="381524561267-3agj2flmlj546qsnufj8d6283e6eismb.apps.googleusercontent.com">
+                                      <input type="hidden" name="seceret" value="KFzqxuDKfGnF91QMRHiirZwW">
+                                      <!-- <input type="hidden" name="callbackUrl" value="http://ec2-34-229-146-53.compute-1.amazonaws.com/oauthCallback">    -->
+                                    <button class="googleAuthBtn" type="submit">Use Google Account</button> 
+                                </form>
                                 <div class="dialog--nux-seperator" id="seprator"> or </div>
                                 <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
                                 <input placeholder="Password" tabindex="2" type="password" name="p" id="password_input" v-model="pwd" @keyup.enter="btnLogInClicked()">
@@ -63,7 +65,7 @@
             </div>
         </div>
     </div>
-    </form>
+    <!-- </form> -->
     </div>
     <!--</form>-->
 
