@@ -629,7 +629,10 @@
 2017-08-18T10:04:29.667933692 14.395032s info: Table 86d8b7a5-d544-4eb0-88c8-75af672c4b8d: Added replica on this server.
 2017-08-18T10:04:29.669667567 14.396766s info: Table bb687122-b560-4101-8f14-11ab5b37dc7e: This server is Raft leader for term 1. Latest log index is 0.
 2017-08-18T10:04:29.669707923 14.396807s info: Table 86d8b7a5-d544-4eb0-88c8-75af672c4b8d: This server is Raft leader for term 1. Latest log index is 0.
+<<<<<<< HEAD
 <<<<<<< a59631da3fdafd5f2437e73787c537a269ffcdb7
 >>>>>>> changes committed
 =======
 >>>>>>> changes committed
+=======
+>>>>>>> e92a72b8a9cb829d275e1b8f7052a6f71499971b
