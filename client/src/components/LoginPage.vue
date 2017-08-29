@@ -1,9 +1,5 @@
 <template>
-      <form action="http://ec2-54-88-11-110.compute-1.amazonaws.com/auth/Gplus" method="post">  
-      <input type="hidden" name="success_url" value="http://localhost:3000">
-    <input type="hidden" name="key" value="381524561267-3agj2flmlj546qsnufj8d6283e6eismb.apps.googleusercontent.com">
-    <input type="hidden" name="seceret" value="KFzqxuDKfGnF91QMRHiirZwW">
-    <!-- <input type="hidden" name="callbackUrl" value="http://ec2-34-229-146-53.compute-1.amazonaws.com/oauthCallback">    -->
+
     <div class="login-pages">
         <div class="container">
             <div class="box"></div>
@@ -38,7 +34,14 @@
                     <div class="form-item log-in">
                         <div class="table">
                             <div class="table-cell">
-                                <button class="googleAuthBtn" type="submit">Use Google Account</button> 
+                                <form action="http://ec2-54-88-11-110.compute-1.amazonaws.com/auth/Gplus" method="post">
+                                    <input type="hidden" name="success_url" value="http://localhost:3000">
+                                    <input type="hidden" name="key" value="381524561267-3agj2flmlj546qsnufj8d6283e6eismb.apps.googleusercontent.com">
+                                    <input type="hidden" name="seceret" value="KFzqxuDKfGnF91QMRHiirZwW">
+                                    <!-- <input type="hidden" name="callbackUrl" value="http://ec2-34-229-146-53.compute-1.amazonaws.com/oauthCallback">    -->
+
+                                    <button class="googleAuthBtn" type="submit">Use Google Account</button>
+                                </form>
                                 <div class="dialog--nux-seperator" id="seprator"> or </div>
                                 <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
                                 <input placeholder="Password" tabindex="2" type="password" name="p" id="password_input" v-model="pwd" @keyup.enter="btnLogInClicked()">
@@ -58,13 +61,11 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
     </div>
-    </form>
-    <!--</form>-->
 
 </template>
 
@@ -92,31 +93,31 @@
                 pwd: '',
                 confPwd: '',
                 passData: 'Send to next vue..',
-                
+
             }
         },
-        created () {
+        created() {
             console.log('created called')
             var url_string = window.location.href;
             var url = new URL(url_string);
 
             var token = url.searchParams.get('token')
-            if (token){
+            if (token) {
                 console.log('TOKEN exist')
                 this.$store.commit('SAVE_USERTOKEN', token)
                 this.$router.replace('/loadProcess')
                 //this.userDetail(this)
                 //this.getAccessTokenAPI(code)
             }
-            
+
             var id = url.searchParams.get('ob_id')
-            if(id){
+            if (id) {
                 console.log('//socialAuth....')
                 this.$store.state.googleId = id
                 this.$store.commit('googleId')
                 this.$router.replace('/socialAuth')
             }
-  },
+        },
         computed: {
             uname: function () {
                 return this.$store.state.userObject.email
@@ -126,7 +127,7 @@
             login() {
                 $(".container").toggleClass("log-in");
             },
-            
+
             btnSignUpClicked() {
                 this.emailId = ''
                 this.pwd = ''
@@ -236,37 +237,37 @@
                     return
                 }
                 var self = this
-                CmnFunc.resetProjectDefault()   
-                console.log('LOG IN--> userloginprocess')             
-                this.$store.dispatch('userLoginProcess', {'email':trimmedEmail, 'password':trimmedPwd})         
-                .then(function () {             
-                    self.$store.state.isAuthorized = true             
-                    self.$store.commit('authorize')      
-                    self.userDetail(self)    
-                })       
-                .catch(function (error) {             
-                    $.notify.defaults({ className: "error" })             
-                    $.notify(error.message, { globalPosition:"top center"})       
-                });
-                
+                CmnFunc.resetProjectDefault()
+                console.log('LOG IN--> userloginprocess')
+                this.$store.dispatch('userLoginProcess', { 'email': trimmedEmail, 'password': trimmedPwd })
+                    .then(function () {
+                        self.$store.state.isAuthorized = true
+                        self.$store.commit('authorize')
+                        self.userDetail(self)
+                    })
+                    .catch(function (error) {
+                        $.notify.defaults({ className: "error" })
+                        $.notify(error.message, { globalPosition: "top center" })
+                    });
+
             },
             userDetail(self) {
-                self.$store.dispatch('getUserDetail')             
+                self.$store.dispatch('getUserDetail')
                     //  self.$store.dispatch('getUserRegister')                           
-                    .then(function () {                 
-                         self.$router.replace('/navbar/mainapp')   
-                    })             
-                    .catch(function(error) {      
-                       if (error.response.status === 401) { 
-                           return 
-                        }              
-                        $.notify.defaults({ className: "error" })                 
-                        $.notify(error.message, { globalPosition:"top center"})             
+                    .then(function () {
+                        self.$router.replace('/navbar/mainapp')
+                    })
+                    .catch(function (error) {
+                        if (error.response.status === 401) {
+                            return
+                        }
+                        $.notify.defaults({ className: "error" })
+                        $.notify(error.message, { globalPosition: "top center" })
                     })
             },
             btnBackClicked() {
                 $(".container").toggleClass("log-in");
-                
+
                 this.emailId = ''
                 this.pwd = ''
                 this.confPwd = ''
