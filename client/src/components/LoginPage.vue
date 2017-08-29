@@ -33,14 +33,18 @@
                     <div class="form-item log-in">
                         <div class="table">
                             <div class="table-cell">
-                                <g-signin-button class="buttonView buttonView--primary buttonView--large" id="google_auth_button" :params="googleSignInParams"
-                                    @success="onSignInSuccess" @error="onSignInError">
-                                    <p>Use Google Account</p>
-                                </g-signin-button>
+                                <form action="http://ec2-54-88-11-110.compute-1.amazonaws.com/auth/Gplus" method="post">
+                                    <input type="hidden" name="success_url" value="http://localhost:3000">
+                                    <input type="hidden" name="key" value="381524561267-3agj2flmlj546qsnufj8d6283e6eismb.apps.googleusercontent.com">
+                                    <input type="hidden" name="seceret" value="KFzqxuDKfGnF91QMRHiirZwW">
+                                    <!-- <input type="hidden" name="callbackUrl" value="http://ec2-34-229-146-53.compute-1.amazonaws.com/oauthCallback">    -->
+
+                                    <button class="googleAuthBtn" type="submit">Use Google Account</button>
+                                </form>
                                 <div class="dialog--nux-seperator" id="seprator"> or </div>
                                 <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
-                                <input placeholder="Password" tabindex="2" type="password" name="p" id="password_input" v-model="pwd">
-                                <div tabindex="3" class="btn" id="login_btn" @click="btnLogInClicked()">Log in</div>
+                                <input placeholder="Password" tabindex="2" type="password" name="p" id="password_input" v-model="pwd" @keyup.enter="btnLogInClicked()">
+                                <div tabindex="3" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in</div>
                             </div>
                         </div>
                     </div>
@@ -56,18 +60,21 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+</div>
 </template>
-<script src="https://apis.google.com/js/api:client.js" async defer></script>
+
 <script>
     /* eslint-disable*/
     import Vue from 'vue'
     import Resource from 'vue-resource'
     import CmnFunc from './CommonFunc.js'
     import notify from './notify.js'
+    import * as services from '../services'
     import VueRouter from 'vue-router'
 
     Vue.use(Resource)
@@ -85,28 +92,32 @@
                 pwd: '',
                 confPwd: '',
                 passData: 'Send to next vue..',
-                /**
-                 * The Auth2 parameters, as seen on
-                 * https://developers.google.com/identity/sign-in/web/reference#gapiauth2initparams.
-                 * As the very least, a valid client_id must present.
-                 * @type {Object}
-                 */
-                googleSignInParams: {
-                    client_id: '121571575113-vcsgo986qvvimdpgll6febunvvjqmcog.apps.googleusercontent.com'
-                }
+
+            }
+        },
+        created() {
+            console.log('created called')
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+
+            var token = url.searchParams.get('token')
+            if (token) {
+                console.log('TOKEN exist')
+                this.$store.commit('SAVE_USERTOKEN', token)
+                this.$router.replace('/loadProcess')
+                //this.userDetail(this)
+                //this.getAccessTokenAPI(code)
+            }
+
+            var id = url.searchParams.get('ob_id')
+            if (id) {
+                console.log('//socialAuth....')
+                this.$store.state.googleId = id
+                this.$store.commit('googleId')
+                this.$router.replace('/socialAuth')
             }
         },
         computed: {
-            //  getUserEmail: function()
-            //  {  
-            //     console.log('getUserEmail - computed')
-            //     this.$http.post('/getUserEmail', {
-            //             email: 'uhirani@officebrain.com',
-            //             signup_type: 'email'
-            //         }).then(response => {
-            //             console.log('Response from get user email', response.data)
-            //         });
-            //  },
             uname: function () {
                 return this.$store.state.userObject.email
             }
@@ -115,45 +126,7 @@
             login() {
                 $(".container").toggleClass("log-in");
             },
-            onSignInSuccess(googleUser) {
-                // `googleUser` is the GoogleUser object that represents the just-signed-in user. 
-                // See https://developers.google.com/identity/sign-in/web/reference#users 
-                var profile = googleUser.getBasicProfile() // etc etc 
-                console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-                console.log('Name: ' + profile.getName());
-                console.log('Image URL: ' + profile.getImageUrl());
-                console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
-                this.$http.post('/getUserDetail', {
-                    email: profile.getEmail(),
-                    signup_type: 'gmail'
-                }).then(response => {
-                        CmnFunc.resetProjectDefault()                    
-                    if (response.data[0]) {
-                        //  this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName()}
-                        this.$store.state.userObject = response.data[0]
-                        this.$store.state.isAuthorized = true
-                        this.$store.commit('userData')
-                        this.$store.commit('authorize')
-                        this.$router.replace('/navbar/mainapp')
-                        
-                    } else {
-                        this.insertUserData(profile.getEmail(), '', 'gmail', profile.getImageUrl(), profile.getName())
-                        //this.$store.state.userObject = {id:profile.getId(), email:profile.getEmail(), username:profile.getName(), role:'', aboutme:'', dob: new Date()}
-                        this.$store.state.userObject = { id: profile.getId(), email: profile.getEmail(), username: profile.getName(), role: '', aboutme: '', signup_type: 'gmail', image_url: profile.getImageUrl() }
-                        this.$store.state.isAuthorized = true
-                        this.$store.commit('userData')
-                        this.$store.commit('authorize')
-                        this.$router.replace('/navbar/mainapp')
-                    }
-
-                })
-
-            },
-            onSignInError(error) {
-                // `error` contains any error occurred. 
-                console.log('OH NOES', error)
-            },
             btnSignUpClicked() {
                 this.emailId = ''
                 this.pwd = ''
@@ -161,7 +134,6 @@
                 $(".container").toggleClass("log-in");
             },
             btnSubmitClicked() {
-                console.log("-----")
                 var trimmedEmail = this.emailId.trim()
                 var trimmedPwd = this.pwd.trim()
                 var trimmedConfPwd = this.confPwd.trim()
@@ -264,44 +236,37 @@
                     return
                 }
                 var self = this
-                CmnFunc.resetProjectDefault()                
-                this.$store.dispatch('userLoginProcess', {'email':trimmedEmail, 'password':trimmedPwd})         
-                .then(function () {             
-                    self.$store.state.isAuthorized = true             
-                    self.$store.commit('authorize')             
-                    self.$store.dispatch('getUserDetail')             
-                    .then(function () {                 
-                         self.$router.replace('/navbar/mainapp')     
-          
-                    })             
-                    .catch(function(error) {      
-                       if (error.response.status === 401) { 
-                           console.log('error: ', error.response.status) 
-                           return 
-                        }              
-                        $.notify.defaults({ className: "error" })                 
-                        $.notify(error.message, { globalPosition:"top center"})             
-                    })       
-                })       
-                .catch(function (error) {             
-                    $.notify.defaults({ className: "error" })             
-                    $.notify(error.message, { globalPosition:"top center"})       
-                });
-                
+                CmnFunc.resetProjectDefault()
+                console.log('LOG IN--> userloginprocess')
+                this.$store.dispatch('userLoginProcess', { 'email': trimmedEmail, 'password': trimmedPwd })
+                    .then(function () {
+                        self.$store.state.isAuthorized = true
+                        self.$store.commit('authorize')
+                        self.userDetail(self)
+                    })
+                    .catch(function (error) {
+                        $.notify.defaults({ className: "error" })
+                        $.notify(error.message, { globalPosition: "top center" })
+                    });
+
+            },
+            userDetail(self) {
+                self.$store.dispatch('getUserDetail')
+                    //  self.$store.dispatch('getUserRegister')                           
+                    .then(function () {
+                        self.$router.replace('/navbar/mainapp')
+                    })
+                    .catch(function (error) {
+                        if (error.response.status === 401) {
+                            return
+                        }
+                        $.notify.defaults({ className: "error" })
+                        $.notify(error.message, { globalPosition: "top center" })
+                    })
             },
             btnBackClicked() {
                 $(".container").toggleClass("log-in");
-                // $('#confirmpwd').hide()
-                // $('#back_btn').hide()
-                // $('.title').text('Log In')
-                // $('#signup_btn').text('Sign Up')
-                // $('#login_btn').show()
-                // $('#google_auth_button').show()
-                // $('#seprator').show()
-                // $('#signup_btn').removeClass('is-disabled')
-                // $("#signup_btn").attr('disabled', false)
-                // $('#login_btn').addClass('is-disabled')
-                // $("#login_btn").attr('disabled', true)
+
                 this.emailId = ''
                 this.pwd = ''
                 this.confPwd = ''
@@ -328,16 +293,6 @@
 
 </script>
 <style>
-    .g-signin-button {
-        /* This is where you control how the button looks. Be creative! */
-        display: inline-block;
-        padding: 4px 8px;
-        border-radius: 3px;
-        background-color: #3c82f7;
-        color: #fff;
-        box-shadow: 0 3px 0 #0f69ff;
-    }
-
     .login-pages {
         background-color: #5356ad;
         position: fixed;

@@ -19,7 +19,10 @@ module.exports = function() {
   const options = {
     Model: r,
     name: table,
+    events:['logproject','deleteProject']
   };
+
+  
 
   // Initialize our service with any options it requires 
   app.use('/project', service(options));
@@ -32,12 +35,39 @@ module.exports = function() {
   });
 
 
-project.filter(function(data, connection, hook) {
-    console.log("Project Service data:-->",data);
-    console.log("Project Service connection:-->",connection);
+project.filter('created',function(data, connection, hook) {
+   
+   console.log(">>>>>>>>>>Project Members<<<<<<<<<<<<<<<<");
+  console.log("Project Service data:-->",data);
+    console.log("Project Service connection:-->",connection.userId);
     console.log("Project Service hook:-->",hook);
-    return data
-})
+   console.log("============================================");
+     if (!connection.userId) {
+      return false;
+    }  
+     console.log("============================================");
+
+    if(data.project_privacy==='0' || connection.userId===data.create_by)
+      return data;
+    else
+      return false;
+
+    // return app.service('projectmember').find({ query: { 'create_by': connection.userId,'project_id':data.id } }).then(response => {
+    //  console.log("============================================",response);
+    //   if(response && response.length>0)
+    //     {
+    //       return data;
+    //     }else
+    //     {
+    //       return false;
+    //     }
+    // })
+
+
+
+
+    // return data
+})  
 
   // Set up our before hooks
   project.before(hooks.before);

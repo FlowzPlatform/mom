@@ -12,7 +12,7 @@ const r = require('rethinkdbdash')({
   });
 const table = config.get('tbl_permission')
 
-module.exports = function() {
+module.exports = function() { 
   const app = this;
   const options = {
     Model: r,
@@ -25,24 +25,21 @@ module.exports = function() {
 
   app.service('permission').init().then(permission => {
       console.log('Created permission', permission)
+      
       if(permission.tables_created === 1)
       {
         r.db(db).table(table).insert([
-          {'name': 'Task create','index': 0},
-          {'name': 'Task update','index': 1},
-          {'name': 'Task delete','index': 2},
-          {'name': 'Task read','index': 3},
-          {'name': 'Task patch','index': 4},
-          {'name': 'Task assign','index': 5},
-          {'name': 'Due_date','index': 6},
-          {'name': 'Comment','index': 7},
-          {'name': 'Add tag','index': 8},
-          {'name': 'Delete Tag','index': 9},
-          {'name': 'Add attachment','index': 10},
-          {'name': 'Delete attachment','index': 11},
-          {'name': 'Task priority','index': 12},
-          {'name': 'Estimated hours','index': 13},
-          {'name': 'Login', 'index':14}
+          {'name': 'Task','index': 0},
+          {'name': 'Task assign','index': 1},
+          {'name': 'Due_date','index': 2},
+          {'name': 'Comment','index': 3},
+          {'name': 'Add tag','index': 4},
+          {'name': 'Delete Tag','index': 5},
+          {'name': 'Add attachment','index': 6},
+          {'name': 'Delete attachment','index': 7},
+          {'name': 'Task priority','index': 8},
+          {'name': 'Estimated hours','index': 9},
+          {'name': 'Login', 'index':10}
         ]).run()
       }
       else

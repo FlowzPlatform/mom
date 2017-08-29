@@ -27,12 +27,13 @@ exports.before = {
   },
   get: [],
   create(hook){
-    console.log("--> result=======",hook);
-
     return hook;
   },
   update:[],
-  patch:[],
+  patch(hook){
+    // console.log("Hook Result in patch:", hook.data)
+    // this.emit('toggleTodoTask', hook)
+  },
   remove: []
 };
 

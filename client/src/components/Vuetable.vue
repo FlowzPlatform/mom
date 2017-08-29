@@ -3,27 +3,44 @@
         <table class="vuetable" v-bind:class="tableClass">
             <thead>
                 <tr>
-                    <template v-for="field in fields">
-                                <th :class="field.titleClass">
-                                    {{ getTitle(field) | capitalize }}&nbsp;
-                                </th>
-                        </template>
+                    <template v-for="(field, fieldNumber) in fields">
+                        <th :class="field.titleClass" colspan="4" :style="getSectionBorderClass(fieldNumber-1,1) ">
+                            {{ getTitle(field) }}&nbsp;
+                        </th>
+                    </template>
                 </tr>
             </thead>
             <tbody v-cloak>
+                <tr>
+                    <th class="center aligned" colspan="4">
+                        User Action
+                    </th>
+                    <template v-for="(field,fieldIndex) in fields.length-1">
+                        <template v-for="n in 4">
+                            <td :style="getSectionBorderClass(fieldIndex,n)">
+                                {{ getFieldValue(n)}}
+
+                            </td>
+                        </template>
+                    </template>
+                </tr>
                 <template v-for="(item, itemNumber) in tableData">
                     <tr @dblClick="onRowDoubleClicked(item, $event)" :class="onRowClass(item, itemNumber)">
                         <template v-for="(field,fieldNumber) in fields">
-                            <td v-if="fieldNumber > 0" >
-                              <!--{{  getObjectValue(item, field.name, '') }}-->
-                                        <component :class="field.dataClass" is="custom-action" :row-data="item" :row-index="itemNumber" :row-check="getObjectValue(item, field, '')" :row-field="field" ></component>
-                                    </td>
-                                <td v-else :class="field.dataClass"  @dblclick="onCellDoubleClicked(item, field, $event)">
-                                      {{ getObjectValue(item, field, "") }}
+                            <td v-if="fieldNumber ==0" :class="field.dataClass" @dblclick="onCellDoubleClicked(item, field, $event)" colspan="4">
+                                {{ item.name }}
+                            </td>
+
+                            <template v-for="n in 4" v-else>
+                                <td :style="getSectionBorderClass(fieldNumber-1,n)">
+                                    <!-- {{getObjectValue(item, field, n)}} -->
+                                    <component :class="field.dataClass" is="custom-action" :row-data="item" :row-index="itemNumber" :row-check="getObjectValue(item, field, n)"
+                                        :row-field="field" :role-value="getRoleValue(n)" :task-type-id="taskTypeId"></component>
                                 </td>
+                            </template>
                         </template>
                     </tr>
-                 </template>
+                </template>
             </tbody>
         </table>
     </div>
@@ -69,13 +86,17 @@ export default {
             type: Array,
             required: true
         }
+        ,
+        taskTypeId:{
+            type: String,
+            required: true
+        }
         
         
     },
     data: function() {
         return {
             eventPrefix: 'vuetable:',
-           
             tablePagination: null,
             currentPage: 1,
             visibleDetailRows: []
@@ -91,7 +112,41 @@ export default {
         },
     },
     methods: {
-        
+        getColSpan: function (fieldIndex) {
+            var colSpan = fieldIndex == 0 ? 4 : 1
+        },
+        getSectionBorderClass: function (fieldIndex, colSpanIndex) {
+            if (colSpanIndex == 1)
+                return "border-left: 1px solid #000000;"
+            // else if (colSpanIndex == 4 && fieldIndex < this.fields.length - 2)
+            //     return "border-right: 1px solid #000000;"
+            else
+                return ""
+        },
+        getRoleValue:function(index)
+        {
+            if (index == 1)
+                return 8
+            else if (index == 2)
+                return 4
+            else if (index == 3)
+                return 2
+            else
+                return 1
+        },
+        getFieldValue:function(index)
+        {
+            if (index == 1)
+                return "C"
+            else if (index == 2)
+                return "R"
+            else if (index == 3)
+                return "U"
+            else if (index == 4)
+                return "D"
+            else
+                return ""
+        },
         onRowClass: function(dataItem, index) {
             var func = this.rowClassCallback.trim()
 
@@ -104,23 +159,17 @@ export default {
             return this.selectedTo.indexOf(key) >= 0
         },
         rowSelected: function(dataItem, fieldName) {
-             console.log("fieldName-->",fieldName);
-             console.log("dataItem-->",dataItem);
-            
             var idColumn = fieldName
-             console.log("idColumn-->",idColumn);
             var key = dataItem[idColumn]
-            console.log("key-->",key);
             return key
         },
-            itemAction: function(action,isChecked, data,rowCheck) {
-                //  var idColumn = this.extractArgs(fieldName)
-                console.log('custom-action: ' + action, data.name, isChecked, rowCheck)
-            },
+        itemAction: function(action,isChecked, data,rowCheck) {
+            //  var idColumn = this.extractArgs(fieldName)
+        },
         normalizeFields: function() {
             var self = this
             var obj
-            this.fields.forEach(function(field, i) {
+            this.fields.forEach(function (field, i) {
                 if (typeof (field) === 'string') {
                     obj = {
                         name: field,
@@ -144,32 +193,39 @@ export default {
                 self.fields.$set(i, obj)
             })
         },
-        getObjectValue: function(object, path, defaultValue) {
-            defaultValue = (typeof defaultValue == 'undefined') ? null : defaultValue
-            console.log("object",object);
-            console.log("path",path.id);
-            // console.log("defaultValue",defaultValue);
-
+        getObjectValue: function(object, path, crudIndex) {
+            // defaultValue = (typeof defaultValue == 'undefined') ? null : defaultValue
             if (path.id) {
-                    var roleId = object.roleid;
-                    
-                    var isAccess = false;   
-                    if(roleId)
-                    {
-                    for (var index = 0; index < roleId.length; index++) {
-                        var role = roleId[index];
-                        if (role.rId == path.id) {
-                            isAccess = true;
-                            break;
+                var roleId = object.roleid;
+                let roleIndex = _.findIndex(roleId, function (role) { return role.rId === path.id })
+                if (roleIndex < 0)
+                    return false;
+
+                var role = roleId[roleIndex];
+                if (role.rId == path.id) {
+                    if (role.accessValue) {
+                        if (crudIndex == 1) {
+                            return role.accessValue >= 8
+                        } else if (crudIndex == 2) {
+                            var readValue = [4, 5, 6, 7, 12, 13, 14, 15];
+                            return readValue.includes(role.accessValue)//>=4 && path.accessValue<=7) || (path.accessValue>12 && path.accessValue<=15) 
+                        } else if (crudIndex == 3) {
+                            var updatevalue = [2, 3, 6, 7, 10, 11, 14, 15]
+                            return updatevalue.includes(role.accessValue)
+                        } else {
+
+                            var deletevalue = [1, 3, 5, 7, 9, 11, 13, 15]
+                            return deletevalue.includes(role.accessValue)
                         }
                     }
-                    }
-                    return isAccess;
-                } else {
-                    return object.name;
                 }
-           
-        },  getTitle: function(field) {
+                return false;
+            } else {
+                return object.name;
+            }
+               
+        },
+        getTitle: function(field) {
             if (typeof field.title === 'undefined') {
                 return this.titleCase(field.name.replace('.', ' '))
             }
@@ -179,7 +235,6 @@ export default {
             if (this.isSpecialField(str)) {
                 return ''
             }
-
             return this.titleCase(str)
         },
         titleCase: function(str)
@@ -236,8 +291,11 @@ export default {
             if (typeof this.$parent[func] == 'function') {
                 return this.$parent[func].call(this.$parent, item)
             } else {
-                console.error('Function "'+func+'()" does not exist!')
+                // console.error('Function "'+func+'()" does not exist!')
             }
+        },
+        deleteRole: function(item) {
+            this.$store.dispatch('removeNewRole', item)
         }
     },
     watch: {
@@ -287,17 +345,21 @@ export default {
         }
     },
     created: function() {
-        this.checkForDeprecatedProps()
-        this.normalizeFields()
+       // this.checkForDeprecatedProps()
+        // this.normalizeFields()
     
-        this.$nextTick(function() {
-            this.callPaginationConfig()
-        })
+        // this.$nextTick(function() {
+        //     this.callPaginationConfig()
+        // })
     }
 }
 </script>
 
 <style>
+           .ui.table {
+    font-size: 1em;
+    display: inline-table;
+}
     .vuetable th.sortable:hover {
       color: #2185d0;
       cursor: pointer;
@@ -314,4 +376,18 @@ export default {
       margin-top: auto;
       margin-bottom: auto;
     }
+    .vuetable-wrapper.ui.basic.segment {
+       overflow-x: overlay;
+    display: grid;
+    width: 100%;
+    }
+
+    .thead > span {
+    display: inline-block;
+    width: 120px;
+    line-height: 40px;
+    box-shadow: inset 0 0 1px 0 rgba(0,0,0,.5);
+    background-color: rgba(255,0,0,.3);
+    text-align: center;
+}
 </style>

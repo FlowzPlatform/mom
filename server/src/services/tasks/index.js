@@ -6,6 +6,7 @@ const db = config.get('dbName')
 const table = config.get('tbl_tasks')
 const db_host = config.get('db_host')
 const db_port = config.get('db_port')
+const socketio = require('feathers-socketio');
 
 module.exports = function() {
   const app = this;
@@ -18,10 +19,28 @@ module.exports = function() {
   const options = {
     Model: r,
     name: table,
+    events: ['toggleTodoTask']
   };
 
   // Initialize our service with any options it requires 
   app.use('/tasks', service(options));
+
+// app.configure(socketio(function(io) {
+//     io.on('connection', function(socket) {
+//     //   socket.emit('news', { hello: 'world' });
+//     //   socket.on('my other event', function (data) {
+//     //     console.log(data);
+//     //   });
+//     });
+
+//     io.use(function(socket, next) {
+//       socket.feathers.data = 'Server say hello india';
+//       next();
+//     });
+
+// }));
+
+  
 
   // Get our initialize service to that we can bind hooks
   const taskService = app.service('/tasks');
@@ -37,15 +56,40 @@ module.exports = function() {
 
 
 
-  taskService.filter('created', function(data, connection, hook) {
-    console.log("Tassk Create  data:-->",data);
-    console.log("Tassk Create connection:-->",connection);
-    console.log("Tassk Create hook:-->",hook);
-    app.service('projectmember').find({query:{'create_by':"594cdf504b5d41138302f19a"}}).then(response => {
-      console.log("cerated_by-->",response);
+ 
+
+
+  taskService.filter(function(data, connection, hook) {
+     console.log("<========Tassk Filter Call task =====>",data);
+    var userId=connection.userId;
+    if (!userId) {
+      return false;
+    }
+    var self=this;
+    //  $or: [
+    //         { parentId: payload.parentId, project_id: payload.project_id, created_by: store.state.userObject._id },
+    //         { parentId: payload.parentId, project_id: payload.project_id, assigned_to: store.state.userObject._id }
+    //       ]  
+      // console.log("<========Tassk Filter response= data.project_id ====>",data.project_id);  
+
+    return app.service('project').get(data.project_id).then(response => {
+      // console.log("<========Tassk Filter userid=====>",userId);
+      if (response.project_privacy==="0") {
+        return data;
+      } else {
+        //  console.log("<========Tassk Filter Call=====>",userId);
+        return app.service('projectmember').find({ query: { 'user_id':userId, project_id: data.project_id } }).then(response => {
+          if (response && response.length > 0) {
+            return data;
+          } else {
+            return false;
+          }
+        })
+
+      }
     })
 
-    return data
+    
 });
-
+  
 }

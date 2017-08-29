@@ -4,39 +4,56 @@ exports.before = {
 
   all:[],
   find(hook){
-    const query = this.createQuery(hook.params.query);
-    const r = this.options.r;
-    console.log("Find query:--",query)
-
-    hook.params.rethinkdb = query.merge(function (projectid) {
-      return {
-        'members': r.table('projectmember')
-          .filter({ 'project_id': projectid('id') })
-          .coerceTo('array').pluck('user_id')
+    const userid = hook.params.userId;
+    var client = hook.params.query.$client;
+    if (client && client.flag && client.flag == 'allprojectlist') {
+      const query = this.createQuery(hook.params.query);
+      const r = this.options.r;
+      hook.params.rethinkdb = query.merge(function (projectid) {
+        return {
+          'members': r.table('projectmember')
+            .filter({ 'project_id': projectid('id') ,'is_deleted':false})
+            .orderBy('created_at')
+            .coerceTo('array').pluck('user_id','user_role_id','is_deleted','id')
+        }
       }
+      ).filter(function (project) {
+        return project("project_privacy").eq('0').or(project("project_privacy").eq('2'))
+          .or(project('members')('user_id').contains(userid))
+      }).orderBy('created_at')
+    } else if (client && client.flag && client.flag == 'projectmember') {
+      const query = this.createQuery(hook.params.query);
+      const r = this.options.r;
+      hook.params.rethinkdb = query.merge(function (projectid) {
+        return {
+          'members': r.table('projectmember')
+            .filter({ 'project_id': projectid('id'),'is_deleted':false})
+            .coerceTo('array').pluck('user_id')
+        }
+      }
+      ).orderBy('created_at')
     }
-    ).orderBy('created_at')
   },
   get: [],
-  create(hook){
-  var hookData=hook.data;
+  create(hook) {
+    var hookData = hook.data;
+    return this.find({ query: { project_name: hookData.project_name } }).then(reponse => {
+      if (reponse.length > 0) {
+        hook.result = { error: "Project already exist" }
+        // return hook;
+      }
+      console.log("-----Before created Success------")
 
-return  this.find({query:{project_name:hookData.project_name}}).then(reponse=>{
-    
-    if(reponse.length>0)
-    {
-      hook.result ={error:"Project already exist"}
-      // return hook;
-    }
-    
-    console.log("-----Before created Success------")
-
-    return hook;
-  })
+      return hook;
+    })
 
   },
   update: [],
-  patch: [],
+  patch(hook){
+     //console.log("hook:",hook.result);
+    //this.emit('deleteProject',hook.result)
+    
+  },
   remove: []
 };
 
@@ -68,7 +85,10 @@ exports.after = {
 
 },
   update: [],
-  patch: [],
+  patch(hook){
+     //console.log("hook:",hook.result);
+    this.emit('deleteProject',hook.result)
+  },
   remove: []
 };
 

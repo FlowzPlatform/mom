@@ -24,7 +24,7 @@
                                 <label class="Label" for="new_project_dialog_content_name_input">Project Name</label>
                             </div>
                             <div class="NewProjectFormRowStructure-contents">
-                                <input type="text" @keyup.esc="close" v-model="projectName" id="new_project_dialog_content_name_input" class="textInput textInput--large NewProjectForm-nameInput" value="" name="">
+                                <input type="text"  @keyup.esc="close" v-model="projectName" tabindex="0" id="new_project_dialog_content_name_input" class="textInput textInput--large NewProjectForm-nameInput" value="" name="">
                             </div>
                             <div class="NewProjectFormRowStructure-label">
                                 <label class="LabelError">{{ createProjectError}}</label>
@@ -141,58 +141,57 @@
                 description: '',
                 privacyOption: '',
                 createProjectError: '',
-                privacyMsg: ''
+                privacyMsg: '',
+                focused: true
             }
         },
         mounted: function () {
 
-                // this.$refs.projectName.focus();
+               // this.$refs.projectName.focus();
 
             },
             created: function () {
-                console.log("show:", this.show);
                 $("#new_project_dialog_content_name_input").focus();
             },
         methods: {
             projectResponse: function (response) {
                 if (!response.error) {
-                    console.log("-->", response)
-
                     var insertInvite = {
                         project_id: response.id,
                         user_id: this.$store.state.userObject._id,
                         create_by: this.$store.state.userObject._id,
                         user_email: this.$store.state.userObject.email,
-                        invited_date: new Date()
+                        invited_date: new Date(),
+                        is_deleted:false,
+                        user_role_id:this.getOwernerId()
                     }
-                    console.log("Insert Invite:-->", insertInvite);
                     this.$store.dispatch('insertProjectInvite', insertInvite)
 
                     this.projectName = ''
                     this.description = ''
                     this.privacyOption = ''
-                    this.$store.state.projectlist.push(response)
+                    // this.$store.state.projectlist.push(response)
                     this.$store.state.currentProjectId = response.id
                     this.$store.state.currentProjectName=response.project_name
                     this.close();
 
                 } else {
-                    // console.log("-->",response.error)
                     this.createProjectError = response.error;
                 }
             },
-            close: function () {
+            getOwernerId(){
+                this.$store.state.userRoles
+                
+                let owner = _.find(this.$store.state.userRoles, ['name', "Owner"])
+
+                return owner.id;
+            },close: function () {
                this.$emit('updateDialog', this.show != this.show);
                 this.projectName = ''
                 this.description = ''
                 this.privacyOption = ''
             },
             savePost: function () {
-                console.log("projectName:", this.projectName)
-                console.log("description:", this.description)
-                console.log("privacyOption:", this.privacyOption)
-
-
                 if (!this.projectName || this.projectName.length == 0) {
                     this.createProjectError = "Invalid project name";
                     return;
@@ -207,7 +206,7 @@
                 }
 
                 var request = {
-                    data: { project_name: this.projectName, project_description: this.description, project_privacy: this.privacyOption, create_by: this.$store.state.userObject._id, created_at: new Date() },
+                    data: { project_name: this.projectName, project_description: this.description, project_privacy: this.privacyOption, create_by: this.$store.state.userObject._id, created_at: new Date(),is_deleted:false },
                     callback: this.projectResponse
                 }
                 this.$store.dispatch('insertProject', request)
@@ -219,616 +218,5 @@
 
 </script>
 <style>
-    * {
-        box-sizing: border-box;
-    }
-
-    .my-dialog .ModalLayer-topBuffer {
-        height: 75px;
-    }
-
-    .Dialog-header {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-flex-shrink: 0;
-        -ms-flex-negative: 0;
-        flex-shrink: 0;
-        padding: 10px 30px;
-        position: relative;
-    }
-
-    .Dialog-headerTitle {
-        -webkit-align-self: center;
-        -ms-flex-item-align: center;
-        align-self: center;
-        color: #1b2432;
-        -webkit-box-flex: 1;
-        -webkit-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: 24px;
-        font-weight: 500;
-        line-height: 1.2;
-    }
-
-    .Dialog-closeButton {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-    }
-
-    .CloseButton {
-        -webkit-box-align: center;
-        -webkit-align-items: center;
-        -ms-flex-align: center;
-        align-items: center;
-        display: -webkit-inline-box;
-        display: -webkit-inline-flex;
-        display: -ms-inline-flexbox;
-        display: inline-flex;
-        fill: #cdcfd2;
-    }
-
-    a {
-        color: #1aafd0;
-        cursor: pointer;
-        text-decoration: none;
-    }
-
-    .CloseButton:hover {
-        fill: #02ceff;
-    }
-
-    a.CloseButton.Dialog-closeButton {
-        position: absolute;
-        top: 89px;
-        right: 100px;
-    }
-
-    a:hover,
-    a:focus {
-        color: #02ceff;
-        text-decoration: underline;
-    }
-
-    .my-dialog .modal-mask {
-        /* display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex; */
-        -webkit-box-flex: 0;
-        -webkit-flex: 0 1 auto;
-        -ms-flex: 0 1 auto;
-        flex: 0 1 auto;
-        -webkit-box-pack: center;
-        -webkit-justify-content: center;
-        -ms-flex-pack: center;
-        justify-content: center;
-        min-height: 1px;
-        width: 100%;
-    }
-
-    .my-dialog .modal-container {
-        background: #fff;
-        border-radius: 3px;
-        box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        border-radius: 3px;
-        color: #1b2432;
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        font-size: 13px;
-        font-weight: 400;
-        margin-top: 75px;
-        margin-bottom: 75px;
-        min-height: 1px;
-        text-align: left;
-        width: 580px;
-        padding: 0px;
-    }
-
-    .my-dialog .modal-header {
-        color: #42b983;
-        background-color: transparent;
-        padding: 0px;
-        margin-top: -5px;
-        color: #42b983;
-        background-color: transparent;
-        margin-top: 10px;
-        padding-right: 10px;
-        padding-bottom: 10px;
-        padding-left: 30px;
-    }
-
-    .my-dialog .modal-footer {
-        border-color: transparent;
-        background-color: transparent;
-    }
-
-
-    .my-dialog .modal-body {
-        margin: 0px 0;
-    }
-
-    .NewProjectForm {
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        padding: 15px 30px 0;
-    }
-
-    .scrollable--vertical {
-        min-height: 1px;
-        overflow-y: auto;
-    }
-
-    .dialog>.text-right {
-        text-align: right;
-    }
-
-    .dialog>.form-label {
-        display: block;
-        margin-bottom: 1em;
-    }
-
-    .form-label>.form-control {
-        margin-top: 0.5em;
-    }
-
-    .form-control {
-        display: block;
-        width: 100%;
-        padding: 0.5em 1em;
-        line-height: 1.5;
-        border: 1px solid #ddd;
-    }
-
-    .modal-enter,
-    .modal-leave {
-        opacity: 0;
-    }
-
-    .modal-enter .modal-container,
-    .modal-leave .modal-container {
-        -webkit-transform: scale(1.1);
-        transform: scale(1.1);
-    }
-
-    .NewProjectForm-nameAndTeamRow {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-    }
-
-    .NewProjectFormRowStructure {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-flex: 1;
-        -webkit-flex: 1 1 auto;
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto;
-        min-width: 1px;
-    }
-
-    .Label {
-        color: #898e95;
-        display: inline-block;
-        font-size: 11px;
-        margin-right: 10px;
-        padding-top: 2px;
-        text-align: right;
-        text-transform: uppercase;
-    }
-
-    .LabelError {
-        color: red;
-        display: inline-block;
-        font-size: 8px;
-        margin-right: 10px;
-        padding-top: 2px;
-        text-align: right;
-        text-transform: uppercase;
-    }
-
-    .NewProjectFormRowStructure-contents {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-flex: 1;
-        -webkit-flex: 1 1 auto;
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        min-width: 1px;
-        margin-top: -5px;
-    }
-
-    .textInput.textInput--invalid,
-    .textInput.textInput--invalid:hover,
-    .textInput.textInput--invalid:focus {
-        border-color: #fc636b;
-    }
-    /* Description */
-
-    .NewProjectFormRowStructure--labelPlacementTop {
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-        flex-direction: column;
-    }
-
-    .NewProjectFormRowStructure {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-flex: 1;
-        -webkit-flex: 1 1 auto;
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto;
-        min-width: 1px;
-    }
-
-    .NewProjectFormRowStructure-label--labelPlacementTop {
-        margin-top: 10px;
-    }
-
-    .NewProjectFormRowStructure-label {
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        cursor: default;
-        display: -webkit-inline-box;
-        display: -webkit-inline-flex;
-        display: -ms-inline-flexbox;
-        display: inline-flex;
-        -webkit-box-flex: 0;
-        -webkit-flex: 0 0 auto;
-        -ms-flex: 0 0 auto;
-        flex: 0 0 auto;
-    }
-
-    .NewProjectForm-description.is-descriptionShowing {
-        margin-top: 5px;
-    }
-
-    .NewProjectForm-description {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        margin-top: 15px;
-    }
-
-    .NewProjectForm-descriptionInput .ql-editor {
-        max-height: 70px;
-        -webkit-transition: min-height 0.2s;
-        transition: min-height 0.2s;
-    }
-
-    .NewProjectForm-descriptionInput .ql-editor {
-        min-height: 70px;
-        padding: 9px 9px;
-    }
-
-    .NewProjectForm-descriptionInput {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: 13px;
-        font-weight: 400;
-        line-height: 20px;
-    }
-
-    .NewProjectForm-nameInput,
-    .NewProjectForm-descriptionInput {
-        -webkit-box-flex: 1;
-        -webkit-flex: 1 1 auto;
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto;
-    }
-
-    .textEditor-container,
-    .textEditor-container .quill-container {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-        flex-direction: column;
-    }
-
-    .textEditor-container .ql-editor {
-        outline: 0;
-        white-space: pre-wrap;
-    }
-
-    .textEditor-container .quill-container,
-    .textEditor-container .ql-editor {
-        -webkit-box-flex: 1;
-        -webkit-flex: 1 1 auto;
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto;
-        min-height: 1px;
-    }
-
-    .NewProjectForm-descriptionInput .ql-editor {
-        max-height: 70px;
-        -webkit-transition: min-height 0.2s;
-        transition: min-height 0.2s;
-    }
-
-    .NewProjectForm-descriptionInput .ql-editor {
-        min-height: 70px;
-        padding: 9px 9px;
-    }
-
-    .textEditor-container .ql-editor {
-        outline: 0;
-        white-space: pre-wrap;
-    }
-
-    .textEditor-container .quill-container,
-    .textEditor-container .ql-editor {
-        -webkit-box-flex: 1;
-        -webkit-flex: 1 1 auto;
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto;
-        min-height: 1px;
-    }
-
-    .textEditor-container,
-    .textEditor-container .quill-container {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-        flex-direction: column;
-    }
-
-    .textEditor-container {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: 13px;
-        font-weight: 400;
-        line-height: 20px;
-        border: 1px solid #cdcfd2;
-        border-radius: 3px;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        padding: 0 9px;
-        overflow-y: auto;
-        padding: 0;
-        position: relative;
-        word-wrap: break-word;
-    }
-
-    .NewProjectForm-descriptionInput .textEditor-placeholder {
-        margin: 9px 9px;
-    }
-
-    .textEditor-placeholder {
-        color: #b9bcc0;
-        pointer-events: none;
-        position: absolute;
-    }
-
-    .textEditor-container .quill-container,
-    .textEditor-container .ql-editor {
-        -webkit-box-flex: 1;
-        -webkit-flex: 1 1 auto;
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto;
-        min-height: 1px;
-    }
-
-    .NewProjectForm-privacy {
-        margin-top: 30px;
-    }
-
-    .NewProjectFormRowStructure--labelPlacementTop {
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-        flex-direction: column;
-    }
-
-    .NewProjectFormRowStructure {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-flex: 1;
-        -webkit-flex: 1 1 auto;
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto;
-        min-width: 1px;
-    }
-
-    .NewProjectForm-privacyOptions.NewProjectForm-privacyOptions--noBorder {
-        margin-top: 5px;
-    }
-
-    .NewProjectForm-privacyOptions {
-        -webkit-box-flex: 1;
-        -webkit-flex: 1 1 auto;
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto;
-        min-width: 1px;
-    }
-
-    .NewProjectForm-privacyOption:first-child {
-        margin-top: 0;
-    }
-
-    .NewProjectForm-privacyOption {
-        -webkit-box-align: start;
-        -webkit-align-items: flex-start;
-        -ms-flex-align: start;
-        align-items: flex-start;
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        margin-top: 15px;
-    }
-
-    input[type="radio"] {
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        padding: 0;
-    }
-
-    .NewProjectForm-publicRadio,
-    .NewProjectForm-privateToMembersRadio,
-    .NewProjectForm-privateToUserRadio {
-        -webkit-flex-shrink: 0;
-        -ms-flex-negative: 0;
-        flex-shrink: 0;
-    }
-
-    .NewProjectForm-privacyIcon {
-        fill: #cdcfd2;
-        -webkit-box-flex: 0;
-        -webkit-flex: 0 0 auto;
-        -ms-flex: 0 0 auto;
-        flex: 0 0 auto;
-        margin-left: 10px;
-        margin-right: 5px;
-    }
-
-    .NewProjectForm-privacyOptionText,
-    .NewProjectForm-privacyOptionTextWithDropdown {
-        white-space: nowrap;
-    }
-
-    .NewProjectForm-privacyOptionLabel {
-        -webkit-box-flex: 1;
-        -webkit-flex: 1 1 auto;
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto;
-        min-width: 1px;
-    }
-
-    .NewProjectForm-privacyOptionText {
-        line-height: 16px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        color:#898e95
-    }
-
-    .NewProjectForm-privacyOptionText,
-    .NewProjectForm-privacyOptionTextWithDropdown {
-        white-space: nowrap;
-    }
-
-    button[disabled],
-    html input[disabled] {
-        cursor: default;
-    }
-
-    .NewProjectForm-privacyOptionDisabled {
-        color: #b9bcc0;
-    }
-
-    .NewProjectForm-privacyOptionText {
-        line-height: 16px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .NewProjectForm-privacyOptionText,
-    .NewProjectForm-privacyOptionTextWithDropdown {
-        white-space: nowrap;
-    }
-
-    .NewProjectForm-privacyOptionSubtext {
-        color: #898e95;
-        font-size: 11px;
-        padding-top: 5px;
-    }
-
-    a:not([href]):not([tabindex]) {
-        color: inherit;
-        text-decoration: none;
-    }
-
-    .Icon {
-        height: 16px;
-        width: 16px;
-    }
-
-    svg:not(:root) {
-        overflow: hidden;
-    }
-
-    .NewProjectForm-upsellLink.NewProjectForm-upsellLinkColored {
-        border-bottom: 1px dotted #fd9a00;
-        color: #fd9a00;
-        cursor: pointer;
-        fill: #fd9a00;
-    }
-
-
-
-    .Button.Button--medium {
-        height: 40px;
-        line-height: 40px;
-        padding: 0 14px;
-    }
-
-    .Button.Button--primary:not(.Button--disabled) {
-    background: #1aafd0;
-    border-color: #1aafd0;
-    color: #fff;
-    fill: #fff;
-}
-a.Button.Button--medium.Button--primary.CreateBlankProjectRow-button.NewProjectForm-createButton:hover {
-    background: #02ceff;
-    border-color: #02ceff;
-    box-shadow: 0 0 0 3px #80e6ff;
-    color: #fff;
-    fill: #fff;
-}
-
-    .Button.Button--disabled.Button--primary {
-        background: #eff0f1;
-        color: #b9bcc0;
-        border: 1px solid #e1e2e4;
-    }
-
-    .Button.Button--disabled {
-        box-shadow: none;
-        color: #b9bcc0;
-        cursor: default;
-        fill: #b9bcc0;
-    }
-
-    .NewProjectForm-buttonRow {
-        padding-bottom: 15px;
-        text-align: right;
-    }
+    
 </style>

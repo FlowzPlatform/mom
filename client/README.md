@@ -57,3 +57,11 @@ npm test
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+## Run Using Docker ##
+
+```
+docker run -p 80:80 fl0wz/client_for_todo_app
+```
+go to browser and search
+- localhost:80

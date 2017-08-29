@@ -1,5 +1,5 @@
 <template>
-    <div class="SingleTaskPane-feed">
+    <div class="SingleTaskPane-feed" v-if="test.length > 0">
         <div class="StoryFeed">
             <hr class="StoryFeed-separator StoryFeed-topSeparator">
             <div class="dropdown sort-menu">
@@ -87,12 +87,6 @@
             return firstLetters.toUpperCase()
         }
     })
-    Vue.filter('capitalizeLetters', function (str) {
-        if (str) {
-            var firstLetters = str.substr(0, 2)
-            return firstLetters.toUpperCase()
-        }
-    })
     Vue.filter('capitalizeFirstLetter', function (str) {
         let str1 =  str.split('_').join(' ')
         return str1.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
@@ -140,7 +134,6 @@
            test(){
                 let commentList = this.getComment(this.filteredTodo.id)
                 this.commentDetailList(commentList)
-                console.log("Test Called",commentFilter[this.visibleFilter](commentList))
                 return commentFilter[this.visibleFilter](commentList)   
                 
             },

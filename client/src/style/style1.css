@@ -1,15 +1,5 @@
 @charset "UTF-8";
 @import url(https://fonts.googleapis.com/css?family=Oswald|Roboto);
-/*body {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  font-family: "Roboto", sans-serif;
-  overflow: hidden;
-}*/
-
 .table {
   display: table;
   width: 100%;
@@ -23,6 +13,7 @@
   -o-transition: all 0.5s;
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
+  
 }
 
 .container {
@@ -32,7 +23,7 @@
   height: 320px;
   background-color: #999ede;
   top: 50%;
-  /*margin-top: -160px;*/
+  margin-top: -160px;
   -moz-transition: all 0.5s;
   -o-transition: all 0.5s;
   -webkit-transition: all 0.5s;

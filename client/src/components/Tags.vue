@@ -88,7 +88,6 @@
 
                     return item.name.toLowerCase().indexOf(self.inputValue.toLowerCase()) != -1
                 })
-                console.log("itemList", itemList)
                 if (!sameMatch)
                     itemList.push({ "id": "0", "name": self.inputValue });
                 return itemList;
@@ -99,7 +98,6 @@
                     return tag.name;
                     
                  let index = _.findIndex(this.$store.state.tagsList, function (d) { return d.id == tag.tag_id })
-                 console.log('Tag id index', index);
                  if(index > -1)
                  {
                     if (!tag.name)
@@ -112,13 +110,11 @@
             },
             selectLiTag: function (item) {
                 this.selectFromList = true;
-                console.log("selectLiTag method call--------------------", item)
                 this.tagItem = item;
                 this.inputValue = item.name.trim().replace('ADD NEW', '');
                 this.handleInputConfirm(this.tagItem);
             },
             handleClose(tag) {
-                console.log("remove tag:", tag);
                 this.removeTaskTags(tag);
             },
             showMenu() {
@@ -126,7 +122,6 @@
             }
             ,
             showInput() {
-                console.log('show input call')
                 this.inputValue = ''; // Clear input value
                 this.inputVisible = true;
                 this.$nextTick(_ => {
@@ -134,14 +129,10 @@
                 });
             },
             handleInputConfirm(tag) {
-                console.log("-------------Blur calll------------->", this.selectFromList);
-
                 // Same tag match from task tag then not insert into database
                 if (this.eventEnter || this.selectFromList) {
-                    console.log("this.tagItem", this.tagItem);
                     var inputTag = this.inputValue;
                     if (this.eventEnter) {
-                        console.log("<-------------eventEnter--------->");
                         this.eventEnter = false;
                         //Check duplication tag in task 
                         let index = _.findIndex(this.taskTags, function (d) { return d.name == inputTag })
@@ -149,15 +140,12 @@
                             this.inputVisible = false;
                             this.inputValue = ''; // Clear input value
                             this.tagItem = '';
-
-                            console.log('tag1 exist in task')
                             return;
                         } else {
                             //Check enter tag is availble in database list
                             let index = _.findIndex(this.$store.state.tagsList, function (d) { return d.name == inputTag })
                             if (index > -1) {
                                 var indexTag = this.$store.state.tagsList[index];
-                                console.log("index Tag", indexTag);
                                 // Insert tag task in task
                                 this.insertTaskTag(indexTag);
                             } else {
@@ -169,18 +157,14 @@
                         this.inputValue = ''; // Clear input value
                         this.tagItem = '';
                     } else {
-                        console.log("<-------------selectFromList--------->", tag);
                         this.selectFromList = false;
                         if (tag.name) {
                             let index = _.findIndex(this.taskTags, function (d) { return d.name == tag.name })
                             if (index > -1) {
-                                console.log('tag2 exist in task')
                             } else {
-                                console.log("<-------------@@@insertTaskTag--------->");
                                 let index = _.findIndex(this.$store.state.tagsList, function (d) { return d.name == inputTag })
                                 if (index > -1) {
                                     var indexTag = this.$store.state.tagsList[index];
-                                    console.log("index Tag", indexTag);
                                     // Insert tag task in task
                                     this.insertTaskTag(indexTag);
                                 } else {
@@ -225,7 +209,6 @@
             insertTaskTag(tag) {
                 // Insert new tag into tags table
                 // Add task_id into tag
-                console.log("tag", tag)
                 this.$store.dispatch('insertIntoTaskTags', { 'tag': tag, 'taskId': this.filteredTodo.id })
             },
             hideDropDownMenu() {

@@ -35,5 +35,20 @@ export default {
   },
   resetProjectDefault: function () {
    store.commit('CLEAR_PROJECT_DEFAULT')
+  },
+  isCreatePermission: function(accessValue){
+    return accessValue >= 8
+  },
+  isReadPermission: function(accessValue){
+    const readValue = [4, 5, 6, 7, 12, 13, 14, 15];
+    return readValue.includes(accessValue)
+  },
+  isUpdatePermision: function(accessValue){
+    const updatevalue = [2, 3, 6, 7, 10, 11, 14, 15]
+    return updatevalue.includes(accessValue)
+  },
+  isDeletePermision: function(accessValue){
+    const deletevalue = [1, 3, 5, 7, 9, 11, 13, 15]
+    return deletevalue.includes(accessValue)
   }
 }

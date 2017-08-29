@@ -5,6 +5,10 @@ import Login from '@/components/LoginPage'
 import MainApp from '@/components/MainApp'
 import RoleAccess from '@/components/RoleAccess'
 import navbar from '@/components/navbar'
+import ShowTaskList from '@/components/ShowTaskList'
+import ShowTaskTypes from '@/components/ShowTaskTypes'
+import SocialAuth from '@/components/SocialAuthProcess'
+import LoadProcess from '@/components/LoadProcess'
 import '../style/style.css'
 import '../style/style1.css'
 import '../style/newStyle.css'
@@ -41,6 +45,16 @@ export default new Router({
       meta: { Auth: false }
     },
     {
+      path: '/socialAuth',
+      name: 'SocialAuth',
+      component: SocialAuth
+    },
+    {
+      path: '/loadProcess',
+      name:'LoadProcess',
+      component: LoadProcess
+    },
+    {
       path: '/navbar/task/:level/:id',
       //query: {id:''},
       name: 'mainapp',
@@ -63,6 +77,11 @@ export default new Router({
           name: 'RoleAccess',
           component: RoleAccess
         },
+        {
+          path: 'tasklist',
+          name: 'TaskList',
+          component: ShowTaskList
+        }
         // {
         //   path: 'task/:level/:id',
         //   //query: {id:''},

@@ -1,8 +1,61 @@
-2017-07-12T10:59:08.077008740 0.073033s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
-2017-07-12T10:59:08.084219784 0.080248s notice: Running on Linux 4.4.0-81-generic x86_64
-2017-07-12T10:59:08.084328989 0.080353s notice: Loading data from directory /home/software/workspace/ob_products/project-3/todo-vue-dynamic-component/server/rethinkdb_data
-2017-07-12T10:59:08.099206036 0.095230s error: Inaccessible database file: "/home/software/workspace/ob_products/project-3/todo-vue-dynamic-component/server/rethinkdb_data/metadata": No such file or directory\nSome possible reasons:\n- the database file couldn't be created or opened for reading and writing\n- the user which was used to start the database is not an owner of the file
-2017-07-12T11:07:33.002464575 0.047409s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
-2017-07-12T11:07:33.019045807 0.063993s notice: Running on Linux 4.4.0-81-generic x86_64
-2017-07-12T11:07:33.019212278 0.064155s notice: Loading data from directory /home/software/workspace/ob_products/project-3/todo-vue-dynamic-component/server/rethinkdb_data
-2017-07-12T11:07:33.023467433 0.068411s error: Inaccessible database file: "/home/software/workspace/ob_products/project-3/todo-vue-dynamic-component/server/rethinkdb_data/metadata": No such file or directory\nSome possible reasons:\n- the database file couldn't be created or opened for reading and writing\n- the user which was used to start the database is not an owner of the file
+2017-08-21T15:46:01.092537942 0.060390s notice: Recursively removing directory /home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/server/rethinkdb_data/tmp
+2017-08-21T15:46:01.104876923 0.072728s notice: Initializing directory /home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/server/rethinkdb_data
+2017-08-21T15:46:01.105100238 0.072952s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/server/rethinkdb_data' did not already exist or is empty.)
+2017-08-21T15:46:01.105178809 0.073030s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-08-21T15:46:01.111182134 0.079038s notice: Running on Linux 4.4.0-89-generic x86_64
+2017-08-21T15:46:01.111381533 0.079232s notice: Loading data from directory /home/software/RunningProjects/NewCopy/todo-vue-dynamic-component/server/rethinkdb_data
+2017-08-21T15:46:01.209838099 0.177689s info: Automatically using cache size of 5994 MB
+2017-08-21T15:46:01.211812699 0.179664s notice: Listening for intracluster connections on port 29015
+2017-08-21T15:46:01.214256258 0.182107s notice: Listening for client driver connections on port 28015
+2017-08-21T15:46:01.214669402 0.182520s notice: Listening for administrative HTTP connections on port 8080
+2017-08-21T15:46:01.214678218 0.182529s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-08-21T15:46:01.214689584 0.182540s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-08-21T15:46:01.214697762 0.182548s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-08-21T15:46:01.214708545 0.182559s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-08-21T15:46:01.214719371 0.182570s notice: Server ready, "OBLAP_84_1sv" b24351d1-1932-422f-89b2-671c7c0325d7
+2017-08-21T15:46:04.056994928 3.024846s notice: A newer version of the RethinkDB server is available: 2.3.6. You can read the changelog at <https://github.com/rethinkdb/rethinkdb/releases>.
+2017-08-21T15:46:11.581550392 10.549401s info: Table 74ec424a-2c97-4475-9cc5-6a0ee27d220a: Starting a new Raft election for term 1.
+2017-08-21T15:46:11.584201844 10.552053s info: Table 74ec424a-2c97-4475-9cc5-6a0ee27d220a: Added replica on this server.
+2017-08-21T15:46:11.593946898 10.561798s info: Table d7de8ca6-0cdd-4fa1-91a6-e7b74dc7ba2e: Starting a new Raft election for term 1.
+2017-08-21T15:46:11.595760215 10.563612s info: Table d7de8ca6-0cdd-4fa1-91a6-e7b74dc7ba2e: Added replica on this server.
+2017-08-21T15:46:11.616229847 10.584080s info: Table d5a73782-5c59-45f5-b1de-6de731a34e06: Starting a new Raft election for term 1.
+2017-08-21T15:46:11.622329857 10.590181s info: Table 5af5a50b-85b7-4460-9165-deec6348f460: Starting a new Raft election for term 1.
+2017-08-21T15:46:11.628754133 10.596605s info: Table d5a73782-5c59-45f5-b1de-6de731a34e06: Added replica on this server.
+2017-08-21T15:46:11.629190096 10.597041s info: Table 5af5a50b-85b7-4460-9165-deec6348f460: Added replica on this server.
+2017-08-21T15:46:11.629195420 10.597046s info: Table 8ad5efd0-5313-426f-8e70-7c78bc539d96: Starting a new Raft election for term 1.
+2017-08-21T15:46:11.634538169 10.602389s info: Table 8ad5efd0-5313-426f-8e70-7c78bc539d96: Added replica on this server.
+2017-08-21T15:46:11.634550927 10.602401s info: Table efbf535b-eab7-4c0f-a861-615d696dac14: Starting a new Raft election for term 1.
+2017-08-21T15:46:11.634596842 10.602447s info: Table 76a512c6-aeb5-42ca-9e5c-5be98b1b0a8d: Starting a new Raft election for term 1.
+2017-08-21T15:46:11.642934281 10.610785s info: Table 525eb206-6794-4932-ba6e-35eeb1dfdee7: Starting a new Raft election for term 1.
+2017-08-21T15:46:11.642954026 10.610804s info: Table 795ff52b-0d3a-4602-9f08-409cf15a7a43: Starting a new Raft election for term 1.
+2017-08-21T15:46:11.653178183 10.621030s info: Table efbf535b-eab7-4c0f-a861-615d696dac14: Added replica on this server.
+2017-08-21T15:46:11.654340416 10.622193s info: Table 76a512c6-aeb5-42ca-9e5c-5be98b1b0a8d: Added replica on this server.
+2017-08-21T15:46:11.654501844 10.622353s info: Table afebcdaf-7fd0-4fff-b4aa-d8f56aacdbc4: Starting a new Raft election for term 1.
+2017-08-21T15:46:11.654862182 10.622714s info: Table 525eb206-6794-4932-ba6e-35eeb1dfdee7: Added replica on this server.
+2017-08-21T15:46:11.656617397 10.624470s info: Table 795ff52b-0d3a-4602-9f08-409cf15a7a43: Added replica on this server.
+2017-08-21T15:46:11.656945630 10.624797s info: Table 3334a38d-90dd-44de-9722-03edd188ed6d: Starting a new Raft election for term 1.
+2017-08-21T15:46:11.659525845 10.627377s info: Table afebcdaf-7fd0-4fff-b4aa-d8f56aacdbc4: Added replica on this server.
+2017-08-21T15:46:11.659895659 10.627747s info: Table 3334a38d-90dd-44de-9722-03edd188ed6d: Added replica on this server.
+2017-08-21T15:46:11.679685040 10.647536s info: Table 74ec424a-2c97-4475-9cc5-6a0ee27d220a: This server is Raft leader for term 1. Latest log index is 0.
+2017-08-21T15:46:11.679767289 10.647618s info: Table d7de8ca6-0cdd-4fa1-91a6-e7b74dc7ba2e: This server is Raft leader for term 1. Latest log index is 0.
+2017-08-21T15:46:11.688371884 10.656223s info: Table d5a73782-5c59-45f5-b1de-6de731a34e06: This server is Raft leader for term 1. Latest log index is 0.
+2017-08-21T15:46:11.688470537 10.656321s info: Table 5af5a50b-85b7-4460-9165-deec6348f460: This server is Raft leader for term 1. Latest log index is 0.
+2017-08-21T15:46:11.688525917 10.656376s info: Table 8ad5efd0-5313-426f-8e70-7c78bc539d96: This server is Raft leader for term 1. Latest log index is 0.
+2017-08-21T15:46:11.688593534 10.656444s info: Table efbf535b-eab7-4c0f-a861-615d696dac14: This server is Raft leader for term 1. Latest log index is 0.
+2017-08-21T15:46:11.688649827 10.656500s info: Table 76a512c6-aeb5-42ca-9e5c-5be98b1b0a8d: This server is Raft leader for term 1. Latest log index is 0.
+2017-08-21T15:46:11.688728410 10.656579s info: Table 525eb206-6794-4932-ba6e-35eeb1dfdee7: This server is Raft leader for term 1. Latest log index is 0.
+2017-08-21T15:46:11.688781851 10.656632s info: Table 795ff52b-0d3a-4602-9f08-409cf15a7a43: This server is Raft leader for term 1. Latest log index is 0.
+2017-08-21T15:46:11.688848319 10.656699s info: Table afebcdaf-7fd0-4fff-b4aa-d8f56aacdbc4: This server is Raft leader for term 1. Latest log index is 0.
+2017-08-21T15:46:11.688890069 10.656741s info: Table 3334a38d-90dd-44de-9722-03edd188ed6d: This server is Raft leader for term 1. Latest log index is 0.
+2017-08-21T15:46:22.903880559 21.871732s info: Table 66f1c9e9-0c7e-40ee-bb65-42ad98c0f163: Starting a new Raft election for term 1.
+2017-08-21T15:46:22.904222643 21.872073s info: Table 66f1c9e9-0c7e-40ee-bb65-42ad98c0f163: Added replica on this server.
+2017-08-21T15:46:22.912386517 21.880238s info: Table 412c2305-048e-45a1-be6a-b52e84761efb: Starting a new Raft election for term 1.
+2017-08-21T15:46:22.913042261 21.880893s info: Table 412c2305-048e-45a1-be6a-b52e84761efb: Added replica on this server.
+2017-08-21T15:46:22.913893136 21.881744s info: Table f6956c06-7447-4ca0-8c15-97efb3536d83: Starting a new Raft election for term 1.
+2017-08-21T15:46:22.914263827 21.882115s info: Table f6956c06-7447-4ca0-8c15-97efb3536d83: Added replica on this server.
+2017-08-21T15:46:22.929690374 21.897541s info: Table 66f1c9e9-0c7e-40ee-bb65-42ad98c0f163: This server is Raft leader for term 1. Latest log index is 0.
+2017-08-21T15:46:22.929775118 21.897625s info: Table 412c2305-048e-45a1-be6a-b52e84761efb: This server is Raft leader for term 1. Latest log index is 0.
+2017-08-21T15:46:22.935982785 21.903833s info: Table f6956c06-7447-4ca0-8c15-97efb3536d83: This server is Raft leader for term 1. Latest log index is 0.
+2017-08-21T15:47:30.401573864 89.369424s info: Table 585594f5-a0ff-4b22-883d-1709ef1b7e54: Starting a new Raft election for term 1.
+2017-08-21T15:47:30.402181911 89.370033s info: Table 585594f5-a0ff-4b22-883d-1709ef1b7e54: Added replica on this server.
+2017-08-21T15:47:30.411236344 89.379087s info: Table 585594f5-a0ff-4b22-883d-1709ef1b7e54: This server is Raft leader for term 1. Latest log index is 0.
