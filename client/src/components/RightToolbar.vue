@@ -187,7 +187,8 @@
           var objType = _.find(this.$store.state.task_types_list, ['id', this.filteredTodo.type_id])
           return objType.type
         }else {
-          var obj = _.find(this.$store.state.task_types_list, { 'type': 'Todo'});
+          // var obj = _.find(this.$store.state.task_types_list, { 'type': 'Todo.tasktype'});
+          var obj = this.$store.state.task_types_list[0]
           this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": obj.id})
           return obj.type
         }

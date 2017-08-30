@@ -1,4 +1,3 @@
-<<<<<<< ead5c76121a8c39e63b2863369a73dca16bfedb8
 2017-08-22T10:35:23.453747493 0.044876s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
 2017-08-22T10:35:23.457972837 0.049106s notice: Running on Linux 4.10.0-32-generic x86_64
 2017-08-22T10:35:23.459039389 0.050169s notice: Loading data from directory /home/kandrap/Desktop/WebProjects/GoogleSignUp/todo-vue-dynamic-component/rethinkdb_data
@@ -7,7 +6,6 @@
 2017-08-22T10:36:46.531512413 0.072141s notice: Running on Linux 4.10.0-32-generic x86_64
 2017-08-22T10:36:46.531670228 0.072293s notice: Loading data from directory /home/kandrap/Desktop/WebProjects/GoogleSignUp/todo-vue-dynamic-component/rethinkdb_data
 2017-08-22T10:36:46.535224739 0.075848s error: Inaccessible database file: "/home/kandrap/Desktop/WebProjects/GoogleSignUp/todo-vue-dynamic-component/rethinkdb_data/metadata": No such file or directory\nSome possible reasons:\n- the database file couldn't be created or opened for reading and writing\n- the user which was used to start the database is not an owner of the file
-=======
 2017-07-28T16:01:31.295947691 0.067113s notice: Recursively removing directory /home/kandrap/Desktop/WebProjects/GoogleSignUp/todo-vue-dynamic-component/rethinkdb_data/tmp
 2017-07-28T16:01:31.302600945 0.073765s notice: Initializing directory /home/kandrap/Desktop/WebProjects/GoogleSignUp/todo-vue-dynamic-component/rethinkdb_data
 2017-07-28T16:01:31.302752056 0.073916s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/home/kandrap/Desktop/WebProjects/GoogleSignUp/todo-vue-dynamic-component/rethinkdb_data' did not already exist or is empty.)
@@ -629,10 +627,3 @@
 2017-08-18T10:04:29.667933692 14.395032s info: Table 86d8b7a5-d544-4eb0-88c8-75af672c4b8d: Added replica on this server.
 2017-08-18T10:04:29.669667567 14.396766s info: Table bb687122-b560-4101-8f14-11ab5b37dc7e: This server is Raft leader for term 1. Latest log index is 0.
 2017-08-18T10:04:29.669707923 14.396807s info: Table 86d8b7a5-d544-4eb0-88c8-75af672c4b8d: This server is Raft leader for term 1. Latest log index is 0.
-<<<<<<< HEAD
-<<<<<<< a59631da3fdafd5f2437e73787c537a269ffcdb7
->>>>>>> changes committed
-=======
->>>>>>> changes committed
-=======
->>>>>>> e92a72b8a9cb829d275e1b8f7052a6f71499971b
