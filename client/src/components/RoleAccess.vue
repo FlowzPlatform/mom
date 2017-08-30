@@ -283,6 +283,7 @@
     import Vue from 'vue'
     import Resource from 'vue-resource'
     import VueWidgets from 'vue-widgets'
+    import * as services from '../services'
     import 'vue-widgets/dist/styles/vue-widgets.css'
     Vue.use(VueWidgets)
     import ShowTaskTypes from './ShowTaskTypes.vue'
@@ -321,22 +322,22 @@
                  if(roleIndex>-1)
                  {
                       var role = data.roleid[roleIndex];
-                     var accessValues = role.accessValue ? role.accessValue : 0
+                     var accessValues = role.access_value ? role.access_value : 0
                      var patchValue = isChecked ? accessValues + roleValue : accessValues - roleValue
                      this.$store.dispatch('patchAccessPermision', {
                          rId: rowField.id,
                          pId: data.id,
-                         accessValue: patchValue
+                         access_value: patchValue
                      })
-                     role.accessValue=patchValue;
+                     role.access_value=patchValue;
                  }else{
                      this.$store.dispatch('addAccessPermision', {
                          rId: rowField.id,
                          pId: data.id,
-                         accessValue:  roleValue,
+                         access_value:  roleValue,
                          taskType:taskTypeId
                      })
-                        data.roleid.push({rId: rowField.id,accessValue:roleValue})
+                        data.roleid.push({rId: rowField.id,access_value:roleValue})
                  }
              
             },
@@ -365,8 +366,8 @@
         },
         created() {
             this.$store.dispatch('eventListener');
-            this.$http.get('http://localhost:3030/role').then(response => {
-                console.log("Response roles:--", response.body)
+            services.roleService.find().then(response =>{
+                console.log("Response :--",response)
                 tableColumns = [{
                     name: 'name',
                     title: '',
@@ -374,7 +375,7 @@
                 }];
                 this.fields = tableColumns;
                 this.roles = response.body;
-                response.body.forEach(function (row) {
+                response.forEach(function (row) {
                     row.titleClass = 'center aligned'
                     row.dataClass = 'center aligned'
                     // console.log("Field row", row);
@@ -386,13 +387,20 @@
                 }, this);
                 //   this.fields.push(tableColumns);  
                 this.callTaskList();
-            });
+            })
+           
         },
         methods: {
             callTaskList: function () {
-                this.$http.get('http://localhost:3030/accessright').then(response => {
-                    console.log("Response roles:--", response.body)
-                    this.tableData = response.body;
+                services.roleAccessService.find({
+                    query: {
+                        $client: {
+                            flag: 'rolePermision'
+                        }
+                    }
+                }).then(response => {
+                    console.log("Response roles:--", response)
+                    this.tableData = response;
                 });
             },
             rowClassCB: function (data, index) {
