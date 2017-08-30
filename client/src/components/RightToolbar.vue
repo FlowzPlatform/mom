@@ -365,8 +365,11 @@
         // console.log('User', objUser)
         return objUser
       },
-      btnTypeClicked(objType) {
-        this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": objType.id })
+      async btnTypeClicked(objType) {
+        if(objType.id !== this.filteredTodo.type_id){
+          await this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": objType.id })
+          await this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedState": '' })
+        }
       }
       // updateTypeInTask: function(value) {
       //   console.log("updateTypeInTask",value)
