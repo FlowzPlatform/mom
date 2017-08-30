@@ -28,7 +28,7 @@
 
 4. Start your app
 
-   node server.js
+   node server.js of npm run dev
 
 
 ## Build Setup
