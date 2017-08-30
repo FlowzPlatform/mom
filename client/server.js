@@ -14,7 +14,7 @@ var fs = require("fs");
 var path = require('path');
 var mime = require('mime');
 var pdf = require('html-pdf');
-var options = {
+var options = { 
   format: 'Letter',
   "header": {
     "height": "30mm",
@@ -27,7 +27,7 @@ var options = {
   }
 
 };
-
+ 
 app.get('/report', (req, res) => {
   var file = __dirname + '/out.pdf';
   var filename = path.basename(file);

@@ -203,19 +203,19 @@ export default {
 
                 var role = roleId[roleIndex];
                 if (role.rId == path.id) {
-                    if (role.accessValue) {
+                    if (role.access_value) {
                         if (crudIndex == 1) {
-                            return role.accessValue >= 8
+                            return role.access_value >= 8
                         } else if (crudIndex == 2) {
                             var readValue = [4, 5, 6, 7, 12, 13, 14, 15];
-                            return readValue.includes(role.accessValue)//>=4 && path.accessValue<=7) || (path.accessValue>12 && path.accessValue<=15) 
+                            return readValue.includes(role.access_value)//>=4 && path.access_value<=7) || (path.access_value>12 && path.access_value<=15) 
                         } else if (crudIndex == 3) {
                             var updatevalue = [2, 3, 6, 7, 10, 11, 14, 15]
-                            return updatevalue.includes(role.accessValue)
+                            return updatevalue.includes(role.access_value)
                         } else {
 
                             var deletevalue = [1, 3, 5, 7, 9, 11, 13, 15]
-                            return deletevalue.includes(role.accessValue)
+                            return deletevalue.includes(role.access_value)
                         }
                     }
                 }
