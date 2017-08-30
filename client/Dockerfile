@@ -1,8 +1,5 @@
 FROM node:alpine
 MAINTAINER flowz <dm@officebrain.com>
-
-
-
 RUN mkdir -p /opt/app
 
 #working directory
