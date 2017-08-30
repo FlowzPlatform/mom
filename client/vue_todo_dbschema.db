@@ -1,0 +1,153 @@
+Database name: vue_todo
+Tables: tasks, users
+
+tasks:
+{
+    id,
+    task_name,
+    task_description,
+    level,
+    index,
+    parent_id,
+    completed,
+    due_date,
+    created_at,
+    updated_at,
+    estimated_time,
+    priority
+    created_by,
+    assigned_by,
+    assigned_to
+
+}   
+
+users:
+{
+    id,
+    email,
+    password,
+    username,
+    profile_pic,
+    role,
+    dob,
+    aboutus,
+    createdAt,
+    updatedAt,
+    signup_type: email, gmail, 
+}
+
+tbl_tags:
+{
+    id,
+    name
+}
+tbl_tasks_tags:
+{
+    id,
+    task_id,
+    tag_id
+    created_by_user_id,
+    deleted_by_user_id,
+    is_deleted
+}
+
+tbl_attachment:
+{
+    id,
+    task_id FK tbl_tasks,
+    file_name,
+    file_url,
+    uploaded_by_user_id FK tbl_users,
+    created_at,
+    deleted_by_user_id FK tbl_users,
+    is_deleted,
+    deleted_date
+}
+
+tbl_user_role:
+{
+    id,
+    name
+}
+
+tbl_user_role_permission:
+{
+    id,
+    role_id - FK,
+    task_activity_id
+}
+
+tbl_task_activity:
+{
+    id,
+    name:
+    {   
+        create,
+        update,
+        delete,
+        assign,
+        add_due_date,
+        comment,
+        add_tag,
+        remove_tag,
+        add_attachment,
+        delete_attachment,
+        task_priority,
+        estimated_hours
+    }
+}
+
+tbl_project:
+{
+    id,
+    project_name,
+    project_description
+    created_by - FK,
+    created_at
+    project_privacy: { 0:public to all, 1: private to project member, 2: private to me}
+}
+
+tbl_project_member:
+{
+    id,
+    project_id - FK, tbl_project
+    user_id - FK {invited member}, tbl_users
+    user_email - for if user not exist in system
+    user_role_id - FK tbl_user_role
+    invitation_status: {A: accepted, R: Rejected, B: Blocked, P: Pending}
+}
+
+r.db('vue_todo').table('settings').insert({'settings_name': 'Track task by progress'}),
+r.db('vue_todo').table('settings').insert({'settings_name': 'Track task by duedate'})
+tbl_settings: 
+{
+    id,
+    settings_name
+}
+
+tbl_user_settings
+{
+    id,
+    user_id FK,
+    setting_id FK,
+    setting_value
+}
+
+task_comments
+{
+    id,
+    task_id,
+    commentBy,
+    comment,
+    createdAt
+}
+
+tbl_logs
+{
+    
+}
+
+node_module:
+{
+    
+}

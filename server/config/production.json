@@ -1,0 +1,22 @@
+{
+  "host": "feathers-sample-app.feathersjs.com",
+  "port": "3030",
+  "dbName": "vue_todo",
+  "db_host": "todo_db",
+  "db_port": "28015",
+  "tbl_tasks":"tasks",
+  "tbl_attachment":"attachment",
+  "tbl_tags":"tags",
+  "tbl_task_tags":"task_tags",
+  "tbl_task_comments":"task_comments",
+  "tbl_role":"role",
+  "tbl_settings":"settings",
+  "tbl_user_settings":"user_settings",
+  "tbl_accessright":"accessright",
+  "tbl_permission":"permission",
+  "tbl_project":"project",
+  "tbl_projectmember": "projectmember",
+  "tbl_task_types": "task_types",
+  "tbl_task_state": "task_state",
+  "tbl_task_type_state": "task_type_state"
+}

@@ -1,0 +1,52 @@
+version: '2'
+services:
+  User-MicroServices:
+    image: fl0wz/user
+    environment:
+      SECRET: abcdefgabcdefg
+    links:
+    - MongoDb:mongo
+    ports:
+    - 3002:3002/tcp
+    restart: unless-stopped
+
+  Rethinkdb:
+    image: rethinkdb
+    ports:
+    - 8080:8080/tcp
+    - 28015:28015/tcp
+    - 29015:29015/tcp
+
+
+  TodoClient:
+    image: fl0wz/todo_client
+    ports:
+    - 3000:3000/tcp
+    restart: unless-stopped
+
+  Todo-Server:
+    image: fl0wz/server_for_todo_app
+    links:
+    - Rethinkdb:todo_db
+    ports:
+    - 3030:3030/tcp
+    restart: unless-stopped
+
+  MongoDb:
+    image: tutum/mongodb
+    environment:
+      AUTH: 'no'
+    ports:
+    - 27017:27017/tcp
+    - 28017:28017/tcp
+
+
+  Authentication-MicroServices:
+    image: fl0wz/authentication
+    environment:
+      SECRET: abcdefgabcdefg
+    links:
+    - MongoDb:mongo
+    ports:
+    - 3001:3001/tcp
+    restart: unless-stopped
