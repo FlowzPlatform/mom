@@ -328,7 +328,6 @@ export const store = new Vuex.Store({
           updateObject(state.todolist[updateTodoIndex], item)
           if(item.type_id)
             Vue.set(state.todolist[updateTodoIndex], 'type_id', item.type_id)
-            // state.todolist[updateTodoIndex].type_id=item.type_id;
           // show if any updates found for TODO
           if (item.updatedBy !== state.userObject._id) {
             state.todolist[updateTodoIndex].isTaskUpdate = true
@@ -906,7 +905,7 @@ export const store = new Vuex.Store({
         });
       }
     },
-    editTaskName({ commit }, editObject) {
+    editTaskName({ commit }, editObject) {3
       if (editObject.todo.id) {
         services.tasksService.patch(editObject.todo.id, {
           taskName: editObject.todo.taskName,
@@ -1595,7 +1594,6 @@ export const store = new Vuex.Store({
       })
     },
     getTypeState({commit}, payload){
-      console.log('payload getTypeState:', payload)
        services.taskTypeStateService.find({ query: { type_id: payload } }).then(response => {
           console.log("GET_TYPE_STATE log type_state", response)
           commit("GET_TYPE_STATE", response)

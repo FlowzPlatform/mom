@@ -6,13 +6,8 @@
         <span class="dreg-move"></span>
         <span class="dropdown">
         <input v-if="!$store.state.deleteItemsSelected" :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle"
-          @change="toggleTodo(todo)" @click="showStatusList" data-toggle="dropdown">
+          @change="toggleTodo(todo)">
         <label for="checkbox8"></label>
-        <ul class='dropdown-menu statusList'>
-          <li v-for="state in taskState"><a @click="selectStatus(state)">{{state.taskState}}</a>
-            <hr>
-          </li>
-        </ul>
         </span>
         <div v-if="$store.state.deleteItemsSelected" class="trash" :id="todo.id">
           <span class="trashcan">
@@ -45,10 +40,17 @@
         </span>
         <div class="task-row-overlay grid-tags-and-date">
           <a class="taskRow">
-            <span class="grid_due_date">{{todo.dueDate | formatDate_todo}}</span>
             <span v-if="todo.isTaskUpdate" style="color: red">&#x25cf;</span><span v-else></span>
+            <span class="grid_due_date">{{todo.dueDate | formatDate_todo}}</span>
           </a>
-        </div>
+          <div v-if="todo.type_id" class="stateCircle Avatar--small"  @click="showStatusList" data-toggle="dropdown" :style="{'box-shadow' : 'inset 0 0 0 3px'+ selectedObject.color }">
+            <span>{{selectedObject.taskState | fistLatter}}</span></div>
+            <ul class='dropdown-menu statusList' style="right: 0; left:-20px;">
+                <li v-for="state in taskState"><a @click="selectStatus(state)">{{state.taskState}}</a>
+                  <hr>
+                </li>
+              </ul>
+          </div>
         <div v-if="$store.state.deleteItemsSelected" class="delete-view">
           <div class="react-mount-node photoView-reactMount">
             <div data-reactroot="" class="Avatar Avatar--small Avatar--color4">
@@ -89,6 +91,32 @@ position: fixed;
 .ui.vertical.segment {
   border-bottom: 0px;
 }
+.taskRow {
+  margin-right: 10px;
+}
+.stateCircle {
+  -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    /* background: center/cover #cdcfd2; */
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 3px rgba(10,10,10,1.2);
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #000;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    position: relative;
+    vertical-align: top;
+    overflow: hidden;
+}
 </style>
 <script>
   /* eslint-disable*/
@@ -113,7 +141,12 @@ position: fixed;
       return moment(String(value)).format('MMM DD')
     }
   })
-
+  Vue.filter('fistLatter', function(str){
+    if (str) {
+      var firstLetters = str.substr(0, 1)
+      return firstLetters.toUpperCase()
+    }
+  })
   export default {
     props: ['todo', 'pholder', 'nextIndex', 'prevIndex', 'id'],
     data: function () {
@@ -122,14 +155,15 @@ position: fixed;
         prgress_count: '',
         prevSelectedItem:'',
         curSelectedItem: '',
+        selectedObject: {}
       }
     },
-    created(){
-      // this.$store.dispatch('getTypeState', this.todo.type_id)
+    created(){    
     },
     computed: {
        ...mapGetters({
-            statusList: 'getTask_types_state'
+            statusList: 'getTask_types_state',
+            allState :'getTaskStausList'
         }),
         taskState() {
           let stateList = this.statusList
@@ -153,8 +187,9 @@ position: fixed;
       showStatusList() {
         this.$store.dispatch('getTypeState', this.todo.type_id)
       },
-      selectStatus(objStatus) {
+      selectStatus(objStatus) {   
         this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedState": objStatus.state_id })
+        this.selectedObject = this.taskState.find(state => state.state_id === objStatus.state_id)
       },
       // deleteTodo: function () {
       //   this.$store.dispatch('deleteTodo', this.todo)
@@ -202,7 +237,7 @@ position: fixed;
         }
       },
       onFocusClick(id,level,created_by){
-        console.log('onFoucusclick')
+      console.log('onFoucusclick')
       var updatePermssion=CmnFunc.isUpdatePermision(15);  
       var inutTodo = $("#" + id + "_" + level + " .view .new-todo."+id + "_" + level);   // Get the first <inutTodo> element in the document        
       if (!updatePermssion && id!=-1 && this.$store.state.userObject._id != created_by) {
@@ -272,6 +307,9 @@ position: fixed;
     },
     mounted() {
       if (this.id !== 'taskTypes' && this.id !== 'taskState') {
+        if (this.todo.state_id) {
+          this.selectedObject = this.allState.find(state => state.id === this.todo.state_id)
+        }
         var totalSubtask = this.todo.subtask_count ? this.todo.subtask_count : 0
         var completedSubtask = this.todo.completed_subtask_count ? this.todo.completed_subtask_count : 0
         this.todo.progress_count = completedSubtask + " / " + totalSubtask;
