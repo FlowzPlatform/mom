@@ -11,6 +11,7 @@ Vue.use(Vuex)
 services.socket.on("reconnect", function () {
   console.log('----reconnect fired!-------');
 });
+
 function setProgressBar(state, todoObject) {
   var p_id = todoObject.parentId
   var totalSubtask = state.todolist.find(todo => todo.id === p_id).subtask_count ? state.todolist.find(todo => todo.id === p_id).subtask_count : 0
@@ -138,7 +139,8 @@ export const store = new Vuex.Store({
     task_types_state: [],
     googleId: '',
     removeMember:{},
-    currentProject:{}
+    permissions:{},
+    currentProjectRoleid:'',
   },
   mutations: {
     userData: state => state.userObject,
@@ -715,6 +717,10 @@ export const store = new Vuex.Store({
     DELETE_TASK_STATE(state, payload){
       let removeIndex = _.findIndex(state.task_types_state, function (d) { return d.id == payload.id })
       Vue.delete(state.task_types_state, removeIndex)
+    },
+    PERMISSIONS(state,payload)
+    {
+      state.permissions=payload;
     }
     
   },
@@ -1110,7 +1116,7 @@ export const store = new Vuex.Store({
      patchAccessPermision({ commit }, data) {
       services.roleAccessService.patch(data.id,  {
          
-           accessValue:data.accessValue
+           access_value:data.access_value
         },
         {query :{ 
             pId: data.pId,
@@ -1127,7 +1133,8 @@ export const store = new Vuex.Store({
       services.roleAccessService.create({
         pId: data.pId,
         rId: data.rId,
-         accessValue:data.accessValue
+        access_value:data.access_value,
+        task_type:data.taskType
       }).then(response => {
         console.log("Response add permission::", response);
         // if(response.data.length > 0){
@@ -1481,6 +1488,15 @@ export const store = new Vuex.Store({
       //   commit('GET_TODO', response.data)
       // });
     },
+    getPermissions({ commit }) {
+      services.permissionsService.find().then(response => {
+       console.log("Response from Permisisons", response)
+       commit('PERMISSIONS', response)
+      });
+      // Vue.http.post('/tasks_parentId', { parentId: payload.parentId }).then(function (response) {
+      //   commit('GET_TODO', response.data)
+      // });
+    },
     insertProject({ commit }, object) {
       var self = this;
       services.projectService.create(object.data).then(response => {
@@ -1601,11 +1617,11 @@ export const store = new Vuex.Store({
     },
     insert_type_state({ commit }, payload){
       let findDuplicate = store.state.task_types_state.find(function (type){
-        return type.type_id === payload.taskType.id && type.state_id === payload.state.id
+        return type.type_id === payload.task_type.id && type.state_id === payload.state.id
       })
       if(!findDuplicate){
         services.taskTypeStateService.create({
-            type_id: payload.taskType.id,
+            type_id: payload.task_type.id,
             state_id: payload.state.id,
             createdAt: new Date().toJSON()
           }).then(response => {
