@@ -463,6 +463,7 @@
             ]),
             callAllProjectList:function()
             {
+                this.$store.dispatch('getPermissions');
                  this.$store.dispatch('getAllProjects', this.$store.state.userObject._id);
                 this.$store.state.projectSettingId = "";  
             },
@@ -583,6 +584,7 @@
                 this.$store.state.currentProjectName = project.project_name;
                 this.$store.state.currentProjectId = project.id;
                 this.$store.state.currentProject = project;
+                
                 this.$store.state.currentProjectPrivacy = project.project_privacy;
                 this.$store.state.todolist = []
                 this.$store.commit('CLOSE_DIV', '')
