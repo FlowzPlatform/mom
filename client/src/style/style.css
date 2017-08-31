@@ -115,12 +115,9 @@ button {
 .todo-list li {
 	position: relative;
 	font-size: 24px;
-    border-bottom: 1px solid #ededed;
- 
+	border-bottom: 1px solid #ededed;
 }
-.todo-list li.todo.sortable-chosen {
-    z-index: 2;
-}
+
 .todo-list li:last-child {
 	border-bottom: none;
 }
@@ -790,7 +787,7 @@ border: 1px solid transparent;
     -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     background-color: #fff;
-    
+
     /*height: 500px;
     overflow-y: scroll;*/
 }
@@ -940,6 +937,9 @@ border: 1px solid transparent;
     -webkit-transition: margin 200ms;
     -moz-transition: margin 200ms;
     transition: margin 200ms;
+    /* margin-right: -20px;
+    margin-top: 62px;
+    margin-left: 6px; */
 }
 .taskCommentsView-composer.is-expanded .taskCommentsView-commentButton {
     bottom: 10px;
@@ -1307,10 +1307,11 @@ a:hover, a:focus{
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1;
+    /*z-index: -1;*/
+     z-index: 1;
 }
 .PageHeaderStructure {position: fixed;top: 40px;left: 0;right: 0;}
-.known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 141%;overflow: auto;min-width: 450px;}
+.known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 153%;overflow: auto;min-width: 450px;}
 .asanaView-body { position: fixed;top: 100px;left: 0;right: 0;bottom: 0;overflow-x: auto;  }
 .right_bar{position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: calc(100% - 135px);overflow: auto;}
 .right_pane_container #right_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;}
@@ -1903,7 +1904,7 @@ span.shortcut {
     height: 100%;
 }
 .task-row-overlay {
-    /* z-index: 60; */
+    z-index: 60;
     position: absolute;
     right: 30px;
     top: 0;
@@ -2112,6 +2113,7 @@ text-rendering: auto; -webkit-font-smoothing: antialiased;  vertical-align: top;
     line-height: 22px;
 	border-radius: 50%;
 }
+
 .right_pane_container #right_pane > .rightsection-view.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar > div {width: 50%; float: left}
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar >  .details-pane-toolbar.toolbar-no-grad {width: 100%}
@@ -5438,8 +5440,7 @@ table {
     overflow: auto;
 }
 .statusList li a {
-    line-height: 35px;
-    font-size: 15px;
+    line-height: 40px
 }
 .statusList li hr{
     margin-top: 1px;
@@ -5688,49 +5689,3 @@ textarea,
     padding-bottom: 15px;
     padding-left: 30px;
 }
-li.poptip.text {
-    font-size: 14px;
-    cursor: pointer;
-}
-.typeBorderClass {
-    border-style: solid;
-    border-width: 3px;
-    margin-right: 10px;
-    border-color: #ffffff;
-    border-radius: 20px;
-}
-.typeBorderClass:hover {
-    border-style: solid;
-    border-width: 3px;
-    margin-right: 10px;
-    border-color: #02ceff;
-    border-radius: 20px;
-}
-.typeClass {
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 2px;
-    margin-bottom: 2px;
-}
-.typeClass:hover {
-    text-decoration: underline;
-    color: #02ceff;
-    cursor: pointer;
-}
-.typeList {
-    max-height: 200px;
-    overflow: auto;
-}
-.typeList li a {
-    line-height: 40px
-}
-.typeList li hr{
-    margin-top: 1px;
-    margin-bottom: 1px;
-}
-.typeList li a:hover{
-   background-color: #1aafd0; 
-   color: #fff !important;
-}
-
- 
