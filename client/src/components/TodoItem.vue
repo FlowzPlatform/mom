@@ -29,9 +29,9 @@
           @blur=onBlurCall(todo.id,todo.level)
           @keyup="performAction"
           @change="changeValue(nextIndex)">
-          <input v-if="id === 'taskTypes'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
+        <input  v-if="id === 'taskTypes'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
             v-model="todo.type" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
-          <input v-if="id === 'taskState'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
+        <input v-if="id === 'taskState'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
             v-model="todo.taskState" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
         <span class=""><i>
           <b class="glyphicon glyphicon-option-vertical"></b>
@@ -231,11 +231,11 @@ position: fixed;
           this.$store.dispatch('addTask_State', {"state":this.todo})
         }
       },
-      deleteTaskType: function (todo) {
+      deleteTaskType(todo) {
         if (this.id === 'taskTypes') {
-          this.$store.dispatch('deleteTaskType', this.todo)
+          this.$store.dispatch('getCountofTaskType', this.todo)
         } else if (this.id === 'taskState') {
-          this.$store.dispatch('deleteTaskStatus', this.todo)
+          this.$store.dispatch('getCountofTypeState', this.todo)
         }
       },
       async onFocusClick(id,level,created_by,typeId){
