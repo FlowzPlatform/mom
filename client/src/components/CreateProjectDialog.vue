@@ -166,7 +166,7 @@
                         user_role_id:''
                     }
                     this.$store.dispatch('insertProjectInvite', insertInvite)
-
+                    $("div#projectVisible").removeClass('hidden');
                     this.projectName = ''
                     this.description = ''
                     this.privacyOption = ''

@@ -164,7 +164,7 @@ export default {
   getPermissionId:function(context,user_action)
   {
     return _.result(_.find(context.$store.state.permissions, function (obj) {
-      return obj.index === user_action;
+      return obj.index == user_action;
     }), 'id');
   },
   getAccessValue:function(context,accessRight,permissionId,taskTypeId){
