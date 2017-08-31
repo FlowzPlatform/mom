@@ -588,7 +588,14 @@ export const store = new Vuex.Store({
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
       if (updateProjectIndex >= 0) {
            state.projectlist[updateProjectIndex].is_deleted = value.is_deleted;
-      }
+           state.projectlist.splice(updateProjectIndex,0)
+        }
+           state.todolist=[]
+           state.currentProjectId = ""
+           state.currentProjectName = ""
+           state.currentProjectPrivacy = ''
+           state.currentTodoObj= '' 
+           state.currentProject='' 
     },
     /**
     * Update current project member list
@@ -1120,7 +1127,8 @@ export const store = new Vuex.Store({
         },
         {query :{ 
             pId: data.pId,
-            rId: data.rId}
+            rId: data.rId,
+            task_type:data.taskType}
         }
       ).then(response => {
         console.log("Response patch permission::", response);
