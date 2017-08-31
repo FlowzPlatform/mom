@@ -99,6 +99,7 @@ function updateObject(oldObject, newObject) {
 
 export const store = new Vuex.Store({
   state: {
+    comments:'',
     userObject: {},
     isAuthorized: false,
     todolist: [],
@@ -140,7 +141,8 @@ export const store = new Vuex.Store({
     task_types_state: [],
     googleId: '',
     removeMember:{},
-    currentProject:{}
+    currentProject:{},
+    commentValue: ''
   },
   mutations: {
     userData: state => state.userObject,

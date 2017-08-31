@@ -937,6 +937,9 @@ border: 1px solid transparent;
     -webkit-transition: margin 200ms;
     -moz-transition: margin 200ms;
     transition: margin 200ms;
+    /* margin-right: -20px;
+    margin-top: 62px;
+    margin-left: 6px; */
 }
 .taskCommentsView-composer.is-expanded .taskCommentsView-commentButton {
     bottom: 10px;
@@ -1304,10 +1307,10 @@ a:hover, a:focus{
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1;
+    /* z-index: 1; commented by ajay charotariya */
 }
 .PageHeaderStructure {position: fixed;top: 40px;left: 0;right: 0;}
-.known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 141%;overflow: auto;min-width: 450px;}
+.known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 153%;overflow: auto;min-width: 450px;}
 .asanaView-body { position: fixed;top: 100px;left: 0;right: 0;bottom: 0;overflow-x: auto;  }
 .right_bar{position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: calc(100% - 135px);overflow: auto;}
 .right_pane_container #right_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;}
