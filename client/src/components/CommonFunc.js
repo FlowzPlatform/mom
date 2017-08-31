@@ -60,7 +60,7 @@ export default {
   {
       var self = context;
       let selfRoleId = this.getSelfRoleId(context);
-
+      console.log("selfRoleId-->",selfRoleId)
       if(selfRoleId)
         {
           let permisisonId = this.getPermissionId(context,userAction)
@@ -107,7 +107,7 @@ export default {
   getPermissionId:function(context,user_action)
   {
     return _.result(_.find(context.$store.state.permissions, function (obj) {
-      return obj.index === user_action;
+      return obj.index == user_action;
     }), 'id');
   },
   getAccessValue:function(context,accessRight,permissionId,taskTypeId){

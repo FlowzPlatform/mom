@@ -327,7 +327,8 @@
                      this.$store.dispatch('patchAccessPermision', {
                          rId: rowField.id,
                          pId: data.id,
-                         access_value: patchValue
+                         access_value: patchValue,
+                         taskType:taskTypeId
                      })
                      role.access_value=patchValue;
                  }else{

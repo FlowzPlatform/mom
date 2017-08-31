@@ -69,6 +69,8 @@ export default {
          * Delete project 
          */
         deleteProject(){
+            // Show project visibility option (like public to all, private to me)
+            $("div#projectVisible").addClass('hidden');
             this.$store.dispatch('deleteProject',this.$store.state.currentProject)
             this.closeDeleteDialog();
         }
