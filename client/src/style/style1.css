@@ -13,11 +13,13 @@
   -o-transition: all 0.5s;
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
+  
 }
 
 .container {
   position: relative;
-  width: 600px;
+  /* width: 600px; */
+  width: 700px;
   margin: 30px auto 0;
   height: 320px;
   background-color: #999ede;
@@ -98,7 +100,8 @@
 .container .container-forms .container-info .info-item {
   text-align: center;
   font-size: 16px;
-  width: 300px;
+  /* width: 300px; */
+  width: 350px;
   height: 320px;
   display: inline-block;
   vertical-align: top;
@@ -129,7 +132,8 @@
   position: absolute;
   left: 30px;
   top: -30px;
-  width: 305px;
+  /* width: 305px; */
+  width: 400px;
   height: 380px;
   background-color: #fff;
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);

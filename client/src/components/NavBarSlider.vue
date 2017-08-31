@@ -389,12 +389,12 @@
         },
         created() {
             this.$store.dispatch('getUsersRoles');
-            this.$store.dispatch("getAllUsersList")
-            var self = this;
-            setTimeout(function() {
-                self.$store.dispatch('getAllProjects', self.$store.state.userObject._id);
-                self.$store.state.projectSettingId = "";    
-            }, 2000);
+            this.$store.dispatch("getAllUsersList",this.callAllProjectList)
+            // var self = this;
+            // setTimeout(function() {
+            //         self.$store.dispatch('getAllProjects', self.$store.state.userObject._id);
+            //         self.$store.state.projectSettingId = "";    
+            // }, 5000);
             
         },
         computed: {
@@ -461,6 +461,12 @@
             ...mapMutations([
                 'showDeleteTasks'
             ]),
+            callAllProjectList:function()
+            {
+                this.$store.dispatch('getPermissions');
+                 this.$store.dispatch('getAllProjects', this.$store.state.userObject._id);
+                this.$store.state.projectSettingId = "";  
+            },
             isMemberAvailable: function (project, index) {
 
                 // console.log("Project index:--", project && project.members && project.members[index]);
@@ -474,10 +480,10 @@
             if (userIndex < 0) {
                 return { user_id: uId }
             } else {
-             //  console.log("Role roleId:--",userRoleId);
+   //            console.log("Role roleId:--",userRoleId);
                 
                 var roleindex=_.findIndex(this.$store.state.userRoles,function(role){ return role.id==userRoleId})
-               //console.log("Role Index:--",roleindex);
+  //              console.log("Role Index:--",roleindex);
                 var roleId ="";
                 var roleName="";
                 if(roleindex>-1){
@@ -503,7 +509,7 @@
                     var members = project.members;
                     if (members) {
                         members.forEach(function (member) {
-                            console.log("Member :--->",member)
+//                            console.log("Member :--->",member)
                             var uId = member.user_id;
                             var memberDetail = this.getMemberProfile(uId,member);
                             let memberIndex = _.findIndex(members, function (m) { return m.user_id === uId })
@@ -525,7 +531,6 @@
             },
             inviteUserSubmit: function (projectId) {
                 var inviteEmail = this.email;
-                //  console.log("Selected:-->", inviteEmail);
                 if (!inviteEmail || inviteEmail.length == 0 || !CmnFunc.checkValidEmail(inviteEmail)) {
                     this.emailValidationError = "Invalid user email"
                     return;
@@ -543,7 +548,6 @@
                 // var roleId=this.roles.filter(role=> role.name ==roleSelect);
                 let index = _.findIndex(this.roles, function (d) { return d.name == roleSelect })
                 let indexUser = _.findIndex(this.users, function (d) { return d.email == inviteEmail })
-                //  console.log("Selected:-->", indexUser);
 
                 var insertInvite = {
                     project_id: projectId,
@@ -556,7 +560,6 @@
                     is_deleted: false,
                     created_at: new Date()
                 }
-                // console.log("Insert Invite:-->", insertInvite);
                 this.$store.dispatch('insertProjectInvite', insertInvite)
                 this.closeInvite(projectId);
                 // Hide member list
@@ -581,6 +584,7 @@
                 this.$store.state.currentProjectName = project.project_name;
                 this.$store.state.currentProjectId = project.id;
                 this.$store.state.currentProject = project;
+                
                 this.$store.state.currentProjectPrivacy = project.project_privacy;
                 this.$store.state.todolist = []
                 this.$store.commit('CLOSE_DIV', '')
@@ -627,8 +631,6 @@
             selectMember: function (project, item) {
 
                 let index = _.findIndex(project.members, function (d) { return d.email == item.email })
-                console.log("selectMember method call--------------------", project, " index:", index)
-
                 if (index < 0) {
                     this.email = item.email
                     this.name = item.name
@@ -639,7 +641,6 @@
 
                     // Close last open dialog
                     if (this.lastOpenDialogId !== '') {
-                        console.log("if ");
                         $("#popup-" + this.lastOpenDialogId).addClass("hidden");
                         // Show already added member list
                         $("#listContent-" + this.lastOpenDialogId).removeClass("hidden");
@@ -652,7 +653,6 @@
                 $("#layerPositioner-" + project.id).addClass("hidden");
             },
             selectNonMember(id) {
-                console.log("selectNonMember method call--------------------", this.inputValue)
                 this.email = this.inputValue;
                 this.name = this.inputValue;
 
@@ -667,11 +667,9 @@
                 $('.CircularButton').tooltip({ title: "Create a project", placement: "bottom" });
             },
             createProject: function () {
-                console.log("createProject")
                 this.isNewProjectDialogShow = true;
             },
             updateDialogShow(isDialogVal) {
-                console.log('dialog val: ', isDialogVal)
                 this.isNewProjectDialogShow = isDialogVal
             },
             onSelect(item) {
@@ -711,10 +709,8 @@
             },
             showMemberDetail(event) {
                 var targetId = event.currentTarget.id;
-                console.log(targetId);
             },
             addMemberClick(id) {
-                console.log("project_", id);
                 // Hide member horizontal list
                 $("#itemRow-" + id).addClass("hidden");
                 $("#expandableList" + id).removeClass("hidden");
@@ -739,13 +735,12 @@
             e.preventDefault();
         },
         showProjectSetting: function(project) {
-            console.log("click")
+            console.log("click",project.members)
             // Show option icon white
             $("#ItemRowMenu-" + project.id).css({"fill":"white"});
             this.$store.state.projectSettingId = project.id;
            //  $("#ItemRowMenu-" + project.id).css({"fill":"red"});
             var pos = $('#ItemRowMenu-' + project.id+'').offset();
-            // console.log("mouse down event(x,y)", pos);
             this.$store.state.projectSettingMenuOffset = pos;
             var top = pos.top - 32;
             var left = pos.left;
@@ -753,7 +748,6 @@
             $("div.project-setting").css({"margin-top":+top+"px","margin-left":+left+"px"})
 
            this.$store.state.currentProjectMember = project.members; 
-           // this.$store.commit('currentProjectMember')
            this.$store.state.currentProjectCreatedBy = project.create_by;
         }
 

@@ -151,14 +151,11 @@
 
             },
             created: function () {
-                // console.log("show:", this.show);
                 $("#new_project_dialog_content_name_input").focus();
             },
         methods: {
             projectResponse: function (response) {
                 if (!response.error) {
-                    console.log("-->", response)
-
                     var insertInvite = {
                         project_id: response.id,
                         user_id: this.$store.state.userObject._id,
@@ -168,7 +165,6 @@
                         is_deleted:false,
                         user_role_id:this.getOwernerId()
                     }
-                    console.log("Insert Invite:-->", insertInvite);
                     this.$store.dispatch('insertProjectInvite', insertInvite)
 
                     this.projectName = ''
@@ -180,7 +176,6 @@
                     this.close();
 
                 } else {
-                    // console.log("-->",response.error)
                     this.createProjectError = response.error;
                 }
             },
@@ -197,11 +192,6 @@
                 this.privacyOption = ''
             },
             savePost: function () {
-                console.log("projectName:", this.projectName)
-                console.log("description:", this.description)
-                console.log("privacyOption:", this.privacyOption)
-
-
                 if (!this.projectName || this.projectName.length == 0) {
                     this.createProjectError = "Invalid project name";
                     return;

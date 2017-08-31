@@ -15,9 +15,6 @@ export const socket = io(process.env.SOCKET_IO, {transports: ['websocket'], upgr
  });
 export const app = feathers().configure(socketio(socket));
 
-
-
-
 export const tasksService = app.service('tasks')
 export const taskAttachmentService = app.service('task_attachment')
 export const roleAccessService = app.service('accessright')
@@ -30,5 +27,6 @@ export const projectService = app.service('project')
 export const projectMemberService = app.service('projectmember')
 export const roleServicePermission = app.service('permission')
 export const taskTypesService = app.service('task_types')
-export const taskStatusService = app.service('task_status')
+export const taskStateService = app.service('task_state')
 export const taskTypeStateService = app.service('task_type_state')
+export const permissionsService = app.service('permission')

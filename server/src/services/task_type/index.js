@@ -25,6 +25,12 @@ module.exports = function() {
   const taskTypes =app.service('/task_types');
   app.service('task_types').init().then(taskTypes => {
       console.log('Created task_types', taskTypes)
+      if(taskTypes.tables_created)
+      {
+        r.db(db).table(table).insert([
+          {'type': 'Todo', 'index': 0},
+        ]).run()
+      }
   });
 
   // Set up our before hooks

@@ -4,9 +4,11 @@
     <div :id="getLevelClass(todo.level,todo.id)" style="padding-bottom: 5px;">
       <div class="view" style="margin-left: 10px;">
         <span class="dreg-move"></span>
+        <span class="dropdown">
         <input v-if="!$store.state.deleteItemsSelected" :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle"
           @change="toggleTodo(todo)">
         <label for="checkbox8"></label>
+        </span>
         <div v-if="$store.state.deleteItemsSelected" class="trash" :id="todo.id">
           <span class="trashcan">
             <span class="hover-glyph ">
@@ -15,22 +17,22 @@
             </span>
           </span>
         </div>
-        <input v-if="id !== 'taskTypes' && id !== 'taskStatus'" 
-          class="new-todo" 
+        <input v-if="id !== 'taskTypes' && id !== 'taskState'" 
+          class="new-todo"
           autofocus autocomplete="off" 
           :placeholder="pholder"
-          v-bind:class="getLevelClass(todo.level,todo.id)" 
+          v-bind:class="getLevelClass(todo.level,todo.id)"
           v-model="todo.taskName" 
-          @click="SHOW_DIV(todo)" 
+          @click="SHOW_DIV(todo)"
           @keyup.enter="addTodo(nextIndex)"
-          @focus="onFocusClick(todo.id, todo.level)" 
-          @blur=onBlurCall(todo.id,todo.level) 
-          @keyup="performAction" 
+          @focus="onFocusClick(todo.id, todo.level,todo.created_by,todo.type_id)"
+          @blur=onBlurCall(todo.id,todo.level)
+          @keyup="performAction"
           @change="changeValue(nextIndex)">
-        <input v-if="id === 'taskTypes'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
-          v-model="todo.type" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
-        <input v-if="id === 'taskStatus'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
-          v-model="todo.status" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
+        <input  v-if="id === 'taskTypes'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
+            v-model="todo.type" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
+        <input v-if="id === 'taskState'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
+            v-model="todo.taskState" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
         <span class=""><i>
           <b class="glyphicon glyphicon-option-vertical"></b>
           <b class="glyphicon glyphicon-option-vertical"></b>
@@ -38,10 +40,17 @@
         </span>
         <div class="task-row-overlay grid-tags-and-date">
           <a class="taskRow">
-            <span class="grid_due_date">{{todo.dueDate | formatDate_todo}}</span>
             <span v-if="todo.isTaskUpdate" style="color: red">&#x25cf;</span><span v-else></span>
+            <span class="grid_due_date">{{todo.dueDate | formatDate_todo}}</span>
           </a>
-        </div>
+          <div v-if="todo.type_id" class="stateCircle Avatar--small"  @click="showStatusList" data-toggle="dropdown" :style="{'box-shadow' : 'inset 0 0 0 3px'+ selectedObject.color }">
+            <span>{{selectedObject.taskState | fistLatter}}</span></div>
+            <ul class='dropdown-menu statusList' style="right: 0; left:-20px;">
+                <li v-for="state in taskState"><a @click="selectStatus(state)">{{state.taskState}}</a>
+                  <hr>
+                </li>
+              </ul>
+          </div>
         <div v-if="$store.state.deleteItemsSelected" class="delete-view">
           <div class="react-mount-node photoView-reactMount">
             <div data-reactroot="" class="Avatar Avatar--small Avatar--color4">
@@ -54,7 +63,7 @@
             <a class="fa fa-close"/>
             <i class="fa fa-trash-o"></i>
         </button>-->
-        <button class="destroy" v-if="id === 'taskTypes' || id === 'taskStatus'" @click="deleteTaskType(todo)">
+        <button class="destroy" v-if="id === 'taskTypes' || id === 'taskState'" @click="deleteTaskType(todo)">
             <a class="fa fa-close"/>
         </button>
       </div>
@@ -79,7 +88,35 @@ height: 100%;
 bottom: 0;
 position: fixed;
 }
-.ui.vertical.segment {border-bottom: 0px;}
+.ui.vertical.segment {
+  border-bottom: 0px;
+}
+.taskRow {
+  margin-right: 10px;
+}
+.stateCircle {
+  -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    /* background: center/cover #cdcfd2; */
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 3px rgba(10,10,10,1.2);
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #000;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    position: relative;
+    vertical-align: top;
+    overflow: hidden;
+}
 </style>
 <script>
   /* eslint-disable*/
@@ -89,7 +126,10 @@ position: fixed;
   import KeenUI from 'keen-ui';
   import Resource from 'vue-resource'
   import lodash from 'lodash'
+  import * as services from '../services'
   import VueLodash from 'vue-lodash/dist/vue-lodash.min'
+  import CmnFunc from './CommonFunc.js'
+  import * as Constant from './Constants.js'
   import moment from 'moment'
   Vue.use(VueLodash, lodash)
   Vue.use(BootstrapVue)
@@ -103,7 +143,12 @@ position: fixed;
       return moment(String(value)).format('MMM DD')
     }
   })
-
+  Vue.filter('fistLatter', function(str){
+    if (str) {
+      var firstLetters = str.substr(0, 1)
+      return firstLetters.toUpperCase()
+    }
+  })
   export default {
     props: ['todo', 'pholder', 'nextIndex', 'prevIndex', 'id'],
     data: function () {
@@ -112,10 +157,21 @@ position: fixed;
         prgress_count: '',
         prevSelectedItem:'',
         curSelectedItem: '',
+        selectedObject: {}
       }
     },
+    created(){    
+    },
     computed: {
-
+       ...mapGetters({
+            statusList: 'getTask_types_state',
+            allState :'getTaskStausList'
+        }),
+        taskState() {
+          let stateList = this.statusList
+          this.taskStateList(stateList)
+          return stateList
+        }
     },
     methods: {
       ...mapMutations([
@@ -129,6 +185,13 @@ position: fixed;
       },
       undelete: function () {
         this.$store.dispatch('undelete', this.todo)
+      },
+      showStatusList() {
+        this.$store.dispatch('getTypeState', this.todo.type_id)
+      },
+      selectStatus(objStatus) {   
+        this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedState": objStatus.state_id })
+        this.selectedObject = this.taskState.find(state => state.state_id === objStatus.state_id)
       },
       // deleteTodo: function () {
       //   this.$store.dispatch('deleteTodo', this.todo)
@@ -160,28 +223,38 @@ position: fixed;
       //   }
       // },
       addTodo: function (todoId) {
-        if (this.id !== 'taskTypes' && this.id !== 'taskStatus') {
-          this.changeFocus(todoId)
+        if (this.id !== 'taskTypes' && this.id !== 'taskState') {
           this.$store.dispatch('insertTodo', this.todo)
         } else if (this.id === "taskTypes") {
           this.$store.dispatch('addTask_Type', this.todo)
-        } else if(this.id === "taskStatus"){
-          this.$store.dispatch('addTask_Status', {"status":this.todo})
+        } else if(this.id === "taskState"){
+          this.$store.dispatch('addTask_State', {"state":this.todo})
         }
       },
-      deleteTaskType: function (todo) {
+      deleteTaskType(todo) {
         if (this.id === 'taskTypes') {
-          this.$store.dispatch('deleteTaskType', this.todo)
-        } else if (this.id === 'taskStatus') {
-          this.$store.dispatch('deleteTaskStatus', this.todo)
+          this.$store.dispatch('getCountofTaskType', this.todo)
+        } else if (this.id === 'taskState') {
+          this.$store.dispatch('getCountofTypeState', this.todo)
         }
       },
-      onFocusClick(id, level) {
+      async onFocusClick(id,level,created_by,typeId){
         console.log('onFoucusclick')
+     
         $("#" + id + "_" + level).addClass("lifocus")
         if (this.todo.isTaskUpdate) {
           this.todo.isTaskUpdate = false
         }
+       
+        let inutTodo = $("#" + id + "_" + level + " .view .new-todo." + id + "_" + level);   // Get the first <inutTodo> element in the document        
+        let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.TASK,Constant.PERMISSION_ACTION.UPDATE)
+        console.log("permisionResult-->",permisionResult)
+        // if (!updatePermssion && id != -1 && this.$store.state.userObject._id != created_by) {
+        if (!permisionResult && id != -1) {
+          inutTodo.prop("readonly", true);
+        } else {
+          inutTodo.prop("readonly", false);
+        }  
       },
       onBlurCall(id, level) {
         $("#" + id + "_" + level).removeClass("lifocus")
@@ -201,7 +274,6 @@ position: fixed;
         this.$store.state.currentModified = (this.todo.id == -1) ? true : false
       },
       changeValue: function(todoId){
-        console.log('onChange()', todoId)
         this.$store.dispatch('insertTodo', this.todo)
         var nextTaskIndex = todoId.split('_')[0];
         if(nextTaskIndex == -1)
@@ -221,13 +293,29 @@ position: fixed;
           if (showTodoIndex != -1)
             self.$store.commit('SHOW_DIV', self.$store.state.todolist[showTodoIndex])
         }, 100);
+      },
+      taskStateList: function (state) {
+        state.forEach(function (c) {
+          let stateId = c.state_id
+          let stateIndex = _.findIndex(this.$store.state.task_state_list, function (m) {
+            return m.id === stateId
+          })
+          if (stateIndex < 0) {
+          } else {
+            c.color = this.$store.state.task_state_list[stateIndex].color
+            c.taskState = this.$store.state.task_state_list[stateIndex].taskState
+          }
+        }, this)
       }
     },
     component: {
       txtDesc
     },
     mounted() {
-      if (this.id !== 'taskTypes' && this.id !== 'taskStatus') {
+      if (this.id !== 'taskTypes' && this.id !== 'taskState') {
+        if (this.todo.state_id) {
+          this.selectedObject = this.allState.find(state => state.id === this.todo.state_id)
+        }
         var totalSubtask = this.todo.subtask_count ? this.todo.subtask_count : 0
         var completedSubtask = this.todo.completed_subtask_count ? this.todo.completed_subtask_count : 0
         this.todo.progress_count = completedSubtask + " / " + totalSubtask;

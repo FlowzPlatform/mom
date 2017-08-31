@@ -2,7 +2,7 @@
     <div class="task">
           <div class="view">
             <input type="checkbox" class="toggleTask" v-model="filteredTodo.completed" @change="toggleTodo(filteredTodo)">
-            <textarea v-if="id !== 'rightTaskTypes' && id !== 'rightTaskStatus'" id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
+            <textarea v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
             placeholder="New Task" 
             style="height: 40px;"
             rows="1"
@@ -22,7 +22,7 @@
             @keyup.enter="updateType"
             v-model="filteredTodo.type"
             />
-            <textarea v-if="id === 'rightTaskStatus'" id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
+            <textarea v-if="id === 'rightTaskState'" id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
             placeholder="New Task" 
             style="height: 40px;"
             rows="1"
@@ -30,14 +30,14 @@
             @click="autoresize"
             autofocus autocomplete="off"
             @keyup.enter="updateStatus"
-            v-model="filteredTodo.status"
+            v-model="filteredTodo.taskState"
             />
           </div>
           <br>
         <div class="property description taskDetailsView-description">
         <div class="multiline">
           <span class="autogrow-textarea">
-              <textarea v-if="id !== 'rightTaskTypes' && id !== 'rightTaskStatus'" rows="3" cols="50"
+              <textarea v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" rows="3" cols="50"
               v-model="filteredTodo.taskDesc"
               @change="updateTaskName()" 
               contenteditable="true" disable_highlighting_for_diagnostics="true" 
@@ -55,8 +55,8 @@
               id="property_sheet:details_property_sheet_field:description"
               placeholder="Description">
             </textarea><br>
-            <textarea v-if="id === 'rightTaskStatus'" rows="3" cols="50"
-              v-model="filteredTodo.statusDesc"
+            <textarea v-if="id === 'rightTaskState'" rows="3" cols="50"
+              v-model="filteredTodo.stateDesc"
               @keyup="updateStatus()" 
               contenteditable="true" disable_highlighting_for_diagnostics="true" 
               tabindex="10" 
@@ -101,7 +101,7 @@ export default {
       this.$store.dispatch('editTypes', this.filteredTodo)
     }, 2000),
     updateStatus: _.debounce(function() {
-      this.$store.dispatch('editStatus', this.filteredTodo)
+      this.$store.dispatch('editState', this.filteredTodo)
     }, 2000)
   },
   component: {
