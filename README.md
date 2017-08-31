@@ -1,6 +1,6 @@
 # MOM
 
-> MOM is a task based application in Vuejs as a frontend. End user can create upto N level parent/child task. It stores data in rethinkdb via feathres API. Created feathers API for the real-time data.
+>  It is an user friendly way of listing the tasks, assigning them, to track them, maintain comments or action taken and its status updates of minutes.The user can create subtasks upto any level in real time.
 
 ## Getting started
 
