@@ -716,7 +716,6 @@ export const store = new Vuex.Store({
       let removeIndex = _.findIndex(state.task_types_state, function (d) { return d.id == payload.id })
       Vue.delete(state.task_types_state, removeIndex)
     }
-    
   },
   actions: {
     getUsersRoles({commit})
@@ -1433,7 +1432,6 @@ export const store = new Vuex.Store({
         })
     },
     async getAllUsersList({ commit },callback) {
-      console.log('callbacck:', callback)
       try {
         let { data } = await axios.get(process.env.USER_DETAIL + '/alluserdetails', {
           headers: {
@@ -1708,6 +1706,35 @@ export const store = new Vuex.Store({
         }).then(response => {
 
         });
+    },
+    getCountofTaskType({commit}, data){
+      console.log("Data id", data)
+        services.tasksService.find({
+          query:{  type_id: data.id  },$client: {
+            flag: 'countflag'
+        }
+        }).then(response => {
+          console.log("Response in getCountofTaskType", response)
+          if(response.length <= 0){
+            store.dispatch('deleteTaskType', data)
+          } else {
+            alert("Can not Delete")
+          }
+        })
+    },
+    getCountofTypeState({commit}, data) {
+      services.taskTypeStateService.find({
+        query:{  state_id: data.id  },$client: {
+          flag: 'countState'
+      }
+      }).then(response => {
+        console.log("Response in getCountofTypeState", response)
+        if(response.length <= 0){
+          store.dispatch('deleteTaskStatus', data)
+        } else {
+          alert("Can not Delete")
+        }
+      })
     }
 
   },
