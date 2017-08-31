@@ -106,7 +106,7 @@ export default {
   {
       var self = context;
       let selfRoleId = this.getSelfRoleId(context);
-      console.log("selfRoleId--->", selfRoleId)
+      console.log("selfRoleId-->",selfRoleId)
       if(selfRoleId)
         {
           let permisisonId = this.getPermissionId(context,userAction)

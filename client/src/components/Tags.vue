@@ -13,7 +13,7 @@
                     <!--{{tag.name}}-->
                 </el-tag>
             </span>
-            <span class="el-dropdowns-parts" v-show="isTagCreatePermission">
+            <span class="el-dropdowns-parts" v-show="isTagCratePermission">
                 <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="mini" @keyup.enter.native="handleEnterConfirm" @blur="handleInputConfirm" @keyup.native="showMenu">
                 </el-input>
                 <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
