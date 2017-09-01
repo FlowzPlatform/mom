@@ -9,6 +9,9 @@ import ShowTaskList from '@/components/ShowTaskList'
 import ShowTaskTypes from '@/components/ShowTaskTypes'
 import SocialAuth from '@/components/SocialAuthProcess'
 import LoadProcess from '@/components/LoadProcess'
+import Ckeditor from 'vue-ckeditor2'
+import { markdownEditor } from 'vue-simplemde'
+
 import '../style/style.css'
 import '../style/style1.css'
 import '../style/newStyle.css'
@@ -38,6 +41,16 @@ const User = {
 export default new Router({
   mode: 'history',
   routes: [
+    {
+      path: '/Ckeditor',
+      name: 'Ckeditor',
+      component: Ckeditor
+    },
+    {
+      path: '/markdownEditor',
+      name: 'markdownEditor',
+      component: markdownEditor
+    },
     {
       path: '/',
       name: 'Login',
@@ -72,6 +85,7 @@ export default new Router({
           name: 'MainApp',
           component: MainApp
         },
+        
         {
           path: 'roleaccess',
           name: 'RoleAccess',
