@@ -13,7 +13,7 @@
                     <!--{{tag.name}}-->
                 </el-tag>
             </span>
-            <span class="el-dropdowns-parts" v-show="isTagCratePermission">
+            <span class="el-dropdowns-parts" v-show="isTagCreatePermission">
                 <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="mini" @keyup.enter.native="handleEnterConfirm" @blur="handleInputConfirm" @keyup.native="showMenu">
                 </el-input>
                 <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
@@ -67,7 +67,7 @@ export default {
             tagItem: '',
             isNewTag: false,
             isSearchTag: false,  // isSearchTag is true when tag search from tags array otherwise false
-            isTagCratePermission: false,
+            isTagCreatePermission: false,
             isTagDeletePermission: false
         }
     },
