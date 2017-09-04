@@ -196,7 +196,7 @@
                     this.createProjectError = "Invalid project name";
                     return;
                 } else {
-                    this.createProjectError = "";
+                    this.createProjectError = ""    ;
                 }
                 if (!this.privacyOption || this.privacyOption.length == 0) {
                     this.privacyMsg = "Select privacy";
