@@ -67,11 +67,8 @@ export default {
             tagItem: '',
             isNewTag: false,
             isSearchTag: false,  // isSearchTag is true when tag search from tags array otherwise false
-<<<<<<< dfd208f7d5c189e16f6d472cf4406e1142ce5a01
+
             isTagCreatePermission: false,
-=======
-            isTagCratePermission: false,
->>>>>>> Remove owner from user role table. Add permission validation to tag and privacy option hide when no project.
             isTagDeletePermission: false
         }
     },
