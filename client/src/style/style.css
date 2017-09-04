@@ -1904,7 +1904,7 @@ span.shortcut {
     height: 100%;
 }
 .task-row-overlay {
-    z-index: 60;
+    /*z-index: 60;*/
     position: absolute;
     right: 30px;
     top: 0;
@@ -5442,7 +5442,8 @@ table {
     overflow: auto;
 }
 .statusList li a {
-    line-height: 40px
+    line-height: 35px;
+    font-size: 15px
 }
 .statusList li hr{
     margin-top: 1px;
