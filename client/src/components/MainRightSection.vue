@@ -93,12 +93,9 @@ export default {
   data: function () {
     return {
         todolistSubTasks: [],
-        isTagCratePermission:true
-      
     }
   },
   created() {
-    this.newTagPermission();
     // let self = this;
     //      socket.on('feed-change', function(item){
     //           //  console.log("TodoItem.vue:item***",item);
@@ -145,11 +142,7 @@ export default {
     },
     deletePermently:function() {
       this.$store.dispatch('deletePermently', this.todoObject)
-    },
-    async newTagPermission(){
-         console.log("tag object:",this.todoObject)
-         this.isTagCratePermission=await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.TAG,Constant.PERMISSION_ACTION.CREATE)
-   }
+    }
   },
    watch: {
     // whenever question changes, this function will run
