@@ -56,21 +56,21 @@ export default {
     const deletevalue = [1, 3, 5, 7, 9, 11, 13, 15]
     return deletevalue.includes(accessValue)
   },
-  checkActionPermision:async function(context,taskTypeId,userAction,permisisonAction)
+  checkActionPermision:async function(context,taskTypeId,userAction,permisisonAction,TAG)
   {
       var self = context;
       let selfRoleId = this.getSelfRoleId(context);
-
+      console.log("selfRoleId:--"+TAG,selfRoleId)
       if(selfRoleId)
         {
           let permisisonId = this.getPermissionId(context,userAction)
-          console.log("permisisonId--->", permisisonId)
+          console.log("permisisonId--->"+TAG, permisisonId)
 
           //  await services.roleAccessService.find({ query: { task_type: taskTypeId, rId: selfRoleId } }).then(response => {
           //   console.log("Res--->", response)
-            let accessRight =await this.callRoleAccessService(taskTypeId,selfRoleId);
+            let accessRight =await this.callRoleAccessService(taskTypeId,selfRoleId,TAG);
             // let accessRight =response;
-            console.log("accessRight--->", accessRight)
+            console.log("accessRight--->"+TAG, accessRight)
             let accessValue = this.getAccessValue(context,accessRight,permisisonId,taskTypeId)
             console.log("accessValue--->", accessValue)
             
@@ -90,8 +90,10 @@ export default {
 
 
   },
-  callRoleAccessService:function(taskTypeId,selfRoleId)
+  callRoleAccessService:function(taskTypeId,selfRoleId, TAG)
   {
+    console.log('taskTypeId--->', taskTypeId)
+    console.log('selfRoleId:::'+TAG, selfRoleId)
     return services.roleAccessService.find({ query: { task_type: taskTypeId, rId: selfRoleId } }).then(response => {
       console.log("Res--->", response)
       return response;
@@ -106,9 +108,13 @@ export default {
   },
   getPermissionId:function(context,user_action)
   {
-    return _.result(_.find(context.$store.state.permissions, function (obj) {
-      return obj.index === user_action;
-    }), 'id');
+    console.log("userAction",user_action)
+    let index = _.findIndex(context.$store.state.permissions, function (d) { return d.index == user_action })
+    console.log("permissions index--",index)
+    return context.$store.state.permissions[index].id
+    // return _.result(_.find(context.$store.state.permissions, function (obj) {
+    //   return obj.index === user_action;
+    // }), 'id');
   },
   getAccessValue:function(context,accessRight,permissionId,taskTypeId){
     return _.result(_.find(accessRight, function (obj) {

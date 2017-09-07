@@ -78,7 +78,7 @@
               </div>
             </span>
           </div>
-          <span class="attachmentsMenuView dropdown">
+          <span class="attachmentsMenuView dropdown" v-show="isAttachementShow">
             <input autocomplete="off" id="attachments_menu_view_hidden_file_input_3" type="file" name="file" class="hidden-file-input"
               multiple="true" tabindex="-1">
             <a id="details_property_sheetproperty_attach_attach_menu" tabindex="-1" data-toggle="dropdown" class=" dropdown-menu-link attach-menu  circularButtonView property attach circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active">  
@@ -139,6 +139,8 @@
   import Datepicker from 'vuejs-datepicker'
   import EstimatedHours from './EstimatedHours.vue'
   import TaskPriority from './TaskPriority.vue'
+  import CmnFunc from './CommonFunc.js'
+  import * as Constant from './Constants.js'
   import { mapMutations, mapGetters } from 'vuex'
   Vue.use(KeenUI);
   Vue.filter('formatDate', function (value) {
@@ -159,7 +161,9 @@
         estimated_time: false,
         task_priority: false,
         userName: '',
-        type: ''
+        type: '',
+        isAttachementShow:true,
+        isAssignedPermission: true
       }
     },
     computed: {
@@ -182,7 +186,10 @@
         let commentList = this.getComment(this.filteredTodo.id)
         return commentList
       },
-      getAssignedType: function() {
+       getAssignedType: function() {
+        this.manageAttachmentCreatePermission();
+        this.manageTaskTypePermission();
+        
         if (this.filteredTodo.type_id) {
           var objType = _.find(this.$store.state.task_types_list, ['id', this.filteredTodo.type_id])
           return objType.type
@@ -198,7 +205,38 @@
         'CLOSE_DIV'
       ]),
       
-      
+      manageAttachmentCreatePermission:async function() {
+        this.isAttachementShow = await CmnFunc.checkActionPermision(this,this.filteredTodo.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.CREATE, "attachment")
+      },
+      manageTaskTypePermission:async function(){
+        let isUpdateTaskType = await CmnFunc.checkActionPermision(this,this.filteredTodo.type_id,Constant.USER_ACTION.TASK_TYPE,Constant.PERMISSION_ACTION.UPDATE, "task type")
+        console.log('task type permission:', isUpdateTaskType)
+        if(!isUpdateTaskType){
+          $('.typeClass').attr('data-toggle','');
+          $(".typeBorderClass").hover(
+            function(){
+            $('.typeBorderClass').addClass('tasktype_disable')
+            }
+          )
+          $(".typeClass").hover(
+            function(){
+              $('.typeClass').addClass('typeclass_disable')
+            }
+          )
+        }else{
+          $('.typeClass').attr('data-toggle','dropdown');
+          $(".typeBorderClass").hover(
+            function(){
+            $('.typeBorderClass').removeClass('tasktype_disable')
+            }
+          )
+          $(".typeClass").hover(
+            function(){
+              $('.typeClass').removeClass('typeclass_disable')
+            }
+          )
+        }
+      },
       deleteTodo: function () {
         this.$store.dispatch('delete_Todo', this.filteredTodo)
       },
@@ -330,9 +368,28 @@
         this.imageURlProfilePic = ''
         return this.capitalizeLetters(user.email)
       },
-      getAssignedUserName() {
-        var user = this.getAssignedUserObj()
+       getAssignedUserName() {
+        this.isCheck();
+        let user = this.getAssignedUserObj()
         return this.getName(user.email)
+      },
+      async isCheck(){
+        this.isAssignedPermission = await CmnFunc.checkActionPermision(this,this.filteredTodo.type_id,Constant.USER_ACTION.TASK_ASSIGN,Constant.PERMISSION_ACTION.UPDATE,"TASK_ASSIGN")
+        if(!this.isAssignedPermission){
+          $('.token_name').attr('data-toggle','');
+          $(".token-wrapper").hover(
+            function(){
+            $('.user_token').addClass('assignment_disable')
+            }
+          )
+        }else{
+          $('.token_name').attr('data-toggle','dropdown');
+          $(".token-wrapper").hover(
+            function(){
+            $('.user_token').removeClass('assignment_disable')
+            }
+          )
+        }
       },
       getName(name) {
         var str = name
