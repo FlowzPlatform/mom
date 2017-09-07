@@ -188,10 +188,6 @@ export default {
                         this.tagItem = '';
                     }
                 }
-
-
-
-
             }
 
             else {
