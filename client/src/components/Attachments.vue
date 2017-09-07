@@ -1,12 +1,5 @@
 <template>
     <div>
-        <!--<ui-progress-linear 
-            color="primary" 
-            type="determinate" 
-            :progress="this.$store.state.progress" 
-            v-show="this.$store.state.isProgress">
-        </ui-progress-linear>-->
-        <!--{{filteredTodo.attachmentprogress}} | {{filteredTodo.deleteprogress}}-->
          <ul class="uplod-list-file list-inline">
             <li v-for="(files, index) in attachmentList" style="padding:0 0 5px 0;">
             <span>
@@ -19,7 +12,7 @@
                         v-if="index === attachmentList.length-1">
                     </ui-progress-linear></a>
                 <button class="" @click="deleteAttachment(files, index)">
-					<a class="fa fa-close"/>
+					<a v-show="isDeleteAttachment" class="fa fa-close"/>
 				</button>
                 </span>
                 <span style="float:right;" v-if="index === btnClickedIndex">
@@ -35,7 +28,7 @@
     /* eslint-disable*/
     import { mapGetters } from 'vuex'
     export default {
-        props: ['filteredTodo'],
+        props: ['filteredTodo', 'isDeleteAttachment'],
         data: function () {
             return {
                 btnClickedIndex: 0
