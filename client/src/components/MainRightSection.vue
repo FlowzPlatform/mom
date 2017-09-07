@@ -21,7 +21,7 @@
     <panel v-show='showAttachment'>
       Attachments
       <p class='PanelAttach' slot="content">
-        <attachments :filteredTodo="todoObject"> </attachments>
+        <attachments :filteredTodo="todoObject" :isDeleteAttachment='isDelete'> </attachments>
       </p>
     </panel>
     <panel>
@@ -32,15 +32,7 @@
     </panel>
   </collapse>
   <statuses :selectedState="typeStateList" :filteredTodo="todoObject" :id="id"></statuses>
-  <!--<attachments :filteredTodo="todoObject"> </attachments>-->
-  <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#attachment">Attachments</div>-->
-  <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#attachment">Attachents</button>-->
-  <!--<attachments id="attachment" class="collapse" :filteredTodo="todoObject"> </attachments>-->
-   <!--<hr>-->
-  <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#tags">Tags</div>-->
-  <!--<button type="button" class="btn btn-info button-collapse" <data-togg></data-togg>le="collapse" data-target="#tags">Tags</button>
-  <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
-  <!--<tags :filteredTodo="todoObject"></tags>-->
+  
   <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
   <history-log  :taskId="todoObject.id" :historyLog="historyLog"></history-log>
   </div>
@@ -84,8 +76,8 @@ import Tags from './Tags.vue'
 import { mapGetters } from 'vuex' 
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
-import * as Constant from './Constants.js'
 import CmnFunc from './CommonFunc.js'
+import * as Constant from './Constants.js'
 
 Vue.use(iView);
 
@@ -94,7 +86,8 @@ export default {
   data: function () {
     return {
         todolistSubTasks: [],
-        historyLog:[]
+        historyLog:[],
+        isDelete: false
     }
   },
   created() {
@@ -144,7 +137,10 @@ export default {
     },
     deletePermently:function() {
       this.$store.dispatch('deletePermently', this.todoObject)
-    }
+    },
+    async manageAttachmentDeletePermission(){
+      this.isDelete = await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.DELETE, "attachment")
+     }
   },
    watch: {
     // whenever question changes, this function will run
@@ -180,8 +176,18 @@ export default {
        return taskArray
      },
      showAttachment() {
-      //  console.log('show attachment', this.$store.state.arrAttachment.length)
-        return this.$store.state.arrAttachment.length > 0 ? true : false
+      this.manageAttachmentDeletePermission()
+
+      let attachmentArray = _.find(this.$store.state.arrAttachment, ['task_id', this.todoObject.id]);
+
+      let isAttachmentExist;
+      if(attachmentArray){
+        isAttachmentExist = true
+      }else{
+        isAttachmentExist = false
+      }
+      return isAttachmentExist
+      // return this.$store.state.arrAttachment.length > 0 ? true : false
      }
   },
   components: {

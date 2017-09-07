@@ -9,7 +9,7 @@ exports.before = {
   find(hook){
     const query = this.createQuery(hook.params.query);
     const r = this.options.r;
-
+    console.log("AccessRights Query=",query)
     var client = hook.params.query.$client;
     if (client && client.flag && client.flag == 'rolePermision') {
     hook.params.rethinkdb =r.table("task_types")

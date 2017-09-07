@@ -10,7 +10,8 @@ export const USER_ACTION={
     ATTACHEMENT:5,
     TASK_PRIORITY:6,
     ESTIMATED_HOURS:7,
-    MEMBER:8
+    MEMBER:9,
+    TASK_TYPE: 8
     }
 
     export const PERMISSION_ACTION={
