@@ -70,6 +70,23 @@ export default {
          */
         deleteProject(){
             this.$store.dispatch('deleteProject',this.$store.state.currentProject)
+            this.$store.state.currentProjectId=undefined;
+                 this.$store.state.currentProjectName = undefined
+             this.$store.state.currentProjectPrivacy = undefined
+            // let self=this;
+            // let memberIndex = _.findIndex(this.$store.state.projectlist, function (project) { return project.id == self.$store.state.currentProjectId});
+            // console.log("memberIndex:-->",memberIndex)
+            // let totalProject=this.$store.state.projectlist.length;
+            // if(totalProject>1 && totalProject-1==memberIndex)
+            // {
+            //     console.log("Project nae:-->",this.$store.state.projectlist[memberIndex-1].name)
+            //     this.$store.state.currentProjectId=this.$store.state.projectlist[memberIndex-1].id
+            // }else{
+            //     console.log("Project nae else:-->",this.$store.state.projectlist[memberIndex+1].name)
+            //     this.$store.state.currentProjectId=this.$store.state.projectlist[memberIndex+1].id
+            // }
+            
+            
             this.closeDeleteDialog();
         }
 

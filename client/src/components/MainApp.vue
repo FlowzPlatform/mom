@@ -214,7 +214,7 @@
       <div class="asanaView-paneGutter"></div>
       <div id="center_pane_container" class="known-list">
         <div id="center_pane">
-          <div v-if="$store.state.currentProjectId.length>0">
+          <div v-if="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
             <left-toolbar v-if="!isCopyLink" :filters="filters">
             </left-toolbar>
             <main-left-section id="todoTask" :isCopyLink="isCopyLink" :todoObject="todoObjectById" :pholder="taskPholder" :filtered-todos="taskById"></main-left-section>
@@ -226,7 +226,7 @@
                   <span class="fa fa-file-text-o fa-5x" @click="openCreateDialogs" />
                   <div class="text gridPaneSearchEmptyView-noProjectItemsTitleText">Add New Project
                   </div>
-                  <div class="text gridPaneSearchEmptyView-noProjectItemsText">You have no project created.
+                  <div class="text gridPaneSearchEmptyView-noProjectItemsText" v-show="$store.state.projectlist.length==0">You have no project created.
                   </div>
                 </div>
               </div>
@@ -335,10 +335,12 @@
       // this.getProjectWiseTodo;
       var projects = this.getProjectWiseTodo;
       var projectId = this.$store.state.currentProjectId
+      console.log("projectId:--",projectId)
       if (!projectId && projects.length > 0) {
         projectId = projects[0].id
         this.$store.state.currentProjectId = projects[0].id
         this.$store.state.currentProjectName = projects[0].project_name
+        this.$store.state.currentProjectMember = projects[0].members; 
         this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '', project_id: projectId });
       } else {
         console.log("Can't set projectc id")
@@ -478,9 +480,10 @@
         // this.$store.commit('DELETE_ATTACHMENTS')
         // this.$store.state.userObject = {}
         // this.$store.state.isAuthorized = false
-        // this.$store.commit('userData')
+        this.$store.commit('userData')
         // this.$store.commit('authorize')
-        CmnFunc.deleteAutheticationDetail()
+        CmnFunc.resetProjectDefault()
+        // CmnFunc.deleteAutheticationDetail()
         window.location = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:3000"
       },
       getAllUsers() {

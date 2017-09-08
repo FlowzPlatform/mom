@@ -14,7 +14,7 @@
     <!--@click="deletePermently(todoObject)"-->
 		<noscript></noscript>
 	</div>
-  
+    
 	<text-description :id="id" :filteredTodo="todoObject">
   </text-description>
   <collapse v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" class="CollapseView">
@@ -42,6 +42,7 @@
   <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
   <!--<tags :filteredTodo="todoObject"></tags>-->
   <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
+  <history-log  :taskId="todoObject.id" ></history-log>
   </div>
   <story-feed :filteredTodo="todoObject"></story-feed>
 </section>
@@ -73,6 +74,7 @@ import Vue from 'vue'
 import MainLeftSection from './MainLeftSection.vue'
 import TextDescription from './TextDescription.vue'
 import RightFooter from './RightFooter.vue'
+import HistoryLog from './HistoryLog.vue'
 import RightToolbar from './RightToolbar.vue'
 import Attachments from './Attachments.vue'
 import StoryFeed from './StoryFeed.vue'
@@ -181,7 +183,8 @@ export default {
     Attachments,
     StoryFeed,
     Tags,
-    Statuses
+    Statuses,
+    HistoryLog
   }
 }
 </script>
