@@ -99,6 +99,7 @@ function updateObject(oldObject, newObject) {
 
 export const store = new Vuex.Store({
   state: {
+    comments:'',
     userObject: {},
     isAuthorized: false,
     todolist: [],
@@ -141,8 +142,10 @@ export const store = new Vuex.Store({
     task_types_state: [],
     googleId: '',
     removeMember:{},
+    currentProject:{},
     permissions:{},
     currentProjectRoleid:'',
+    commentValue: ''
   },
   mutations: {
     userData: state => state.userObject,
@@ -1481,7 +1484,6 @@ export const store = new Vuex.Store({
         })
     },
     async getAllUsersList({ commit },callback) {
-      console.log('callbacck:', callback)
       try {
         let { data } = await axios.get(process.env.USER_DETAIL + '/alluserdetails', {
           headers: {
@@ -1766,6 +1768,7 @@ export const store = new Vuex.Store({
 
         });
     },
+<<<<<<< HEAD
     roleCheckChange({ commit }, role){
       console.log("Role --->",role);
       
@@ -1800,6 +1803,35 @@ export const store = new Vuex.Store({
         task_id:task_id
       }).then(response=>{
         return response;
+=======
+    getCountofTaskType({commit}, data){
+      console.log("Data id", data)
+        services.tasksService.find({
+          query:{  type_id: data.id  },$client: {
+            flag: 'countflag'
+        }
+        }).then(response => {
+          console.log("Response in getCountofTaskType", response)
+          if(response.length <= 0){
+            store.dispatch('deleteTaskType', data)
+          } else {
+            alert("Can not Delete")
+          }
+        })
+    },
+    getCountofTypeState({commit}, data) {
+      services.taskTypeStateService.find({
+        query:{  state_id: data.id  },$client: {
+          flag: 'countState'
+      }
+      }).then(response => {
+        console.log("Response in getCountofTypeState", response)
+        if(response.length <= 0){
+          store.dispatch('deleteTaskStatus', data)
+        } else {
+          alert("Can not Delete")
+        }
+>>>>>>> developer
       })
     }
 
