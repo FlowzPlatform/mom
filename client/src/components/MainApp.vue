@@ -39,7 +39,7 @@
                   </svg>
                 </div>
               </a>
-              <div id="projectVisible" class="hidden projectHeaderFacepile-privacySummary projectHeaderFacepile-privacySummaryDropdown" @click="changePrivacyPopup">
+              <div v-show="$store.state.currentProjectName.length>0?true:false" id="projectVisible" class="projectHeaderFacepile-privacySummary projectHeaderFacepile-privacySummaryDropdown" @click="changePrivacyPopup">
                 <div class="projectHeaderFacepile-privacySummaryDropdownTextDownIconContainer">
                   <svg v-if="$store.state.currentProjectPrivacy==2" class="Icon UserIcon projectHeaderFacepile-privacySummaryDropdownLeftIcon"
                     title="UserIcon" viewBox="0 0 32 32">

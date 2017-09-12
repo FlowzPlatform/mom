@@ -619,7 +619,7 @@ export const store = new Vuex.Store({
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
       if (updateProjectIndex >= 0) {
            state.projectlist[updateProjectIndex].is_deleted = value.is_deleted;
-           state.projectlist.splice(updateProjectIndex,0)
+           state.projectlist.splice(updateProjectIndex)
         }
            state.todolist=[]
            state.currentProjectId = ""
@@ -1881,6 +1881,9 @@ export const store = new Vuex.Store({
         }
 
       })
+
+
+    }
 
 
     }

@@ -78,7 +78,7 @@
                                 <!-- Invite team member -->
                                 <p class="teamList" slot="content">
                                     <!--Added Member list -->
-                                    <span :id="'itemRow-'+project.id" class="SidebarItemRow-name">
+                                    <span v-show="false" :id="'itemRow-'+project.id" class="SidebarItemRow-name">
                                         <div class="SidebarTeamMembersList">
                                             <div class="SidebarTeamMembersList-facepileRow">
                                                 <div class="Facepile Facepile--small SidebarTeamMembersList-facepile">
@@ -168,7 +168,7 @@
                                     </span>
                                     <!-- Search member list -->
                                     <span id="">
-                                        <div :id="'expandableList'+project.id" class="hidden SidebarTeamMembersExpandedList">
+                                        <div :id="'expandableList'+project.id" class="SidebarTeamMembersExpandedList">
                                             <!-- Search member header -->
                                             <div :id="'listHeader'+project.id" class="SidebarTeamMembersExpandedList-header">
                                                 <span class="SidebarTeamMembersExpandedList-editHeader">
@@ -315,14 +315,14 @@
                         <span v-else :id="'panelProjectName-'+project.id" @click="projectSelect(project)" @mouseleave="hideOption(project.id)" @mouseover="showOption(project.id)" class="spanPanel privateProject">
                             <a class="DeprecatedNavigationLink">
                                 <span class="panelProjectName">{{project.project_name}}</span>
-                                <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu" @click="showProjectSetting(project)">
+                                <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu" style="fill:transparent" @click="showProjectSetting(project)">
                                     <svg class="Icon MoreIcon SidebarItemRow-icon SidebarItemRow-defaultIcon" title="MoreIcon" viewBox="0 0 32 32">
                                         <circle cx="3" cy="16" r="3"></circle>
                                         <circle cx="16" cy="16" r="3"></circle>
                                         <circle cx="29" cy="16" r="3"></circle>
                                     </svg>
                                 </span>
-                                <span :id="'ItemRowPrivacy-'+project.id" v-show="project.project_privacy == 2" class="SidebarItemRow-statusIcon pull-right">
+                                <span :id="'ItemRowPrivacy-'+project.id" v-show="project.project_privacy == 2"  class="SidebarItemRow-statusIcon pull-right">
                                     <svg class="Icon LockIcon" title="LockIcon" viewBox="0 0 32 32">
                                         <path d="M24,12v-0.125V8c0-4.411-3.589-8-8-8S8,3.589,8,8v4H6v18h20V12H24z M14,12V8c0-1.103,0.897-2,2-2s2,0.897,2,2v4H14z M10,8c0-3.309,2.691-6,6-6s6,2.691,6,6v4h-2V8c0-2.206-1.794-4-4-4s-4,1.794-4,4v4h-2V8z M24,28H8V14h16V28z"></path>
                                     </svg>
@@ -606,6 +606,7 @@ export default {
             // $("#ItemRowMenu-" + id).addClass("hidden");
             var pid = this.$store.state.projectSettingId;
             var cid = this.$store.state.currentProjectId;
+            $("#ItemRowMenu-" + cid).css({ "fill": "transparent" });
             if (pid != id) {
                 $("#ItemRowMenu-" + id).css({ "fill": "transparent" });
             }
@@ -679,10 +680,10 @@ export default {
         closedMemberSearch(id) {
             // Hide expandable list
             //  $(".SidebarTeamMembersExpandedList").addClass("hidden");
-            $("#expandableList" + id).addClass("hidden");
+          //  $("#expandableList" + id).addClass("hidden");
             // Show horizontal member list
             // $(".SidebarItemRow-name").removeClass("hidden");
-            $("#itemRow-" + id).removeClass("hidden");
+           // $("#itemRow-" + id).removeClass("hidden");
             $("#layerPositioner-" + id).addClass("hidden");
             // Clear value
             $("#input-" + id).val("");
