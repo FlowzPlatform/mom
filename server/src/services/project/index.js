@@ -51,6 +51,7 @@ project.filter('created',function(data, connection, hook) {
       return data;
     else
       return false;
+      
 
     // return app.service('projectmember').find({ query: { 'create_by': connection.userId,'project_id':data.id } }).then(response => {
     //  console.log("============================================",response);

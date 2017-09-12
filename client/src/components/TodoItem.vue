@@ -187,14 +187,14 @@ position: fixed;
       getLevelClass(level, id) {
         return id + "_" + String(level)
       },
-      
       undelete: function () {
         this.$store.dispatch('undelete', this.todo)
       },
       showStatusList() {
         this.$store.dispatch('getTypeState', this.todo.type_id)
       },
-      selectStatus(objStatus) {   
+      selectStatus: function(objStatus) {  
+        console.log('State changed', objStatus) 
         this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedState": objStatus.state_id })
         this.selectedObject = this.taskState.find(state => state.state_id === objStatus.state_id)
       },
@@ -237,16 +237,12 @@ position: fixed;
           this.$store.dispatch('addTask_State', {"state":this.todo})
         }
       },
-<<<<<<< HEAD
       addRole:function(){
         console.log("this.todo-->",this.todo)
         if(this.todo && this.todo.name.length>0)
           this.$store.dispatch('insertRole', this.todo)
       },
       deleteTaskType: function (todo) {
-=======
-      deleteTaskType(todo) {
->>>>>>> developer
         if (this.id === 'taskTypes') {
           this.$store.dispatch('getCountofTaskType', this.todo)
         } else if (this.id === 'taskState') {

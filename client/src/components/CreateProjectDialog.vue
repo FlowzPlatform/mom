@@ -163,7 +163,7 @@
                         user_email: this.$store.state.userObject.email,
                         invited_date: new Date(),
                         is_deleted:false,
-                        user_role_id:this.getOwernerId()
+                        user_role_id:''
                     }
                     this.$store.dispatch('insertProjectInvite', insertInvite)
 
@@ -181,13 +181,14 @@
                     this.createProjectError = response.error;
                 }
             },
-            getOwernerId(){
-                this.$store.state.userRoles
+            // getOwernerId(){
+            //     this.$store.state.userRoles
                 
-                let owner = _.find(this.$store.state.userRoles, ['name', "Owner"])
+            //     let owner = _.find(this.$store.state.userRoles, ['name', "Owner"])
 
-                return owner.id;
-            },close: function () {
+            //     return owner.id;
+            // },
+            close: function () {
                this.$emit('updateDialog', this.show != this.show);
                 this.projectName = ''
                 this.description = ''

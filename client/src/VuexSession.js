@@ -1660,11 +1660,11 @@ export const store = new Vuex.Store({
     },
     insert_type_state({ commit }, payload){
       let findDuplicate = store.state.task_types_state.find(function (type){
-        return type.type_id === payload.task_type.id && type.state_id === payload.state.id
+        return type.type_id === payload.taskType.id && type.state_id === payload.state.id
       })
       if(!findDuplicate){
         services.taskTypeStateService.create({
-            type_id: payload.task_type.id,
+            type_id: payload.taskType.id,
             state_id: payload.state.id,
             createdAt: new Date().toJSON()
           }).then(response => {
@@ -1768,7 +1768,6 @@ export const store = new Vuex.Store({
 
         });
     },
-<<<<<<< HEAD
     roleCheckChange({ commit }, role){
       console.log("Role --->",role);
       
@@ -1803,7 +1802,8 @@ export const store = new Vuex.Store({
         task_id:task_id
       }).then(response=>{
         return response;
-=======
+      })
+    },
     getCountofTaskType({commit}, data){
       console.log("Data id", data)
         services.tasksService.find({
@@ -1831,10 +1831,8 @@ export const store = new Vuex.Store({
         } else {
           alert("Can not Delete")
         }
->>>>>>> developer
       })
     }
-
   },
   getters: {
     // getTodoById: (state, getters) => {

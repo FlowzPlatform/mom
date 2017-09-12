@@ -27,7 +27,6 @@ module.exports = function() {
       if(role.tables_created)
       {
         r.db(db).table(table).insert([
-          {'name': 'Owner', 'index': 0,'is_editable':false,is_checked:true},
           {'name': 'Admin', 'index': 1,'is_editable':false,is_checked:true},
           {'name': 'Project Manager', 'index': 2,'is_editable':false,is_checked:true},
           {'name': 'Team Lead', 'index': 3,'is_editable':false,is_checked:true},

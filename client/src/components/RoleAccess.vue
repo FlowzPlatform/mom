@@ -381,6 +381,7 @@
         },
         created() {
             this.$store.dispatch('eventListener');
+            this.$store.dispatch('getUsersRoles');
             services.roleService.find().then(response =>{
                 console.log("Response :--",response)
                 tableColumns = [{
