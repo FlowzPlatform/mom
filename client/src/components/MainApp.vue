@@ -7,7 +7,7 @@
           </div>
           <div class="PageHeaderStructure-center">
             <div class="PageHeaderStructure-titleRow">
-              <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName"><input id="project-name" type="text" name="fname" v-model="projectName" @keyup.enter="updateProjectName"/></div>
+              <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName"><input id="project-name" type="text" name="fname" v-model="projectName" @blur="setProjectName" @keyup.enter="updateProjectName"/></div>
             </div>
           </div>
           <div class="PageHeaderStructure-right">
@@ -39,7 +39,7 @@
                   </svg>
                 </div>
               </a>
-              <div v-show="$store.state.currentProjectName.length>0?true:false" id="projectVisible" class="projectHeaderFacepile-privacySummary projectHeaderFacepile-privacySummaryDropdown" @click="changePrivacyPopup">
+              <div v-show="($store.state.currentProjectName && $store.state.currentProjectName.length>0)?true:false" id="projectVisible" class="projectHeaderFacepile-privacySummary projectHeaderFacepile-privacySummaryDropdown" @click="changePrivacyPopup">
                 <div class="projectHeaderFacepile-privacySummaryDropdownTextDownIconContainer">
                   <svg v-if="$store.state.currentProjectPrivacy==2" class="Icon UserIcon projectHeaderFacepile-privacySummaryDropdownLeftIcon"
                     title="UserIcon" viewBox="0 0 32 32">
@@ -796,7 +796,16 @@
       //   }
       // }
       ,updateProjectName(){
-        this.$store.dispatch('renameProjectName',this.pName)
+        if(this.pName && this.pName.length > 0){
+           this.$store.dispatch('renameProjectName',this.pName)
+        }else{
+           $.notify.defaults({ className: "error" })
+           $.notify("Project name can't blank.", { globalPosition:"top center"})
+        }
+      },
+      setProjectName(){
+           let projectName = this.$store.state.currentProjectName ;
+           $("#project-name").val(projectName);
       }
     },
     components: {

@@ -237,16 +237,12 @@ position: fixed;
           this.$store.dispatch('addTask_State', {"state":this.todo})
         }
       },
-<<<<<<< HEAD
       addRole:function(){
         console.log("this.todo-->",this.todo)
         if(this.todo && this.todo.name.length>0)
           this.$store.dispatch('insertRole', this.todo)
       },
       deleteTaskType: function (todo) {
-=======
-      deleteTaskType(todo) {
->>>>>>> developer
         if (this.id === 'taskTypes') {
           this.$store.dispatch('getCountofTaskType', this.todo)
         } else if (this.id === 'taskState') {
