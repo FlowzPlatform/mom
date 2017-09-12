@@ -262,7 +262,7 @@
                             <div class="validatedTextInput validatedTextInput--invalid QuickInvitePopup-emailInputValidator">
                                 <select class="textInput textInput--medium QuickInvitePopup-input" v-model="selected">
                                                                             <option class="textInput textInput--medium" value="" disabled selected hidden>Select Role</option>
-                                                                            <option v-show="role.name != 'Owner'" class="textInput textInput--medium" v-for="role in roles" v-bind:key="role.id" v-bind:value="role.name">
+                                                                            <option v-show="role.name != 'Owner' && role.is_checked" class="textInput textInput--medium" v-for="role in roles" v-bind:key="role.id" v-bind:value="role.name">
                                                                             {{ role.name }}
                                                                             </option>
                                                                         </select>
@@ -584,6 +584,8 @@
                 this.$store.state.currentProjectName = project.project_name;
                 this.$store.state.currentProjectId = project.id;
                 this.$store.state.currentProject = project;
+                this.$store.state.currentProjectMember = project.members; 
+                this.$store.state.currentProjectCreatedBy = project.create_by;
                 
                 this.$store.state.currentProjectPrivacy = project.project_privacy;
                 this.$store.state.todolist = []
