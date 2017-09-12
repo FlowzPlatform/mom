@@ -7,7 +7,7 @@
           </div>
           <div class="PageHeaderStructure-center">
             <div class="PageHeaderStructure-titleRow">
-              <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName">{{$store.state.currentProjectName}}</div>
+              <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName"><input id="project-name" type="text" name="fname" v-model="projectName" @keyup.enter="updateProjectName"/></div>
             </div>
           </div>
           <div class="PageHeaderStructure-right">
@@ -39,7 +39,7 @@
                   </svg>
                 </div>
               </a>
-              <div id="projectVisible" class="hidden projectHeaderFacepile-privacySummary projectHeaderFacepile-privacySummaryDropdown" @click="changePrivacyPopup">
+              <div v-show="$store.state.currentProjectName.length>0?true:false" id="projectVisible" class="projectHeaderFacepile-privacySummary projectHeaderFacepile-privacySummaryDropdown" @click="changePrivacyPopup">
                 <div class="projectHeaderFacepile-privacySummaryDropdownTextDownIconContainer">
                   <svg v-if="$store.state.currentProjectPrivacy==2" class="Icon UserIcon projectHeaderFacepile-privacySummaryDropdownLeftIcon"
                     title="UserIcon" viewBox="0 0 32 32">
@@ -298,7 +298,8 @@
         showPrivacyPopup: false,
         showPrivateCheck: false,
         showPrivateMember: false,
-        showPublic: false
+        showPublic: false,
+        pName:'' // Project Name 
       }
     },
     created() {
@@ -341,11 +342,14 @@
         this.$store.state.currentProjectId = projects[0].id
         this.$store.state.currentProjectName = projects[0].project_name
         this.$store.state.currentProjectMember = projects[0].members; 
+        this.$store.state.currentProjectPrivacy = projects[0].project_privacy
         this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '', project_id: projectId });
-      } else {
+      
+     } else {
         console.log("Can't set projectc id")
       }
 
+      
 
       // if(this.$store.state.deleteItemsSelected)
       // {
@@ -401,9 +405,19 @@
         parentIdArray: 'parentIdArr',
         // userSettings: 'user_setting',
         todoObjectById: 'getObjectById',
-        // projectListData: 'getProjectList'
+        // projectName:'getCurrentProjectName',
+       
         // deletedTasks:'getDeletedTaskById'
       }),
+       projectName:{
+          get(){
+            return this.$store.state.currentProjectName
+          },
+          set(value){
+            this.pName = value;
+           // this.$store.commit('updateProjectName', value)
+          }
+        },
       getProjectWiseTodo() {
         //   var projectList= this.projectListData;
         //   var projectId=this.$store.state.currentProjectId
@@ -781,6 +795,9 @@
       //     $("#updateprofile_btn").attr('disabled', true);
       //   }
       // }
+      ,updateProjectName(){
+        this.$store.dispatch('renameProjectName',this.pName)
+      }
     },
     components: {
       MainLeftSection,
