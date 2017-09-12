@@ -591,6 +591,7 @@ export const store = new Vuex.Store({
           state.currentProjectId = value.id
           state.currentProjectName = value.project_name
           state.currentProjectPrivacy = value.project_privacy
+          
       }
   
     },
@@ -619,7 +620,7 @@ export const store = new Vuex.Store({
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
       if (updateProjectIndex >= 0) {
            state.projectlist[updateProjectIndex].is_deleted = value.is_deleted;
-           state.projectlist.splice(updateProjectIndex)
+           state.projectlist.splice(updateProjectIndex,0)
         }
            state.todolist=[]
            state.currentProjectId = ""
@@ -847,9 +848,11 @@ export const store = new Vuex.Store({
       })
       services.projectService.on('patched', message => {
         console.log("Project patch:", message)
-        commit('updateProjectList', message)
+       
         if(message.is_deleted === true){
           commit('updateDeletedProjectList', message)
+        }else{
+          commit('updateProjectList', message)
         }
         
       })
@@ -1886,8 +1889,7 @@ export const store = new Vuex.Store({
     }
 
 
-    }
-  },
+    },
   getters: {
     // getTodoById: (state, getters) => {
     //   return function (id, level) {
@@ -1898,7 +1900,8 @@ export const store = new Vuex.Store({
     //   }
     // },
     getTodoById: (state, getters) => {
-      if (state.deleteItemsSelected) {
+      if (state.deleteItemsSelected) 
+      {
         return function (id, level) {
           var todolist = state.deletedTaskArr
           todolist = _.sortBy(todolist, 'index')

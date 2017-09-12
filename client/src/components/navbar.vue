@@ -180,7 +180,7 @@
                     <li class="hidden menu-item"><a class="menuItem-button menuItem--small SidebarItemRows-addToDashboard"><span class="menuItem-label">Add to Dashboard</span></a></li>
                     <li class="hidden menu-item"><a class="menuItem-button menuItem--small SidebarItemRows-copyProjectMenuItem"><span class="menuItem-label">Copy Project…</span></a></li>
                     <li class="hidden menu-item"><a class="menuItem-button menuItem--small SidebarItemRows-projectToggleIsArchived"><span class="menuItem-label">Archive Project</span></a></li>
-                    <li class="menu-item" @click="showMemberDialog" v-show=" ($store.state.currentProjectPrivacy != 2) && ($store.state.currentProjectMember.length>0) ?true:false"><a class="menuItem-button menuItem--small SidebarItemRows-deletePotMenuItem"><span class="menuItem-label">Members</span></a></li>
+                    <li class="menu-item" @click="showMemberDialog" v-show=" ($store.state.currentProjectPrivacy != 2) && ($store.state.currentProjectMember && $store.state.currentProjectMember.length>0) ?true:false"><a class="menuItem-button menuItem--small SidebarItemRows-deletePotMenuItem"><span class="menuItem-label">Members</span></a></li>
                     <li class="menu-item" @click="showDeleteProjectDialog"><a class="menuItem-button menuItem--small SidebarItemRows-deletePotMenuItem"><span class="menuItem-label">Delete Project</span></a></li>
             </ul>
           </div>
