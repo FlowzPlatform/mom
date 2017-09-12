@@ -5746,5 +5746,17 @@ textarea,
     color: #1B2432;
     cursor: default;
 }
+.tasktype_disable:hover {
+    border-style: solid;
+    border-width: 3px;
+    margin-right: 10px;
+    border-color: #ffffff;
+    border-radius: 20px;
+}
+.typeclass_disable:hover {
+    text-decoration: none;
+    color: #1B2432;
+    cursor: default;
+}
 
  
