@@ -787,7 +787,6 @@ export const store = new Vuex.Store({
       let roleIndex = _.findIndex(state.userRoles, function (d) { return d.id == role.id })
       if(roleIndex>-1)
         Vue.set(store.state.userRoles, roleIndex, role)
-      
     }
   },
   actions: {
