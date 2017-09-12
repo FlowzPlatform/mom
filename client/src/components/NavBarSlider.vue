@@ -338,48 +338,75 @@
 </template>
 
 <script>
-/* eslint-disable*/
-import Vue from 'vue'
-import CreateProjectDialog from './CreateProjectDialog.vue'
-import draggable from 'vuedraggable'
-import ProjectItem from './ProjectItem.vue'
-import iView from 'iview';
-import { mapGetters, mapMutations } from 'vuex'
-import CmnFunc from './CommonFunc.js'
-import * as Constant from './Constants.js'
+    /* eslint-disable*/
+    import Vue from 'vue'
+    import CreateProjectDialog from './CreateProjectDialog.vue'
+    import draggable from 'vuedraggable'
+    import ProjectItem from './ProjectItem.vue'
+    import iView from 'iview';
+    import { mapGetters, mapMutations } from 'vuex'
+    import CmnFunc from './CommonFunc.js'
 
-import 'iview/dist/styles/iview.css';
+    import 'iview/dist/styles/iview.css';
 
-Vue.use(iView);
+    Vue.use(iView);
 
-export default {
-    data: function() {
-        return {
-            isOpen: this.$store.state.isSliderOpen,
-            isNewProjectDialogShow: false,
-            // projectList: [{id:"1",name:"project 1"},{id:"2",name:"project 2"}, 
-            // {id:"3",name:"project 3"},{id:"4",name:"project 4"}],
-            members: [],
-            users: this.$store.state.arrAllUsers,
-            searchText: '', // If value is falsy, reset searchText & searchItem 
-            item: {
-                value: '',
-                text: ''
+    export default {
+        data: function () {
+            return {
+                isOpen: this.$store.state.isSliderOpen,
+                isNewProjectDialogShow: false,
+                // projectList: [{id:"1",name:"project 1"},{id:"2",name:"project 2"}, 
+                // {id:"3",name:"project 3"},{id:"4",name:"project 4"}],
+                members: [],
+                users: this.$store.state.arrAllUsers,
+                searchText: '', // If value is falsy, reset searchText & searchItem 
+                item: {
+                    value: '',
+                    text: ''
+                },
+                inputValue: '',
+                email: '',
+                name: '',
+                lastOpenDialogId: '',
+                lastProjectSelected: '',
+                selected: '',
+                roles:this.$store.state.userRoles,
+                emailValidationError: '',
+                roleValidationError: '',
+                memberListShow: true,
+                isAddMemberPermission:false,
+                // projectList:this.$store.state.projectlist
+             
+            }
+        },
+        created() {
+            this.$store.dispatch('getUsersRoles');
+            this.$store.dispatch("getAllUsersList",this.callAllProjectList)
+            // var self = this;
+            // setTimeout(function() {
+            //         self.$store.dispatch('getAllProjects', self.$store.state.userObject._id);
+            //         self.$store.state.projectSettingId = "";    
+            // }, 5000);
+            
+        },
+        computed: {
+            ...mapGetters({
+                getProjectList: 'getProjectList',
+                // memberProfile:'getMemberProfile',
+                memberName: 'getMemberName'
+            }),
+            myProjectList: {
+                get() {
+                    return this.$store.state.projectlist
+                },
+                set(value) {
+                    this.$store.commit('updateProjectList', value)
+                }
             },
-            inputValue: '',
-            email: '',
-            name: '',
-            lastOpenDialogId: '',
-            lastProjectSelected: '',
-            selected: '',
-            roles: this.$store.state.userRoles,
-            emailValidationError: '',
-            roleValidationError: '',
-            memberListShow: true,
-            isAddMemberPermission:false
-            // projectList:this.$store.state.projectlist
-        }
-    },
+           
+        },
+
     created() {
         this.$store.dispatch('getUsersRoles');
         this.$store.dispatch("getAllUsersList", this.callAllProjectList)
@@ -633,6 +660,66 @@ export default {
 
                 // Hide header 
                 $("#listHeader" + project.id).addClass("hidden");
+                    // Hide header 
+                    $("#listHeader" + project.id).addClass("hidden");
+                    // Close last open dialog
+                    if (this.lastOpenDialogId !== '') {
+                        $("#popup-" + this.lastOpenDialogId).addClass("hidden");
+                        // Show already added member list
+                        $("#listContent-" + this.lastOpenDialogId).removeClass("hidden");
+                      
+                    }
+                    this.roles=this.$store.state.userRoles; 
+                    // Open Invite member dialog
+                    $("#popup-" + project.id).removeClass("hidden");
+                    this.lastOpenDialogId = project.id;
+                }
+                // Hide member search list 
+                $("#layerPositioner-" + project.id).addClass("hidden");
+            },
+            selectNonMember(id) {
+                this.email = this.inputValue;
+                this.name = this.inputValue;
+
+                // Hide header 
+                $("#listHeader" + id).addClass("hidden");
+                // Hide member search list 
+                $("#layerPositioner-" + id).addClass("hidden");
+                // Open Invite member dialog
+                $("#popup-" + id).removeClass("hidden");
+                this.roles=this.$store.state.userRoles; 
+            },
+            displayToolTips: function () {
+                $('.CircularButton').tooltip({ title: "Create a project", placement: "bottom" });
+            },
+            createProject: function () {
+                this.isNewProjectDialogShow = true;
+            },
+            updateDialogShow(isDialogVal) {
+                this.isNewProjectDialogShow = isDialogVal
+            },
+            onSelect(item) {
+                this.item = item
+            },
+            reset() {
+                this.item = {}
+            },
+            selectOption() {
+                // select option from parent component 
+                this.item = this.options[0]
+            },
+            closedMemberSearch(id) {
+                // Hide expandable list
+                //  $(".SidebarTeamMembersExpandedList").addClass("hidden");
+                $("#expandableList" + id).addClass("hidden");
+                // Show horizontal member list
+                // $(".SidebarItemRow-name").removeClass("hidden");
+                $("#itemRow-" + id).removeClass("hidden");
+                $("#layerPositioner-" + id).addClass("hidden");
+                // Clear value
+                $("#input-"+id).val("");
+            },
+            closeInvite(id) {
 
                 // Close last open dialog
                 if (this.lastOpenDialogId !== '') {
@@ -643,7 +730,7 @@ export default {
                 // Open Invite member dialog
                 $("#popup-" + project.id).removeClass("hidden");
                 this.lastOpenDialogId = project.id;
-            }
+            // }
             // Hide member search list 
             $("#layerPositioner-" + project.id).addClass("hidden");
         },

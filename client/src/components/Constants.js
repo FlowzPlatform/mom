@@ -29,6 +29,7 @@ export const USER_ACTION={
             TAG:4,
             ATTACHEMENT:5,
             TASK_PRIORITY:6,
-            ESTIMATED_HOURS:7
+            ESTIMATED_HOURS:7,
+            TASK_ASSIGN:8,
             }
         
