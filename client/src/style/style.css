@@ -3393,6 +3393,7 @@ textarea{
     height: 30px;
     padding-bottom: 4px;
     padding-top: 4px;
+    background-color: white;
 }
 .TopbarSearch-input, .TopbarPlaceholder-searchBox {
     background: transparent;
@@ -4290,6 +4291,7 @@ span.SidebarTeamMembetransitionrsExpandedList-headerText {
         /*margin-right: -5px; close button margin */
         padding-bottom: 10px;
         padding-top: 0;
+        margin-top: -12px;
 }
 .SidebarTeamMembersExpandedList-editHeader {
         -webkit-box-align: center;
@@ -5691,4 +5693,16 @@ textarea,
     padding-right: 30px;
     padding-bottom: 15px;
     padding-left: 30px;
+}
+
+.blue {
+     background-color: transparent!important; 
+     border-color: transparent!important; 
+}
+.inviteMember {
+        float: right;
+        margin-right: 10px;
+        text-align: center;
+        background: rgba(175, 64, 64, 0);
+        margin-top: 6px;
 }
