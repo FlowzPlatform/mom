@@ -131,7 +131,8 @@
 <script>
     /* eslint-disable*/
     import Vue from 'vue'
-     import { focus } from 'vue-focus';
+    import { focus } from 'vue-focus';
+    import notify from './notify.js'
     export default {
         props: ['show'],
          directives: { focus: focus },
@@ -166,7 +167,7 @@
                         user_role_id:''
                     }
                     this.$store.dispatch('insertProjectInvite', insertInvite)
-
+                    $("div#projectVisible").removeClass('hidden');
                     this.projectName = ''
                     this.description = ''
                     this.privacyOption = ''
@@ -179,6 +180,8 @@
 
                 } else {
                     this.createProjectError = response.error;
+                    $.notify.defaults({ className: "error" })
+                    $.notify(response.error, { globalPosition:"top center"})  
                 }
             },
             // getOwernerId(){

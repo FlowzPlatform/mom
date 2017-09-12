@@ -153,6 +153,7 @@ export const store = new Vuex.Store({
     progressVal: state => state.progress,
     googleId: state => state.googleId,
     removeMember: state => state.removeMember,
+   
 
     // showProgress: state => state.isProgress,
     // showLoader: state => state.isLoading,
@@ -585,8 +586,14 @@ export const store = new Vuex.Store({
     updateProjectList(state, value) {
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
       if (updateProjectIndex >= 0) {
-        state.projectlist[updateProjectIndex].project_privacy = value.project_privacy;
+          state.projectlist[updateProjectIndex].project_privacy = value.project_privacy;
+          state.projectlist[updateProjectIndex].project_name = value.project_name;
+          state.currentProjectId = value.id
+          state.currentProjectName = value.project_name
+          state.currentProjectPrivacy = value.project_privacy
+          
       }
+  
     },
     updateDragableProjectList(state, value) {
       state.projectlist = value
@@ -613,7 +620,15 @@ export const store = new Vuex.Store({
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
       if (updateProjectIndex >= 0) {
            state.projectlist[updateProjectIndex].is_deleted = value.is_deleted;
-      }
+           state.projectlist.splice(updateProjectIndex,0)
+        }
+           state.todolist=[]
+           state.currentProjectId = ""
+           state.currentProjectName = ""
+           state.currentProjectPrivacy = ''
+           state.currentTodoObj= '' 
+           state.currentProject='' 
+           state.userRoles = ''
     },
     /**
     * Update current project member list
@@ -833,7 +848,13 @@ export const store = new Vuex.Store({
       })
       services.projectService.on('patched', message => {
         console.log("Project patch:", message)
-        commit('updateProjectList', message)
+       
+        if(message.is_deleted === true){
+          commit('updateDeletedProjectList', message)
+        }else{
+          commit('updateProjectList', message)
+        }
+        
       })
 
       services.projectMemberService.on('created', message => {
@@ -1163,8 +1184,7 @@ export const store = new Vuex.Store({
         {query :{ 
             pId: data.pId,
             rId: data.rId,
-            task_type:data.taskType
-          }
+            task_type:data.taskType}
         }
       ).then(response => {
         console.log("Response patch permission::", response);
@@ -1832,8 +1852,44 @@ export const store = new Vuex.Store({
           alert("Can not Delete")
         }
       })
+    },
+    renameProjectName ({commit}, value) {
+      console.log("value->>",value)
+      var data = store.state.currentProject;
+      services.projectService.find({
+        query: {
+          'id': data.id, 
+           project_name: value,
+          $client: {
+            flag: 'projectrename'
+          }
+        }
+      }).then(response => {
+        if(response.error){
+            $.notify.defaults({ className: "error" })
+            $.notify(response.error, { globalPosition:"top center"})  
+        }else{
+          
+            services.projectService.patch(data.id, {
+            project_name: value,
+            updated_by: store.state.userObject._id
+            }).then(response => {
+              console.log("Response renameProjectName:", response);
+            //  commit('UPDATE_TODO', insertElement)
+              if(response.error){
+                $.notify.defaults({ className: "error" })
+                $.notify(response.error, { globalPosition:"top center"})  
+              }
+            });
+        }
+
+      })
+
+
     }
-  },
+
+
+    },
   getters: {
     // getTodoById: (state, getters) => {
     //   return function (id, level) {
@@ -1844,7 +1900,8 @@ export const store = new Vuex.Store({
     //   }
     // },
     getTodoById: (state, getters) => {
-      if (state.deleteItemsSelected) {
+      if (state.deleteItemsSelected) 
+      {
         return function (id, level) {
           var todolist = state.deletedTaskArr
           todolist = _.sortBy(todolist, 'index')
@@ -1911,7 +1968,7 @@ export const store = new Vuex.Store({
       return state.userRoles
     },
     getTaskStausList : state => state.task_state_list,
-    getTask_types_state: state => state.task_types_state
+    getTask_types_state: state => state.task_types_state,
   },
 
   plugins: [createPersistedState()]

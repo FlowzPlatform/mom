@@ -26,6 +26,8 @@
   import Resource from 'vue-resource'
   import draggable from 'vuedraggable'
   import { mapActions } from 'vuex'
+  import * as Constant from './Constants.js'
+  import CmnFunc from './CommonFunc.js'
   Vue.use(Resource)
   export default {
     props: ['filteredTodos', 'pholder', 'todoObject', 'isCopyLink', 'id'],
@@ -67,6 +69,11 @@
         if(index-1>=0){
           return this.filteredTodos[index-1] ? this.filteredTodos[index-1].id +"_"+this.filteredTodos[index].level : -1+"_"+this.filteredTodos[index].level
         }
+      },
+      async newTagPermission(){
+         let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.TAG,Constant.PERMISSION_ACTION.CREATE)
+         console.log("MainLeftSection permisionResult-->",permisionResult)
+         return permisionResult;
       }
     }
   }

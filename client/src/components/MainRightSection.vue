@@ -25,9 +25,9 @@
       </p>
     </panel>
     <panel>
-      Tags
+      Tags 
       <p class='PanelTag' slot="content">
-        <tags :filteredTodo="todoObject"></tags>
+        <tags :filteredTodo="todoObject" ></tags>
       </p>
     </panel>
   </collapse>
@@ -83,6 +83,8 @@ import Tags from './Tags.vue'
 import { mapGetters } from 'vuex' 
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
+import * as Constant from './Constants.js'
+import CmnFunc from './CommonFunc.js'
 
 Vue.use(iView);
 
