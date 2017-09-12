@@ -145,7 +145,8 @@ export const store = new Vuex.Store({
     currentProject:{},
     permissions:{},
     currentProjectRoleid:'',
-    commentValue: ''
+    commentValue: '',
+    taskHistoryLog:{}
   },
   mutations: {
     userData: state => state.userObject,
@@ -746,6 +747,32 @@ export const store = new Vuex.Store({
     PERMISSIONS(state,payload)
     {
       state.permissions=payload;
+    },
+    roleDelete(state,role)
+    {
+      let removeIndex = _.findIndex(state.userRoles, function (d) { return d.id == role.id })
+      if(removeIndex>-1)
+        Vue.delete(state.userRoles, removeIndex)
+    },
+    roleCreated(state,role)
+    {
+      let lastRole=store.state.userRoles[store.state.userRoles.length-1];
+      
+      Vue.set(store.state.userRoles, store.state.userRoles.length-1, role)
+      // let lastRole=store.state.userRoles[store.state.userRoles.length-1];
+      // console.log("LastRole:--",lastRole)
+      if(lastRole.name!==role.name)
+        {
+          store.state.userRoles.push(lastRole);
+        }
+      // state.userRoles.push(role)
+    },
+    roleUpdated(state,role)
+    {
+      let roleIndex = _.findIndex(state.userRoles, function (d) { return d.id == role.id })
+      if(roleIndex>-1)
+      Vue.set(store.state.userRoles, roleIndex, role)
+      
     }
   },
   actions: {
@@ -771,6 +798,9 @@ export const store = new Vuex.Store({
       services.projectService.removeListener('patched')
       services.projectMemberService.removeListener('created')
       services.projectService.removeListener('created')
+      services.roleService.removeListener('removed')
+      services.roleService.removeListener('created')
+      services.roleService.removeListener('patched')
       
     },
     eventListener({ commit }) {
@@ -883,6 +913,21 @@ export const store = new Vuex.Store({
           commit('updateDeletedProjectList', message)
       })
 
+      services.roleService.on("removed",message=>{
+        console.log("Role Delete Event:--",message)
+          commit('roleDelete',message)
+      })
+
+      services.roleService.on("created",message=>{
+        console.log("Role Created Event:--",message)
+          commit('roleCreated',message)
+      })
+
+      services.roleService.on("patched",message=>{
+        console.log("Role Created Event:--",message)
+          commit('roleUpdated',message)
+      })
+
       
       // Project member delete patch call
       // services.projectMemberService.on('deleteProjectMember', message =>{
@@ -950,6 +995,7 @@ export const store = new Vuex.Store({
     },
     editTaskName({ commit }, editObject) {
       if (editObject.todo.id) {
+        let self=this
         services.tasksService.patch(editObject.todo.id, {
           taskName: editObject.todo.taskName,
           taskDesc: editObject.todo.taskDesc,
@@ -963,11 +1009,11 @@ export const store = new Vuex.Store({
           state_id: editObject.selectedState
         }, { query: { 'id': editObject.todo.id } }).then(response => {
           console.log("Response editTaskName::", response);
+          CmnFunc.insertHistoryLog(store,store.state.userObject._id,response.assigned_to,response.id,Constant.HISTORY_LOG_ACTION.TASK_ASSIGN)
           if (editObject.isAssigned) {
             editObject.callback()
-          }
-
-         
+            
+          }         
         });
         // Vue.http.post('/updatetasks', {
         //   id: editObject.todo.id,
@@ -1660,11 +1706,11 @@ export const store = new Vuex.Store({
     },
     insert_type_state({ commit }, payload){
       let findDuplicate = store.state.task_types_state.find(function (type){
-        return type.type_id === payload.task_type.id && type.state_id === payload.state.id
+        return type.type_id === payload.taskType.id && type.state_id === payload.state.id
       })
       if(!findDuplicate){
         services.taskTypeStateService.create({
-            type_id: payload.task_type.id,
+            type_id: payload.taskType.id,
             state_id: payload.state.id,
             createdAt: new Date().toJSON()
           }).then(response => {
@@ -1768,7 +1814,6 @@ export const store = new Vuex.Store({
 
         });
     },
-<<<<<<< HEAD
     roleCheckChange({ commit }, role){
       console.log("Role --->",role);
       
@@ -1794,7 +1839,7 @@ export const store = new Vuex.Store({
       console.log("insert Role --->",role);
       services.roleService.create({name:role.name,is_checked:role.is_checked,is_editable:role.is_editable}).then(response=>{
         // store.state.userRoles.push(response)
-        Vue.set(store.state.userRoles, store.state.userRoles.length-1, response)
+        // Vue.set(store.state.userRoles, store.state.userRoles.length-1, response)
       })
     },
     historylog({commit},task_id){
@@ -1803,7 +1848,8 @@ export const store = new Vuex.Store({
         task_id:task_id
       }).then(response=>{
         return response;
-=======
+      })
+    },
     getCountofTaskType({commit}, data){
       console.log("Data id", data)
         services.tasksService.find({
@@ -1831,8 +1877,22 @@ export const store = new Vuex.Store({
         } else {
           alert("Can not Delete")
         }
->>>>>>> developer
       })
+    },
+    findHistoryLog({commit},taskId){
+      services.taskHistoryLogs.find({ query: { task_id: taskId } }).then(response => {
+        response.sort(function (a, b) {
+            return new Date(a.created_on).getTime() - new Date(b.created_on).getTime()
+        });
+        store.state.taskHistoryLog = response
+        console.log("Hisory Log watch:-->", store.state.taskHistoryLog)
+    })
+    },
+    deleteRoles({commit},role)
+    {
+      services.roleService.remove(role.id).then(response=> {
+        console.log("Remove Role--->",response)
+      });
     }
 
   },
@@ -1863,6 +1923,7 @@ export const store = new Vuex.Store({
       }
     },
     parentIdArr: state => state.parentIdArr,
+    taskHistoryLog: state => state.taskHistoryLog,
     // getAttachment: state => state.arrAttachment,
     getAttachment: (state, getters) => {
       return function (id, level) {
@@ -1896,7 +1957,11 @@ export const store = new Vuex.Store({
     getMemberName: (state, getters) => {
       return function (uId) {
         let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === uId })
-        return state.arrAllUsers[userIndex].fullname
+        console.log("user index:--",userIndex)
+        if(userIndex>-1)
+        return state.arrAllUsers[userIndex].fullname ?  state.arrAllUsers[userIndex].fullname : state.arrAllUsers[userIndex].username
+        else
+          return ""
       }
     },
     getObjectById: state => state.todoObjectByID,

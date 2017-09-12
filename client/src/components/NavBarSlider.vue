@@ -380,7 +380,7 @@
                 lastOpenDialogId: '',
                 lastProjectSelected: '',
                 selected: '',
-                roles: this.$store.state.userRoles,
+                roles: [],//this.$store.state.userRoles,
                 emailValidationError: '',
                 roleValidationError: '',
                 memberListShow: true,
@@ -488,11 +488,6 @@
                 var roleName="";
                 if(roleindex>-1){
                     roleId=this.$store.state.userRoles[roleindex].id
-                   // console.log("userRoleId:",userRoleId)
-                   // console.log("roleId:",roleId)
-                    
-                   // console.log("this.$store.state.userRoles[roleindex]",this.$store.state.userRoles[roleindex]);
-                   // console.log("this.$store.state.userRoles[roleindex]",this.$store.state.userRoles[roleindex].name);
                     roleName=this.$store.state.userRoles[roleindex].name
 
                     return { user_id: uId, url: this.users[userIndex].image_url, name: this.users[userIndex].name,email: this.users[userIndex].email,role: this.users[userIndex].role,user_role_id:member.user_role_id,roleName:roleName,is_deleted:member.is_deleted,id:member.id} 
@@ -637,16 +632,16 @@
                     this.email = item.email
                     this.name = item.name
 
-
                     // Hide header 
                     $("#listHeader" + project.id).addClass("hidden");
-
                     // Close last open dialog
                     if (this.lastOpenDialogId !== '') {
                         $("#popup-" + this.lastOpenDialogId).addClass("hidden");
                         // Show already added member list
                         $("#listContent-" + this.lastOpenDialogId).removeClass("hidden");
+                      
                     }
+                    this.roles=this.$store.state.userRoles; 
                     // Open Invite member dialog
                     $("#popup-" + project.id).removeClass("hidden");
                     this.lastOpenDialogId = project.id;
@@ -664,6 +659,7 @@
                 $("#layerPositioner-" + id).addClass("hidden");
                 // Open Invite member dialog
                 $("#popup-" + id).removeClass("hidden");
+                this.roles=this.$store.state.userRoles; 
             },
             displayToolTips: function () {
                 $('.CircularButton').tooltip({ title: "Create a project", placement: "bottom" });
@@ -701,6 +697,7 @@
                 $("#popup-" + id).addClass("hidden");
                 // Hide header 
                 $("#listHeader" + id).removeClass("hidden");
+
 
                 // Show already added member list
                 $("#listContent-" + this.lastOpenDialogId).removeClass("hidden");

@@ -177,6 +177,7 @@ export default {
   {
     services.taskHistoryLogs.create({created_by:createdBy,text:text,task_id:taskId,log_action:logAction,created_on:new Date()}).then(response=> {
       console.log("Reponse task update:--->",response)
+      context.state.taskHistoryLog.push(response)
     })
   }
 }

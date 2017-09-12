@@ -33,7 +33,7 @@ export default {
             if(types.length==0 || types[types.length-1].id!=='-1'){
            types.push({
                 id:'-1',
-                type:'',
+                name:'',
                 is_editable:true,
                 is_checked:false,
                 createdAt: new Date().toJSON()
