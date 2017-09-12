@@ -76,8 +76,8 @@ import Tags from './Tags.vue'
 import { mapGetters } from 'vuex' 
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
-import * as Constant from './Constants.js'
 import CmnFunc from './CommonFunc.js'
+import * as Constant from './Constants.js'
 
 Vue.use(iView);
 

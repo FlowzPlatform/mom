@@ -1228,8 +1228,7 @@ export const store = new Vuex.Store({
         },
         {query :{ 
             pId: data.pId,
-            rId: data.rId,
-            task_type:data.taskType}
+            rId: data.rId, task_type: data.taskType}
         }
       ).then(response => {
         console.log("Response patch permission::", response);
