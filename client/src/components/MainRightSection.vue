@@ -42,7 +42,7 @@
   <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
   <!--<tags :filteredTodo="todoObject"></tags>-->
   <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
-  <history-log  :taskId="todoObject.id" ></history-log>
+  <history-log  :taskId="todoObject.id" :historyLog="historyLog"></history-log>
   </div>
   <story-feed :filteredTodo="todoObject"></story-feed>
 </section>
@@ -79,6 +79,7 @@ import RightToolbar from './RightToolbar.vue'
 import Attachments from './Attachments.vue'
 import StoryFeed from './StoryFeed.vue'
 import Statuses from './Statuses.vue'
+import * as services from '../services'
 import Tags from './Tags.vue'
 import { mapGetters } from 'vuex' 
 import iView from 'iview';
@@ -89,10 +90,11 @@ import CmnFunc from './CommonFunc.js'
 Vue.use(iView);
 
 export default {
-  props: ['pholder', 'todoObject', 'id'],
+  props: ['pholder', 'todoObject', 'id',],
   data: function () {
     return {
         todolistSubTasks: [],
+        historyLog:[]
     }
   },
   created() {
@@ -147,6 +149,11 @@ export default {
    watch: {
     // whenever question changes, this function will run
     todolistSubTasks: function (newQuestion) {
+    },
+    todoObject:function()
+    {
+      this.$store.dispatch('findHistoryLog',this.todoObject.id)
+     
     }
   },
   computed: {

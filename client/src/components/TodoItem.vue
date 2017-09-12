@@ -66,9 +66,11 @@
             <a class="fa fa-close"/>
             <i class="fa fa-trash-o"></i>
         </button>-->
-        <button class="destroy" v-if="id === 'taskTypes' || id === 'taskState'" @click="deleteTaskType(todo)">
+        
+        <button class="destroy" v-show="id === 'taskTypes' || id === 'taskState' || (id === 'roleTypes' && todo.is_editable)" @click="deleteTaskType(todo)">
             <a class="fa fa-close"/>
         </button>
+        
       </div>
       <!--{{todo.progress > 50 ? Math.round(255 * (100 - todo.progress) / 100) : 255}} {{ todo.progress > 50 ? 255 : Math.round(todo.progress / 100 * 255)}}{{ 0}}-->
       <!--backgroundColor: 'rgb('+Math.round(255*(100-todo.progress)/100)+', '+Math.round(todo.progress / 100 * 255)+', 0)'-->
@@ -81,6 +83,7 @@
     </div>
   </li>
 </template>
+
 <style>
 col-md-2.border-right:after {
 content: "";
@@ -238,15 +241,22 @@ position: fixed;
         }
       },
       addRole:function(){
-        console.log("this.todo-->",this.todo)
         if(this.todo && this.todo.name.length>0)
+        {
           this.$store.dispatch('insertRole', this.todo)
+        this.todo.name=""           
+        console.log("this.todo-->",this.todo)
+        
+        }
       },
       deleteTaskType: function (todo) {
         if (this.id === 'taskTypes') {
           this.$store.dispatch('getCountofTaskType', this.todo)
         } else if (this.id === 'taskState') {
           this.$store.dispatch('getCountofTypeState', this.todo)
+        }else if(this.id=== 'roleTypes')
+        {
+          this.$store.dispatch('deleteRoles', this.todo)
         }
       },
       async onFocusClick(id,level,created_by,typeId){
