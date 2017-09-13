@@ -1594,6 +1594,7 @@ export const store = new Vuex.Store({
       } else {
         services.taskTypesService.create({
           type: payload.type,
+          defualt_Type:payload.type,
           createdAt: new Date().toJSON()
         }).then(response => {
           console.log("Insert Task Type in DB:", response)
@@ -1615,11 +1616,11 @@ export const store = new Vuex.Store({
     },
     insert_type_state({ commit }, payload){
       let findDuplicate = store.state.task_types_state.find(function (type){
-        return type.type_id === payload.task_type.id && type.state_id === payload.state.id
+        return type.type_id === payload.taskType.id && type.state_id === payload.state.id
       })
       if(!findDuplicate){
         services.taskTypeStateService.create({
-            type_id: payload.task_type.id,
+            type_id: payload.taskType.id,
             state_id: payload.state.id,
             createdAt: new Date().toJSON()
           }).then(response => {

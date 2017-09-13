@@ -72,23 +72,30 @@ export default {
             // let accessRight =response;
             console.log("accessRight--->", accessRight)
             let accessValue = this.getAccessValue(context,accessRight,permisisonId,taskTypeId)
-            console.log("accessValue--->", accessValue)
             
-            if(permisisonAction===Constant.PERMISSION_ACTION.CREATE)
+            if (accessRight && accessRight.length > 0) {
+              let accessValue = this.getAccessValue(context, accessRight, permisisonId, taskTypeId)
+              console.log("accessValue--->", accessValue)
+              if (permisisonAction === Constant.PERMISSION_ACTION.CREATE)
                 return this.isCreatePermission(accessValue);
-            else if(permisisonAction===Constant.PERMISSION_ACTION.READ)
+              else if (permisisonAction === Constant.PERMISSION_ACTION.READ)
                 return this.isReadPermission(accessValue);
-            else if(permisisonAction===Constant.PERMISSION_ACTION.UPDATE)
+              else if (permisisonAction === Constant.PERMISSION_ACTION.UPDATE)
                 return this.isUpdatePermision(accessValue);
-            else
+              else
                 return this.isDeletePermision(accessValue);
+            }else{
+              return this.isCreatedByLoginUser(context);  
+            }
           // });
         }
         else{
-          return true;
+          return false;
         }
-
-
+  },
+  isCreatedByLoginUser:function(context)
+  {
+      return context.$store.state.currentProject.create_by === context.$store.state.userObject._id
   },
   callRoleAccessService:function(taskTypeId,selfRoleId)
   {
@@ -107,7 +114,7 @@ export default {
   getPermissionId:function(context,user_action)
   {
     return _.result(_.find(context.$store.state.permissions, function (obj) {
-      return obj.index === user_action;
+      return obj.index == user_action;
     }), 'id');
   },
   getAccessValue:function(context,accessRight,permissionId,taskTypeId){

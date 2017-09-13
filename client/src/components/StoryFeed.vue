@@ -59,7 +59,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="visibleFilter === 'all' " class="pull-right comment-delete">
+                            <div v-if="visibleFilter === 'all' " class="pull-right comment-delete" v-show="isDeleteComment">
                                 <span class="fa fa-close" @click="deleteCommnet(comment)"></span>
                             </div>
                         </div>
@@ -76,6 +76,8 @@
     import Vue from 'vue';
     import moment from 'moment';
     import { mapGetters } from 'vuex'
+    import CmnFunc from './CommonFunc.js'
+    import * as Constant from './Constants.js'
     Vue.filter('formatDate', function (value) {
         if (value) {
             return moment(String(value)).format('LLL')
@@ -101,7 +103,9 @@
         data: function () {
             return {
                 commentFilter: commentFilter,
-                visibleFilter: 'all'
+                visibleFilter: 'all',
+                isDeleteComment: true
+
             }
         },
         methods: {
@@ -117,14 +121,23 @@
                         c.email = this.$store.state.arrAllUsers[userIndex].email
                     }
                 }, this)
+                this.onDeleteComment(this.filteredTodo.id, this.filteredTodo.level, this.filteredTodo.created_by, this.filteredTodo.type_id)
             },
             getSortByName:function(key){
                 this.visibleFilter = key
             },
             deleteCommnet:function(commentObj){
                 this.$store.dispatch('delete_Comment', commentObj)
-            }
-
+            },
+            async onDeleteComment(id,level,created_by,typeId) {
+                let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.COMMENT,Constant.PERMISSION_ACTION.DELETE)
+                console.log("permisionResult Delete Comment-->",permisionResult)
+                if (!permisionResult && id != -1) {
+                    this.isDeleteComment = false
+                } else {
+                    this.isDeleteComment = true
+                }  
+            },
 
         },
         computed: {

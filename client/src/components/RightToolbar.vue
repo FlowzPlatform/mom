@@ -40,13 +40,14 @@
                     <li v-for="type in getTypes"><a @click="btnTypeClicked(type)">{{type.type}}</a><hr></li>
                   </ul>
                 </span>
-              </div> 
+              </div>
         <div class="loading-boundary taskDetailsView-toolbarProperty">
           <div class="redesign-due-date-container">
             <div class="property due_date value-set">
               <div class="property-name">
                 <span>
                   <datepicker 
+                      :id="filteredTodo.id"
                       placeholder="Due Date"
                       class="wrapperClass temp"
                       v-on:selected="dateFormatter"
@@ -99,17 +100,17 @@
               <i class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></i>
             </div>
             <ul class="dropdown-menu" style="top: 52px;max-height: 250px;left: 408.31px;min-width: 30px;z-index: 2000;">
-              <li><a id="estimated_hours" class="menu-item" title="">
+              <li v-show= "EstimatedHoursCreate"><a id="estimated_hours" class="menu-item" title="">
                             <button class="dropdown-menu-item-label" @click="estimated_time = true">Estimated Hours</button>
                           </a></li>
-              <li><a id="task_priority" class="menu-item" title="">
+              <li v-show="taskPriorityCreate"><a id="task_priority" class="menu-item" title="">
                             <span class="dropdown-menu-item-label" @click="task_priority = true">Task Priority</span>
                           </a></li>
               <li><a id="copy_task_url" class="menu-item" title="">
                             <span class="dropdown-menu-item-label" @click="copyTaskURL">Copy Task URL</span>
                           </a></li>
-              <li><a id="delete_task" class="menu-item" title="">               
-                <span class="dropdown-menu-item-label" @click="deleteTodo({filteredTodo : filteredTodo})">Delete Task</span>
+              <li v-show="isDeleteShow"><a id="delete_task" class="menu-item" title="">               
+                <span class="dropdown-menu-item-label" @click="deleteTodo({filteredTodo : filteredTodo})" >Delete Task</span>
               </a></li>
               <li><a id="export_pdf" class="menu-item" title="">               
                 <span class="dropdown-menu-item-label" >Export PDF</span>
@@ -117,18 +118,19 @@
             </ul>
           </a>
         </div>
-  </span>
+      </span>
       <div class="loading-boundary reskinToolbarActionMenu">
-  <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-    tabindex="410" @click="openfullwinodw(filteredTodo.level)" style="margin-top: 7px">
-    <span class="circularButtonView-label">
+        <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+          tabindex="410" @click="openfullwinodw(filteredTodo.level)" style="margin-top: 7px">
+          <span class="circularButtonView-label">
           <i class="fa fa-expand" aria-hidden="true"></i>    
         </span>
-  </div>
+        </div>
       </div>
-  <estimated-hours :showModal="estimated_time" :closeAction="closeDialog" :filteredTodo="filteredTodo"></estimated-hours>
-  <task-priority :showModal="task_priority" :closeAction="closeDialog" :filteredTodo="filteredTodo"></task-priority>
-  <span id="close" class="destroy" @click="CLOSE_DIV(filteredTodo)"><i class="fa fa-close"></i></span>
+    <estimated-hours :showModal="estimated_time" :closeAction="closeDialog" :filteredTodo="filteredTodo"></estimated-hours>
+    <task-priority :showModal="task_priority" :closeAction="closeDialog" :filteredTodo="filteredTodo"></task-priority>
+    <span id="close" class="destroy" @click="CLOSE_DIV(filteredTodo)"><i class="fa fa-close"></i></span>
+    
   </div>
 </template>
 <script>
@@ -140,6 +142,8 @@
   import EstimatedHours from './EstimatedHours.vue'
   import TaskPriority from './TaskPriority.vue'
   import { mapMutations, mapGetters } from 'vuex'
+  import CmnFunc from './CommonFunc.js'
+  import * as Constant from './Constants.js'
   Vue.use(KeenUI);
   Vue.filter('formatDate', function (value) {
     if (value) {
@@ -152,14 +156,16 @@
     data() {
       return {
         picker1: null,
-        // imageURlProfilePic: this.$store.state.userObject.image_url,
         imageURlProfilePic: '',
         index: this.filteredTodo.index,
         poproject_name: '',
         estimated_time: false,
         task_priority: false,
         userName: '',
-        type: ''
+        type: '',
+        isDeleteShow: true,
+        EstimatedHoursCreate: true,
+        taskPriorityCreate: true
       }
     },
     computed: {
@@ -183,23 +189,25 @@
         return commentList
       },
       getAssignedType: function() {
+        this.callPermissionMethod()
         if (this.filteredTodo.type_id) {
           var objType = _.find(this.$store.state.task_types_list, ['id', this.filteredTodo.type_id])
           return objType.type
-        }else {
-          // var obj = _.find(this.$store.state.task_types_list, { 'type': 'Todo.tasktype'});
-          var obj = this.$store.state.task_types_list[0]
-          this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": obj.id})
+        } else {
+          var obj = _.find(this.$store.state.task_types_list, { 'defualt_Type': 'Todo'});
+          // var obj = this.$store.state.task_types_list[0]
+          this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": obj.id })
           return obj.type
         }
       }
+    },
+    created() {
+      
     },
     methods: {
       ...mapMutations([
         'CLOSE_DIV'
       ]),
-      
-      
       deleteTodo: function () {
         this.$store.dispatch('delete_Todo', this.filteredTodo)
       },
@@ -297,7 +305,6 @@
           link.href = "/report";
           link.dispatchEvent(new MouseEvent('click'));
         });
-
       },
       removeAttachmentPopUp() {
         setTimeout(function () { $('.attachmentsMenuView').removeClass('open') }, 1000);
@@ -371,16 +378,67 @@
           await this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": objType.id })
           await this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedState": '' })
         }
+      },
+      callPermissionMethod() {
+        this.onDeleteClick(this.filteredTodo.id, this.filteredTodo.level, this.filteredTodo.created_by, this.filteredTodo.type_id)
+        this.onDueDateClick(this.filteredTodo.id, this.filteredTodo.level, this.filteredTodo.created_by, this.filteredTodo.type_id)
+        this.onDeleteDueDate(this.filteredTodo.id, this.filteredTodo.level, this.filteredTodo.created_by, this.filteredTodo.type_id)
+        this.onEstimateTime(this.filteredTodo.id, this.filteredTodo.level, this.filteredTodo.created_by, this.filteredTodo.type_id)
+        this.onTaskPriorityClick(this.filteredTodo.id, this.filteredTodo.level, this.filteredTodo.created_by, this.filteredTodo.type_id)
+      },
+      async onDeleteClick(id,level,created_by,typeId){
+        let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.TASK,Constant.PERMISSION_ACTION.DELETE)
+        console.log("permisionResult Delete-->",permisionResult)
+        if (!permisionResult && id != -1) {
+          this.isDeleteShow = true
+        } else {
+          this.isDeleteShow = false
+        }  
+      },
+      async onDueDateClick(id, level, created_by, typeId) {
+        let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.DUE_DATE,Constant.PERMISSION_ACTION.CREATE)
+        console.log("permisionResult Due Date-->",permisionResult)
+        if (!permisionResult && id != -1) {
+
+          // document.getElementsByClassName('vdp-datepicker__calendar')[0].style.display = "none"
+        } else {
+          // document.getElementsByClassName('vdp-datepicker__calendar')[0].style.display = "block"
+        }
+      },
+      async onDeleteDueDate(id, level, created_by, typeId) {
+        let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.DUE_DATE,Constant.PERMISSION_ACTION.DELETE)
+        console.log("permisionResult Delete Due Date-->",permisionResult)
+        if (!permisionResult && id != -1) {
+          // this.EstimatedHoursCreate = false
+          // document.getElementsByClassName("vdp-datepicker__clear-button")[0].style.display = "none"
+        } else {
+          // this.EstimatedHoursCreate = true
+          // document.getElementsByClassName("vdp-datepicker__clear-button")[0].style.display = "inline-block"
+        }
+      },
+      async onEstimateTime(id, level, created_by, typeId) {
+        let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.ESTIMATED_HOURS,Constant.PERMISSION_ACTION.READ)
+        console.log("permisionResult Estimate Time-->",permisionResult)
+        if (!permisionResult && id != -1) {
+          this.EstimatedHoursCreate = false
+        } else {
+          this.EstimatedHoursCreate = true
+        }
+      },
+      async onTaskPriorityClick(id, level, created_by, typeId) {
+        let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.TASK_PRIORITY,Constant.PERMISSION_ACTION.READ)
+        console.log("permisionResult Task Priority-->",permisionResult)
+        if (!permisionResult && id != -1) {
+          this.taskPriorityCreate = false
+        } else {
+          this.taskPriorityCreate = true
+        }
       }
-      // updateTypeInTask: function(value) {
-      //   console.log("updateTypeInTask",value)
-      //   this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": value })
-      // }
     },
     components: {
       Datepicker,
       EstimatedHours,
-      TaskPriority,
+      TaskPriority
     }
   }
 
@@ -391,7 +449,7 @@
      background-color: #fff; 
      border-color: #5cb3fd; 
      outline: none; 
-          border-color: #66afe9; 
+     border-color: #66afe9; 
      outline: 0; 
      -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6); 
      box-shadow: inset 0 0px 0px rgba(0,0,0,.075), 0 0 0px rgba(102,175,233,.6);

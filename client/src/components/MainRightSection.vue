@@ -64,7 +64,7 @@
     </div>
   </div>
 </div>
-<right-footer v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" :filteredTodo="todoObject"></right-footer>
+<right-footer v-show="createCommentBox" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" :filteredTodo="todoObject"></right-footer>
 </div>
 </template> 
 <script>
@@ -81,7 +81,8 @@ import Tags from './Tags.vue'
 import { mapGetters } from 'vuex' 
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
-
+import CmnFunc from './CommonFunc.js'
+import * as Constant from './Constants.js'
 Vue.use(iView);
 
 export default {
@@ -89,48 +90,10 @@ export default {
   data: function () {
     return {
         todolistSubTasks: [],
+        createCommentBox: true,
     }
   },
   created() {
-    // let self = this;
-    //      socket.on('feed-change', function(item){
-    //           //  console.log("TodoItem.vue:item***",item);
-    //           //  console.log("Array",self.taskById)
-    //            if(item.new_val){
-    //              var result = $.grep(self.taskById, function(e){ return e.id == item.new_val.id; })
-    //               if (result.length == 0) {
-    //                 // console.log('Item Parent ID',item.new_val.parentId)
-    //                 // console.log('Todo object Parent ID',self.todoObject)
-    //                 if(item.new_val.parentId.length > 0 && (item.new_val.parentId == self.todoObject.id)){
-    //                 self.taskById.push(item.new_val)
-    //                 self.taskById.splice(self.taskById.length - 1, 0, item.new_val);
-    //                 // self.$store.state.todolist.push(item.new_val)
-    //                 }
-    //               }else{
-    //                 if(item.new_val.parentId.length > 0 && (item.new_val.parentId == self.todoObject.id)){
-    //                 // console.log("Subtask Task Updated")
-    //                 let index = _.findIndex(self.taskById,function(d){return d.id == item.new_val.id})
-    //                 // console.log('Index of object', index)
-    //                 if(index > -1){
-    //                   self.taskById[index].taskName = item.new_val.taskName
-    //                 }
-    //               }
-    //               } 
-    //            }else if(item.old_val){
-    //              // var index = self.taskById.indexOf(item.old_val);
-    //              if(item.old_val.parentId.length > 0 && (item.old_val.parentId == self.todoObject.id)){
-    //             //  console.log("Subtask Task Deleted")
-    //             //  console.log('self.taskById',self.taskById)
-    //             //  console.log('item.old_val',item.old_val)
-    //              let index = _.findIndex(self.taskById,function(d){return d.id == item.old_val.id})
-    //             //  console.log('Index of object', index)
-    //              if(index > -1){
-    //               self.taskById.splice(index, 1);
-    //              }
-    //              }
-    //              //self.taskById.splice(index, 1);
-    //            }
-    //          })
   },
    methods:{
     undelete: function () {
@@ -138,7 +101,25 @@ export default {
     },
     deletePermently:function() {
       this.$store.dispatch('deletePermently', this.todoObject)
-    }
+    },
+    async onReadComment(id,level,created_by,typeId) {
+        let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.COMMENT,Constant.PERMISSION_ACTION.READ)
+        console.log("permisionResult Read Comment-->",permisionResult)
+        if (!permisionResult && id != -1) {
+          this.createCommentBox = false
+        } else {
+          this.createCommentBox = true
+        }  
+    },
+    async onCreateComment(id,level,created_by,typeId) {
+        let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.COMMENT,Constant.PERMISSION_ACTION.CREATE)
+        console.log("permisionResult Create Comment-->",permisionResult)
+        if (!permisionResult && id != -1) {
+          this.createCommentBox = false
+        } else {
+          this.createCommentBox = true
+        }  
+    },
   },
    watch: {
     // whenever question changes, this function will run
@@ -151,7 +132,9 @@ export default {
       typeStateList :'getTask_types_state'
      }),
      taskById(){
-       let taskArray = this.todoById(this.todoObject.id, this.todoObject.level)
+       this.onReadComment(this.todoObject.id, this.todoObject.level, this.todoObject.created_by, this.todoObject.type_id)
+       this.onCreateComment(this.todoObject.id, this.todoObject.level, this.todoObject.created_by, this.todoObject.type_id)
+      let taskArray = this.todoById(this.todoObject.id, this.todoObject.level)
        taskArray.push({
               id: '-1',
               parentId: this.todoObject.id,
