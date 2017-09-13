@@ -147,7 +147,6 @@ export default {
   callRoleAccessService:function(taskTypeId,selfRoleId)
   {
     console.log('taskTypeId--->', taskTypeId)
-    console.log('selfRoleId:::'+TAG, selfRoleId)
     return services.roleAccessService.find({ query: { task_type: taskTypeId, rId: selfRoleId } }).then(response => {
       console.log("Res--->", response)
       return response;

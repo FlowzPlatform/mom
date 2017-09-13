@@ -21,7 +21,7 @@
     <panel v-show='showAttachment'>
       Attachments
       <p class='PanelAttach' slot="content">
-        <attachments :filteredTodo="todoObject" :isDeleteAttachment='isDelete'> </attachments>
+        <attachments :filteredTodo="todoObject" :isDeleteAttachment='chkAttachment'> </attachments>
       </p>
     </panel>
     <panel>
@@ -87,7 +87,8 @@ export default {
     return {
         todolistSubTasks: [],
         historyLog:[],
-        isDelete: false
+        isDelete: false,
+        chkAttachment: false
     }
   },
   created() {
@@ -139,7 +140,8 @@ export default {
       this.$store.dispatch('deletePermently', this.todoObject)
     },
     async manageAttachmentDeletePermission(){
-      this.isDelete = await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.DELETE, "attachment")
+      this.chkAttachment = await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.DELETE, "attachment")
+      console.log('check delete status:', this.chkAttachment)
      }
   },
    watch: {
