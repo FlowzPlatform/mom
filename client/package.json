@@ -2,7 +2,7 @@
   "name": "todocomponent",
   "version": "1.0.0",
   "description": "todo mvc",
-  "author": "Urvashi Hirani <uhirani@officebrain.com>",
+  "author": "Urvashi Hirani ",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
