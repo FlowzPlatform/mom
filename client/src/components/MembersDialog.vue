@@ -1,5 +1,5 @@
 <template>
-    <div id="project-setting-dialog" class="hidden tab-ring" v-show="this.$store.state.currentProjectMember.length>0" v-esc="closeDialog" tabindex="-1" data-luna1-event-id="6">
+    <div id="project-setting-dialog" class="hidden tab-ring" v-show="(this.$store.state.currentProjectMember && this.$store.state.currentProjectMember.length>0)" v-esc="closeDialog" tabindex="-1" data-luna1-event-id="6">
         <div class="fullscreen-harness dialog2-fullscreen" style="">
             <div class="dialog2-background"></div>
         </div>

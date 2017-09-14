@@ -2,4 +2,8 @@
 {
     "editor.fontFamily": "'Droid Sans Mono', 'Courier New', monospace, 'Droid Sans Fallback'",
     "editor.fontLigatures": true,
+    // "editor.fontFamily": "'Fira Code'",
+    // "editor.fontLigatures": true,
+    // "editor.fontSize": 14.5
+    // "editor.fontSize": 15
 }

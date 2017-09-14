@@ -32,6 +32,15 @@
                                     </span>
                                     </a>
                                 </li>
+                                <li class="side-filter__category-item" @click="showRoleState">
+                                    <a class="side-filter__category-label">
+                                    <span class="side-filter__category-content">
+                                        <span class="side-filter__category-content-text side-filter__category-content-text--nockeckbox truncate">
+                                                Role
+                                        </span>
+                                    </span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -62,6 +71,9 @@
                             </div>
                             <div id="app" class="ui vertical stripe segment" v-show = "isTaskState">
                                 <show-task-state></show-task-state>
+                            </div>
+                            <div id="app" class="ui vertical stripe segment" v-show = "isRoleList">
+                                <roles-types></roles-types>
                             </div>
                         </div>
                     </div>
@@ -288,6 +300,7 @@
     Vue.use(VueWidgets)
     import ShowTaskTypes from './ShowTaskTypes.vue'
     import ShowTaskState from './ShowTaskState.vue'
+    import RolesTypes from './RolesTypes.vue'
     Vue.component('vuetable', require('./Vuetable.vue'));
     Vue.use(Resource)
 
@@ -327,7 +340,8 @@
                      this.$store.dispatch('patchAccessPermision', {
                          rId: rowField.id,
                          pId: data.id,
-                         access_value: patchValue
+                         access_value: patchValue,
+                         taskType:taskTypeId
                      })
                      role.access_value=patchValue;
                  }else{
@@ -361,11 +375,13 @@
                 addRole: '',
                 isUserGroup: false,
                 isTaskType: false,
-                isTaskState: false 
+                isTaskState: false,
+                isRoleList:false
             }
         },
         created() {
             this.$store.dispatch('eventListener');
+            this.$store.dispatch('getUsersRoles');
             services.roleService.find().then(response =>{
                 console.log("Response :--",response)
                 tableColumns = [{
@@ -413,17 +429,27 @@
                 this.isUserGroup = true
                 this.isTaskType = false
                 this.isTaskState = false
+                this.isRoleList=false
             },
             showTaskType: function() {
                 this.isTaskType = true
                 this.isUserGroup = false
                 this.isTaskState = false
+                this.isRoleList=false
                 this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
             },
             showTaskState: function() {
                 this.isTaskType = false
                 this.isUserGroup = false
                 this.isTaskState = true
+                this.isRoleList=false
+                this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
+            },
+            showRoleState: function(){
+                this.isTaskType = false
+                this.isUserGroup = false
+                this.isTaskState = false
+                this.isRoleList=true
                 this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
             }
 
@@ -449,7 +475,8 @@
         components: {
             ShowTaskTypes,
             ShowTaskState,
-            VueWidgets
+            VueWidgets,
+            RolesTypes
         }   
     }
 </script>

@@ -131,7 +131,8 @@
 <script>
     /* eslint-disable*/
     import Vue from 'vue'
-     import { focus } from 'vue-focus';
+    import { focus } from 'vue-focus';
+    import notify from './notify.js'
     export default {
         props: ['show'],
          directives: { focus: focus },
@@ -163,29 +164,34 @@
                         user_email: this.$store.state.userObject.email,
                         invited_date: new Date(),
                         is_deleted:false,
-                        user_role_id:this.getOwernerId()
+                        user_role_id:''
                     }
                     this.$store.dispatch('insertProjectInvite', insertInvite)
-
+                    $("div#projectVisible").removeClass('hidden');
                     this.projectName = ''
                     this.description = ''
                     this.privacyOption = ''
                     // this.$store.state.projectlist.push(response)
                     this.$store.state.currentProjectId = response.id
                     this.$store.state.currentProjectName=response.project_name
+                    this.$store.state.currentProjectMember = response.members; 
+                    
                     this.close();
 
                 } else {
                     this.createProjectError = response.error;
+                    $.notify.defaults({ className: "error" })
+                    $.notify(response.error, { globalPosition:"top center"})  
                 }
             },
-            getOwernerId(){
-                this.$store.state.userRoles
+            // getOwernerId(){
+            //     this.$store.state.userRoles
                 
-                let owner = _.find(this.$store.state.userRoles, ['name', "Owner"])
+            //     let owner = _.find(this.$store.state.userRoles, ['name', "Owner"])
 
-                return owner.id;
-            },close: function () {
+            //     return owner.id;
+            // },
+            close: function () {
                this.$emit('updateDialog', this.show != this.show);
                 this.projectName = ''
                 this.description = ''
@@ -196,7 +202,7 @@
                     this.createProjectError = "Invalid project name";
                     return;
                 } else {
-                    this.createProjectError = "";
+                    this.createProjectError = ""    ;
                 }
                 if (!this.privacyOption || this.privacyOption.length == 0) {
                     this.privacyMsg = "Select privacy";

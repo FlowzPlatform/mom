@@ -7,7 +7,7 @@
           </div>
           <div class="PageHeaderStructure-center">
             <div class="PageHeaderStructure-titleRow">
-              <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName">{{$store.state.currentProjectName}}</div>
+              <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName"><input id="project-name" type="text" name="fname" v-model="projectName" @blur="setProjectName" @keyup.enter="updateProjectName"/></div>
             </div>
           </div>
           <div class="PageHeaderStructure-right">
@@ -39,7 +39,7 @@
                   </svg>
                 </div>
               </a>
-              <div class="projectHeaderFacepile-privacySummary projectHeaderFacepile-privacySummaryDropdown" @click="changePrivacyPopup">
+              <div v-show="($store.state.currentProjectName && $store.state.currentProjectName.length>0)?true:false" id="projectVisible" class="projectHeaderFacepile-privacySummary projectHeaderFacepile-privacySummaryDropdown" @click="changePrivacyPopup">
                 <div class="projectHeaderFacepile-privacySummaryDropdownTextDownIconContainer">
                   <svg v-if="$store.state.currentProjectPrivacy==2" class="Icon UserIcon projectHeaderFacepile-privacySummaryDropdownLeftIcon"
                     title="UserIcon" viewBox="0 0 32 32">
@@ -214,7 +214,7 @@
       <div class="asanaView-paneGutter"></div>
       <div id="center_pane_container" class="known-list">
         <div id="center_pane">
-          <div v-if="$store.state.currentProjectId.length>0">
+          <div v-if="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
             <left-toolbar v-if="!isCopyLink" :filters="filters">
             </left-toolbar>
             <main-left-section id="todoTask" :isCopyLink="isCopyLink" :todoObject="todoObjectById" :pholder="taskPholder" :filtered-todos="taskById"></main-left-section>
@@ -226,7 +226,7 @@
                   <span class="fa fa-file-text-o fa-5x" @click="openCreateDialogs" />
                   <div class="text gridPaneSearchEmptyView-noProjectItemsTitleText">Add New Project
                   </div>
-                  <div class="text gridPaneSearchEmptyView-noProjectItemsText">You have no project created.
+                  <div class="text gridPaneSearchEmptyView-noProjectItemsText" v-show="$store.state.projectlist.length==0">You have no project created.
                   </div>
                 </div>
               </div>
@@ -298,7 +298,8 @@
         showPrivacyPopup: false,
         showPrivateCheck: false,
         showPrivateMember: false,
-        showPublic: false
+        showPublic: false,
+        pName:'' // Project Name 
       }
     },
     created() {
@@ -335,15 +336,20 @@
       // this.getProjectWiseTodo;
       var projects = this.getProjectWiseTodo;
       var projectId = this.$store.state.currentProjectId
+      console.log("projectId:--",projectId)
       if (!projectId && projects.length > 0) {
         projectId = projects[0].id
         this.$store.state.currentProjectId = projects[0].id
         this.$store.state.currentProjectName = projects[0].project_name
+        this.$store.state.currentProjectMember = projects[0].members; 
+        this.$store.state.currentProjectPrivacy = projects[0].project_privacy
         this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '', project_id: projectId });
-      } else {
+      
+     } else {
         console.log("Can't set projectc id")
       }
 
+      
 
       // if(this.$store.state.deleteItemsSelected)
       // {
@@ -399,9 +405,19 @@
         parentIdArray: 'parentIdArr',
         // userSettings: 'user_setting',
         todoObjectById: 'getObjectById',
-        // projectListData: 'getProjectList'
+        // projectName:'getCurrentProjectName',
+       
         // deletedTasks:'getDeletedTaskById'
       }),
+       projectName:{
+          get(){
+            return this.$store.state.currentProjectName
+          },
+          set(value){
+            this.pName = value;
+           // this.$store.commit('updateProjectName', value)
+          }
+        },
       getProjectWiseTodo() {
         //   var projectList= this.projectListData;
         //   var projectId=this.$store.state.currentProjectId
@@ -482,9 +498,10 @@
         // this.$store.commit('DELETE_ATTACHMENTS')
         // this.$store.state.userObject = {}
         // this.$store.state.isAuthorized = false
-        // this.$store.commit('userData')
+        this.$store.commit('userData')
         // this.$store.commit('authorize')
-        CmnFunc.deleteAutheticationDetail()
+        CmnFunc.resetProjectDefault()
+        // CmnFunc.deleteAutheticationDetail()
         window.location = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:3000"
       },
       getAllUsers() {
@@ -782,6 +799,18 @@
       //     $("#updateprofile_btn").attr('disabled', true);
       //   }
       // }
+      ,updateProjectName(){
+        if(this.pName && this.pName.length > 0){
+           this.$store.dispatch('renameProjectName',this.pName)
+        }else{
+           $.notify.defaults({ className: "error" })
+           $.notify("Project name can't blank.", { globalPosition:"top center"})
+        }
+      },
+      setProjectName(){
+           let projectName = this.$store.state.currentProjectName ;
+           $("#project-name").val(projectName);
+      }
     },
     components: {
       MainLeftSection,

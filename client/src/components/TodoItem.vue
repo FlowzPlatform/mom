@@ -4,8 +4,10 @@
       <div class="view" style="margin-left: 10px;">
         <span class="dreg-move"></span>
         <span class="dropdown">
-        <input v-if="!$store.state.deleteItemsSelected && getType" :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle"
+          <!-- <input v-if="!$store.state.deleteItemsSelected && id !== 'taskTypes' && id !== 'taskState' && id !== 'roleTypes'" :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle" -->
+          <input v-if="!$store.state.deleteItemsSelected && getType" :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle"
           @change="toggleTodo(todo)">
+        <input v-else="!$store.state.deleteItemsSelected && id === 'RolesTypes'" :id="todo.id" type="checkbox" checked="" v-model="todo.is_checked" class="toggle" :disabled="!todo.is_editable" @change="roleCheckChange(todo)">
         <label for="checkbox8"></label>
         </span>
         <div v-if="todo.type_id && !getType" class="stateCircle Avatar--small " @click="showStatusList" data-toggle="dropdown"
@@ -26,11 +28,14 @@
         <input v-if="id !== 'taskTypes' && id !== 'taskState'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder"
           v-bind:class="getLevelClass(todo.level,todo.id)" v-model="todo.taskName" @click="SHOW_DIV(todo)" @keyup.enter="addTodo(nextIndex)"
           @focus="onFocusClick(todo.id, todo.level,todo.created_by,todo.type_id)" @blur=onBlurCall(todo.id,todo.level) @keyup="performAction"
-          @change="changeValue(nextIndex)">
+          @change="changeValue(nextIndex)"
+          @keyup="performAction">
         <input v-if="id === 'taskTypes'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
           v-model="todo.type" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
         <input v-if="id === 'taskState'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
           v-model="todo.taskState" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
+        <input v-if="id === 'roleTypes'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
+          v-model="todo.name" @keyup.enter="addRole(nextIndex)" :readonly="!todo.is_editable">
         <span class=""><i>
           <b class="glyphicon glyphicon-option-vertical"></b>
           <b class="glyphicon glyphicon-option-vertical"></b>
@@ -58,6 +63,7 @@
         <button class="destroy" v-if="id === 'taskTypes' || id === 'taskState'" @click="deleteTaskType(todo)">
             <a class="fa fa-close"/>
         </button>
+        
       </div>
       <!--{{todo.progress > 50 ? Math.round(255 * (100 - todo.progress) / 100) : 255}} {{ todo.progress > 50 ? 255 : Math.round(todo.progress / 100 * 255)}}{{ 0}}-->
       <!--backgroundColor: 'rgb('+Math.round(255*(100-todo.progress)/100)+', '+Math.round(todo.progress / 100 * 255)+', 0)'-->
@@ -70,6 +76,7 @@
     </div>
   </li>
 </template>
+
 <style>
   col-md-2.border-right:after {
     content: "";
@@ -197,6 +204,7 @@
       ]),
       ...mapActions([
         'toggleTodo',
+        'roleCheckChange'
       ]),
       getLevelClass(level, id) {
         return id + "_" + String(level)
@@ -207,7 +215,8 @@
       showStatusList() {
         this.$store.dispatch('getTypeState', this.todo.type_id)
       },
-      selectStatus(objStatus) {
+      selectStatus: function(objStatus) {  
+        console.log('State changed', objStatus) 
         this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedState": objStatus.state_id })
         this.selectedObject = this.taskState.find(state => state.state_id === objStatus.state_id)
       },
@@ -243,17 +252,30 @@
       addTodo: function (todoId) {
         if (this.id !== 'taskTypes' && this.id !== 'taskState') {
           this.$store.dispatch('insertTodo', this.todo)
+          
         } else if (this.id === "taskTypes") {
           this.$store.dispatch('addTask_Type', this.todo)
         } else if (this.id === "taskState") {
           this.$store.dispatch('addTask_State', { "state": this.todo })
         }
       },
-      deleteTaskType(todo) {
+      addRole:function(){
+        if(this.todo && this.todo.name.length>0)
+        {
+          this.$store.dispatch('insertRole', this.todo)
+        this.todo.name=""           
+        console.log("this.todo-->",this.todo)
+        
+        }
+      },
+      deleteTaskType: function (todo) {
         if (this.id === 'taskTypes') {
           this.$store.dispatch('getCountofTaskType', this.todo)
         } else if (this.id === 'taskState') {
           this.$store.dispatch('getCountofTypeState', this.todo)
+        }else if(this.id=== 'roleTypes')
+        {
+          this.$store.dispatch('deleteRoles', this.todo)
         }
       },
       async onFocusClick(id, level, created_by, typeId) {

@@ -48,7 +48,7 @@
                             </div>
                             <div class="BlockStory-body">
                                 <div class="truncatedRichText">
-                                    <div class="richText truncatedRichText-richText">{{comment.comment}}</div>
+                                    <div class="richText truncatedRichText-richText" v-html="comment.comment"></div>
                                     <div v-if="visibleFilter === 'group_By'" v-for="userComment in comment.list">
                                         <div class="richText truncatedRichText-richText">{{userComment.comment}}</div>
                                         <span class="BlockStory-metadata">

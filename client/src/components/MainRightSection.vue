@@ -69,25 +69,34 @@ import Vue from 'vue'
 import MainLeftSection from './MainLeftSection.vue'
 import TextDescription from './TextDescription.vue'
 import RightFooter from './RightFooter.vue'
+import HistoryLog from './HistoryLog.vue'
 import RightToolbar from './RightToolbar.vue'
 import Attachments from './Attachments.vue'
 import StoryFeed from './StoryFeed.vue'
 import Statuses from './Statuses.vue'
+import * as services from '../services'
 import Tags from './Tags.vue'
 import { mapGetters } from 'vuex' 
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import CmnFunc from './CommonFunc.js'
 import * as Constant from './Constants.js'
+import AsyncComputed from 'vue-async-computed'
+
 Vue.use(iView);
+Vue.use(AsyncComputed);
 
 export default {
-  props: ['pholder', 'todoObject', 'id'],
+  props: ['pholder', 'todoObject', 'id',],
   data: function () {
     return {
         todolistSubTasks: [],
         createCommentBox: true,
-        readCommentBox: true
+        readCommentBox: true,
+        historyLog:[],
+        isDelete: false,
+        chkAttachment: false,
+        attchmentReadPerm: false
     }
   },
   created() {
@@ -129,10 +138,21 @@ export default {
         }, this)
         
       },
+    async manageAttachmentDeletePermission(){
+      this.chkAttachment = await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.DELETE, "attachment")
+     },
+     async manageAttachmentReadPermission() {
+       return await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.READ, "attachment")
+     }
   },
    watch: {
     // whenever question changes, this function will run
     todolistSubTasks: function (newQuestion) {
+    },
+    todoObject:function()
+    {
+      this.$store.dispatch('findHistoryLog',this.todoObject.id)
+     
     }
   },
   computed: {
@@ -160,10 +180,36 @@ export default {
        this.todolistSubTasks = taskArray
        this.userDetail(this.todolistSubTasks)
        return taskArray
-     },
-     showAttachment() {
-      //  console.log('show attachment', this.$store.state.arrAttachment.length)
-        return this.$store.state.arrAttachment.length > 0 ? true : false
+     }
+  },
+  asyncComputed: {
+    async showAttachment() {
+      console.log('inside async computed')
+      this.manageAttachmentDeletePermission()
+      
+      //check attachment read permission.
+      let isReadPermission = await this.manageAttachmentReadPermission()
+       
+      console.log('read permission:', isReadPermission)
+      if(isReadPermission){
+        console.log('inside read permission')
+        //check whether attachment array has value or not
+        let attachmentArray = _.find(this.$store.state.arrAttachment, ['task_id', this.todoObject.id]);
+        let isAttachmentExist = false
+        if(attachmentArray){
+          isAttachmentExist = true
+        }else{
+          isAttachmentExist = false
+        }
+        console.log('attachment exists:', isAttachmentExist)
+        //this.attchmentReadPerm = isAttachmentExist
+        return isAttachmentExist
+      }else{
+        console.log('read permission false:', isReadPermission)
+        //this.attchmentReadPerm = false
+        return false
+      }
+      // return this.$store.state.arrAttachment.length > 0 ? true : false
      }
   },
   components: {
@@ -174,7 +220,8 @@ export default {
     Attachments,
     StoryFeed,
     Tags,
-    Statuses
+    Statuses,
+    HistoryLog
   }
 }
 </script>
