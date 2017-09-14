@@ -2010,7 +2010,7 @@ export const store = new Vuex.Store({
     getMemberName: (state, getters) => {
       return function (uId) {
         let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === uId })
-        console.log("user index:--",userIndex)
+        // console.log("user index:--",userIndex)
         if(userIndex>-1)
         return state.arrAllUsers[userIndex].fullname ?  state.arrAllUsers[userIndex].fullname : state.arrAllUsers[userIndex].username
         else
