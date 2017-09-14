@@ -17,11 +17,12 @@
     
 	<text-description :id="id" :filteredTodo="todoObject">
   </text-description>
+  
   <collapse v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" class="CollapseView">
     <panel v-show='showAttachment'>
       Attachments
       <p class='PanelAttach' slot="content">
-        <attachments :filteredTodo="todoObject"> </attachments>
+        <attachments :filteredTodo="todoObject" :isDeleteAttachment='chkAttachment'> </attachments>
       </p>
     </panel>
     <panel>
@@ -32,15 +33,7 @@
     </panel>
   </collapse>
   <statuses :selectedState="typeStateList" :filteredTodo="todoObject" :id="id"></statuses>
-  <!--<attachments :filteredTodo="todoObject"> </attachments>-->
-  <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#attachment">Attachments</div>-->
-  <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#attachment">Attachents</button>-->
-  <!--<attachments id="attachment" class="collapse" :filteredTodo="todoObject"> </attachments>-->
-   <!--<hr>-->
-  <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#tags">Tags</div>-->
-  <!--<button type="button" class="btn btn-info button-collapse" <data-togg></data-togg>le="collapse" data-target="#tags">Tags</button>
-  <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
-  <!--<tags :filteredTodo="todoObject"></tags>-->
+  
   <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
   <history-log  :taskId="todoObject.id" :historyLog="historyLog"></history-log>
   </div>
@@ -84,20 +77,25 @@ import Tags from './Tags.vue'
 import { mapGetters } from 'vuex' 
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
-import * as Constant from './Constants.js'
 import CmnFunc from './CommonFunc.js'
+import * as Constant from './Constants.js'
+import AsyncComputed from 'vue-async-computed'
 
 Vue.use(iView);
+Vue.use(AsyncComputed);
 
 export default {
   props: ['pholder', 'todoObject', 'id',],
   data: function () {
     return {
         todolistSubTasks: [],
-        historyLog:[]
+        historyLog:[],
+        isDelete: false,
+        chkAttachment: false,
+        attchmentReadPerm: false
     }
   },
-  created() {
+  created: function() {
     // let self = this;
     //      socket.on('feed-change', function(item){
     //           //  console.log("TodoItem.vue:item***",item);
@@ -144,7 +142,13 @@ export default {
     },
     deletePermently:function() {
       this.$store.dispatch('deletePermently', this.todoObject)
-    }
+    },
+    async manageAttachmentDeletePermission(){
+      this.chkAttachment = await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.DELETE, "attachment")
+     },
+     async manageAttachmentReadPermission() {
+       return await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.READ, "attachment")
+     }
   },
    watch: {
     // whenever question changes, this function will run
@@ -178,10 +182,36 @@ export default {
        })
        this.todolistSubTasks = taskArray
        return taskArray
-     },
-     showAttachment() {
-      //  console.log('show attachment', this.$store.state.arrAttachment.length)
-        return this.$store.state.arrAttachment.length > 0 ? true : false
+     }
+  },
+  asyncComputed: {
+    async showAttachment() {
+      console.log('inside async computed')
+      this.manageAttachmentDeletePermission()
+      
+      //check attachment read permission.
+      let isReadPermission = await this.manageAttachmentReadPermission()
+       
+      console.log('read permission:', isReadPermission)
+      if(isReadPermission){
+        console.log('inside read permission')
+        //check whether attachment array has value or not
+        let attachmentArray = _.find(this.$store.state.arrAttachment, ['task_id', this.todoObject.id]);
+        let isAttachmentExist = false
+        if(attachmentArray){
+          isAttachmentExist = true
+        }else{
+          isAttachmentExist = false
+        }
+        console.log('attachment exists:', isAttachmentExist)
+        //this.attchmentReadPerm = isAttachmentExist
+        return isAttachmentExist
+      }else{
+        console.log('read permission false:', isReadPermission)
+        //this.attchmentReadPerm = false
+        return false
+      }
+      // return this.$store.state.arrAttachment.length > 0 ? true : false
      }
   },
   components: {

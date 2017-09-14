@@ -102,15 +102,15 @@ export default {
     const deletevalue = [1, 3, 5, 7, 9, 11, 13, 15]
     return deletevalue.includes(accessValue)
   },
-  checkActionPermision:async function(context,taskTypeId,userAction,permisisonAction)
+  checkActionPermision:async function(context,taskTypeId,userAction,permisisonAction,TAG)
   {
       var self = context;
       let selfRoleId = this.getSelfRoleId(context);
-      console.log("selfRoleId-->",selfRoleId)
+      console.log("selfRoleId:--"+TAG,selfRoleId)
       if(selfRoleId)
         {
           let permisisonId = this.getPermissionId(context,userAction)
-          console.log("permisisonId--->", permisisonId)
+          console.log("permisisonId--->"+TAG, permisisonId)
 
           //  await services.roleAccessService.find({ query: { task_type: taskTypeId, rId: selfRoleId } }).then(response => {
           //   console.log("Res--->", response)
@@ -146,6 +146,7 @@ export default {
   },
   callRoleAccessService:function(taskTypeId,selfRoleId)
   {
+    console.log('taskTypeId--->', taskTypeId)
     return services.roleAccessService.find({ query: { task_type: taskTypeId, rId: selfRoleId } }).then(response => {
       console.log("Res--->", response)
       return response;

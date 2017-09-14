@@ -70,7 +70,7 @@
                 // return this.historyLog
             },
             findUserName(uId) { 
-                console.log("Uid:--",uId)
+                // console.log("Uid:--",uId)
                 return this.getMemberName(uId)
             }
         }
