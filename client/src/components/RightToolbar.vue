@@ -144,8 +144,6 @@
   import CmnFunc from './CommonFunc.js'
   import * as Constant from './Constants.js'
   import { mapMutations, mapGetters } from 'vuex'
-  import CmnFunc from './CommonFunc.js'
-  import * as Constant from './Constants.js'
   Vue.use(KeenUI);
   Vue.filter('formatDate', function (value) {
     if (value) {
