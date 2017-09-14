@@ -981,7 +981,7 @@ export const store = new Vuex.Store({
           console.log("Response patch::", response);
           if(response.id)
             {
-              CmnFunc.insertHistoryLog(this,store.state.userObject._id,insertElement.taskName,dbId,Constant.HISTORY_LOG_ACTION.TASK_UPDATE)
+              CmnFunc.insertHistoryLog(store,store.state.userObject._id,insertElement.taskName,dbId,Constant.HISTORY_LOG_ACTION.TASK_UPDATE)
             }
         });
 
@@ -1007,7 +1007,7 @@ export const store = new Vuex.Store({
         }).then(response => {
           console.log("Response create::---->", response);
           
-          CmnFunc.insertHistoryLog(this,store.state.userObject._id,store.state.userObject._id,response.id,Constant.HISTORY_LOG_ACTION.TASK_CREATE)
+          CmnFunc.insertHistoryLog(store,store.state.userObject._id,store.state.userObject._id,response.id,Constant.HISTORY_LOG_ACTION.TASK_CREATE)
           
         });
 
@@ -1153,7 +1153,7 @@ export const store = new Vuex.Store({
             level: fileObject.level,
             file_name_timestamp: fileTimeStamp
           }
-          CmnFunc.insertHistoryLog(this,store.state.userObject._id,src,fileObject.taskId,Constant.HISTORY_LOG_ACTION.ATTACHEMENT_UPLOAD)
+          CmnFunc.insertHistoryLog(store,store.state.userObject._id,src,fileObject.taskId,Constant.HISTORY_LOG_ACTION.ATTACHEMENT_UPLOAD)
           
           // state.arrAttachment.filter(attachement => attachement.id === attachArr.id)
 

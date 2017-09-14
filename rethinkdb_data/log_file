@@ -1300,3 +1300,163 @@
 2017-09-14T10:43:42.436160343 959.371354s info: Table d62e325a-366a-4c35-8127-784fd0a4e6d5: Added replica on this server.
 2017-09-14T10:43:42.437699878 959.372894s info: Table 7952e3b1-f150-4638-a39d-f9ddfb18cfb0: This server is Raft leader for term 1. Latest log index is 0.
 2017-09-14T10:43:42.438485936 959.373680s info: Table d62e325a-366a-4c35-8127-784fd0a4e6d5: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:22:54.698572254 17711.633767s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/031c3425-90d2-4740-8737-cb35a22afbcc
+2017-09-14T15:22:54.698591371 17711.633785s info: Table 031c3425-90d2-4740-8737-cb35a22afbcc: Deleted the table.
+2017-09-14T15:22:54.713103537 17711.648298s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/0dc183a6-78b2-4aed-8647-ccaa2790d0e0
+2017-09-14T15:22:54.713127048 17711.648321s info: Table 0dc183a6-78b2-4aed-8647-ccaa2790d0e0: Deleted the table.
+2017-09-14T15:22:54.725346194 17711.660541s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/11bf6785-e475-468a-9aaf-2f716c01489e
+2017-09-14T15:22:54.725364194 17711.660558s info: Table 11bf6785-e475-468a-9aaf-2f716c01489e: Deleted the table.
+2017-09-14T15:22:54.740636586 17711.675831s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/1f5209b5-ae9b-4a7b-a527-56b70dd90461
+2017-09-14T15:22:54.740655132 17711.675849s info: Table 1f5209b5-ae9b-4a7b-a527-56b70dd90461: Deleted the table.
+2017-09-14T15:22:54.756060768 17711.691255s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/21f3e65a-de50-45e5-860c-888dc57369f1
+2017-09-14T15:22:54.756068853 17711.691262s info: Table 21f3e65a-de50-45e5-860c-888dc57369f1: Deleted the table.
+2017-09-14T15:22:54.765924152 17711.701118s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/23efd3c6-d3ca-4994-8e31-7fbf6ab5c6f9
+2017-09-14T15:22:54.765931145 17711.701125s info: Table 23efd3c6-d3ca-4994-8e31-7fbf6ab5c6f9: Deleted the table.
+2017-09-14T15:22:54.772198204 17711.707392s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/483c2857-e0a3-433c-8c5d-d03dc5a5a5df
+2017-09-14T15:22:54.772203902 17711.707397s info: Table 483c2857-e0a3-433c-8c5d-d03dc5a5a5df: Deleted the table.
+2017-09-14T15:22:54.778442643 17711.713636s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/6a992d43-e396-44b5-91ea-6cd99bd27f5c
+2017-09-14T15:22:54.778448351 17711.713642s info: Table 6a992d43-e396-44b5-91ea-6cd99bd27f5c: Deleted the table.
+2017-09-14T15:22:54.784461681 17711.719655s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/6acb9a44-22c4-4892-9ab3-9d387f75dfbc
+2017-09-14T15:22:54.784468354 17711.719662s info: Table 6acb9a44-22c4-4892-9ab3-9d387f75dfbc: Deleted the table.
+2017-09-14T15:22:54.789017432 17711.724211s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/7952e3b1-f150-4638-a39d-f9ddfb18cfb0
+2017-09-14T15:22:54.789023239 17711.724217s info: Table 7952e3b1-f150-4638-a39d-f9ddfb18cfb0: Deleted the table.
+2017-09-14T15:22:54.793818989 17711.729013s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/841726cd-a8e5-4045-a6cb-603a8bf8e91c
+2017-09-14T15:22:54.793826165 17711.729020s info: Table 841726cd-a8e5-4045-a6cb-603a8bf8e91c: Deleted the table.
+2017-09-14T15:22:54.800435120 17711.735629s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/8f46c6c0-35e3-46c9-9a0c-131349a30086
+2017-09-14T15:22:54.800441520 17711.735635s info: Table 8f46c6c0-35e3-46c9-9a0c-131349a30086: Deleted the table.
+2017-09-14T15:22:54.806088020 17711.741282s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/bc6bbf93-88da-4142-a0b9-2450a2f83588
+2017-09-14T15:22:54.806093631 17711.741287s info: Table bc6bbf93-88da-4142-a0b9-2450a2f83588: Deleted the table.
+2017-09-14T15:22:54.811423044 17711.746617s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/d62e325a-366a-4c35-8127-784fd0a4e6d5
+2017-09-14T15:22:54.811428804 17711.746622s info: Table d62e325a-366a-4c35-8127-784fd0a4e6d5: Deleted the table.
+2017-09-14T15:22:54.816649388 17711.751843s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/ef688fad-d9c3-4947-a329-b4c246458bb2
+2017-09-14T15:22:54.816655695 17711.751849s info: Table ef688fad-d9c3-4947-a329-b4c246458bb2: Deleted the table.
+2017-09-14T15:22:54.822506508 17711.757700s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/ff004ef3-7578-42a3-bcfe-e781770578eb
+2017-09-14T15:22:54.822511825 17711.757705s info: Table ff004ef3-7578-42a3-bcfe-e781770578eb: Deleted the table.
+2017-09-14T15:23:07.540294484 17724.475488s info: Table c9caefa8-54f9-4645-b6d4-32e45e0acf06: Starting a new Raft election for term 1.
+2017-09-14T15:23:07.540356693 17724.475550s info: Table 7c55114f-8df4-47a3-b56a-7d375477e471: Starting a new Raft election for term 1.
+2017-09-14T15:23:07.543823606 17724.479017s info: Table f4f47596-0de3-464a-85a8-10b8980c74ea: Starting a new Raft election for term 1.
+2017-09-14T15:23:07.543894505 17724.479088s info: Table 8f633f7e-9e56-4d24-bcd8-02f021acfc9d: Starting a new Raft election for term 1.
+2017-09-14T15:23:07.547973243 17724.483167s info: Table c9caefa8-54f9-4645-b6d4-32e45e0acf06: Added replica on this server.
+2017-09-14T15:23:07.548050700 17724.483244s info: Table 7c55114f-8df4-47a3-b56a-7d375477e471: Added replica on this server.
+2017-09-14T15:23:07.548099079 17724.483293s info: Table f4f47596-0de3-464a-85a8-10b8980c74ea: Added replica on this server.
+2017-09-14T15:23:07.548154011 17724.483347s info: Table 8f633f7e-9e56-4d24-bcd8-02f021acfc9d: Added replica on this server.
+2017-09-14T15:23:07.548882157 17724.484076s info: Table be80c250-12b2-425e-9db1-ae42c6734186: Starting a new Raft election for term 1.
+2017-09-14T15:23:07.555631712 17724.490825s info: Table db912a29-f22c-4b73-ae85-cd66de9d31cb: Starting a new Raft election for term 1.
+2017-09-14T15:23:07.555697126 17724.490891s info: Table e232deba-e7d4-4860-971e-c4ed57247199: Starting a new Raft election for term 1.
+2017-09-14T15:23:07.559004597 17724.494198s info: Table be80c250-12b2-425e-9db1-ae42c6734186: Added replica on this server.
+2017-09-14T15:23:07.559122774 17724.494316s info: Table db912a29-f22c-4b73-ae85-cd66de9d31cb: Added replica on this server.
+2017-09-14T15:23:07.559188790 17724.494382s info: Table e232deba-e7d4-4860-971e-c4ed57247199: Added replica on this server.
+2017-09-14T15:23:07.559196979 17724.494391s info: Table 47a62c5e-9ab5-4ac1-8558-47da11a47969: Starting a new Raft election for term 1.
+2017-09-14T15:23:07.559197673 17724.494391s info: Table 94a5c4da-6782-4a6b-b94f-9ada096ae8fb: Starting a new Raft election for term 1.
+2017-09-14T15:23:07.559464046 17724.494658s info: Table 7d620ef4-840b-4e78-9f60-febfa0abc5eb: Starting a new Raft election for term 1.
+2017-09-14T15:23:07.560542090 17724.495736s info: Table 47a62c5e-9ab5-4ac1-8558-47da11a47969: Added replica on this server.
+2017-09-14T15:23:07.560602301 17724.495796s info: Table 94a5c4da-6782-4a6b-b94f-9ada096ae8fb: Added replica on this server.
+2017-09-14T15:23:07.560605526 17724.495799s info: Table 6579d15d-97b4-4910-8e88-55888bdd99de: Starting a new Raft election for term 1.
+2017-09-14T15:23:07.560693011 17724.495887s info: Table 7d620ef4-840b-4e78-9f60-febfa0abc5eb: Added replica on this server.
+2017-09-14T15:23:07.561511221 17724.496705s info: Table 6579d15d-97b4-4910-8e88-55888bdd99de: Added replica on this server.
+2017-09-14T15:23:07.562399243 17724.497593s info: Table 98a0d200-1483-4cb3-a9ac-5615c4adfa45: Starting a new Raft election for term 1.
+2017-09-14T15:23:07.565105930 17724.500300s info: Table 98a0d200-1483-4cb3-a9ac-5615c4adfa45: Added replica on this server.
+2017-09-14T15:23:07.565477447 17724.500671s info: Table 8d040cc5-c512-4754-a468-a7140536c7ef: Starting a new Raft election for term 1.
+2017-09-14T15:23:07.567065645 17724.502259s info: Table 8d040cc5-c512-4754-a468-a7140536c7ef: Added replica on this server.
+2017-09-14T15:23:07.567703856 17724.502898s info: Table 98a4f218-7443-4a70-be51-abd71b2253fc: Starting a new Raft election for term 1.
+2017-09-14T15:23:07.568146460 17724.503340s info: Table 98a4f218-7443-4a70-be51-abd71b2253fc: Added replica on this server.
+2017-09-14T15:23:07.570011281 17724.505205s info: Table 85e473b8-a43f-4b15-8f48-40666d4eada2: Starting a new Raft election for term 1.
+2017-09-14T15:23:07.570401179 17724.505595s info: Table 85e473b8-a43f-4b15-8f48-40666d4eada2: Added replica on this server.
+2017-09-14T15:23:07.573174357 17724.508368s info: Table c9caefa8-54f9-4645-b6d4-32e45e0acf06: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:23:07.574185958 17724.509380s info: Table 7c55114f-8df4-47a3-b56a-7d375477e471: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:23:07.574288817 17724.509483s info: Table f4f47596-0de3-464a-85a8-10b8980c74ea: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:23:07.574311936 17724.509505s info: Table 8f633f7e-9e56-4d24-bcd8-02f021acfc9d: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:23:07.574331764 17724.509525s info: Table be80c250-12b2-425e-9db1-ae42c6734186: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:23:07.574348140 17724.509542s info: Table db912a29-f22c-4b73-ae85-cd66de9d31cb: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:23:07.574373412 17724.509567s info: Table e232deba-e7d4-4860-971e-c4ed57247199: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:23:07.574388786 17724.509582s info: Table 47a62c5e-9ab5-4ac1-8558-47da11a47969: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:23:07.574409783 17724.509603s info: Table 94a5c4da-6782-4a6b-b94f-9ada096ae8fb: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:23:07.574437295 17724.509631s info: Table 7d620ef4-840b-4e78-9f60-febfa0abc5eb: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:23:07.574458693 17724.509652s info: Table 6579d15d-97b4-4910-8e88-55888bdd99de: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:23:07.574489866 17724.509683s info: Table 98a0d200-1483-4cb3-a9ac-5615c4adfa45: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:23:07.574508848 17724.509702s info: Table 8d040cc5-c512-4754-a468-a7140536c7ef: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:23:07.574525770 17724.509719s info: Table 98a4f218-7443-4a70-be51-abd71b2253fc: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:23:07.574550619 17724.509744s info: Table 85e473b8-a43f-4b15-8f48-40666d4eada2: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:24:16.331815920 17793.267010s info: Table 84a6ec2f-0f7c-4ef8-a00a-7551cdf0914c: Starting a new Raft election for term 1.
+2017-09-14T15:24:16.332360267 17793.267555s info: Table 84a6ec2f-0f7c-4ef8-a00a-7551cdf0914c: Added replica on this server.
+2017-09-14T15:24:16.337013856 17793.272208s info: Table 84a6ec2f-0f7c-4ef8-a00a-7551cdf0914c: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:24:52.420175247 17829.355369s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/47a62c5e-9ab5-4ac1-8558-47da11a47969
+2017-09-14T15:24:52.420186978 17829.355381s info: Table 47a62c5e-9ab5-4ac1-8558-47da11a47969: Deleted the table.
+2017-09-14T15:24:52.427364143 17829.362558s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/6579d15d-97b4-4910-8e88-55888bdd99de
+2017-09-14T15:24:52.427371664 17829.362565s info: Table 6579d15d-97b4-4910-8e88-55888bdd99de: Deleted the table.
+2017-09-14T15:24:52.432872652 17829.368067s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/7c55114f-8df4-47a3-b56a-7d375477e471
+2017-09-14T15:24:52.432879802 17829.368073s info: Table 7c55114f-8df4-47a3-b56a-7d375477e471: Deleted the table.
+2017-09-14T15:24:52.439302595 17829.374496s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/7d620ef4-840b-4e78-9f60-febfa0abc5eb
+2017-09-14T15:24:52.439307992 17829.374501s info: Table 7d620ef4-840b-4e78-9f60-febfa0abc5eb: Deleted the table.
+2017-09-14T15:24:52.444305872 17829.379500s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/84a6ec2f-0f7c-4ef8-a00a-7551cdf0914c
+2017-09-14T15:24:52.444312513 17829.379506s info: Table 84a6ec2f-0f7c-4ef8-a00a-7551cdf0914c: Deleted the table.
+2017-09-14T15:24:52.449370008 17829.384564s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/85e473b8-a43f-4b15-8f48-40666d4eada2
+2017-09-14T15:24:52.449376704 17829.384570s info: Table 85e473b8-a43f-4b15-8f48-40666d4eada2: Deleted the table.
+2017-09-14T15:24:52.454547487 17829.389741s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/8d040cc5-c512-4754-a468-a7140536c7ef
+2017-09-14T15:24:52.454555033 17829.389749s info: Table 8d040cc5-c512-4754-a468-a7140536c7ef: Deleted the table.
+2017-09-14T15:24:52.459668663 17829.394862s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/8f633f7e-9e56-4d24-bcd8-02f021acfc9d
+2017-09-14T15:24:52.459675670 17829.394869s info: Table 8f633f7e-9e56-4d24-bcd8-02f021acfc9d: Deleted the table.
+2017-09-14T15:24:52.464060706 17829.399254s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/94a5c4da-6782-4a6b-b94f-9ada096ae8fb
+2017-09-14T15:24:52.464066532 17829.399260s info: Table 94a5c4da-6782-4a6b-b94f-9ada096ae8fb: Deleted the table.
+2017-09-14T15:24:52.468722482 17829.403916s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/98a0d200-1483-4cb3-a9ac-5615c4adfa45
+2017-09-14T15:24:52.468728071 17829.403921s info: Table 98a0d200-1483-4cb3-a9ac-5615c4adfa45: Deleted the table.
+2017-09-14T15:24:52.474096354 17829.409290s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/98a4f218-7443-4a70-be51-abd71b2253fc
+2017-09-14T15:24:52.474103690 17829.409297s info: Table 98a4f218-7443-4a70-be51-abd71b2253fc: Deleted the table.
+2017-09-14T15:24:52.478686806 17829.413881s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/be80c250-12b2-425e-9db1-ae42c6734186
+2017-09-14T15:24:52.478692541 17829.413886s info: Table be80c250-12b2-425e-9db1-ae42c6734186: Deleted the table.
+2017-09-14T15:24:52.484064020 17829.419258s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/c9caefa8-54f9-4645-b6d4-32e45e0acf06
+2017-09-14T15:24:52.484078385 17829.419272s info: Table c9caefa8-54f9-4645-b6d4-32e45e0acf06: Deleted the table.
+2017-09-14T15:24:52.489469156 17829.424663s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/db912a29-f22c-4b73-ae85-cd66de9d31cb
+2017-09-14T15:24:52.489474947 17829.424668s info: Table db912a29-f22c-4b73-ae85-cd66de9d31cb: Deleted the table.
+2017-09-14T15:24:52.494185731 17829.429379s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/e232deba-e7d4-4860-971e-c4ed57247199
+2017-09-14T15:24:52.494190290 17829.429384s info: Table e232deba-e7d4-4860-971e-c4ed57247199: Deleted the table.
+2017-09-14T15:24:52.497873517 17829.433067s notice: Removing file /home/kandrap/Desktop/WebProjects/AccessRights/todo-vue-dynamic-component/rethinkdb_data/f4f47596-0de3-464a-85a8-10b8980c74ea
+2017-09-14T15:24:52.497878596 17829.433072s info: Table f4f47596-0de3-464a-85a8-10b8980c74ea: Deleted the table.
+2017-09-14T15:25:04.326703396 17841.261897s info: Table 681ee051-e6b4-4582-84a8-765fdb157de9: Starting a new Raft election for term 1.
+2017-09-14T15:25:04.328291087 17841.263485s info: Table 681ee051-e6b4-4582-84a8-765fdb157de9: Added replica on this server.
+2017-09-14T15:25:04.328365606 17841.263559s info: Table 3bcb1594-1619-4b1f-b354-56aa50230378: Starting a new Raft election for term 1.
+2017-09-14T15:25:04.329312147 17841.264506s info: Table 3bcb1594-1619-4b1f-b354-56aa50230378: Added replica on this server.
+2017-09-14T15:25:04.331120803 17841.266315s info: Table f7585c35-d0c9-4043-98bf-ec5fa9002cd9: Starting a new Raft election for term 1.
+2017-09-14T15:25:04.332245726 17841.267439s info: Table 815f6253-78d8-4598-8eee-9434ab4cffb3: Starting a new Raft election for term 1.
+2017-09-14T15:25:04.334908669 17841.270102s info: Table d4253668-b7f7-40a4-bd6f-de95ec58eef6: Starting a new Raft election for term 1.
+2017-09-14T15:25:04.334913918 17841.270107s info: Table 162cb362-32cf-4af0-a46d-a326993fe9db: Starting a new Raft election for term 1.
+2017-09-14T15:25:04.338197811 17841.273391s info: Table f7585c35-d0c9-4043-98bf-ec5fa9002cd9: Added replica on this server.
+2017-09-14T15:25:04.338302214 17841.273496s info: Table 815f6253-78d8-4598-8eee-9434ab4cffb3: Added replica on this server.
+2017-09-14T15:25:04.338373576 17841.273567s info: Table d4253668-b7f7-40a4-bd6f-de95ec58eef6: Added replica on this server.
+2017-09-14T15:25:04.338425417 17841.273619s info: Table 162cb362-32cf-4af0-a46d-a326993fe9db: Added replica on this server.
+2017-09-14T15:25:04.338459545 17841.273653s info: Table e57a7e2d-fc50-4c59-8390-2c7c478d5302: Starting a new Raft election for term 1.
+2017-09-14T15:25:04.338463504 17841.273657s info: Table 29672e91-1fbb-452e-b60a-ebaff9de8aa9: Starting a new Raft election for term 1.
+2017-09-14T15:25:04.339599120 17841.274793s info: Table e57a7e2d-fc50-4c59-8390-2c7c478d5302: Added replica on this server.
+2017-09-14T15:25:04.339697714 17841.274891s info: Table 29672e91-1fbb-452e-b60a-ebaff9de8aa9: Added replica on this server.
+2017-09-14T15:25:04.339700616 17841.274894s info: Table 80271c79-9d0a-4346-9c4b-ddb39e351b61: Starting a new Raft election for term 1.
+2017-09-14T15:25:04.340706795 17841.275900s info: Table faba86ce-d246-441a-b955-54753c32f730: Starting a new Raft election for term 1.
+2017-09-14T15:25:04.342576126 17841.277770s info: Table 80271c79-9d0a-4346-9c4b-ddb39e351b61: Added replica on this server.
+2017-09-14T15:25:04.342722461 17841.277916s info: Table faba86ce-d246-441a-b955-54753c32f730: Added replica on this server.
+2017-09-14T15:25:04.342727680 17841.277921s info: Table 4b24ca8e-73e9-40ba-9e4d-ade63f9c4696: Starting a new Raft election for term 1.
+2017-09-14T15:25:04.343047184 17841.278241s info: Table 4b24ca8e-73e9-40ba-9e4d-ade63f9c4696: Added replica on this server.
+2017-09-14T15:25:04.347122052 17841.282316s info: Table a80cc949-3d45-4522-b9a4-a3421895fd21: Starting a new Raft election for term 1.
+2017-09-14T15:25:04.349336354 17841.284530s info: Table 340eda6d-3ce1-490a-a69c-0bee302b4620: Starting a new Raft election for term 1.
+2017-09-14T15:25:04.349565620 17841.284760s info: Table a80cc949-3d45-4522-b9a4-a3421895fd21: Added replica on this server.
+2017-09-14T15:25:04.350190926 17841.285385s info: Table 340eda6d-3ce1-490a-a69c-0bee302b4620: Added replica on this server.
+2017-09-14T15:25:04.357565803 17841.292760s info: Table 681ee051-e6b4-4582-84a8-765fdb157de9: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:25:04.357596504 17841.292790s info: Table 3bcb1594-1619-4b1f-b354-56aa50230378: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:25:04.357611468 17841.292805s info: Table f7585c35-d0c9-4043-98bf-ec5fa9002cd9: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:25:04.357627810 17841.292821s info: Table 815f6253-78d8-4598-8eee-9434ab4cffb3: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:25:04.357635973 17841.292829s info: Table d4253668-b7f7-40a4-bd6f-de95ec58eef6: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:25:04.357646052 17841.292839s info: Table 162cb362-32cf-4af0-a46d-a326993fe9db: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:25:04.357660987 17841.292854s info: Table e57a7e2d-fc50-4c59-8390-2c7c478d5302: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:25:04.357671424 17841.292865s info: Table 29672e91-1fbb-452e-b60a-ebaff9de8aa9: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:25:04.357680884 17841.292874s info: Table 80271c79-9d0a-4346-9c4b-ddb39e351b61: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:25:04.357689432 17841.292883s info: Table faba86ce-d246-441a-b955-54753c32f730: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:25:04.357710158 17841.292904s info: Table 4b24ca8e-73e9-40ba-9e4d-ade63f9c4696: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:25:04.357731066 17841.292925s info: Table a80cc949-3d45-4522-b9a4-a3421895fd21: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:25:04.357749151 17841.292943s info: Table 340eda6d-3ce1-490a-a69c-0bee302b4620: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:25:04.383859855 17841.319053s info: Table 0d6664d8-082e-4936-97e7-5d7d7018a843: Starting a new Raft election for term 1.
+2017-09-14T15:25:04.383895405 17841.319089s info: Table ad8da6e4-bf5b-45f4-a9e1-46b57d71d12b: Starting a new Raft election for term 1.
+2017-09-14T15:25:04.384397891 17841.319592s info: Table 0d6664d8-082e-4936-97e7-5d7d7018a843: Added replica on this server.
+2017-09-14T15:25:04.384454053 17841.319648s info: Table ad8da6e4-bf5b-45f4-a9e1-46b57d71d12b: Added replica on this server.
+2017-09-14T15:25:04.388084713 17841.323279s info: Table 0d6664d8-082e-4936-97e7-5d7d7018a843: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:25:04.388117453 17841.323311s info: Table ad8da6e4-bf5b-45f4-a9e1-46b57d71d12b: This server is Raft leader for term 1. Latest log index is 0.
+2017-09-14T15:25:20.805712789 17857.740906s info: Table 2052f7d7-9cfc-4dfc-84ae-7ac2a516299d: Starting a new Raft election for term 1.
+2017-09-14T15:25:20.805825123 17857.741019s info: Table 2052f7d7-9cfc-4dfc-84ae-7ac2a516299d: Added replica on this server.
+2017-09-14T15:25:20.807446489 17857.742640s info: Table 2052f7d7-9cfc-4dfc-84ae-7ac2a516299d: This server is Raft leader for term 1. Latest log index is 0.

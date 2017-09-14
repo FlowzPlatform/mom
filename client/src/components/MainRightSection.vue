@@ -92,7 +92,8 @@ export default {
         historyLog:[],
         isDelete: false,
         chkAttachment: false,
-        attchmentReadPerm: false
+        attchmentReadPerm: false,
+        isCreatePermission: false
     }
   },
   created: function() {
@@ -135,6 +136,7 @@ export default {
     //              //self.taskById.splice(index, 1);
     //            }
     //          })
+    this.manageAttachmentCreatePermission()
   },
    methods:{
     undelete: function () {
@@ -148,7 +150,20 @@ export default {
      },
      async manageAttachmentReadPermission() {
        return await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.READ, "attachment")
-     }
+     },
+     manageAttachmentCreatePermission:async function() {
+        this.isCreatePermission = await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.CREATE, "attachment")
+    },
+    checkAttachmentExistance() {
+      let attachmentArray = _.find(this.$store.state.arrAttachment, ['task_id', this.todoObject.id]);
+        let isAttachmentExist = false
+        if(attachmentArray){
+          isAttachmentExist = true
+        }else{
+          isAttachmentExist = false
+        }
+        return isAttachmentExist
+    }
   },
    watch: {
     // whenever question changes, this function will run
@@ -186,32 +201,25 @@ export default {
   },
   asyncComputed: {
     async showAttachment() {
-      console.log('inside async computed')
       this.manageAttachmentDeletePermission()
       
-      //check attachment read permission.
+      if(this.isCreatePermission){
+       return this.checkAttachmentExistance()
+      }
+      
+      //check attachment for only  read permission.
+    
       let isReadPermission = await this.manageAttachmentReadPermission()
        
       console.log('read permission:', isReadPermission)
       if(isReadPermission){
         console.log('inside read permission')
         //check whether attachment array has value or not
-        let attachmentArray = _.find(this.$store.state.arrAttachment, ['task_id', this.todoObject.id]);
-        let isAttachmentExist = false
-        if(attachmentArray){
-          isAttachmentExist = true
-        }else{
-          isAttachmentExist = false
-        }
-        console.log('attachment exists:', isAttachmentExist)
-        //this.attchmentReadPerm = isAttachmentExist
-        return isAttachmentExist
+        return this.checkAttachmentExistance()
       }else{
         console.log('read permission false:', isReadPermission)
-        //this.attchmentReadPerm = false
         return false
       }
-      // return this.$store.state.arrAttachment.length > 0 ? true : false
      }
   },
   components: {
