@@ -390,14 +390,16 @@
         let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.TASK,Constant.PERMISSION_ACTION.DELETE)
         console.log("permisionResult Delete-->",permisionResult)
         if (!permisionResult && id != -1) {
-          this.isDeleteShow = true
-        } else {
           this.isDeleteShow = false
+        } else {
+          this.isDeleteShow = true
         }  
       },
       async onDueDateClick(id, level, created_by, typeId) {
         let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.DUE_DATE,Constant.PERMISSION_ACTION.CREATE)
         console.log("permisionResult Due Date-->",permisionResult)
+        let findStyle = document.getElementsByClassName('vdp-datepicker__calendar')
+        console.log(findStyle)
         if (!permisionResult && id != -1) {
 
           // document.getElementsByClassName('vdp-datepicker__calendar')[0].style.display = "none"
@@ -408,12 +410,15 @@
       async onDeleteDueDate(id, level, created_by, typeId) {
         let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.DUE_DATE,Constant.PERMISSION_ACTION.DELETE)
         console.log("permisionResult Delete Due Date-->",permisionResult)
+        let findStyle = document.getElementsByClassName("vdp-datepicker__clear-button")
         if (!permisionResult && id != -1) {
-          // this.EstimatedHoursCreate = false
-          // document.getElementsByClassName("vdp-datepicker__clear-button")[0].style.display = "none"
+          if(findStyle.length > 0){
+            findStyle[0].style.display = "none"
+          }
         } else {
-          // this.EstimatedHoursCreate = true
-          // document.getElementsByClassName("vdp-datepicker__clear-button")[0].style.display = "inline-block"
+          if(findStyle.length > 0){
+            findStyle[0].style.display = "inline-block"
+          }
         }
       },
       async onEstimateTime(id, level, created_by, typeId) {

@@ -184,6 +184,11 @@
           this.isTypeTodo = this.selectedType.id === this.todo.type_id
         }
         return this.isTypeTodo
+      },
+      getAssignedUser() {
+        let user = this.$store.state.todolist.find(todo => todo.id === this.todo.id)
+
+        return user.email
       }
     },
     methods: {

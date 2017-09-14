@@ -1,71 +1,67 @@
 <template>
-<div class="rightsection-view" :id="id">
-<div class="DropTargetAttachment">
-<section class="todoapp right_bar">
-
-   <right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState' " :filteredTodo="todoObject"></right-toolbar> 
-   <div class="taskbarsect">
-  <div v-if="todoObject.isDelete" class="MessageBanner MessageBanner--error MessageBanner--medium TaskUndeleteBanner TaskMessageBanner">
-    <span class="fa fa-trash-o"  style="margin-right: 10px"/>
-		<span class="TaskUndeleteBanner-message">This task is deleted.</span>
-	  <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" @click="undelete(todoObject)">Undelete</a>
-		<a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
-    <!--<a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" @click="deletePermently(todoObject)">Delete Permanently</a>-->
-    <!--@click="deletePermently(todoObject)"-->
-		<noscript></noscript>
-	</div>
-  
-	<text-description :id="id" :filteredTodo="todoObject">
-  </text-description>
-  <collapse v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" class="CollapseView">
-    <panel v-show='showAttachment'>
-      Attachments
-      <p class='PanelAttach' slot="content">
-        <attachments :filteredTodo="todoObject"> </attachments>
-      </p>
-    </panel>
-    <panel>
-      Tags
-      <p class='PanelTag' slot="content">
-        <tags :filteredTodo="todoObject"></tags>
-      </p>
-    </panel>
-  </collapse>
-  <statuses :selectedState="typeStateList" :filteredTodo="todoObject" :id="id"></statuses>
-  <!--<attachments :filteredTodo="todoObject"> </attachments>-->
-  <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#attachment">Attachments</div>-->
-  <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#attachment">Attachents</button>-->
-  <!--<attachments id="attachment" class="collapse" :filteredTodo="todoObject"> </attachments>-->
-   <!--<hr>-->
-  <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#tags">Tags</div>-->
-  <!--<button type="button" class="btn btn-info button-collapse" <data-togg></data-togg>le="collapse" data-target="#tags">Tags</button>
-  <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
-  <!--<tags :filteredTodo="todoObject"></tags>-->
-  <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
-  </div>
-  <story-feed :filteredTodo="todoObject"></story-feed>
-</section>
-  <div :class="todoObject.id" class="modal fade" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-         
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4 class="modal-title" id="myModalLabel2">Permanently Delete {{todoObject.taskName}}</h4>
-        </div>
-        <div class="modal-body">
-          This will permanently delete the task and associated subtasks. These items will no longer be accessible to you or anyone else. This action is irreversible.
-        </div>
-        <div class="modal-footer">
-          <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" data-dismiss="modal">Close</a>
-          <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" data-dismiss="modal" @click="deletePermently(todoObject)">Delete</a>
+  <div class="rightsection-view" :id="id">
+    <div class="DropTargetAttachment">
+      <section class="todoapp right_bar">
+       <right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState' " :filteredTodo="todoObject"></right-toolbar> 
+        <div class="taskbarsect">
+          <div v-if="todoObject.isDelete" class="MessageBanner MessageBanner--error MessageBanner--medium TaskUndeleteBanner TaskMessageBanner">
+            <span class="fa fa-trash-o"  style="margin-right: 10px"/>
+            <span class="TaskUndeleteBanner-message">This task is deleted.</span>
+            <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" @click="undelete(todoObject)">Undelete</a>
+            <a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
+            <!--<a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" @click="deletePermently(todoObject)">Delete Permanently</a>-->
+            <!--@click="deletePermently(todoObject)"-->
+            <noscript></noscript>
+	        </div>
+      	<text-description :id="id" :filteredTodo="todoObject"></text-description>
+        <collapse v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" class="CollapseView">
+          <panel v-show='showAttachment'>
+            Attachments
+            <p class='PanelAttach' slot="content">
+              <attachments :filteredTodo="todoObject"> </attachments>
+            </p>
+          </panel>
+          <panel>
+            Tags
+            <p class='PanelTag' slot="content">
+              <tags :filteredTodo="todoObject"></tags>
+            </p>
+          </panel>
+        </collapse>
+        <statuses :selectedState="typeStateList" :filteredTodo="todoObject" :id="id"></statuses>
+        <!--<attachments :filteredTodo="todoObject"> </attachments>-->
+        <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#attachment">Attachments</div>-->
+        <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#attachment">Attachents</button>-->
+        <!--<attachments id="attachment" class="collapse" :filteredTodo="todoObject"> </attachments>-->
+        <!--<hr>-->
+        <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#tags">Tags</div>-->
+        <!--<button type="button" class="btn btn-info button-collapse" <data-togg></data-togg>le="collapse" data-target="#tags">Tags</button>
+        <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
+        <!--<tags :filteredTodo="todoObject"></tags>-->
+        <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
+      </div>
+      <story-feed v-show="readCommentBox" :filteredTodo="todoObject"></story-feed>
+    </section>
+    <div :class="todoObject.id" class="modal fade" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content"> 
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel2">Permanently Delete {{todoObject.taskName}}</h4>
+          </div>
+          <div class="modal-body">
+            This will permanently delete the task and associated subtasks. These items will no longer be accessible to you or anyone else. This action is irreversible.
+          </div>
+          <div class="modal-footer">
+            <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" data-dismiss="modal">Close</a>
+            <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" data-dismiss="modal" @click="deletePermently(todoObject)">Delete</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<right-footer v-show="createCommentBox" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" :filteredTodo="todoObject"></right-footer>
-</div>
+  <right-footer v-show="createCommentBox" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" :filteredTodo="todoObject"></right-footer>
+  </div>
 </template> 
 <script>
   /* eslint-disable*/
@@ -91,6 +87,7 @@ export default {
     return {
         todolistSubTasks: [],
         createCommentBox: true,
+        readCommentBox: true
     }
   },
   created() {
@@ -106,9 +103,9 @@ export default {
         let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.COMMENT,Constant.PERMISSION_ACTION.READ)
         console.log("permisionResult Read Comment-->",permisionResult)
         if (!permisionResult && id != -1) {
-          this.createCommentBox = false
+          this.readCommentBox = false
         } else {
-          this.createCommentBox = true
+          this.readCommentBox = true
         }  
     },
     async onCreateComment(id,level,created_by,typeId) {
@@ -120,6 +117,18 @@ export default {
           this.createCommentBox = true
         }  
     },
+    userDetail(deletedTasks) {
+        deletedTasks.forEach(function (c) {
+          let userId = c.assigned_to
+            let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
+            if (userIndex < 0) {
+            } else {
+              c.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
+              c.email = this.$store.state.arrAllUsers[userIndex].email
+            }
+        }, this)
+        
+      },
   },
    watch: {
     // whenever question changes, this function will run
@@ -149,6 +158,7 @@ export default {
               project_id:this.$store.state.currentProjectId
        })
        this.todolistSubTasks = taskArray
+       this.userDetail(this.todolistSubTasks)
        return taskArray
      },
      showAttachment() {
