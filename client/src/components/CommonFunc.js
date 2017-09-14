@@ -114,7 +114,7 @@ export default {
 
           //  await services.roleAccessService.find({ query: { task_type: taskTypeId, rId: selfRoleId } }).then(response => {
           //   console.log("Res--->", response)
-            let accessRight =await this.callRoleAccessService(taskTypeId,selfRoleId,TAG);
+            let accessRight =await this.callRoleAccessService(taskTypeId,selfRoleId);
             // let accessRight =response;
             console.log("accessRight--->", accessRight)
 
