@@ -117,7 +117,6 @@ export default {
             let accessRight =await this.callRoleAccessService(taskTypeId,selfRoleId);
             // let accessRight =response;
             console.log("accessRight--->", accessRight)
-
             if (accessRight && accessRight.length > 0) {
               let accessValue = this.getAccessValue(context, accessRight, permisisonId, taskTypeId)
               console.log("accessValue--->", accessValue)
@@ -137,8 +136,10 @@ export default {
         else{
           return this.isCreatedByLoginUser(context);
         }
-
-
+  },
+  isCreatedByLoginUser:function(context)
+  {
+      return context.$store.state.currentProject.create_by === context.$store.state.userObject._id
   },
   isCreatedByLoginUser:function(context)
   {
