@@ -145,7 +145,8 @@ export const store = new Vuex.Store({
     currentProject:{},
     permissions:{},
     currentProjectRoleid:'',
-    commentValue: ''
+    commentValue: '',
+    accessRight:{}
   },
   mutations: {
     userData: state => state.userObject,
@@ -554,8 +555,8 @@ export const store = new Vuex.Store({
       state.taskTags.push(taskTagObject)
     },
     REMOVE_TASKTAG(state, taskTagObject) {
-      let removeTodoIndex = _.findIndex(state.taskTags, function (d) { return d.id == taskTagObject.tag_id })
-      state.taskTags.splice(removeTodoIndex, 1)
+      let removeTodoIndex = _.findIndex(state.taskTags, function (d) { return d.id == taskTagObject.id })
+      state.taskTags.splice(removeTodoIndex,1)
     },
     GET_OBJECT_BYID(state, todoObject) {
       state.todoObjectByID = todoObject
@@ -599,6 +600,7 @@ export const store = new Vuex.Store({
       state.projectlist = value
     },
      updateProjectServiceRoleList(state,value){
+        console.log("updateProjectServiceRoleList value:",value)
         let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.project_id })
        // console.log("updateProjectServiceRoleList:",updateProjectIndex);
         console.log("value:updateProjectIndex",updateProjectIndex)
@@ -608,8 +610,12 @@ export const store = new Vuex.Store({
             
             let memberIndex = _.findIndex(state.currentProjectMember, function (member) { return member.user_id == value.user_id })
             state.projectlist[updateProjectIndex].members[memberIndex].roleName = role.name;
+            state.projectlist[updateProjectIndex].members[memberIndex].user_role_id = role.id;
+           
             state.currentProjectMember[memberIndex].roleName = role.name;
-            // console.log("updateProjectServiceRoleList", state.currentProjectMember)
+            state.currentProjectMember[memberIndex].user_role_id = role.id;
+            
+            console.log("updateProjectServiceRoleList", state.currentProjectMember)
         }
     },
     /**
@@ -646,6 +652,15 @@ export const store = new Vuex.Store({
               Vue.delete(tempProject.members,memberIndex)  
             }
           }
+    },
+    updateAccessRight(state,value){
+      console.log("updateAccessRight",value)
+      let index = _.findIndex(state.accessRight, function (d) { return d.id == value.id })
+      console.log("updateAccessRight index:",index)
+      if (index >= 0) {
+        Vue.set(state.accessRight,index,value)
+      }
+      //state.accessRight = {}
     },
     async GET_PROJECT_LIST(state, data) {
       state.projectlist = data;
@@ -904,6 +919,9 @@ export const store = new Vuex.Store({
           commit('updateDeletedProjectList', message)
       })
 
+      services.roleAccessService.on('patched', message =>{
+         commit('updateAccessRight', message)
+      })
       
       // Project member delete patch call
       // services.projectMemberService.on('deleteProjectMember', message =>{
@@ -1954,6 +1972,7 @@ export const store = new Vuex.Store({
         return state.arrAllUsers[userIndex].fullname
       }
     },
+    getAccessRight:state => state.accessRight,
     getObjectById: state => state.todoObjectByID,
     getAllUserList: state => state.arrAllUsers,
     getProjectList: state => state.projectlist,

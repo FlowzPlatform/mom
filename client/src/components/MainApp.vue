@@ -7,7 +7,7 @@
           </div>
           <div class="PageHeaderStructure-center">
             <div class="PageHeaderStructure-titleRow">
-              <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName"><input id="project-name" type="text" name="fname" v-model="projectName" @blur="setProjectName" @keyup.enter="updateProjectName"/></div>
+              <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName"><input id="project-name" type="text" maxlength="25" name="fname" v-model="projectName" @blur="setProjectName" @keyup.enter="updateProjectName"/></div>
             </div>
           </div>
           <div class="PageHeaderStructure-right">

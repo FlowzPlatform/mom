@@ -69,13 +69,15 @@ export default {
             isSearchTag: false,  // isSearchTag is true when tag search from tags array otherwise false
 
             isTagCreatePermission: false,
-            isTagDeletePermission: false
+            isTagDeletePermission: false,
+            createPermission:'',
         }
     },
     created() {
         this.newTagPermission();
         this.deleteTagPermission();
         this.$store.dispatch('getTagsList')
+        
         //this.$store.dispatch('getAllTaskTags', this.filteredTodo.id);
     },
     computed: {
@@ -101,6 +103,17 @@ export default {
             if (!sameMatch)
                 itemList.push({ "id": "0", "name": self.inputValue });
             return itemList;
+        },
+        getNewPermissionValue: function(){
+            return this.$store.state.accessRight;
+        }
+    },
+    watch:{
+        getNewPermissionValue: function(newPermission){
+            console.log("watcher method call");
+            // this.createPermission = this.$store.state.accessRight;
+            this.newTagPermission();
+            this.deleteTagPermission();
         }
     }, methods: {
         getTagNameFromId: function(tag) {
