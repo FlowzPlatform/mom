@@ -113,7 +113,7 @@
                 <span class="dropdown-menu-item-label" @click="deleteTodo({filteredTodo : filteredTodo})" >Delete Task</span>
               </a></li>
               <li><a id="export_pdf" class="menu-item" title="">               
-                <span class="dropdown-menu-item-label" >Export PDF</span>
+                <span class="dropdown-menu-item-label" @click="exportToPDF">Export PDF</span>
               </a></li>
             </ul>
           </a>
@@ -338,6 +338,7 @@
         }).then(response => {
           //window.location.assign(response.data);
           // top.location.href = "/report";
+          console.log("PDF Log",response.data)
           var link = document.createElement('a');
           link.href = "/report";
           link.dispatchEvent(new MouseEvent('click'));
