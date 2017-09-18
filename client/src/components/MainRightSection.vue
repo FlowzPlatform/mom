@@ -147,7 +147,7 @@
     //          })
     this.manageAttachmentCreatePermission()
   },
-   methods:{
+  methods:{
     undelete: function () {
         this.$store.dispatch('undelete', this.todoObject)
 =======
@@ -155,6 +155,7 @@
       }
 >>>>>>> change in selet state
     },
+<<<<<<< bd3e060b87c14542602d03132c2ec9f9eb4f68de
     created() {
     },
     methods: {
@@ -206,26 +207,67 @@
      },
      manageAttachmentCreatePermission:async function() {
         this.isCreatePermission = await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.CREATE, "attachment")
+=======
+    deletePermently: function () {
+      this.$store.dispatch('deletePermently', this.todoObject)
+    },
+    async onReadComment(id, level, created_by, typeId) {
+      let permisionResult = await CmnFunc.checkActionPermision(this, typeId, Constant.USER_ACTION.COMMENT, Constant.PERMISSION_ACTION.READ)
+      console.log("permisionResult Read Comment-->", permisionResult)
+      if (!permisionResult && id != -1) {
+        this.readCommentBox = false
+      } else {
+        this.readCommentBox = true
+      }
+    },
+    async onCreateComment(id, level, created_by, typeId) {
+      let permisionResult = await CmnFunc.checkActionPermision(this, typeId, Constant.USER_ACTION.COMMENT, Constant.PERMISSION_ACTION.CREATE)
+      console.log("permisionResult Create Comment-->", permisionResult)
+      if (!permisionResult && id != -1) {
+        this.createCommentBox = false
+      } else {
+        this.createCommentBox = true
+      }
+    },
+    userDetail(deletedTasks) {
+      deletedTasks.forEach(function (c) {
+        let userId = c.assigned_to
+        let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
+        if (userIndex < 0) {
+        } else {
+          c.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
+          c.email = this.$store.state.arrAllUsers[userIndex].email
+        }
+      }, this)
+    },
+    async manageAttachmentDeletePermission() {
+      this.chkAttachment = await CmnFunc.checkActionPermision(this, this.todoObject.type_id, Constant.USER_ACTION.ATTACHEMENT, Constant.PERMISSION_ACTION.DELETE, "attachment")
+    },
+    async manageAttachmentReadPermission() {
+      return await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.READ, "attachment")
+    },
+    manageAttachmentCreatePermission:async function() {
+      this.isCreatePermission = await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.CREATE, "attachment")
+>>>>>>> change in selet state
     },
     checkAttachmentExistance() {
       let attachmentArray = _.find(this.$store.state.arrAttachment, ['task_id', this.todoObject.id]);
-        let isAttachmentExist = false
-        if(attachmentArray){
-          isAttachmentExist = true
-        }else{
-          isAttachmentExist = false
-        }
-        return isAttachmentExist
+      let isAttachmentExist = false
+      if(attachmentArray){
+        isAttachmentExist = true
+      }else{
+        isAttachmentExist = false
+      }
+      return isAttachmentExist
     }
   },
-   watch: {
+  watch: {
     // whenever question changes, this function will run
     todolistSubTasks: function (newQuestion) {
     },
     todoObject:function()
     {
-      this.$store.dispatch('findHistoryLog',this.todoObject.id)
-     
+      this.$store.dispatch('findHistoryLog',this.todoObject.id) 
     }
   },
   computed: {
@@ -234,10 +276,10 @@
       typeStateList :'getTask_types_state'
      }),
      taskById(){
-       this.onReadComment(this.todoObject.id, this.todoObject.level, this.todoObject.created_by, this.todoObject.type_id)
-       this.onCreateComment(this.todoObject.id, this.todoObject.level, this.todoObject.created_by, this.todoObject.type_id)
-      let taskArray = this.todoById(this.todoObject.id, this.todoObject.level)
-       taskArray.push({
+        this.onReadComment(this.todoObject.id, this.todoObject.level, this.todoObject.created_by, this.todoObject.type_id)
+        this.onCreateComment(this.todoObject.id, this.todoObject.level, this.todoObject.created_by, this.todoObject.type_id)
+        let taskArray = this.todoById(this.todoObject.id, this.todoObject.level)
+        taskArray.push({
               id: '-1',
               parentId: this.todoObject.id,
               taskName: '', 
@@ -249,10 +291,10 @@
               createdAt: new Date().toJSON(),
               updatedAt: new Date().toJSON(),
               project_id:this.$store.state.currentProjectId
-       })
-       this.todolistSubTasks = taskArray
-       this.userDetail(this.todolistSubTasks)
-       return taskArray
+        })
+        this.todolistSubTasks = taskArray
+        this.userDetail(this.todolistSubTasks)
+        return taskArray
      }
   },
   asyncComputed: {
@@ -372,5 +414,9 @@
     }
 >>>>>>> change in selet state
   }
+<<<<<<< bd3e060b87c14542602d03132c2ec9f9eb4f68de
 
+=======
+}
+>>>>>>> change in selet state
 </script>
