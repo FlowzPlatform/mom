@@ -100,202 +100,51 @@
         historyLog: [],
         isDelete: false,
         chkAttachment: false,
-<<<<<<< HEAD
-<<<<<<< c3dd7da7b6f01ee8cdf2c449b99a8aae362626ad
-=======
-<<<<<<< HEAD
->>>>>>> 197cb4f67685c4b460b92d1e879625886af9871e
         attchmentReadPerm: false,
         isCreatePermission: false
-    }
-  },
-  created: function() {
-    // let self = this;
-    //      socket.on('feed-change', function(item){
-    //           //  console.log("TodoItem.vue:item***",item);
-    //           //  console.log("Array",self.taskById)
-    //            if(item.new_val){
-    //              var result = $.grep(self.taskById, function(e){ return e.id == item.new_val.id; })
-    //               if (result.length == 0) {
-    //                 // console.log('Item Parent ID',item.new_val.parentId)
-    //                 // console.log('Todo object Parent ID',self.todoObject)
-    //                 if(item.new_val.parentId.length > 0 && (item.new_val.parentId == self.todoObject.id)){
-    //                 self.taskById.push(item.new_val)
-    //                 self.taskById.splice(self.taskById.length - 1, 0, item.new_val);
-    //                 // self.$store.state.todolist.push(item.new_val)
-    //                 }
-    //               }else{
-    //                 if(item.new_val.parentId.length > 0 && (item.new_val.parentId == self.todoObject.id)){
-    //                 // console.log("Subtask Task Updated")
-    //                 let index = _.findIndex(self.taskById,function(d){return d.id == item.new_val.id})
-    //                 // console.log('Index of object', index)
-    //                 if(index > -1){
-    //                   self.taskById[index].taskName = item.new_val.taskName
-    //                 }
-    //               }
-    //               } 
-    //            }else if(item.old_val){
-    //              // var index = self.taskById.indexOf(item.old_val);
-    //              if(item.old_val.parentId.length > 0 && (item.old_val.parentId == self.todoObject.id)){
-    //             //  console.log("Subtask Task Deleted")
-    //             //  console.log('self.taskById',self.taskById)
-    //             //  console.log('item.old_val',item.old_val)
-    //              let index = _.findIndex(self.taskById,function(d){return d.id == item.old_val.id})
-    //             //  console.log('Index of object', index)
-    //              if(index > -1){
-    //               self.taskById.splice(index, 1);
-    //              }
-    //              }
-    //              //self.taskById.splice(index, 1);
-    //            }
-    //          })
-    this.manageAttachmentCreatePermission()
-  },
-  methods:{
-    undelete: function () {
-        this.$store.dispatch('undelete', this.todoObject)
-=======
-        attchmentReadPerm: false
-      }
->>>>>>> change in selet state
-    },
-<<<<<<< HEAD
-<<<<<<< bd3e060b87c14542602d03132c2ec9f9eb4f68de
-    created() {
-    },
-    methods: {
-      undelete: function () {
-        this.$store.dispatch('undelete', this.todoObject)
-      },
-      deletePermently: function () {
-        this.$store.dispatch('deletePermently', this.todoObject)
-      },
-      async onReadComment(id, level, created_by, typeId) {
-        let permisionResult = await CmnFunc.checkActionPermision(this, typeId, Constant.USER_ACTION.COMMENT, Constant.PERMISSION_ACTION.READ)
-        console.log("permisionResult Read Comment-->", permisionResult)
-        if (!permisionResult && id != -1) {
-          this.readCommentBox = false
-        } else {
-          this.readCommentBox = true
-        }
-      },
-      async onCreateComment(id, level, created_by, typeId) {
-        let permisionResult = await CmnFunc.checkActionPermision(this, typeId, Constant.USER_ACTION.COMMENT, Constant.PERMISSION_ACTION.CREATE)
-        console.log("permisionResult Create Comment-->", permisionResult)
-        if (!permisionResult && id != -1) {
-          this.createCommentBox = false
-        } else {
-          this.createCommentBox = true
-        }
-      },
-      userDetail(deletedTasks) {
-        deletedTasks.forEach(function (c) {
-          let userId = c.assigned_to
-          let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
-          if (userIndex < 0) {
-          } else {
-            c.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
-              c.email = this.$store.state.arrAllUsers[userIndex].email
-          }
-        }, this)
-
-      },
-      async manageAttachmentDeletePermission() {
-        this.chkAttachment = await CmnFunc.checkActionPermision(this, this.todoObject.type_id, Constant.USER_ACTION.ATTACHEMENT, Constant.PERMISSION_ACTION.DELETE, "attachment")
-      },
-<<<<<<< c3dd7da7b6f01ee8cdf2c449b99a8aae362626ad
-    async manageAttachmentDeletePermission(){
-      this.chkAttachment = await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.DELETE, "attachment")
-     },
-     async manageAttachmentReadPermission() {
-       return await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.READ, "attachment")
-     },
-     manageAttachmentCreatePermission:async function() {
-        this.isCreatePermission = await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.CREATE, "attachment")
-=======
-    deletePermently: function () {
-      this.$store.dispatch('deletePermently', this.todoObject)
-    },
-=======
-    deletePermently: function () {
-      this.$store.dispatch('deletePermently', this.todoObject)
-    },
->>>>>>> 197cb4f67685c4b460b92d1e879625886af9871e
-    async onReadComment(id, level, created_by, typeId) {
-      let permisionResult = await CmnFunc.checkActionPermision(this, typeId, Constant.USER_ACTION.COMMENT, Constant.PERMISSION_ACTION.READ)
-      console.log("permisionResult Read Comment-->", permisionResult)
-      if (!permisionResult && id != -1) {
-        this.readCommentBox = false
-      } else {
-        this.readCommentBox = true
       }
     },
-    async onCreateComment(id, level, created_by, typeId) {
-      let permisionResult = await CmnFunc.checkActionPermision(this, typeId, Constant.USER_ACTION.COMMENT, Constant.PERMISSION_ACTION.CREATE)
-      console.log("permisionResult Create Comment-->", permisionResult)
-      if (!permisionResult && id != -1) {
-        this.createCommentBox = false
-      } else {
-        this.createCommentBox = true
-      }
-    },
-    userDetail(deletedTasks) {
-      deletedTasks.forEach(function (c) {
-        let userId = c.assigned_to
-        let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
-        if (userIndex < 0) {
-        } else {
-          c.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
-          c.email = this.$store.state.arrAllUsers[userIndex].email
-        }
-      }, this)
-    },
-    async manageAttachmentDeletePermission() {
-      this.chkAttachment = await CmnFunc.checkActionPermision(this, this.todoObject.type_id, Constant.USER_ACTION.ATTACHEMENT, Constant.PERMISSION_ACTION.DELETE, "attachment")
-    },
-    async manageAttachmentReadPermission() {
-      return await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.READ, "attachment")
-    },
-    manageAttachmentCreatePermission:async function() {
-      this.isCreatePermission = await CmnFunc.checkActionPermision(this,this.todoObject.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.CREATE, "attachment")
-<<<<<<< HEAD
->>>>>>> change in selet state
-=======
->>>>>>> 197cb4f67685c4b460b92d1e879625886af9871e
-    },
-    checkAttachmentExistance() {
-      let attachmentArray = _.find(this.$store.state.arrAttachment, ['task_id', this.todoObject.id]);
-      let isAttachmentExist = false
-      if(attachmentArray){
-        isAttachmentExist = true
-      }else{
-        isAttachmentExist = false
-      }
-      return isAttachmentExist
-    }
-  },
-  watch: {
-    // whenever question changes, this function will run
-    todolistSubTasks: function (newQuestion) {
-    },
-    todoObject:function()
-    {
-      this.$store.dispatch('findHistoryLog',this.todoObject.id) 
-    }
-  },
-  computed: {
-    ...mapGetters({
-      todoById: 'getTodoById',
-      typeStateList :'getTask_types_state'
-     }),
-     taskById(){
-<<<<<<< HEAD
-=======
-=======
-        attchmentReadPerm: false
-      }
-    },
-    created() {
+    created: function () {
+      // let self = this;
+      //      socket.on('feed-change', function(item){
+      //           //  console.log("TodoItem.vue:item***",item);
+      //           //  console.log("Array",self.taskById)
+      //            if(item.new_val){
+      //              var result = $.grep(self.taskById, function(e){ return e.id == item.new_val.id; })
+      //               if (result.length == 0) {
+      //                 // console.log('Item Parent ID',item.new_val.parentId)
+      //                 // console.log('Todo object Parent ID',self.todoObject)
+      //                 if(item.new_val.parentId.length > 0 && (item.new_val.parentId == self.todoObject.id)){
+      //                 self.taskById.push(item.new_val)
+      //                 self.taskById.splice(self.taskById.length - 1, 0, item.new_val);
+      //                 // self.$store.state.todolist.push(item.new_val)
+      //                 }
+      //               }else{
+      //                 if(item.new_val.parentId.length > 0 && (item.new_val.parentId == self.todoObject.id)){
+      //                 // console.log("Subtask Task Updated")
+      //                 let index = _.findIndex(self.taskById,function(d){return d.id == item.new_val.id})
+      //                 // console.log('Index of object', index)
+      //                 if(index > -1){
+      //                   self.taskById[index].taskName = item.new_val.taskName
+      //                 }
+      //               }
+      //               } 
+      //            }else if(item.old_val){
+      //              // var index = self.taskById.indexOf(item.old_val);
+      //              if(item.old_val.parentId.length > 0 && (item.old_val.parentId == self.todoObject.id)){
+      //             //  console.log("Subtask Task Deleted")
+      //             //  console.log('self.taskById',self.taskById)
+      //             //  console.log('item.old_val',item.old_val)
+      //              let index = _.findIndex(self.taskById,function(d){return d.id == item.old_val.id})
+      //             //  console.log('Index of object', index)
+      //              if(index > -1){
+      //               self.taskById.splice(index, 1);
+      //              }
+      //              }
+      //              //self.taskById.splice(index, 1);
+      //            }
+      //          })
+      this.manageAttachmentCreatePermission()
     },
     methods: {
       undelete: function () {
@@ -339,106 +188,20 @@
       },
       async manageAttachmentReadPermission() {
         return await CmnFunc.checkActionPermision(this, this.todoObject.type_id, Constant.USER_ACTION.ATTACHEMENT, Constant.PERMISSION_ACTION.READ, "attachment")
-      }
-    },
-    watch: {
-      // whenever question changes, this function will run
-      todolistSubTasks: function (newQuestion) {
       },
-      todoObject: function () {
-        this.$store.dispatch('findHistoryLog', this.todoObject.id)
+      manageAttachmentCreatePermission: async function () {
+        this.isCreatePermission = await CmnFunc.checkActionPermision(this, this.todoObject.type_id, Constant.USER_ACTION.ATTACHEMENT, Constant.PERMISSION_ACTION.CREATE, "attachment")
 
-      }
-    },
-    computed: {
-      ...mapGetters({
-        todoById: 'getTodoById',
-        typeStateList: 'getTask_types_state'
-      }),
-      taskById() {
->>>>>>> 90bc551078011254ed3fe7a7decd5259ff75b7fd
->>>>>>> 197cb4f67685c4b460b92d1e879625886af9871e
-        this.onReadComment(this.todoObject.id, this.todoObject.level, this.todoObject.created_by, this.todoObject.type_id)
-        this.onCreateComment(this.todoObject.id, this.todoObject.level, this.todoObject.created_by, this.todoObject.type_id)
-        let taskArray = this.todoById(this.todoObject.id, this.todoObject.level)
-        taskArray.push({
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 197cb4f67685c4b460b92d1e879625886af9871e
-              id: '-1',
-              parentId: this.todoObject.id,
-              taskName: '', 
-              taskDesc: '',
-              level: this.todoObject.level+1,
-              index: taskArray.length,
-              completed: false, 
-              dueDate:'',
-              createdAt: new Date().toJSON(),
-              updatedAt: new Date().toJSON(),
-              project_id:this.$store.state.currentProjectId
-<<<<<<< HEAD
-=======
-=======
-          id: '-1',
-          parentId: this.todoObject.id,
-          taskName: '',
-          taskDesc: '',
-          level: this.todoObject.level + 1,
-          index: taskArray.length,
-          completed: false,
-          dueDate: '',
-          createdAt: new Date().toJSON(),
-          updatedAt: new Date().toJSON(),
-          project_id: this.$store.state.currentProjectId
->>>>>>> 90bc551078011254ed3fe7a7decd5259ff75b7fd
->>>>>>> 197cb4f67685c4b460b92d1e879625886af9871e
-        })
-        this.todolistSubTasks = taskArray
-        this.userDetail(this.todolistSubTasks)
-        return taskArray
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 197cb4f67685c4b460b92d1e879625886af9871e
-     }
-  },
-  asyncComputed: {
-    async showAttachment() {
-      this.manageAttachmentDeletePermission()
-      
-      if(this.isCreatePermission){
-       return this.checkAttachmentExistance()
-      }
-      
-      //check attachment for only  read permission.
-    
-      let isReadPermission = await this.manageAttachmentReadPermission()
-       
-      console.log('read permission:', isReadPermission)
-      if(isReadPermission){
-        console.log('inside read permission')
-        //check whether attachment array has value or not
-        return this.checkAttachmentExistance()
-      }else{
-        console.log('read permission false:', isReadPermission)
-        return false
-      }
-     }
-  },
-  components: {
-    RightFooter,
-    MainLeftSection,
-    TextDescription,
-    RightToolbar,
-    Attachments,
-    StoryFeed,
-    Tags,
-    Statuses,
-    HistoryLog
-=======
-      async manageAttachmentReadPermission() {
-        return await CmnFunc.checkActionPermision(this, this.todoObject.type_id, Constant.USER_ACTION.ATTACHEMENT, Constant.PERMISSION_ACTION.READ, "attachment")
+      },
+      checkAttachmentExistance() {
+        let attachmentArray = _.find(this.$store.state.arrAttachment, ['task_id', this.todoObject.id]);
+        let isAttachmentExist = false
+        if (attachmentArray) {
+          isAttachmentExist = true
+        } else {
+          isAttachmentExist = false
+        }
+        return isAttachmentExist
       }
     },
     watch: {
@@ -518,61 +281,6 @@
       Statuses,
       HistoryLog
     }
->>>>>>> change in selet state
-  }
-<<<<<<< bd3e060b87c14542602d03132c2ec9f9eb4f68de
-
-=======
-}
-<<<<<<< HEAD
->>>>>>> change in selet state
-=======
-=======
-      }
-    },
-    asyncComputed: {
-      async showAttachment() {
-        console.log('inside async computed')
-        this.manageAttachmentDeletePermission()
-
-        //check attachment read permission.
-        let isReadPermission = await this.manageAttachmentReadPermission()
-
-        console.log('read permission:', isReadPermission)
-        if (isReadPermission) {
-          console.log('inside read permission')
-          //check whether attachment array has value or not
-          let attachmentArray = _.find(this.$store.state.arrAttachment, ['task_id', this.todoObject.id]);
-          let isAttachmentExist = false
-          if (attachmentArray) {
-            isAttachmentExist = true
-          } else {
-            isAttachmentExist = false
-          }
-          console.log('attachment exists:', isAttachmentExist)
-          //this.attchmentReadPerm = isAttachmentExist
-          return isAttachmentExist
-        } else {
-          console.log('read permission false:', isReadPermission)
-          //this.attchmentReadPerm = false
-          return false
-        }
-        // return this.$store.state.arrAttachment.length > 0 ? true : false
-      }
-    },
-    components: {
-      RightFooter,
-      MainLeftSection,
-      TextDescription,
-      RightToolbar,
-      Attachments,
-      StoryFeed,
-      Tags,
-      Statuses,
-      HistoryLog
-    }
   }
 
->>>>>>> 90bc551078011254ed3fe7a7decd5259ff75b7fd
->>>>>>> 197cb4f67685c4b460b92d1e879625886af9871e
 </script>
