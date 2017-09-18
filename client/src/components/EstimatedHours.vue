@@ -4,7 +4,10 @@
     <span slot="body" class="modal-body">
          <label class="form-label">
                     Estimated Time:
-            <input id="estimateInput" class="form-control" @focus="updateEstimatHour(filteredTodo.id, filteredTodo.level,filteredTodo.created_by,filteredTodo.type_id)" v-model="filteredTodo.estimatedTime" readonly="isReadOnly">
+            <input type="number" id="estimateInput" pattern="[0-9]" class="form-control" @focus="updateEstimatHour(filteredTodo.id, filteredTodo.level,filteredTodo.created_by,filteredTodo.type_id)" 
+            v-model="filteredTodo.estimatedTime" readonly="isReadOnly" style="width: 20% !important;"> Hours
+            <!-- <input id="estimateInput" class="form-control" @focus="updateEstimatHour(filteredTodo.id, filteredTodo.level,filteredTodo.created_by,filteredTodo.type_id)" 
+            v-model="filteredTodo.estimatedTime" readonly="isReadOnly" style="width: 20% !important;"> Minutes -->
         </label>
     </span>
     <div slot="footer" class="text-right">
