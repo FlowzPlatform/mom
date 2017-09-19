@@ -52,50 +52,7 @@
           <div class="modal-body">
             This will permanently delete the task and associated subtasks. These items will no longer be accessible to you or anyone else. This action is irreversible.
           </div>
-          <text-description :id="id" :filteredTodo="todoObject"></text-description>
-          <div v-if="todoObject.priority" class="priority">Priority:{{todoObject.priority}}</div>
-          <div v-if="todoObject.estimatedTime" class="estimate">Estimate Hours:{{todoObject.estimatedTime}} Hours</div>
-          <collapse v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" class="CollapseView">
-            <panel v-show='showAttachment'>
-              Attachments
-              <p class='PanelAttach' slot="content">
-                <attachments :filteredTodo="todoObject"> </attachments>
-              </p>
-            </panel>
-            <panel>
-              Tags
-              <p class='PanelTag' slot="content">
-                <tags :filteredTodo="todoObject"></tags>
-              </p>
-            </panel>
-          </collapse>
-          <statuses :selectedState="typeStateList" :filteredTodo="todoObject" :id="id"></statuses>
-          <!--<attachments :filteredTodo="todoObject"> </attachments>-->
-          <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#attachment">Attachments</div>-->
-          <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#attachment">Attachents</button>-->
-          <!--<attachments id="attachment" class="collapse" :filteredTodo="todoObject"> </attachments>-->
-          <!--<hr>-->
-          <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#tags">Tags</div>-->
-          <!--<button type="button" class="btn btn-info button-collapse" <data-togg></data-togg>le="collapse" data-target="#tags">Tags</button>
-        <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
-          <!--<tags :filteredTodo="todoObject"></tags>-->
-          <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder"
-            :filtered-todos="taskById"></main-left-section>
-        </div>
-        <story-feed v-show="readCommentBox" :filteredTodo="todoObject"></story-feed>
-      </section>
-      <div :class="todoObject.id" class="modal fade" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h4 class="modal-title" id="myModalLabel2">Permanently Delete {{todoObject.taskName}}</h4>
-            </div>
-            <div class="modal-body">
-              This will permanently delete the task and associated subtasks. These items will no longer be accessible to you or anyone
-              else. This action is irreversible.
-            </div>
-            <div class="modal-footer">
+          <div class="modal-footer">
               <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" data-dismiss="modal">Close</a>
               <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" data-dismiss="modal" @click="deletePermently(todoObject)">Delete</a>
             </div>
@@ -281,26 +238,17 @@
     },
     asyncComputed: {
       async showAttachment() {
-        console.log('inside async computed')
         this.manageAttachmentDeletePermission()
-
-        //check attachment read permission.
+        
+        if (this.isCreatePermission){
+          return this.checkAttachmentExistance()
+        }
+         //check attachment for only  read permission.
         let isReadPermission = await this.manageAttachmentReadPermission()
-
-        console.log('read permission:', isReadPermission)
         if (isReadPermission) {
           console.log('inside read permission')
           //check whether attachment array has value or not
-          let attachmentArray = _.find(this.$store.state.arrAttachment, ['task_id', this.todoObject.id]);
-          let isAttachmentExist = false
-          if (attachmentArray) {
-            isAttachmentExist = true
-          } else {
-            isAttachmentExist = false
-          }
-          console.log('attachment exists:', isAttachmentExist)
-          //this.attchmentReadPerm = isAttachmentExist
-          return isAttachmentExist
+          return this.checkAttachmentExistance()
         } else {
           console.log('read permission false:', isReadPermission)
           //this.attchmentReadPerm = false
