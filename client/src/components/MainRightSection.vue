@@ -18,7 +18,7 @@
           <panel v-show='showAttachment'>
             Attachments
             <p class='PanelAttach' slot="content">
-              <attachments :filteredTodo="todoObject"> </attachments>
+              <attachments :filteredTodo="todoObject" :isDeleteAttachment="chkAttachment"></attachments>
             </p>
           </panel>
           <panel>
