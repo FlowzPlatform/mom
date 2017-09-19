@@ -439,7 +439,7 @@ border: 1px solid transparent;
     -webkit-flex-direction: row;
     -ms-flex-direction: row;
     flex-direction: row;
-    margin-top: 15px;
+    /* margin-top: 15px; */
     max-width: 100%;
 }
 .PageHeaderStructure-title{
@@ -1331,7 +1331,7 @@ a:hover, a:focus{
 }
 .PageHeaderStructure {position: fixed;top: 40px;left: 0;right: 0;}
 .known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 153%;overflow: auto;min-width: 450px;}
-.asanaView-body { position: fixed;top: 100px;left: 0;right: 0;bottom: 0;overflow-x: auto;  }
+.asanaView-body { position: fixed;top: 60px;left: 0;right: 0;bottom: 0;overflow-x: auto;  }
 .right_bar{position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: calc(100% - 135px);overflow: auto;}
 .right_pane_container #right_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;}
 #details_pane_footer {position: absolute; width: 99.75%; bottom: 0;height: 132px;}
@@ -2936,7 +2936,8 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    height: 65px;
+    /* height: 65px; */
+    height: 35px;
     -webkit-box-pack: justify;
     -webkit-justify-content: space-between;
     -ms-flex-pack: justify;
