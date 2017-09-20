@@ -146,11 +146,8 @@ export const store = new Vuex.Store({
     permissions:{},
     currentProjectRoleid:'',
     commentValue: '',
-<<<<<<< 21a411f3976e13f2ccbd885d49270440e0953e75
-    taskHistoryLog:{}
-=======
+    taskHistoryLog:{},
     accessRight:{}
->>>>>>> Realtime permission update
   },
   mutations: {
     userData: state => state.userObject,
