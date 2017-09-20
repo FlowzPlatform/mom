@@ -354,7 +354,7 @@
     export default {
         data: function () {
             return {
-                isOpen: this.$store.state.isSliderOpen,
+                isOpen: false,
                 isNewProjectDialogShow: false,
                 // projectList: [{id:"1",name:"project 1"},{id:"2",name:"project 2"}, 
                 // {id:"3",name:"project 3"},{id:"4",name:"project 4"}],
@@ -379,32 +379,6 @@
                 // projectList:this.$store.state.projectlist
              
             }
-        },
-        created() {
-            this.$store.dispatch('getUsersRoles');
-            this.$store.dispatch("getAllUsersList",this.callAllProjectList)
-            // var self = this;
-            // setTimeout(function() {
-            //         self.$store.dispatch('getAllProjects', self.$store.state.userObject._id);
-            //         self.$store.state.projectSettingId = "";    
-            // }, 5000);
-            
-        },
-        computed: {
-            ...mapGetters({
-                getProjectList: 'getProjectList',
-                // memberProfile:'getMemberProfile',
-                memberName: 'getMemberName'
-            }),
-            myProjectList: {
-                get() {
-                    return this.$store.state.projectlist
-                },
-                set(value) {
-                    this.$store.commit('updateProjectList', value)
-                }
-            },
-           
         },
 
     created() {
@@ -461,6 +435,16 @@
             var projects = this.$store.state.projectlist;
             this.memberProfileDetail(projects)
             return this.getProjectList;
+        },
+        silderClosedValue(){
+            return this.$store.state.isSliderOpen;
+        }
+    },
+    watch:{
+        silderClosedValue: function(){
+           // this.isOpen = this.$store.state.isSliderOpen;
+            console.log("NavBarSlider watcher method call")
+            this.closeNav()
         }
     },
     mounted: function() {
@@ -591,7 +575,7 @@
             $('.Topbar-navButton').css('margin-left', '0px');
             document.getElementById("main-container").style.marginLeft = "0px";
 
-            this.isOpen = false;
+            this.isOpen = true;
             this.$store.commit('UPDATE_SLIDER_VALUE', this.isOpen)
 
         },

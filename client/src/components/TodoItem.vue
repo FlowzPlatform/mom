@@ -277,9 +277,9 @@
           this.$store.dispatch('deleteRoles', this.todo)
         }
       },
-      async onFocusClick(id, level, created_by, typeId) {
-        console.log('onFoucusclick')
-
+      async onFocusClick(id,level,created_by,typeId){
+        console.log('onFoucusclick',typeId)
+     
         $("#" + id + "_" + level).addClass("lifocus")
         if (this.todo.isTaskUpdate) {
           this.todo.isTaskUpdate = false

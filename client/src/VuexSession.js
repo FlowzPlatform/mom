@@ -199,6 +199,7 @@ export const store = new Vuex.Store({
       }
     },
     async SHOW_DIV(state, payload) {
+       state.isSliderOpen = false
       // START scroll to last opened right div 
       //set focus on selected TODO Item. 
       //CAUTION:Take care before add any code here. If made any change in focus set code it may interrupt functionality.03/08/2017
@@ -361,6 +362,12 @@ export const store = new Vuex.Store({
           updateObject(state.todolist[updateTodoIndex], item)
           if(item.type_id)
             Vue.set(state.todolist[updateTodoIndex], 'type_id', item.type_id)
+            if(item.type_id){
+              console.log("item.type_id",item.type_id)
+                Vue.set(state.accessRight,0,{})
+              // state.accessRight.task_type = item.type_id;
+             // Vue.set(state.accessRight, state.accessRight.task_type, item.type_id)
+            }
           // show if any updates found for TODO
           if (item.updatedBy !== state.userObject._id) {
             state.todolist[updateTodoIndex].isTaskUpdate = true
