@@ -5,6 +5,7 @@ exports.before = {
   all:[],
   find(hook){
     const userid = hook.params.userId;
+    console.log("USER ID===>", userid)
     var client = hook.params.query.$client;
     if (client && client.flag && client.flag == 'allprojectlist') {
       const query = this.createQuery(hook.params.query);

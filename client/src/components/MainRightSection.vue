@@ -42,6 +42,7 @@
           <!--<tags :filteredTodo="todoObject"></tags>-->
           <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder"
             :filtered-todos="taskById"></main-left-section>
+          <history-log  :taskId="todoObject.id" :historyLog="historyLog"></history-log>
         </div>
         <story-feed v-show="readCommentBox" :filteredTodo="todoObject"></story-feed>
       </section>
@@ -52,7 +53,7 @@
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
               <h4 class="modal-title" id="myModalLabel2">Permanently Delete {{todoObject.taskName}}</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body">  
               This will permanently delete the task and associated subtasks. These items will no longer be accessible to you or anyone
               else. This action is irreversible.
             </div>

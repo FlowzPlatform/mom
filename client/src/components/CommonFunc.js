@@ -174,7 +174,7 @@ export default {
       return obj.pId === permissionId && obj.task_type === taskTypeId;
     }), 'access_value');
   },
-
+ 
   insertHistoryLog:function(context,createdBy,text,taskId,logAction)
   {
     services.taskHistoryLogs.create({created_by:createdBy,text:text,task_id:taskId,log_action:logAction,created_on:new Date()}).then(response=> {
