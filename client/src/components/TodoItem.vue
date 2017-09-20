@@ -250,7 +250,7 @@ position: fixed;
         }
       },
       async onFocusClick(id,level,created_by,typeId){
-        console.log('onFoucusclick')
+        console.log('onFoucusclick',typeId)
      
         $("#" + id + "_" + level).addClass("lifocus")
         if (this.todo.isTaskUpdate) {

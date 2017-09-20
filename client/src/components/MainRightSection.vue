@@ -24,7 +24,7 @@
         <attachments :filteredTodo="todoObject"> </attachments>
       </p>
     </panel>
-    <panel>
+    <panel v-show="isTagReadPermission">
       Tags 
       <p class='PanelTag' slot="content">
         <tags :filteredTodo="todoObject" ></tags>
@@ -93,6 +93,7 @@ export default {
   data: function () {
     return {
         todolistSubTasks: [],
+        isTagReadPermission : false
     }
   },
   created() {
@@ -135,6 +136,8 @@ export default {
     //              //self.taskById.splice(index, 1);
     //            }
     //          })
+    this.tagReadPermission();
+    this.tagNewPermission();
   },
    methods:{
     undelete: function () {
@@ -142,6 +145,14 @@ export default {
     },
     deletePermently:function() {
       this.$store.dispatch('deletePermently', this.todoObject)
+    },
+    async tagReadPermission() {
+            this.isTagReadPermission = await CmnFunc.checkActionPermision(this, this.todoObject.type_id, Constant.USER_ACTION.TAG, Constant.PERMISSION_ACTION.READ)
+            console.log("Tag read permission:", this.isTagReadPermission)
+    },
+    async tagNewPermission() {
+            this.isTagReadPermission = await CmnFunc.checkActionPermision(this, this.todoObject.type_id, Constant.USER_ACTION.TAG, Constant.PERMISSION_ACTION.CREATE)
+            console.log("Tag create permission:", this.isTagReadPermission)
     }
   },
    watch: {
@@ -175,7 +186,17 @@ export default {
      showAttachment() {
       //  console.log('show attachment', this.$store.state.arrAttachment.length)
         return this.$store.state.arrAttachment.length > 0 ? true : false
+     },
+     getReadPermissionValue(){
+            return this.$store.state.accessRight;
      }
+  },
+  watch:{
+        getReadPermissionValue: function(newPermission){
+            console.log("watcher method call");
+            // this.createPermission = this.$store.state.accessRight;
+            this.tagReadPermission();
+        }
   },
   components: {
     RightFooter,
