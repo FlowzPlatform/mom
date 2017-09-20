@@ -1880,7 +1880,8 @@ export const store = new Vuex.Store({
           if(response.length <= 0){
             store.dispatch('deleteTaskType', data)
           } else {
-            alert("Can not Delete")
+            $.notify.defaults({ className: "error" })
+            $.notify("Can not Delete", { globalPosition:"top center"})
           }
         })
     },
@@ -1894,7 +1895,8 @@ export const store = new Vuex.Store({
         if(response.length <= 0){
           store.dispatch('deleteTaskStatus', data)
         } else {
-          alert("Can not Delete")
+          $.notify.defaults({ className: "error" })
+          $.notify("Can not Delete", { globalPosition:"top center"})
         }
       })
     },
