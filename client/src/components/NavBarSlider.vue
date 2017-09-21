@@ -48,7 +48,7 @@
                                 <!-- Project name header -->
                                 <span :id="'panelProjectName-'+project.id" @click="projectSelect(project)" @mouseleave="hideOption(project.id)" @mouseover="showOption(project.id)" class="spanPanel">
                                     <a class="DeprecatedNavigationLink">
-                                        <span class="panelProjectName">{{project.project_name}}</span>
+                                        <span class="panelProjectName">{{projectNameElipse(project.project_name,17)}}</span>
 
                                         <!-- Project setting menu  -->
                                         <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu" @click="showProjectSetting(project)" style="fill:transparent">
@@ -314,7 +314,7 @@
                         <!-- Project name header -->
                         <span v-else :id="'panelProjectName-'+project.id" @click="projectSelect(project)" @mouseleave="hideOption(project.id)" @mouseover="showOption(project.id)" class="spanPanel privateProject">
                             <a class="DeprecatedNavigationLink">
-                                <span class="panelProjectName">{{project.project_name}}</span>
+                                <span class="panelProjectName">{{projectNameElipse(project.project_name,15)}}</span>
                                 <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu" style="fill:transparent" @click="showProjectSetting(project)">
                                     <svg class="Icon MoreIcon SidebarItemRow-icon SidebarItemRow-defaultIcon" title="MoreIcon" viewBox="0 0 32 32">
                                         <circle cx="3" cy="16" r="3"></circle>
@@ -354,7 +354,7 @@
     export default {
         data: function () {
             return {
-                isOpen: this.$store.state.isSliderOpen,
+                isOpen: false,
                 isNewProjectDialogShow: false,
                 // projectList: [{id:"1",name:"project 1"},{id:"2",name:"project 2"}, 
                 // {id:"3",name:"project 3"},{id:"4",name:"project 4"}],
@@ -379,32 +379,6 @@
                 // projectList:this.$store.state.projectlist
              
             }
-        },
-        created() {
-            this.$store.dispatch('getUsersRoles');
-            this.$store.dispatch("getAllUsersList",this.callAllProjectList)
-            // var self = this;
-            // setTimeout(function() {
-            //         self.$store.dispatch('getAllProjects', self.$store.state.userObject._id);
-            //         self.$store.state.projectSettingId = "";    
-            // }, 5000);
-            
-        },
-        computed: {
-            ...mapGetters({
-                getProjectList: 'getProjectList',
-                // memberProfile:'getMemberProfile',
-                memberName: 'getMemberName'
-            }),
-            myProjectList: {
-                get() {
-                    return this.$store.state.projectlist
-                },
-                set(value) {
-                    this.$store.commit('updateProjectList', value)
-                }
-            },
-           
         },
 
     created() {
@@ -461,6 +435,16 @@
             var projects = this.$store.state.projectlist;
             this.memberProfileDetail(projects)
             return this.getProjectList;
+        },
+        silderClosedValue(){
+            return this.$store.state.isSliderOpen;
+        }
+    },
+    watch:{
+        silderClosedValue: function(){
+           // this.isOpen = this.$store.state.isSliderOpen;
+            console.log("NavBarSlider watcher method call")
+            this.closeNav()
         }
     },
     mounted: function() {
@@ -591,7 +575,7 @@
             $('.Topbar-navButton').css('margin-left', '0px');
             document.getElementById("main-container").style.marginLeft = "0px";
 
-            this.isOpen = false;
+            this.isOpen = true;
             this.$store.commit('UPDATE_SLIDER_VALUE', this.isOpen)
 
         },
@@ -620,6 +604,8 @@
             // Open Invite member dialog
             $("#panelProjectName-" + project.id).addClass("project-selected");
             this.lastProjectSelected = project.id;
+            // Todo  remove line
+            this.$store.state.accessRight = {}
 
             // this.memberProfileDetail()
         },
@@ -835,6 +821,9 @@
         async addMemberPermission() {
             this.isAddMemberPermission = await CmnFunc.checkActionPermision(this, this.todoObject.type_id, Constant.USER_ACTION.MEMBER, Constant.PERMISSION_ACTION.CREATE)
             console.log("Member Add permission.",this.isAddMemberPermission);
+        },
+        projectNameElipse(str, max){
+            return str.length > (max - 3) ? str.substring(0,max-3) + '...' : str; 
         }
 
     },
