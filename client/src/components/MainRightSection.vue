@@ -12,32 +12,30 @@
             <!--<a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" @click="deletePermently(todoObject)">Delete Permanently</a>-->
             <!--@click="deletePermently(todoObject)"-->
             <noscript></noscript>
-          </div>
-          <text-description :id="id" :filteredTodo="todoObject"></text-description>
-          <div v-if="todoObject.priority" class="priority">Priority:{{todoObject.priority}}</div>
-          <div v-if="todoObject.estimatedTime" class="estimate">Estimate Hours:{{todoObject.estimatedTime}} Hours</div>
-          <collapse v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" class="CollapseView">
-            <panel v-show='showAttachment'>
-              Attachments
-              <p class='PanelAttach' slot="content">
-                <attachments :filteredTodo="todoObject"> </attachments>
-              </p>
-            </panel>
-            <panel>
-              Tags
-              <p class='PanelTag' slot="content">
-                <tags :filteredTodo="todoObject"></tags>
-              </p>
-            </panel>
-          </collapse>
-          <statuses :selectedState="typeStateList" :filteredTodo="todoObject" :id="id"></statuses>
-          <!--<attachments :filteredTodo="todoObject"> </attachments>-->
-          <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#attachment">Attachments</div>-->
-          <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#attachment">Attachents</button>-->
-          <!--<attachments id="attachment" class="collapse" :filteredTodo="todoObject"> </attachments>-->
-          <!--<hr>-->
-          <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#tags">Tags</div>-->
-          <!--<button type="button" class="btn btn-info button-collapse" <data-togg></data-togg>le="collapse" data-target="#tags">Tags</button>
+	        </div>
+      	<text-description :id="id" :filteredTodo="todoObject"></text-description>
+        <collapse v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" class="CollapseView">
+          <panel v-show='showAttachment'>
+            Attachments
+            <p class='PanelAttach' slot="content">
+              <attachments :filteredTodo="todoObject" :isDeleteAttachment="chkAttachment"></attachments>
+            </p>
+          </panel>
+          <panel>
+            Tags
+            <p class='PanelTag' slot="content">
+              <tags :filteredTodo="todoObject"></tags>
+            </p>
+          </panel>
+        </collapse>
+        <statuses :selectedState="typeStateList" :filteredTodo="todoObject" :id="id"></statuses>
+        <!--<attachments :filteredTodo="todoObject"> </attachments>-->
+        <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#attachment">Attachments</div>-->
+        <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#attachment">Attachents</button>-->
+        <!--<attachments id="attachment" class="collapse" :filteredTodo="todoObject"> </attachments>-->
+        <!--<hr>-->
+        <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#tags">Tags</div>-->
+        <!--<button type="button" class="btn btn-info button-collapse" <data-togg></data-togg>le="collapse" data-target="#tags">Tags</button>
         <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
           <!--<tags :filteredTodo="todoObject"></tags>-->
           <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder"
@@ -243,26 +241,17 @@
     },
     asyncComputed: {
       async showAttachment() {
-        console.log('inside async computed')
         this.manageAttachmentDeletePermission()
-
-        //check attachment read permission.
+        
+        if (this.isCreatePermission){
+          return this.checkAttachmentExistance()
+        }
+         //check attachment for only  read permission.
         let isReadPermission = await this.manageAttachmentReadPermission()
-
-        console.log('read permission:', isReadPermission)
         if (isReadPermission) {
           console.log('inside read permission')
           //check whether attachment array has value or not
-          let attachmentArray = _.find(this.$store.state.arrAttachment, ['task_id', this.todoObject.id]);
-          let isAttachmentExist = false
-          if (attachmentArray) {
-            isAttachmentExist = true
-          } else {
-            isAttachmentExist = false
-          }
-          console.log('attachment exists:', isAttachmentExist)
-          //this.attchmentReadPerm = isAttachmentExist
-          return isAttachmentExist
+          return this.checkAttachmentExistance()
         } else {
           console.log('read permission false:', isReadPermission)
           //this.attchmentReadPerm = false
@@ -283,5 +272,4 @@
       HistoryLog
     }
   }
-
 </script>
