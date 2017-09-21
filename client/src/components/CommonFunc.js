@@ -85,6 +85,7 @@ export default {
    store.state.removeMember={}
    store.state.permissions={}
    store.state.currentProjectRoleid=''
+   store.state.accessRight={}
    
   },
   isCreatePermission: function(accessValue){
@@ -105,32 +106,43 @@ export default {
   checkActionPermision:async function(context,taskTypeId,userAction,permisisonAction,TAG)
   {
       var self = context;
-      let selfRoleId = this.getSelfRoleId(context);
-      console.log("selfRoleId:--"+TAG,selfRoleId)
+      let selfRoleId = await this.getSelfRoleId(context);
+      console.log("selfRoleId-->",selfRoleId)
       if(selfRoleId)
         {
-          let permisisonId = this.getPermissionId(context,userAction)
-          console.log("permisisonId--->"+TAG, permisisonId)
-
-          //  await services.roleAccessService.find({ query: { task_type: taskTypeId, rId: selfRoleId } }).then(response => {
-          //   console.log("Res--->", response)
-            let accessRight =await this.callRoleAccessService(taskTypeId,selfRoleId);
-            // let accessRight =response;
-            console.log("accessRight--->", accessRight)
-            if (accessRight && accessRight.length > 0) {
-              let accessValue = this.getAccessValue(context, accessRight, permisisonId, taskTypeId)
-              console.log("accessValue--->", accessValue)
-              if (permisisonAction === Constant.PERMISSION_ACTION.CREATE)
-                return this.isCreatePermission(accessValue);
-              else if (permisisonAction === Constant.PERMISSION_ACTION.READ)
-                return this.isReadPermission(accessValue);
-              else if (permisisonAction === Constant.PERMISSION_ACTION.UPDATE)
-                return this.isUpdatePermision(accessValue);
-              else
-                return this.isDeletePermision(accessValue);
-            }else{
-              return this.isCreatedByLoginUser(context);  
-            }
+          let accessRight;
+          let permisisonId;
+           // If accessPermission object empty then call function callRoleAccessService
+          // and store value in accessRight vuex data
+          let accessPermission = await this.checkAccessValue(context,taskTypeId,selfRoleId);
+          console.log("object empty:",accessPermission);
+          if(!_.isEmpty(accessPermission)){
+            accessRight = accessPermission;
+          }else{
+                permisisonId = this.getPermissionId(context,userAction)
+                console.log("permisisonId--->", permisisonId)
+                //  await services.roleAccessService.find({ query: { task_type: taskTypeId, rId: selfRoleId } }).then(response => {
+                //  console.log("Res--->", response)
+                accessRight =await this.callRoleAccessService(taskTypeId,selfRoleId);
+                //  let accessRight =response;
+                console.log("accessRight--->", accessRight)
+                store.state.accessRight = accessRight;
+          }
+          if (!_.isEmpty(accessRight)) {
+            
+            let accessValue = await this.getAccessValue(context, accessRight, permisisonId, taskTypeId)
+            console.log("accessValue--->", accessValue)
+            if (permisisonAction === Constant.PERMISSION_ACTION.CREATE)
+              return this.isCreatePermission(accessValue);
+            else if (permisisonAction === Constant.PERMISSION_ACTION.READ)
+              return this.isReadPermission(accessValue);
+            else if (permisisonAction === Constant.PERMISSION_ACTION.UPDATE)
+              return this.isUpdatePermision(accessValue);
+            else
+              return this.isDeletePermision(accessValue);
+          }else{
+            return this.isCreatedByLoginUser(context);  
+          }
           // });
         }
         else{
@@ -170,9 +182,11 @@ export default {
     }), 'id');
   },
   getAccessValue:function(context,accessRight,permissionId,taskTypeId){
-    return _.result(_.find(accessRight, function (obj) {
-      return obj.pId === permissionId && obj.task_type === taskTypeId;
-    }), 'access_value');
+    // return _.result(_.find(accessRight, function (obj) {
+    //   console.log("obj",obj)
+    //   return obj.pId === permissionId && obj.task_type === taskTypeId;
+    // }), 'access_value');
+    return accessRight.access_value;
   },
  
   insertHistoryLog:function(context,createdBy,text,taskId,logAction)
@@ -181,5 +195,19 @@ export default {
       console.log("Reponse task update:--->",response)
       context.state.taskHistoryLog.push(response)
     })
+  },
+  /**
+   * Check accessright value from vuex  
+   * return task_type object
+   */
+  checkAccessValue:function(context,taskTypeId,selfRoleId){
+      return _.find(context.$store.state.accessRight, function (obj) {
+        // console.log("obj:",obj);
+        // console.log("taskTypeId:",taskTypeId);
+        // console.log("selfRoleId:",selfRoleId);
+        
+      //  console.log("obj:",(obj.task_type == taskTypeId && obj.rId == selfRoleId));
+        return (obj.task_type == taskTypeId && obj.rId == selfRoleId);
+      });
   }
 }

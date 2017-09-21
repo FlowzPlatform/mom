@@ -143,7 +143,9 @@
       //              //self.taskById.splice(index, 1);
       //            }
       //          })
-      this.manageAttachmentCreatePermission()
+      this.manageAttachmentCreatePermission();
+      this.tagReadPermission();
+     this.tagNewPermission();
     },
     methods: {
       undelete: function () {
@@ -201,6 +203,14 @@
           isAttachmentExist = false
         }
         return isAttachmentExist
+      },
+      async tagReadPermission() {
+            this.isTagReadPermission = await CmnFunc.checkActionPermision(this, this.todoObject.type_id, Constant.USER_ACTION.TAG, Constant.PERMISSION_ACTION.READ)
+            console.log("Tag read permission:", this.isTagReadPermission)
+      },
+      async tagNewPermission() {
+            this.isTagReadPermission = await CmnFunc.checkActionPermision(this, this.todoObject.type_id, Constant.USER_ACTION.TAG, Constant.PERMISSION_ACTION.CREATE)
+            console.log("Tag create permission:", this.isTagReadPermission)
       }
     },
     watch: {
@@ -209,7 +219,11 @@
       },
       todoObject: function () {
         this.$store.dispatch('findHistoryLog', this.todoObject.id)
-
+      },
+      getReadPermissionValue: function(newPermission){
+            console.log("watcher method call");
+            // this.createPermission = this.$store.state.accessRight;
+            this.tagReadPermission();
       }
     },
     computed: {
@@ -237,7 +251,14 @@
         this.todolistSubTasks = taskArray
         this.userDetail(this.todolistSubTasks)
         return taskArray
-      }
+      },
+      showAttachment() {
+      //  console.log('show attachment', this.$store.state.arrAttachment.length)
+        return this.$store.state.arrAttachment.length > 0 ? true : false
+      },
+      getReadPermissionValue(){
+            return this.$store.state.accessRight;
+     }
     },
     asyncComputed: {
       async showAttachment() {
