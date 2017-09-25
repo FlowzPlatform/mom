@@ -21,7 +21,7 @@
               <attachments :filteredTodo="todoObject" :isDeleteAttachment="chkAttachment"></attachments>
             </p>
           </panel>
-          <panel>
+          <panel v-show="isTagReadPermission">
             Tags
             <p class='PanelTag' slot="content">
               <tags :filteredTodo="todoObject"></tags>
@@ -100,7 +100,8 @@
         isDelete: false,
         chkAttachment: false,
         attchmentReadPerm: false,
-        isCreatePermission: false
+        isCreatePermission: false,
+        isTagReadPermission : false
       }
     },
     created: function () {
