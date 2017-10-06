@@ -14,6 +14,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "@rmp135/vue-splitter": "^1.2.1",
     "axios": "^0.16.2",
     "base64-img": "^1.0.3",
     "body-parser": "^1.18.2",
@@ -55,6 +56,8 @@
     "vue-router": "^2.3.0",
     "vue-simplemde": "^0.3.8",
     "vue-template-compiler": "^2.4.4",
+    "vue-splitter-comp": "^1.1.1",
+    "vue-sticky-position": "^2.0.0",
     "vue-widgets": "^1.0.9",
     "vue2-scrollbar": "0.0.3",
     "vuedraggable": "^2.13.1",
