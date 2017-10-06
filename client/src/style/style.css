@@ -5698,3 +5698,47 @@ textarea,
 .estimate {
     width: 100%;
 }
+
+/**
+CSS for splitter view
+*/
+.api {
+    height: 250px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  } 
+
+.split {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .gutter {
+    background-color: #eee;
+
+    background-repeat: no-repeat;
+    background-position: 50%;
+  }
+
+  .gutter.gutter-horizontal {
+    background-image: url('../assets/vertical.png');
+    cursor: ew-resize;
+  }
+
+  .gutter.gutter-vertical {
+    background-image: url('../assets/horizontal.png');
+    cursor: ns-resize;
+  }
+
+  .split.split-horizontal, .gutter.gutter-horizontal {
+    height: 100%;
+    float: left;
+  }
+
+/**
+   CSS for splitter view end
+*/

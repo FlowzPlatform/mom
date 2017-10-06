@@ -214,33 +214,39 @@
     </div>
     <div id="main-container" class="row asanaView-body" style="padding-top: 15px; margin: 10px 10px 10px 10px;">
       <div class="asanaView-paneGutter"></div>
-      <div id="center_pane_container" class="known-list">
-        <div id="center_pane">
-          <div v-if="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
-            <left-toolbar v-if="!isCopyLink" :filters="filters">
-            </left-toolbar>
-            <main-left-section id="todoTask" :isCopyLink="isCopyLink" :todoObject="todoObjectById" :pholder="taskPholder" :filtered-todos="taskById"></main-left-section>
-          </div>
-          <div class="outer" v-else>
-            <div class="middle">
-              <div class="inner">
-                <div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems">
-                  <span class="fa fa-file-text-o fa-5x" @click="openCreateDialogs" />
-                  <div class="text gridPaneSearchEmptyView-noProjectItemsTitleText">Add New Project
-                  </div>
-                  <div class="text gridPaneSearchEmptyView-noProjectItemsText" v-show="$store.state.projectlist.length==0">You have no project created.
+    <!--<vue-splitter :margin="20">
+      <div slot="left-pane">-->
+        <div id="center_pane_container" >
+          <div id="center_pane">
+            <div v-if="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
+              <left-toolbar v-if="!isCopyLink" :filters="filters">
+              </left-toolbar>
+              <main-left-section id="todoTask" :isCopyLink="isCopyLink" :todoObject="todoObjectById" :pholder="taskPholder" :filtered-todos="taskById"></main-left-section>
+            </div>
+            <div class="outer" v-else>
+              <div class="middle">
+                <div class="inner">
+                  <div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems">
+                    <span class="fa fa-file-text-o fa-5x" @click="openCreateDialogs" />
+                    <div class="text gridPaneSearchEmptyView-noProjectItemsTitleText">Add New Project
+                    </div>
+                    <div class="text gridPaneSearchEmptyView-noProjectItemsText" v-show="$store.state.projectlist.length==0">You have no project created.
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div :id="n.level" class="right_pane_container" v-for="(n, index) in parentIdArray">
-        <div id="right_pane">
-          <main-right-section :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>
+      <!--</div>
+      <div slot="right-pane">-->
+        <div :id="n.level" class="right_pane_container" v-for="(n, index) in parentIdArray">
+          <div id="right_pane">
+            <main-right-section :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>
+          </div>
         </div>
-      </div>
+      <!--</div>
+      </vue-splitter>-->
       <div class="asanaView-paneGutter"></div>
       <create-project-dialog :show="isNewProjectDialogShow" v-on:updateDialog='updateDialogShow'></create-project-dialog>
     </div>
@@ -260,6 +266,8 @@
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import { mapGetters, mapActions } from 'vuex'
+  import VueSplitter from "@rmp135/vue-splitter"
+  import * as Split from'./split.js'
   Vue.use(require('vue-moment'))
 
   const filters = {
@@ -818,7 +826,8 @@
       MainLeftSection,
       MainRightSection,
       LeftToolbar,
-      CreateProjectDialog
+      CreateProjectDialog,
+      VueSplitter
     }
   }
 

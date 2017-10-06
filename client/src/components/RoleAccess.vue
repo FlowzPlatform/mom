@@ -369,7 +369,8 @@
     export default {
         data: function () {
             return {
-                fields: tableColumns,
+                fields: 
+                tableColumns,
                 roles: [],
                 tableData: [],
                 addRole: '',
