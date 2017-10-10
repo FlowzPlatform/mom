@@ -395,7 +395,7 @@ body {
   display: block;
   color: #f2f2f2;
   text-align: center;
-  padding: 15px 33px;
+  padding: 6px 33px;
   text-decoration: none;
 }
 
