@@ -53,6 +53,9 @@
                 this.btnClickedIndex = btnIndex
                 // this.$store.dispatch('deleteAttachmentFromDB', {"objAttachment": objAttachment})
                 this.$store.dispatch('deleteAttachmentFromDB', objAttachment)
+            },
+            addAttachment(){
+                
             }
         }
     }

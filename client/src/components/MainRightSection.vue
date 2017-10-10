@@ -3,36 +3,38 @@
     <div :id="id" class="right_pannel">
 
       <div class="tab-pannel">
-        <component :is="currentView" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment" :filteredTodo=todoObject v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById"></component>
-
-        <!-- <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById"></main-left-section> -->
+            <!-- <text-description :id="id" :filteredTodo="todoObject"></text-description>
+            <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById"></main-left-section> -->
+        
+        <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment" :filteredTodo=todoObject v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById"></component>
       </div>
       <div class="nav_bottom" style="z-index: 10;">
         <div class="navbar-bottom" id="myNavbar">
-          <a href="javascript:void(0)" id="#subtask" class="nav-tab active" @click="subTaskShow">
+          <a href="javascript:void(0)" id="#subtask" v-bind:class="selectedMenuIndex==0?activeClass:''" class="nav-tab" @click="subTaskShow">
             <i class="nav-icon ion-navicon-round"></i>
             <p class="nav-title">Tasks</p>
           </a>
-          <a href="javascript:void(0)" class="nav-tab" @click="historyShow">
+          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab" @click="historyShow">
             <i class="nav-icon fa fa-history" aria-hidden="true"></i>
             <p class="nav-title">History</p>
           </a>
-          <a href="javascript:void(0)" class="nav-tab" @click="attachmentShow">
+          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==2?activeClass:''" class="nav-tab" @click="attachmentShow">
             <i class="nav-icon fa fa-paperclip" aria-hidden="true"></i>
             <p class="nav-title">Attachments</p>
           </a>
-          <a href="javascript:void(0)" class="nav-tab" @click="tagsShow">
+          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==3?activeClass:''" class="nav-tab" @click="tagsShow">
             <i class="nav-icon fa fa-tags" aria-hidden="true"></i>
             <p class="nav-title">Tags</p>
           </a>
-          <a href="javascript:void(0)" class="nav-tab" @click="commentsShow">
+          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==4?activeClass:''" class="nav-tab" @click="commentsShow">
             <i class="nav-icon fa fa-comments" aria-hidden="true"></i>
             <p class="nav-title">Comments</p>
           </a>
           <div class="option">
-            <Dropdown trigger="click"  placement="top">
-              <a href="javascript:void(0)" @click="handleOpen" class="option-menu glyphicon glyphicon-option-horizontal">
-
+            <Dropdown trigger="click" placement="top">
+              <a href="javascript:void(0)" @click="handleOpen" class="option-menu">
+                <i class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></i>
+                <p class="nav-title">More</p>
               </a>
               <DropdownMenu slot="list">
                 <DropdownItem>Estimated Hours</DropdownItem>
@@ -88,7 +90,7 @@
             <!--<hr>-->
             <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#tags">Tags</div>-->
             <!--<button type="button" class="btn btn-info button-collapse" <data-togg></data-togg>le="collapse" data-target="#tags">Tags</button>
-                                                    <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
+                                                      <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
             <!--<tags :filteredTodo="todoObject"></tags>-->
             <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById"></main-left-section>
             <history-log :taskId="todoObject.id" :historyLog="historyLog"></history-log>
@@ -132,6 +134,7 @@ import StoryFeed from './StoryFeed.vue'
 import Statuses from './Statuses.vue'
 import * as services from '../services'
 import Tags from './Tags.vue'
+import SubTask from './SubTask.vue'
 import { mapGetters } from 'vuex'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
@@ -157,7 +160,9 @@ export default {
       isTagReadPermission: false,
       isTabContainerShow: false,
       filteredTodo: { "assigned_by": "59a65c7c41dc17001aeb1e63", "assigned_to": "59a65c7c41dc17001aeb1e63", "attachmentprogress": 0, "completed": false, "completed_subtask_count": 0, "createdAt": "2017-09-20T09:22:56.305Z", "created_by": "59a65c7c41dc17001aeb1e63", "deleteprogress": 0, "dueDate": "", "id": "4ace31e3-729f-49a5-ac46-1804937adfbb", "index": 0, "isDelete": false, "isTaskUpdate": false, "level": 0, "parentId": "", "progress": 0, "progress_count": "0 / 34", "project_id": "65b34113-48bb-4394-b990-17fa59878766", "state_id": "", "subtask_count": 34, "taskDesc": "", "taskName": "TT1", "type_id": "94e591a4-8034-41eb-b4d6-6aafba8d8a43", "updatedAt": "2017-09-20T09:22:56.305Z", "updatedBy": "59a65c7c41dc17001aeb1e63", "image_url": "", "email": "hpatel@officebrain.com" },
-      currentView: MainLeftSection
+      currentView: SubTask,
+      activeClass: 'active',
+      selectedMenuIndex: 0
     }
   },
   created: function() {
@@ -278,21 +283,28 @@ export default {
       // }
     },
     subTaskShow() {
-      this.currentView = MainLeftSection
+      this.selectedMenuIndex = 0
+      this.currentView = SubTask
     },
     attachmentShow() {
+      $('.nav').removeClass('hidden');
+      this.selectedMenuIndex = 2
       this.currentView = Attachments
     },
     tagsShow() {
+      this.selectedMenuIndex = 3
       this.currentView = Tags
     },
     historyShow() {
+      this.selectedMenuIndex = 1
       this.currentView = HistoryLog
     },
     commentsShow() {
+      this.selectedMenuIndex = 4
       this.currentView = RightFooter
     },
-    handleOpen(){
+    handleOpen() {
+      this.selectedMenuIndex = 5
       $('.nav').addClass('hidden');
     }
   },
@@ -395,8 +407,12 @@ body {
   display: block;
   color: #f2f2f2;
   text-align: center;
-  padding: 6px 33px;
+  padding: 6px 26px;
   text-decoration: none;
+}
+
+.navbar-bottom div {
+  margin-top: 1px;
 }
 
 .navbar-bottom a:hover {
@@ -422,6 +438,7 @@ body {
 .nav-title {
   font-size: small;
 }
+
 
 
 
@@ -465,7 +482,7 @@ body {
   display: block;
   width: 100%;
   background: white;
-  height: 510px;
+  /* height: 510px; */
 }
 
 
@@ -476,7 +493,7 @@ div.right_pannel {
 
 .tab-pannel {
   overflow-y: scroll;
-  height: 89%;
+  height: 90%;
   position: absolute;
   width: 100%;
   overflow-x: hidden;
@@ -486,6 +503,7 @@ div.right_pannel {
   position: absolute;
   bottom: 0;
   width: 100%;
+  /* height: 34px;  height of the bottom tab bar */
 }
 
 .nav-sub-bottom {
@@ -505,6 +523,7 @@ a.option-menu.glyphicon.glyphicon-option-horizontal {
 .option-menu {
   float: right;
 }
+
 
 
 
