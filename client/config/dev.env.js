@@ -3,8 +3,8 @@ var prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  SOCKET_IO: '"http://172.16.60.176:3030"',
+  SOCKET_IO: '"http://localhost:3030"',
   USER_AUTH: '"http://ec2-54-88-11-110.compute-1.amazonaws.com"',
   USER_DETAIL: '"http://54.88.11.110:81"',
-  COPY_URL_PATH: '"http://172.16.60.176:3000"'
+  COPY_URL_PATH: '"http://localhost:3000"'
 })
