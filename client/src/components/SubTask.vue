@@ -28,6 +28,12 @@ export default {
             'CLOSE_DIV'
         ]),
     },
+    methods: {
+        ...mapMutations([
+            'CLOSE_DIV'
+        ]),
+
+    },
     components: {
         TextDescription,
         MainLeftSection
