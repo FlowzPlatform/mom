@@ -37,7 +37,7 @@
           <br>
         <div class="property description taskDetailsView-description">
         <div class="multiline">
-          <span class="autogrow-textarea">
+          <span class="autogrow-t      // el.focus();extarea">
               <textarea v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" rows="3" cols="50"
               v-model="filteredTodo.taskDesc"
               @change="updateTaskName()" 

@@ -186,6 +186,7 @@
         return stateList
       },
       getType() {
+        // console.log("Get tyepe:--",this.selectedType.id === this.todo.type_id);
         if (this.todo.type_id) {
           this.isTypeTodo = this.selectedType.id === this.todo.type_id
         }
