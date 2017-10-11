@@ -283,6 +283,12 @@
         // return this.$store.state.arrAttachment.length > 0 ? true : false
       }
     },
+    methods: {
+        ...mapMutations([
+            'CLOSE_DIV'
+        ]),
+
+    },
     components: {
       RightFooter,
       MainLeftSection,
