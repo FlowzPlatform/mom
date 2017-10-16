@@ -28,6 +28,10 @@
     "fs": "0.0.1-security",
     "html-pdf": "^2.2.0",
     "iview": "^2.4.0",
+<<<<<<< HEAD
+=======
+    "jade": "^1.11.0",
+>>>>>>> circular menu
     "jquery": "^3.2.1",
     "json-schema-traverse": "^0.3.1",
     "juice": "^4.2.0",
@@ -49,6 +53,12 @@
     "vue-focus": "^2.1.0",
     "vue-google-signin-button": "^1.0.2",
     "vue-input-tag": "0.0.11",
+<<<<<<< HEAD
+=======
+    "vue-ionicons": "0.0.1",
+    "vue-splitter-comp": "^1.1.1",
+    "vue-sticky-position": "^2.0.0",
+>>>>>>> circular menu
     "vue-js-popover": "^1.1.4",
     "vue-lodash": "^1.0.4",
     "vue-moment": "^2.1.0",
@@ -56,8 +66,11 @@
     "vue-router": "^2.3.0",
     "vue-simplemde": "^0.3.8",
     "vue-template-compiler": "^2.4.4",
+<<<<<<< HEAD
     "vue-splitter-comp": "^1.1.1",
     "vue-sticky-position": "^2.0.0",
+=======
+>>>>>>> circular menu
     "vue-widgets": "^1.0.9",
     "vue2-scrollbar": "0.0.3",
     "vuedraggable": "^2.13.1",
@@ -65,7 +78,10 @@
     "vuetify": "^0.15.0-beta.4",
     "vuex": "^2.4.1",
     "vuex-persistedstate": "^1.4.1",
+<<<<<<< HEAD
     "webpack": "^3.8.1",
+=======
+>>>>>>> circular menu
     "wkhtmltopdf": "^0.3.4"
   },
   "devDependencies": {
@@ -129,6 +145,10 @@
     "url-loader": "^0.5.8",
     "vue-loader": "^11.1.4",
     "vue-style-loader": "^2.0.0",
+<<<<<<< HEAD
+=======
+    "webpack": "^2.7.0",
+>>>>>>> circular menu
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-dev-server": "^2.7.0",

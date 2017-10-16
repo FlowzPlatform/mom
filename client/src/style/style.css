@@ -1269,6 +1269,31 @@ a:-webkit-any-link {
 a:hover, a:focus{
     color: #02ceff;
     /* text-decoration: underline; */
+<<<<<<< HEAD
+=======
+}
+.redesign-due-date-container .property.value-set:hover{
+    border-color: transparent;
+    box-shadow: 0 0 0 3px #02CEFF;
+    -moz-box-shadow: 0 0 0 3px #02CEFF;
+    -webkit-box-shadow: 0 0 0 3px #02CEFF;
+}
+
+.redesign-assigned-to-container .property.value-set:hover span.token.user_token.assignment_disable{
+    border-color: transparent;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    cursor:default;
+}
+.redesign-assigned-to-container .property.value-set:hover span.token.user_token.assignment_disable a{
+    text-decoration:none;
+    cursor: default;
+    color: #1B2432;
+}
+.redesign-assigned-to-container .property.value-set:hover span.token.user_token.assignment_disable .photo-view{
+    cursor: default;
+>>>>>>> circular menu
 }
 .redesign-assigned-to-container .property.value-set:hover, .redesign-due-date-container .property.value-set:hover{
         border-color: transparent;

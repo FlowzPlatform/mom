@@ -2,6 +2,12 @@
   <div>
     <div>
       <div data-reactroot="" id="top-bar" class="Topbar">
+<<<<<<< HEAD
+=======
+        <div class="PageHeaderStructure-left">
+            <sample></sample>
+        </div>
+>>>>>>> circular menu
         <div class="PageHeaderStructure-center">
             <div class="PageHeaderStructure-titleRow">
               <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName">
@@ -220,6 +226,46 @@
         </div>
       </div>
     </div>
+<<<<<<< HEAD
+=======
+    <!--Profile dialog end-->
+    <!-- Project setting menu  -->
+    <div class="hidden project-setting" @mouseleave="hideProjectSetting">
+      <div data-reactroot="" class="layerPositioner-project-setting layerPositioner--offsetLeft layerPositioner--alignLeft layerPositioner--below"
+        data-layerid="1">
+        <div class="layerPositioner-layer">
+          <div class="Dropdown-project-setting SidebarItemRowMenu-dropdown">
+            <ul class="menu menu--default">
+              <li class="hidden menu-item-privacy">
+                <div class="is-highlighted DropdownItem DropdownItem--small">
+                  <a class="menuItem-button is-highlighted menuItem--small">
+                    <span class="menuItem-label">
+                      <div class="ColorPickerMenuItem-setHighlightColorMenuItem">
+                        <button class="ColorPickerCell ColorPickerMenuItem-menuItemHighlightCell ColorPickerMenuItem-menuItemHighlightCell--colorNone ColorPickerCell--colorNone" role="button" aria-label="None" aria-pressed="false"></button><!-- react-text: 11 -->Set Highlight Color<!-- /react-text -->
+                      </div>
+                    </span>
+                  </a>
+                  <svg class="Icon rightIcon DropdownItem-disclosureIcon" title="rightIcon" viewBox="0 0 32 32">
+                    <path d="M12.686,27.314l9.9-9.899c0.781-0.781,0.781-2.047,0-2.828l-9.9-9.9l-2.475,2.475L19.05,16l-8.839,8.839L12.686,27.314z"></path>
+                  </svg>
+                </div>
+              </li>
+              <li class="hidden menu-item-privacy">
+                <div class="menuSeparator"></div>
+              </li>
+               <li class="hidden menu-item-privacy"><a class="menuItem-button menuItem--small SidebarItemRowMenu-toggleFavorite"><span class="menuItem-label">Add to Favorites</span></a></li>
+                    <li class="hidden menu-item-privacy"><a class="menuItem-button menuItem--small SidebarItemRowMenu-removeRecent"><span class="menuItem-label">Remove from Recents</span></a></li>
+                    <li class="hidden menu-item-privacy"><a class="menuItem-button menuItem--small SidebarItemRows-addToDashboard"><span class="menuItem-label">Add to Dashboard</span></a></li>
+                    <li class="hidden menu-item-privacy"><a class="menuItem-button menuItem--small SidebarItemRows-copyProjectMenuItem"><span class="menuItem-label">Copy Project…</span></a></li>
+                    <li class="hidden menu-item-privacy"><a class="menuItem-button menuItem--small SidebarItemRows-projectToggleIsArchived"><span class="menuItem-label">Archive Project</span></a></li>
+                    <li class="menu-item-privacy" @click="showMemberDialog" v-show=" ($store.state.currentProjectPrivacy != 2) && ($store.state.currentProjectMember && $store.state.currentProjectMember.length>0) ?true:false"><a class="menuItem-button menuItem--small SidebarItemRows-deletePotMenuItem"><span class="menuItem-label">Members</span></a></li>
+                    <li class="menu-item-privacylayerPositioner-privacy layerPositioner--offsetRight layerPositioner--alignRight layerPositioner--below" @click="showDeleteProjectDialog"><a class="menuItem-button menuItem--small SidebarItemRows-deletePotMenuItem"><span class="menuItem-label">Delete Project</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+>>>>>>> circular menu
     <!-- Member setting dialog  -->
     <members-dialog></members-dialog>
     <!-- Project delete dialog  -->
@@ -238,7 +284,11 @@
   import CmnFunc from './CommonFunc.js'
   import MembersDialog from './MembersDialog.vue'
   import DeleteProjectDialog from './DeleteProjectDialog.vue'
+<<<<<<< HEAD
   import Avatar from 'vue-avatar/dist/Avatar'
+=======
+  import sample from './sample.vue'
+>>>>>>> circular menu
   import { mapGetters, mapMutations } from 'vuex'
 
   export default {
@@ -624,7 +674,11 @@
       SettingsMenu,
       MembersDialog,
       DeleteProjectDialog,
+<<<<<<< HEAD
       Avatar
+=======
+      sample
+>>>>>>> circular menu
     }
   }
 </script>
