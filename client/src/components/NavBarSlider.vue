@@ -569,15 +569,12 @@
 
         },
         closeNav: function() {
-
             document.getElementById("top-bar").style.marginLeft = "0px";
             document.getElementById('mySidenav').style.width = "0px"
             $('.Topbar-navButton').css('margin-left', '0px');
             document.getElementById("main-container").style.marginLeft = "0px";
-
             this.isOpen = true;
             this.$store.commit('UPDATE_SLIDER_VALUE', this.isOpen)
-
         },
         projectSelect(project) {
             // Show project visibility option (like public to all, private to me)
@@ -606,7 +603,6 @@
             this.lastProjectSelected = project.id;
             // Todo  remove line
             this.$store.state.accessRight = {}
-
             // this.memberProfileDetail()
         },
         // This method show when user mouse hover on project name
@@ -723,7 +719,6 @@
         selectNonMember(id) {
             this.email = this.inputValue;
             this.name = this.inputValue;
-
             // Hide header 
             $("#listHeader" + id).addClass("hidden");
             // Hide member search list 
@@ -752,11 +747,11 @@
         },
         closedMemberSearch(id) {
             // Hide expandable list
-            //  $(".SidebarTeamMembersExpandedList").addClass("hidden");
-          //  $("#expandableList" + id).addClass("hidden");
+            // $(".SidebarTeamMembersExpandedList").addClass("hidden");
+            // $("#expandableList" + id).addClass("hidden");
             // Show horizontal member list
             // $(".SidebarItemRow-name").removeClass("hidden");
-           // $("#itemRow-" + id).removeClass("hidden");
+            // $("#itemRow-" + id).removeClass("hidden");
             $("#layerPositioner-" + id).addClass("hidden");
             // Clear value
             $("#input-" + id).val("");

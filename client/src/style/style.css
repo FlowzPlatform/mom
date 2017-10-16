@@ -1265,7 +1265,7 @@ a:-webkit-any-link {
 }
 a:hover, a:focus{
     color: #02ceff;
-    text-decoration: underline;
+    /* text-decoration: underline; */
 }
 .redesign-due-date-container .property.value-set:hover{
     border-color: transparent;
@@ -3116,13 +3116,13 @@ svg:not(:root), symbol, image, marker, pattern, foreignObject {
 .menu.menu--long {
     max-width: 600px;
 }
-.menu {
+/* .menu {
     font-size: 13px;
     max-width: 300px;
     min-width: 215px;
     padding: 5px 0;
-}
-.menu-item {
+} */
+.menu-item-privacy {
     margin-bottom: 1px;
 }
 ol, ul {
@@ -3130,7 +3130,7 @@ ol, ul {
     margin: 0;
     padding: 0;
 }
-.menu-item>.projectHeaderFacepile-privacyMenuItem {
+.menu-item-privacy>.projectHeaderFacepile-privacyMenuItem {
     padding: 0 10px 0 25px;
 }
 .menuItem-button.menuItem--small {
@@ -3303,13 +3303,6 @@ ol, ul {
     color: #02ceff;
 }
 .Icon.CheckIcon.menuItem-selectedIcon {position: absolute;left: 3px;}
-.projectHeaderFacepile-privacySummaryDropdownTextDownIconContainer {
-    border-bottom: 1px dotted;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-}
 .projectHeaderFacepile-privacySummaryDropdownText {
     max-width: 150px;
     overflow: hidden;
@@ -4532,7 +4525,7 @@ span .ItemRowMenu {
         justify-content: flex-end;
 }
 .SidebarTeamDetailsProjectsList-header {
-        color: #a2b4bc;
+        color: #000000;
         -webkit-box-flex: 1;
         -webkit-flex: 1;
         -ms-flex: 1;
@@ -4579,10 +4572,10 @@ span .ItemRowMenu {
 }
 .SidebarTeamDetailsProjectsList-addProjectButton {
         background: transparent;
-        border: 1px solid #a2b4bc;
-        color: #a2b4bc;
-        fill: #a2b4bc;
-        float: right;
+        border: 1px solid #000000;
+        color: #000000;
+        fill: #000000;
+        /* float: right; */
         margin-top: -2px;
 }
 .sidenav {
@@ -4704,12 +4697,6 @@ selected {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     border: 1px solid #d5dce0;
-}
-.menu {
-    font-size: 13px;
-    max-width: 300px;
-    min-width: 215px;
-    padding: 5px 0;
 }
 .menuSeparator {
     border-top: 1px solid #e0e6e8;
