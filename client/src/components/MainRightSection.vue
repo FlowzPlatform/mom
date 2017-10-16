@@ -65,7 +65,7 @@
     <div :id="id">
       <div class="hidden DropTargetAttachment">
         <section class="todoapp right_bar">
-          <right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState' " :filteredTodo="todoObject"></right-toolbar>
+          <right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'right+TaskTypes' && id !== 'rightTaskState' " :filteredTodo="todoObject"></right-toolbar>
           <div class="taskbarsect">
             <div v-if="todoObject.isDelete" class="MessageBanner MessageBanner--error MessageBanner--medium TaskUndeleteBanner TaskMessageBanner">
               <span class="fa fa-trash-o" style="margin-right: 10px" />
@@ -205,6 +205,7 @@ export default {
     //             //  console.log("Subtask Task Deleted")
     //             //  console.log('self.taskById',self.taskById)
     //             //  console.log('item.old_val',item.old_val)
+
     //              let index = _.findIndex(self.taskById,function(d){return d.id == item.old_val.id})
     //             //  console.log('Index of object', index)
     //              if(index > -1){
@@ -435,12 +436,14 @@ body {
 } */
 
 .navbar-bottom a.active {
-  background-color: rgba(63, 81, 181, 0.48);
+  /*background-color: rgba(63, 81, 181, 0.48);*/
+  background-color: #999999;
   color: white;
 }
 
 .navbar-bottom:hover a.active {
-  background-color: rgba(63, 81, 181, 0.90);
+  /*background-color: rgba(63, 81, 181, 0.90);*/
+  background-color: #999999;
   color: white;
 }
 
