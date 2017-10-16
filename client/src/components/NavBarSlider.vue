@@ -568,67 +568,70 @@
 
             },
             closeNav: function () {
+            document.getElementById("top-bar").style.marginLeft = "0px";
+            document.getElementById('mySidenav').style.width = "0px"
+            $('.Topbar-navButton').css('margin-left', '0px');
+            document.getElementById("main-container").style.marginLeft = "0px";
+            this.isOpen = true;
+            this.$store.commit('UPDATE_SLIDER_VALUE', this.isOpen)
+        },
+        projectSelect(project) {
+            // Show project visibility option (like public to all, private to me)
+            $("div#projectVisible").removeClass('hidden');
+            
+            this.$store.commit('showMyTasks')
+            // console.log('Project', project.id)
+            this.$store.state.currentProjectName = project.project_name;
+            this.$store.state.currentProjectId = project.id;
+            this.$store.state.currentProject = project;
 
-                document.getElementById("top-bar").style.marginLeft = "0px";
-                document.getElementById('mySidenav').style.width = "0px"
-                $('.Topbar-navButton').css('margin-left', '0px');
-                document.getElementById("main-container").style.marginLeft = "0px";
-
-                this.isOpen = false;
-                this.$store.commit('UPDATE_SLIDER_VALUE', this.isOpen)
-
-            },
-            projectSelect(project) {
-                this.$store.commit('showMyTasks')
-                // console.log('Project', project.id)
-                this.$store.state.currentProjectName = project.project_name;
-                this.$store.state.currentProjectId = project.id;
-                this.$store.state.currentProject = project;
-                
-                this.$store.state.currentProjectPrivacy = project.project_privacy;
-                this.$store.state.todolist = []
-                this.$store.commit('CLOSE_DIV', '')
-                this.$store.dispatch('getAllTodos', { 'parentId': '', project_id: project.id });
-                // Close last open dialog
-                if (this.lastProjectSelected !== '') {
-                    // console.log(this.lastProjectSelected);
-                    $("#panelProjectName-" + this.lastProjectSelected).removeClass("project-selected");
-                    this.closedMemberSearch(this.lastProjectSelected);
-                }
-                // Clear text
-                this.inputValue = '';
-                // Open Invite member dialog
-                $("#panelProjectName-" + project.id).addClass("project-selected");
-                this.lastProjectSelected = project.id;
-
-                // this.memberProfileDetail()
-            },
-            // This method show when user mouse hover on project name
-            showOption(id) {
-                $("#ItemRowMenu-" + id).removeClass("hidden");
-                $("#ItemRowMenu-" + id).css({ "fill": "white" });
-            },
-            hideOption(id) {
-                // $("#ItemRowMenu-" + id).addClass("hidden");
-                var pid = this.$store.state.projectSettingId;
-                var cid = this.$store.state.currentProjectId; 
-                if( pid != id){
-                        $("#ItemRowMenu-" + id).css({"fill":"transparent"});
-                }
-            },
-            showList(id) {
-                // Show search member list
-                $("#layerPositioner-" + id).removeClass("hidden");
-                this.memberListShow = false;
-            },
-            closeExpandableList(id) {
-                console.log("on blur closeExpandableList:", id);
-                // Hide expandable list
-                //  $("#layerPositioner-"+id).addClass("hidden");
-                //  $("#listContent-"+id).removeClass("hidden");
-                this.memberListShow = true;
-            },
-            selectMember: function (project, item) {
+            this.$store.state.currentProjectPrivacy = project.project_privacy;
+            this.$store.state.todolist = []
+            this.$store.commit('CLOSE_DIV', '')
+            this.$store.dispatch('getAllTodos', { 'parentId': '', project_id: project.id });
+            // Close last open dialog
+            if (this.lastProjectSelected !== '') {
+                // console.log(this.lastProjectSelected);
+                $("#panelProjectName-" + this.lastProjectSelected).removeClass("project-selected");
+                this.closedMemberSearch(this.lastProjectSelected);
+            }
+            // Clear text
+            this.inputValue = '';
+            // Open Invite member dialog
+            $("#panelProjectName-" + project.id).addClass("project-selected");
+            this.lastProjectSelected = project.id;
+            // Todo  remove line
+            this.$store.state.accessRight = {}
+            // this.memberProfileDetail()
+        },
+        // This method show when user mouse hover on project name
+        showOption(id) {
+          //   console.log("showOption");
+            $("#ItemRowMenu-" + id).removeClass("hidden");
+            $("#ItemRowMenu-" + id).css({ "fill": "white" });
+        },
+        hideOption(id) {
+            // $("#ItemRowMenu-" + id).addClass("hidden");
+            var pid = this.$store.state.projectSettingId;
+            var cid = this.$store.state.currentProjectId;
+            $("#ItemRowMenu-" + cid).css({ "fill": "transparent" });
+            if (pid != id) {
+                $("#ItemRowMenu-" + id).css({ "fill": "transparent" });
+            }
+        },
+        showList(id) {
+            // Show search member list
+            $("#layerPositioner-" + id).removeClass("hidden");
+            this.memberListShow = false;
+        },
+        closeExpandableList(id) {
+            console.log("on blur closeExpandableList:", id);
+            // Hide expandable list
+            //  $("#layerPositioner-"+id).addClass("hidden");
+            //  $("#listContent-"+id).removeClass("hidden");
+            this.memberListShow = true;
+        },
+        selectMember: function(project, item) {
 
                 let index = _.findIndex(project.members, function (d) { return d.email == item.email })
                 if (index < 0) {
@@ -696,9 +699,58 @@
             closeInvite(id) {
 
                 // Open Invite member dialog
-                $("#popup-" + id).addClass("hidden");
-                // Hide header 
-                $("#listHeader" + id).removeClass("hidden");
+                $("#popup-" + project.id).removeClass("hidden");
+                this.lastOpenDialogId = project.id;
+            // }
+            // Hide member search list 
+            $("#layerPositioner-" + project.id).addClass("hidden");
+        },
+        selectNonMember(id) {
+            this.email = this.inputValue;
+            this.name = this.inputValue;
+            // Hide header 
+            $("#listHeader" + id).addClass("hidden");
+            // Hide member search list 
+            $("#layerPositioner-" + id).addClass("hidden");
+            // Open Invite member dialog
+            $("#popup-" + id).removeClass("hidden");
+        },
+        displayToolTips: function() {
+            $('.CircularButton').tooltip({ title: "Create a project", placement: "bottom" });
+        },
+        createProject: function() {
+            this.isNewProjectDialogShow = true;
+        },
+        updateDialogShow(isDialogVal) {
+            this.isNewProjectDialogShow = isDialogVal
+        },
+        onSelect(item) {
+            this.item = item
+        },
+        reset() {
+            this.item = {}
+        },
+        selectOption() {
+            // select option from parent component 
+            this.item = this.options[0]
+        },
+        closedMemberSearch(id) {
+            // Hide expandable list
+            // $(".SidebarTeamMembersExpandedList").addClass("hidden");
+            // $("#expandableList" + id).addClass("hidden");
+            // Show horizontal member list
+            // $(".SidebarItemRow-name").removeClass("hidden");
+            // $("#itemRow-" + id).removeClass("hidden");
+            $("#layerPositioner-" + id).addClass("hidden");
+            // Clear value
+            $("#input-" + id).val("");
+        },
+        closeInvite(id) {
+
+            // Open Invite member dialog
+            $("#popup-" + id).addClass("hidden");
+            // Hide header 
+            $("#listHeader" + id).removeClass("hidden");
 
                 // Show already added member list
                 $("#listContent-" + this.lastOpenDialogId).removeClass("hidden");
