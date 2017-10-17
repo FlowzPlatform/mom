@@ -1,15 +1,11 @@
 <template>
   <section class="todoapp">
-<<<<<<< HEAD
       <div data-reactroot="" id="top-bar" class="circularMenu">
       <div class="PageHeaderStructure-left">
           <circular-nav-bar v-on:eventChangeMenu="changeMenu"></circular-nav-bar>
       </div>
       </div>
     <div id="main-container" class="row asanaView-body pt-page-moveFromLeft" style="padding-top: 15px; margin: 10px 10px 10px 10px;" v-show="isMyTask">
-=======
-    <div id="main-container" class="row asanaView-body" style="padding-top: 15px; margin: 10px 10px 10px 10px;" v-show="isMyTask">
->>>>>>> circular menu
       <div class="asanaView-paneGutter"></div>
     <!--<vue-splitter :margin="20">
       <div slot="left-pane">-->
@@ -53,13 +49,8 @@
       <div class="asanaView-paneGutter"></div>
       <create-project-dialog :show="isNewProjectDialogShow" v-on:updateDialog='updateDialogShow'></create-project-dialog>
     </div>
-<<<<<<< HEAD
     <div id="roleAccess" class="row asanaView-body pt-page-moveFromRight" v-show="isRoleAccess">
       <role-access></role-access>
-=======
-    <div id="roleAccess">
-      <role-access v-show="isRoleAccess"></role-access>
->>>>>>> circular menu
     </div>
   </section>
 </template>
@@ -583,12 +574,8 @@
       CreateProjectDialog,
       VueSplitter,
       SubComment,
-<<<<<<< HEAD
       RoleAccess,
       CircularNavBar
-=======
-      RoleAccess
->>>>>>> circular menu
     }
   }
 
