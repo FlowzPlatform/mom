@@ -2,9 +2,9 @@
   <div>
     <div>
       <div data-reactroot="" id="top-bar" class="Topbar">
-        <div class="PageHeaderStructure-left">
+        <!-- <div class="PageHeaderStructure-left">
             <sample></sample>
-        </div>
+        </div> -->
         <div class="PageHeaderStructure-center">
             <div class="PageHeaderStructure-titleRow">
               <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName">
@@ -281,7 +281,7 @@
   import CmnFunc from './CommonFunc.js'
   import MembersDialog from './MembersDialog.vue'
   import DeleteProjectDialog from './DeleteProjectDialog.vue'
-  import sample from './sample.vue'
+  // import sample from './sample.vue'
   import { mapGetters, mapMutations } from 'vuex'
 
   export default {
@@ -668,7 +668,7 @@
       NavBarSlider,
       MembersDialog,
       DeleteProjectDialog,
-      sample
+      // sample
     }
   }
 </script>
