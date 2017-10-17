@@ -5,7 +5,7 @@
                 <a class="menu-button fa fa-bars" href="#menu" title="Show navigation"></a>
                 <a class="menu-button fa fa-times" href="#" title="Hide navigation"></a>
                 <li class="menu-item icon-picture"><a class="menu-item-back" @click="showRoleAccess" href="#roleAccess"></a></li>
-                <li class="menu-item icon-headphones"><a class="menu-item-back" href="#main-container"></a></li>
+                <li class="menu-item icon-headphones"><a class="menu-item-back" @click="showMainTask" href="#main-container"></a></li>
                 <li class="menu-item icon-home"><a class="menu-item-back" href="#menu"></a></li>
                 <li class="menu-item icon-star"><a class="menu-item-back" href="#menu"></a></li>
                 <li class="menu-item icon-envelope-alt"><a class="menu-item-back" href="#menu"></a></li>
@@ -15,15 +15,6 @@
                 <li class="menu-item icon-film"><a class="menu-item-back" href="#menu"></a></li>
                 <li class="menu-item icon-camera"><a class="menu-item-back" href="#menu"></a></li>
             </ul>
-            <!-- <div class="size">
-              <input type="text" name="test" value="choose" class="field" readonly="readonly" />
-              <ul class="list">
-                <li>Option 1</li>
-                <li>Option 2</li>
-                <li>Option 3</li>
-                <li>Option 4</li>
-              </ul>
-            </div> -->
         </div>
     </div>
 </template>
@@ -71,6 +62,12 @@ export default {
       showRoleAccess(){
         this.isRoleAccess = true
         this.isMyTask = false
+        this.$emit('eventChangeMenu',  this.isMyTask, this.isRoleAccess)
+      },
+      showMainTask(){
+        this.isRoleAccess = false
+        this.isMyTask = true
+        this.$emit('eventChangeMenu',  this.isMyTask, this.isRoleAccess)
       } 
     },
     components: {
