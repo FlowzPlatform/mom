@@ -175,3 +175,160 @@ export default {
     }
 }
 </script>
+<style scoped>
+body {
+  margin: 0;
+}
+
+.navbar-bottom {
+  overflow: hidden;
+  background-color: #333;
+  bottom: 0;
+  width: 100%;
+}
+
+
+/* .navbar-bottom:hover {
+  background-color: black;
+} */
+
+.navbar-bottom a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 6px 26px;
+  text-decoration: none;
+}
+
+.navbar-bottom div {
+  margin-top: 1px;
+  float: right;
+}
+
+
+
+/* .navbar-bottom a:hover {
+  background-color: #ddd;
+  color: #17181c;
+} */
+
+.navbar-bottom a.active {
+  /*background-color: rgba(63, 81, 181, 0.48);*/
+  background-color: #999999;
+  color: white;
+}
+
+.navbar-bottom:hover a.active {
+  /*background-color: rgba(63, 81, 181, 0.90);*/
+  background-color: #999999;
+  color: white;
+}
+
+.navbar-bottom .icon {
+  display: none;
+}
+
+
+
+.nav-icon {
+  font-size: x-large;
+}
+
+.nav-title {
+  font-size: small;
+}
+
+
+
+
+
+
+/* @media screen and (max-width: 600px) {
+  .navbar-bottom a:not(:first-child) {display: none;}
+  .navbar-bottom a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .navbar-bottom.responsive .icon {
+    position: absolute;
+    right: 0;
+    bottom:0;
+  }
+  .navbar-bottom.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+￼
+Find
+
+} */
+
+.tab-container {
+  display: none
+}
+
+.tab-container-active {
+  display: block;
+  width: 100%;
+  background: white;
+  /* height: 510px; */
+}
+
+
+div.right_pannel {
+  width: 100%;
+  height: 100%;
+}
+
+.tab-pannel {
+  /* overflow-y: scroll; */
+  height: 95%;
+  position: absolute;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.nav_bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* height of the bottom tab bar */
+  height: 36px;
+}
+
+.nav-sub-bottom {
+  height: 320px;
+}
+
+a.option-menu.glyphicon.glyphicon-option-horizontal {
+  float: right;
+}
+
+.right_pane_container #right_pane {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.option-menu {
+  float: right;
+}
+
+
+/* .ivu-tabs-bar {
+  border-bottom: 1px solid #dddee1;
+  margin-bottom: 0px;
+} */
+
+
+/* .ivu-tabs .ivu-tabs-tabpane {
+  width: 100%;
+  overflow: auto;
+} */
+</style>
+
