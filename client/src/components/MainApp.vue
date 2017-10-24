@@ -5,7 +5,7 @@
           <sample v-on:eventChangeMenu="changeMenu"></sample>
       </div>
       </div>
-    <div id="main-container" class="row asanaView-body pt-page-moveFromLeft pt-page-delay300" style="padding-top: 15px; margin: 10px 10px 10px 10px;" v-show="isMyTask">
+    <div id="main-container" class="row asanaView-body pt-page-moveFromLeft" style="padding-top: 15px; margin: 10px 10px 10px 10px;" v-show="isMyTask">
       <div class="asanaView-paneGutter"></div>
       <div id="center_pane_container" class="known-list">
         <div id="center_pane">

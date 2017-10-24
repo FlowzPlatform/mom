@@ -100,19 +100,19 @@
               <i class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></i>
             </div>
             <ul class="dropdown-menu" style="top: 52px;max-height: 250px;left: 408.31px;min-width: 30px;z-index: 2000;">
-              <li v-show= "EstimatedHoursCreate"><a id="estimated_hours" class="menu-item" title="">
+              <li v-show= "EstimatedHoursCreate"><a id="estimated_hours" class="menu-item-privacy" title="">
                             <button class="dropdown-menu-item-label" @click="estimated_time = true">Estimated Hours</button>
                           </a></li>
-              <li v-show="taskPriorityCreate"><a id="task_priority" class="menu-item" title="">
+              <li v-show="taskPriorityCreate"><a id="task_priority" class="menu-item-privacy" title="">
                             <span class="dropdown-menu-item-label" @click="task_priority = true">Task Priority</span>
                           </a></li>
-              <li><a id="copy_task_url" class="menu-item" title="">
+              <li><a id="copy_task_url" class="menu-item-privacy" title="">
                             <span class="dropdown-menu-item-label" @click="copyTaskURL">Copy Task URL</span>
                           </a></li>
-              <li v-show="isDeleteShow"><a id="delete_task" class="menu-item" title="">               
+              <li v-show="isDeleteShow"><a id="delete_task" class="menu-item-privacy" title="">               
                 <span class="dropdown-menu-item-label" @click="deleteTodo({filteredTodo : filteredTodo})" >Delete Task</span>
               </a></li>
-              <li><a id="export_pdf" class="menu-item" title="">               
+              <li><a id="export_pdf" class="menu-item-privacy" title="">
                 <span class="dropdown-menu-item-label" @click="exportToPDF">Export PDF</span>
               </a></li>
             </ul>
