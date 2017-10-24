@@ -382,192 +382,186 @@
         },
 
     created() {
-        this.$store.dispatch('getUsersRoles');
-        this.$store.dispatch("getAllUsersList", this.callAllProjectList)
-        // var self = this;
-        // setTimeout(function() {
-        //         self.$store.dispatch('getAllProjects', self.$store.state.userObject._id);
-        //         self.$store.state.projectSettingId = "";    
-        // }, 5000);
+        // this.$store.dispatch('getUsersRoles');
+        // this.$store.dispatch("getAllUsersList", this.callAllProjectList)
+    },
+    // computed: {
+    //     ...mapGetters({
+    //         getProjectList: 'getProjectList',
+    //         // memberProfile:'getMemberProfile',
+    //         memberName: 'getMemberName'
+    //     }),
+    //     myProjectList: {
+    //         get() {
+    //             return this.$store.state.projectlist
+    //         },
+    //         set(value) {
+    //             this.$store.commit('updateProjectList', value)
+    //         }
+    //     },
+    //     searchItems: function() {
 
-    },
-    computed: {
-        ...mapGetters({
-            getProjectList: 'getProjectList',
-            // memberProfile:'getMemberProfile',
-            memberName: 'getMemberName'
-        }),
-        myProjectList: {
-            get() {
-                return this.$store.state.projectlist
-            },
-            set(value) {
-                this.$store.commit('updateProjectList', value)
-            }
-        },
-        searchItems: function() {
+    //         var self = this
+    //         var sameMatch = false;
+    //         // console.log("userList:--", self.users)
+    //         var itemList = self.users.filter(function(item) {
+    //             if (!sameMatch) {
+    //                 if (item.fullname != null) {
+    //                     sameMatch = (item.fullname.toLowerCase() == self.inputValue.toLowerCase())
+    //                     return item.fullname.toLowerCase().indexOf(self.inputValue.toLowerCase()) != -1
+    //                 }
+    //                 else if (item.emil != null) {
+    //                     sameMatch = (item.email.toLowerCase() == self.inputValue.toLowerCase())
+    //                     return item.email.toLowerCase().indexOf(self.inputValue.toLowerCase()) != -1
+    //                 }
+    //             }
 
-            var self = this
-            var sameMatch = false;
-            // console.log("userList:--", self.users)
-            var itemList = self.users.filter(function(item) {
-                if (!sameMatch) {
-                    if (item.fullname != null) {
-                        sameMatch = (item.fullname.toLowerCase() == self.inputValue.toLowerCase())
-                        return item.fullname.toLowerCase().indexOf(self.inputValue.toLowerCase()) != -1
-                    }
-                    else if (item.emil != null) {
-                        sameMatch = (item.email.toLowerCase() == self.inputValue.toLowerCase())
-                        return item.email.toLowerCase().indexOf(self.inputValue.toLowerCase()) != -1
-                    }
-                }
-
-                // return item.fullname.toLowerCase().indexOf(self.inputValue.toLowerCase()) != -1
-            })
-            // console.log("itemList", itemList)
-            if (!sameMatch)
-                itemList.push({ "id": "0", "name": self.inputValue });
-            return itemList;
-        },
-        projectList: function() {
-            //console.log("projectlist", this.getProjectList)
-            // this.memberProfileDetail
-            var projects = this.$store.state.projectlist;
-            this.memberProfileDetail(projects)
-            return this.getProjectList;
-        },
-        silderClosedValue(){
-            return this.$store.state.isSliderOpen;
-        }
-    },
-    watch:{
-        silderClosedValue: function(){
-           // this.isOpen = this.$store.state.isSliderOpen;
-            console.log("NavBarSlider watcher method call")
-            this.closeNav()
-        }
-    },
-    mounted: function() {
-        var self = this;
-        $(".search").on('keyup', function() {
-            console.log("on load:", $(this).val())
-            if ($(this).val().length > 0) {
-                this.searchText = "data:" + $(this).val();
-            }
-        })
-    },
-    beforeMount() {
-        this.displayToolTips()
-    },
+    //             // return item.fullname.toLowerCase().indexOf(self.inputValue.toLowerCase()) != -1
+    //         })
+    //         // console.log("itemList", itemList)
+    //         if (!sameMatch)
+    //             itemList.push({ "id": "0", "name": self.inputValue });
+    //         return itemList;
+    //     },
+    //     projectList: function() {
+    //         //console.log("projectlist", this.getProjectList)
+    //         // this.memberProfileDetail
+    //         var projects = this.$store.state.projectlist;
+    //         this.memberProfileDetail(projects)
+    //         return this.getProjectList;
+    //     },
+    //     silderClosedValue(){
+    //         return this.$store.state.isSliderOpen;
+    //     }
+    // },
+    // watch:{
+    //     silderClosedValue: function(){
+    //        // this.isOpen = this.$store.state.isSliderOpen;
+    //         console.log("NavBarSlider watcher method call")
+    //         this.closeNav()
+    //     }
+    // },
+    // mounted: function() {
+    //     var self = this;
+    //     $(".search").on('keyup', function() {
+    //         console.log("on load:", $(this).val())
+    //         if ($(this).val().length > 0) {
+    //             this.searchText = "data:" + $(this).val();
+    //         }
+    //     })
+    // },
+    // beforeMount() {
+    //     this.displayToolTips()
+    // },
     methods: {
         ...mapMutations([
             'showDeleteTasks'
         ]),
-        callAllProjectList: function() {
-            this.$store.dispatch('getPermissions');
-            this.$store.dispatch('getAllProjects', this.$store.state.userObject._id);
-            this.$store.state.projectSettingId = "";
-        },
-        isMemberAvailable: function(project, index) {
+        // callAllProjectList: function() {
+        //     this.$store.dispatch('getPermissions');
+        //     this.$store.dispatch('getAllProjects', this.$store.state.userObject._id);
+        //     this.$store.state.projectSettingId = "";
+        // },
+        // isMemberAvailable: function(project, index) {
 
-            // console.log("Project index:--", project && project.members && project.members[index]);
-            return project && project.members && project.members[index]
-        },
-        getMemberProfile: function(uId, member) {
-            // console.log("member id:",member);
-            var userRoleId = member.user_role_id;
-            let userIndex = _.findIndex(this.users, function(user) { return user._id === uId })
-            // console.log("member userIndex:",userIndex);
-            if (userIndex < 0) {
-                return { user_id: uId }
-            } else {
-                //            console.log("Role roleId:--",userRoleId);
-                // If userRole is black then asume it is a "Owner"
-                var roleindex = _.findIndex(this.$store.state.userRoles, function(role) { return role.id == userRoleId })
-                //              console.log("Role Index:--",roleindex);
-                var roleId = "";
-                var roleName = "";
-                if (roleindex > -1) {
-                    roleId = this.$store.state.userRoles[roleindex].id
-                    // console.log("userRoleId:",userRoleId)
-                    // console.log("roleId:",roleId)
+        //     // console.log("Project index:--", project && project.members && project.members[index]);
+        //     return project && project.members && project.members[index]
+        // },
+        // getMemberProfile: function(uId, member) {
+        //     // console.log("member id:",member);
+        //     var userRoleId = member.user_role_id;
+        //     let userIndex = _.findIndex(this.users, function(user) { return user._id === uId })
+        //     // console.log("member userIndex:",userIndex);
+        //     if (userIndex < 0) {
+        //         return { user_id: uId }
+        //     } else {
+        //         //            console.log("Role roleId:--",userRoleId);
+        //         // If userRole is black then asume it is a "Owner"
+        //         var roleindex = _.findIndex(this.$store.state.userRoles, function(role) { return role.id == userRoleId })
+        //         //              console.log("Role Index:--",roleindex);
+        //         var roleId = "";
+        //         var roleName = "";
+        //         if (roleindex > -1) {
+        //             roleId = this.$store.state.userRoles[roleindex].id
+        //             // console.log("userRoleId:",userRoleId)
+        //             // console.log("roleId:",roleId)
 
-                    // console.log("this.$store.state.userRoles[roleindex]",this.$store.state.userRoles[roleindex]);
-                    // console.log("this.$store.state.userRoles[roleindex]",this.$store.state.userRoles[roleindex].name);
-                    roleName = this.$store.state.userRoles[roleindex].name
+        //             // console.log("this.$store.state.userRoles[roleindex]",this.$store.state.userRoles[roleindex]);
+        //             // console.log("this.$store.state.userRoles[roleindex]",this.$store.state.userRoles[roleindex].name);
+        //             roleName = this.$store.state.userRoles[roleindex].name
 
-                    return { user_id: uId, url: this.users[userIndex].image_url, name: this.users[userIndex].name, email: this.users[userIndex].email, role: this.users[userIndex].role, user_role_id: member.user_role_id, roleName: roleName, is_deleted: member.is_deleted, id: member.id }
-                } else {
-                    return { user_id: uId, url: this.users[userIndex].image_url, name: this.users[userIndex].name, email: this.users[userIndex].email, role: this.users[userIndex].role, user_role_id: '', roleName: 'Owner', is_deleted: member.is_deleted, id: member.id }
-                }
+        //             return { user_id: uId, url: this.users[userIndex].image_url, name: this.users[userIndex].name, email: this.users[userIndex].email, role: this.users[userIndex].role, user_role_id: member.user_role_id, roleName: roleName, is_deleted: member.is_deleted, id: member.id }
+        //         } else {
+        //             return { user_id: uId, url: this.users[userIndex].image_url, name: this.users[userIndex].name, email: this.users[userIndex].email, role: this.users[userIndex].role, user_role_id: '', roleName: 'Owner', is_deleted: member.is_deleted, id: member.id }
+        //         }
 
-            }
+        //     }
 
-        },
-        memberProfileDetail: function(projects) {
+        // },
+        // memberProfileDetail: function(projects) {
 
-            projects.forEach(function(project) {
-                var members = project.members;
-                if (members) {
-                    members.forEach(function(member) {
-                        //                            console.log("Member :--->",member)
-                        var uId = member.user_id;
-                        var memberDetail = this.getMemberProfile(uId, member);
-                        let memberIndex = _.findIndex(members, function(m) { return m.user_id === uId })
-                        // console.log("MemberIndex :--->",memberDetail)
-                        if (memberIndex < 0) {
-                            project.members.push(memberDetail);
-                        }
-                        else {
-                            project.members[memberIndex] = memberDetail;
-                        }
+        //     projects.forEach(function(project) {
+        //         var members = project.members;
+        //         if (members) {
+        //             members.forEach(function(member) {
+        //                 //                            console.log("Member :--->",member)
+        //                 var uId = member.user_id;
+        //                 var memberDetail = this.getMemberProfile(uId, member);
+        //                 let memberIndex = _.findIndex(members, function(m) { return m.user_id === uId })
+        //                 // console.log("MemberIndex :--->",memberDetail)
+        //                 if (memberIndex < 0) {
+        //                     project.members.push(memberDetail);
+        //                 }
+        //                 else {
+        //                     project.members[memberIndex] = memberDetail;
+        //                 }
 
-                    }, this);
-                } else {
+        //             }, this);
+        //         } else {
 
-                }
+        //         }
 
-            }, this);
-            // console.log("<----Project Member:-->", projects)
-        },
-        inviteUserSubmit: function(projectId) {
-            var inviteEmail = this.email;
-            if (!inviteEmail || inviteEmail.length == 0 || !CmnFunc.checkValidEmail(inviteEmail)) {
-                this.emailValidationError = "Invalid user email"
-                return;
-            } else {
-                this.emailValidationError = "";
-            }
-            var roleSelect = this.selected;
-            if (!roleSelect || roleSelect.length == 0) {
-                this.roleValidationError = "Select role"
-                return;
-            } else {
-                this.roleValidationError = ""
-            }
+        //     }, this);
+        //     // console.log("<----Project Member:-->", projects)
+        // },
+        // inviteUserSubmit: function(projectId) {
+        //     var inviteEmail = this.email;
+        //     if (!inviteEmail || inviteEmail.length == 0 || !CmnFunc.checkValidEmail(inviteEmail)) {
+        //         this.emailValidationError = "Invalid user email"
+        //         return;
+        //     } else {
+        //         this.emailValidationError = "";
+        //     }
+        //     var roleSelect = this.selected;
+        //     if (!roleSelect || roleSelect.length == 0) {
+        //         this.roleValidationError = "Select role"
+        //         return;
+        //     } else {
+        //         this.roleValidationError = ""
+        //     }
 
-            // var roleId=this.roles.filter(role=> role.name ==roleSelect);
-            let index = _.findIndex(this.roles, function(d) { return d.name == roleSelect })
-            let indexUser = _.findIndex(this.users, function(d) { return d.email == inviteEmail })
+        //     // var roleId=this.roles.filter(role=> role.name ==roleSelect);
+        //     let index = _.findIndex(this.roles, function(d) { return d.name == roleSelect })
+        //     let indexUser = _.findIndex(this.users, function(d) { return d.email == inviteEmail })
 
-            var insertInvite = {
-                project_id: projectId,
-                user_id: indexUser > -1 ? this.$store.state.arrAllUsers[indexUser]._id : '',
-                create_by: this.$store.state.userObject._id,
-                user_email: this.$store.state.userObject.email,
-                user_role_id: this.roles[index].id,
-                invitation_status: "p",
-                invited_date: new Date(),
-                is_deleted: false,
-                created_at: new Date()
-            }
-            this.$store.dispatch('insertProjectInvite', insertInvite)
-            this.closeInvite(projectId);
-            // Hide member list
-            $("#layerPositioner-" + projectId).addClass("hidden");
-            this.selected = '';
+        //     var insertInvite = {
+        //         project_id: projectId,
+        //         user_id: indexUser > -1 ? this.$store.state.arrAllUsers[indexUser]._id : '',
+        //         create_by: this.$store.state.userObject._id,
+        //         user_email: this.$store.state.userObject.email,
+        //         user_role_id: this.roles[index].id,
+        //         invitation_status: "p",
+        //         invited_date: new Date(),
+        //         is_deleted: false,
+        //         created_at: new Date()
+        //     }
+        //     this.$store.dispatch('insertProjectInvite', insertInvite)
+        //     this.closeInvite(projectId);
+        //     // Hide member list
+        //     $("#layerPositioner-" + projectId).addClass("hidden");
+        //     this.selected = '';
 
-        },
+        // },
         closeNav: function() {
             document.getElementById("top-bar").style.marginLeft = "0px";
             document.getElementById('mySidenav').style.width = "0px"
@@ -576,55 +570,55 @@
             this.isOpen = true;
             this.$store.commit('UPDATE_SLIDER_VALUE', this.isOpen)
         },
-        projectSelect(project) {
-            // Show project visibility option (like public to all, private to me)
-            $("div#projectVisible").removeClass('hidden');
+        // projectSelect(project) {
+        //     // Show project visibility option (like public to all, private to me)
+        //     $("div#projectVisible").removeClass('hidden');
             
-            this.$store.commit('showMyTasks')
-            // console.log('Project', project.id)
-            this.$store.state.currentProjectName = project.project_name;
-            this.$store.state.currentProjectId = project.id;
-            this.$store.state.currentProject = project;
+        //     this.$store.commit('showMyTasks')
+        //     // console.log('Project', project.id)
+        //     this.$store.state.currentProjectName = project.project_name;
+        //     this.$store.state.currentProjectId = project.id;
+        //     this.$store.state.currentProject = project;
 
-            this.$store.state.currentProjectPrivacy = project.project_privacy;
-            this.$store.state.todolist = []
-            this.$store.commit('CLOSE_DIV', '')
-            this.$store.dispatch('getAllTodos', { 'parentId': '', project_id: project.id });
-            // Close last open dialog
-            if (this.lastProjectSelected !== '') {
-                // console.log(this.lastProjectSelected);
-                $("#panelProjectName-" + this.lastProjectSelected).removeClass("project-selected");
-                this.closedMemberSearch(this.lastProjectSelected);
-            }
-            // Clear text
-            this.inputValue = '';
-            // Open Invite member dialog
-            $("#panelProjectName-" + project.id).addClass("project-selected");
-            this.lastProjectSelected = project.id;
-            // Todo  remove line
-            this.$store.state.accessRight = {}
-            // this.memberProfileDetail()
-        },
+        //     this.$store.state.currentProjectPrivacy = project.project_privacy;
+        //     this.$store.state.todolist = []
+        //     this.$store.commit('CLOSE_DIV', '')
+        //     this.$store.dispatch('getAllTodos', { 'parentId': '', project_id: project.id });
+        //     // Close last open dialog
+        //     if (this.lastProjectSelected !== '') {
+        //         // console.log(this.lastProjectSelected);
+        //         $("#panelProjectName-" + this.lastProjectSelected).removeClass("project-selected");
+        //         this.closedMemberSearch(this.lastProjectSelected);
+        //     }
+        //     // Clear text
+        //     this.inputValue = '';
+        //     // Open Invite member dialog
+        //     $("#panelProjectName-" + project.id).addClass("project-selected");
+        //     this.lastProjectSelected = project.id;
+        //     // Todo  remove line
+        //     this.$store.state.accessRight = {}
+        //     // this.memberProfileDetail()
+        // },
         // This method show when user mouse hover on project name
-        showOption(id) {
-          //   console.log("showOption");
-            $("#ItemRowMenu-" + id).removeClass("hidden");
-            $("#ItemRowMenu-" + id).css({ "fill": "white" });
-        },
-        hideOption(id) {
-            // $("#ItemRowMenu-" + id).addClass("hidden");
-            var pid = this.$store.state.projectSettingId;
-            var cid = this.$store.state.currentProjectId;
-            $("#ItemRowMenu-" + cid).css({ "fill": "transparent" });
-            if (pid != id) {
-                $("#ItemRowMenu-" + id).css({ "fill": "transparent" });
-            }
-        },
-        showList(id) {
-            // Show search member list
-            $("#layerPositioner-" + id).removeClass("hidden");
-            this.memberListShow = false;
-        },
+        // showOption(id) {
+        //   //   console.log("showOption");
+        //     $("#ItemRowMenu-" + id).removeClass("hidden");
+        //     $("#ItemRowMenu-" + id).css({ "fill": "white" });
+        // },
+        // hideOption(id) {
+        //     // $("#ItemRowMenu-" + id).addClass("hidden");
+        //     var pid = this.$store.state.projectSettingId;
+        //     var cid = this.$store.state.currentProjectId;
+        //     $("#ItemRowMenu-" + cid).css({ "fill": "transparent" });
+        //     if (pid != id) {
+        //         $("#ItemRowMenu-" + id).css({ "fill": "transparent" });
+        //     }
+        // },
+        // showList(id) {
+        //     // Show search member list
+        //     $("#layerPositioner-" + id).removeClass("hidden");
+        //     this.memberListShow = false;
+        // },
         closeExpandableList(id) {
             console.log("on blur closeExpandableList:", id);
             // Hide expandable list
@@ -632,130 +626,117 @@
             //  $("#listContent-"+id).removeClass("hidden");
             this.memberListShow = true;
         },
-        selectMember: function(project, item) {
+        // selectMember: function(project, item) {
 
-            let index = _.findIndex(project.members, function(d) { return d.email == item.email })
-            if (index < 0) {
-                this.email = item.email
-                this.name = item.name
+        //     let index = _.findIndex(project.members, function(d) { return d.email == item.email })
+        //     if (index < 0) {
+        //         this.email = item.email
+        //         this.name = item.name
 
 
-                // Hide header 
-                $("#listHeader" + project.id).addClass("hidden");
-                    // Hide header 
-                    $("#listHeader" + project.id).addClass("hidden");
-                    // Close last open dialog
-                    if (this.lastOpenDialogId !== '') {
-                        $("#popup-" + this.lastOpenDialogId).addClass("hidden");
-                        // Show already added member list
-                        $("#listContent-" + this.lastOpenDialogId).removeClass("hidden");
+        //         // Hide header 
+        //         $("#listHeader" + project.id).addClass("hidden");
+        //             // Hide header 
+        //             $("#listHeader" + project.id).addClass("hidden");
+        //             // Close last open dialog
+        //             if (this.lastOpenDialogId !== '') {
+        //                 $("#popup-" + this.lastOpenDialogId).addClass("hidden");
+        //                 // Show already added member list
+        //                 $("#listContent-" + this.lastOpenDialogId).removeClass("hidden");
                       
-                    }
-                    this.roles=this.$store.state.userRoles; 
-                    // Open Invite member dialog
-                    $("#popup-" + project.id).removeClass("hidden");
-                    this.lastOpenDialogId = project.id;
-                }
-                // Hide member search list 
-                $("#layerPositioner-" + project.id).addClass("hidden");
-            },
-            selectNonMember(id) {
-                this.email = this.inputValue;
-                this.name = this.inputValue;
+        //             }
+        //             this.roles=this.$store.state.userRoles; 
+        //             // Open Invite member dialog
+        //             $("#popup-" + project.id).removeClass("hidden");
+        //             this.lastOpenDialogId = project.id;
+        //         }
+        //         // Hide member search list 
+        //         $("#layerPositioner-" + project.id).addClass("hidden");
+        //     },
+            // selectNonMember(id) {
+            //     this.email = this.inputValue;
+            //     this.name = this.inputValue;
 
-                // Hide header 
-                $("#listHeader" + id).addClass("hidden");
-                // Hide member search list 
-                $("#layerPositioner-" + id).addClass("hidden");
-                // Open Invite member dialog
-                $("#popup-" + id).removeClass("hidden");
-                this.roles=this.$store.state.userRoles; 
-            },
-            displayToolTips: function () {
-                $('.CircularButton').tooltip({ title: "Create a project", placement: "bottom" });
-            },
-            createProject: function () {
-                this.isNewProjectDialogShow = true;
-            },
-            updateDialogShow(isDialogVal) {
-                this.isNewProjectDialogShow = isDialogVal
-            },
-            onSelect(item) {
-                this.item = item
-            },
-            reset() {
-                this.item = {}
-            },
-            selectOption() {
-                // select option from parent component 
-                this.item = this.options[0]
-            },
-            closedMemberSearch(id) {
-                // Hide expandable list
-                //  $(".SidebarTeamMembersExpandedList").addClass("hidden");
-                $("#expandableList" + id).addClass("hidden");
-                // Show horizontal member list
-                // $(".SidebarItemRow-name").removeClass("hidden");
-                $("#itemRow-" + id).removeClass("hidden");
-                $("#layerPositioner-" + id).addClass("hidden");
-                // Clear value
-                $("#input-"+id).val("");
-            },
-            closeInvite(id) {
+            //     // Hide header 
+            //     $("#listHeader" + id).addClass("hidden");
+            //     // Hide member search list 
+            //     $("#layerPositioner-" + id).addClass("hidden");
+            //     // Open Invite member dialog
+            //     $("#popup-" + id).removeClass("hidden");
+            //     this.roles=this.$store.state.userRoles; 
+            // },
+            // createProject: function () {
+            //     this.isNewProjectDialogShow = true;
+            // },
+            // updateDialogShow(isDialogVal) {
+            //     this.isNewProjectDialogShow = isDialogVal
+            // },
+            // closedMemberSearch(id) {
+            //     // Hide expandable list
+            //     //  $(".SidebarTeamMembersExpandedList").addClass("hidden");
+            //     $("#expandableList" + id).addClass("hidden");
+            //     // Show horizontal member list
+            //     // $(".SidebarItemRow-name").removeClass("hidden");
+            //     $("#itemRow-" + id).removeClass("hidden");
+            //     $("#layerPositioner-" + id).addClass("hidden");
+            //     // Clear value
+            //     $("#input-"+id).val("");
+            // },
+        //     closeInvite(id) {
 
-                // Close last open dialog
-                if (this.lastOpenDialogId !== '') {
-                    $("#popup-" + this.lastOpenDialogId).addClass("hidden");
-                    // Show already added member list
-                    $("#listContent-" + this.lastOpenDialogId).removeClass("hidden");
-                }
-                // Open Invite member dialog
-                $("#popup-" + project.id).removeClass("hidden");
-                this.lastOpenDialogId = project.id;
-            // }
-            // Hide member search list 
-            $("#layerPositioner-" + project.id).addClass("hidden");
-        },
-        selectNonMember(id) {
-            this.email = this.inputValue;
-            this.name = this.inputValue;
-            // Hide header 
-            $("#listHeader" + id).addClass("hidden");
-            // Hide member search list 
-            $("#layerPositioner-" + id).addClass("hidden");
-            // Open Invite member dialog
-            $("#popup-" + id).removeClass("hidden");
-        },
-        displayToolTips: function() {
-            $('.CircularButton').tooltip({ title: "Create a project", placement: "bottom" });
-        },
-        createProject: function() {
-            this.isNewProjectDialogShow = true;
-        },
-        updateDialogShow(isDialogVal) {
-            this.isNewProjectDialogShow = isDialogVal
-        },
-        onSelect(item) {
-            this.item = item
-        },
-        reset() {
-            this.item = {}
-        },
-        selectOption() {
-            // select option from parent component 
-            this.item = this.options[0]
-        },
-        closedMemberSearch(id) {
-            // Hide expandable list
-            // $(".SidebarTeamMembersExpandedList").addClass("hidden");
-            // $("#expandableList" + id).addClass("hidden");
-            // Show horizontal member list
-            // $(".SidebarItemRow-name").removeClass("hidden");
-            // $("#itemRow-" + id).removeClass("hidden");
-            $("#layerPositioner-" + id).addClass("hidden");
-            // Clear value
-            $("#input-" + id).val("");
-        },
+        //         // Close last open dialog
+        //         if (this.lastOpenDialogId !== '') {
+        //             $("#popup-" + this.lastOpenDialogId).addClass("hidden");
+        //             // Show already added member list
+        //             $("#listContent-" + this.lastOpenDialogId).removeClass("hidden");
+        //         }
+        //         // Open Invite member dialog
+        //         $("#popup-" + project.id).removeClass("hidden");
+        //         this.lastOpenDialogId = project.id;
+        //     // }
+        //     // Hide member search list 
+        //     $("#layerPositioner-" + project.id).addClass("hidden");
+        // },
+        // selectNonMember(id) {
+        //     this.email = this.inputValue;
+        //     this.name = this.inputValue;
+        //     // Hide header 
+        //     $("#listHeader" + id).addClass("hidden");
+        //     // Hide member search list 
+        //     $("#layerPositioner-" + id).addClass("hidden");
+        //     // Open Invite member dialog
+        //     $("#popup-" + id).removeClass("hidden");
+        // },
+        // displayToolTips: function() {
+        //     $('.CircularButton').tooltip({ title: "Create a project", placement: "bottom" });
+        // },
+        // createProject: function() {
+        //     this.isNewProjectDialogShow = true;
+        // },
+        // updateDialogShow(isDialogVal) {
+        //     this.isNewProjectDialogShow = isDialogVal
+        // },
+        // onSelect(item) {
+        //     this.item = item
+        // },
+        // reset() {
+        //     this.item = {}
+        // },
+        // selectOption() {
+        //     // select option from parent component 
+        //     this.item = this.options[0]
+        // },
+        // closedMemberSearch(id) {
+        //     // Hide expandable list
+        //     // $(".SidebarTeamMembersExpandedList").addClass("hidden");
+        //     // $("#expandableList" + id).addClass("hidden");
+        //     // Show horizontal member list
+        //     // $(".SidebarItemRow-name").removeClass("hidden");
+        //     // $("#itemRow-" + id).removeClass("hidden");
+        //     $("#layerPositioner-" + id).addClass("hidden");
+        //     // Clear value
+        //     $("#input-" + id).val("");
+        // },
         closeInvite(id) {
 
             // Open Invite member dialog
@@ -770,23 +751,23 @@
             this.inputValue = "";
 
         },
-        showMemberDetail(event) {
-            var targetId = event.currentTarget.id;
-        },
-        addMemberClick(id) {
-            // Hide member horizontal list
-            $("#itemRow-" + id).addClass("hidden");
-            $("#expandableList" + id).removeClass("hidden");
-            //$(".SidebarTeamMembersExpandedList").removeClass("hidden");
-        },
-        getLetters(name) {
-            var str = name;
-            if (!str || str.length == 0)
-                return "X";
+        // showMemberDetail(event) {
+        //     var targetId = event.currentTarget.id;
+        // },
+        // addMemberClick(id) {
+        //     // Hide member horizontal list
+        //     $("#itemRow-" + id).addClass("hidden");
+        //     $("#expandableList" + id).removeClass("hidden");
+        //     //$(".SidebarTeamMembersExpandedList").removeClass("hidden");
+        // },
+        // getLetters(name) {
+        //     var str = name;
+        //     if (!str || str.length == 0)
+        //         return "X";
 
-            var firstLetters = str.substr(0, 2);
-            return firstLetters;
-        },
+        //     var firstLetters = str.substr(0, 2);
+        //     return firstLetters;
+        // },
         openMenu: function(e) {
             this.viewMenu = true;
 
@@ -797,29 +778,29 @@
             }.bind(this));
             e.preventDefault();
         },
-        showProjectSetting: function(project) {
-            console.log("click", project.members)
-            // Show option icon white
-            $("#ItemRowMenu-" + project.id).css({ "fill": "white" });
-            this.$store.state.projectSettingId = project.id;
-            //  $("#ItemRowMenu-" + project.id).css({"fill":"red"});
-            var pos = $('#ItemRowMenu-' + project.id + '').offset();
-            this.$store.state.projectSettingMenuOffset = pos;
-            var top = pos.top - 32;
-            var left = pos.left;
-            $("div.project-setting").removeClass("hidden");
-            $("div.project-setting").css({ "margin-top": +top + "px", "margin-left": +left + "px" })
+        // showProjectSetting: function(project) {
+        //     console.log("click", project.members)
+        //     // Show option icon white
+        //     $("#ItemRowMenu-" + project.id).css({ "fill": "white" });
+        //     this.$store.state.projectSettingId = project.id;
+        //     //  $("#ItemRowMenu-" + project.id).css({"fill":"red"});
+        //     var pos = $('#ItemRowMenu-' + project.id + '').offset();
+        //     this.$store.state.projectSettingMenuOffset = pos;
+        //     var top = pos.top - 32;
+        //     var left = pos.left;
+        //     $("div.project-setting").removeClass("hidden");
+        //     $("div.project-setting").css({ "margin-top": +top + "px", "margin-left": +left + "px" })
 
-            this.$store.state.currentProjectMember = project.members;
-            this.$store.state.currentProjectCreatedBy = project.create_by;
-        },
+        //     this.$store.state.currentProjectMember = project.members;
+        //     this.$store.state.currentProjectCreatedBy = project.create_by;
+        // },
         async addMemberPermission() {
             this.isAddMemberPermission = await CmnFunc.checkActionPermision(this, this.todoObject.type_id, Constant.USER_ACTION.MEMBER, Constant.PERMISSION_ACTION.CREATE)
             console.log("Member Add permission.",this.isAddMemberPermission);
         },
-        projectNameElipse(str, max){
-            return str.length > (max - 3) ? str.substring(0,max-3) + '...' : str; 
-        }
+        // projectNameElipse(str, max){
+        //     return str.length > (max - 3) ? str.substring(0,max-3) + '...' : str; 
+        // }
 
     },
     components: {

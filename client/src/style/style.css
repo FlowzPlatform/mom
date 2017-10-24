@@ -3951,7 +3951,7 @@ a.Button.Button.Button--small.Button--primary.QuickInvitePopup-shareButton:hover
         width: 100%;
 }
 .ser-dro-lis>input {
-        width: 100%;
+        /* width: 100%; */
         border-radius: 0;
         margin-bottom: 1px;
 }
@@ -4017,7 +4017,7 @@ a.CloseButton.QuickInvitePopup-closeButton {
         border: 1px solid #cdcfd2;
         display: inline-block;
         padding: 15px;
-        position: relative;
+        position: absolute;
         top: 1px;
 }
 .QuickInvitePopup-content {
@@ -4224,7 +4224,7 @@ a {
         height: 16px;
         margin: 0 5px;
         width: 16px;
-        fill: #fff;
+        fill: #000;
 }
     /* Invite Expandable  list */
 
@@ -4257,6 +4257,7 @@ a {
         background-color: #fc91ad;
 }
 .teamList a .SidebarItemRow-name {
+        margin-left: 5px;
         margin-right: auto;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -4449,18 +4450,18 @@ span.SidebarTeamMembetransitionrsExpandedList-headerText {
         display: inline-block;
 }
 .project-selected {
-        background-color: #1b2432;
+        background-color: #d1d1d1;
         color: #fff;
 }
-.spanPanel:hover {
+/* .spanPanel:hover {
         background-color: #179dba;
-}
+} */
 .DeprecatedNavigationLink {
         width: 100%;
 }
 .panelProjectName {
         margin-left: 10px;
-        color: #fff;
+        color: #000;
         margin-right: auto;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -4625,7 +4626,7 @@ selected {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        color: #fff;
+        color: #000;
 }
 .SidebarItemRow .is-selected {
         background-color: #1b2432;
@@ -4633,7 +4634,7 @@ selected {
 }
 .SidebarItemRow:hover,
 .DragContainer--isDragging .SidebarItemRow {
-        background-color: #179dba;
+        background-color: #c9c9c9;
 }
 .SidebarItemRow .SidebarItemRowMenu-button:hover .SidebarItemRow-icon {
         fill: #fff;
