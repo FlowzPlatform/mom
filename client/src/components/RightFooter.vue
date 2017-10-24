@@ -49,7 +49,7 @@
                     </markdown-editor>
                 </div>     -->
                     <div class="taskCommentsView-toolbar">
-                        <div id="details_property_sheet__new_comment_button" @click="insertComment(filteredTodo.id)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton" style="" tabindex="710">
+                        <div id="details_property_sheet__new_comment_button" @click="insertComment(filteredTodoObj.id)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton" style="" tabindex="710">
                             <span class="left-button-icon"></span>
                             <span class="new-button-text">Comment</span>
                             <span class="right-button-icon"></span>
@@ -78,7 +78,7 @@ export default {
       Ckeditor,
       markdownEditor
   },
-  props: ['filteredTodo'],
+  props: ['filteredTodoObj'],
   data: function () {
     return {
       picker1: null,
@@ -95,7 +95,7 @@ export default {
         insertComment: function(taskId){
             if(this.commentText){
               console.log('Comment by', this.$store.state.userObject.fullname)
-            this.$store.dispatch('insertTaskComment',{"id":this.filteredTodo.id, "comment":this.commentText, "commentBy": this.$store.state.userObject._id})
+            this.$store.dispatch('insertTaskComment',{"id":this.filteredTodoObj.id, "comment":this.commentText, "commentBy": this.$store.state.userObject._id})
             this.commentText = ''
             let frame = document.getElementsByClassName('cke_reset')[3].contentWindow
             frame.document.getElementsByClassName('cke_editable cke_editable_themed cke_contents_ltr cke_show_borders')[0].innerHTML = '';
@@ -106,7 +106,7 @@ export default {
                 var mdString2 = mdString.replace(new RegExp('<th>', 'g'),'<th style="padding:5px">');
                 var mdString3 = mdString2.replace(new RegExp('<td>', 'g'),'<td style="padding:5px">');
                 var mdString4= mdString3
-                this.$store.dispatch('insertTaskComment',{"id":this.filteredTodo.id, "comment":mdString4, "commentBy": this.$store.state.userObject._id})
+                this.$store.dispatch('insertTaskComment',{"id":this.filteredTodoObj.id, "comment":mdString4, "commentBy": this.$store.state.userObject._id})
                 this.content = '';
             }
         }
@@ -121,7 +121,7 @@ export default {
             getComment: 'getCommentById'
         }),
         getCommentByTaskId(){
-            let commentList = this.getComment(this.filteredTodo.id)
+            let commentList = this.getComment(this.filteredTodoObj.id)
             return commentList
         }
   }
