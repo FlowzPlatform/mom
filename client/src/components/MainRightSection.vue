@@ -4,7 +4,7 @@
 
       <div class="tab-pannel">
         <!-- <text-description :id="id" :filteredTodo="todoObject"></text-description>
-                                  <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById"></main-left-section>  -->
+                                    <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById"></main-left-section>  -->
         <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment" :filteredTodo="todoObject" v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById"></component>
       </div>
       <div class="nav_bottom" style="z-index: 10;">
@@ -99,7 +99,7 @@
             <!--<hr>-->
             <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#tags">Tags</div>-->
             <!--<button type="button" class="btn btn-info button-collapse" <data-togg></data-togg>le="collapse" data-target="#tags">Tags</button>
-                                                                            <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
+                                                                              <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
             <!--<tags :filteredTodo="todoObject"></tags>-->
             <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById"></main-left-section>
             <history-log :taskId="todoObject.id" :historyLog="historyLog"></history-log>
@@ -406,19 +406,20 @@ body {
 
 .navbar-bottom {
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: #333;
   bottom: 0;
   width: 100%;
 }
 
-.navbar-bottom:hover {
+
+/* .navbar-bottom:hover {
   background-color: black;
-}
+} */
 
 .navbar-bottom a {
   float: left;
   display: block;
-  color: goldenrod;
+  color: white;
   text-align: center;
   padding: 6px 26px;
   text-decoration: none;
@@ -426,7 +427,9 @@ body {
 
 .navbar-bottom div {
   margin-top: 1px;
+  float: right;
 }
+
 
 
 /* .navbar-bottom a:hover {
@@ -457,6 +460,7 @@ body {
 .nav-title {
   font-size: small;
 }
+
 
 
 
@@ -534,7 +538,7 @@ div.right_pannel {
   bottom: 0;
   width: 100%;
   /* height of the bottom tab bar */
-  height: 34px;
+  height: 36px;
 }
 
 .nav-sub-bottom {
@@ -554,6 +558,7 @@ a.option-menu.glyphicon.glyphicon-option-horizontal {
 .option-menu {
   float: right;
 }
+
 
 
 
