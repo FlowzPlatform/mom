@@ -469,27 +469,6 @@ body {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* @media screen and (max-width: 600px) {
   .navbar-bottom a:not(:first-child) {display: none;}
   .navbar-bottom a.icon {
@@ -561,27 +540,6 @@ a.option-menu.glyphicon.glyphicon-option-horizontal {
 .option-menu {
   float: right;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* .ivu-tabs-bar {
