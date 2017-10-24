@@ -1334,7 +1334,7 @@ a:hover, a:focus{
 .asanaView-body { position: fixed;top: 60px;left: 0;right: 0;bottom: 0;overflow-x: auto; overflow-y: hidden; }
 .right_bar{position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: calc(100% - 135px);overflow: auto;}
 .right_pane_container #right_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;}
-#details_pane_footer {position: absolute; width: 99.75%; bottom: 0;height: 132px;}
+#details_pane_footer {position: absolute; width: 99.75%; bottom: 0;height: 100%;}
 .right_pane_container{ min-width: 600px; margin-right: 10px;}
 #center_pane {
         transition: margin-left .5s;

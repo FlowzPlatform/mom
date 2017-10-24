@@ -135,6 +135,7 @@ import Vue from 'vue'
 import MainLeftSection from './MainLeftSection.vue'
 import TextDescription from './TextDescription.vue'
 import RightFooter from './RightFooter.vue'
+import Comment from './Comment.vue'
 import RightTabs from './RightTabs.vue'
 import HistoryLog from './HistoryLog.vue'
 import RightToolbar from './RightToolbar.vue'
@@ -311,7 +312,7 @@ export default {
     },
     commentsShow() {
       this.selectedMenuIndex = 4
-      this.currentView = RightFooter
+      this.currentView = Comment
     },
     handleOpen() {
       this.selectedMenuIndex = 5
@@ -396,7 +397,8 @@ export default {
     Tags,
     Statuses,
     HistoryLog,
-    RightTabs
+    RightTabs,
+    Comment
   }
 }
 </script>
