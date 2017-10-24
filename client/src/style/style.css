@@ -1269,8 +1269,6 @@ a:-webkit-any-link {
 a:hover, a:focus{
     color: #02ceff;
     /* text-decoration: underline; */
-<<<<<<< HEAD
-=======
 }
 .redesign-due-date-container .property.value-set:hover{
     border-color: transparent;
@@ -1293,7 +1291,6 @@ a:hover, a:focus{
 }
 .redesign-assigned-to-container .property.value-set:hover span.token.user_token.assignment_disable .photo-view{
     cursor: default;
->>>>>>> circular menu
 }
 .redesign-assigned-to-container .property.value-set:hover, .redesign-due-date-container .property.value-set:hover{
         border-color: transparent;
@@ -4027,7 +4024,7 @@ a.CloseButton.QuickInvitePopup-closeButton {
         border: 1px solid #cdcfd2;
         display: inline-block;
         padding: 15px;
-        position: sticky;
+        position: absolute;
         top: 1px;
 }
 .QuickInvitePopup-content {
@@ -4462,6 +4459,10 @@ span.SidebarTeamMembetransitionrsExpandedList-headerText {
    background-color:  #f7f7f7;
    border-radius: 3px;
    border: 1px solid #dddee1;
+}
+.project-selected {
+        background-color: #d1d1d1;
+        color: #fff;
 }
 /* .spanPanel:hover {
         background-color: #179dba;
@@ -5528,7 +5529,7 @@ textarea,
     -moz-transition: background-color 1s;
     transition: background-color 1s;
     /*background-color: white;*/
-} */
+} 
 
 /* Remove member dialog */
 .confirmation-view .confirmation-text {
