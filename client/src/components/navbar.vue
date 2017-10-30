@@ -130,11 +130,9 @@
         <div class="Topbar-accountInfo">
           <a class="Topbar-settingsMenuButton">
             <span class="Topbar-settingsMenuDomainName"><span>Welcome {{ uname }}</span></span>
-            <div class="dropdown-toggle Avatar Avatar--medium Avatar--color4 Topbar-settingsMenuAvatar" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-              <span v-if="imageURlProfilePic">
-                <img v-bind:src="imageURlProfilePic" />
-              </span>
-              <span v-else>{{ capitalizeLetters }}</span>
+            <div v-if="$store.state.userObject.email" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <avatar v-if="$store.state.userObject.image_url" :username="$store.state.userObject.email" :src="$store.state.userObject.image_url" :size="30"></avatar>
+              <avatar v-else :username="$store.state.userObject.email" :size="30" color="#fff"></avatar>
             </div>
             <ul class="dropdown-menu">
               <li><a data-toggle="modal" data-target="#myModal2" @click="btnProfileClicked()">Profile</a></li>
@@ -281,7 +279,7 @@
   import CmnFunc from './CommonFunc.js'
   import MembersDialog from './MembersDialog.vue'
   import DeleteProjectDialog from './DeleteProjectDialog.vue'
-  // import sample from './sample.vue'
+  import Avatar from 'vue-avatar/dist/Avatar'
   import { mapGetters, mapMutations } from 'vuex'
 
   export default {
@@ -668,6 +666,7 @@
       NavBarSlider,
       MembersDialog,
       DeleteProjectDialog,
+      Avatar
       // sample
     }
   }

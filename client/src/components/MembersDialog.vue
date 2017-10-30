@@ -68,7 +68,7 @@
                                                          
                                                             <td>
                                                                 <div class="picture">
-                                                                    <div class="photo-view photo-view-remix inbox-size photo-view-rounded-corners ">
+                                                                    <!-- <div class="photo-view photo-view-remix inbox-size photo-view-rounded-corners ">
                                                                         <div class="photoView-reactMount">
 
                                                                             <div v-if="member.url" class="Avatar Avatar--medium Avatar--color11"  v-bind:style="{ 'background-image': 'url(' + member.url + ')' }" >
@@ -78,6 +78,10 @@
                                                                                                {{getLetters(member.email)}}
                                                                             </div>
                                                                         </div>
+                                                                    </div> -->
+                                                                    <div v-if="member.email">
+                                                                        <avatar v-if="member.url" :username="member.email" :src="member.url" :size="30"></avatar>
+                                                                        <avatar v-else :username="member.email" :size="30" color="#fff"></avatar>
                                                                     </div>
                                                                 </div>
                                                                 <div class="name pad-top no-email">{{member.name}}</div>
@@ -229,7 +233,7 @@
 import Vue from 'vue'
 import VueEsc from 'vue-esc';
 import { mapGetters } from 'vuex'
-
+import Avatar from 'vue-avatar/dist/Avatar'
 Vue.use(VueEsc);
 
 export default {
@@ -361,6 +365,9 @@ export default {
             this.$forceUpdate();
         }
 
+    },
+    components:{
+        Avatar
     }
 
 }

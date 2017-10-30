@@ -7,10 +7,10 @@
           <!-- <input v-if="!$store.state.deleteItemsSelected && id !== 'taskTypes' && id !== 'taskState' && id !== 'roleTypes'" :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle" -->
           <input v-show="getType" v-if="!$store.state.deleteItemsSelected && id !== 'taskTypes' && id !== 'taskState' && id !== 'roleTypes'"  :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle"
           @change="toggleTodo(todo)">
-          <input v-else="!$store.state.deleteItemsSelected && id === 'roleTypes'" :id="todo.id" type="checkbox" checked="" v-model="todo.is_checked" class="toggle" :disabled="!todo.is_editable" @change="roleCheckChange(todo)">
+          <input v-if="!$store.state.deleteItemsSelected && id === 'roleTypes'" :id="todo.id" type="checkbox" checked="" v-model="todo.is_checked" class="toggle" :disabled="!todo.is_editable" @change="roleCheckChange(todo)">
           <label for="checkbox8"></label>
         </span>
-        <div v-if="todo.type_id && !getType" class="stateCircle Avatar--small " @click="showStatusList" data-toggle="dropdown"
+        <div v-if="!$store.state.deleteItemsSelected && todo.type_id && !getType" class="stateCircle Avatar--small " @click="showStatusList" data-toggle="dropdown"
           :style="{'box-shadow' : 'inset 0 0 0 3px'+ selectedObject.color }">
           <span>{{selectedObject.taskState | fistLatter}}</span></div>
         <ul class='dropdown-menu statusList'>

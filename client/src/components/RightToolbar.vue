@@ -7,18 +7,21 @@
             <div class="property assigned_to value-set">
               <span class="token-wrapper">
                 <span class="token user_token">
-                  <div class="photo-view photo-view-remix inbox-size photo-view-rounded-corners clickable ">
-                    <div class="react-mount-node photoView-reactMount">
-                      <div data-reactroot="" class="Avatar Avatar--medium Avatar--color4">
-                        <span> {{ getUserLetters() }}<img v-bind:src="imageURlProfilePic" /></span>
-                      </div>
+                  <div v-if="getAssignedUserObj().email">
+                      <avatar v-if="getAssignedUserObj().image_url" :username="getAssignedUserObj().email" :src="getAssignedUserObj().image_url" :size="30"></avatar>
+                      <avatar v-else :username="getAssignedUserObj().email" :size="30" color="#fff"></avatar>
                     </div>
-                  </div>
                   <span class="dropdown">
                     <a tabindex="-1" class="token_name" data-toggle="dropdown" id='userlist' @click='getAllUsers()'>{{ getAssignedUserName () }}</a>
                       <ul class='dropdown-menu userlist' aria-labelledby="userlist">
                         <li v-for="(user, index) in getUserList"><a @click="btnUserClicked(user)"> 
-                          <span><img v-if="user.image_url" v-bind:src="user.image_url" /><div v-else>{{user.email | capitalizeLetters}}</div></span>{{user.email}}</a>
+                          <!-- <span><img v-if="user.image_url" v-bind:src="user.image_url" /><div v-else>{{user.email | capitalizeLetters}}</div>
+                          </span> -->
+                          <div v-if="user.email">
+                              <avatar v-if="user.image_url" :username="user.email" :size="30" :src="user.image_url"></avatar>
+                              <avatar v-else :username="user.email" color="#fff" :size="30"></avatar>
+                          </div>
+                          {{user.email}}</a>
                         <hr>
                       </li>
                     </ul>
@@ -144,6 +147,7 @@
   import CmnFunc from './CommonFunc.js'
   import * as Constant from './Constants.js'
   import { mapMutations, mapGetters } from 'vuex'
+  import Avatar from 'vue-avatar/dist/Avatar'
   Vue.use(KeenUI);
   Vue.filter('formatDate', function (value) {
     if (value) {
@@ -500,7 +504,8 @@
     components: {
       Datepicker,
       EstimatedHours,
-      TaskPriority
+      TaskPriority,
+      Avatar
     }
   }
 
