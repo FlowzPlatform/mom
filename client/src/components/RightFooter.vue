@@ -3,12 +3,10 @@
         <div class="property-sheet-view"><div class="loading-boundary ">
             <div class="taskCommentsView ">
                 <div class="photo-view photo-view-remix inbox-size photo-view-rounded-corners taskCommentsView-photo">
-                    <div class="react-mount-node photoView-reactMount">
-                        <div data-reactroot="" class="Avatar Avatar--medium Avatar--color4">
-                             <span v-if="imageURlProfilePic"><img v-bind:src="imageURlProfilePic" /></span>
-                             <span v-else>{{ capitalizeLetters }}</span>
-                        </div>
-                    </div>
+                    <div v-if="$store.state.userObject.email" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <avatar v-if="$store.state.userObject.image_url" :username="$store.state.userObject.email" :src="$store.state.userObject.image_url" :size="30"></avatar>
+                        <avatar v-else :username="$store.state.userObject.email" :size="30" color="#fff"></avatar>
+                      </div>
                 </div>
                 <!--<div class="taskCommentsView-composer is-expanded">
                     <div class="taskCommentsView-textarea">
@@ -48,7 +46,22 @@
 <script>
   /* eslint-disable*/
 import { mapGetters } from 'vuex'
+import Ckeditor from 'vue-ckeditor2'
+import { markdownEditor } from 'vue-simplemde'
+// import { markdownEditor } from 'vue-simplemde'
+import Avatar from 'vue-avatar/dist/Avatar'
+import Vue from 'vue'
+import ElementUI from 'element-ui'
+import locale from 'element-ui/lib/locale/lang/en'
+Vue.use(ElementUI, { locale })
+
+
 export default {
+  components:{
+      Ckeditor,
+      markdownEditor,
+      Avatar
+  },
   props: ['filteredTodo'],
   data: function () {
     return {
