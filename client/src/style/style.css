@@ -1346,6 +1346,13 @@ a:hover, a:focus{
    right: 0;
     z-index: 1;
 }
+.Topbar1 {
+    position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+    z-index: 1;
+}
 .PageHeaderStructure {position: fixed;top: 40px;left: 0;right: 0;}
 .known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 153%;overflow: auto;min-width: 450px;}
 .asanaView-body { position: fixed;top: 20px;left: 0;right: 0;bottom: 0; }
@@ -4024,7 +4031,7 @@ a.CloseButton.QuickInvitePopup-closeButton {
         border: 1px solid #cdcfd2;
         display: inline-block;
         padding: 15px;
-        position: absolute;
+        position: sticky;
         top: 1px;
 }
 .QuickInvitePopup-content {

@@ -6,15 +6,12 @@
                 <a class="menu-button fa fa-times" href="#" title="Hide navigation"></a>
                 <li class="menu-item icon-picture"><a class="menu-item-back" @click="showRoleAccess" href="#roleAccess"></a></li>
                 <li class="menu-item fa fa-tasks"><a class="menu-item-back" @click="showMainTask" href="#main-container"></a></li>
-                <li class="menu-item fa fa-tachometer"><a class="menu-item-back" href="#menu"></a></li>
-                <li class="menu-item icon-star"><a class="menu-item-back" href="#menu"></a></li>
-                <li class="menu-item icon-envelope-alt"><a class="menu-item-back" href="#menu"></a></li>
-                <li class="menu-item icon-cloud"><a class="menu-item-back" href="#menu"></a></li>
+                <li class="menu-item glyphicon glyphicon-trash"><a class="menu-item-back" href="#menu" @click="showDeleteTasks"></a></li>
+                <li class="menu-item fa fa-plus-square-o"><a class="menu-item-back" href="#menu" @click="createProject"></a></li>
                 <Poptip class="menu-item icon-heart" placement="left-end">
-                    <li><a class="menu-item-back" ></a></li>
+                    <li></li>
                     <div slot="content" v-show="project.is_deleted==false" v-bind:key="project.id" v-for="(project, index) in projectList">
-                        <Collapse v-bind:key="project.id" accordion>
-                          <!-- v-if="project.project_privacy!=2" -->
+                        <Collapse v-bind:key="project.id" accordion v-if="project.project_privacy!=2">
                         <Panel>
                         <span :id="'panelProjectName-'+project.id" @click="projectSelect(project)" @mouseleave="hideOption(project.id)" @mouseover="showOption(project.id)" class="spanPanel">
                             <a class="DeprecatedNavigationLink">
@@ -161,10 +158,10 @@
                                                     <div class="TypeaheadItem">
                                                         <div class="TypeaheadItem-content">
                                                             <div class="TypeaheadItem-icon">
-                                                                <div v-if="member?true:false" class="Avatar Avatar--small Avatar--color2 Facepile-avatar">
-                                                                    <img v-if="member.image_url" v-bind:src="member.image_url" />
-                                                                    <span v-else>{{getLetters(member.fullname)}}</span>
-                                                                </div>
+                                                                <div v-if="member.email">
+                                                                    <avatar v-if="member.image_url" :username="member.email" :size="25" :src="member.image_url"></avatar>
+                                                                    <avatar v-else :username="member.email" color="#fff" :size="25"></avatar>
+                                                                  </div>
                                                                 <a id="member2" v-else @click="showMemberDetail($event)" class="CircularButton CircularButton--enabled CircularButton--small Facepile-placeholder" tabindex="0" aria-role="button">
                                                                     <div class="CircularButton-label">
                                                                         <svg class="Icon UserIcon Facepile-placeholderIcon" title="UserIcon" viewBox="0 0 32 32">
@@ -246,7 +243,7 @@
                                             <a class="DeprecatedNavigationLink SidebarItemRow SidebarTeamMembersExpandedMember-itemRow" href="javascript:void(0)">
                                               <div class="SidebarItemRow-avatar">
                                               <div v-if="member.email">
-                                                <avatar v-if="member.url" :username="member.user_id" :size="25" :src="member.url"></avatar>
+                                                <avatar v-if="member.url" :username="member.email" :size="25" :src="member.url"></avatar>
                                                 <avatar v-else :username="member.email" color="#fff" :size="25"></avatar>
                                               </div>
                                             </div>
@@ -266,9 +263,25 @@
                         </p>
                         </Panel>
                         </Collapse>
+                        <span v-else :id="'panelProjectName-'+project.id" @click="projectSelect(project)" @mouseleave="hideOption(project.id)" @mouseover="showOption(project.id)" class="spanPanel privateProject">
+                            <a class="DeprecatedNavigationLink">
+                                <span class="panelProjectName">{{projectNameElipse(project.project_name,15)}}</span>
+                                <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu" style="fill:transparent" @click="showProjectSetting(project)">
+                                    <svg class="Icon MoreIcon SidebarItemRow-icon SidebarItemRow-defaultIcon" title="MoreIcon" viewBox="0 0 32 32">
+                                        <circle cx="3" cy="16" r="3"></circle>
+                                        <circle cx="16" cy="16" r="3"></circle>
+                                        <circle cx="29" cy="16" r="3"></circle>
+                                    </svg>
+                                </span>
+                                <span :id="'ItemRowPrivacy-'+project.id" v-show="project.project_privacy == 2"  class="SidebarItemRow-statusIcon pull-right">
+                                    <svg class="Icon LockIcon" title="LockIcon" viewBox="0 0 32 32">
+                                        <path d="M24,12v-0.125V8c0-4.411-3.589-8-8-8S8,3.589,8,8v4H6v18h20V12H24z M14,12V8c0-1.103,0.897-2,2-2s2,0.897,2,2v4H14z M10,8c0-3.309,2.691-6,6-6s6,2.691,6,6v4h-2V8c0-2.206-1.794-4-4-4s-4,1.794-4,4v4h-2V8z M24,28H8V14h16V28z"></path>
+                                    </svg>
+                                </span>
+                            </a>
+                        </span>
                     </div>
                 </Poptip>
-                <li class="menu-item icon-user"><a class="menu-item-back" href="#menu"></a></li>
               </ul>
         </div>
         <create-project-dialog :show="isNewProjectDialogShow" v-on:updateDialog='updateDialogShow'></create-project-dialog>
@@ -281,10 +294,7 @@ import { mapGetters, mapMutations } from 'vuex'
 import CmnFunc from './CommonFunc.js'
 import ProjectItem from './ProjectItem.vue'
 import CreateProjectDialog from './CreateProjectDialog.vue'
-// import iView from 'iview';
 import Avatar from 'vue-avatar/dist/Avatar'
-// import 'iview/dist/styles/iview.css';
-// Vue.use(iView);
 Vue.directive('draggable', {
   bind: function (el) {
     el.style.position = 'fixed';
@@ -399,10 +409,10 @@ export default {
         }
       })
     },
-    beforeMount() {
-      this.displayToolTips()
-    },
     methods: {
+      ...mapMutations([
+            'showDeleteTasks'
+        ]),
       callAllProjectList: function() {
         this.$store.dispatch('getPermissions');
         this.$store.dispatch('getAllProjects', this.$store.state.userObject._id);
@@ -414,6 +424,7 @@ export default {
         this.$emit('eventChangeMenu',  this.isMyTask, this.isRoleAccess)
       },
       showMainTask(){
+        this.$store.state.deleteItemsSelected = false
         this.isRoleAccess = false
         this.isMyTask = true
         this.$emit('eventChangeMenu',  this.isMyTask, this.isRoleAccess)
@@ -619,9 +630,6 @@ export default {
         // Clear search value
         this.inputValue = "";
       },
-      displayToolTips: function() {
-        $('.CircularButton').tooltip({ title: "Create a project", placement: "bottom" });
-      },
       showMemberDetail(event) {
         var targetId = event.currentTarget.id;
       },
@@ -747,70 +755,67 @@ html, body {
   display: block;
 }
 .menu-item:nth-child(3) .menu-item-back {
-  transform: rotate(-64.28571deg) skew(-38.57143deg);
+  transform: rotate(-54deg) skew(-18deg);
 }
 .menu-item:nth-child(3):before {
   /* margin: sin(-90deg) * 110px 0 0 cos(-90deg) * 110px; */
-    margin: -110px 0 0 0px;
+  margin: -90px 0 0 -5px;
 }
 .menu-item:nth-child(4) {
   display: block;
 }
 .menu-item:nth-child(4) .menu-item-back {
-  transform: rotate(-12.85714deg) skew(-38.57143deg);
+  transform: rotate(18deg) skew(-18deg);
 }
 .menu-item:nth-child(4):before {
-  /* margin: sin(-38.57143deg) * 110px 0 0 cos(-38.57143deg) * 110px; */
-    margin: -68.58388px 0 0 44.00146px;
+  /* margin: sin(-18deg) * 110px 0 0 cos(-18deg) * 110px; */
+  margin: -25.99187px 0 0 48.61622px;
 }
 .menu-item:nth-child(5) {
   display: block;
 }
 .menu-item:nth-child(5) .menu-item-back {
-  transform: rotate(38.57143deg) skew(-38.57143deg);
+  transform: rotate(90deg) skew(-18deg);
 }
 .menu-item:nth-child(5):before {
-  /* margin: sin(12.85714deg) * 110px 0 0 cos(12.85714deg) * 110px; */
-    margin: 24.4773px 0 0 63.24207px;
+  /* margin: sin(54deg) * 110px 0 0 cos(54deg) * 110px; */
+  margin: 72.99187px 0 0 10.65638px;
 }
 .menu-item:nth-child(6) {
   display: block;
 }
 .menu-item:nth-child(6) .menu-item-back {
-  transform: rotate(90deg) skew(-38.57143deg);
+  transform: rotate(162deg) skew(-18deg);
 }
 .menu-item:nth-child(6):before {
-  /* margin: sin(64.28571deg) * 110px 0 0 cos(64.28571deg) * 110px; */
-    margin: 99.10658px 0 0 47.72721px;
+  /* margin: sin(126deg) * 110px 0 0 cos(126deg) * 110px; */
+  margin: 69.99187px 0 0 -94.65638px;
 }
 .menu-item:nth-child(7) {
   display: block;
 }
 .menu-item:nth-child(7) .menu-item-back {
-  transform: rotate(141.42857deg) skew(-38.57143deg);
+  transform: rotate(234deg) skew(-18deg);
 }
 .menu-item:nth-child(7):before {
-  /* margin: sin(115.71429deg) * 110px 0 0 cos(115.71429deg) * 110px; */
-    margin: 99.10658px 0 0 -47.72721px;
+  /* margin: sin(198deg) * 110px 0 0 cos(198deg) * 110px; */
+  margin: -25.99187px 0 0 -126.61622px;
 }
-.menu-item:nth-child(8) {
-  display: block;
+
+.menu-item:nth-child(7) .ivu-poptip-rel {
+    /* -webkit-transform: rotate(244.28571deg) skew(-38.57143deg); */
+    transform: rotate(234deg) skew(-18deg);
 }
-.menu-item:nth-child(8) .menu-item-back {
-  transform: rotate(192.85714deg) skew(-38.57143deg);
-}
-.menu-item:nth-child(8):before {
-  /* margin: sin(167.14286deg) * 110px 0 0 cos(167.14286deg) * 110px; */
-    margin: 24.4773px 0 0 -107.24207px;
-}
-.menu-item:nth-child(9) {
-  display: block;
-}
-.menu-item:nth-child(9) .menu-item-back {
-  transform: rotate(244.28571deg) skew(-38.57143deg);
-}
-.menu-item:nth-child(9):before {
-  /* margin: sin(218.57143deg) * 110px 0 0 cos(218.57143deg) * 110px; */
-    margin: -68.58388px 0 0 -125.00146px;
+.ivu-poptip-rel {
+background: #000;
+    width: 175px;
+    height: 150px;
+    position: absolute;
+    -webkit-transform-origin: 0px 150px;
+    transform-origin: 0px 150px;
+    margin-top: -150px;
+    left: 50%;
+    top: 50%;
+    border: 1px solid whitesmoke;
 }
 </style>

@@ -454,9 +454,9 @@
     //     this.displayToolTips()
     // },
     methods: {
-        ...mapMutations([
-            'showDeleteTasks'
-        ]),
+        // ...mapMutations([
+        //     'showDeleteTasks'
+        // ]),
         // callAllProjectList: function() {
         //     this.$store.dispatch('getPermissions');
         //     this.$store.dispatch('getAllProjects', this.$store.state.userObject._id);

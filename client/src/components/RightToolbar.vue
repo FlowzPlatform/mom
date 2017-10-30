@@ -22,7 +22,6 @@
                               <avatar v-else :username="user.email" color="#fff" :size="30"></avatar>
                           </div>
                           {{user.email}}</a>
-                        <!-- <hr>
                       </li>
                     </ul>
                   </span>

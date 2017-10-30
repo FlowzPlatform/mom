@@ -43,6 +43,17 @@
                                                         <tr  v-show="member.is_deleted == false" v-for="member in $store.state.currentProjectMember" v-bind:key="member.id" class="user invite active--grayHover">
                                                             <td>
                                                                 <div class="picture">
+                                                                    <!-- <div class="photo-view photo-view-remix inbox-size photo-view-rounded-corners ">
+                                                                        <div class="photoView-reactMount">
+
+                                                                            <div v-if="member.url" class="Avatar Avatar--medium Avatar--color11"  v-bind:style="{ 'background-image': 'url(' + member.url + ')' }" >
+                                                                            </div>
+
+                                                                            <div v-else class="Avatar Avatar--medium Avatar--color11">
+                                                                                               {{getLetters(member.email)}}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div> -->
                                                                     <div v-if="member.email">
                                                                         <avatar v-if="member.url" :username="member.email" :src="member.url" :size="30"></avatar>
                                                                         <avatar v-else :username="member.email" :size="30" color="#fff"></avatar>
