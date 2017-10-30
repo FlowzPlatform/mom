@@ -672,6 +672,7 @@ border: 1px solid transparent;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    margin-right: 5px;
 }
 .a{
 	color: #1aafd0;
@@ -1337,6 +1338,13 @@ a:hover, a:focus{
     left: 0;
     right: 0;
      z-index: 1;
+}
+.Topbar1 {
+    position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+    z-index: 1;
 }
 .PageHeaderStructure {position: fixed;top: 40px;left: 0;right: 0;}
 .known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;overflow: auto;min-width: 450px;}
@@ -2626,7 +2634,7 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
    background-color: #1aafd0;
    color: #fff !important;
 }
-.userlist li a span{
+/* .userlist li a span{
     height: 25px;
     width: 25px;
     border-radius: 50%;
@@ -2638,7 +2646,7 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
     line-height: 24px;
     text-align: center;
 
-}
+} */
 .userlist li a span img {
     max-height: 100%;
     max-width: 100%;
@@ -4017,7 +4025,7 @@ a.CloseButton.QuickInvitePopup-closeButton {
         border: 1px solid #cdcfd2;
         display: inline-block;
         padding: 15px;
-        position: absolute;
+        position: sticky;
         top: 1px;
 }
 .QuickInvitePopup-content {
@@ -5081,7 +5089,6 @@ th {
 }
 
 .workspace-users-body .scrolling-users.organization-style tr.user div {
-    overflow-x: hidden;
     text-overflow: ellipsis;
 }
 
