@@ -242,7 +242,10 @@
       <div slot="right-pane">-->
         <div :id="n.level" class="right_pane_container" v-for="(n, index) in parentIdArray">
           <div id="right_pane">
-            <main-right-section :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>
+            <div slot="subtask">
+              <main-right-section :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>
+            </div>
+            <!--<main-right-section :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>-->
           </div>
         </div>
       <!--</div>

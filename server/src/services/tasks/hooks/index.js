@@ -24,6 +24,7 @@ exports.before = {
       .merge({ 'progress': 0 })
       .merge({ 'progress_count': '' })
       .merge({ 'isTaskUpdate': false })
+      .merge({ 'isPinned': false })
       .merge({ 'attachmentprogress': 0 })
       .merge({ 'deleteprogress': 0 }).orderBy('index')
 

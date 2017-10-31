@@ -209,17 +209,17 @@ export const store = new Vuex.Store({
       },100)
       //****************************************************** */
 
-      var children = document.getElementById('main-container').children;
-      var totalWidth = 0;
-      for (var i = 0; i < children.length; i++) {
-        totalWidth += children[i].offsetWidth;
-      }
-      var leftPos = $('#main-container').scrollLeft();
-      $("div#main-container").animate({
-        scrollLeft: totalWidth
-      }, 800)
-      
+      // var children = document.getElementById('main-container').children;
+      // var totalWidth = 0;
+      // for (var i = 0; i < children.length; i++) {
+      //   totalWidth += children[i].offsetWidth;
+      // }
+      // var leftPos = $('#main-container').scrollLeft();
+      // $("div#main-container").animate({
+      //   scrollLeft: totalWidth
+      // }, 800)
       // END scroll to last opened right div 
+
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
         // window.history.pushState("", "Title", "http://localhost:3000/navbar/task/" + (payload.level + 1) + "/" + payload.id);
@@ -237,11 +237,19 @@ export const store = new Vuex.Store({
           if (state.parentIdArr.length > 0) {
             state.parentIdArr.splice(0, state.parentIdArr.length);
             for (var i = 0; i < tempParentIds.length; i++) {
-              if (tempParentIds[i].level < parentIdArrObj.level) {
+              if (tempParentIds[i].level < parentIdArrObj.level && !tempParentIds[i].isPinned) {
                 state.parentIdArr.push(tempParentIds[i]);
+              } 
+            }
+            if(!parentIdArrObj.isPinned)
+              state.parentIdArr.push(parentIdArrObj);
+            
+            // Add pinned window at last position
+            for (var i = 0; i < tempParentIds.length; i++) {
+              if(tempParentIds[i].isPinned){
+                state.parentIdArr.push(tempParentIds[i])
               }
             }
-            state.parentIdArr.push(parentIdArrObj);
           }
           else {
             state.parentIdArr.push(parentIdArrObj);
@@ -249,6 +257,7 @@ export const store = new Vuex.Store({
         }
       }
     },
+    
     CLOSE_DIV(state, payload) {
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
@@ -257,9 +266,15 @@ export const store = new Vuex.Store({
         if (state.parentIdArr.length > 0) {
           state.parentIdArr.splice(0, state.parentIdArr.length);
           for (var i = 0; i < tempParentIds.length; i++) {
-            if (tempParentIds[i].level < parentIdArrObj.level) {
+            if (tempParentIds[i].level < parentIdArrObj.level && !tempParentIds[i].isPinned) {
               state.parentIdArr.push(tempParentIds[i]);
             }
+          }
+
+          for (var i = 0; i < tempParentIds.length; i++) {
+              if(tempParentIds[i].isPinned){
+                state.parentIdArr.push(tempParentIds[i])
+              }
           }
         }
       }

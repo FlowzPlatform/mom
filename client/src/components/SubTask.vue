@@ -1,10 +1,5 @@
 <template>
-  <div>
-    <slot name="subtask">
-      <sub-task :id="todoObject.level" :pholder="subtaskPholder" :todoObject="todoObject" :a="todoObject"></sub-task>
-    </slot>
-  </div>
-  <!--<div class="rightsection-view" :id="id">
+  <div class="rightsection-view" :id="id">
     <div class="DropTargetAttachment">
       <section class="todoapp right_bar">
         <right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState' " :filteredTodo="todoObject"></right-toolbar>
@@ -14,6 +9,8 @@
             <span class="TaskUndeleteBanner-message">This task is deleted.</span>
             <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" @click="undelete(todoObject)">Undelete</a>
             <a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
+            <!--<a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" @click="deletePermently(todoObject)">Delete Permanently</a>-->
+            <!--@click="deletePermently(todoObject)"-->
             <noscript></noscript>
 	        </div>
       	<text-description :id="id" :filteredTodo="todoObject"></text-description>
@@ -32,6 +29,15 @@
           </panel>
         </collapse>
         <statuses :selectedState="typeStateList" :filteredTodo="todoObject" :id="id"></statuses>
+        <!--<attachments :filteredTodo="todoObject"> </attachments>-->
+        <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#attachment">Attachments</div>-->
+        <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#attachment">Attachents</button>-->
+        <!--<attachments id="attachment" class="collapse" :filteredTodo="todoObject"> </attachments>-->
+        <!--<hr>-->
+        <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#tags">Tags</div>-->
+        <!--<button type="button" class="btn btn-info button-collapse" <data-togg></data-togg>le="collapse" data-target="#tags">Tags</button>
+        <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
+          <!--<tags :filteredTodo="todoObject"></tags>-->
           <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder"
             :filtered-todos="taskById"></main-left-section>
           <history-log  :taskId="todoObject.id" :historyLog="historyLog"></history-log>
@@ -43,7 +49,8 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h4 class="modal-title" id="myModalLabel2">Permanently Delete {{todoObject.taskName}}</h4>
+              <h4 class="modal-title" id="myModal
+              Label2">Permanently Delete {{todoObject.taskName}}</h4>
             </div>
             <div class="modal-body">  
               This will permanently delete the task and associated subtasks. These items will no longer be accessible to you or anyone
@@ -58,12 +65,11 @@
       </div>
     </div>
     <right-footer v-show="createCommentBox" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" :filteredTodo="todoObject"></right-footer>
-  </div>-->
+  </div>
 </template>
 <script>
   /* eslint-disable*/
   import Vue from 'vue'
-  import SubTask from './SubTask.vue'
   import MainLeftSection from './MainLeftSection.vue'
   import TextDescription from './TextDescription.vue'
   import RightFooter from './RightFooter.vue'
@@ -278,16 +284,15 @@
       }
     },
     components: {
-      // RightFooter,
-      // MainLeftSection,
-      // TextDescription,
-      // RightToolbar,
-      // Attachments,
-      // StoryFeed,
-      // Tags,
-      // Statuses,
-      // HistoryLog
-      SubTask
+      RightFooter,
+      MainLeftSection,
+      TextDescription,
+      RightToolbar,
+      Attachments,
+      StoryFeed,
+      Tags,
+      Statuses,
+      HistoryLog
     }
   }
 </script>

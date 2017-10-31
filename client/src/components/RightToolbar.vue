@@ -119,6 +119,15 @@
           </a>
         </div>
       </span>
+      <div class="loading-boundary reskinToolbarActionMenu" @click="pinit(filteredTodo)">
+        <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+           style="margin-top: 4px; margin-left:5px;">
+          <span class="circularButtonView-label">        
+          <i class="glyphicon glyphicon-pushpin" aria-hidden="true" title="Pin it"></i>   
+          <!--<span class="glyphicons glyphicons-pushpin"></span> -->
+        </span>
+        </div>
+      </div>
       <div class="loading-boundary reskinToolbarActionMenu">
         <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
           tabindex="410" @click="openfullwinodw(filteredTodo.level)" style="margin-top: 7px">
@@ -494,6 +503,19 @@
           this.taskPriorityCreate = false
         } else {
           this.taskPriorityCreate = true
+        }
+      },
+      pinit(filteredTodo){
+        console.log('TODO Object', filteredTodo)
+        // let pinObj = _.find(this.$store.state.todolist, ['id', filteredTodo.id])
+        // console.log('pinnned OBJ', pinObj)
+        if( _.find(this.$store.state.todolist, ['id', filteredTodo.id]) &&  ! _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned){
+           console.log('pinnned true')
+          _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned = true;
+        }
+        else{
+          console.log('pinnned false')
+          _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned = false;
         }
       }
     },
