@@ -63,7 +63,7 @@ export default {
 }
 
 .nav {
-    right: 15px;
+    right: 42px;
     z-index: 20;
     width: 45px;
     bottom: 15px;
