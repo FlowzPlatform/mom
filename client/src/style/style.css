@@ -2309,7 +2309,7 @@ hr {
     margin: 2px -28px;
 }
 .FeedBlockStory {
-    padding: 10px 28px;
+    padding: 10px 15px;
     /*position: relative;*/
     width: 100%;
 }
@@ -3223,7 +3223,7 @@ ol, ul {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
-    /* background: center/cover #cdcfd2; */
+    background: center/cover #cdcfd2;
     border-radius: 50%;
     box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
     -moz-box-sizing: border-box;

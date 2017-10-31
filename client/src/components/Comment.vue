@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="height:100%;overflow-x:scroll">
         <div class="nav">
             <div class="mask" @click="writeComment">
                 <i id="icon-comment" class="fa fa-pencil"></i>
@@ -63,20 +63,21 @@ export default {
 }
 
 .nav {
-    right: 15px;
+    right: 42px;
     z-index: 20;
     width: 45px;
     bottom: 15px;
     height: 45px;
     display: block;
     position: absolute;
+    /* bottom: 50px; */
     line-height: 45px;
     border-radius: 50%;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, .75);
 }
 
 .mask {
-    z-index: 21;
+     z-index: 21;
     color: #fff;
     width: inherit;
     height: inherit;
@@ -85,6 +86,7 @@ export default {
     text-align: center;
     border-radius: 50%;
     position: absolute;
+    /*bottom: 50px; */
     background: #f23363;
     -webkit-transition: all .1s ease-in-out 0s;
     transition: all .1s ease-in-out 0s;

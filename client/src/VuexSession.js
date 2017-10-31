@@ -1961,7 +1961,7 @@ export const store = new Vuex.Store({
     findHistoryLog({commit},taskId){
       services.taskHistoryLogs.find({ query: { task_id: taskId } }).then(response => {
         response.sort(function (a, b) {
-            return new Date(a.created_on).getTime() - new Date(b.created_on).getTime()
+            return new Date(b.created_on).getTime() - new Date(a.created_on).getTime()
         });
         store.state.taskHistoryLog = response
         console.log("Hisory Log watch:-->", store.state.taskHistoryLog)

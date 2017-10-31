@@ -510,7 +510,7 @@ div.right_pannel {
 }
 
 .tab-pannel {
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   height: 95%;
   position: absolute;
   width: 100%;
