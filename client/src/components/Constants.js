@@ -9,9 +9,7 @@ export const USER_ACTION={
     TAG:4,
     ATTACHEMENT:5,
     TASK_PRIORITY:6,
-    ESTIMATED_HOURS:7,
-    MEMBER:9,
-    TASK_TYPE: 8
+    ESTIMATED_HOURS:7
     }
 
     export const PERMISSION_ACTION={
@@ -20,17 +18,3 @@ export const USER_ACTION={
         UPDATE:2,
         DELETE:3
         }
-
-
-        export const HISTORY_LOG_ACTION={
-            TASK_CREATE:0,
-            TASK_UPDATE:1,
-            TASK_DELETE:2,
-            ATTACHEMENT_UPLOAD:3,
-            TAG:4,
-            ATTACHEMENT:5,
-            TASK_PRIORITY:6,
-            ESTIMATED_HOURS:7,
-            TASK_ASSIGN:8,
-            }
-        

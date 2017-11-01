@@ -1,5 +1,5 @@
 <template>
-    <div id="project-setting-dialog" class="hidden tab-ring" v-show="(this.$store.state.currentProjectMember && this.$store.state.currentProjectMember.length>0)" v-esc="closeDialog" tabindex="-1" data-luna1-event-id="6">
+    <div id="project-setting-dialog" class="hidden tab-ring" v-show="this.$store.state.currentProjectMember.length>0" v-esc="closeDialog" tabindex="-1" data-luna1-event-id="6">
         <div class="fullscreen-harness dialog2-fullscreen" style="">
             <div class="dialog2-background"></div>
         </div>
@@ -366,10 +366,848 @@ export default {
 }
 </script>
 <style>
+/* 
+* Drop down menu
+*/
+.dropdown-menu.some-items-are-selected{
+        display: inline-grid;   
+}
+.dropdown-menu.some-items-are-selected .menu-item {
+    padding: 0px 27px;
+}
+.dropdown .dropdown-menu .menu-item:hover:not(.disabled), .dropdown .dropdown-menu .menu-item.hovered:not(.disabled), .dropdown .dropdown-menu .item:hover:not(.disabled), .dropdown .dropdown-menu .item.hovered:not(.disabled) {
+    background-color: #14aaf5;
+    cursor: pointer;
+    color: #fff;
+    text-decoration: none;
+}
+.dropdown .dropdown-menu {
+    min-width: 215px;
+}
+.dropdown-menu.some-items-are-selected .menu-item .dropdownMenuItem-selectedIcon {
+    height: 12px;
+    margin-left: -17px;
+    margin-right: 5px;
+    width: 12px;
+}
+.dropdown .menu-item, .dropdown .item, .dropdown .menu-widget {
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    box-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    -o-align-items: center;
+    align-items: center;
+    -ms-flex-align: center;
+    color: #151b26;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    width: 100%;
+    font-size: 13px;
+    height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: visible;
+    padding: 0 10px;
+}
+.menu-item {
+    margin-bottom: 1px;
+}
+.dialog2-fullscreen {
+    z-index: 900;
+}
+
+.fullscreen-harness {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    background-color: rgba(0, 0, 0, 0.01);
+}
+
+.fullscreen-harness>* {
+    width: 100%;
+    height: 100%;
+}
+
+.dialog2-background {
+    background: #646f79;
+    opacity: 0.7;
+}
+
+.fullscreen-harness>* {
+    width: 100%;
+    height: 100%;
+}
+
+.dialog2-container {
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    box-orient: vertical;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    -moz-box-align: center;
+}
+
+.dialog2-container .pre-spacer {
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -moz-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    max-height: 150px;
+}
+
+.dialog2 {
+    background-color: white;
+    border-radius: 3px 3px 3px 3px;
+    -webkit-border-radius: 3px 3px 3px 3px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    box-orient: vertical;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+    font-size: 13px;
+    outline: none;
+    width: 580px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dialog2 .header {
+    border-bottom: 1px solid #e0e6e8;
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    box-orient: vertical;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    -webkit-flex-shrink: 0;
+    -moz-flex-shrink: 0;
+    flex-shrink: 0;
+    -ms-flex-negative: 0;
+    padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.dialog2 .header .title {
+    color: #151b26;
+    font-size: 24px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.dialog2 .header .title .secondary-title {
+    margin-left: 7px;
+    color: #848f99;
+}
+
+.borderless-button {
+    fill: #d5dce0;
+    cursor: pointer;
+}
+
+.dialogView2-closeX {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.dialog2 .tab-view {
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1;
+    -webkit-flex: 1 0 auto;
+    -moz-flex: 1 0 auto;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    margin-bottom: -11px;
+    margin-top: 15px;
+}
+
+.tab-view {
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: end;
+    -moz-box-align: end;
+    box-align: end;
+    -webkit-align-items: flex-end;
+    -moz-align-items: flex-end;
+    -ms-align-items: flex-end;
+    -o-align-items: flex-end;
+    align-items: flex-end;
+    -ms-flex-align: end;
+    border-bottom: 1px solid #e0e6e8;
+    font-size: 13px;
+    width: 100%;
+}
+
+.tab {
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    color: #848f99;
+    margin-right: 30px;
+    padding-bottom: 8px;
+    transition-duration: .2s;
+    transition-property: box-shadow, color;
+}
+
+.tab.selected {
+    box-shadow: inset 0 -3px #ff5263;
+    -moz-box-shadow: inset 0 -3px #ff5263;
+    -webkit-box-shadow: inset 0 -3px #ff5263;
+    color: #151b26;
+    cursor: default;
+}
+
+.tab {
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    color: #848f99;
+    margin-right: 30px;
+    padding-bottom: 8px;
+    transition-duration: .2s;
+    transition-property: box-shadow, color;
+}
+
+a.tabView-tabName {
+    color: inherit;
+}
+
+a {
+    background-color: transparent;
+}
+
+a {
+    color: #14aaf5;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.tab:last-child {
+    margin-right: 0;
+}
+
+.manageMembers-upgradeBanner {
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    box-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    -o-align-items: center;
+    align-items: center;
+    -ms-flex-align: center;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    background-color: #fffede;
+    color: #646f79;
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    line-height: 16px;
+    min-height: 40px;
+    margin: 2px;
+    padding: 15px 30px;
+}
+
+.organizations-upgrade-prompt {
+    fill: #fcbd01;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    box-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    -o-align-items: center;
+    align-items: center;
+    -ms-flex-align: center;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    background-color: #fffede;
+    color: #646f79;
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    line-height: 16px;
+    min-height: 30px;
+    margin: 2px;
+    padding: 15px;
+}
+
+.organizations-upgrade-prompt .organizations-upgrade-prompt-button.buttonView--primary {
+    background: #fcbd01;
+    border-color: #fcbd01;
+}
+
+.organizations-upgrade-prompt .organizations-upgrade-prompt-button {
+    margin-left: auto;
+}
+
+.buttonView.buttonView--primary {
+    color: #fff;
+    fill: #fff;
+}
+
+.buttonView.buttonView--default {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+}
+
+.buttonView.buttonView--primary {
+    background: #14aaf5;
+    border-color: #14aaf5;
+}
+
+.dialog2 .primary.button,
+.dialog2 .buttonView--primary {
+    float: right;
+}
+
+.organizations-upgrade-prompt a {
+    margin-left: 0.5em;
+    font-weight: normal;
+}
+
+.buttonView {
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    box-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    -o-align-items: center;
+    align-items: center;
+    -ms-flex-align: center;
+    border-radius: 3px;
+    border-style: solid;
+    border-width: 1px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -webkit-transition: background 200ms, border 200ms, box-shadow 200ms, color 200ms;
+    -moz-transition: background 200ms, border 200ms, box-shadow 200ms, color 200ms;
+    transition: background 200ms, border 200ms, box-shadow 200ms, color 200ms;
+    cursor: pointer;
+    display: -webkit-inline-box;
+    display: -moz-inline-box;
+    display: inline-box;
+    display: -webkit-inline-flex;
+    display: -moz-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-flex-shrink: 0;
+    -moz-flex-shrink: 0;
+    flex-shrink: 0;
+    -ms-flex-negative: 0;
+    font-size: 13px;
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    box-pack: center;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    -ms-justify-content: center;
+    -o-justify-content: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    line-height: 1;
+    min-width: 60px;
+}
+
+.workspace-users-body .scrolling-users.organization-style table {
+    table-layout: fixed;
+}
+
+.workspace-users-body table {
+    width: 100%;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+colgroup {
+    display: table-column-group;
+}
+
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+
+.manage_workspace_dialog.manage-workspace-members-tab .content tr.user {
+    height: 40px;
+}
+
+.workspace-users-body .scrolling-users .user {
+    border-bottom: 2px solid transparent;
+    border-top: 2px solid transparent;
+    line-height: normal;
+}
+
+.workspace-users-body .scrolling-users.organization-style td:nth-of-type(1) {
+    padding-left: 28px;
+}
+
+.workspace-users-body .scrolling-users.organization-style tr td {
+    vertical-align: middle;
+    white-space: nowrap;
+    font-size: 11px;
+}
+
+.workspace-users-body .scrolling-users .user td {
+    height: 35px;
+}
+
+td,
+th {
+    padding: 0;
+}
 
 td {
     padding: 0;
 }
+
+.workspace-users-body .scrolling-users .user .picture {
+    float: left;
+    padding-right: 10px;
+}
+
+.photo-view.inbox-size {
+    height: 30px;
+    width: 30px;
+}
+
+.photo-view {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    display: inline-block;
+}
+
+.workspace-users-body .scrolling-users.organization-style tr.user div {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
+
+.Avatar.Avatar--medium.Avatar--color11 {
+    background-color: #37c5ab;
+}
+
+.Avatar.Avatar--medium {
+    font-size: 11px;
+    height: 30px;
+    line-height: 30px;
+    width: 30px;
+}
+
+.Avatar {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background: center/cover #d5dce0;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #fff;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    position: relative;
+    vertical-align: top;
+}
+
+.workspace-users-body .scrolling-users.organization-style tr.user .name,
+.workspace-users-body .scrolling-users.organization-style tr.user .external-label,
+.workspace-users-body .scrolling-users.organization-style tr.user .manageMembers-removeLink {
+    font-size: 13px;
+}
+
+.name.pad-top.no-email {
+    text-align: left;
+}
+
+.workspace-users-body .scrolling-users.organization-style tr td .no-email {
+    padding-top: 8px;
+}
+
+.workspace-users-body .scrolling-users.organization-style tr.user .email {
+    color: #848f99;
+}
+
+.workspace-users-body .scrolling-users .user.active--grayHover:hover,
+.workspace-users-body .scrolling-users .user.invite--grayHover:hover {
+    background-color: #f6f8f9;
+    color: #000;
+}
+
+.manage_workspace_dialog .workspace-users-footer {
+    -webkit-flex-shrink: 0;
+    -moz-flex-shrink: 0;
+    flex-shrink: 0;
+    -ms-flex-negative: 0;
+    padding: 15px 28px;
+}
+
+.manage_workspace_dialog .separator {
+    height: 3px;
+    width: 100%;
+    background-color: #e0e6e8;
+}
+
+.manage_workspace_dialog .workspace-users-footer .invite-user-view {
+    margin-bottom: 0px;
+}
+
+.invite-user-view {
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: stretch;
+    -moz-box-align: stretch;
+    box-align: stretch;
+    -webkit-align-items: stretch;
+    -moz-align-items: stretch;
+    -ms-align-items: stretch;
+    -o-align-items: stretch;
+    align-items: stretch;
+    -ms-flex-align: stretch;
+    -webkit-flex-flow: column nowrap;
+    -moz-flex-flow: column nowrap;
+    flex-flow: column nowrap;
+}
+
+.manage_workspace_dialog .workspace-users-footer .section-header {
+    border-radius: 0;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.invite-form-header.section-header {
+    padding-top: 10px;
+    padding-bottom: 6px;
+}
+
+.dialog2 .section-header {
+    font-size: 11px;
+    font-weight: 500;
+    color: #646f79;
+    text-transform: uppercase;
+}
+
+.invite-user-view .invite-form-body {
+    -webkit-box-align: start;
+    -moz-box-align: start;
+    box-align: start;
+    -webkit-align-items: flex-start;
+    -moz-align-items: flex-start;
+    -ms-align-items: flex-start;
+    -o-align-items: flex-start;
+    align-items: flex-start;
+    -ms-flex-align: start;
+}
+
+.invite-user-view .invite-form-body,
+.invite-user-view .inviteUserView-buttonRow {
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -moz-box-pack: justify;
+    box-pack: justify;
+    -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    -ms-justify-content: space-between;
+    -o-justify-content: space-between;
+    justify-content: space-between;
+    -ms-flex-pack: justify;
+    -webkit-flex-flow: row wrap;
+    -moz-flex-flow: row wrap;
+    flex-flow: row wrap;
+}
+
+.invite-user-view.wide .invite-form-field:first-child {
+    margin-right: 15px;
+}
+
+.invite-user-view .invite-form-field {
+    -webkit-flex-grow: 1;
+    -moz-flex-grow: 1;
+    flex-grow: 1;
+    -ms-flex-positive: 1;
+    margin-bottom: 15px;
+}
+
+.invite-user-view .field-name {
+    padding-bottom: 5px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.field-name {
+    text-align: right;
+    padding: 0 10px 0 0;
+    vertical-align: middle;
+}
+
+.field-name,
+.invite-header {
+    font-size: 11px;
+    color: #848f99;
+    padding-right: 14px;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.workspace-users-body .scrolling-users.organization-style tr.user.active--grayHover:hover .manageMembers-workspaceGuestnessSelect:hover,
+.workspace-users-body .scrolling-users.organization-style tr.user.active--grayHover:hover .manageMembers-workspaceGuestnessSelect:focus,
+.workspace-users-body .scrolling-users.organization-style tr.user.invite--grayHover:hover .manageMembers-workspaceGuestnessSelect:hover,
+.workspace-users-body .scrolling-users.organization-style tr.user.invite--grayHover:hover .manageMembers-workspaceGuestnessSelect:focus {
+    border-bottom: 1px solid #848f99;
+    color: #848f99;
+    fill: #848f99;
+}
+
+.workspace-users-body .scrolling-users .user:not(:hover) .manageMembers-removeLink,
+.workspace-users-body .scrolling-users .user:not(:hover) .manageMembers-workspaceGuestnessSelect,
+.workspace-users-body .scrolling-users .user:not(:hover) .you-reminder-text {
+    visibility: visible;
+}
+
+.workspace-users-body .scrolling-users.organization-style tr.user .manageMembers-removeLink {
+    border-bottom: 1px dotted #848f99;
+    color: #848f99;
+    fill: #848f99;
+}
+
+.buttonView.buttonView--primary.is-disabled {
+    background: #edf1f2;
+    border: 1px solid #e0e6e8;
+    box-shadow: inset 0 0 transparent, 0 0 0 0 transparent;
+    -moz-box-shadow: inset 0 0 transparent, 0 0 0 0 transparent;
+    -webkit-box-shadow: inset 0 0 transparent, 0 0 0 0 transparent;
+    color: #848f99;
+    fill: #848f99;
+}
+
+.checkboxWidget:not(.checkboxWidget--disabled).checkboxWidget--unchecked {
+    background-color: #fff;
+    border-color: #848f99;
+}
+
+.invite-user-view .inviteUserView-guestOption-checkbox {
+    margin-right: 5px;
+    position: relative;
+}
+
+.checkboxWidget:not(.checkboxWidget--disabled).checkboxWidget--checked {
+    background-color: #14aaf5;
+}
+
+.buttonView.buttonView--primary {
+    background: #14aaf5;
+    border-color: #14aaf5;
+}
+
+.checkboxWidget:not(.checkboxWidget--disabled) {
+    cursor: pointer;
+}
+
+.checkboxWidget {
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    box-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    -o-align-items: center;
+    align-items: center;
+    -ms-flex-align: center;
+    display: -webkit-inline-box;
+    display: -moz-inline-box;
+    display: inline-box;
+    display: -webkit-inline-flex;
+    display: -moz-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-flex-flow: row nowrap;
+    -moz-flex-flow: row nowrap;
+    flex-flow: row nowrap;
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    box-pack: center;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    -ms-justify-content: center;
+    -o-justify-content: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    height: 14px;
+    width: 14px;
+}
+
+.scrolling-users.organization-style .loading-boundary {
+    max-height: 202px;
+    overflow: auto;
+    margin-bottom: 25px;
+}
+
+.invite-user-view .inviteUserView-emailForm {
+    width: 100%;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.invite-user-view .field-status {
+    display: none;
+}
+
+.invite-user-view .field-status {
+    width: 100%;
+    min-width: 19px;
+    padding: 4px 10px 4px 4px;
+    vertical-align: middle;
+}
+
+input[type=text].generic-input,
+input[type=password].generic-input {
+    height: 30px;
+}
+
+.invite-user-view .generic-input {
+    width: 100%;
+}
+
+.generic-input.showing,
+textarea.showing,
+.recurly input[type=text].showing,
+.recurly .recurly-hosted-field.showing {
+    border: 1px solid #d5dce0;
+}
+
+.generic-input,
+textarea,
+.recurly input[type=text],
+.recurly .recurly-hosted-field {
+    border-radius: 3px 3px 3px 3px;
+    -webkit-border-radius: 3px 3px 3px 3px;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    color: #151b26;
+    padding-left: 10px;
+    border: 1px solid transparent;
+}
+
 input {
     line-height: normal;
 }

@@ -236,7 +236,7 @@
                     return
                 }
                 var self = this
-                // CmnFunc.resetProjectDefault()
+                CmnFunc.resetProjectDefault()
                 console.log('LOG IN--> userloginprocess')
                 this.$store.dispatch('userLoginProcess', { 'email': trimmedEmail, 'password': trimmedPwd })
                     .then(function () {

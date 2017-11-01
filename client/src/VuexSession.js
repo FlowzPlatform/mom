@@ -5,13 +5,11 @@ import createPersistedState from 'vuex-persistedstate'
 import moment from 'moment'
 import * as services from './services'
 import axios from 'axios'
-import * as Constant from './components/Constants.js'
-import CmnFunc from './components/CommonFunc.js'
 
 Vue.use(Vuex)
 
 services.socket.on("reconnect", function () {
-  console.log('-----reconnect fired!-------');
+  console.log('----reconnect fired!-------');
 });
 
 function setProgressBar(state, todoObject) {
@@ -99,7 +97,6 @@ function updateObject(oldObject, newObject) {
 
 export const store = new Vuex.Store({
   state: {
-    comments:'',
     userObject: {},
     isAuthorized: false,
     todolist: [],
@@ -142,12 +139,8 @@ export const store = new Vuex.Store({
     task_types_state: [],
     googleId: '',
     removeMember:{},
-    currentProject:{},
     permissions:{},
     currentProjectRoleid:'',
-    commentValue: '',
-    taskHistoryLog:{},
-    accessRight:{}
   },
   mutations: {
     userData: state => state.userObject,
@@ -155,7 +148,6 @@ export const store = new Vuex.Store({
     progressVal: state => state.progress,
     googleId: state => state.googleId,
     removeMember: state => state.removeMember,
-   
 
     // showProgress: state => state.isProgress,
     // showLoader: state => state.isLoading,
@@ -169,7 +161,6 @@ export const store = new Vuex.Store({
     },
     GET_ROLES(state, data) {
       if (data) {
-        state.userRoles=data;
         for (var i = 0; i < data.length; i++) {
           let index = _.findIndex(state.userRoles, function (d) { return d.id == data[i].id })
           if (index < 0) {
@@ -196,7 +187,6 @@ export const store = new Vuex.Store({
       }
     },
     async SHOW_DIV(state, payload) {
-       state.isSliderOpen = false
       // START scroll to last opened right div 
       //set focus on selected TODO Item. 
       //CAUTION:Take care before add any code here. If made any change in focus set code it may interrupt functionality.03/08/2017
@@ -209,17 +199,17 @@ export const store = new Vuex.Store({
       },100)
       //****************************************************** */
 
-      // var children = document.getElementById('main-container').children;
-      // var totalWidth = 0;
-      // for (var i = 0; i < children.length; i++) {
-      //   totalWidth += children[i].offsetWidth;
-      // }
-      // var leftPos = $('#main-container').scrollLeft();
-      // $("div#main-container").animate({
-      //   scrollLeft: totalWidth
-      // }, 800)
+      var children = document.getElementById('main-container').children;
+      var totalWidth = 0;
+      for (var i = 0; i < children.length; i++) {
+        totalWidth += children[i].offsetWidth;
+      }
+      var leftPos = $('#main-container').scrollLeft();
+      $("div#main-container").animate({
+        scrollLeft: totalWidth
+      }, 800)
+      
       // END scroll to last opened right div 
-
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
         // window.history.pushState("", "Title", "http://localhost:3000/navbar/task/" + (payload.level + 1) + "/" + payload.id);
@@ -237,19 +227,11 @@ export const store = new Vuex.Store({
           if (state.parentIdArr.length > 0) {
             state.parentIdArr.splice(0, state.parentIdArr.length);
             for (var i = 0; i < tempParentIds.length; i++) {
-              if (tempParentIds[i].level < parentIdArrObj.level && !tempParentIds[i].isPinned) {
+              if (tempParentIds[i].level < parentIdArrObj.level) {
                 state.parentIdArr.push(tempParentIds[i]);
-              } 
-            }
-            if(!parentIdArrObj.isPinned)
-              state.parentIdArr.push(parentIdArrObj);
-            
-            // Add pinned window at last position
-            for (var i = 0; i < tempParentIds.length; i++) {
-              if(tempParentIds[i].isPinned){
-                state.parentIdArr.push(tempParentIds[i])
               }
             }
+            state.parentIdArr.push(parentIdArrObj);
           }
           else {
             state.parentIdArr.push(parentIdArrObj);
@@ -257,7 +239,6 @@ export const store = new Vuex.Store({
         }
       }
     },
-    
     CLOSE_DIV(state, payload) {
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
@@ -266,15 +247,9 @@ export const store = new Vuex.Store({
         if (state.parentIdArr.length > 0) {
           state.parentIdArr.splice(0, state.parentIdArr.length);
           for (var i = 0; i < tempParentIds.length; i++) {
-            if (tempParentIds[i].level < parentIdArrObj.level && !tempParentIds[i].isPinned) {
+            if (tempParentIds[i].level < parentIdArrObj.level) {
               state.parentIdArr.push(tempParentIds[i]);
             }
-          }
-
-          for (var i = 0; i < tempParentIds.length; i++) {
-              if(tempParentIds[i].isPinned){
-                state.parentIdArr.push(tempParentIds[i])
-              }
           }
         }
       }
@@ -298,7 +273,6 @@ export const store = new Vuex.Store({
       
     },
     CLEAR_PROJECT_DEFAULT(state) {
-      
       state.userObject = {}
       state.isAuthorized = false
       state.todolist = []
@@ -324,27 +298,9 @@ export const store = new Vuex.Store({
       state.arrAllUsers = []
       state.projectlist = []
       state.userRoles = []
-      state.currentProjectId = undefined
-      state.currentProjectName = undefined
+      state.currentProjectId = ""
+      state.currentProjectName = ""
       state.currentProjectPrivacy = ''
-      state.projectSettingId= 0
-      state.currentProjectMember= ''
-      state.c={}
-      state.projectSettingMenuOffset= 0
-      state.createdByTaskList= []
-      state.recentlyCompletedTasks= []
-      state.searchView= ''
-      state.assignedToOthers= [],
-      state.taskIndex= -1
-      state.task_types_list= []
-      state.task_state_list= []
-      state.task_types_state= []
-      state.googleId= ''
-      state.removeMember={}
-      state.permissions={}
-      state.currentProjectRoleid=''
-
-      console.log("Reset ALl ")
     },
     changeFilters(state, key) {
       state.visibility = key
@@ -374,12 +330,6 @@ export const store = new Vuex.Store({
           updateObject(state.todolist[updateTodoIndex], item)
           if(item.type_id)
             Vue.set(state.todolist[updateTodoIndex], 'type_id', item.type_id)
-            if(item.type_id){
-              console.log("item.type_id",item.type_id)
-                Vue.set(state.accessRight,0,{})
-              // state.accessRight.task_type = item.type_id;
-             // Vue.set(state.accessRight, state.accessRight.task_type, item.type_id)
-            }
           // show if any updates found for TODO
           if (item.updatedBy !== state.userObject._id) {
             state.todolist[updateTodoIndex].isTaskUpdate = true
@@ -578,8 +528,8 @@ export const store = new Vuex.Store({
       state.taskTags.push(taskTagObject)
     },
     REMOVE_TASKTAG(state, taskTagObject) {
-      let removeTodoIndex = _.findIndex(state.taskTags, function (d) { return d.id == taskTagObject.id })
-      state.taskTags.splice(removeTodoIndex,1)
+      let removeTodoIndex = _.findIndex(state.taskTags, function (d) { return d.id == taskTagObject.tag_id })
+      state.taskTags.splice(removeTodoIndex, 1)
     },
     GET_OBJECT_BYID(state, todoObject) {
       state.todoObjectByID = todoObject
@@ -610,20 +560,13 @@ export const store = new Vuex.Store({
     updateProjectList(state, value) {
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
       if (updateProjectIndex >= 0) {
-          state.projectlist[updateProjectIndex].project_privacy = value.project_privacy;
-          state.projectlist[updateProjectIndex].project_name = value.project_name;
-          state.currentProjectId = value.id
-          state.currentProjectName = value.project_name
-          state.currentProjectPrivacy = value.project_privacy
-          
+        state.projectlist[updateProjectIndex].project_privacy = value.project_privacy;
       }
-  
     },
     updateDragableProjectList(state, value) {
       state.projectlist = value
     },
      updateProjectServiceRoleList(state,value){
-        console.log("updateProjectServiceRoleList value:",value)
         let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.project_id })
        // console.log("updateProjectServiceRoleList:",updateProjectIndex);
         console.log("value:updateProjectIndex",updateProjectIndex)
@@ -633,12 +576,8 @@ export const store = new Vuex.Store({
             
             let memberIndex = _.findIndex(state.currentProjectMember, function (member) { return member.user_id == value.user_id })
             state.projectlist[updateProjectIndex].members[memberIndex].roleName = role.name;
-            state.projectlist[updateProjectIndex].members[memberIndex].user_role_id = role.id;
-           
             state.currentProjectMember[memberIndex].roleName = role.name;
-            state.currentProjectMember[memberIndex].user_role_id = role.id;
-            
-            console.log("updateProjectServiceRoleList", state.currentProjectMember)
+            // console.log("updateProjectServiceRoleList", state.currentProjectMember)
         }
     },
     /**
@@ -649,15 +588,7 @@ export const store = new Vuex.Store({
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
       if (updateProjectIndex >= 0) {
            state.projectlist[updateProjectIndex].is_deleted = value.is_deleted;
-           state.projectlist.splice(updateProjectIndex,0)
-        }
-           state.todolist=[]
-           state.currentProjectId = ""
-           state.currentProjectName = ""
-           state.currentProjectPrivacy = ''
-           state.currentTodoObj= '' 
-           state.currentProject='' 
-           state.userRoles = ''
+      }
     },
     /**
     * Update current project member list
@@ -675,15 +606,6 @@ export const store = new Vuex.Store({
               Vue.delete(tempProject.members,memberIndex)  
             }
           }
-    },
-    updateAccessRight(state,value){
-      console.log("updateAccessRight",value)
-      let index = _.findIndex(state.accessRight, function (d) { return d.id == value.id })
-      console.log("updateAccessRight index:",index)
-      if (index >= 0) {
-        Vue.set(state.accessRight,index,value)
-      }
-      //state.accessRight = {}
     },
     async GET_PROJECT_LIST(state, data) {
       state.projectlist = data;
@@ -799,38 +721,14 @@ export const store = new Vuex.Store({
     PERMISSIONS(state,payload)
     {
       state.permissions=payload;
-    },
-    roleDelete(state,role)
-    {
-      let removeIndex = _.findIndex(state.userRoles, function (d) { return d.id == role.id })
-      if(removeIndex>-1)
-        Vue.delete(state.userRoles, removeIndex)
-    },
-    roleCreated(state,role)
-    {
-      let lastRole=store.state.userRoles[store.state.userRoles.length-1];
-      
-      Vue.set(store.state.userRoles, store.state.userRoles.length-1, role)
-      // let lastRole=store.state.userRoles[store.state.userRoles.length-1];
-      // console.log("LastRole:--",lastRole)
-      if(lastRole.name!==role.name)
-        {
-          store.state.userRoles.push(lastRole);
-        }
-      // state.userRoles.push(role)
-    },
-    roleUpdated(state,role)
-    {
-      let roleIndex = _.findIndex(state.userRoles, function (d) { return d.id == role.id })
-      if(roleIndex>-1)
-        Vue.set(store.state.userRoles, roleIndex, role)
     }
+    
   },
   actions: {
     getUsersRoles({commit})
     {
       services.roleService.find().then(response => {
-        console.log("Role list->>",response)
+        // console.log("Role list->>",response)
         commit('GET_ROLES', response)
       });
     },
@@ -844,14 +742,11 @@ export const store = new Vuex.Store({
       services.tagsService.removeListener('created')
       services.taskTagsService.removeListener('created')
       services.taskTagsService.removeListener('patched')
-      services.taskComments.removeListener('created')
-      services.taskComments.removeListener('removed')
+      services.taskHistoryLogs.removeListener('created')
+      services.taskHistoryLogs.removeListener('removed')
       services.projectService.removeListener('patched')
       services.projectMemberService.removeListener('created')
       services.projectService.removeListener('created')
-      services.roleService.removeListener('removed')
-      services.roleService.removeListener('created')
-      services.roleService.removeListener('patched')
       
     },
     eventListener({ commit }) {
@@ -903,24 +798,18 @@ export const store = new Vuex.Store({
         commit('REMOVE_TASKTAG', message)
       })
 
-      services.taskComments.on('created', message => {
+      services.taskHistoryLogs.on('created', message => {
         console.log("Message history Logs Cretaed:-->", message)
         commit('ADD_COMMENT', message)
       })
 
-      services.taskComments.on('removed', message => {
+      services.taskHistoryLogs.on('removed', message => {
         console.log("Message History log Removed:-->", message)
         commit('DELETE_COMMENT', message)
       })
       services.projectService.on('patched', message => {
         console.log("Project patch:", message)
-       
-        if(message.is_deleted === true){
-          commit('updateDeletedProjectList', message)
-        }else{
-          commit('updateProjectList', message)
-        }
-        
+        commit('updateProjectList', message)
       })
 
       services.projectMemberService.on('created', message => {
@@ -969,26 +858,6 @@ export const store = new Vuex.Store({
       services.projectService.on('deleteProject', message =>{
           commit('updateDeletedProjectList', message)
       })
-
-      services.roleService.on("removed",message=>{
-        console.log("Role Delete Event:--",message)
-          commit('roleDelete',message)
-      })
-
-      services.roleService.on("created",message=>{
-        console.log("Role Created Event:--",message)
-          commit('roleCreated',message)
-      })
-
-      services.roleService.on("patched",message=>{
-        console.log("Role Created Event:--",message)
-          commit('roleUpdated',message)
-      })
-
-      services.roleAccessService.on('patched', message =>{
-         commit('updateAccessRight', message)
-      })
-      
       // Project member delete patch call
       // services.projectMemberService.on('deleteProjectMember', message =>{
       //    console.log("deleteProjectMember updated:-->", message)
@@ -1019,14 +888,7 @@ export const store = new Vuex.Store({
       if (dbId != -1) {
         services.tasksService.patch(dbId, { taskName: insertElement.taskName, taskDesc: '', updatedBy: store.state.userObject._id }, { query: { 'id': dbId } }).then(response => {
           console.log("Response patch::", response);
-          if(response.id)
-            {
-              CmnFunc.insertHistoryLog(store,store.state.userObject._id,insertElement.taskName,dbId,Constant.HISTORY_LOG_ACTION.TASK_UPDATE)
-            }
         });
-
-       
-
       } else {
         
         services.tasksService.create({
@@ -1046,16 +908,11 @@ export const store = new Vuex.Store({
           project_id: insertElement.project_id
         }).then(response => {
           console.log("Response create::---->", response);
-          
-          CmnFunc.insertHistoryLog(store,store.state.userObject._id,store.state.userObject._id,response.id,Constant.HISTORY_LOG_ACTION.TASK_CREATE)
-          
         });
-
       }
     },
-    editTaskName({ commit }, editObject) {
+    editTaskName({ commit }, editObject) {3
       if (editObject.todo.id) {
-        let self=this
         services.tasksService.patch(editObject.todo.id, {
           taskName: editObject.todo.taskName,
           taskDesc: editObject.todo.taskDesc,
@@ -1069,11 +926,9 @@ export const store = new Vuex.Store({
           state_id: editObject.selectedState
         }, { query: { 'id': editObject.todo.id } }).then(response => {
           console.log("Response editTaskName::", response);
-          CmnFunc.insertHistoryLog(store,store.state.userObject._id,response.assigned_to,response.id,Constant.HISTORY_LOG_ACTION.TASK_ASSIGN)
           if (editObject.isAssigned) {
             editObject.callback()
-            
-          }         
+          }
         });
         // Vue.http.post('/updatetasks', {
         //   id: editObject.todo.id,
@@ -1153,7 +1008,6 @@ export const store = new Vuex.Store({
     selectFile({ commit }, fileObject) {
       var file = fileObject.file.files[0];
       var fileTimeStamp = + new Date() + '_' + file.name
-      
       var attachArr = {
         id: new Date().valueOf(),
         file_name: file.name,
@@ -1193,8 +1047,6 @@ export const store = new Vuex.Store({
             level: fileObject.level,
             file_name_timestamp: fileTimeStamp
           }
-          CmnFunc.insertHistoryLog(store,store.state.userObject._id,src,fileObject.taskId,Constant.HISTORY_LOG_ACTION.ATTACHEMENT_UPLOAD)
-          
           // state.arrAttachment.filter(attachement => attachement.id === attachArr.id)
 
           // commit('SELECT_FILE', tempArr)
@@ -1268,7 +1120,7 @@ export const store = new Vuex.Store({
         },
         {query :{ 
             pId: data.pId,
-            rId: data.rId, task_type: data.taskType}
+            rId: data.rId}
         }
       ).then(response => {
         console.log("Response patch permission::", response);
@@ -1355,7 +1207,7 @@ export const store = new Vuex.Store({
       }
     },
     getTaskComment({ commit }, payload) {
-      services.taskComments.find({ query: { task_id: payload } }).then(response => {
+      services.taskHistoryLogs.find({ query: { task_id: payload } }).then(response => {
         // console.log("Response getCommnets From DB::", response);
         commit('GET_TASK_COMMENT', response)
       });
@@ -1366,7 +1218,7 @@ export const store = new Vuex.Store({
     insertTaskComment({ commit }, payload) {
       if (!(payload.comment && payload.comment.trim()))
         return
-      services.taskComments.create({
+      services.taskHistoryLogs.create({
         task_id: payload.id,
         commentBy: payload.commentBy,
         comment: payload.comment.trim(),
@@ -1588,6 +1440,7 @@ export const store = new Vuex.Store({
         })
     },
     async getAllUsersList({ commit },callback) {
+      console.log('callbacck:', callback)
       try {
         let { data } = await axios.get(process.env.USER_DETAIL + '/alluserdetails', {
           headers: {
@@ -1683,7 +1536,7 @@ export const store = new Vuex.Store({
     },
     delete_Comment({ commit }, deleteCommentObj) {
       let commentId = deleteCommentObj.id
-      services.taskComments.remove(commentId, { query: { 'id': commentId } }).then(response => {
+      services.taskHistoryLogs.remove(commentId, { query: { 'id': commentId } }).then(response => {
         console.log("Response To Delete Comment:--", response)
       })
     },
@@ -1743,7 +1596,6 @@ export const store = new Vuex.Store({
       } else {
         services.taskTypesService.create({
           type: payload.type,
-          defualt_Type:payload.type,
           createdAt: new Date().toJSON()
         }).then(response => {
           console.log("Insert Task Type in DB:", response)
@@ -1765,11 +1617,11 @@ export const store = new Vuex.Store({
     },
     insert_type_state({ commit }, payload){
       let findDuplicate = store.state.task_types_state.find(function (type){
-        return type.type_id === payload.taskType.id && type.state_id === payload.state.id
+        return type.type_id === payload.task_type.id && type.state_id === payload.state.id
       })
       if(!findDuplicate){
         services.taskTypeStateService.create({
-            type_id: payload.taskType.id,
+            type_id: payload.task_type.id,
             state_id: payload.state.id,
             createdAt: new Date().toJSON()
           }).then(response => {
@@ -1872,125 +1724,9 @@ export const store = new Vuex.Store({
         }).then(response => {
 
         });
-    },
-    roleCheckChange({ commit }, role){
-      console.log("Role --->",role);
-      
-      if (role.id !== '-1') {
-        console.log("Role Check changes")
-        services.roleService.patch(role.id, {
-          is_checked: role.is_checked
-        }).then(response => {
-          console.log("Role Check changes",response);
-          let userIndex = _.findIndex(store.state.userRoles, function (user) { return user.id === response.id })
-          store.state.userRoles[userIndex] = response
-        });
-      } else {
-        if(role.name.length>0){
-        let insertRole=role
-        insertRole.is_checked=true
-        // console.log("insert Role --->",insertRole);
-        store.dispatch("insertRole", insertRole);
-      }}
-    },
-    insertRole({commit},role)
-    {
-      console.log("insert Role --->",role);
-      services.roleService.create({name:role.name,is_checked:role.is_checked,is_editable:role.is_editable}).then(response=>{
-        // store.state.userRoles.push(response)
-        // Vue.set(store.state.userRoles, store.state.userRoles.length-1, response)
-      })
-    },
-    historylog({commit},task_id){
-
-      return  services.taskHistoryLogs.find({
-        task_id:task_id
-      }).then(response=>{
-        return response;
-      })
-    },
-    getCountofTaskType({commit}, data){
-      console.log("Data id", data)
-        services.tasksService.find({
-          query:{  type_id: data.id  },$client: {
-            flag: 'countflag'
-        }
-        }).then(response => {
-          console.log("Response in getCountofTaskType", response)
-          if(response.length <= 0){
-            store.dispatch('deleteTaskType', data)
-          } else {
-            $.notify.defaults({ className: "error" })
-            $.notify("Can not Delete", { globalPosition:"top center"})
-          }
-        })
-    },
-    getCountofTypeState({commit}, data) {
-      services.taskTypeStateService.find({
-        query:{  state_id: data.id  },$client: {
-          flag: 'countState'
-      }
-      }).then(response => {
-        console.log("Response in getCountofTypeState", response)
-        if(response.length <= 0){
-          store.dispatch('deleteTaskStatus', data)
-        } else {
-          $.notify.defaults({ className: "error" })
-          $.notify("Can not Delete", { globalPosition:"top center"})
-        }
-      })
-    },
-    renameProjectName ({commit}, value) {
-      console.log("value->>",value)
-      var data = store.state.currentProject;
-      services.projectService.find({
-        query: {
-          'id': data.id, 
-           project_name: value,
-          $client: {
-            flag: 'projectrename'
-          }
-        }
-      }).then(response => {
-        if(response.error){
-            $.notify.defaults({ className: "error" })
-            $.notify(response.error, { globalPosition:"top center"})  
-        }else{
-          
-            services.projectService.patch(data.id, {
-            project_name: value,
-            updated_by: store.state.userObject._id
-            }).then(response => {
-              console.log("Response renameProjectName:", response);
-            //  commit('UPDATE_TODO', insertElement)
-              if(response.error){
-                $.notify.defaults({ className: "error" })
-                $.notify(response.error, { globalPosition:"top center"})  
-              }
-            });
-        }
-
-      })
-    },
-
-    findHistoryLog({commit},taskId){
-      services.taskHistoryLogs.find({ query: { task_id: taskId } }).then(response => {
-        response.sort(function (a, b) {
-            return new Date(b.created_on).getTime() - new Date(a.created_on).getTime()
-        });
-        store.state.taskHistoryLog = response
-        console.log("Hisory Log watch:-->", store.state.taskHistoryLog)
-    })
-    },
-    deleteRoles({commit},role)
-    {
-      services.roleService.remove(role.id).then(response=> {
-        console.log("Remove Role--->",response)
-      });
     }
 
-
-    },
+  },
   getters: {
     // getTodoById: (state, getters) => {
     //   return function (id, level) {
@@ -2001,8 +1737,7 @@ export const store = new Vuex.Store({
     //   }
     // },
     getTodoById: (state, getters) => {
-      if (state.deleteItemsSelected) 
-      {
+      if (state.deleteItemsSelected) {
         return function (id, level) {
           var todolist = state.deletedTaskArr
           todolist = _.sortBy(todolist, 'index')
@@ -2019,7 +1754,6 @@ export const store = new Vuex.Store({
       }
     },
     parentIdArr: state => state.parentIdArr,
-    taskHistoryLog: state => state.taskHistoryLog,
     // getAttachment: state => state.arrAttachment,
     getAttachment: (state, getters) => {
       return function (id, level) {
@@ -2052,15 +1786,10 @@ export const store = new Vuex.Store({
     },
     getMemberName: (state, getters) => {
       return function (uId) {
-        let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === uId })
-        // console.log("user index:--",userIndex)
-        if(userIndex>-1)
-        return state.arrAllUsers[userIndex].fullname ?  state.arrAllUsers[userIndex].fullname : state.arrAllUsers[userIndex].username
-        else
-          return ""
+        let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user_id === uId })
+        return state.arrAllUsers[userIndex].fullname
       }
     },
-    getAccessRight:state => state.accessRight,
     getObjectById: state => state.todoObjectByID,
     getAllUserList: state => state.arrAllUsers,
     getProjectList: state => state.projectlist,
@@ -2071,11 +1800,8 @@ export const store = new Vuex.Store({
     getTaskTypeList: (state) => {
       return state.task_types_list
     },
-    getRolesList: (state) => {
-      return state.userRoles
-    },
     getTaskStausList : state => state.task_state_list,
-    getTask_types_state: state => state.task_types_state,
+    getTask_types_state: state => state.task_types_state
   },
 
   plugins: [createPersistedState()]

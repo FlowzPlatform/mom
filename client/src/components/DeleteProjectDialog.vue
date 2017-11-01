@@ -20,7 +20,6 @@
                                     <polygon points="24.485,27.314 27.314,24.485 18.828,16 27.314,7.515 24.485,4.686 16,13.172 7.515,4.686 4.686,7.515 13.172,16 4.686,24.485 7.515,27.314 16,18.828 "></polygon>
                                 </svg>
                             </div>
-                            
                         </div>
                         <div class="content">
                             <div class="confirmation-view confirmationView--is-danger">
@@ -70,26 +69,7 @@ export default {
          * Delete project 
          */
         deleteProject(){
-            // Show project visibility option (like public to all, private to me)
-            $("div#projectVisible").addClass('hidden');
             this.$store.dispatch('deleteProject',this.$store.state.currentProject)
-            this.$store.state.currentProjectId=undefined;
-                 this.$store.state.currentProjectName = undefined
-             this.$store.state.currentProjectPrivacy = undefined
-            // let self=this;
-            // let memberIndex = _.findIndex(this.$store.state.projectlist, function (project) { return project.id == self.$store.state.currentProjectId});
-            // console.log("memberIndex:-->",memberIndex)
-            // let totalProject=this.$store.state.projectlist.length;
-            // if(totalProject>1 && totalProject-1==memberIndex)
-            // {
-            //     console.log("Project nae:-->",this.$store.state.projectlist[memberIndex-1].name)
-            //     this.$store.state.currentProjectId=this.$store.state.projectlist[memberIndex-1].id
-            // }else{
-            //     console.log("Project nae else:-->",this.$store.state.projectlist[memberIndex+1].name)
-            //     this.$store.state.currentProjectId=this.$store.state.projectlist[memberIndex+1].id
-            // }
-            
-            
             this.closeDeleteDialog();
         }
 
