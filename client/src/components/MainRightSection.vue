@@ -1,47 +1,8 @@
 <template>
-<div class="rightsection-view" :id="id">
-<div class="DropTargetAttachment">
-<section class="todoapp right_bar">
-
-   <right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState' " :filteredTodo="todoObject"></right-toolbar> 
-   <div class="taskbarsect">
-  <div v-if="todoObject.isDelete" class="MessageBanner MessageBanner--error MessageBanner--medium TaskUndeleteBanner TaskMessageBanner">
-    <span class="fa fa-trash-o"  style="margin-right: 10px"/>
-		<span class="TaskUndeleteBanner-message">This task is deleted.</span>
-	  <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" @click="undelete(todoObject)">Undelete</a>
-		<a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
-    <!--<a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" @click="deletePermently(todoObject)">Delete Permanently</a>-->
-    <!--@click="deletePermently(todoObject)"-->
-		<noscript></noscript>
-	</div>
-  
-	<text-description :id="id" :filteredTodo="todoObject">
-  </text-description>
-  <collapse v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" class="CollapseView">
-    <panel v-show='showAttachment'>
-      Attachments
-      <p class='PanelAttach' slot="content">
-        <attachments :filteredTodo="todoObject"> </attachments>
-      </p>
-    </panel>
-    <panel>
-      Tags
-      <p class='PanelTag' slot="content">
-        <tags :filteredTodo="todoObject"></tags>
-      </p>
-    </panel>
-  </collapse>
-  <statuses :selectedState="typeStateList" :filteredTodo="todoObject" :id="id"></statuses>
-  <!--<attachments :filteredTodo="todoObject"> </attachments>-->
-  <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#attachment">Attachments</div>-->
-  <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#attachment">Attachents</button>-->
-  <!--<attachments id="attachment" class="collapse" :filteredTodo="todoObject"> </attachments>-->
-   <!--<hr>-->
-  <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#tags">Tags</div>-->
-  <!--<button type="button" class="btn btn-info button-collapse" <data-togg></data-togg>le="collapse" data-target="#tags">Tags</button>
-  <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
-  <!--<tags :filteredTodo="todoObject"></tags>-->
-  <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById" ></main-left-section>
+  <div>
+    <slot name="subtask">
+      <child-task :id="todoObject.level" :pholder="subtaskPholder" :todoObject="todoObject" :a="todoObject"></child-task>
+    </slot>
   </div>
   <story-feed :filteredTodo="todoObject"></story-feed>
 </section>
@@ -69,18 +30,24 @@
 </template> 
 <script>
   /* eslint-disable*/
-import Vue from 'vue'
-import MainLeftSection from './MainLeftSection.vue'
-import TextDescription from './TextDescription.vue'
-import RightFooter from './RightFooter.vue'
-import RightToolbar from './RightToolbar.vue'
-import Attachments from './Attachments.vue'
-import StoryFeed from './StoryFeed.vue'
-import Statuses from './Statuses.vue'
-import Tags from './Tags.vue'
-import { mapGetters } from 'vuex' 
-import iView from 'iview';
-import 'iview/dist/styles/iview.css';
+  import Vue from 'vue'
+  import ChildTask from './ChildTask.vue'
+  import MainLeftSection from './MainLeftSection.vue'
+  import TextDescription from './TextDescription.vue'
+  import RightFooter from './RightFooter.vue'
+  import HistoryLog from './HistoryLog.vue'
+  import RightToolbar from './RightToolbar.vue'
+  import Attachments from './Attachments.vue'
+  import StoryFeed from './StoryFeed.vue'
+  import Statuses from './Statuses.vue'
+  import * as services from '../services'
+  import Tags from './Tags.vue'
+  import { mapGetters } from 'vuex'
+  import iView from 'iview';
+  import 'iview/dist/styles/iview.css';
+  import CmnFunc from './CommonFunc.js'
+  import * as Constant from './Constants.js'
+  import AsyncComputed from 'vue-async-computed'
 
 Vue.use(iView);
 
@@ -172,16 +139,39 @@ export default {
       //  console.log('show attachment', this.$store.state.arrAttachment.length)
         return this.$store.state.arrAttachment.length > 0 ? true : false
      }
-  },
-  components: {
-    RightFooter,
-    MainLeftSection,
-    TextDescription,
-    RightToolbar,
-    Attachments,
-    StoryFeed,
-    Tags,
-    Statuses
-  }
+    },
+    asyncComputed: {
+      async showAttachment() {
+        this.manageAttachmentDeletePermission()
+        
+        if (this.isCreatePermission){
+          return this.checkAttachmentExistance()
+        }
+         //check attachment for only  read permission.
+        let isReadPermission = await this.manageAttachmentReadPermission()
+        if (isReadPermission) {
+          console.log('inside read permission')
+          //check whether attachment array has value or not
+          return this.checkAttachmentExistance()
+        } else {
+          console.log('read permission false:', isReadPermission)
+          //this.attchmentReadPerm = false
+          return false
+        }
+        // return this.$store.state.arrAttachment.length > 0 ? true : false
+      }
+    },
+    components: {
+      // RightFooter,
+      // MainLeftSection,
+      // TextDescription,
+      // RightToolbar,
+      // Attachments,
+      // StoryFeed,
+      // Tags,
+      // Statuses,
+      // HistoryLog
+      ChildTask
+    }
 }
 </script>
