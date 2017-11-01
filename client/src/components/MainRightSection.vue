@@ -1,7 +1,7 @@
 <template>
   <div>
     <slot name="subtask">
-      <sub-task :id="todoObject.level" :pholder="subtaskPholder" :todoObject="todoObject" :a="todoObject"></sub-task>
+      <child-task :id="todoObject.level" :pholder="subtaskPholder" :todoObject="todoObject" :a="todoObject"></child-task>
     </slot>
   </div>
   <!--<div class="rightsection-view" :id="id">
@@ -63,7 +63,7 @@
 <script>
   /* eslint-disable*/
   import Vue from 'vue'
-  import SubTask from './SubTask.vue'
+  import ChildTask from './ChildTask.vue'
   import MainLeftSection from './MainLeftSection.vue'
   import TextDescription from './TextDescription.vue'
   import RightFooter from './RightFooter.vue'
@@ -287,7 +287,7 @@
       // Tags,
       // Statuses,
       // HistoryLog
-      SubTask
+      ChildTask
     }
   }
 </script>
