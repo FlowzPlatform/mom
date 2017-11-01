@@ -5698,6 +5698,7 @@ textarea,
 .estimate {
     width: 100%;
 }
+<<<<<<< HEAD
 
 /**
 CSS for splitter view
@@ -5742,6 +5743,8 @@ CSS for splitter view
 /**
    CSS for splitter view end
 */
+=======
+>>>>>>> a8d7a0031e44a6fda8bbf99067ea129eb9b2b704
 .ivu-dropdown .ivu-select-dropdown {
     width: 150px;
   }
