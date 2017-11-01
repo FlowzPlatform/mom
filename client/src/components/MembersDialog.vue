@@ -1,9 +1,6 @@
 <template>
-    <div id="project-setting-dialog" class="hidden tab-ring" v-show="this.$store.state.currentProjectMember.length>0" v-esc="closeDialog" tabindex="-1" data-luna1-event-id="6">
-        <div class="fullscreen-harness dialog2-fullscreen" style="">
-            <div class="dialog2-background"></div>
-        </div>
-        <div class="fullscreen-harness dialog2-fullscreen" style="">
+    <div id="project-setting-dialog" class="hidden tab-ring" v-show="(this.$store.state.currentProjectMember && this.$store.state.currentProjectMember.length>0)" v-esc="closeDialog" tabindex="-1" data-luna1-event-id="6">
+        <div class="fullscreen-harness dialog2-fullscreen">
             <div class="dialog2-container">
                 <div class="pre-spacer"></div>
                 <div id="" class="dialog2 manage_workspace_dialog manage-workspace-members-tab" tabindex="-1" style="max-height: 592.2px;">
@@ -43,17 +40,6 @@
                                                         <tr  v-show="member.is_deleted == false" v-for="member in $store.state.currentProjectMember" v-bind:key="member.id" class="user invite active--grayHover">
                                                             <td>
                                                                 <div class="picture">
-                                                                    <!-- <div class="photo-view photo-view-remix inbox-size photo-view-rounded-corners ">
-                                                                        <div class="photoView-reactMount">
-
-                                                                            <div v-if="member.url" class="Avatar Avatar--medium Avatar--color11"  v-bind:style="{ 'background-image': 'url(' + member.url + ')' }" >
-                                                                            </div>
-
-                                                                            <div v-else class="Avatar Avatar--medium Avatar--color11">
-                                                                                               {{getLetters(member.email)}}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div> -->
                                                                     <div v-if="member.email">
                                                                         <avatar v-if="member.url" :username="member.email" :src="member.url" :size="30"></avatar>
                                                                         <avatar v-else :username="member.email" :size="30" color="#fff"></avatar>
