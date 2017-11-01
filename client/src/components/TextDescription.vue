@@ -2,11 +2,12 @@
     <div class="task">
           <div class="view">
             <input type="checkbox" class="toggleTask" v-model="filteredTodo.completed" @change="toggleTodo(filteredTodo)">
-            <textarea v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
+            <textarea v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" id="txtAreaTaskName" class="field-description generic-input hypertext-input notranslate header-name" 
             placeholder="New Task" 
             style="height: 40px;"
             rows="1"
             @keydown="autoresize"
+            @focus="onFocusClick(filteredTodo.id, filteredTodo.level,filteredTodo.created_by,filteredTodo.type_id)"
             @click="autoresize"
             autofocus autocomplete="off"
             @change="updateTaskName()"
@@ -36,7 +37,7 @@
           <br>
         <div class="property description taskDetailsView-description">
         <div class="multiline">
-          <span class="autogrow-textarea">
+          <span class="autogrow-t      // el.focus();extarea">
               <textarea v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" rows="3" cols="50"
               v-model="filteredTodo.taskDesc"
               @change="updateTaskName()" 
@@ -74,7 +75,8 @@
 import TodoItem from './TodoItem.vue'
 import { mapActions } from 'vuex'
 import _ from 'lodash'
-
+import CmnFunc from './CommonFunc.js'
+import * as Constant from './Constants.js'
 export default {
   props: ['filteredTodo', 'id'],
     data: function () {
@@ -90,11 +92,11 @@ export default {
       this.$store.dispatch('editTaskName', {"todo":this.filteredTodo})
     }, 500),
     autoresize: function() {
-      var el = document.getElementById('text-area')
+      var el = document.getElementById('txtAreaTaskName')
       setTimeout(function () {
         el.style.cssText = 'height:auto; padding:12';
         el.style.cssText = 'height:' + el.scrollHeight + 'px';
-      el.focus();
+        //el.focus();
       }, 300)
     },
     updateType: _.debounce(function() {
@@ -102,7 +104,16 @@ export default {
     }, 2000),
     updateStatus: _.debounce(function() {
       this.$store.dispatch('editState', this.filteredTodo)
-    }, 2000)
+    }, 2000),
+    async onFocusClick(id,level,created_by,typeId){
+      let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.TASK,Constant.PERMISSION_ACTION.UPDATE)
+      console.log("permisionResult Text Description-->",permisionResult)
+      if (!permisionResult && id != -1) {
+        document.getElementById("txtAreaTaskName").readOnly = true
+      } else {
+        document.getElementById("txtAreaTaskName").readOnly = false
+      }  
+    },
   },
   component: {
     TodoItem

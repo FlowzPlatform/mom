@@ -40,13 +40,14 @@
                     <li v-for="type in getTypes"><a @click="btnTypeClicked(type)">{{type.type}}</a><hr></li>
                   </ul>
                 </span>
-              </div> 
+              </div>
         <div class="loading-boundary taskDetailsView-toolbarProperty">
           <div class="redesign-due-date-container">
             <div class="property due_date value-set">
               <div class="property-name">
                 <span>
                   <datepicker 
+                      :id="filteredTodo.id"
                       placeholder="Due Date"
                       class="wrapperClass temp"
                       v-on:selected="dateFormatter"
@@ -78,7 +79,7 @@
               </div>
             </span>
           </div>
-          <span class="attachmentsMenuView dropdown">
+          <span class="attachmentsMenuView dropdown" v-show="isAttachementShow">
             <input autocomplete="off" id="attachments_menu_view_hidden_file_input_3" type="file" name="file" class="hidden-file-input"
               multiple="true" tabindex="-1">
             <a id="details_property_sheetproperty_attach_attach_menu" tabindex="-1" data-toggle="dropdown" class=" dropdown-menu-link attach-menu  circularButtonView property attach circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active">  
@@ -99,36 +100,46 @@
               <i class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></i>
             </div>
             <ul class="dropdown-menu" style="top: 52px;max-height: 250px;left: 408.31px;min-width: 30px;z-index: 2000;">
-              <li><a id="estimated_hours" class="menu-item" title="">
+              <li v-show= "EstimatedHoursCreate"><a id="estimated_hours" class="menu-item" title="">
                             <button class="dropdown-menu-item-label" @click="estimated_time = true">Estimated Hours</button>
                           </a></li>
-              <li><a id="task_priority" class="menu-item" title="">
+              <li v-show="taskPriorityCreate"><a id="task_priority" class="menu-item" title="">
                             <span class="dropdown-menu-item-label" @click="task_priority = true">Task Priority</span>
                           </a></li>
               <li><a id="copy_task_url" class="menu-item" title="">
                             <span class="dropdown-menu-item-label" @click="copyTaskURL">Copy Task URL</span>
                           </a></li>
-              <li><a id="delete_task" class="menu-item" title="">               
-                <span class="dropdown-menu-item-label" @click="deleteTodo({filteredTodo : filteredTodo})">Delete Task</span>
+              <li v-show="isDeleteShow"><a id="delete_task" class="menu-item" title="">               
+                <span class="dropdown-menu-item-label" @click="deleteTodo({filteredTodo : filteredTodo})" >Delete Task</span>
               </a></li>
               <li><a id="export_pdf" class="menu-item" title="">               
-                <span class="dropdown-menu-item-label" >Export PDF</span>
+                <span class="dropdown-menu-item-label" @click="exportToPDF">Export PDF</span>
               </a></li>
             </ul>
           </a>
         </div>
-  </span>
+      </span>
+      <div class="loading-boundary reskinToolbarActionMenu" @click="pinit(filteredTodo)">
+        <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+           style="margin-top: 4px; margin-left:5px;">
+          <span class="circularButtonView-label">        
+          <i class="glyphicon glyphicon-pushpin" aria-hidden="true" title="Pin it"></i>   
+          <!--<span class="glyphicons glyphicons-pushpin"></span> -->
+        </span>
+        </div>
+      </div>
       <div class="loading-boundary reskinToolbarActionMenu">
-  <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-    tabindex="410" @click="openfullwinodw(filteredTodo.level)" style="margin-top: 7px">
-    <span class="circularButtonView-label">
+        <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+          tabindex="410" @click="openfullwinodw(filteredTodo.level)" style="margin-top: 7px">
+          <span class="circularButtonView-label">
           <i class="fa fa-expand" aria-hidden="true"></i>    
         </span>
-  </div>
+        </div>
       </div>
-  <estimated-hours :showModal="estimated_time" :closeAction="closeDialog" :filteredTodo="filteredTodo"></estimated-hours>
-  <task-priority :showModal="task_priority" :closeAction="closeDialog" :filteredTodo="filteredTodo"></task-priority>
-  <span id="close" class="destroy" @click="CLOSE_DIV(filteredTodo)"><i class="fa fa-close"></i></span>
+    <estimated-hours :showModal="estimated_time" :closeAction="closeDialog" :filteredTodo="filteredTodo"></estimated-hours>
+    <task-priority :showModal="task_priority" :closeAction="closeDialog" :filteredTodo="filteredTodo"></task-priority>
+    <span id="close" class="destroy" @click="CLOSE_DIV(filteredTodo)"><i class="fa fa-close"></i></span>
+    
   </div>
 </template>
 <script>
@@ -139,6 +150,8 @@
   import Datepicker from 'vuejs-datepicker'
   import EstimatedHours from './EstimatedHours.vue'
   import TaskPriority from './TaskPriority.vue'
+  import CmnFunc from './CommonFunc.js'
+  import * as Constant from './Constants.js'
   import { mapMutations, mapGetters } from 'vuex'
   Vue.use(KeenUI);
   Vue.filter('formatDate', function (value) {
@@ -152,14 +165,18 @@
     data() {
       return {
         picker1: null,
-        // imageURlProfilePic: this.$store.state.userObject.image_url,
         imageURlProfilePic: '',
         index: this.filteredTodo.index,
         poproject_name: '',
         estimated_time: false,
         task_priority: false,
         userName: '',
-        type: ''
+        type: '',
+        isDeleteShow: true,
+        EstimatedHoursCreate: true,
+        taskPriorityCreate: true,
+        isAttachementShow:true,
+        isAssignedPermission: true
       }
     },
     computed: {
@@ -182,24 +199,61 @@
         let commentList = this.getComment(this.filteredTodo.id)
         return commentList
       },
-      getAssignedType: function() {
+       getAssignedType: function() {
+        this.manageAttachmentCreatePermission();
+        this.manageTaskTypePermission();
+        this.callPermissionMethod()
         if (this.filteredTodo.type_id) {
           var objType = _.find(this.$store.state.task_types_list, ['id', this.filteredTodo.type_id])
           return objType.type
-        }else {
-          // var obj = _.find(this.$store.state.task_types_list, { 'type': 'Todo.tasktype'});
-          var obj = this.$store.state.task_types_list[0]
-          this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": obj.id})
+        } else {
+          var obj = _.find(this.$store.state.task_types_list, { 'defualt_Type': 'Todo'});
+          // var obj = this.$store.state.task_types_list[0]
+          this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": obj.id })
           return obj.type
         }
       }
+    },
+    created() {
+      
     },
     methods: {
       ...mapMutations([
         'CLOSE_DIV'
       ]),
       
-      
+      manageAttachmentCreatePermission:async function() {
+        this.isAttachementShow = await CmnFunc.checkActionPermision(this,this.filteredTodo.type_id,Constant.USER_ACTION.ATTACHEMENT,Constant.PERMISSION_ACTION.CREATE, "attachment")
+      },
+      manageTaskTypePermission:async function(){
+        let isUpdateTaskType = await CmnFunc.checkActionPermision(this,this.filteredTodo.type_id,Constant.USER_ACTION.TASK_TYPE,Constant.PERMISSION_ACTION.UPDATE, "task type")
+        console.log('task type permission:', isUpdateTaskType)
+        if(!isUpdateTaskType){
+          $('.typeClass').attr('data-toggle','');
+          $(".typeBorderClass").hover(
+            function(){
+            $('.typeBorderClass').addClass('tasktype_disable')
+            }
+          )
+          $(".typeClass").hover(
+            function(){
+              $('.typeClass').addClass('typeclass_disable')
+            }
+          )
+        }else{
+          $('.typeClass').attr('data-toggle','dropdown');
+          $(".typeBorderClass").hover(
+            function(){
+            $('.typeBorderClass').removeClass('tasktype_disable')
+            }
+          )
+          $(".typeClass").hover(
+            function(){
+              $('.typeClass').removeClass('typeclass_disable')
+            }
+          )
+        }
+      },
       deleteTodo: function () {
         this.$store.dispatch('delete_Todo', this.filteredTodo)
       },
@@ -293,11 +347,11 @@
         }).then(response => {
           //window.location.assign(response.data);
           // top.location.href = "/report";
+          console.log("PDF Log",response.data)
           var link = document.createElement('a');
           link.href = "/report";
           link.dispatchEvent(new MouseEvent('click'));
         });
-
       },
       removeAttachmentPopUp() {
         setTimeout(function () { $('.attachmentsMenuView').removeClass('open') }, 1000);
@@ -331,9 +385,28 @@
         this.imageURlProfilePic = ''
         return this.capitalizeLetters(user.email)
       },
-      getAssignedUserName() {
-        var user = this.getAssignedUserObj()
+       getAssignedUserName() {
+        this.isCheck();
+        let user = this.getAssignedUserObj()
         return this.getName(user.email)
+      },
+      async isCheck(){
+        this.isAssignedPermission = await CmnFunc.checkActionPermision(this,this.filteredTodo.type_id,Constant.USER_ACTION.TASK_ASSIGN,Constant.PERMISSION_ACTION.UPDATE,"TASK_ASSIGN")
+        if(!this.isAssignedPermission){
+          $('.token_name').attr('data-toggle','');
+          $(".token-wrapper").hover(
+            function(){
+            $('.user_token').addClass('assignment_disable')
+            }
+          )
+        }else{
+          $('.token_name').attr('data-toggle','dropdown');
+          $(".token-wrapper").hover(
+            function(){
+            $('.user_token').removeClass('assignment_disable')
+            }
+          )
+        }
       },
       getName(name) {
         var str = name
@@ -371,16 +444,85 @@
           await this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": objType.id })
           await this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedState": '' })
         }
+      },
+      callPermissionMethod() {
+        this.onDeleteClick(this.filteredTodo.id, this.filteredTodo.level, this.filteredTodo.created_by, this.filteredTodo.type_id)
+        this.onDueDateClick(this.filteredTodo.id, this.filteredTodo.level, this.filteredTodo.created_by, this.filteredTodo.type_id)
+        this.onDeleteDueDate(this.filteredTodo.id, this.filteredTodo.level, this.filteredTodo.created_by, this.filteredTodo.type_id)
+        this.onEstimateTime(this.filteredTodo.id, this.filteredTodo.level, this.filteredTodo.created_by, this.filteredTodo.type_id)
+        this.onTaskPriorityClick(this.filteredTodo.id, this.filteredTodo.level, this.filteredTodo.created_by, this.filteredTodo.type_id)
+      },
+      async onDeleteClick(id,level,created_by,typeId){
+        let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.TASK,Constant.PERMISSION_ACTION.DELETE)
+        console.log("permisionResult Delete-->",permisionResult)
+        if (!permisionResult && id != -1) {
+          this.isDeleteShow = false
+        } else {
+          this.isDeleteShow = true
+        }  
+      },
+      async onDueDateClick(id, level, created_by, typeId) {
+        let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.DUE_DATE,Constant.PERMISSION_ACTION.CREATE)
+        console.log("permisionResult Due Date-->",permisionResult)
+        let findStyle = document.getElementsByClassName('vdp-datepicker__calendar')
+        console.log(findStyle)
+        if (!permisionResult && id != -1) {
+
+          // document.getElementsByClassName('vdp-datepicker__calendar')[0].style.display = "none"
+        } else {
+          // document.getElementsByClassName('vdp-datepicker__calendar')[0].style.display = "block"
+        }
+      },
+      async onDeleteDueDate(id, level, created_by, typeId) {
+        let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.DUE_DATE,Constant.PERMISSION_ACTION.DELETE)
+        console.log("permisionResult Delete Due Date-->",permisionResult)
+        let findStyle = document.getElementsByClassName("vdp-datepicker__clear-button")
+        if (!permisionResult && id != -1) {
+          if(findStyle.length > 0){
+            findStyle[0].style.display = "none"
+          }
+        } else {
+          if(findStyle.length > 0){
+            findStyle[0].style.display = "inline-block"
+          }
+        }
+      },
+      async onEstimateTime(id, level, created_by, typeId) {
+        let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.ESTIMATED_HOURS,Constant.PERMISSION_ACTION.READ)
+        console.log("permisionResult Estimate Time-->",permisionResult)
+        if (!permisionResult && id != -1) {
+          this.EstimatedHoursCreate = false
+        } else {
+          this.EstimatedHoursCreate = true
+        }
+      },
+      async onTaskPriorityClick(id, level, created_by, typeId) {
+        let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.TASK_PRIORITY,Constant.PERMISSION_ACTION.READ)
+        console.log("permisionResult Task Priority-->",permisionResult)
+        if (!permisionResult && id != -1) {
+          this.taskPriorityCreate = false
+        } else {
+          this.taskPriorityCreate = true
+        }
+      },
+      pinit(filteredTodo){
+        console.log('TODO Object', filteredTodo)
+        // let pinObj = _.find(this.$store.state.todolist, ['id', filteredTodo.id])
+        // console.log('pinnned OBJ', pinObj)
+        if( _.find(this.$store.state.todolist, ['id', filteredTodo.id]) &&  ! _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned){
+           console.log('pinnned true')
+          _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned = true;
+        }
+        else{
+          console.log('pinnned false')
+          _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned = false;
+        }
       }
-      // updateTypeInTask: function(value) {
-      //   console.log("updateTypeInTask",value)
-      //   this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedType": value })
-      // }
     },
     components: {
       Datepicker,
       EstimatedHours,
-      TaskPriority,
+      TaskPriority
     }
   }
 
@@ -391,7 +533,7 @@
      background-color: #fff; 
      border-color: #5cb3fd; 
      outline: none; 
-          border-color: #66afe9; 
+     border-color: #66afe9; 
      outline: 0; 
      -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6); 
      box-shadow: inset 0 0px 0px rgba(0,0,0,.075), 0 0 0px rgba(102,175,233,.6);

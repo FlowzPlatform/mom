@@ -5,6 +5,7 @@ exports.before = {
   all:[],
   find(hook){
     const userid = hook.params.userId;
+    console.log("USER ID===>", userid)
     var client = hook.params.query.$client;
     if (client && client.flag && client.flag == 'allprojectlist') {
       const query = this.createQuery(hook.params.query);
@@ -32,7 +33,21 @@ exports.before = {
         }
       }
       ).orderBy('created_at')
+    }else if (client && client.flag && client.flag == 'projectrename') {
+          console.log("hook:+++>",hook.params.query.project_name);
+          var hookData = hook.data;
+          return this.find({ query: { project_name: hook.params.query.project_name } }).then(reponse => {
+            if (reponse.length > 0) {
+              hook.result = { error: "Project name already exist" }
+              // return hook;
+            }
+            console.log("-----Before created Success------")
+
+            return hook;
+          })
     }
+
+    
   },
   get: [],
   create(hook) {
@@ -50,8 +65,7 @@ exports.before = {
   },
   update: [],
   patch(hook){
-     //console.log("hook:",hook.result);
-    //this.emit('deleteProject',hook.result)
+    
     
   },
   remove: []
@@ -87,7 +101,7 @@ exports.after = {
   update: [],
   patch(hook){
      //console.log("hook:",hook.result);
-    this.emit('deleteProject',hook.result)
+    //this.emit('deleteProject',hook.result)
   },
   remove: []
 };

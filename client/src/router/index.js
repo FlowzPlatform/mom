@@ -9,6 +9,10 @@ import ShowTaskList from '@/components/ShowTaskList'
 import ShowTaskTypes from '@/components/ShowTaskTypes'
 import SocialAuth from '@/components/SocialAuthProcess'
 import LoadProcess from '@/components/LoadProcess'
+import MainSplitter from '@/components/MainSplitter'
+import Ckeditor from 'vue-ckeditor2'
+import { markdownEditor } from 'vue-simplemde'
+
 import '../style/style.css'
 import '../style/style1.css'
 import '../style/newStyle.css'
@@ -38,6 +42,21 @@ const User = {
 export default new Router({
   mode: 'history',
   routes: [
+    {
+          path: '/mainsplitter',
+          name: 'Splitvue',
+          component: MainSplitter
+    },
+    {
+      path: '/Ckeditor',
+      name: 'Ckeditor',
+      component: Ckeditor
+    },
+    {
+      path: '/markdownEditor',
+      name: 'markdownEditor',
+      component: markdownEditor
+    },
     {
       path: '/',
       name: 'Login',
@@ -72,6 +91,7 @@ export default new Router({
           name: 'MainApp',
           component: MainApp
         },
+        
         {
           path: 'roleaccess',
           name: 'RoleAccess',
@@ -81,7 +101,8 @@ export default new Router({
           path: 'tasklist',
           name: 'TaskList',
           component: ShowTaskList
-        }
+        },
+        
         // {
         //   path: 'task/:level/:id',
         //   //query: {id:''},
