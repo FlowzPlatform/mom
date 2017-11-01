@@ -15,7 +15,6 @@
     </div>
   </modal>
 </template>
-
 <script>
 /* eslint-disable*/
   import Modal from 'modal-vue'
