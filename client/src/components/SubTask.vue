@@ -86,6 +86,7 @@
   import CmnFunc from './CommonFunc.js'
   import * as Constant from './Constants.js'
   import AsyncComputed from 'vue-async-computed'
+  import { mapMutations } from 'vuex'
 
   Vue.use(iView);
   Vue.use(AsyncComputed);
