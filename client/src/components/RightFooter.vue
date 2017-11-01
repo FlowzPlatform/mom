@@ -8,13 +8,6 @@
                         <avatar v-else :username="$store.state.userObject.email" :size="30" color="#fff"></avatar>
                       </div>
                 </div>
-                <!--<div class="taskCommentsView-composer is-expanded">
-                    <div class="taskCommentsView-textarea">
-                        <noscript></noscript>
-                        <textarea  class="taskCommentsView-placeholder" id="property_sheet:details_property_sheet_field:comments" tabindex="710">
-                            Write a comment…
-                        </div>
-                    </div>-->
               <div style="width: 475px;">
                <el-tabs type="border-card">
                     <el-tab-pane>
