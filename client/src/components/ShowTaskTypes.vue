@@ -39,7 +39,6 @@ export default {
            types.push({
                 id:'-1',
                 type:'',
-                defualt_Type:'',
                 createdAt: new Date().toJSON()
             })
             }

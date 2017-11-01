@@ -9,7 +9,6 @@
   "tbl_tags":"tags",
   "tbl_task_tags":"task_tags",
   "tbl_task_comments":"task_comments",
-  "tbl_history_log":"history_log",
   "tbl_role":"role",
   "tbl_settings":"settings",
   "tbl_user_settings":"user_settings",

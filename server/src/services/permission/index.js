@@ -36,9 +36,7 @@ module.exports = function() {
           {'name': 'Tag','index': 4},
           {'name': 'Attachment','index': 5},
           {'name': 'Task priority','index': 6},
-          {'name': 'Estimated hours','index': 7},
-          {'name': 'Member','index': 9},
-          { 'name': 'Task type', 'index': 8}
+          {'name': 'Estimated hours','index': 7}
         ]).run()
       }
       else

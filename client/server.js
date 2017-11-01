@@ -56,7 +56,6 @@ app.use(require('webpack-dev-middleware')(compiler, {
 }))
 
 app.post('/getHtmlToPdf', jsonParser, (req, response) => {
-  //console.log("req.body.divHtml",req.body.divHtml);
   var html = req.body.divHtml;
   pdf.create(html, options).toFile(__dirname+'/out.pdf', function(err, res) {
     if (err) return console.log(err);

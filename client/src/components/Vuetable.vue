@@ -356,7 +356,7 @@ export default {
 </script>
 
 <style>
-.ui.table {
+           .ui.table {
     font-size: 1em;
     display: inline-table;
 }

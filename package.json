@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@rmp135/vue-splitter": "^1.2.1",
-    "vue-splitter-comp": "^1.1.1"
-  }
-}
