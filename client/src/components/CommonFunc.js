@@ -59,12 +59,7 @@ export default {
   checkActionPermision:async function(context,taskTypeId,userAction,permisisonAction)
   {
       var self = context;
-<<<<<<< HEAD
-      let selfRoleId = this.getSelfRoleId(context);
-
-=======
       let selfRoleId = await this.getSelfRoleId(context);
->>>>>>> draggable menu
       if(selfRoleId)
         {
           let permisisonId = this.getPermissionId(context,userAction)
@@ -104,12 +99,6 @@ export default {
   },
   getSelfRoleId:function(context)
   {
-<<<<<<< HEAD
-=======
-    // console.log("context.$store.state.currentProjectMember",context.$store.state.currentProjectMember)
-    // console.log("context.$store.state.userObject._id",context.$store.state.userObject._id)
-    
->>>>>>> draggable menu
     return _.result(_.find(context.$store.state.currentProjectMember, function (obj) {
       return obj.user_id === context.$store.state.userObject._id;
     }), 'user_role_id');

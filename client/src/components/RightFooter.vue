@@ -8,25 +8,13 @@
                         <avatar v-else :username="$store.state.userObject.email" :size="30" color="#fff"></avatar>
                       </div>
                 </div>
-                <!--<div class="taskCommentsView-composer is-expanded">
-                    <div class="taskCommentsView-textarea">
-                        <noscript></noscript>
-                        <textarea  class="taskCommentsView-placeholder" id="property_sheet:details_property_sheet_field:comments" tabindex="710">
-                            Write a comment…
-                        </div>
-                    </div>-->
-	                <div class="taskCommentsView-composer is-expanded">
-                        <span class="taskCommentsView-textarea">
-                            <textarea rows="5" cols="50"
-                                contenteditable="true" 
-                                v-model="commentText"
-                                disable_highlighting_for_diagnostics="true" 
-                                tabindex="10" 
-                                class="field-description hypertext-input notranslate" 
-                                id="property_sheet:details_property_sheet_field:description"
-                                placeholder="Write Comment...">
-                        </textarea><br> 
-                    </span>
+              <div style="width: 475px;">
+               <el-tabs type="border-card">
+                    <el-tab-pane>
+                        <span slot="label"><i class="el-icon-date"></i> Html editor</span>
+                <div>
+                    <ckeditor v-model="commentText">
+                    </ckeditor>
                 </div>
                     <div class="taskCommentsView-toolbar">
                         <div id="details_property_sheet__new_comment_button" @click="insertComment(filteredTodo.id)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton" style="" tabindex="710">
