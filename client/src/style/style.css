@@ -1330,11 +1330,11 @@ a:hover, a:focus{
      z-index: 1;
 }
 .PageHeaderStructure {position: fixed;top: 40px;left: 0;right: 0;}
-.known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 153%;overflow: auto;min-width: 450px;}
-.asanaView-body { position: fixed;top: 60px;left: 0;right: 0;bottom: 0;overflow-x: auto;  }
+.known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;overflow: auto;min-width: 450px;}
+.asanaView-body { position: fixed;top: 60px;left: 0;right: 0;bottom: 0;overflow-x: auto; overflow-y: hidden; }
 .right_bar{position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: calc(100% - 135px);overflow: auto;}
 .right_pane_container #right_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;}
-#details_pane_footer {position: absolute; width: 99.75%; bottom: 0;height: 132px;}
+#details_pane_footer {position: absolute; width: 99.75%; bottom: 0;height: 100%;}
 .right_pane_container{ min-width: 600px; margin-right: 10px;}
 #center_pane {
         transition: margin-left .5s;
@@ -2309,7 +2309,7 @@ hr {
     margin: 2px -28px;
 }
 .FeedBlockStory {
-    padding: 10px 28px;
+    padding: 10px 15px;
     /*position: relative;*/
     width: 100%;
 }
@@ -3223,7 +3223,7 @@ ol, ul {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
-    /* background: center/cover #cdcfd2; */
+    background: center/cover #cdcfd2;
     border-radius: 50%;
     box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
     -moz-box-sizing: border-box;
@@ -5698,6 +5698,7 @@ textarea,
 .estimate {
     width: 100%;
 }
+<<<<<<< HEAD
 
 /**
 CSS for splitter view
@@ -5742,3 +5743,8 @@ CSS for splitter view
 /**
    CSS for splitter view end
 */
+=======
+>>>>>>> a8d7a0031e44a6fda8bbf99067ea129eb9b2b704
+.ivu-dropdown .ivu-select-dropdown {
+    width: 150px;
+  }
