@@ -235,7 +235,6 @@
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import SettingsMenu from './SettingsMenu.vue'
-  import NavBarSlider from './NavBarSlider.vue'
   import CmnFunc from './CommonFunc.js'
   import MembersDialog from './MembersDialog.vue'
   import DeleteProjectDialog from './DeleteProjectDialog.vue'
@@ -623,11 +622,9 @@
   },
     components: {
       SettingsMenu,
-      NavBarSlider,
       MembersDialog,
       DeleteProjectDialog,
       Avatar
-      // sample
     }
   }
 </script>
