@@ -101,14 +101,7 @@ export default new Router({
           path: 'tasklist',
           name: 'TaskList',
           component: ShowTaskList
-        },
-        
-        // {
-        //   path: 'task/:level/:id',
-        //   //query: {id:''},
-        //   // name: 'RedirectURL',
-        //   component: MainApp,
-        // },
+        }
       ]
     }
   ]

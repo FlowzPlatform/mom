@@ -209,17 +209,17 @@ export const store = new Vuex.Store({
       },100)
       //****************************************************** */
 
-      var children = document.getElementById('main-container').children;
-      var totalWidth = 0;
-      for (var i = 0; i < children.length; i++) {
-        totalWidth += children[i].offsetWidth;
-      }
-      var leftPos = $('#main-container').scrollLeft();
-      $("div#main-container").animate({
-        scrollLeft: totalWidth
-      }, 800)
-      
+      // var children = document.getElementById('main-container').children;
+      // var totalWidth = 0;
+      // for (var i = 0; i < children.length; i++) {
+      //   totalWidth += children[i].offsetWidth;
+      // }
+      // var leftPos = $('#main-container').scrollLeft();
+      // $("div#main-container").animate({
+      //   scrollLeft: totalWidth
+      // }, 800)
       // END scroll to last opened right div 
+
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
         // window.history.pushState("", "Title", "http://localhost:3000/navbar/task/" + (payload.level + 1) + "/" + payload.id);
@@ -237,11 +237,19 @@ export const store = new Vuex.Store({
           if (state.parentIdArr.length > 0) {
             state.parentIdArr.splice(0, state.parentIdArr.length);
             for (var i = 0; i < tempParentIds.length; i++) {
-              if (tempParentIds[i].level < parentIdArrObj.level) {
+              if (tempParentIds[i].level < parentIdArrObj.level && !tempParentIds[i].isPinned) {
                 state.parentIdArr.push(tempParentIds[i]);
+              } 
+            }
+            if(!parentIdArrObj.isPinned)
+              state.parentIdArr.push(parentIdArrObj);
+            
+            // Add pinned window at last position
+            for (var i = 0; i < tempParentIds.length; i++) {
+              if(tempParentIds[i].isPinned){
+                state.parentIdArr.push(tempParentIds[i])
               }
             }
-            state.parentIdArr.push(parentIdArrObj);
           }
           else {
             state.parentIdArr.push(parentIdArrObj);
@@ -249,6 +257,7 @@ export const store = new Vuex.Store({
         }
       }
     },
+    
     CLOSE_DIV(state, payload) {
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
@@ -257,9 +266,15 @@ export const store = new Vuex.Store({
         if (state.parentIdArr.length > 0) {
           state.parentIdArr.splice(0, state.parentIdArr.length);
           for (var i = 0; i < tempParentIds.length; i++) {
-            if (tempParentIds[i].level < parentIdArrObj.level) {
+            if (tempParentIds[i].level < parentIdArrObj.level && !tempParentIds[i].isPinned) {
               state.parentIdArr.push(tempParentIds[i]);
             }
+          }
+
+          for (var i = 0; i < tempParentIds.length; i++) {
+              if(tempParentIds[i].isPinned){
+                state.parentIdArr.push(tempParentIds[i])
+              }
           }
         }
       }
@@ -1961,7 +1976,7 @@ export const store = new Vuex.Store({
     findHistoryLog({commit},taskId){
       services.taskHistoryLogs.find({ query: { task_id: taskId } }).then(response => {
         response.sort(function (a, b) {
-            return new Date(a.created_on).getTime() - new Date(b.created_on).getTime()
+            return new Date(b.created_on).getTime() - new Date(a.created_on).getTime()
         });
         store.state.taskHistoryLog = response
         console.log("Hisory Log watch:-->", store.state.taskHistoryLog)
@@ -1972,8 +1987,57 @@ export const store = new Vuex.Store({
       services.roleService.remove(role.id).then(response=> {
         console.log("Remove Role--->",response)
       });
-    }
+    },
+    closeComment(state,comment)
+    {
+      let parentIdArr=store.state.parentIdArr;
+      let index=0;
+      
+      let tempParentId='-1';
+      let removeIndex=[];
+      parentIdArr.forEach(function(element) { 
+          console.log("element id:",element); 
+          if(element.show_type==="subcomment" && (element.parentId===tempParentId || element.id===comment.id ))
+          {
+            tempParentId=element.id;
+            removeIndex.push(index);
+          }
+          index++;
+      }, this);
 
+
+      let tempIndex=0; 
+      removeIndex.forEach(function(element) {
+        Vue.delete(store.state.parentIdArr,element-tempIndex)
+        tempIndex++;  
+        
+      }, this);
+    }, 
+    closeChildComment(state,comment)
+    {
+      let parentIdArr=store.state.parentIdArr;
+      let index=0;
+      
+      let tempParentId='-1';
+      let removeIndex=[];
+      parentIdArr.forEach(function(element) { 
+          console.log("element id:",element); 
+          if(element.show_type==="subcomment" && (element.parentId===tempParentId || element.parentId===comment.id ))
+          {
+            tempParentId=element.id;
+            removeIndex.push(index);
+          }
+          index++;
+      }, this);
+
+
+      let tempIndex=0; 
+      removeIndex.forEach(function(element) {
+        Vue.delete(store.state.parentIdArr,element-tempIndex)
+        tempIndex++;  
+        
+      }, this);
+    }
 
     },
   getters: {

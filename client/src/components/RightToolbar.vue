@@ -2,24 +2,27 @@
   <div class="toolbar details-pane-top details-pane-toolbar  toolbar-no-grad">
     <div class="gutter-left"></div>
     <span class="toolbar-section left">
-        <div class="loading-boundary taskDetailsView-toolbarProperty">
+        <!--<div class="loading-boundary taskDetailsView-toolbarProperty">
           <div class="redesign-assigned-to-container">
             <div class="property assigned_to value-set">
               <span class="token-wrapper">
                 <span class="token user_token">
-                  <div class="photo-view photo-view-remix inbox-size photo-view-rounded-corners clickable ">
-                    <div class="react-mount-node photoView-reactMount">
-                      <div data-reactroot="" class="Avatar Avatar--medium Avatar--color4">
-                        <span> {{ getUserLetters() }}<img v-bind:src="imageURlProfilePic" /></span>
-                      </div>
+                  <div v-if="getAssignedUserObj().email">
+                      <avatar v-if="getAssignedUserObj().image_url" :username="getAssignedUserObj().email" :src="getAssignedUserObj().image_url" :size="30"></avatar>
+                      <avatar v-else :username="getAssignedUserObj().email" :size="30" color="#fff"></avatar>
                     </div>
-                  </div>
                   <span class="dropdown">
                     <a tabindex="-1" class="token_name" data-toggle="dropdown" id='userlist' @click='getAllUsers()'>{{ getAssignedUserName () }}</a>
                       <ul class='dropdown-menu userlist' aria-labelledby="userlist">
                         <li v-for="(user, index) in getUserList"><a @click="btnUserClicked(user)"> 
-                          <span><img v-if="user.image_url" v-bind:src="user.image_url" /><div v-else>{{user.email | capitalizeLetters}}</div></span>{{user.email}}</a>
-                        <hr>
+                          <!-- <span><img v-if="user.image_url" v-bind:src="user.image_url" /><div v-else>{{user.email | capitalizeLetters}}</div>
+                          </span> -->
+                          <div v-if="user.email">
+                              <avatar v-if="user.image_url" :username="user.email" :size="30" :src="user.image_url"></avatar>
+                              <avatar v-else :username="user.email" color="#fff" :size="30"></avatar>
+                          </div>
+                          {{user.email}}</a>
+                        <!-- <hr>
                       </li>
                     </ul>
                   </span>
@@ -27,21 +30,19 @@
               </span>
             </div>
           </div>
-        </div>
-         <!-- <select v-model="type" @change="updateTypeInTask(type)"  class="form-control" style="width: 100% !important; border-color: rgba(255, 255, 255, 0) ">
-              <option v-bind:value="type" v-for="type in getTypes">{{type.type}}</option>
-            </select>  -->
-            <div class="typeBorderClass">
-                <span class="dropdown">
-                  <div class="typeClass" data-toggle="dropdown">
-                    {{ getAssignedType}}
-                  </div>
-                  <ul class="dropdown-menu typeList">
-                    <li v-for="type in getTypes"><a @click="btnTypeClicked(type)">{{type.type}}</a><hr></li>
-                  </ul>
-                </span>
+        </div> -->
+        
+        <div class="typeBorderClass">
+            <span class="dropdown">
+              <div class="typeClass" data-toggle="dropdown">
+                {{ getAssignedType}}
               </div>
-        <div class="loading-boundary taskDetailsView-toolbarProperty">
+              <ul class="dropdown-menu typeList">
+                <li v-for="type in getTypes"><a @click="btnTypeClicked(type)">{{type.type}}</a><hr></li>
+              </ul>
+            </span>
+          </div>
+          <div class="loading-boundary taskDetailsView-toolbarProperty">
           <div class="redesign-due-date-container">
             <div class="property due_date value-set">
               <div class="property-name">
@@ -100,36 +101,49 @@
               <i class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></i>
             </div>
             <ul class="dropdown-menu" style="top: 52px;max-height: 250px;left: 408.31px;min-width: 30px;z-index: 2000;">
-              <li v-show= "EstimatedHoursCreate"><a id="estimated_hours" class="menu-item" title="">
+              <li v-show= "EstimatedHoursCreate"><a id="estimated_hours" class="menu-item-privacy" title="">
                             <button class="dropdown-menu-item-label" @click="estimated_time = true">Estimated Hours</button>
                           </a></li>
-              <li v-show="taskPriorityCreate"><a id="task_priority" class="menu-item" title="">
+              <li v-show="taskPriorityCreate"><a id="task_priority" class="menu-item-privacy" title="">
                             <span class="dropdown-menu-item-label" @click="task_priority = true">Task Priority</span>
                           </a></li>
-              <li><a id="copy_task_url" class="menu-item" title="">
+              <li><a id="copy_task_url" class="menu-item-privacy" title="">
                             <span class="dropdown-menu-item-label" @click="copyTaskURL">Copy Task URL</span>
                           </a></li>
-              <li v-show="isDeleteShow"><a id="delete_task" class="menu-item" title="">               
+              <li v-show="isDeleteShow"><a id="delete_task" class="menu-item-privacy" title="">               
                 <span class="dropdown-menu-item-label" @click="deleteTodo({filteredTodo : filteredTodo})" >Delete Task</span>
               </a></li>
-              <li><a id="export_pdf" class="menu-item" title="">               
+              <li><a id="export_pdf" class="menu-item-privacy" title="">
                 <span class="dropdown-menu-item-label" @click="exportToPDF">Export PDF</span>
               </a></li>
             </ul>
           </a>
-        </div>
+        </div>-->
       </span>
-      <div class="loading-boundary reskinToolbarActionMenu">
+      <!--<div class="loading-boundary reskinToolbarActionMenu" @click="pinit(filteredTodo)">
         <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-          tabindex="410" @click="openfullwinodw(filteredTodo.level)" style="margin-top: 7px">
+           style="margin-top: 4px; margin-left:5px;">
+          <span class="circularButtonView-label">        
+          <i class="glyphicon glyphicon-pushpin" aria-hidden="true" title="Pin it"></i>   
+        </span>
+        </div>
+      </div>-->
+      
+      <!--<div class="loading-boundary reskinToolbarActionMenu">
+        <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+          tabindex="410" @click="openfullwinodw(filteredTodo.level)" style="margin-top: -13px; margin-right:5px;">
           <span class="circularButtonView-label">
           <i class="fa fa-expand" aria-hidden="true"></i>    
         </span>
         </div>
-      </div>
-    <estimated-hours :showModal="estimated_time" :closeAction="closeDialog" :filteredTodo="filteredTodo"></estimated-hours>
-    <task-priority :showModal="task_priority" :closeAction="closeDialog" :filteredTodo="filteredTodo"></task-priority>
-    <span id="close" class="destroy" @click="CLOSE_DIV(filteredTodo)"><i class="fa fa-close"></i></span>
+      </div>-->
+    <!--<estimated-hours :showModal="estimated_time" :closeAction="closeDialog" :filteredTodo="filteredTodo"></estimated-hours>
+    <task-priority :showModal="task_priority" :closeAction="closeDialog" :filteredTodo="filteredTodo"></task-priority>-->
+    <!--<div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+           style="margin-top: -13px; margin-right:-13px;" @click="pinit(filteredTodo)">
+      <span id="pinit" class="pinit" ><img src="../assets/pin.png" style="width:20px; height:20px;"></img></span>
+    </div>
+    <span id="close" class="destroy" @click="CLOSE_DIV(filteredTodo)"><i class="fa fa-close"></i></span>-->
     
   </div>
 </template>
@@ -144,6 +158,7 @@
   import CmnFunc from './CommonFunc.js'
   import * as Constant from './Constants.js'
   import { mapMutations, mapGetters } from 'vuex'
+  import Avatar from 'vue-avatar/dist/Avatar'
   Vue.use(KeenUI);
   Vue.filter('formatDate', function (value) {
     if (value) {
@@ -252,10 +267,10 @@
         var selectedDate = moment(dateTo, 'YYYY-MM-DD').format('MMM DD');
         this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedDate": dateTo })
       },
-      openfullwinodw: function (ind) {
-        $('.window-full.circularButtonView').find('.fa').toggleClass('fa-compress');
-        $('.window-full.circularButtonView').parents('.right_pane_container #right_pane #' + ind).toggleClass('open')
-      },
+      // openfullwinodw: function (ind) {
+      //   $('.window-full.circularButtonView').find('.fa').toggleClass('fa-compress');
+      //   $('.window-full.circularButtonView').parents('.right_pane_container #right_pane #' + ind).toggleClass('open')
+      // },
       closeDialog() {
         this.estimated_time = false
         this.task_priority = false
@@ -495,12 +510,25 @@
         } else {
           this.taskPriorityCreate = true
         }
-      }
+      },
+      // pinit(filteredTodo){
+      //   console.log('TODO Object', filteredTodo)
+
+      //   if( _.find(this.$store.state.todolist, ['id', filteredTodo.id]) &&  ! _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned){
+      //      console.log('pinnned true')
+      //     _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned = true;
+      //   }
+      //   else{
+      //     console.log('pinnned false')
+      //     _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned = false;
+      //   }
+      // }
     },
     components: {
       Datepicker,
       EstimatedHours,
-      TaskPriority
+      TaskPriority,
+      Avatar
     }
   }
 

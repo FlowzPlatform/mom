@@ -7,10 +7,10 @@
           <!-- <input v-if="!$store.state.deleteItemsSelected && id !== 'taskTypes' && id !== 'taskState' && id !== 'roleTypes'" :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle" -->
           <input v-show="getType" v-if="!$store.state.deleteItemsSelected && id !== 'taskTypes' && id !== 'taskState' && id !== 'roleTypes'"  :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle"
           @change="toggleTodo(todo)">
-          <input v-else="!$store.state.deleteItemsSelected && id === 'roleTypes'" :id="todo.id" type="checkbox" checked="" v-model="todo.is_checked" class="toggle" :disabled="!todo.is_editable" @change="roleCheckChange(todo)">
+          <input v-if="!$store.state.deleteItemsSelected && id === 'roleTypes'" :id="todo.id" type="checkbox" checked="" v-model="todo.is_checked" class="toggle" :disabled="!todo.is_editable" @change="roleCheckChange(todo)">
           <label for="checkbox8"></label>
         </span>
-        <div v-if="todo.type_id && !getType" class="stateCircle Avatar--small " @click="showStatusList" data-toggle="dropdown"
+        <div v-if="!$store.state.deleteItemsSelected && todo.type_id && !getType" class="stateCircle Avatar--small " @click="showStatusList" data-toggle="dropdown"
           :style="{'box-shadow' : 'inset 0 0 0 3px'+ selectedObject.color }">
           <span>{{selectedObject.taskState | fistLatter}}</span></div>
         <ul class='dropdown-menu statusList'>
@@ -46,15 +46,6 @@
             <span class="grid_due_date">{{todo.dueDate | formatDate_todo}}</span>
           </a>
         </div>
-        <!-- <div v-if="todo.image_url || todo.email"  class="delete-view">
-          <div class="react-mount-node photoView-reactMount">
-            <div data-reactroot="" class="Avatar Avatar--small Avatar--color4">
-              <span v-if="todo.image_url"><img v-bind:src="todo.image_url" /></span>
-              <span v-else>{{ todo.email | capitalizeLetters }}</span>
-              <avatar :username="todo.email"></avatar>
-            </div>
-          </div>
-        </div> -->
         <div v-if="todo.email">
           <avatar v-if="todo.image_url" :username="todo.email" :src="todo.image_url" :size="30" class="delete-view"></avatar>
           <avatar v-else :username="todo.email" :size="30" color="#fff" class="delete-view"></avatar>
@@ -186,6 +177,7 @@
         return stateList
       },
       getType() {
+        // console.log("Get tyepe:--",this.selectedType.id === this.todo.type_id);
         if (this.todo.type_id) {
           this.isTypeTodo = this.selectedType.id === this.todo.type_id
         }

@@ -1,66 +1,141 @@
 <template lang="html">
   <div>
-    <div id="mySidenav" class="sidenav">
-      <nav-bar-slider></nav-bar-slider>
-    </div>
     <div>
       <div data-reactroot="" id="top-bar" class="Topbar">
-        <div class="Topbar-navButtonContainer">
-          <a class="Topbar-navButton" @click="openCloseNav">
-            <svg class="Icon HamburgerIcon Topbar-sidebarToggleIcon" title="HamburgerIcon" viewBox="0 0 32 32">
-              <rect x="2" y="4" width="28" height="4"></rect>
-              <rect x="2" y="14" width="28" height="4"></rect>
-              <rect x="2" y="24" width="28" height="4"></rect>
-            </svg>
-          </a>
-        </div>
-        <router-link class="NavigationLink Topbar-myTasksButton is-selected" v-on:click.native="showMyTasks" to="/navbar/mainapp">
-          My Tasks
-        </router-link>
-        <router-link class="NavigationLink Topbar-myTasksButton is-selected" to="/navbar/inbox">
-          Inbox
-        </router-link>
-        <router-link class="NavigationLink Topbar-myTasksButton is-selected" to="/navbar/mainapp">
-          Dashboard
-        </router-link>
-        <router-link class="NavigationLink Topbar-myTasksButton is-selected" to="/navbar/roleaccess">
-          Role Access
-        </router-link>
-          <!-- Search Bar -->
-        <div class="TopbarSearch dropdown">
-          <i class="fa fa-search Icon MagnifyerIcon TopbarSearch-icon" />
-          <div class="TopbarSearchTypeahead">
-            <input type="text" autocomplete="off" data-toggle="dropdown" class="textInput textInput--medium TopbarSearchTypeahead-input TopbarSearch-input"
-              placeholder="Search" id="topbar-search-input" rows="1" value="">
-            <ul class="dropdown-menu">
-              <li>
-                  <router-link v-on:click.native="showTaskCreatedBy" to="/navbar/tasklist">
-                    Tasks I've created
-                  </router-link>
-              </li>
-              <li><router-link v-on:click.native="recentlyCompletedTasks" to="/navbar/tasklist">Recently Completed Tasks</router-link></li>
-              <li><router-link v-on:click.native="taskToAssignOther" to="/navbar/tasklist">Tasks I've Assigned to Others</router-link></li>
-              <li><a>Search Projects</a></li>
-            </ul>
+        <div class="PageHeaderStructure-center">
+            <div class="PageHeaderStructure-titleRow">
+              <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName">
+                <input id="project-name" type="text" name="fname" maxlength="25" v-model="projectName" @blur="setProjectName" @keyup.enter="updateProjectName" style="text-align: center;"/>
+              </div>
+            </div>
           </div>
-        </div>
-        <!-- accounts info -->
-        <!--<div class="PageHeaderStructure-center PageHeaderStructure-title MyTasksPageHeader-title">My Tasks</div>-->
+        <div class="PageHeaderStructure-right">
+            <div class="projectHeaderFacepile-content">
+              <div class="Facepile Facepile--grouped projectHeaderFacepile-facepile hidden">
+                <div class="Avatar Avatar--large Avatar--color2 Facepile-avatar--clickable">
+                  he
+                </div>
+                <a class="CircularButton CircularButton--enabled CircularButton--small Facepile-placeholder" tabindex="0" aria-role="button">
+                  <div class="CircularButton-label">
+                    <svg class="Icon UserIcon Facepile-placeholderIcon" title="UserIcon" viewBox="0 0 32 32">
+                      <path d="M20.534,16.765C23.203,15.204,25,12.315,25,9c0-4.971-4.029-9-9-9S7,4.029,7,9c0,3.315,1.797,6.204,4.466,7.765C5.962,18.651,2,23.857,2,30c0,0.681,0.065,1.345,0.159,2h27.682C29.935,31.345,30,30.681,30,30C30,23.857,26.038,18.651,20.534,16.765z M9,9c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S9,12.86,9,9z M4,30c0-6.617,5.383-12,12-12s12,5.383,12,12H4z"></path>
+                    </svg>
+                  </div>
+                </a>
+                <a class="CircularButton CircularButton--enabled CircularButton--small Facepile-placeholder" tabindex="0" aria-role="button">
+                  <div class="CircularButton-label">
+                    <svg class="Icon UserIcon Facepile-placeholderIcon" title="UserIcon" viewBox="0 0 32 32">
+                      <path d="M20.534,16.765C23.203,15.204,25,12.315,25,9c0-4.971-4.029-9-9-9S7,4.029,7,9c0,3.315,1.797,6.204,4.466,7.765C5.962,18.651,2,23.857,2,30c0,0.681,0.065,1.345,0.159,2h27.682C29.935,31.345,30,30.681,30,30C30,23.857,26.038,18.651,20.534,16.765z M9,9c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S9,12.86,9,9z M4,30c0-6.617,5.383-12,12-12s12,5.383,12,12H4z"></path>
+                    </svg>
+                  </div>
+                </a>
+              </div>
+              <a id="ProjectPageHeader-facepileAddButton" class="CircularButton CircularButton--enabled CircularButton--small projectHeaderFacepile-addButton hidden"
+                tabindex="0" aria-role="button">
+                <div class="CircularButton-label">
+                  <svg class="Icon PlusIcon projectHeaderFacepile-addIcon" title="PlusIcon" viewBox="0 0 32 32">
+                    <polygon points="28,14 18,14 18,4 14,4 14,14 4,14 4,18 14,18 14,28 18,28 18,18 28,18"></polygon>
+                  </svg>
+                </div>
+              </a>
+              <div v-show="($store.state.currentProjectName && $store.state.currentProjectName.length>0)?true:false" id="projectVisible" class="projectHeaderFacepile-privacySummary projectHeaderFacepile-privacySummaryDropdown" @click="changePrivacyPopup">
+                <div class="projectHeaderFacepile-privacySummaryDropdownTextDownIconContainer">
+                  <svg v-if="$store.state.currentProjectPrivacy==2" class="Icon UserIcon projectHeaderFacepile-privacySummaryDropdownLeftIcon"
+                    title="UserIcon" viewBox="0 0 32 32">
+                    <path d="M20.534,16.765C23.203,15.204,25,12.315,25,9c0-4.971-4.029-9-9-9S7,4.029,7,9c0,3.315,1.797,6.204,4.466,7.765C5.962,18.651,2,23.857,2,30c0,0.681,0.065,1.345,0.159,2h27.682C29.935,31.345,30,30.681,30,30C30,23.857,26.038,18.651,20.534,16.765z M9,9c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S9,12.86,9,9z M4,30c0-6.617,5.383-12,12-12s12,5.383,12,12H4z"></path>
+                  </svg>
+                  <svg v-else class="Icon UserIcon projectHeaderFacepile-privacySummaryDropdownLeftIcon" title="UserIcon" viewBox="0 0 32 32">
+                    <path d="M24.23,16.781C26.491,15.368,28,12.863,28,10c0-4.418-3.582-8-8-8s-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C11.233,18.494,8,22.864,8,28c0,0.683,0.07,1.348,0.18,2h23.64c0.11-0.652,0.18-1.317,0.18-2C32,22.864,28.767,18.494,24.23,16.781z M14,10c0-3.308,2.692-6,6-6s6,2.692,6,6s-2.692,6-6,6S14,13.308,14,10z M10,28c0-5.514,4.486-10,10-10c5.514,0,10,4.486,10,10H10z"></path>
+                    <path d="M2,28c0-4.829,3.441-8.869,8-9.798V15.65C7.673,14.824,6,12.606,6,10c0-3.308,2.692-6,6-6V2c-4.418,0-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C3.233,18.494,0,22.864,0,28c0,0.683,0.07,1.348,0.18,2H6v-2H2z"></path>
+                  </svg>
+                  <!-- <div class="projectHeaderFacepile-privacySummaryDropdownText" v-if="$store.state.currentProjectPrivacy==0">Public to all</div>
+                  <div class="projectHeaderFacepile-privacySummaryDropdownText" v-else-if="$store.state.currentProjectPrivacy==1">Private to member</div>
+                  <div class="projectHeaderFacepile-privacySummaryDropdownText" v-else="$store.state.currentProjectPrivacy==2">Private to me</div>
+                  <svg class="Icon DownIcon projectHeaderFacepile-privacySummaryDropdownDownIcon" title="DownIcon" viewBox="0 0 32 32">
+                    <path d="M4.686,12.686l9.899,9.9c0.781,0.781,2.047,0.781,2.828,0l9.9-9.9l-2.475-2.475L16,19.05l-8.839-8.839L4.686,12.686z"></path>
+                  </svg> -->
+                </div>
+                <!-- Change privacy  -->
+                <div v-show="showPrivacyPopup" @mouseleave="hidePopup" class="layerPositioner-privacy layerPositioner--offsetRight layerPositioner--alignRight layerPositioner--below"
+                  data-layerid="4" style="top: 80.339px;">
+                  <div class="layerPositioner-layer-privacy">
+                    <div class="Dropdown projectHeaderFacepile-privacySummaryDropdown">
+                      <ul class="menu menu--long">
+                        <li class="menu-item-privacy" @click="publicMode">
+                          <a id="projectHeaderFacepile-privacyPublicMenuItem" class="menuItem-button is-highlighted menuItem--small projectHeaderFacepile-privacyMenuItem">
+                            <svg v-show="showPublic" class="Icon CheckIcon menuItem-selectedIcon" title="CheckIcon" viewBox="0 0 32 32">
+                              <polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon>
+                            </svg>
+                            <svg class="Icon UsersIcon projectHeaderFacepile-privacyMenuItemIcon" title="UsersIcon" viewBox="0 0 32 32">
+                              <path d="M24.23,16.781C26.491,15.368,28,12.863,28,10c0-4.418-3.582-8-8-8s-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C11.233,18.494,8,22.864,8,28c0,0.683,0.07,1.348,0.18,2h23.64c0.11-0.652,0.18-1.317,0.18-2C32,22.864,28.767,18.494,24.23,16.781z M14,10c0-3.308,2.692-6,6-6s6,2.692,6,6s-2.692,6-6,6S14,13.308,14,10z M10,28c0-5.514,4.486-10,10-10c5.514,0,10,4.486,10,10H10z"></path>
+                              <path d="M2,28c0-4.829,3.441-8.869,8-9.798V15.65C7.673,14.824,6,12.606,6,10c0-3.308,2.692-6,6-6V2c-4.418,0-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C3.233,18.494,0,22.864,0,28c0,0.683,0.07,1.348,0.18,2H6v-2H2z"></path>
+                            </svg>
+                            <span class="menuItem-label">
+                              <div class="projectHeaderFacepile-privacyMenuItemText">Public to all</div>
+                            </span>
+                          </a>
+                        </li>
+                        <li class="menu-item-privacy" @click="privateMemberMode">
+                          <a id="projectHeaderFacepile-privacyPublicMenuItem" class="menuItem-button is-highlighted menuItem--small projectHeaderFacepile-privacyMenuItem">
+                            <svg v-show="showPrivateMember" class="Icon CheckIcon menuItem-selectedIcon" title="CheckIcon" viewBox="0 0 32 32">
+                              <polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon>
+                            </svg>
+                            <svg class="Icon UsersIcon projectHeaderFacepile-privacyMenuItemIcon" title="UsersIcon" viewBox="0 0 32 32">
+                              <path d="M24.23,16.781C26.491,15.368,28,12.863,28,10c0-4.418-3.582-8-8-8s-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C11.233,18.494,8,22.864,8,28c0,0.683,0.07,1.348,0.18,2h23.64c0.11-0.652,0.18-1.317,0.18-2C32,22.864,28.767,18.494,24.23,16.781z M14,10c0-3.308,2.692-6,6-6s6,2.692,6,6s-2.692,6-6,6S14,13.308,14,10z M10,28c0-5.514,4.486-10,10-10c5.514,0,10,4.486,10,10H10z"></path>
+                              <path d="M2,28c0-4.829,3.441-8.869,8-9.798V15.65C7.673,14.824,6,12.606,6,10c0-3.308,2.692-6,6-6V2c-4.418,0-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C3.233,18.494,0,22.864,0,28c0,0.683,0.07,1.348,0.18,2H6v-2H2z"></path>
+                            </svg>
+                            <span class="menuItem-label">
+                              <div class="projectHeaderFacepile-privacyMenuItemText">Private to members</div>
+                            </span>
+                          </a>
+                        </li>
+                        <li class="hidden menu-item-privacy">
+                          <a id="projectHeaderFacepile-privacyPrivateToMembersMenuItem" class="menuItem-button is-highlighted menuItem--extralarge projectHeaderFacepile-privacyMenuItem projectHeaderFacepile-privacyMenuItemUpgradeOption">
+                            <span class="menuItem-label">
+                              <div class="projectHeaderFacepile-privacyMenuItemIconText">
+                                <svg class="Icon LockIcon projectHeaderFacepile-privacyMenuItemIcon" title="LockIcon" viewBox="0 0 32 32">
+                                  <path d="M24,12v-0.125V8c0-4.411-3.589-8-8-8S8,3.589,8,8v4H6v18h20V12H24z M14,12V8c0-1.103,0.897-2,2-2s2,0.897,2,2v4H14z M10,8c0-3.309,2.691-6,6-6s6,2.691,6,6v4h-2V8c0-2.206-1.794-4-4-4s-4,1.794-4,4v4h-2V8z M24,28H8V14h16V28z"></path>
+                                </svg>
+                                <div class="projectHeaderFacepile-privacyMenuItemText">Private to members</div>
+                              </div>
+                              <div class="hidden projectHeaderFacepile-privacyMenuItemUpgradeTextContainer">
+                                <u class="projectHeaderFacepile-privacyMenuItemUpgradeText">Upgrade to create Private Projects with multiple members</u>
+                              </div>
+                            </span>
+                          </a>
+                        </li>
+                        <li class="menu-item-privacy" @click="privateToMe">
+                          <a id="projectHeaderFacepile-privacyPrivateToMeMenuItem" class="menuItem-button menuItem--small projectHeaderFacepile-privacyMenuItem">
+                            <svg v-show="showPrivateCheck" class="Icon CheckIcon menuItem-selectedIcon" title="CheckIcon" viewBox="0 0 32 32">
+                              <polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon>
+                            </svg>
+                            <svg class="Icon UserIcon projectHeaderFacepile-privacyMenuItemIcon" title="UserIcon" viewBox="0 0 32 32">
+                              <path d="M20.534,16.765C23.203,15.204,25,12.315,25,9c0-4.971-4.029-9-9-9S7,4.029,7,9c0,3.315,1.797,6.204,4.466,7.765C5.962,18.651,2,23.857,2,30c0,0.681,0.065,1.345,0.159,2h27.682C29.935,31.345,30,30.681,30,30C30,23.857,26.038,18.651,20.534,16.765z M9,9c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S9,12.86,9,9z M4,30c0-6.617,5.383-12,12-12s12,5.383,12,12H4z"></path>
+                            </svg>
+                            <span class="menuItem-label">
+                              <div class="projectHeaderFacepile-privacyMenuItemText">Private to me</div>
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         <div class="Topbar-accountInfo">
-          <a class="Button Button--small Button--primary topbarContingentUpgradeButton-button" tabindex="0" aria-role="button">Upgrade</a>
           <a class="Topbar-settingsMenuButton">
             <span class="Topbar-settingsMenuDomainName"><span>Welcome {{ uname }}</span></span>
-            <div class="dropdown-toggle Avatar Avatar--medium Avatar--color4 Topbar-settingsMenuAvatar" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-              <span v-if="imageURlProfilePic">
-                <img v-bind:src="imageURlProfilePic" />
-              </span>
-              <span v-else>{{ capitalizeLetters }}</span>
+            <div v-if="$store.state.userObject.email" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <avatar v-if="$store.state.userObject.image_url" :username="$store.state.userObject.email" :src="$store.state.userObject.image_url" :size="30"></avatar>
+              <avatar v-else :username="$store.state.userObject.email" :size="30" color="#fff"></avatar>
             </div>
             <ul class="dropdown-menu">
               <li><a data-toggle="modal" data-target="#myModal2" @click="btnProfileClicked()">Profile</a></li>
               <hr>
               <li @click="settings_menu = true">
-                <a id="settings" class="menu-item" title="">
+                <a id="settings" class="menu-item-privacy" title="">
                     <span class="dropdown-menu-item-label" >Settings</span>
                   </a>
               </li>
@@ -70,12 +145,7 @@
           </a>
         </div>
       </div>
-      <!-- <section class=""> -->
-        <!-- <div class=""> -->
-          <router-view></router-view>
-        <!-- </div> -->
-      <!-- </section> -->
-      <!--Profile dialog start-->
+      <router-view></router-view>
       <settings-menu :settingArr="settingArr" :showModal="settings_menu" :closeAction="closeDialog"></settings-menu>
       <div class="todoapp">
         <div id="myModal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
@@ -150,49 +220,10 @@
         </div>
       </div>
     </div>
-    <!--Profile dialog end-->
-    <!-- Project setting menu  -->
-    <div class="hidden project-setting" @mouseleave="hideProjectSetting">
-      <div data-reactroot="" class="layerPositioner-project-setting layerPositioner--offsetLeft layerPositioner--alignLeft layerPositioner--below"
-        data-layerid="1">
-        <div class="layerPositioner-layer">
-          <div class="Dropdown-project-setting SidebarItemRowMenu-dropdown">
-            <ul class="menu menu--default">
-              <li class="hidden menu-item">
-                <div class="is-highlighted DropdownItem DropdownItem--small">
-                  <a class="menuItem-button is-highlighted menuItem--small">
-                    <span class="menuItem-label">
-                      <div class="ColorPickerMenuItem-setHighlightColorMenuItem">
-                        <button class="ColorPickerCell ColorPickerMenuItem-menuItemHighlightCell ColorPickerMenuItem-menuItemHighlightCell--colorNone ColorPickerCell--colorNone" role="button" aria-label="None" aria-pressed="false"></button><!-- react-text: 11 -->Set Highlight Color<!-- /react-text -->
-                      </div>
-                    </span>
-                  </a>
-                  <svg class="Icon rightIcon DropdownItem-disclosureIcon" title="rightIcon" viewBox="0 0 32 32">
-                    <path d="M12.686,27.314l9.9-9.899c0.781-0.781,0.781-2.047,0-2.828l-9.9-9.9l-2.475,2.475L19.05,16l-8.839,8.839L12.686,27.314z"></path>
-                  </svg>
-                </div>
-              </li>
-              <li class="hidden menu-item">
-                <div class="menuSeparator"></div>
-              </li>
-               <li class="hidden menu-item"><a class="menuItem-button menuItem--small SidebarItemRowMenu-toggleFavorite"><span class="menuItem-label">Add to Favorites</span></a></li>
-                    <li class="hidden menu-item"><a class="menuItem-button menuItem--small SidebarItemRowMenu-removeRecent"><span class="menuItem-label">Remove from Recents</span></a></li>
-                    <li class="hidden menu-item"><a class="menuItem-button menuItem--small SidebarItemRows-addToDashboard"><span class="menuItem-label">Add to Dashboard</span></a></li>
-                    <li class="hidden menu-item"><a class="menuItem-button menuItem--small SidebarItemRows-copyProjectMenuItem"><span class="menuItem-label">Copy Project…</span></a></li>
-                    <li class="hidden menu-item"><a class="menuItem-button menuItem--small SidebarItemRows-projectToggleIsArchived"><span class="menuItem-label">Archive Project</span></a></li>
-                    <li class="menu-item" @click="showMemberDialog" v-show=" ($store.state.currentProjectPrivacy != 2) && ($store.state.currentProjectMember && $store.state.currentProjectMember.length>0) ?true:false"><a class="menuItem-button menuItem--small SidebarItemRows-deletePotMenuItem"><span class="menuItem-label">Members</span></a></li>
-                    <li class="menu-item" @click="showDeleteProjectDialog"><a class="menuItem-button menuItem--small SidebarItemRows-deletePotMenuItem"><span class="menuItem-label">Delete Project</span></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- Member setting dialog  -->
     <members-dialog></members-dialog>
-
-            <!-- Project delete dialog  -->
+    <!-- Project delete dialog  -->
     <delete-project-dialog></delete-project-dialog>
-       
   </div>
 </template>
 <script>
@@ -204,11 +235,10 @@
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import SettingsMenu from './SettingsMenu.vue'
-  import NavBarSlider from './NavBarSlider.vue'
   import CmnFunc from './CommonFunc.js'
   import MembersDialog from './MembersDialog.vue'
-  import DeleteProjectDialog from './DeleteProjectDialog.vue'   
-
+  import DeleteProjectDialog from './DeleteProjectDialog.vue'
+  import Avatar from 'vue-avatar/dist/Avatar'
   import { mapGetters, mapMutations } from 'vuex'
 
   export default {
@@ -226,6 +256,11 @@
         loading: false,
         settings_menu: false,
         isOpen: this.$store.state.isSliderOpen,
+        showPrivacyPopup: false,
+        showPrivateCheck: false,
+        showPrivateMember: false,
+        showPublic: false,
+        pName:'' // Project Name 
       }
     },
     created() {
@@ -245,7 +280,16 @@
         var str = this.$store.state.userObject.email
         var firstLetters = str.substr(0, 2)
         return firstLetters.toUpperCase()
-      }
+      },
+      projectName:{
+          get(){
+            return this.$store.state.currentProjectName
+          },
+          set(value){
+            this.pName = value;
+           // this.$store.commit('updateProjectName', value)
+          }
+        },
     },
     methods: {
       ...mapMutations([
@@ -521,13 +565,66 @@
       this.$store.state.searchView = "Tasks I've Assigned to Others"
       this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
       this.$store.dispatch('getTaskToAssignOthers', { 'project_id': this.$store.state.currentProjectId, 'userID': this.$store.state.userObject._id })
-    }
+    },
+    setProjectName(){
+           let projectName = this.$store.state.currentProjectName ;
+           $("#project-name").val(projectName);
+      },
+      changePrivacyPopup() {
+        this.showPrivacyPopup = !this.showPrivacyPopup;
+        // Check privacy id to set related option
+        var id = this.$store.state.currentProjectPrivacy;
+        if (id != "") {
+          if (id == "0") {
+            this.showPublic = true;
+            this.showPrivateMember = false;
+            this.showPrivateCheck = false;
+          } else if (id == "1") {
+            this.showPublic = false;
+            this.showPrivateMember = true;
+            this.showPrivateCheck = false;
+          } else if (id == "2") {
+            this.showPublic = false;
+            this.showPrivateMember = false;
+            this.showPrivateCheck = true;
+          }
+        }
+      },
+      publicMode() {
+        this.showPublic = true;
+        this.showPrivateMember = false;
+        this.showPrivateCheck = false;
+        this.$store.dispatch('changeProjectPrivacy', "0")
+        this.$store.state.currentProjectPrivacy = "0"
+        this.showPrivacyPopup = false;
+
+      },
+      privateMemberMode() {
+        this.showPublic = false;
+        this.showPrivateMember = true;
+        this.showPrivateCheck = false;
+        this.$store.dispatch('changeProjectPrivacy', "1")
+        this.$store.state.currentProjectPrivacy = "1"
+        this.showPrivacyPopup = false;
+
+      },
+      privateToMe() {
+        this.showPublic = false;
+        this.showPrivateCheck = true;
+        this.showPrivateMember = false;
+        this.$store.dispatch('changeProjectPrivacy', "2")
+        this.$store.state.currentProjectPrivacy = "2"
+        this.showPrivacyPopup = false;
+      },
+      hidePopup() {
+        this.showPrivacyPopup = false;
+      }
   },
     components: {
       SettingsMenu,
-      NavBarSlider,
       MembersDialog,
-      DeleteProjectDialog
+      DeleteProjectDialog,
+      Avatar
     }
   }
 </script>

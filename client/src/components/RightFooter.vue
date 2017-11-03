@@ -3,20 +3,11 @@
         <div class="property-sheet-view"><div class="loading-boundary ">
             <div class="taskCommentsView ">
                 <div class="photo-view photo-view-remix inbox-size photo-view-rounded-corners taskCommentsView-photo">
-                    <div class="react-mount-node photoView-reactMount">
-                        <div data-reactroot="" class="Avatar Avatar--medium Avatar--color4">
-                             <span v-if="imageURlProfilePic"><img v-bind:src="imageURlProfilePic" /></span>
-                             <span v-else>{{ capitalizeLetters }}</span>
-                        </div>
-                    </div>
+                    <div v-if="$store.state.userObject.email" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <avatar v-if="$store.state.userObject.image_url" :username="$store.state.userObject.email" :src="$store.state.userObject.image_url" :size="30"></avatar>
+                        <avatar v-else :username="$store.state.userObject.email" :size="30" color="#fff"></avatar>
+                      </div>
                 </div>
-                <!--<div class="taskCommentsView-composer is-expanded">
-                    <div class="taskCommentsView-textarea">
-                        <noscript></noscript>
-                        <textarea  class="taskCommentsView-placeholder" id="property_sheet:details_property_sheet_field:comments" tabindex="710">
-                            Write a comment…
-                        </div>
-                    </div>-->
               <div style="width: 475px;">
                <el-tabs type="border-card">
                     <el-tab-pane>
@@ -49,7 +40,7 @@
                     </markdown-editor>
                 </div>     -->
                     <div class="taskCommentsView-toolbar">
-                        <div id="details_property_sheet__new_comment_button" @click="insertComment(filteredTodo.id)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton" style="" tabindex="710">
+                        <div id="details_property_sheet__new_comment_button" @click="insertComment(filteredTodoObj.id)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton" style="" tabindex="710">
                             <span class="left-button-icon"></span>
                             <span class="new-button-text">Comment</span>
                             <span class="right-button-icon"></span>
@@ -66,7 +57,7 @@ import { mapGetters } from 'vuex'
 import Ckeditor from 'vue-ckeditor2'
 import { markdownEditor } from 'vue-simplemde'
 // import { markdownEditor } from 'vue-simplemde'
-
+import Avatar from 'vue-avatar/dist/Avatar'
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en'
@@ -76,9 +67,10 @@ Vue.use(ElementUI, { locale })
 export default {
   components:{
       Ckeditor,
-      markdownEditor
+      markdownEditor,
+      Avatar
   },
-  props: ['filteredTodo'],
+  props: ['filteredTodoObj'],
   data: function () {
     return {
       picker1: null,
@@ -95,7 +87,7 @@ export default {
         insertComment: function(taskId){
             if(this.commentText){
               console.log('Comment by', this.$store.state.userObject.fullname)
-            this.$store.dispatch('insertTaskComment',{"id":this.filteredTodo.id, "comment":this.commentText, "commentBy": this.$store.state.userObject._id})
+            this.$store.dispatch('insertTaskComment',{"id":this.filteredTodoObj.id, "comment":this.commentText, "commentBy": this.$store.state.userObject._id})
             this.commentText = ''
             let frame = document.getElementsByClassName('cke_reset')[3].contentWindow
             frame.document.getElementsByClassName('cke_editable cke_editable_themed cke_contents_ltr cke_show_borders')[0].innerHTML = '';
@@ -106,7 +98,7 @@ export default {
                 var mdString2 = mdString.replace(new RegExp('<th>', 'g'),'<th style="padding:5px">');
                 var mdString3 = mdString2.replace(new RegExp('<td>', 'g'),'<td style="padding:5px">');
                 var mdString4= mdString3
-                this.$store.dispatch('insertTaskComment',{"id":this.filteredTodo.id, "comment":mdString4, "commentBy": this.$store.state.userObject._id})
+                this.$store.dispatch('insertTaskComment',{"id":this.filteredTodoObj.id, "comment":mdString4, "commentBy": this.$store.state.userObject._id})
                 this.content = '';
             }
         }
@@ -121,7 +113,7 @@ export default {
             getComment: 'getCommentById'
         }),
         getCommentByTaskId(){
-            let commentList = this.getComment(this.filteredTodo.id)
+            let commentList = this.getComment(this.filteredTodoObj.id)
             return commentList
         }
   }
