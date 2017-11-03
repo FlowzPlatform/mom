@@ -30,7 +30,7 @@
               </span>
             </div>
           </div>
-        </div> -->
+        </div>
         
         <div class="typeBorderClass">
             <span class="dropdown">

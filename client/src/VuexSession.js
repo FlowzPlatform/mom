@@ -1724,9 +1724,174 @@ export const store = new Vuex.Store({
         }).then(response => {
 
         });
+    },
+    roleCheckChange({ commit }, role){
+      console.log("Role --->",role);
+      
+      if (role.id !== '-1') {
+        console.log("Role Check changes")
+        services.roleService.patch(role.id, {
+          is_checked: role.is_checked
+        }).then(response => {
+          console.log("Role Check changes",response);
+          let userIndex = _.findIndex(store.state.userRoles, function (user) { return user.id === response.id })
+          store.state.userRoles[userIndex] = response
+        });
+      } else {
+        if(role.name.length>0){
+        let insertRole=role
+        insertRole.is_checked=true
+        // console.log("insert Role --->",insertRole);
+        store.dispatch("insertRole", insertRole);
+      }}
+    },
+    insertRole({commit},role)
+    {
+      console.log("insert Role --->",role);
+      services.roleService.create({name:role.name,is_checked:role.is_checked,is_editable:role.is_editable}).then(response=>{
+        // store.state.userRoles.push(response)
+        // Vue.set(store.state.userRoles, store.state.userRoles.length-1, response)
+      })
+    },
+    historylog({commit},task_id){
+
+      return  services.taskHistoryLogs.find({
+        task_id:task_id
+      }).then(response=>{
+        return response;
+      })
+    },
+    getCountofTaskType({commit}, data){
+      console.log("Data id", data)
+        services.tasksService.find({
+          query:{  type_id: data.id  },$client: {
+            flag: 'countflag'
+        }
+        }).then(response => {
+          console.log("Response in getCountofTaskType", response)
+          if(response.length <= 0){
+            store.dispatch('deleteTaskType', data)
+          } else {
+            $.notify.defaults({ className: "error" })
+            $.notify("Can not Delete", { globalPosition:"top center"})
+          }
+        })
+    },
+    getCountofTypeState({commit}, data) {
+      services.taskTypeStateService.find({
+        query:{  state_id: data.id  },$client: {
+          flag: 'countState'
+      }
+      }).then(response => {
+        console.log("Response in getCountofTypeState", response)
+        if(response.length <= 0){
+          store.dispatch('deleteTaskStatus', data)
+        } else {
+          $.notify.defaults({ className: "error" })
+          $.notify("Can not Delete", { globalPosition:"top center"})
+        }
+      })
+    },
+    renameProjectName ({commit}, value) {
+      console.log("value->>",value)
+      var data = store.state.currentProject;
+      services.projectService.find({
+        query: {
+          'id': data.id, 
+           project_name: value,
+          $client: {
+            flag: 'projectrename'
+          }
+        }
+      }).then(response => {
+        if(response.error){
+            $.notify.defaults({ className: "error" })
+            $.notify(response.error, { globalPosition:"top center"})  
+        }else{
+          
+            services.projectService.patch(data.id, {
+            project_name: value,
+            updated_by: store.state.userObject._id
+            }).then(response => {
+              console.log("Response renameProjectName:", response);
+            //  commit('UPDATE_TODO', insertElement)
+              if(response.error){
+                $.notify.defaults({ className: "error" })
+                $.notify(response.error, { globalPosition:"top center"})  
+              }
+            });
+        }
+
+      })
+    },
+
+    findHistoryLog({commit},taskId){
+      services.taskHistoryLogs.find({ query: { task_id: taskId } }).then(response => {
+        response.sort(function (a, b) {
+            return new Date(b.created_on).getTime() - new Date(a.created_on).getTime()
+        });
+        store.state.taskHistoryLog = response
+        console.log("Hisory Log watch:-->", store.state.taskHistoryLog)
+    })
+    },
+    deleteRoles({commit},role)
+    {
+      services.roleService.remove(role.id).then(response=> {
+        console.log("Remove Role--->",response)
+      });
+    },
+    closeComment(state,comment)
+    {
+      let parentIdArr=store.state.parentIdArr;
+      let index=0;
+      
+      let tempParentId='-1';
+      let removeIndex=[];
+      parentIdArr.forEach(function(element) { 
+          console.log("element id:",element); 
+          if(element.show_type==="subcomment" && (element.parentId===tempParentId || element.id===comment.id ))
+          {
+            tempParentId=element.id;
+            removeIndex.push(index);
+          }
+          index++;
+      }, this);
+
+
+      let tempIndex=0; 
+      removeIndex.forEach(function(element) {
+        Vue.delete(store.state.parentIdArr,element-tempIndex)
+        tempIndex++;  
+        
+      }, this);
+    }, 
+    closeChildComment(state,comment)
+    {
+      let parentIdArr=store.state.parentIdArr;
+      let index=0;
+      
+      let tempParentId='-1';
+      let removeIndex=[];
+      parentIdArr.forEach(function(element) { 
+          console.log("element id:",element); 
+          if(element.show_type==="subcomment" && (element.parentId===tempParentId || element.parentId===comment.id ))
+          {
+            tempParentId=element.id;
+            removeIndex.push(index);
+          }
+          index++;
+      }, this);
+
+
+      let tempIndex=0; 
+      removeIndex.forEach(function(element) {
+        Vue.delete(store.state.parentIdArr,element-tempIndex)
+        tempIndex++;  
+        
+      }, this);
     }
 
-  },
+    },
   getters: {
     // getTodoById: (state, getters) => {
     //   return function (id, level) {

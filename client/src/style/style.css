@@ -186,6 +186,15 @@ button {
 .todo-list li:hover .destroy {
 	display: block;
 }
+.pinit{
+    /*background-image: url('../assets/pin.png');*/
+	fill: #B9BCC0;
+    position: absolute;
+    right: 22px;
+    cursor: pointer;
+    top: 6px;
+    z-index: 1;
+}
 .footer {
 	color: #777;
 	padding: 10px 15px;
@@ -1325,6 +1334,7 @@ a:hover, a:focus{
 #center_pane {
         transition: margin-left .5s;
         padding: 16px;
+        background: white;
     }
 input.toggleTask:after {
     content: "\F00C";
@@ -1611,7 +1621,7 @@ button, input, op.modal-headertgroup, select, textarea {
     align-self: center;
     display: block;
 }
-.circularButtonView {
+.circularButtonView {   
     -webkit-box-align: center;
     -moz-box-align: center;
     box-align: center;
@@ -1640,7 +1650,7 @@ button, input, op.modal-headertgroup, select, textarea {
     -moz-flex-shrink: 0;
     flex-shrink: 0;
     -ms-flex-negative: 0;
-    height: 30px;
+    height: 24px;
     -webkit-box-pack: center;
     -moz-box-pack: center;
     box-pack: center;
@@ -1653,7 +1663,7 @@ button, input, op.modal-headertgroup, select, textarea {
     -webkit-transition: border 200ms,box-shadow 200ms,color 200ms;
     -moz-transition: border 200ms,box-shadow 200ms,color 200ms;
     transition: border 200ms,box-shadow 200ms,color 200ms;
-    width: 30px;
+    width: 24px;
 }
 .reskinToolbarViewsWithShortcuts {
     display: -webkit-box;
@@ -5716,4 +5726,50 @@ li.poptip.text {
    background-color: #1aafd0; 
    color: #fff !important;
 }
- 
+
+/**
+CSS for splitter view
+*/
+.api {
+    height: 250px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  } 
+
+.split {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .gutter {
+    background-color: #eee;
+
+    background-repeat: no-repeat;
+    background-position: 50%;
+  }
+
+  .gutter.gutter-horizontal {
+    background-image: url('../assets/vertical.png');
+    cursor: ew-resize;
+  }
+
+  .gutter.gutter-vertical {
+    background-image: url('../assets/horizontal.png');
+    cursor: ns-resize;
+  }
+
+  .split.split-horizontal, .gutter.gutter-horizontal {
+    height: 100%;
+    float: left;
+  }
+
+/**
+   CSS for splitter view end
+*/
+.ivu-dropdown .ivu-select-dropdown {
+    width: 150px;
+  }
