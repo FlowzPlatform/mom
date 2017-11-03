@@ -664,7 +664,7 @@ html, body {
   margin: -25px 0 0 -25px;
   border-radius: 500px;
   border-radius: 50%;
-  position: fixed;
+  position: absolute;
   left: 50%;
   top: 50%;
   list-style: none;

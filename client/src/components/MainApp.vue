@@ -1,6 +1,6 @@
 <template>
   <section class="todoapp">
-      <div data-reactroot="" id="top-bar" class="Topbar1">
+      <div data-reactroot="" id="top-bar" class="circularMenu">
       <div class="PageHeaderStructure-left">
           <circular-nav-bar v-on:eventChangeMenu="changeMenu"></circular-nav-bar>
       </div>
