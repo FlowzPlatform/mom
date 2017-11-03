@@ -22,7 +22,7 @@
                               <avatar v-else :username="user.email" color="#fff" :size="30"></avatar>
                           </div>
                           {{user.email}}</a>
-                        <hr>
+                        <!-- <hr>
                       </li>
                     </ul>
                   </span>
@@ -30,7 +30,7 @@
               </span>
             </div>
           </div>
-        </div>
+        </div> -->
         
         <div class="typeBorderClass">
             <span class="dropdown">
