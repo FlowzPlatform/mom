@@ -71,7 +71,6 @@
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import { mapGetters, mapActions } from 'vuex'
   import VueSplitter from "@rmp135/vue-splitter"
-  import * as Split from'./split.js'
   import CircularNavBar from './CircularNavBar.vue'
   Vue.use(require('vue-moment'))
 

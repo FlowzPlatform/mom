@@ -147,7 +147,6 @@ import TextDescription from './TextDescription.vue'
 import RightFooter from './RightFooter.vue'
 // import Comment from './Comment.vue'
 import SubComment from './SubComment.vue'
-import RightTabs from './RightTabs.vue'
 import HistoryLog from './HistoryLog.vue'
 import RightToolbar from './RightToolbar.vue'
 import Attachments from './Attachments.vue'
@@ -367,7 +366,6 @@ export default {
     Tags,
     Statuses,
     HistoryLog,
-    RightTabs,
     SubComment
     // Comment
   }
