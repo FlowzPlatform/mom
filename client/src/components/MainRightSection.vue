@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div id="topicon">
     <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
       tabindex="410" @click="openfullwinodw(todoObject.level)" style="margin-top: 2px; margin-right:51px;">
@@ -333,8 +332,11 @@ export default {
      showAttachment() {
       //  console.log('show attachment', this.$store.state.arrAttachment.length)
         return this.$store.state.arrAttachment.length > 0 ? true : false
-     }
-    },
+     },
+    getReadPermissionValue() {
+      return this.$store.state.accessRight;
+    }
+  },
   asyncComputed: {
     async showAttachment() {
       this.manageAttachmentDeletePermission()
