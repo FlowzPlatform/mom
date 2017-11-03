@@ -1,6 +1,6 @@
 <template>
     <div>
-         <ul class="uplod-list-file list-inline">
+        <ul class="uplod-list-file list-inline">
             <li v-for="(files, index) in attachmentList" style="padding:0 0 5px 0;">
             <span>
                 <a target="_blank" v-bind:href="files.file_url">{{ files.file_name }} 
@@ -43,7 +43,6 @@
              return array
             }
         },
-        
         methods: {
              deleteAttachment (objAttachment, btnIndex) {
                 this.btnClickedIndex = btnIndex
@@ -52,5 +51,4 @@
             }
         }
     }
-
 </script>

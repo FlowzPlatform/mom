@@ -2,7 +2,7 @@
   <section class="todoapp">
       <div data-reactroot="" id="top-bar" class="Topbar1">
       <div class="PageHeaderStructure-left">
-          <sample v-on:eventChangeMenu="changeMenu"></sample>
+          <circular-nav-bar v-on:eventChangeMenu="changeMenu"></circular-nav-bar>
       </div>
       </div>
     <div id="main-container" class="row asanaView-body pt-page-moveFromLeft" style="padding-top: 15px; margin: 10px 10px 10px 10px;" v-show="isMyTask">
@@ -57,7 +57,7 @@
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import { mapGetters, mapActions } from 'vuex'
-  import sample from './sample.vue'
+  import CircularNavBar from './CircularNavBar.vue'
   Vue.use(require('vue-moment'))
 
   const filters = {
@@ -558,7 +558,7 @@
       LeftToolbar,
       CreateProjectDialog,
       RoleAccess,
-      sample
+      CircularNavBar
     }
   }
 
