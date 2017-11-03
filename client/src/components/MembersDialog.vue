@@ -156,7 +156,6 @@ export default {
             memberItem:''
         }
     },
-  
     methods: {
         closeDialog() {
            // console.log("closed dialog");
@@ -273,7 +272,6 @@ export default {
             this.closeRemoveMemberDialog();
             this.$forceUpdate();
         }
-
     },
     components:{
         Avatar
@@ -281,7 +279,6 @@ export default {
 }
 </script>
 <style>
-
 td {
     padding: 0;
 }
