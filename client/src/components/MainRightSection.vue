@@ -13,10 +13,7 @@
       <span class="circularButtonView-label"  @click="pinit(todoObject)"><img class="init" v-if="todoObject.isPinned" src="../assets/unpin.png" style="width:20px; height:20px;"></img>
       <img class="init" v-else src="../assets/pin.png" style="width:16px; height:16px; margin-bottom:2px;"></img></span>
     </div>
-    <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-           style="margin-top: 2px; margin-right:-52px;">
     <span id="close" class="destroy" @click="CLOSE_DIV(todoObject)"><i class="fa fa-close"></i></span>
-    </div>
     </div>
     <div :id="id" class="right_pannel" style="display: grid;">
       <!--<right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState' " :filteredTodo="todoObject"></right-toolbar>-->
