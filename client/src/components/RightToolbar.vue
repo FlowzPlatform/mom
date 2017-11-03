@@ -2,7 +2,7 @@
   <div class="toolbar details-pane-top details-pane-toolbar  toolbar-no-grad">
     <div class="gutter-left"></div>
     <span class="toolbar-section left">
-        <div class="loading-boundary taskDetailsView-toolbarProperty">
+        <!--<div class="loading-boundary taskDetailsView-toolbarProperty">
           <div class="redesign-assigned-to-container">
             <div class="property assigned_to value-set">
               <span class="token-wrapper">
@@ -28,20 +28,18 @@
             </div>
           </div>
         </div>
-         <!-- <select v-model="type" @change="updateTypeInTask(type)"  class="form-control" style="width: 100% !important; border-color: rgba(255, 255, 255, 0) ">
-              <option v-bind:value="type" v-for="type in getTypes">{{type.type}}</option>
-            </select>  -->
-            <div class="typeBorderClass">
-                <span class="dropdown">
-                  <div class="typeClass" data-toggle="dropdown">
-                    {{ getAssignedType}}
-                  </div>
-                  <ul class="dropdown-menu typeList">
-                    <li v-for="type in getTypes"><a @click="btnTypeClicked(type)">{{type.type}}</a><hr></li>
-                  </ul>
-                </span>
+        
+        <div class="typeBorderClass">
+            <span class="dropdown">
+              <div class="typeClass" data-toggle="dropdown">
+                {{ getAssignedType}}
               </div>
-        <div class="loading-boundary taskDetailsView-toolbarProperty">
+              <ul class="dropdown-menu typeList">
+                <li v-for="type in getTypes"><a @click="btnTypeClicked(type)">{{type.type}}</a><hr></li>
+              </ul>
+            </span>
+          </div>
+          <div class="loading-boundary taskDetailsView-toolbarProperty">
           <div class="redesign-due-date-container">
             <div class="property due_date value-set">
               <div class="property-name">
@@ -117,28 +115,32 @@
               </a></li>
             </ul>
           </a>
-        </div>
+        </div>-->
       </span>
-      <div class="loading-boundary reskinToolbarActionMenu" @click="pinit(filteredTodo)">
+      <!--<div class="loading-boundary reskinToolbarActionMenu" @click="pinit(filteredTodo)">
         <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
            style="margin-top: 4px; margin-left:5px;">
           <span class="circularButtonView-label">        
           <i class="glyphicon glyphicon-pushpin" aria-hidden="true" title="Pin it"></i>   
-          <!--<span class="glyphicons glyphicons-pushpin"></span> -->
         </span>
         </div>
-      </div>
-      <div class="loading-boundary reskinToolbarActionMenu">
+      </div>-->
+      
+      <!--<div class="loading-boundary reskinToolbarActionMenu">
         <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-          tabindex="410" @click="openfullwinodw(filteredTodo.level)" style="margin-top: 7px">
+          tabindex="410" @click="openfullwinodw(filteredTodo.level)" style="margin-top: -13px; margin-right:5px;">
           <span class="circularButtonView-label">
           <i class="fa fa-expand" aria-hidden="true"></i>    
         </span>
         </div>
-      </div>
-    <estimated-hours :showModal="estimated_time" :closeAction="closeDialog" :filteredTodo="filteredTodo"></estimated-hours>
-    <task-priority :showModal="task_priority" :closeAction="closeDialog" :filteredTodo="filteredTodo"></task-priority>
-    <span id="close" class="destroy" @click="CLOSE_DIV(filteredTodo)"><i class="fa fa-close"></i></span>
+      </div>-->
+    <!--<estimated-hours :showModal="estimated_time" :closeAction="closeDialog" :filteredTodo="filteredTodo"></estimated-hours>
+    <task-priority :showModal="task_priority" :closeAction="closeDialog" :filteredTodo="filteredTodo"></task-priority>-->
+    <!--<div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+           style="margin-top: -13px; margin-right:-13px;" @click="pinit(filteredTodo)">
+      <span id="pinit" class="pinit" ><img src="../assets/pin.png" style="width:20px; height:20px;"></img></span>
+    </div>
+    <span id="close" class="destroy" @click="CLOSE_DIV(filteredTodo)"><i class="fa fa-close"></i></span>-->
     
   </div>
 </template>
@@ -261,10 +263,10 @@
         var selectedDate = moment(dateTo, 'YYYY-MM-DD').format('MMM DD');
         this.$store.dispatch('editTaskName', { "todo": this.filteredTodo, "selectedDate": dateTo })
       },
-      openfullwinodw: function (ind) {
-        $('.window-full.circularButtonView').find('.fa').toggleClass('fa-compress');
-        $('.window-full.circularButtonView').parents('.right_pane_container #right_pane #' + ind).toggleClass('open')
-      },
+      // openfullwinodw: function (ind) {
+      //   $('.window-full.circularButtonView').find('.fa').toggleClass('fa-compress');
+      //   $('.window-full.circularButtonView').parents('.right_pane_container #right_pane #' + ind).toggleClass('open')
+      // },
       closeDialog() {
         this.estimated_time = false
         this.task_priority = false
@@ -505,19 +507,18 @@
           this.taskPriorityCreate = true
         }
       },
-      pinit(filteredTodo){
-        console.log('TODO Object', filteredTodo)
-        // let pinObj = _.find(this.$store.state.todolist, ['id', filteredTodo.id])
-        // console.log('pinnned OBJ', pinObj)
-        if( _.find(this.$store.state.todolist, ['id', filteredTodo.id]) &&  ! _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned){
-           console.log('pinnned true')
-          _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned = true;
-        }
-        else{
-          console.log('pinnned false')
-          _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned = false;
-        }
-      }
+      // pinit(filteredTodo){
+      //   console.log('TODO Object', filteredTodo)
+
+      //   if( _.find(this.$store.state.todolist, ['id', filteredTodo.id]) &&  ! _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned){
+      //      console.log('pinnned true')
+      //     _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned = true;
+      //   }
+      //   else{
+      //     console.log('pinnned false')
+      //     _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned = false;
+      //   }
+      // }
     },
     components: {
       Datepicker,

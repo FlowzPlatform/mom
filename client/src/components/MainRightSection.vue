@@ -1,11 +1,39 @@
 <template>
   <div>
-    <div :id="id" class="right_pannel">
-
+    <div id="topicon">
+    <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+      tabindex="410" @click="openfullwinodw(todoObject.level)" style="margin-top: 2px; margin-right:51px;">
+      <span class="circularButtonView-label">
+        <i class="fa fa-expand" aria-hidden="true"></i>    
+      </span>
+    </div>
+    <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+           style="margin-top: 2px; margin-right:-52px;">
+      <span class="circularButtonView-label"  @click="pinit(todoObject)"><img class="init" v-if="todoObject.isPinned" src="../assets/unpin.png" style="width:20px; height:20px;"></img>
+      <img class="init" v-else src="../assets/pin.png" style="width:16px; height:16px; margin-bottom:2px;"></img></span>
+    </div>
+    <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+           style="margin-top: 2px; margin-right:-52px;">
+    <span id="close" class="destroy" @click="CLOSE_DIV(todoObject)"><i class="fa fa-close"></i></span>
+    </div>
+    </div>
+    <div :id="id" class="right_pannel" style="display: grid;">
+      <!--<right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState' " :filteredTodo="todoObject"></right-toolbar>-->
+      
+        
       <div class="tab-pannel">
-        <!-- <text-description :id="id" :filteredTodo="todoObject"></text-description>
-                                    <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById"></main-left-section>  -->
-        <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment" :filteredTodo="todoObject" v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById"></component>
+        <component :is="currentView" 
+          :id="id" 
+          :taskId="todoObject.id" 
+          :historyLog="historyLog" 
+          :isDeleteAttachment="chkAttachment" 
+          :filteredTodo="todoObject" 
+          v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" 
+          :pholder="pholder" 
+          :filtered-todos="taskById"
+          :commentTaskId="todoObject.id"
+          >
+        </component>
       </div>
       <div class="nav_bottom" style="z-index: 10;">
         <div class="navbar-bottom" id="myNavbar">
@@ -13,37 +41,31 @@
             <Tooltip content="Task" placement="top-start">
               <i class="nav-icon ion-navicon-round" style="font-size:20px"></i>
             </Tooltip>
-            <!-- <p class="nav-title">Tasks</p> -->
           </a>
           <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab" @click="historyShow">
             <Tooltip content="History" placement="top-start">
               <i class="nav-icon fa fa-history" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
-            <!-- <p class="nav-title">History</p> -->
           </a>
           <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==2?activeClass:''" class="nav-tab" @click="attachmentShow">
             <Tooltip content="Attachments" placement="top-start">
               <i class="nav-icon fa fa-paperclip" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
-            <!-- <p class="nav-title">Attachments</p> -->
           </a>
           <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==3?activeClass:''" class="nav-tab" @click="tagsShow">
             <Tooltip content="Tags" placement="top-start">
               <i class="nav-icon fa fa-tags" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
-            <!-- <p class="nav-title">Tags</p> -->
           </a>
           <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==4?activeClass:''" class="nav-tab" @click="commentsShow">
             <Tooltip content="Comments" placement="top-start">
               <i class="nav-icon fa fa-comments" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
-            <!-- <p class="nav-title">Comments</p> -->
           </a>
           <div class="option">
             <Dropdown trigger="click" placement="top">
               <a href="javascript:void(0)" @click="handleOpen" class="option-menu">
                 <i class="glyphicon glyphicon-option-horizontal" aria-hidden="true" style="font-size:22px"></i>
-                <!-- <p class="nav-title">More</p> -->
               </a>
               <DropdownMenu slot="list">
                 <DropdownItem>Estimated Hours</DropdownItem>
@@ -53,7 +75,6 @@
               </DropdownMenu>
             </Dropdown>
           </div>
-
         </div>
         <div class="tab-container">
 
@@ -62,7 +83,7 @@
 
     </div>
 
-    <div :id="id">
+    <!--<div :id="id">
       <div class="hidden DropTargetAttachment">
         <section class="todoapp right_bar">
           <right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'right+TaskTypes' && id !== 'rightTaskState' " :filteredTodo="todoObject"></right-toolbar>
@@ -74,7 +95,7 @@
               <a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
               <!--todoObject<a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" @click="deletePermently(todoObject)">Delete Permanently</a>-->
               <!--@click="deletePermently(todoObject)"-->
-              <noscript></noscript>
+              <!--<noscript></noscript>
             </div>
             <text-description :id="id" :filteredTodo="todoObject"></text-description>
             <collapse v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" class="CollapseView">
@@ -92,15 +113,6 @@
               </panel>
             </collapse>
             <statuses :selectedState="typeStateList" :filteredTodo="todoObject" :id="id"></statuses>
-            <!--<attachments :filteredTodo="todoObject"> </attachments>-->
-            <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#attachment">Attachments</div>-->
-            <!--<button type="button" class="btn btn-info button-collapse" data-toggle="collapse" data-target="#attachment">Attachents</button>-->
-            <!--<attachments id="attachment" class="collapse" :filteredTodo="todoObject"> </attachments>-->
-            <!--<hr>-->
-            <!--<div class="well well-sm expand-collapse" data-toggle="collapse" data-target="#tags">Tags</div>-->
-            <!--<button type="button" class="btn btn-info button-collapse" <data-togg></data-togg>le="collapse" data-target="#tags">Tags</button>
-                                                                              <tags id="tags" class="collapse" :filteredTodo="todoObject"></tags>-->
-            <!--<tags :filteredTodo="todoObject"></tags>-->
             <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById"></main-left-section>
             <history-log :taskId="todoObject.id" :historyLog="historyLog"></history-log>
           </div>
@@ -126,7 +138,7 @@
       </div>
       <right-footer class="hidden" v-show="createCommentBox" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" :filteredTodo="todoObject"></right-footer>
       <right-tabs class="hidden"></right-tabs>
-    </div>
+    </div>-->
   </div>
 </template>
 <script>
@@ -135,7 +147,8 @@ import Vue from 'vue'
 import MainLeftSection from './MainLeftSection.vue'
 import TextDescription from './TextDescription.vue'
 import RightFooter from './RightFooter.vue'
-import Comment from './Comment.vue'
+// import Comment from './Comment.vue'
+import SubComment from './SubComment.vue'
 import RightTabs from './RightTabs.vue'
 import HistoryLog from './HistoryLog.vue'
 import RightToolbar from './RightToolbar.vue'
@@ -145,7 +158,7 @@ import Statuses from './Statuses.vue'
 import * as services from '../services'
 import Tags from './Tags.vue'
 import SubTask from './SubTask.vue'
-import { mapGetters } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import CmnFunc from './CommonFunc.js'
@@ -169,58 +182,20 @@ export default {
       isCreatePermission: false,
       isTagReadPermission: false,
       isTabContainerShow: false,
-      filteredTodo: { "assigned_by": "59a65c7c41dc17001aeb1e63", "assigned_to": "59a65c7c41dc17001aeb1e63", "attachmentprogress": 0, "completed": false, "completed_subtask_count": 0, "createdAt": "2017-09-20T09:22:56.305Z", "created_by": "59a65c7c41dc17001aeb1e63", "deleteprogress": 0, "dueDate": "", "id": "4ace31e3-729f-49a5-ac46-1804937adfbb", "index": 0, "isDelete": false, "isTaskUpdate": false, "level": 0, "parentId": "", "progress": 0, "progress_count": "0 / 34", "project_id": "65b34113-48bb-4394-b990-17fa59878766", "state_id": "", "subtask_count": 34, "taskDesc": "", "taskName": "TT1", "type_id": "94e591a4-8034-41eb-b4d6-6aafba8d8a43", "updatedAt": "2017-09-20T09:22:56.305Z", "updatedBy": "59a65c7c41dc17001aeb1e63", "image_url": "", "email": "hpatel@officebrain.com" },
       currentView: SubTask,
       activeClass: 'active',
       selectedMenuIndex: 0
     }
   },
   created: function() {
-    // let self = this;
-    //      socket.on('feed-change', function(item){
-    //           //  console.log("TodoItem.vue:item***",item);
-    //           //  console.log("Array",self.taskById)
-    //            if(item.new_val){
-    //              var result = $.grep(self.taskById, function(e){ return e.id == item.new_val.id; })
-    //               if (result.length == 0) {
-    //                 // console.log('Item Parent ID',item.new_val.parentId)
-    //                 // console.log('Todo object Parent ID',self.todoObject)
-    //                 if(item.new_val.parentId.length > 0 && (item.new_val.parentId == self.todoObject.id)){
-    //                 self.taskById.push(item.new_val)
-    //                 self.taskById.splice(self.taskById.length - 1, 0, item.new_val);
-    //                 // self.$store.state.todolist.push(item.new_val)
-    //                 }
-    //               }else{
-    //                 if(item.new_val.parentId.length > 0 && (item.new_val.parentId == self.todoObject.id)){
-    //                 // console.log("Subtask Task Updated")
-    //                 let index = _.findIndex(self.taskById,function(d){return d.id == item.new_val.id})
-    //                 // console.log('Index of object', index)
-    //                 if(index > -1){
-    //                   self.taskById[index].taskName = item.new_val.taskName
-    //                 }
-    //               }
-    //               } 
-    //            }else if(item.old_val){
-    //              // var index = self.taskById.indexOf(item.old_val);
-    //              if(item.old_val.parentId.length > 0 && (item.old_val.parentId == self.todoObject.id)){
-    //             //  console.log("Subtask Task Deleted")
-    //             //  console.log('self.taskById',self.taskById)
-    //             //  console.log('item.old_val',item.old_val)
-
-    //              let index = _.findIndex(self.taskById,function(d){return d.id == item.old_val.id})
-    //             //  console.log('Index of object', index)
-    //              if(index > -1){
-    //               self.taskById.splice(index, 1);
-    //              }
-    //              }
-    //              //self.taskById.splice(index, 1);
-    //            }
-    //          })
     this.manageAttachmentCreatePermission();
     this.tagReadPermission();
     this.tagNewPermission();
   },
   methods: {
+    ...mapMutations([
+        'CLOSE_DIV'
+    ]),
     undelete: function() {
       this.$store.dispatch('undelete', this.todoObject)
     },
@@ -285,14 +260,6 @@ export default {
       this.isTagReadPermission = await CmnFunc.checkActionPermision(this, this.todoObject.type_id, Constant.USER_ACTION.TAG, Constant.PERMISSION_ACTION.CREATE)
       console.log("Tag create permission:", this.isTagReadPermission)
     },
-    displayAttachment() {
-      // this.isTabContainerShow = ! this.isTabContainerShow;
-      // if(this.isTabContainerShow){
-      //   $('.tab-container').addClass('tab-container-active');
-      // }else{
-      //   $('.tab-container').removeClass('tab-container-active');
-      // }
-    },
     subTaskShow() {
       this.selectedMenuIndex = 0
       this.currentView = SubTask
@@ -312,11 +279,29 @@ export default {
     },
     commentsShow() {
       this.selectedMenuIndex = 4
-      this.currentView = Comment
+      // this.currentView = Comment
+      this.currentView = SubComment
     },
     handleOpen() {
       this.selectedMenuIndex = 5
       $('.nav').addClass('hidden');
+    },
+    openfullwinodw: function (ind) {
+      console.log('Openfullwindow called====')
+        $('.window-full.circularButtonView').find('.fa').toggleClass('fa-compress');
+        $('.window-full.circularButtonView').parents('.right_pane_container #right_pane #' + ind).toggleClass('open')
+    },
+    pinit(filteredTodo){
+      console.log('TODO Object', filteredTodo)
+
+      if( _.find(this.$store.state.todolist, ['id', filteredTodo.id]) &&  ! _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned){
+          console.log('pinnned true')
+        _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned = true;
+      }
+      else{
+        console.log('pinnned false')
+        _.find(this.$store.state.todolist, ['id', filteredTodo.id]).isPinned = false;
+      }
     }
   },
   watch: {
@@ -358,10 +343,6 @@ export default {
       this.userDetail(this.todolistSubTasks)
       return taskArray
     },
-    // showAttachment() {
-    // //  console.log('show attachment', this.$store.state.arrAttachment.length)
-    //   return this.$store.state.arrAttachment.length > 0 ? true : false
-    // },
     getReadPermissionValue() {
       return this.$store.state.accessRight;
     }
@@ -398,7 +379,8 @@ export default {
     Statuses,
     HistoryLog,
     RightTabs,
-    Comment
+    SubComment
+    // Comment
   }
 }
 </script>
@@ -406,18 +388,12 @@ export default {
 body {
   margin: 0;
 }
-
 .navbar-bottom {
   overflow: hidden;
   background-color: #333;
   bottom: 0;
   width: 100%;
 }
-
-
-/* .navbar-bottom:hover {
-  background-color: black;
-} */
 
 .navbar-bottom a {
   float: left;
@@ -432,13 +408,6 @@ body {
   margin-top: 1px;
   float: right;
 }
-
-
-
-/* .navbar-bottom a:hover {
-  background-color: #ddd;
-  color: #17181c;
-} */
 
 .navbar-bottom a.active {
   /*background-color: rgba(63, 81, 181, 0.48);*/
@@ -456,8 +425,6 @@ body {
   display: none;
 }
 
-
-
 .nav-icon {
   font-size: x-large;
 }
@@ -465,35 +432,6 @@ body {
 .nav-title {
   font-size: small;
 }
-
-
-
-
-
-
-/* @media screen and (max-width: 600px) {
-  .navbar-bottom a:not(:first-child) {display: none;}
-  .navbar-bottom a.icon {
-    float: right;
-    display: block;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .navbar-bottom.responsive .icon {
-    position: absolute;
-    right: 0;
-    bottom:0;
-  }
-  .navbar-bottom.responsive a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-￼
-Find
-
-} */
 
 .tab-container {
   display: none
@@ -505,7 +443,6 @@ Find
   background: white;
   /* height: 510px; */
 }
-
 
 div.right_pannel {
   width: 100%;
@@ -546,16 +483,5 @@ a.option-menu.glyphicon.glyphicon-option-horizontal {
   float: right;
 }
 
-
-/* .ivu-tabs-bar {
-  border-bottom: 1px solid #dddee1;
-  margin-bottom: 0px;
-} */
-
-
-/* .ivu-tabs .ivu-tabs-tabpane {
-  width: 100%;
-  overflow: auto;
-} */
 </style>
 

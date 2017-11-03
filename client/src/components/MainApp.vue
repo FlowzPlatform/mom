@@ -242,10 +242,13 @@
       <div slot="right-pane">-->
         <div :id="n.level" class="right_pane_container" v-for="(n, index) in parentIdArray">
           <div id="right_pane">
-            <div slot="subtask">
+            <!--<div slot="subtask">
               <main-right-section :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>
-            </div>
-            <!--<main-right-section :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>-->
+            </div>-->
+            <main-right-section v-show="!n.show_type" :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>
+            <SubComment v-show="n.show_type==='subcomment'" :commentTaskId="n.task_id" :commentParentId="n.id"></SubComment>
+        </div>
+      </div>
           </div>
         </div>
       <!--</div>
@@ -262,6 +265,7 @@
   import MainLeftSection from './MainLeftSection.vue'
   import MainRightSection from './MainRightSection.vue'
   import LeftToolbar from './LeftToolbar.vue'
+  import SubComment from './SubComment.vue'
   import CmnFunc from './CommonFunc.js'
   import Vue from 'vue'
   import BootstrapVue from 'bootstrap-vue'
@@ -830,7 +834,8 @@
       MainRightSection,
       LeftToolbar,
       CreateProjectDialog,
-      VueSplitter
+      VueSplitter,
+      SubComment
     }
   }
 

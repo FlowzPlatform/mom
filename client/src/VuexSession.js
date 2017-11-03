@@ -1987,8 +1987,57 @@ export const store = new Vuex.Store({
       services.roleService.remove(role.id).then(response=> {
         console.log("Remove Role--->",response)
       });
-    }
+    },
+    closeComment(state,comment)
+    {
+      let parentIdArr=store.state.parentIdArr;
+      let index=0;
+      
+      let tempParentId='-1';
+      let removeIndex=[];
+      parentIdArr.forEach(function(element) { 
+          console.log("element id:",element); 
+          if(element.show_type==="subcomment" && (element.parentId===tempParentId || element.id===comment.id ))
+          {
+            tempParentId=element.id;
+            removeIndex.push(index);
+          }
+          index++;
+      }, this);
 
+
+      let tempIndex=0; 
+      removeIndex.forEach(function(element) {
+        Vue.delete(store.state.parentIdArr,element-tempIndex)
+        tempIndex++;  
+        
+      }, this);
+    }, 
+    closeChildComment(state,comment)
+    {
+      let parentIdArr=store.state.parentIdArr;
+      let index=0;
+      
+      let tempParentId='-1';
+      let removeIndex=[];
+      parentIdArr.forEach(function(element) { 
+          console.log("element id:",element); 
+          if(element.show_type==="subcomment" && (element.parentId===tempParentId || element.parentId===comment.id ))
+          {
+            tempParentId=element.id;
+            removeIndex.push(index);
+          }
+          index++;
+      }, this);
+
+
+      let tempIndex=0; 
+      removeIndex.forEach(function(element) {
+        Vue.delete(store.state.parentIdArr,element-tempIndex)
+        tempIndex++;  
+        
+      }, this);
+    }
 
     },
   getters: {

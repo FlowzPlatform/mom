@@ -183,6 +183,15 @@ button {
 .todo-list li:hover .destroy {
 	display: block;
 }
+.pinit{
+    /*background-image: url('../assets/pin.png');*/
+	fill: #B9BCC0;
+    position: absolute;
+    right: 22px;
+    cursor: pointer;
+    top: 6px;
+    z-index: 1;
+}
 .footer {
 	color: #777;
 	padding: 10px 15px;
@@ -1339,6 +1348,7 @@ a:hover, a:focus{
 #center_pane {
         transition: margin-left .5s;
         padding: 16px;
+        background: white;
     }
 input.toggleTask:after {
     content: "\F00C";
@@ -1625,7 +1635,7 @@ button, input, op.modal-headertgroup, select, textarea {
     align-self: center;
     display: block;
 }
-.circularButtonView {
+.circularButtonView {   
     -webkit-box-align: center;
     -moz-box-align: center;
     box-align: center;
@@ -1654,7 +1664,7 @@ button, input, op.modal-headertgroup, select, textarea {
     -moz-flex-shrink: 0;
     flex-shrink: 0;
     -ms-flex-negative: 0;
-    height: 30px;
+    height: 24px;
     -webkit-box-pack: center;
     -moz-box-pack: center;
     box-pack: center;
@@ -1667,7 +1677,7 @@ button, input, op.modal-headertgroup, select, textarea {
     -webkit-transition: border 200ms,box-shadow 200ms,color 200ms;
     -moz-transition: border 200ms,box-shadow 200ms,color 200ms;
     transition: border 200ms,box-shadow 200ms,color 200ms;
-    width: 30px;
+    width: 24px;
 }
 .reskinToolbarViewsWithShortcuts {
     display: -webkit-box;
@@ -5698,7 +5708,6 @@ textarea,
 .estimate {
     width: 100%;
 }
-<<<<<<< HEAD
 
 /**
 CSS for splitter view
@@ -5743,8 +5752,6 @@ CSS for splitter view
 /**
    CSS for splitter view end
 */
-=======
->>>>>>> a8d7a0031e44a6fda8bbf99067ea129eb9b2b704
 .ivu-dropdown .ivu-select-dropdown {
     width: 150px;
   }

@@ -1,8 +1,8 @@
 <template>
     <div>
-        <span id="close" class="destroy" @click="CLOSE_DIV(filteredTodo)">
+        <!--<span id="close" class="destroy" @click="CLOSE_DIV(filteredTodo)">
             <i class="fa fa-close"></i>
-        </span>
+        </span>-->
         <text-description :id="id" :filteredTodo="filteredTodo">
         </text-description>
         <main-left-section 
