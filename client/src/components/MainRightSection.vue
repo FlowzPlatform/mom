@@ -16,8 +16,6 @@
     </div>
     <div :id="id" class="right_pannel" style="display: grid;">
       <!--<right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState' " :filteredTodo="todoObject"></right-toolbar>-->
-      
-        
       <div class="tab-pannel">
         <component :is="currentView" 
           :id="id" 
