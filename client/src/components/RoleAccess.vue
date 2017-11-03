@@ -83,9 +83,6 @@
 </template>
 <style type="text/css">
     .col-md-2.border-right::after {position: fixed; left: 16.55%;border-right: solid 1px #ccc; content: ""; height: 100%; top: 0px; bottom: 0px;}
-    .col-md-2.border-right {
-        border-right: solid 1px #ccc
-    }
 
     .ui.segment {
         top: 0 !important;
@@ -126,9 +123,7 @@
     .ui.vertical.stripe h3 {
         font-size: 2em;
     }
-    .col-md-2.border-right {
-        border-right: solid 1px #ccc
-    }
+
     .content--full {
         max-width: 100%;
         padding: 0 15px;
@@ -138,9 +133,7 @@
         top: 40px;
         overflow: auto;
     }
-    .col-md-2.border-right {
-        border-right: solid 1px #ccc
-    }
+
     .side-filter__wrapper {
         position: relative;
         display: block;

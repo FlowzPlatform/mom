@@ -107,7 +107,6 @@ export default {
   {
       var self = context;
       let selfRoleId = await this.getSelfRoleId(context);
-      console.log("selfRoleId-->",selfRoleId)
       if(selfRoleId)
         {
           let accessRight;
@@ -168,8 +167,8 @@ export default {
   },
   getSelfRoleId:function(context)
   {
-    console.log("context.$store.state.currentProjectMember",context.$store.state.currentProjectMember)
-    console.log("context.$store.state.userObject._id",context.$store.state.userObject._id)
+    // console.log("context.$store.state.currentProjectMember",context.$store.state.currentProjectMember)
+    // console.log("context.$store.state.userObject._id",context.$store.state.userObject._id)
     
     return _.result(_.find(context.$store.state.currentProjectMember, function (obj) {
       return obj.user_id === context.$store.state.userObject._id;

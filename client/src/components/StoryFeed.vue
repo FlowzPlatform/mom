@@ -19,12 +19,16 @@
                         <div class="BlockStory-icon">
                             <div class="photo-view presulthoto-view-remix inbox-size photo-view-rounded-corners taskCommentsView-photo">
                                 <div class="react-mount-node photoView-reactMount">
-                                    <div data-reactroot="" class="Avatar Avatar--medium Avatar--color4">
-                                            <span v-if="comment.image_url"><img v-bind:src="comment.image_url" /></span>
-                                            <span v-else>{{ comment.email | capitalizeLetters }}</span>
+                                    <div data-reactroot="">
+                                        <div v-if="comment.email">
+                                            <avatar v-if="comment.image_url" :username="comment.email" :size="30" :src="comment.image_url"></avatar>
+                                            <avatar v-else :username="comment.email" color="#fff" :size="30"></avatar>
+                                        </div>
                                         <div v-if="visibleFilter === 'group_By'">
-                                            <span v-if="comment.list[0].image_url"><img v-bind:src="comment.list[0].image_url" /></span>
-                                            <span v-else>{{ comment.list[0].email | capitalizeLetters }}</span>
+                                            <div v-if="comment.list[0].email">
+                                                <avatar v-if="comment.list[0].image_url" :username="comment.list[0].email" :size="30" :src="comment.list[0].image_url"></avatar>
+                                                <avatar v-else :username="comment.list[0].email" color="#fff" :size="30"></avatar>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -78,6 +82,7 @@
     import { mapGetters } from 'vuex'
     import CmnFunc from './CommonFunc.js'
     import * as Constant from './Constants.js'
+    import Avatar from 'vue-avatar/dist/Avatar'
     Vue.filter('formatDate', function (value) {
         if (value) {
             return moment(String(value)).format('LLL')
@@ -153,6 +158,9 @@
             totalComment: function () {
                 return this.$store.getters.getCommentById(this.filteredTodo.id)
             }
+        },
+        components: {
+            Avatar
         }
     }
 
