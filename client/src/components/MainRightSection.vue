@@ -71,8 +71,8 @@
             </Dropdown>
           </div>
         </div>
-        <div class="modal-body">
-          This will permanently delete the task and associated subtasks. These items will no longer be accessible to you or anyone else. This action is irreversible.
+        <div class="tab-container">
+
         </div>
       </div>
 
@@ -135,16 +135,13 @@
       <right-tabs class="hidden"></right-tabs>
     </div>-->
   </div>
-</div>
-<right-footer v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" :filteredTodo="todoObject"></right-footer>
-</div>
-</template> 
+</template>
 <script>
 /* eslint-disable*/
 import Vue from 'vue'
 import MainLeftSection from './MainLeftSection.vue'
 import TextDescription from './TextDescription.vue'
-import RightFooter from './RightFooter.vue'
+// import RightFooter from './RightFooter.vue'
 // import Comment from './Comment.vue'
 import SubComment from './SubComment.vue'
 import HistoryLog from './HistoryLog.vue'
@@ -163,10 +160,11 @@ import * as Constant from './Constants.js'
 import AsyncComputed from 'vue-async-computed'
 
 Vue.use(iView);
+Vue.use(AsyncComputed);
 
 export default {
   props: ['pholder', 'todoObject', 'id'],
-  data: function () {
+  data: function() {
     return {
       todolistSubTasks: [],
       createCommentBox: true,
@@ -195,7 +193,7 @@ export default {
     undelete: function() {
       this.$store.dispatch('undelete', this.todoObject)
     },
-    deletePermently:function() {
+    deletePermently: function() {
       this.$store.dispatch('deletePermently', this.todoObject)
     },
     async onReadComment(id, level, created_by, typeId) {
@@ -300,38 +298,45 @@ export default {
       }
     }
   },
-   watch: {
+  watch: {
     // whenever question changes, this function will run
-    todolistSubTasks: function (newQuestion) {
+    todolistSubTasks: function(newQuestion) {
+    },
+    todoObject: function() {
+      this.$store.dispatch('findHistoryLog', this.todoObject.id)
+    },
+    getReadPermissionValue: function(newPermission) {
+      console.log("watcher method call");
+      // this.createPermission = this.$store.state.accessRight;
+      this.tagReadPermission();
     }
   },
   computed: {
     ...mapGetters({
       todoById: 'getTodoById',
-      typeStateList :'getTask_types_state'
-     }),
-     taskById(){
-       let taskArray = this.todoById(this.todoObject.id, this.todoObject.level)
-       taskArray.push({
-              id: '-1',
-              parentId: this.todoObject.id,
-              taskName: '', 
-              taskDesc: '',
-              level: this.todoObject.level+1,
-              index: taskArray.length,
-              completed: false, 
-              dueDate:'',
-              createdAt: new Date().toJSON(),
-              updatedAt: new Date().toJSON(),
-              project_id:this.$store.state.currentProjectId
-       })
-       this.todolistSubTasks = taskArray
-       return taskArray
-     },
-     showAttachment() {
-      //  console.log('show attachment', this.$store.state.arrAttachment.length)
-        return this.$store.state.arrAttachment.length > 0 ? true : false
-     },
+      typeStateList: 'getTask_types_state'
+    }),
+    taskById() {
+      this.onReadComment(this.todoObject.id, this.todoObject.level, this.todoObject.created_by, this.todoObject.type_id)
+      this.onCreateComment(this.todoObject.id, this.todoObject.level, this.todoObject.created_by, this.todoObject.type_id)
+      let taskArray = this.todoById(this.todoObject.id, this.todoObject.level)
+      taskArray.push({
+        id: '-1',
+        parentId: this.todoObject.id,
+        taskName: '',
+        taskDesc: '',
+        level: this.todoObject.level + 1,
+        index: taskArray.length,
+        completed: false,
+        dueDate: '',
+        createdAt: new Date().toJSON(),
+        updatedAt: new Date().toJSON(),
+        project_id: this.$store.state.currentProjectId
+      })
+      this.todolistSubTasks = taskArray
+      this.userDetail(this.todolistSubTasks)
+      return taskArray
+    },
     getReadPermissionValue() {
       return this.$store.state.accessRight;
     }
@@ -354,10 +359,11 @@ export default {
         //this.attchmentReadPerm = false
         return false
       }
-    },
+      // return this.$store.state.arrAttachment.length > 0 ? true : false
+    }
   },
   components: {
-    RightFooter,
+    // RightFooter,
     MainLeftSection,
     TextDescription,
     RightToolbar,

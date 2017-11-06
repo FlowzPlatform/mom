@@ -90,7 +90,7 @@
     import moment from 'moment';
     import { focus } from 'vue-focus';
     import notify from './notify.js'
-    import RightFooter from './RightFooter.vue'
+    // import RightFooter from './RightFooter.vue'
     import Comment from './Comment.vue'
     import * as services from '../services'
 
@@ -108,7 +108,7 @@
   })
     export default {
         components: {
-            RightFooter,
+            // RightFooter,
             Comment
         },
         props: ['show', 'commentTaskId', 'commentParentId'],
