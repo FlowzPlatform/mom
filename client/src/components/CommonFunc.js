@@ -59,8 +59,7 @@ export default {
   checkActionPermision:async function(context,taskTypeId,userAction,permisisonAction)
   {
       var self = context;
-      let selfRoleId = this.getSelfRoleId(context);
-
+      let selfRoleId = await this.getSelfRoleId(context);
       if(selfRoleId)
         {
           let permisisonId = this.getPermissionId(context,userAction)
