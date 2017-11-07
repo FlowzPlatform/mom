@@ -43,7 +43,6 @@ import 'element-ui/lib/theme-default/index.css'
 import { mapGetters } from 'vuex'
 import * as Constant from './Constants.js'
 import CmnFunc from './CommonFunc.js'
-
 Vue.config.devtools = true
 import {
     Tag,
@@ -67,7 +66,6 @@ export default {
             tagItem: '',
             isNewTag: false,
             isSearchTag: false,  // isSearchTag is true when tag search from tags array otherwise false
-
             isTagCreatePermission: false,
             isTagDeletePermission: false,
             createPermission:'',
@@ -90,14 +88,12 @@ export default {
             return arrTags;
         },
         searchItems: function() {
-
             let self = this
             let sameMatch = false;
             let itemList = self.$store.state.tagsList.filter(function(item) {
                 if (!sameMatch) {
                     sameMatch = (item.name.toLowerCase() == self.inputValue.toLowerCase())
                 }
-
                 return item.name.toLowerCase().indexOf(self.inputValue.toLowerCase()) != -1
             })
             if (!sameMatch)
@@ -119,7 +115,6 @@ export default {
         getTagNameFromId: function(tag) {
             if (tag.name)
                 return tag.name;
-
             let index = _.findIndex(this.$store.state.tagsList, function(d) { return d.id == tag.tag_id })
             if (index > -1) {
                 if (!tag.name)
@@ -202,7 +197,6 @@ export default {
                     }
                 }
             }
-
             else {
                 this.inputVisible = false;
                 // this.inputValue = '';
