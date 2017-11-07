@@ -550,22 +550,6 @@
         }
       }
     },
-    showTaskCreatedBy: function () {
-      this.$store.state.searchView = "Tasks I've Created"
-      this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
-      this.$store.commit('showMyTasks')
-      this.$store.dispatch('getTaskCreatedBy', { 'project_id': this.$store.state.currentProjectId, 'userID': this.$store.state.userObject._id })
-    },
-    recentlyCompletedTasks: function () {
-      this.$store.state.searchView = "Recently Completed Tasks"
-      this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
-      this.$store.dispatch('getRecentlyCompletedTasks', { 'project_id': this.$store.state.currentProjectId, 'userID': this.$store.state.userObject._id })
-    },
-    taskToAssignOther: function () {
-      this.$store.state.searchView = "Tasks I've Assigned to Others"
-      this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
-      this.$store.dispatch('getTaskToAssignOthers', { 'project_id': this.$store.state.currentProjectId, 'userID': this.$store.state.userObject._id })
-    },
     setProjectName(){
            let projectName = this.$store.state.currentProjectName ;
            $("#project-name").val(projectName);

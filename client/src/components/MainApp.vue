@@ -51,7 +51,10 @@
     </div>
     <div id="roleAccess" class="row asanaView-body pt-page-moveFromRight" v-show="isRoleAccess">
       <role-access></role-access>
-    </div>
+	</div>
+	<div id="search" class="row asanaView-body pt-page-moveFromRight" v-show="isSearch">
+		<search></search>
+	</div>
   </section>
 </template>
 <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
@@ -72,6 +75,7 @@
   import { mapGetters, mapActions } from 'vuex'
   import VueSplitter from "@rmp135/vue-splitter"
   import CircularNavBar from './CircularNavBar.vue'
+  import Search from './Search.vue'
   Vue.use(require('vue-moment'))
 
   const filters = {
@@ -110,7 +114,8 @@
         isCopyLink: false,
         isNewProjectDialogShow: false,
         isRoleAccess: false,
-        isMyTask:true
+		isMyTask:true,
+		isSearch: false
       }
     },
     created() {
@@ -273,14 +278,15 @@
       }
     },
     methods: {
-      changeMenu (isMainTask, isRoleAccess) {
-        this.isRoleAccess = isRoleAccess
-        this.isMyTask = isMainTask
-      },
+		changeMenu (isMainTask, isRoleAccess, isSearch) {
+			this.isRoleAccess = isRoleAccess
+			this.isMyTask = isMainTask
+			this.isSearch = isSearch
+		  },
       userDetail(deletedTasks) {
         deletedTasks.forEach(function (c) {
           let userId
-          if (c.ddeletedBy) {
+          if (c.deletedBy) {
             userId = c.deletedBy
           } else {
             userId = c.assigned_to
@@ -574,7 +580,8 @@
       VueSplitter,
       SubComment,
       RoleAccess,
-      CircularNavBar
+	  CircularNavBar,
+	  Search
     }
   }
 
