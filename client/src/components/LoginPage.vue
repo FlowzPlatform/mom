@@ -41,6 +41,7 @@
 
                                     <button class="googleAuthBtn" type="submit">Use Google Account</button>
                                 </form>
+                                <br/><button class="googleAuthBtn" @click="btnLDAPPressed()">SignIn with LDAP</button>
                                 <div class="dialog--nux-seperator" id="seprator"> or </div>
                                 <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
                                 <input placeholder="Password" tabindex="2" type="password" name="p" id="password_input" v-model="pwd" @keyup.enter="btnLogInClicked()">
@@ -186,6 +187,23 @@
                         $("#email_input").notify(error.message)
                     })
                 $(".container").toggleClass("log-in");
+            },
+            btnLDAPPressed(){
+                var self = this
+                // CmnFunc.resetProjectDefault()
+                console.log('LOG IN--> userloginprocess')
+                this.$store.dispatch('signInWithLDAP', {'userid': 'hpatel', 'passwd': '123'})
+                    .then(function (response) {
+                        console.log('LDAP response successful');
+                        console.log('LOG IN--> response', response)
+                        self.$store.state.isAuthorized = true
+                        self.$store.commit('authorize')
+                        self.userDetail(self)
+                    })
+                    .catch(function (error) {
+                        $.notify.defaults({ className: "error" })
+                        $.notify(error.message, { globalPosition: "top center" })
+                    });
             },
             insertUserData(emailID, pwd, usertype, profilePic, uname) {
                 //insert user into rethink db
