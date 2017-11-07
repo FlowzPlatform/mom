@@ -10,6 +10,8 @@
                 <li class="menu-item fa fa-plus-square-o"><a class="menu-item-back" href="#menu" @click="createProject"></a></li>
                 <Poptip class="menu-item icon-heart" placement="bottom-end">
                     <li></li>
+
+                    
                     <div slot="title"><i style="color:black; font-size:large;">Projects</i></div>
                     <div slot="content" v-show="project.is_deleted==false" v-bind:key="project.id" v-for="(project, index) in projectList">
                         <Collapse v-bind:key="project.id" accordion v-if="project.project_privacy!=2">
