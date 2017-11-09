@@ -31,6 +31,15 @@
         // this.$emit('showModal', this.showModal);
         this.closeAction()
 
+      },
+      async updateTaskPriority(id,level,created_by,typeId) {
+        let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.TASK_PRIORITY,Constant.PERMISSION_ACTION.UPDATE)
+        console.log("permisionResult update Task Priotity-->",permisionResult)
+        if (!permisionResult && id != -1) {
+          this.isDisable = true
+        } else {
+          this.isDisable = false
+        }  
       }
     }
   }

@@ -226,32 +226,33 @@
                         this.taskSubComments.push(message)
                     }
                 })
-            
                 // services.taskComments.find({ query: { task_id:  this.commentTaskId, parentId:  this.commentParentId } }).then(response => {
                 //         this.taskSubComments = response;
                 //         this.getSubTaskComments();
                 //     });
-                // console.log("Comment click",this.comment);
+
                 
             },
             watch: {
                 commentParentId: function () {
-                    console.log("Comment click",this.comment);
+                    console.log("Comment commentParentId watch",this.comment);
                     // this.$store.dispatch('taskComments', {task_id: this.commentParentId,parentId:this.comment.parentId})
                    
                     // services.taskComments.find({ query: { task_id:  this.commentTaskId, parentId:  this.commentParentId } }).then(response => {
                     //     this.taskSubComments = response;
                     //     this.getSubTaskComments();
                     // });
+
                 },
                 commentTaskId: function () {
-                    console.log("Comment click",this.comment);
+                    console.log("Comment commentTaskId watch",this.comment);
                     // this.$store.dispatch('taskComments', {task_id: this.commentParentId,parentId:this.comment.parentId})
                    
                     // services.taskComments.find({ query: { task_id:  this.commentTaskId, parentId:  this.commentParentId } }).then(response => {
                     //     this.taskSubComments = commentFilter[this.visibleFilter](response);
                     //     this.getSubTaskComments();
                     // });
+
                 },
                 visibleFilter: function(){
                     this.taskSubComments = commentFilter[this.visibleFilter](this.taskSubComments);
@@ -264,6 +265,13 @@
                 })
             },
             methods: {
+                async commentsFind()
+                {
+                    services.taskComments.find({ query: { task_id:  this.commentTaskId, parentId:  this.commentParentId } }).then(response => {
+                        this.taskSubComments = commentFilter[this.visibleFilter](response);
+                        this.getSubTaskComments();
+                    });
+                },
                 // close:function(comment)
                 // {
                 //     this.$store.dispatch('closeComment', comment)
