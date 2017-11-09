@@ -304,11 +304,6 @@ export default {
     },
     todoObject: function() {
       this.$store.dispatch('findHistoryLog', this.todoObject.id)
-    },
-    getReadPermissionValue: function(newPermission) {
-      console.log("watcher method call");
-      // this.createPermission = this.$store.state.accessRight;
-      this.tagReadPermission();
     }
   },
   computed: {
@@ -336,9 +331,6 @@ export default {
       this.todolistSubTasks = taskArray
       this.userDetail(this.todolistSubTasks)
       return taskArray
-    },
-    getReadPermissionValue() {
-      return this.$store.state.accessRight;
     }
   },
   asyncComputed: {
