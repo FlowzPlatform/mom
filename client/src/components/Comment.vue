@@ -12,7 +12,6 @@
 <script>
 /* eslint-disable*/
 import { mapGetters } from 'vuex'
-import Ckeditor from 'vue-ckeditor2'
 import { markdownEditor } from 'vue-simplemde'
 // import { markdownEditor } from 'vue-simplemde'
 
@@ -41,10 +40,12 @@ export default {
 
             // Write comment
             if (this.isReadComment) {
+                
                 this.currentView = RightFooter
                 $("#icon-comment").removeClass('fa-pencil');
                 $("#icon-comment").addClass('fa-comments-o');
             } else {
+                // this.currentView = RightFooter
                 this.currentView = ViewComments
                 // Read comment
                 $("#icon-comment").removeClass('fa-comments-o');
