@@ -158,7 +158,6 @@ import 'iview/dist/styles/iview.css';
 import CmnFunc from './CommonFunc.js'
 import * as Constant from './Constants.js'
 import AsyncComputed from 'vue-async-computed'
-
 Vue.use(iView);
 Vue.use(AsyncComputed);
 
@@ -303,6 +302,7 @@ export default {
     todolistSubTasks: function(newQuestion) {
     },
     todoObject: function() {
+      console.log("Right Section Log history", this.todoObject)
       this.$store.dispatch('findHistoryLog', this.todoObject.id)
     }
   },
@@ -370,9 +370,6 @@ export default {
 }
 </script>
 <style scoped>
-body {
-  margin: 0;
-}
 .navbar-bottom {
   overflow: hidden;
   background-color: #333;
