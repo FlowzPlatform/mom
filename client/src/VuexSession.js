@@ -862,7 +862,7 @@ export const store = new Vuex.Store({
 
       
       services.tasksService.on('created', message => {
-        console.log("Message Cretaed:-->", message)
+        console.log("Message Cretaed task:-->", message)
         commit('ADD_NEW_TODOS', message)
       })
       
@@ -1173,13 +1173,12 @@ export const store = new Vuex.Store({
         // store.commit('showProgress')
         store.state.progress = 0
         store.commit('progressVal')
-
         //Insert Attachment detail in DB
         services.taskAttachmentService.create({
           task_id: fileObject.taskId,
           file_name: file.name,
           file_url: src,
-          uploadedBy: store.state.userObject.id,
+          uploadedBy: store.state.userObject._id,
           level: fileObject.level,
           file_name_timestamp: fileTimeStamp
         }).then(response => {
@@ -1189,7 +1188,7 @@ export const store = new Vuex.Store({
             task_id: fileObject.taskId,
             file_name: file.name,
             file_url: src,
-            uploadedBy: store.state.userObject.id,
+            uploadedBy: store.state.userObject._id,
             level: fileObject.level,
             file_name_timestamp: fileTimeStamp
           }
@@ -1200,27 +1199,6 @@ export const store = new Vuex.Store({
           // commit('SELECT_FILE', tempArr)
           fileObject.cb()
         });
-
-        //   Vue.http.post('/addAttachment', {
-        //     task_id: fileObject.taskId,
-        //     file_name: file.name,
-        //     file_url: src,
-        //     uploadedBy: store.state.userObject.id,
-        //     level: fileObject.level,
-        //     isDeleted: false
-        //   }).then(response => {
-        //     var tempArr = {
-        //       id: response.data.generated_keys[0],
-        //       task_id: fileObject.taskId,
-        //       file_name: file.name,
-        //       file_url: src,
-        //       uploadedBy: store.state.userObject.id,
-        //       level: fileObject.level,
-        //       isDeleted: false
-        //     }
-        //     commit('SELECT_FILE', tempArr)
-        //     fileObject.cb()
-        //   })
       })
     },
     deleteAttachmentFromDB({ commit }, deleteObject) {
@@ -1404,13 +1382,13 @@ export const store = new Vuex.Store({
     insertTagsInDB({ commit }, tagObject) {
       services.tagsService.create({
         name: tagObject.tagName,
-        created_by_user_id: store.state.userObject.id
+        created_by_user_id: store.state.userObject._id
       }).then(response => {
         console.log("Response Tag Cerate::", response);
         services.taskTagsService.create({
           tag_id: response.id,
           task_id: tagObject.taskId,
-          created_by_user_id: store.state.userObject.id,
+          created_by_user_id: store.state.userObject._id,
           is_deleted: false,
           name: tagObject.name
         }).then(response => {
@@ -1442,7 +1420,7 @@ export const store = new Vuex.Store({
         tag_id: taskTagObject.tag.id,
         task_id: taskTagObject.taskId,
         is_deleted: false,
-        created_by_user_id: store.state.userObject.id
+        created_by_user_id: store.state.userObject._id
       }).then(response => {
         console.log("Response Tag Find::", response);
       });
@@ -1461,7 +1439,7 @@ export const store = new Vuex.Store({
     },
     removeTaskTagsFromDB({ commit }, taskTagObject) {
       services.taskTagsService.patch(null, {
-        is_deleted: true, deleted_by_user_id: store.state.userObject.id
+        is_deleted: true, deleted_by_user_id: store.state.userObject._id
       }, { query: { "task_id": taskTagObject.task_id, "tag_id": taskTagObject.tag_id } }).then(response => {
         console.log("Response update task tags:", response);
         //  commit('UPDATE_TODO', insertElement)

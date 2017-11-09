@@ -99,18 +99,10 @@ export default {
             if (!sameMatch)
                 itemList.push({ "id": "0", "name": self.inputValue });
             return itemList;
-        },
-        getNewPermissionValue: function(){
-            return this.$store.state.accessRight;
         }
     },
     watch:{
-        getNewPermissionValue: function(newPermission){
-            console.log("watcher method call");
-            // this.createPermission = this.$store.state.accessRight;
-            this.newTagPermission();
-            this.deleteTagPermission();
-        }
+       
     }, methods: {
         getTagNameFromId: function(tag) {
             if (tag.name)

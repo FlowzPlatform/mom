@@ -30,23 +30,22 @@
                 </div></el-tab-pane>
                </el-tabs> 
             </div>  
-
-	              <!-- <div>
-                    <ckeditor v-model="commentText">
-                    </ckeditor>
-                </div>   -->
-                    <!-- <div>
-                    <markdown-editor>
-                    </markdown-editor>
-                </div>     -->
-                    <div class="taskCommentsView-toolbar">
-                        <div id="details_property_sheet__new_comment_button" @click="insertComment(filteredTodoObj.id)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton" style="" tabindex="710">
-                            <span class="left-button-icon"></span>
-                            <span class="new-button-text">Comment</span>
-                            <span class="right-button-icon"></span>
-                        </div>
-                    </div>
+	        <!-- <div>
+                <ckeditor v-model="commentText">
+                </ckeditor>
+            </div>   -->
+            <!-- <div>
+                <markdown-editor>
+                </markdown-editor>
+            </div>     -->
+            <div class="taskCommentsView-toolbar">
+                <div id="details_property_sheet__new_comment_button" @click="insertComment(filteredTodoObj.id)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton" style="" tabindex="710">
+                    <span class="left-button-icon"></span>
+                    <span class="new-button-text">Comment</span>
+                    <span class="right-button-icon"></span>
                 </div>
+            </div>
+            </div>
             </div>
         </div>
     </div>
@@ -84,9 +83,8 @@ export default {
     }
   },
   methods:{
-        insertComment: function(taskId){
+    insertComment: function(taskId){
             if(this.commentText){
-              console.log('Comment by', this.$store.state.userObject.fullname)
             this.$store.dispatch('insertTaskComment',{"id":this.filteredTodoObj.id, "comment":this.commentText, "commentBy": this.$store.state.userObject._id})
             this.commentText = ''
             let frame = document.getElementsByClassName('cke_reset')[3].contentWindow
