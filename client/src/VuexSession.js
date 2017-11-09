@@ -1342,9 +1342,11 @@ export const store = new Vuex.Store({
       // });
     },
     insertTaskComment({ commit }, payload) {
-      if (!(payload.comment && payload.comment.trim()))
+     
+      if (!payload.comment || payload.comment.trim().length==0)
         return
-      services.taskComments.create({
+        console.log("Reesponse create Payload From DB::", payload);
+        services.taskComments.create({
         task_id: payload.id,
         commentBy: payload.commentBy,
         comment: payload.comment.trim(),
