@@ -101,9 +101,7 @@ export default {
             return itemList;
         }
     },
-    watch:{
-       
-    }, methods: {
+    methods: {
         getTagNameFromId: function(tag) {
             if (tag.name)
                 return tag.name;
