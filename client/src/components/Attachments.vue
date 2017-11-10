@@ -4,10 +4,13 @@
            <Card style="margin-left:10px;margin-right:10px;margin-top:5px;margin-bottom:3px;">
             <p slot="title">
                 <span style="float:left">
-                     <avatar username="hemant" :size='30' src='https://s3.amazonaws.com/profile_photos/329633778653756.1pmLUlVhFA8h81mZ3biR_60x60.png'></avatar>
+                    <div v-if="files.email">
+                        <avatar v-if="files.image_url" :username="files.email" :src="files.image_url" :size="30"></avatar>
+                        <avatar v-else :username="files.email" :size="30" color="#fff"></avatar>
+                    </div>
                 </span> 
                 <span class="attachment-username">    
-                       <span style="font-size:10px">Hemant </span> 
+                       <span style="font-size:10px">{{files.fullname}} </span> 
                        <div class="attachment-time">Yesterday at 09:57</div>
                        
                 </span>
@@ -123,10 +126,7 @@ import "iview/dist/styles/iview.css";
 import Avatar from "vue-avatar/dist/Avatar";
 import { markdownEditor } from 'vue-simplemde'
 import Ckeditor from 'vue-ckeditor2'
-
-
 Vue.use(iView);
-
 export default {
   props: ["filteredTodo", "isDeleteAttachment"],
   data: function() {
@@ -150,7 +150,6 @@ export default {
       return array;
     }
   },
-
   methods: {
     deleteAttachment(objAttachment, btnIndex) {
       this.btnClickedIndex = btnIndex;
@@ -174,7 +173,20 @@ export default {
     },
     isImage(fileName) {
       return fileName.match(/.(jpg|jpeg|png|gif)$/i);
-    }
+    },
+    attachmentDetailList: function (attachList) {
+        attachList.forEach(function (c) {
+            let userId = c.uploadedBy
+            let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
+            if (userIndex < 0) {
+            } else {
+                var id = this.$store.state.arrAllUsers[userIndex]._id
+                c.fullname = this.$store.state.arrAllUsers[userIndex].fullname
+                c.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
+                c.email = this.$store.state.arrAllUsers[userIndex].email
+            }
+        }, this)
+    },
   },
   components: {
     Avatar,
@@ -196,7 +208,6 @@ export default {
   border-radius: 50%;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
 }
-
 .attachment-mask {
   z-index: 21;
   color: #fff;
@@ -211,12 +222,10 @@ export default {
   -webkit-transition: all 0.1s ease-in-out 0s;
   transition: all 0.1s ease-in-out 0s;
 }
-
 .thumbnail {
   width: 300px;
   height: 160px;
 }
-
 .thumbnail iframe {
   width: 900px;
   height: 480px;
@@ -228,7 +237,6 @@ export default {
   transform: scale(0.3, 0.3);
   overflow: hidden;
 }
-
 .Thumbnail-image {
   border: 1px solid #b7bfc6;
   display: inline-block;
@@ -243,7 +251,6 @@ export default {
   width: 300px;
   height: 160px;
 }
-
 .ivu-card-head p, .ivu-card-head-inner{
     padding-bottom: 30px;
 }
@@ -260,7 +267,6 @@ export default {
     margin-top: -5px;
     font-size:10px;
 }
-
 .ivu-card-head{
     padding: 10px 10px
 }
@@ -291,4 +297,3 @@ export default {
     margin: 10px;
 }
 </style>
-
