@@ -76,7 +76,7 @@
                       </span>
                       <Row>
                             <Col span="2" style="padding-right:10px">
-                                <Select not-found-text="No user found" placeholder="hemant"  placement="top" v-model="selectedUser" filterable  style="width:180px;z-index:99999">
+                                <Select not-found-text="No user found" placeholder="user"  placement="top" v-model="selectedUser" filterable  style="width:180px;z-index:99999">
                                       <Option v-for="user in getUserList" not-found-text="AAxsd" :label="getListUserName(user.email)" :value="getListUserName(user.email)" :key="user._id">
                                         <span style="float:left;margin-right:10px;margin-top:-8px">
                                           <avatar username="getUserLetters()" :size='30' src='https://s3.amazonaws.com/profile_photos/329633778653756.1pmLUlVhFA8h81mZ3biR_60x60.png'></avatar>
