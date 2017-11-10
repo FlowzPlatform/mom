@@ -126,10 +126,7 @@ import "iview/dist/styles/iview.css";
 import Avatar from "vue-avatar/dist/Avatar";
 import { markdownEditor } from 'vue-simplemde'
 import Ckeditor from 'vue-ckeditor2'
-
-
 Vue.use(iView);
-
 export default {
   props: ["filteredTodo", "isDeleteAttachment"],
   data: function() {
@@ -153,7 +150,6 @@ export default {
       return array;
     }
   },
-
   methods: {
     deleteAttachment(objAttachment, btnIndex) {
       this.btnClickedIndex = btnIndex;
@@ -212,7 +208,6 @@ export default {
   border-radius: 50%;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
 }
-
 .attachment-mask {
   z-index: 21;
   color: #fff;
@@ -227,12 +222,10 @@ export default {
   -webkit-transition: all 0.1s ease-in-out 0s;
   transition: all 0.1s ease-in-out 0s;
 }
-
 .thumbnail {
   width: 300px;
   height: 160px;
 }
-
 .thumbnail iframe {
   width: 900px;
   height: 480px;
@@ -244,7 +237,6 @@ export default {
   transform: scale(0.3, 0.3);
   overflow: hidden;
 }
-
 .Thumbnail-image {
   border: 1px solid #b7bfc6;
   display: inline-block;
@@ -259,7 +251,6 @@ export default {
   width: 300px;
   height: 160px;
 }
-
 .ivu-card-head p, .ivu-card-head-inner{
     padding-bottom: 30px;
 }
@@ -276,7 +267,6 @@ export default {
     margin-top: -5px;
     font-size:10px;
 }
-
 .ivu-card-head{
     padding: 10px 10px
 }
@@ -307,4 +297,3 @@ export default {
     margin: 10px;
 }
 </style>
-
