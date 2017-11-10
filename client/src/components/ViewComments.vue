@@ -1,13 +1,10 @@
 <template>
     <div id="details_pane_footer" class="details-pane-redesign details-pane-footer">
-
     </div>
 </template>
 <script>
 /* eslint-disable*/
 import { mapGetters } from "vuex";
-import Ckeditor from "vue-ckeditor2";
-import { markdownEditor } from "vue-simplemde";
 
 // import { markdownEditor } from 'vue-simplemde'
 
@@ -18,10 +15,8 @@ Vue.use(ElementUI, { locale });
 
 export default {
   components: {
-    Ckeditor,
-    markdownEditor
   },
-  props: ["filteredTodo"],
+  props: ["filteredTodoId"],
   data: function() {
     return {
       picker1: null,

@@ -1,7 +1,14 @@
 <template>
     <div>
-            <comment></comment>
-            <div class="todoapp comment_right_bar">
+        <div style="height:100%;overflow-x:scroll">
+            <div class="nav">
+                <div class="mask" @click="writeComment">
+                    <i id="icon-comment" class="fa fa-pencil"></i>
+                </div>
+            </div>
+            <component :is="currentView" :filteredTodoTaskId="commentTaskId"></component>
+    
+            <div class="todoapp comment_right_bar hidden">
                 <div class="comment-header header-scroll">
                         <!--<div class="Comment-headerTitle">
                             <div id="title-header" v-html=comment.comment> </div>
@@ -13,7 +20,7 @@
                             </svg>
                         </a>-->
                 </div>
-            <div class="StoryFeed">
+            <div class="StoryFeed hidden">
                 <!-- <table id="ember1276" class="topic-list ember-view" style="width:100%;">
                     <thead>
                         <tr>
@@ -153,6 +160,11 @@
         import Comment from './Comment.vue'
         import * as services from '../services'
         import Avatar from 'vue-avatar/dist/Avatar'
+        import ViewComments from './ViewComments.vue'
+        import locale from 'element-ui/lib/locale/lang/en'
+        import ElementUI from 'element-ui'
+        Vue.use(ElementUI, { locale })
+
         Vue.filter('parseDate', function (value) {
             console.log("Comment Dialog", value)
         if (value) {
@@ -178,7 +190,8 @@
             components: {
                 RightFooter,
                 Comment,
-                Avatar
+                Avatar,
+                ViewComments
             },
             props: ['show', 'commentTaskId', 'commentParentId', 'commentName'],
             directives: { focus: focus },
@@ -196,7 +209,9 @@
                     commentText: '',
                     commentFilter: commentFilter,
                     visibleFilter: 'all',
-                    isDeleteComment: true
+                    isDeleteComment: true,
+                    currentView: ViewComments,
+                    isReadComment: true
                 }
             },
             mounted: function () {
@@ -211,32 +226,33 @@
                         this.taskSubComments.push(message)
                     }
                 })
-            
-                services.taskComments.find({ query: { task_id:  this.commentTaskId, parentId:  this.commentParentId } }).then(response => {
-                        this.taskSubComments = response;
-                        this.getSubTaskComments();
-                    });
-                // console.log("Comment click",this.comment);
+                // services.taskComments.find({ query: { task_id:  this.commentTaskId, parentId:  this.commentParentId } }).then(response => {
+                //         this.taskSubComments = response;
+                //         this.getSubTaskComments();
+                //     });
+
                 
             },
             watch: {
                 commentParentId: function () {
-                    console.log("Comment click",this.comment);
+                    console.log("Comment commentParentId watch",this.comment);
                     // this.$store.dispatch('taskComments', {task_id: this.commentParentId,parentId:this.comment.parentId})
                    
-                    services.taskComments.find({ query: { task_id:  this.commentTaskId, parentId:  this.commentParentId } }).then(response => {
-                        this.taskSubComments = response;
-                        this.getSubTaskComments();
-                    });
+                    // services.taskComments.find({ query: { task_id:  this.commentTaskId, parentId:  this.commentParentId } }).then(response => {
+                    //     this.taskSubComments = response;
+                    //     this.getSubTaskComments();
+                    // });
+
                 },
                 commentTaskId: function () {
-                    console.log("Comment click",this.comment);
+                    console.log("Comment commentTaskId watch",this.comment);
                     // this.$store.dispatch('taskComments', {task_id: this.commentParentId,parentId:this.comment.parentId})
                    
-                    services.taskComments.find({ query: { task_id:  this.commentTaskId, parentId:  this.commentParentId } }).then(response => {
-                        this.taskSubComments = commentFilter[this.visibleFilter](response);
-                        this.getSubTaskComments();
-                    });
+                    // services.taskComments.find({ query: { task_id:  this.commentTaskId, parentId:  this.commentParentId } }).then(response => {
+                    //     this.taskSubComments = commentFilter[this.visibleFilter](response);
+                    //     this.getSubTaskComments();
+                    // });
+
                 },
                 visibleFilter: function(){
                     this.taskSubComments = commentFilter[this.visibleFilter](this.taskSubComments);
@@ -249,10 +265,35 @@
                 })
             },
             methods: {
+                async commentsFind()
+                {
+                    services.taskComments.find({ query: { task_id:  this.commentTaskId, parentId:  this.commentParentId } }).then(response => {
+                        this.taskSubComments = commentFilter[this.visibleFilter](response);
+                        this.getSubTaskComments();
+                    });
+                },
                 // close:function(comment)
                 // {
                 //     this.$store.dispatch('closeComment', comment)
                 // },
+                writeComment: function () {
+
+                    // Write comment
+                    if (this.isReadComment) {
+
+                        this.currentView = RightFooter
+                        $("#icon-comment").removeClass('fa-pencil');
+                        $("#icon-comment").addClass('fa-comments-o');
+                    } else {
+                        // this.currentView = RightFooter
+                        this.currentView = ViewComments
+                        // Read comment
+                        $("#icon-comment").removeClass('fa-comments-o');
+                        $("#icon-comment").addClass('fa-pencil');
+                    }
+
+                    this.isReadComment = !this.isReadComment
+                },
                 replyCommentMethod(comment){
                     this.replyComnet=comment;
                     comment.show_type='subcomment'
@@ -323,4 +364,37 @@
     </script>
     <style>
     
+.markdown-editor {
+    height: 500px;
+}
+
+.nav {
+    right: 42px;
+    z-index: 20;
+    width: 45px;
+    bottom: 15px;
+    height: 45px;
+    display: block;
+    position: absolute;
+    /* bottom: 50px; */
+    line-height: 45px;
+    border-radius: 50%;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .75);
+}
+
+.mask {
+     z-index: 21;
+    color: #fff;
+    width: inherit;
+    height: inherit;
+    cursor: pointer;
+    font-size: 28px;
+    text-align: center;
+    border-radius: 50%;
+    position: absolute;
+    /*bottom: 50px; */
+    background: #f23363;
+    -webkit-transition: all .1s ease-in-out 0s;
+    transition: all .1s ease-in-out 0s;
+}
     </style>

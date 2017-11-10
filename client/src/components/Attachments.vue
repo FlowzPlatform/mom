@@ -146,6 +146,7 @@ export default {
     }),
     attachmentList() {
       var array = this.getFiles(this.filteredTodo.id);
+      this.attachmentDetailList(array)
       return array;
     }
   },
@@ -290,3 +291,4 @@ export default {
     margin: 10px;
 }
 </style>
+

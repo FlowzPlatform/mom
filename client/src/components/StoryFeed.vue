@@ -130,7 +130,17 @@
             },
             deleteCommnet:function(commentObj){
                 this.$store.dispatch('delete_Comment', commentObj)
-            }
+            },
+            async onDeleteComment(id,level,created_by,typeId) {
+                let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.COMMENT,Constant.PERMISSION_ACTION.DELETE)
+                console.log("permisionResult Delete Comment-->",permisionResult)
+                if (!permisionResult && id != -1) {
+                    this.isDeleteComment = false
+                } else {
+                    this.isDeleteComment = true
+                }  
+            },
+
 
 
         },

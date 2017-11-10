@@ -10,3 +10,4 @@ selenium-debug.log
 .env
 bin/
 out.pdf
+index.html

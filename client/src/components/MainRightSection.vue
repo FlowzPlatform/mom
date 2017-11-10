@@ -499,15 +499,8 @@ export default {
     // whenever question changes, this function will run
     todolistSubTasks: function(newQuestion) {},
     todoObject: function() {
-      this.$store.dispatch("findHistoryLog", this.todoObject.id);
-    },
-    getReadPermissionValue: function(newPermission) {
-      console.log("watcher method call");
-      // this.createPermission = this.$store.state.accessRight;
-      this.tagReadPermission();
-    },
-    todoObject: function() {
-      this.undelete();
+      console.log("Right Section Log history", this.todoObject)
+      this.$store.dispatch('findHistoryLog', this.todoObject.id)
     }
   },
   computed: {
@@ -542,13 +535,10 @@ export default {
         createdAt: new Date().toJSON(),
         updatedAt: new Date().toJSON(),
         project_id: this.$store.state.currentProjectId
-      });
-      this.todolistSubTasks = taskArray;
-      this.userDetail(this.todolistSubTasks);
-      return taskArray;
-    },
-    getReadPermissionValue() {
-      return this.$store.state.accessRight;
+      })
+      this.todolistSubTasks = taskArray
+      this.userDetail(this.todolistSubTasks)
+      return taskArray
     }
   },
   asyncComputed: {
@@ -589,9 +579,6 @@ export default {
 };
 </script>
 <style scoped>
-body {
-  margin: 0;
-}
 .navbar-bottom {
   overflow: hidden;
   background-color: #333;

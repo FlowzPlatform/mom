@@ -28,6 +28,17 @@
         // this.showModal=false
         // this.$emit('showModal', this.showModal);
          this.closeAction()
+      },
+      async updateEstimatHour(id,level,created_by,typeId) {
+        let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.ESTIMATED_HOURS,Constant.PERMISSION_ACTION.UPDATE)
+        console.log("permisionResult update Estimate HR-->",permisionResult)
+        if (!permisionResult && id != -1) {
+          console.log("====true====")
+          document.getElementById("estimateInput").readOnly = true
+        } else {
+          console.log("====false====")
+          document.getElementById("estimateInput").readOnly = false
+        }  
       }
     }
   }
