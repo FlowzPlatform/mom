@@ -1,33 +1,27 @@
 <template>
   <div>
     <div id="topicon">
-    <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-      tabindex="410" @click="openfullwinodw(todoObject.level)" style="margin-top: 2px; margin-right:51px;">
-      <span class="circularButtonView-label">
-        <i class="fa fa-expand" aria-hidden="true"></i>    
-      </span>
-    </div>
-    <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-           style="margin-top: 2px; margin-right:-52px;">
-      <span class="circularButtonView-label"  @click="pinit(todoObject)"><img class="init" v-if="todoObject.isPinned" src="../assets/unpin.png" style="width:20px; height:20px;"></img>
-      <img class="init" v-else src="../assets/pin.png" style="width:16px; height:16px; margin-bottom:2px;"></img></span>
-    </div>
-    <span id="close" class="destroy" @click="CLOSE_DIV(todoObject)"><i class="fa fa-close"></i></span>
+      <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+        tabindex="410" @click="openfullwinodw(todoObject.level)" style="margin-top: 2px; margin-right:51px;">
+        <span class="circularButtonView-label">
+          <i class="fa fa-expand" aria-hidden="true"></i>
+        </span>
+      </div>
+      <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+        style="margin-top: 2px; margin-right:-52px;">
+        <span class="circularButtonView-label" @click="pinit(todoObject)">
+          <img class="init" v-if="todoObject.isPinned" src="../assets/unpin.png" style="width:20px; height:20px;"></img>
+          <img class="init" v-else src="../assets/pin.png" style="width:16px; height:16px; margin-bottom:2px;"></img>
+        </span>
+      </div>
+      <span id="close" class="destroy" @click="CLOSE_DIV(todoObject)"><i class="fa fa-close"></i></span>
     </div>
     <div :id="id" class="right_pannel" style="display: grid;">
       <!--<right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState' " :filteredTodo="todoObject"></right-toolbar>-->
-      <div class="tab-pannel">
-        <component :is="currentView" 
-          :id="id" 
-          :taskId="todoObject.id" 
-          :historyLog="historyLog" 
-          :isDeleteAttachment="chkAttachment" 
-          :filteredTodo="todoObject" 
-          v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" 
-          :pholder="pholder" 
-          :filtered-todos="taskById"
-          :commentTaskId="todoObject.id"
-          >
+      <div class="tab-pannel(">
+        <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
+          :filteredTodo="todoObject" v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'"
+          :pholder="pholder" :filtered-todos="taskById" :commentTaskId="todoObject.id">
         </component>
       </div>
       <div class="nav_bottom" style="z-index: 10;">
@@ -72,10 +66,8 @@
           </div>
         </div>
         <div class="tab-container">
-
         </div>
       </div>
-
     </div>
 
     <!--<div :id="id">
@@ -282,7 +274,7 @@ export default {
     openfullwinodw: function (ind) {
       console.log('Openfullwindow called====')
         $('.window-full.circularButtonView').find('.fa').toggleClass('fa-compress');
-        $('.window-full.circularButtonView').parents('.right_pane_container #right_pane #' + ind).toggleClass('open')
+        $('.window-full.circularButtonView').parents('.right_pane_container #' + ind).toggleClass('open')
     },
     pinit(filteredTodo){
       console.log('TODO Object', filteredTodo)
