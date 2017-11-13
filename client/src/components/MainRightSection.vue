@@ -23,7 +23,7 @@
                   <a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" @click="deleleteTask" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
             </span>
         </Alert>
-        <div class="tab-pannel" v-bind:style="{ top: topMargin+'px'}">
+        <div class="tab-pannel">
            
           <component :is="currentView" 
             :id="id" 
