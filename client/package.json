@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@rmp135/vue-splitter": "^1.2.1",
+    "aws-sdk": "^2.149.0",
     "axios": "^0.16.2",
     "base64-img": "^1.0.3",
     "body-parser": "^1.18.2",
@@ -45,6 +46,7 @@
     "semver": "^5.4.1",
     "uberproto": "^1.2.0",
     "uws": "^8.14.1",
+    "vue": "^2.5.3",
     "vue-async-computed": "^3.3.1",
     "vue-avatar": "^2.0.0",
     "vue-ckeditor2": "^1.18.0",

@@ -1,7 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-
 import App from './App.vue'
 // import Task from './Task.vue'
 // import navbar from './components/navbar.vue'
@@ -13,6 +12,7 @@ import router from './router'
 Vue.config.productionTip = false
 /* eslint-disable*/
 import { store } from './VuexSession'
+
 // import GSignInButton from 'vue-google-signin-button'
 // Vue.use(GSignInButton)
 /* eslint-disable no-new */
@@ -56,6 +56,14 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
+
+console.log('AWS===>', process.env.accesskey + "====="+ process.env.secretkey)
+var AWS = require('aws-sdk');
+AWS.config.update({
+  accessKeyId : process.env.accesskey,
+  secretAccessKey : process.env.secretkey
+});
+AWS.config.region = 'us-west-2';
 
 // new Vue({
 //   el: '#task',

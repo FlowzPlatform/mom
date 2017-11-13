@@ -36,6 +36,8 @@ function uploadFileOnAmazonS3(file, fileTimeStamp, cb) {
       store.state.progress = parseInt((evt.loaded * 100) / evt.total)
       store.commit('progressVal')
     }).send(function (err, data) {
+      // console.log('err ===> ', err)
+      // console.log('data ===> ', data)
       cb(data.Location)
     });
   }
