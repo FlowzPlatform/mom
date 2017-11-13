@@ -99,7 +99,7 @@ button {
 }
 .main {
 	position: relative;
-	z-index: 2;
+	/* z-index: 2; */
 	border-top: 1px solid #e6e6e6;
     float: left;
     width: 100%;
@@ -2708,6 +2708,7 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
     -ms-flex: 1 0 auto;
     flex: 1 0 auto;
     margin-right: 10px;
+    color:#ff7381;
 }
 .Button.Button--secondary:not(.Button--disabled) {
     background: #fff;
@@ -5738,3 +5739,8 @@ CSS for splitter view
 .ivu-dropdown .ivu-select-dropdown {
     width: 150px;
   }
+
+  .ivu-select-single .ivu-select-selection{
+    bottom: 7px;
+    width: 82px;
+}
