@@ -71,6 +71,7 @@
               </Tooltip>
             </a>
             <div class="assing-to-menu">
+              
                       <span style="float:left;margin-right:10px;margin-top:-3px">
                         <avatar username="getUserLetters()" :size='30' src='https://s3.amazonaws.com/profile_photos/329633778653756.1pmLUlVhFA8h81mZ3biR_60x60.png'></avatar>
                       </span>
