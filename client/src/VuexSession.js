@@ -36,6 +36,8 @@ function uploadFileOnAmazonS3(file, fileTimeStamp, cb) {
       store.state.progress = parseInt((evt.loaded * 100) / evt.total)
       store.commit('progressVal')
     }).send(function (err, data) {
+      // console.log('err ===> ', err)
+      // console.log('data ===> ', data)
       cb(data.Location)
     });
   }
@@ -513,12 +515,16 @@ export const store = new Vuex.Store({
       state.taskComment.push({
         id: data.id,
         task_id: data.task_id,
+        parentId:data.parentId,
         commentBy: data.commentBy,
         comment: data.comment,
         createdAt: new Date().toJSON(),
         username: state.userObject.fullname,
         image_url: state.userObject.image_url
       })
+
+
+  
     },
     DELETE_COMMENT(state, data) {
       let removeTaskComments = _.findIndex(state.taskComment, function (d) { return d.id == data.id })
@@ -904,7 +910,7 @@ export const store = new Vuex.Store({
       })
 
       services.taskComments.on('created', message => {
-        console.log("Message history Logs Cretaed:-->", message)
+        console.log("Message commen Logs Cretaed:-->", message)
         commit('ADD_COMMENT', message)
       })
 
@@ -1342,15 +1348,16 @@ export const store = new Vuex.Store({
       // });
     },
     insertTaskComment({ commit }, payload) {
-      if (!(payload.comment && payload.comment.trim()))
+     
+      if (!payload.comment || payload.comment.trim().length==0)
         return
-      services.taskComments.create({
-        task_id: payload.id,
-        commentBy: payload.commentBy,
-        comment: payload.comment.trim(),
-        createdAt: new Date().toJSON()
-      }).then(function (response) {
-        console.log("Reesponse create Commnets From DB::", response);
+        payload.createAt=new Date().toJSON(); 
+        if(!payload.parentId)
+          payload.parentId=""       
+        console.log("Reesponse create Payload From DB::", payload);
+
+        services.taskComments.create(payload).then(function (response) {
+          console.log("Reesponse create Commnets From DB::", response);
       })
     },
     insertProjectInvite({ commit }, inviteDetail) {
@@ -1996,8 +2003,9 @@ export const store = new Vuex.Store({
       let parentIdArr=store.state.parentIdArr;
       let index=0;
       
-      let tempParentId='-1';
+      let tempParentId='';
       let removeIndex=[];
+    
       parentIdArr.forEach(function(element) { 
           console.log("element id:",element); 
           if(element.show_type==="subcomment" && (element.parentId===tempParentId || element.parentId===comment.id ))
@@ -2056,8 +2064,8 @@ export const store = new Vuex.Store({
     },
     settingArr: state => state.settingsObject,
     getCommentById: (state, getters) => {
-      return function (id) {
-        var comment = state.taskComment.filter(c => c.task_id === id)
+      return function (id,parentId) {
+        var comment = state.taskComment.filter(c => c.task_id === id && c.parentId===parentId)
         return comment
       }
     },
