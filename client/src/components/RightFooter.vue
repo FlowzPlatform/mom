@@ -40,7 +40,7 @@
                     </markdown-editor>
                 </div>     -->
                     <div class="taskCommentsView-toolbar">
-                        <div id="details_property_sheet__new_comment_button" @click="insertComment(filteredTodoTaskId)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton"
+                        <div id="details_property_sheet__new_comment_button" @click="insertComment(commentTaskId)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton"
                             style="" tabindex="710">
                             <span class="left-button-icon"></span>
                             <span class="new-button-text">Comment</span>
@@ -69,7 +69,7 @@
 
     export default {
        
-        props: ['filteredTodoTaskId'],
+        props: ['commentTaskId','commentParentId'],
         data: function () {
             return {
                 picker1: null,
@@ -86,7 +86,14 @@
             insertComment: function (taskId) {
                 if (this.commentText) {
                     console.log('Comment by', this.$store.state.userObject.fullname)
-                    this.$store.dispatch('insertTaskComment', { "id": this.filteredTodoTaskId, "comment": this.commentText, "commentBy": this.$store.state.userObject._id })
+                    let comment = {
+                            task_id: this.commentTaskId,
+                            commentBy: this.$store.state.userObject._id,
+                            comment: this.commentText.trim(),
+                            parentId: this.commentParentId
+                        };
+
+                    this.$store.dispatch('insertTaskComment', comment)
                     this.commentText = ''
                     let frame = document.getElementsByClassName('cke_reset')[3].contentWindow
                     frame.document.getElementsByClassName('cke_editable cke_editable_themed cke_contents_ltr cke_show_borders')[0].innerHTML = '';
@@ -97,8 +104,15 @@
                     var mdString2 = mdString.replace(new RegExp('<th>', 'g'), '<th style="padding:5px">');
                     var mdString3 = mdString2.replace(new RegExp('<td>', 'g'), '<td style="padding:5px">');
                     var mdString4 = mdString3
-                    this.$store.dispatch('insertTaskComment', { "id": this.filteredTodoTaskId, "comment": mdString4, "commentBy": this.$store.state.userObject._id })
-                    // this.content = '';
+
+                    let comment = {
+                            task_id: this.commentTaskId,
+                            commentBy: this.$store.state.userObject._id,
+                            comment: mdString4.trim(),
+                            parentId: this.commentParentId
+                        };
+                    this.$store.dispatch('insertTaskComment', comment)
+                    this.content = '';
                 }
             }
         },
@@ -112,7 +126,7 @@
                 getComment: 'getCommentById'
             }),
             getCommentByTaskId() {
-                let commentList = this.getComment(this.filteredTodoTaskId)
+                let commentList = this.getComment(this.commentTaskId)
                 return commentList
             }
         }, components: {

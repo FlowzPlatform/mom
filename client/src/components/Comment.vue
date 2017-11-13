@@ -6,7 +6,6 @@
             </div>
         </div>
         <component :is="currentView" :filteredTodoObj="filteredTodo"></component>
-
     </div>
 </template>
 <script>
