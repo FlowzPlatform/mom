@@ -88,6 +88,9 @@
                             </col>
                       </Row>                                
             </div>  
+              <div class="assing-to-menu">
+                        <DatePicker placement="top" type="date" placeholder="Select date" style="width: 200px"></DatePicker>                             
+            </div>  
             <div class="option">
               <Dropdown @on-click="deleteMenuClick" trigger="click" placement="top">
                 <a href="javascript:void(0)" @click="handleOpen" class="option-menu">
@@ -220,9 +223,8 @@ import CmnFunc from "./CommonFunc.js";
 import * as Constant from "./Constants.js";
 import AsyncComputed from "vue-async-computed";
 import Avatar from "vue-avatar/dist/Avatar";
-import locale from 'iview/src/locale/lang/en-US';
+import Datepicker from 'vuejs-datepicker'
 
-Vue.use(iView, { locale });
 
 Vue.use(AsyncComputed);
 
@@ -573,7 +575,8 @@ export default {
     Statuses,
     HistoryLog,
     SubComment,
-    Avatar
+    Avatar,
+    Datepicker,
     // Comment,
   }
 };
@@ -597,7 +600,6 @@ export default {
 
 .navbar-bottom div {
   margin-top: 1px;
-  float: right;
 }
 
 .navbar-bottom a.active {
@@ -693,6 +695,8 @@ a.option-menu.glyphicon.glyphicon-option-horizontal {
   border-radius: 30px;
   background: #745a93ab;
   float: left;
+  height: 35px;
+  width:150px;
 }
 .navbar-bottom .assing-to-menu:hover{
   background: #745a93;

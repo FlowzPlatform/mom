@@ -76,6 +76,10 @@
   import VueSplitter from "@rmp135/vue-splitter"
   import CircularNavBar from './CircularNavBar.vue'
   import Search from './Search.vue'
+  import iView from 'iview';
+  import locale from 'iview/dist/locale/en-US';
+
+  Vue.use(iView, { locale });
   Vue.use(require('vue-moment'))
 
   const filters = {

@@ -37,7 +37,9 @@
                     {{ getAssignedType}}
                   </div>
                   <ul class="dropdown-menu typeList">
-                    <li v-for="type in getTypes"><a @click="btnTypeClicked(type)">{{type.type}}</a><hr></li>
+                    <li v-for='type in getTypes'><a @click="btnTypeClicked(type)">{{type.type}}</a>
+                    <hr>
+                    </li>
                   </ul>
                 </span>
               </div> 
