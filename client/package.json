@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@rmp135/vue-splitter": "^1.2.1",
+    "aws-sdk": "^2.149.0",
     "axios": "^0.16.2",
     "base64-img": "^1.0.3",
     "body-parser": "^1.18.2",
