@@ -208,7 +208,7 @@
                 var self = this
                 // CmnFunc.resetProjectDefault()
                 console.log('LOG IN--> userloginprocess')
-                this.$store.dispatch('signInWithLDAP', { 'userid': 'hpatel', 'passwd': '123' })
+                this.$store.dispatch('signInWithLDAP', { 'userid': 'xxxx', 'passwd': 'xxxx' })
                     .then(function (response) {
                         console.log('LDAP response successful');
                         console.log('LOG IN--> response', response)
