@@ -33,18 +33,25 @@
                     <div class="form-item log-in">
                         <div class="table">
                             <div class="table-cell">
-                                <form action="http://ec2-54-88-11-110.compute-1.amazonaws.com/auth/Gplus" method="post">
-                                    <input type="hidden" name="success_url" value="http://localhost:3000">
-                                    <input type="hidden" name="key" value="381524561267-3agj2flmlj546qsnufj8d6283e6eismb.apps.googleusercontent.com">
-                                    <input type="hidden" name="seceret" value="KFzqxuDKfGnF91QMRHiirZwW">
-                                    <!-- <input type="hidden" name="callbackUrl" value="http://ec2-34-229-146-53.compute-1.amazonaws.com/oauthCallback">    -->
+                                <form action="http://172.16.61.101:3001/auth/Gplus" method="post">
 
                                     <button class="googleAuthBtn" type="submit">Use Google Account</button>
-                                </form>
+                                </form> 
                                 <div class="dialog--nux-seperator" id="seprator"> or </div>
-                                <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
-                                <input placeholder="Password" tabindex="2" type="password" name="p" id="password_input" v-model="pwd" @keyup.enter="btnLogInClicked()">
-                                <div tabindex="3" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in</div>
+                                <div>
+                                <Tabs type="card" value="1" @on-click=tabsClicked>
+                                        <TabPane label="Standard" name="1">
+                                                <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
+                                                <input placeholder="Password" tabindex="2" type="password" name="p" id="password_input" v-model="pwd" @keyup.enter="btnLogInClicked()">
+                                                <div tabindex="3" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in</div>
+                                        </TabPane>
+                                        <TabPane label="LDAP" name="2">
+                                                <input placeholder="LDAP Username" tabindex="1" type="email" name="e" id="ldap_username" value="" v-model="emailId" v-on:change="enableButtons()">
+                                                <input placeholder="Password" tabindex="2" type="password" name="p" id="password_input_ldap" v-model="pwd" @keyup.enter="btnLogInClicked()">
+                                                <div tabindex="3" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in</div>
+                                        </TabPane>
+                                </Tabs>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -65,7 +72,6 @@
             </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>
@@ -77,9 +83,10 @@
     import * as services from '../services'
     import VueRouter from 'vue-router'
     import iView from 'iview';
-    import locale from 'iview/dist/locale/en-US';
+    import 'iview/dist/styles/iview.css';
 
-    Vue.use(iView, { locale });
+
+    Vue.use(iView);
 
     Vue.use(Resource)
     Vue.use(VueRouter)
@@ -96,7 +103,7 @@
                 pwd: '',
                 confPwd: '',
                 passData: 'Send to next vue..',
-
+                selectedTabIndex: 1
             }
         },
         created() {
@@ -130,7 +137,13 @@
             login() {
                 $(".container").toggleClass("log-in");
             },
-
+            tabsClicked(val){
+                this.emailId = ''
+                this.pwd = ''
+                this.confPwd = ''
+                console.log('value is:',val);
+                this.selectedTabIndex = val;
+            },
             btnSignUpClicked() {
                 this.emailId = ''
                 this.pwd = ''
@@ -144,7 +157,7 @@
 
                 var validateEmail = CmnFunc.checkBlankField(trimmedEmail)
                 if (!validateEmail) {
-                    $("#emailInput").notify("Email address field should not be blank")
+                    $("#emailInput").notify("Email address should not be blank")
                     return
                 }
 
@@ -191,6 +204,23 @@
                     })
                 $(".container").toggleClass("log-in");
             },
+            btnLDAPPressed() {
+                var self = this
+                // CmnFunc.resetProjectDefault()
+                console.log('LOG IN--> userloginprocess')
+                this.$store.dispatch('signInWithLDAP', { 'userid': 'xxxx', 'passwd': 'xxxx' })
+                    .then(function (response) {
+                        console.log('LDAP response successful');
+                        console.log('LOG IN--> response', response)
+                        self.$store.state.isAuthorized = true
+                        self.$store.commit('authorize')
+                        self.userDetail(self)
+                    })
+                    .catch(function (error) {
+                        $.notify.defaults({ className: "error" })
+                        $.notify(error.message, { globalPosition: "top center" })
+                    });
+            },
             insertUserData(emailID, pwd, usertype, profilePic, uname) {
                 //insert user into rethink db
                 this.$http.post('/insertUsers', {
@@ -219,30 +249,42 @@
                     })
             },
             btnLogInClicked() {
+                console.log('selectedTabIndex value is:',this.selectedTabIndex);
                 var trimmedEmail = this.emailId.trim()
                 var trimmedPwd = this.pwd.trim()
 
                 var validateEmail = CmnFunc.checkBlankField(trimmedEmail)
+
                 if (!validateEmail) {
-                    $("#email_input").notify("Email address field should not be blank")
+                    if(this.selectedTabIndex == 1){
+                        $("#email_input").notify("Email address should not be blank")
+                    }else{
+                        $("#ldap_username").notify("LDAP username should not be blank")
+                    }
                     return
                 }
 
                 var validEmail = CmnFunc.checkValidEmail(trimmedEmail)
-                if (!validEmail) {
+                if (!validEmail && this.selectedTabIndex == 1) {
                     $("#email_input").notify("Please enter valid email address")
                     return
                 }
 
                 var validatePwd = CmnFunc.checkBlankField(trimmedPwd)
                 if (!validatePwd) {
-                    $("#password_input").notify("Password should not be blank")
+                    if(this.selectedTabIndex == 1){
+                        $("#password_input").notify("Password should not be blank")
+                    }else{
+                        $("#password_input_ldap").notify("Password should not be blank")
+                    }
                     return
                 }
+
                 var self = this
                 CmnFunc.resetProjectDefault()
                 console.log('LOG IN--> userloginprocess')
-                this.$store.dispatch('userLoginProcess', { 'email': trimmedEmail, 'password': trimmedPwd })
+
+                this.$store.dispatch('userLoginProcess', { 'email': trimmedEmail, 'password': trimmedPwd, 'userType':this.selectedTabIndex})
                     .then(function () {
                         self.$store.state.isAuthorized = true
                         self.$store.commit('authorize')

@@ -300,11 +300,11 @@
     Vue.component('custom-action', {
         template: [
             '<div>',
-                '<input type="checkbox"  @click="itemAction(\'check-item\', $event.target.checked,rowData,rowField,roleValue,taskTypeId)" :checked="rowCheck" />',
+                '<input type="checkbox"  @click="itemAction(\'check-item\', $event.target.checked,rowFieldData,rowField,roleValue,taskTypeId)" :checked="rowCheck" />',
             '</div>'
         ].join(''),
         props: {
-            rowData: {
+            rowFieldData: {
                 type: Object,
                 required: true
             },
@@ -323,7 +323,11 @@
         },
         methods: {
             itemAction: function(action,isChecked, data,rowField,roleValue,taskTypeId) {
-                
+               
+                //  let roleIndex = _.findIndex(data.roleid, function (role) { return role.rId === rowField.id })
+                //  var role = data.roleid[roleIndex];
+                //  var accessValues = role.access_value ? role.access_value : 0
+                //  var patchValue = isChecked ? accessValues + roleValue : accessValues - roleValue
                   let roleIndex = _.findIndex(data.roleid, function (role) { return role.rId === rowField.id })
                  if(roleIndex>-1)
                  {
@@ -345,7 +349,15 @@
                      })
                         data.roleid.push({rId: rowField.id,access_value:roleValue})
                  }
-             
+                // this.$store.dispatch('setAccessPermision', {
+                //          rId: rowField.id,
+                //          pId: data.id,
+                //          access_value:  patchValue,
+                //          taskType:taskTypeId
+                //      })
+                //      role.access_value=patchValue;
+                //      console.log("role::-",role)
+                    //  data.roleid.push({rId: rowField.id,access_value:roleValue})
             },
             onClick: function (event) {
                 console.log('custom-action: on-click----->', event.target)
@@ -409,6 +421,13 @@
                     console.log("Response roles:--", response)
                     this.tableData = response;
                 });
+                // this.$store.dispatch('getAllPermissions').then(function (response) {
+                //     console.log("Got some data, now lets show something in this component:-", response)
+                //     this.tableData = response
+                //  })
+                //  .catch(function (error) {
+                //     console.error("Got nothing from server. Prompt user to check internet connection and try again",error)
+                // })
             },
             rowClassCB: function (data, index) {
                 return (index % 2) === 0 ? 'odd' : 'even'

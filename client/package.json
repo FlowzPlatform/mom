@@ -65,6 +65,7 @@
     "vue-splitter-comp": "^1.1.1",
     "vue-sticky-position": "^2.0.0",
     "vue-template-compiler": "^2.4.4",
+    "vue-translated": "^0.4.1",
     "vue-widgets": "^1.0.9",
     "vue2-scrollbar": "0.0.3",
     "vuedraggable": "^2.13.1",
