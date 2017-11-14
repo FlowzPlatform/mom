@@ -4,69 +4,111 @@
       <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
         tabindex="410" @click="openfullwinodw(todoObject.level)" style="margin-top: 2px; margin-right:51px;">
         <span class="circularButtonView-label">
-          <i class="fa fa-expand" aria-hidden="true"></i>
+          <i class="fa fa-expand" aria-hidden="true"></i>    
         </span>
       </div>
       <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-        style="margin-top: 2px; margin-right:-52px;">
-        <span class="circularButtonView-label" @click="pinit(todoObject)">
-          <img class="init" v-if="todoObject.isPinned" src="../assets/unpin.png" style="width:20px; height:20px;"></img>
-          <img class="init" v-else src="../assets/pin.png" style="width:16px; height:16px; margin-bottom:2px;"></img>
-        </span>
+            style="margin-top: 2px; margin-right:-52px;">
+        <span class="circularButtonView-label"  @click="pinit(todoObject)"><img class="init" v-if="todoObject.isPinned" src="../assets/unpin.png" style="width:20px; height:20px;"></img>
+        <img class="init" v-else src="../assets/pin.png" style="width:16px; height:16px; margin-bottom:2px;"></img></span>
       </div>
       <span id="close" class="destroy" @click="CLOSE_DIV(todoObject)"><i class="fa fa-close"></i></span>
     </div>
     <div :id="id" class="right_pannel" style="display: grid;">
-      <!--<right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState' " :filteredTodo="todoObject"></right-toolbar>-->
-      <div class="tab-pannel(">
-        <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
-          :filteredTodo="todoObject" v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'"
-          :pholder="pholder" :filtered-todos="taskById" :commentTaskId="todoObject.id">
-        </component>
-      </div>
-      <div class="nav_bottom" style="z-index: 10;">
-        <div class="navbar-bottom" id="myNavbar">
-          <a href="javascript:void(0)" id="#subtask" v-bind:class="selectedMenuIndex==0?activeClass:''" class="nav-tab" @click="subTaskShow">
-            <Tooltip content="Task" placement="top-start">
-              <i class="nav-icon ion-navicon-round" style="font-size:20px"></i>
-            </Tooltip>
-          </a>
-          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab" @click="historyShow">
-            <Tooltip content="History" placement="top-start">
-              <i class="nav-icon fa fa-history" aria-hidden="true" style="font-size:20px"></i>
-            </Tooltip>
-          </a>
-          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==2?activeClass:''" class="nav-tab" @click="attachmentShow">
-            <Tooltip content="Attachments" placement="top-start">
-              <i class="nav-icon fa fa-paperclip" aria-hidden="true" style="font-size:20px"></i>
-            </Tooltip>
-          </a>
-          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==3?activeClass:''" class="nav-tab" @click="tagsShow">
-            <Tooltip content="Tags" placement="top-start">
-              <i class="nav-icon fa fa-tags" aria-hidden="true" style="font-size:20px"></i>
-            </Tooltip>
-          </a>
-          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==4?activeClass:''" class="nav-tab" @click="commentsShow">
-            <Tooltip content="Comments" placement="top-start">
-              <i class="nav-icon fa fa-comments" aria-hidden="true" style="font-size:20px"></i>
-            </Tooltip>
-          </a>
-          <div class="option">
-            <Dropdown trigger="click" placement="top">
-              <a href="javascript:void(0)" @click="handleOpen" class="option-menu">
-                <i class="glyphicon glyphicon-option-horizontal" aria-hidden="true" style="font-size:22px"></i>
-              </a>
-              <DropdownMenu slot="list">
-                <DropdownItem>Estimated Hours</DropdownItem>
-                <DropdownItem>Task Priority</DropdownItem>
-                <DropdownItem>Copy Task URL</DropdownItem>
-                <DropdownItem>Delete Task</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+        <Alert v-show="isDeleteActive" class="right-top-alert" type="error">
+            <span slot="desc">
+                  <span class="deleteIcon"><Icon type="android-delete" ></Icon></span>
+                  <span class="TaskUndeleteBanner-message">This task is deleted.</span>
+                  <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" @click="undelete(todoObject)">Undelete</a>
+                  <a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" @click="deleleteTask" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
+            </span>
+        </Alert>
+        <div class="tab-pannel">
+           
+          <component :is="currentView" 
+            :id="id" 
+            :taskId="todoObject.id" 
+            :historyLog="historyLog" 
+            :isDeleteAttachment="chkAttachment" 
+            :filteredTodo="todoObject" 
+            v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" 
+            :pholder="pholder" 
+            :filtered-todos="taskById"
+            :commentTaskId="todoObject.id">
+          </component>
+          
+        </div>
+         <!-- <Select placeholder="hemant" placement="top" v-model="model8" style="right:0;width:200px;position:absolute;bottom:36px;z-index:99999">
+              <Option value="delhi">delhi</Option>
+              <Option value="punjab">punjab</Option>
+              <Option value="gujarat">gujarat</Option>
+        </Select> -->
+        <div class="nav_bottom" style="z-index: 10;">
+          <div class="navbar-bottom" id="myNavbar">
+            <a href="javascript:void(0)" id="#subtask" v-bind:class="selectedMenuIndex==0?activeClass:''" class="nav-tab" @click="subTaskShow">
+              <Tooltip content="Task" placement="top-start">
+                <i class="nav-icon ion-navicon-round" style="font-size:20px"></i>
+              </Tooltip>
+            </a>
+            <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab" @click="historyShow">
+              <Tooltip content="History" placement="top-start">
+                <i class="nav-icon fa fa-history" aria-hidden="true" style="font-size:20px"></i>
+              </Tooltip>
+            </a>
+            <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==2?activeClass:''" class="nav-tab" @click="attachmentShow">
+              <Tooltip content="Attachments" placement="top-start">
+                <i class="nav-icon fa fa-paperclip" aria-hidden="true" style="font-size:20px"></i>
+              </Tooltip>
+            </a>
+            <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==3?activeClass:''" class="nav-tab" @click="tagsShow">
+              <Tooltip content="Tags" placement="top-start">
+                <i class="nav-icon fa fa-tags" aria-hidden="true" style="font-size:20px"></i>
+              </Tooltip>
+            </a>
+            <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==4?activeClass:''" class="nav-tab" @click="commentsShow">
+              <Tooltip content="Comments" placement="top-start">
+                <i class="nav-icon fa fa-comments" aria-hidden="true" style="font-size:20px"></i>
+              </Tooltip>
+            </a>
+            <div class="assing-to-menu">
+              
+                      <span style="float:left;margin-right:10px;margin-top:-3px">
+                        <avatar username="getUserLetters()" :size='30' src='https://s3.amazonaws.com/profile_photos/329633778653756.1pmLUlVhFA8h81mZ3biR_60x60.png'></avatar>
+                      </span>
+                      <Row>
+                            <Col span="2" style="padding-right:10px">
+                                <Select not-found-text="No user found" placeholder="user"  placement="top" v-model="selectedUser" filterable  style="width:180px;z-index:99999">
+                                      <Option v-for="user in getUserList" not-found-text="AAxsd" :label="getListUserName(user.email)" :value="getListUserName(user.email)" :key="user._id">
+                                        <span style="float:left;margin-right:10px;margin-top:-8px">
+                                          <avatar username="getUserLetters()" :size='30' src='https://s3.amazonaws.com/profile_photos/329633778653756.1pmLUlVhFA8h81mZ3biR_60x60.png'></avatar>
+                                        </span>
+                                        {{getListUserName(user.email)}}
+                                        </Option>
+                                      <!-- <Option value="gujarat"><avatar username="getUserLetters()" :size='30' src='https://s3.amazonaws.com/profile_photos/329633778653756.1pmLUlVhFA8h81mZ3biR_60x60.png'></avatar>gujarat</Option> -->
+                                </Select>
+                            </col>
+                      </Row>                                
+            </div>  
+              <div class="assing-to-menu">
+                        <DatePicker placement="top" type="date" placeholder="Select date" style="width: 200px"></DatePicker>                             
+            </div>  
+            <div class="option">
+              <Dropdown @on-click="deleteMenuClick" trigger="click" placement="top">
+                <a href="javascript:void(0)" @click="handleOpen" class="option-menu">
+                  <i class="glyphicon glyphicon-option-horizontal" aria-hidden="true" style="font-size:22px"></i>
+                </a>
+                <DropdownMenu  slot="list">
+                  <DropdownItem name="1">Estimated Hours</DropdownItem>
+                  <DropdownItem name="2">Task Priority</DropdownItem>
+                  <DropdownItem name="3">Copy Task URL</DropdownItem>
+                  <DropdownItem name="4">Delete Task</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
           </div>
-        </div>
-        <div class="tab-container">
-        </div>
+          <div class="tab-container">
+
+          </div>
       </div>
     </div>
     <Modal v-model="modal2" width="360">
@@ -183,10 +225,7 @@ import * as Constant from "./Constants.js";
 import AsyncComputed from "vue-async-computed";
 import Avatar from "vue-avatar/dist/Avatar";
 import Datepicker from 'vuejs-datepicker'
-
-
 Vue.use(AsyncComputed);
-
 export default {
   props: ["pholder", "todoObject", "id"],
   data: function() {
@@ -379,14 +418,17 @@ export default {
       this.selectedMenuIndex = 5;
       $(".nav").addClass("hidden");
     },
-    openfullwinodw: function (ind) {
-      console.log('Openfullwindow called====')
-        $('.window-full.circularButtonView').find('.fa').toggleClass('fa-compress');
-        $('.window-full.circularButtonView').parents('.right_pane_container #' + ind).toggleClass('open')
+    openfullwinodw: function(ind) {
+      console.log("Openfullwindow called====");
+      $(".window-full.circularButtonView")
+        .find(".fa")
+        .toggleClass("fa-compress");
+      $(".window-full.circularButtonView")
+        .parents(".right_pane_container #right_pane #" + ind)
+        .toggleClass("open");
     },
     pinit(filteredTodo) {
       console.log("TODO Object", filteredTodo);
-
       if (
         _.find(this.$store.state.todolist, ["id", filteredTodo.id]) &&
         !_.find(this.$store.state.todolist, ["id", filteredTodo.id]).isPinned
@@ -501,7 +543,6 @@ export default {
   asyncComputed: {
     async showAttachment() {
       this.manageAttachmentDeletePermission();
-
       if (this.isCreatePermission) {
         return this.checkAttachmentExistance();
       }
@@ -543,7 +584,6 @@ export default {
   bottom: 0;
   width: 100%;
 }
-
 .navbar-bottom a {
   float: left;
   display: block;
@@ -552,51 +592,41 @@ export default {
   padding: 6px 26px;
   text-decoration: none;
 }
-
 .navbar-bottom div {
   margin-top: 1px;
 }
-
 .navbar-bottom a.active {
   /*background-color: rgba(63, 81, 181, 0.48);*/
   background-color: #999999;
   color: white;
 }
-
 .navbar-bottom:hover a.active {
   /*background-color: rgba(63, 81, 181, 0.90);*/
   background-color: #999999;
   color: white;
 }
-
 .navbar-bottom .icon {
   display: none;
 }
-
 .nav-icon {
   font-size: x-large;
 }
-
 .nav-title {
   font-size: small;
 }
-
 .tab-container {
   display: none;
 }
-
 .tab-container-active {
   display: block;
   width: 100%;
   background: white;
   /* height: 510px; */
 }
-
 div.right_pannel {
   width: 100%;
   height: 100%;
 }
-
 .tab-pannel {
   /* overflow-y: scroll; */
   height: 95%;
@@ -604,7 +634,6 @@ div.right_pannel {
   width: 100%;
   overflow-x: hidden;
 }
-
 .nav_bottom {
   position: absolute;
   bottom: 0;
@@ -612,21 +641,17 @@ div.right_pannel {
   /* height of the bottom tab bar */
   height: 36px;
 }
-
 .nav-sub-bottom {
   height: 320px;
 }
-
 a.option-menu.glyphicon.glyphicon-option-horizontal {
   float: right;
 }
-
 .right_pane_container #right_pane {
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
-
 .option-menu {
   float: right;
 }
@@ -642,6 +667,8 @@ a.option-menu.glyphicon.glyphicon-option-horizontal {
   margin-right: 10px;
   color: #ed3f14;
 }
+.navbar-bottom{
+}
 .navbar-bottom .assing-to-menu{
   padding: 5px;
   border-radius: 30px;
@@ -653,7 +680,4 @@ a.option-menu.glyphicon.glyphicon-option-horizontal {
 .navbar-bottom .assing-to-menu:hover{
   background: #745a93;
 }
-
-
 </style>
-
