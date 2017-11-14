@@ -397,6 +397,7 @@ data: function(){
       this.isRoleAccess = false
       this.isMyTask = false
       this.isSearchMenu = true
+      this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length);
       this.$emit('eventChangeMenu',  this.isMyTask, this.isRoleAccess, this.isSearchMenu)
     },
     projectNameElipse(str, max) {
