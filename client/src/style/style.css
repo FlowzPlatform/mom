@@ -759,6 +759,7 @@ border: 1px solid transparent;
     flex: 5500 1 605px;
     min-width: 405px;
     z-index: 2;
+    overflow-y:auto;
 }
 .right_pane_container{
 	    -webkit-box-flex: 4500;
