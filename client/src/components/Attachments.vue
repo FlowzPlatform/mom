@@ -12,9 +12,7 @@
                 <span class="attachment-username">    
                        <span style="font-size:10px">{{files.fullname}} </span> 
                        <div class="attachment-time">Yesterday at 09:57</div>
-                       
                 </span>
-                
                  <Dropdown placement="bottom"  class="close-btn">
                     <a href="javascript:void(0)">
                         <Icon style="font-size:20px;color:rgb(149, 152, 157)" type="android-more-horizontal"></Icon>
@@ -42,7 +40,6 @@
                             <a v-show="isDeleteAttachment" class="fa fa-close" />
                         </button>
                     </div>
-                    
                 </div>
             </div>
             <div class="attachment-card-footer">

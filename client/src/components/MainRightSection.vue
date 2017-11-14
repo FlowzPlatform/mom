@@ -225,10 +225,7 @@ import * as Constant from "./Constants.js";
 import AsyncComputed from "vue-async-computed";
 import Avatar from "vue-avatar/dist/Avatar";
 import Datepicker from 'vuejs-datepicker'
-
-
 Vue.use(AsyncComputed);
-
 export default {
   props: ["pholder", "todoObject", "id"],
   data: function() {
@@ -432,7 +429,6 @@ export default {
     },
     pinit(filteredTodo) {
       console.log("TODO Object", filteredTodo);
-
       if (
         _.find(this.$store.state.todolist, ["id", filteredTodo.id]) &&
         !_.find(this.$store.state.todolist, ["id", filteredTodo.id]).isPinned
@@ -547,7 +543,6 @@ export default {
   asyncComputed: {
     async showAttachment() {
       this.manageAttachmentDeletePermission();
-
       if (this.isCreatePermission) {
         return this.checkAttachmentExistance();
       }
@@ -589,7 +584,6 @@ export default {
   bottom: 0;
   width: 100%;
 }
-
 .navbar-bottom a {
   float: left;
   display: block;
@@ -598,51 +592,41 @@ export default {
   padding: 6px 26px;
   text-decoration: none;
 }
-
 .navbar-bottom div {
   margin-top: 1px;
 }
-
 .navbar-bottom a.active {
   /*background-color: rgba(63, 81, 181, 0.48);*/
   background-color: #999999;
   color: white;
 }
-
 .navbar-bottom:hover a.active {
   /*background-color: rgba(63, 81, 181, 0.90);*/
   background-color: #999999;
   color: white;
 }
-
 .navbar-bottom .icon {
   display: none;
 }
-
 .nav-icon {
   font-size: x-large;
 }
-
 .nav-title {
   font-size: small;
 }
-
 .tab-container {
   display: none;
 }
-
 .tab-container-active {
   display: block;
   width: 100%;
   background: white;
   /* height: 510px; */
 }
-
 div.right_pannel {
   width: 100%;
   height: 100%;
 }
-
 .tab-pannel {
   /* overflow-y: scroll; */
   height: 95%;
@@ -650,7 +634,6 @@ div.right_pannel {
   width: 100%;
   overflow-x: hidden;
 }
-
 .nav_bottom {
   position: absolute;
   bottom: 0;
@@ -658,21 +641,17 @@ div.right_pannel {
   /* height of the bottom tab bar */
   height: 36px;
 }
-
 .nav-sub-bottom {
   height: 320px;
 }
-
 a.option-menu.glyphicon.glyphicon-option-horizontal {
   float: right;
 }
-
 .right_pane_container #right_pane {
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
-
 .option-menu {
   float: right;
 }
@@ -689,7 +668,6 @@ a.option-menu.glyphicon.glyphicon-option-horizontal {
   color: #ed3f14;
 }
 .navbar-bottom{
-
 }
 .navbar-bottom .assing-to-menu{
   padding: 5px;
@@ -702,7 +680,4 @@ a.option-menu.glyphicon.glyphicon-option-horizontal {
 .navbar-bottom .assing-to-menu:hover{
   background: #745a93;
 }
-
-
 </style>
-

@@ -2140,7 +2140,7 @@ text-rendering: auto; -webkit-font-smoothing: antialiased;  vertical-align: top;
 	border-radius: 50%;
 }
 
-.right_pane_container #right_pane > .rightsection-view.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
+/* .right_pane_container #right_pane > .rightsection-view.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar > div {width: 50%; float: left}
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar >  .details-pane-toolbar.toolbar-no-grad {width: 100%}
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar > div.taskbarsect {
@@ -2159,6 +2159,30 @@ position: fixed;
 }
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar {height: 100%;}
 .right_pane_container #right_pane > .rightsection-view.open #details_pane_footer {
+    position: fixed;
+    width: 50%;
+    right: 0;
+    bottom: 5px;
+} */
+.right_pane_container.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
+.right_pane_container.open .todoapp.right_bar > div {width: 50%; float: left}
+.right_pane_container.open .todoapp.right_bar >  .details-pane-toolbar.toolbar-no-grad {width: 100%}
+.right_pane_container.open .todoapp.right_bar > div.taskbarsect {
+    position: fixed;
+    width: 50%;
+    left: 0;
+    height: calc(100% - 95px);
+    top: 95px;overflow: auto;
+}
+.right_pane_container.open .todoapp.right_bar > div.SingleTaskPane-feed {
+position: fixed;
+    width: 50%;
+    right: 0;
+    height: calc(100% - 215px);
+    top: 95px;overflow: auto;
+}
+.right_pane_container.open .todoapp.right_bar {height: 100%;}
+.right_pane_container.open #details_pane_footer {
     position: fixed;
     width: 50%;
     right: 0;
