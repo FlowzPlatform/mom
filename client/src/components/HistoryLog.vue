@@ -1,13 +1,12 @@
 <template>
     <section class="main" v-cloak>
-
-        <div v-bind:key="ind" v-for="(log, ind) in historyLog">
+        <div v-bind:key="ind" v-for="(log, ind) in historyDetailLog">
             <div class="FeedBlockStory">
                 <div class="BlockStory">
                     <div class="BlockStory-icon">
-                        <div class="Avatar Avatar--medium Avatar--color2" style="background-image: url(&quot;https://s3.amazonaws.com/profile_photos/329633778653756.1pmLUlVhFA8h81mZ3biR_60x60.png&quot;);">
-                            <!-- react-text: 434 -->
-                            <!-- /react-text -->
+                        <div v-if="log.email">
+                            <avatar v-if="log.image_url" :username="log.email" :src="log.image_url" :size="30"></avatar>
+                            <avatar v-else :username="log.email" :size="30" color="#fff"></avatar>
                         </div>
                     </div>
                     <div class="BlockStory-block">
@@ -15,9 +14,7 @@
                             <div class="BlockStory-headerContent">
                                 <span class="BlockStory-storyContent">
                                     <a class="NavigationLink BlockStory-actorLink" href="javascript:void(0)">
-                                        {{findUserName(log.created_by)}}</a>
-                                    <!-- react-text: 440 -->
-                                    <!-- /react-text -->
+                                        {{log.fullname}}</a>
                                     <span class="AddedAttachmentStory-content"  v-show="log.log_action===3">
                                         <svg class="Icon AttachIcon" viewBox="0 0 32 32">
                                             <path d="M25.811,4.064c-3.905-3.904-10.235-3.904-14.14,0l-4.24,4.24l1.41,1.41l4.25-4.24c3.043-3.203,8.107-3.333,11.31-0.29s3.333,8.107,0.29,11.31c-0.094,0.099-0.191,0.196-0.29,0.29l-10.61,10.59c-1.986,1.918-5.152,1.863-7.07-0.123c-1.871-1.938-1.871-5.01,0-6.947l10.61-10.59c0.781-0.781,2.049-0.781,2.83,0s0.781,2.049,0,2.83l-7.07,7.07l1.41,1.42l7.07-7.07c1.563-1.563,1.563-4.097,0-5.66s-4.097-1.563-5.66,0l-10.6,10.61c-2.734,2.734-2.734,7.166,0,9.9s7.166,2.734,9.9,0l0,0l10.6-10.61C29.715,14.299,29.715,7.969,25.811,4.064z"></path>
@@ -63,22 +60,6 @@
                     <path d="M4.686,12.686l9.899,9.9c0.781,0.781,2.047,0.781,2.828,0l9.9-9.9l-2.475-2.475L16,19.05l-8.839-8.839L4.686,12.686z"></path>
                 </svg>
             </div>
-            <!-- <div v-for="(log, ind) in historyLog"> -->
-            <!-- <div v-show="log.log_action===0">
-                                        <b>{{findUserName(log.created_by)}}</b> created task.
-                                    </div>
-                                    <div v-show="log.log_action===1">
-                                        <b> {{findUserName(log.created_by)}} </b> change task name "{{log.text}}".
-                                    </div>
-                                    <div v-show="log.log_action===3">
-                                         <b> {{findUserName(log.created_by)}} </b> uploaded attachement.
-                                    <img v-show="getUrlExtension(log.text)==='jpeg' || getUrlExtension(log.text)==='jpg'" :src='log.text' width="70px" height="70px"/>
-                                     </div>
-                                     <div v-show="log.log_action===8"> -->
-            <!-- assig tsk -->
-            <!-- <b> {{findUserName(log.created_by)}} </b> assign task to "{{findUserName(log.text)}}". -->
-            <!-- </div> -->
-            <!-- </div> -->
         </div>
     </section>
 </template>
@@ -88,24 +69,26 @@
 import Vue from 'vue'
 import Resource from 'vue-resource'
 import draggable from 'vuedraggable'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import * as services from '../services'
-import { mapGetters } from 'vuex'
 import moment from 'moment';
-
+import Avatar from 'vue-avatar/dist/Avatar'
 Vue.use(Resource)
 export default {
     props: ['taskId'],
     data: function() {
         return {
-            // historyLog: this.historyLogService()
         }
     },
     computed: {
         ...mapGetters({
-            getMemberName: 'getMemberName',
             historyLog: 'taskHistoryLog'
-        })
+        }),
+        historyDetailLog(){
+            let log = this.historyLog
+            this.historyDetailList(log)
+            return log
+        }
     },
     watch: {
         taskId: function() {
@@ -133,16 +116,25 @@ export default {
             // })
             // return this.historyLog
         },
-        findUserName(uId) {
-            // console.log("Uid:--",uId)
-            return this.getMemberName(uId)
-        },
         logDate(logDate) {
             return moment(logDate).calendar()
         },
-        getFileName(fileName){
-            return fileName
-        }
+        historyDetailList: function (historyList) {
+            historyList.forEach(function (c) {
+                let userId = c.created_by
+                let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
+                if (userIndex < 0) {
+                } else {
+                    var id = this.$store.state.arrAllUsers[userIndex]._id
+                    c.fullname = this.$store.state.arrAllUsers[userIndex].fullname
+                    c.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
+                    c.email = this.$store.state.arrAllUsers[userIndex].email
+                }
+            }, this)
+        },
+    },
+    components: {
+        Avatar
     }
 }
 </script>   

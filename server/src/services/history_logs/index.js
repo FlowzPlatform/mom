@@ -10,7 +10,7 @@ const r = require('rethinkdbdash')({
     host: db_host,
     port:db_port
   });
-const table = config.get('tbl_task_comments')
+const table = config.get('tbl_history_log')
 
 module.exports = function() {
   const app = this;
@@ -29,7 +29,7 @@ module.exports = function() {
   });
 
 //   // Set up our before hooks
-  taskHistoryLogs.before(hooks.before);
+  // taskHistoryLogs.before(hooks.before);
 
 //   // Set up our after hooks
 //   taskHistoryLogs.after(hooks.after);

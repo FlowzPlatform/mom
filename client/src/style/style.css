@@ -99,7 +99,7 @@ button {
 }
 .main {
 	position: relative;
-	z-index: 2;
+	/* z-index: 2; */
 	border-top: 1px solid #e6e6e6;
     float: left;
     width: 100%;
@@ -1351,7 +1351,7 @@ a:hover, a:focus{
 .asanaView-body { position: fixed;top: 20px;left: 0;right: 0;bottom: 0;overflow-x: auto; overflow-y: hidden; }
 .right_bar{position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: calc(100% - 135px);overflow: auto;}
 .right_pane_container #right_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;}
-#details_pane_footer {position: absolute; width: 99.75%; bottom: 0;height: 100%;}
+#details_pane_footer {position: absolute; width: 99.75%; bottom: 0;height: 100%; overflow-y: auto;}
 .right_pane_container{ min-width: 600px; margin-right: 10px;}
 #center_pane {
         transition: margin-left .5s;
@@ -2139,7 +2139,7 @@ text-rendering: auto; -webkit-font-smoothing: antialiased;  vertical-align: top;
 	border-radius: 50%;
 }
 
-.right_pane_container #right_pane > .rightsection-view.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
+/* .right_pane_container #right_pane > .rightsection-view.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar > div {width: 50%; float: left}
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar >  .details-pane-toolbar.toolbar-no-grad {width: 100%}
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar > div.taskbarsect {
@@ -2158,6 +2158,30 @@ position: fixed;
 }
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar {height: 100%;}
 .right_pane_container #right_pane > .rightsection-view.open #details_pane_footer {
+    position: fixed;
+    width: 50%;
+    right: 0;
+    bottom: 5px;
+} */
+.right_pane_container.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
+.right_pane_container.open .todoapp.right_bar > div {width: 50%; float: left}
+.right_pane_container.open .todoapp.right_bar >  .details-pane-toolbar.toolbar-no-grad {width: 100%}
+.right_pane_container.open .todoapp.right_bar > div.taskbarsect {
+    position: fixed;
+    width: 50%;
+    left: 0;
+    height: calc(100% - 95px);
+    top: 95px;overflow: auto;
+}
+.right_pane_container.open .todoapp.right_bar > div.SingleTaskPane-feed {
+position: fixed;
+    width: 50%;
+    right: 0;
+    height: calc(100% - 215px);
+    top: 95px;overflow: auto;
+}
+.right_pane_container.open .todoapp.right_bar {height: 100%;}
+.right_pane_container.open #details_pane_footer {
     position: fixed;
     width: 50%;
     right: 0;
@@ -2708,6 +2732,7 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
     -ms-flex: 1 0 auto;
     flex: 1 0 auto;
     margin-right: 10px;
+    color:#ff7381;
 }
 .Button.Button--secondary:not(.Button--disabled) {
     background: #fff;
@@ -5738,3 +5763,8 @@ CSS for splitter view
 .ivu-dropdown .ivu-select-dropdown {
     width: 150px;
   }
+
+  .ivu-select-single .ivu-select-selection{
+    bottom: 7px;
+    width: 82px;
+}

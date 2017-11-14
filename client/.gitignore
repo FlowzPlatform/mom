@@ -10,3 +10,4 @@ selenium-debug.log
 .env
 bin/
 out.pdf
+config/credential.js

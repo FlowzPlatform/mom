@@ -84,9 +84,7 @@
     import VueRouter from 'vue-router'
     import iView from 'iview';
     import 'iview/dist/styles/iview.css';
-    import ElDatePicker from 'element-datepicker'
 
-    Vue.use(ElDatePicker)
 
     Vue.use(iView);
 

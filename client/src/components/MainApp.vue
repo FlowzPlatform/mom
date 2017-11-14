@@ -39,7 +39,7 @@
               <main-right-section :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>
             </div>-->
             <main-right-section v-show="!n.show_type" :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>
-            <SubComment v-show="n.show_type==='subcomment'" :commentTaskId="n.task_id" :commentParentId="n.id"></SubComment>
+            <SubComment v-show="n.show_type==='subcomment'" :commentTaskId="n.task_id" :commentParentId="n.id" :commentName="n.comment"></SubComment>
         </div>
       </div>
           </div>
@@ -76,6 +76,10 @@
   import VueSplitter from "@rmp135/vue-splitter"
   import CircularNavBar from './CircularNavBar.vue'
   import Search from './Search.vue'
+  import iView from 'iview';
+  import locale from 'iview/dist/locale/en-US';
+
+  Vue.use(iView, { locale });
   Vue.use(require('vue-moment'))
 
   const filters = {
