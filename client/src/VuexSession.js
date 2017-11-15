@@ -1252,7 +1252,8 @@ export const store = new Vuex.Store({
         },
         {query :{ 
             pId: data.pId,
-            rId: data.rId, task_type: data.taskType}
+            rId: data.rId, 
+            task_type: data.taskType}
         }
       ).then(response => {
         console.log("Response patch permission::", response);
@@ -1260,6 +1261,41 @@ export const store = new Vuex.Store({
         // commit('SELECT_FILE', response.data) 
         // }
       });
+     },
+     setAccessPermision(data) {
+      console.log("Set permission params:",data);
+      return axios.post('http://172.16.160.32:3000' + '/setpermission', {
+          resourceId:  data.pId ,
+          roleId:  data.rId ,
+          taskType:  data.taskType,
+          accessValue: data.access_value,
+          app: "todoapp"
+      }, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          }
+        })
+        .then(function (response) {
+          console.log("Set permission response:",response);
+        })
+        .catch(function (error) {
+          console.log("Set permission error:",error);
+          console.log(error);
+        });
+     },
+     getAllPermissions(){
+      axios.get('http://172.16.160.32:3000' + '/getallpermission/todoapp', {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+      }).then(function (response) {
+          console.log("Get all permissions response:",response.data.data);
+          return response.data.data
+        })
+        .catch(function (error) {
+          console.log("Get all permissions error:",error);
+          console.log(error);
+        })
      },
     addAccessPermision({ commit }, data) {
       services.roleAccessService.create({
@@ -1494,7 +1530,10 @@ export const store = new Vuex.Store({
         });
     },
     userLoginProcess({ commit }, loginObj) {
-      return axios.post(process.env.USER_AUTH + '/api/login', {
+     // let apiUrl = loginObj.userType == 1 ? '/api/login' : '/api/login';
+     let apiUrl = (loginObj.userType == 1 ? "/api/login" : "/api/ldapauth");
+     console.log("API url:",apiUrl)
+      return axios.post(process.env.USER_AUTH + apiUrl, {
         email: loginObj.email,
         password: loginObj.password
       }, {
@@ -1530,6 +1569,27 @@ export const store = new Vuex.Store({
           throw new Error('This Email id already exists')
         }
       });
+    },
+    signInWithLDAP({ commit }, loginObj){
+      console.log("Login Object",loginObj);
+      return axios.post(process.env.USER_AUTH +'/api/ldapauth', {
+        userid: loginObj.userid,
+        passwd: loginObj.passwd 
+      },{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+      }).then(function (response) {
+          console.log('LDAP response obj: ', response);
+          commit('SAVE_USERTOKEN', response.data.logintoken)
+        })
+        .catch(function (error) {
+          if (error.response) {
+            console.log('================================');
+            console.log(error.response.data);
+            console.log('--------------------------------');
+          }
+        });
     },
     getUserDetail({ commit }) {
       console.log('token: ', store.state.userToken)
