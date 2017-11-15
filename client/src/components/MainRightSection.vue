@@ -2,29 +2,35 @@
   <div>
     <div id="topicon">
       <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-        tabindex="410" @click="openfullwinodw(todoObject.level)" style="margin-top: 2px; margin-right:51px;">
-        <span class="circularButtonView-label">
-          <i class="fa fa-expand" aria-hidden="true"></i>    
+        tabindex="410" style="margin-top: 2px;">
+        <span id="close" class="destroy circularButtonView-label" @click="CLOSE_DIV(todoObject)">
+          <i class="fa fa-close"></i>
         </span>
       </div>
       <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-            style="margin-top: 2px; margin-right:-52px;">
-        <span class="circularButtonView-label"  @click="pinit(todoObject)"><img class="init" v-if="todoObject.isPinned" src="../assets/unpin.png" style="width:20px; height:20px;"></img>
-        <img class="init" v-else src="../assets/pin.png" style="width:16px; height:16px; margin-bottom:2px;"></img></span>
+        style="margin-top: 2px;">
+        <span class="circularButtonView-label" @click="pinit(todoObject)">
+          <img class="init" v-if="todoObject.isPinned" src="../assets/unpin.png" style="width:20px; height:20px;"></img>
+          <img class="init" v-else src="../assets/pin.png" style="width:16px; height:16px; margin-bottom:2px;"></img>
+        </span>
       </div>
-      <span id="close" class="destroy" @click="CLOSE_DIV(todoObject)"><i class="fa fa-close"></i></span>
+      <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+        tabindex="410" @click="openfullwinodw(todoObject.level)" style="margin-top: 2px; ">
+        <span class="circularButtonView-label">
+          <i class="fa fa-expand" aria-hidden="true"></i>
+        </span>
+      </div>
     </div>
     <div :id="id" class="right_pannel" style="display: grid;">
-        <Alert v-show="isDeleteActive" class="right-top-alert" type="error">
-            <span slot="desc">
-                  <span class="deleteIcon"><Icon type="android-delete" ></Icon></span>
-                  <span class="TaskUndeleteBanner-message">This task is deleted.</span>
-                  <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" @click="undelete(todoObject)">Undelete</a>
-                  <a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" @click="deleleteTask" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
-            </span>
-        </Alert>
-        <div class="tab-pannel">
-           
+      <Alert v-if="todoObject.isDelete" class="right-top-alert" type="error">
+        <span slot="desc">
+          <span class="deleteIcon"><Icon type="android-delete" ></Icon></span>
+          <span class="TaskUndeleteBanner-message">This task is deleted.</span>
+          <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" @click="undelete(todoObject)">Undelete</a>
+          <a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
+        </span>
+      </Alert>
+      <div class="tab-pannel">
           <component :is="currentView" 
             :id="id" 
             :taskId="todoObject.id" 
@@ -36,13 +42,7 @@
             :filtered-todos="taskById"
             :commentTaskId="todoObject.id">
           </component>
-          
         </div>
-         <!-- <Select placeholder="hemant" placement="top" v-model="model8" style="right:0;width:200px;position:absolute;bottom:36px;z-index:99999">
-              <Option value="delhi">delhi</Option>
-              <Option value="punjab">punjab</Option>
-              <Option value="gujarat">gujarat</Option>
-        </Select> -->
         <div class="nav_bottom" style="z-index: 10;">
           <div class="navbar-bottom" id="myNavbar">
             <a href="javascript:void(0)" id="#subtask" v-bind:class="selectedMenuIndex==0?activeClass:''" class="nav-tab" @click="subTaskShow">
@@ -71,29 +71,28 @@
               </Tooltip>
             </a>
             <div class="assing-to-menu">
-              
-                      <span style="float:left;margin-right:10px;margin-top:-3px">
+              <span style="float:left;margin-right:10px;margin-top:-3px">
+                <avatar username="getUserLetters()" :size='30' src='https://s3.amazonaws.com/profile_photos/329633778653756.1pmLUlVhFA8h81mZ3biR_60x60.png'></avatar>
+              </span>
+              <Row>
+                <Col span="2" style="padding-right:10px">
+                  <Select not-found-text="No user found" placeholder="user"  placement="top" v-model="selectedUser" filterable  style="width:180px;z-index:99999">
+                    <Option v-for="user in getUserList" not-found-text="AAxsd" :label="getListUserName(user.email)" :value="getListUserName(user.email)" :key="user._id">
+                      <span style="float:left;margin-right:10px;margin-top:-8px">
                         <avatar username="getUserLetters()" :size='30' src='https://s3.amazonaws.com/profile_photos/329633778653756.1pmLUlVhFA8h81mZ3biR_60x60.png'></avatar>
                       </span>
-                      <Row>
-                            <Col span="2" style="padding-right:10px">
-                                <Select not-found-text="No user found" placeholder="user"  placement="top" v-model="selectedUser" filterable  style="width:180px;z-index:99999">
-                                      <Option v-for="user in getUserList" not-found-text="AAxsd" :label="getListUserName(user.email)" :value="getListUserName(user.email)" :key="user._id">
-                                        <span style="float:left;margin-right:10px;margin-top:-8px">
-                                          <avatar username="getUserLetters()" :size='30' src='https://s3.amazonaws.com/profile_photos/329633778653756.1pmLUlVhFA8h81mZ3biR_60x60.png'></avatar>
-                                        </span>
-                                        {{getListUserName(user.email)}}
-                                        </Option>
+                      {{getListUserName(user.email)}}
+                    </Option>
                                       <!-- <Option value="gujarat"><avatar username="getUserLetters()" :size='30' src='https://s3.amazonaws.com/profile_photos/329633778653756.1pmLUlVhFA8h81mZ3biR_60x60.png'></avatar>gujarat</Option> -->
-                                </Select>
-                            </col>
-                      </Row>                                
+                  </Select>
+                </col>
+              </Row>                                
             </div>  
-              <div class="assing-to-menu">
-                        <DatePicker placement="top" type="date" placeholder="Select date" style="width: 200px"></DatePicker>                             
+            <div class="assing-to-menu">
+              <DatePicker placement="top" type="date" placeholder="Select date" style="width: 200px"></DatePicker>                             
             </div>  
             <div class="option">
-              <Dropdown @on-click="deleteMenuClick" trigger="click" placement="top">
+              <Dropdown @on-click="moreActionMenuClick" trigger="click" placement="top">
                 <a href="javascript:void(0)" @click="handleOpen" class="option-menu">
                   <i class="glyphicon glyphicon-option-horizontal" aria-hidden="true" style="font-size:22px"></i>
                 </a>
@@ -107,98 +106,29 @@
             </div>
           </div>
           <div class="tab-container">
-
           </div>
       </div>
     </div>
-    <Modal v-model="modal2" width="360">
-        <p slot="header" style="color:#f60;text-align:center">
-            <Icon type="information-circled"></Icon>
-            <span>Delete confirmation</span>
-        </p>
-        <div style="text-align:center">
-            <p>This will permanently delete the task and associated subtasks. These items will no longer be accessible to you or anyone else. This action is irreversible.</p>
-            <p>Will you delete it?</p>
-        </div>
-        <div slot="footer">
-            <Button type="error" size="large" long :loading="modal_loading" @click="deletePermently">Delete</Button>
-        </div>
-    </Modal>
-          <!-- <right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'right+TaskTypes' && id !== 'rightTaskState' " :filteredTodo="todoObject"></right-toolbar> -->
-    
-    <!-- <div :id="id">
-      <div class="hidden DropTargetAttachment">
-        <section class="todoapp right_bar">
-          <right-toolbar :subTasksArray="todolistSubTasks" v-if="id !== 'right+TaskTypes' && id !== 'rightTaskState' " :filteredTodo="todoObject"></right-toolbar>
-          <div class="taskbarsect">
-            <div v-if="todoObject.isDelete" class="MessageBanner MessageBanner--error MessageBanner--medium TaskUndeleteBanner TaskMessageBanner">
-              <span class="fa fa-trash-o" style="margin-right: 10px" />
-              <span class="TaskUndeleteBanner-message">This task is deleted.</span>
-              <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" @click="undelete(todoObject)">Undelete</a>
-              <a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
-              <!--todoObject<a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" @click="deletePermently(todoObject)">Delete Permanently</a>-->
-              <!--@click="deletePermently(todoObject)"-->
-              <!--<noscript></noscript>
-            </div>
-            <text-description :id="id" :filteredTodo="todoObject"></text-description>
-            <collapse v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" class="CollapseView">
-              <panel v-show='showAttachment'>
-                Attachments
-                <p class='PanelAttach' slot="content">
-                  <attachments :filteredTodo="todoObject" :isDeleteAttachment="chkAttachment"></attachments>
-                </p>
-              </panel>
-              <panel v-show="isTagReadPermission">
-                Tags
-                <p class='PanelTag' slot="content">
-                  <tags :filteredTodo="todoObject"></tags>
-                </p>
-              </panel>
-            </collapse>
-            <statuses :selectedState="typeStateList" :filteredTodo="todoObject" :id="id"></statuses>
-            <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder" :filtered-todos="taskById"></main-left-section>
-            <history-log :taskId="todoObject.id" :historyLog="historyLog"></history-log>
+    <div :class="todoObject.id" class="modal fade" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel2">Permanently Delete {{todoObject.taskName}}</h4>
           </div>
-          <story-feed v-show="readCommentBox" :filteredTodo="todoObject"></story-feed>
-        </section>
-        <div :class="todoObject.id" class="modal fade" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel2">Permanently Delete {{todoObject.taskName}}</h4>
-              </div>
-              <div class="modal-body">
-                This will permanently delete the task and associated subtasks. These items will no longer be accessible to you or anyone else. This action is irreversible.
-              </div>
-              <div class="modal-footer">
-                <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" data-dismiss="modal">Close</a>
-                <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" data-dismiss="modal" @click="deletePermently(todoObject)">Delete</a>
-              </div>
-            </div>
+          <div class="modal-body">
+            This will permanently delete the task and associated subtasks. These items will no longer be accessible to you or anyone
+            else. This action is irreversible.
+          </div>
+          <div class="modal-footer">
+            <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" data-dismiss="modal">Close</a>
+            <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" data-dismiss="modal" @click="deletePermently">Delete</a>
           </div>
         </div>
       </div>
-      <right-footer class="hidden" v-show="createCommentBox" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" :filteredTodo="todoObject"></right-footer>
-      <right-tabs class="hidden"></right-tabs>
-    </div> -->
-    <!-- <div   :class="todoObject.id" role="dialog" aria-labelledby="myModalLabel2" style="">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel2">Permanently Delete {{todoObject.taskName}}</h4>
-              </div>
-              <div class="modal-body">
-                This will permanently delete the task and associated subtasks. These items will no longer be accessible to you or anyone else. This action is irreversible.
-              </div>
-              <div class="modal-footer">
-                <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" data-dismiss="modal">Close</a>
-                <a class="Button Button--small Button--secondary TaskUndeleteBanner-undeleteButton" data-dismiss="modal" @click="deletePermently(todoObject)">Delete</a>
-              </div>
-            </div>
-          </div>
-    </div> -->
+    </div>
+    <estimated-hours :showModal="estimated_time" :closeAction="closeDialog" :filteredTodo="todoObject"></estimated-hours>
+    <task-priority :showModal="task_priority" :closeAction="closeDialog" :filteredTodo="todoObject"></task-priority>
   </div>
 </template>
 <script>
@@ -225,6 +155,8 @@ import * as Constant from "./Constants.js";
 import AsyncComputed from "vue-async-computed";
 import Avatar from "vue-avatar/dist/Avatar";
 import Datepicker from 'vuejs-datepicker'
+import EstimatedHours from './EstimatedHours.vue'
+import TaskPriority from './TaskPriority.vue'
 Vue.use(AsyncComputed);
 export default {
   props: ["pholder", "todoObject", "id"],
@@ -243,13 +175,11 @@ export default {
       currentView: SubTask,
       activeClass: "active",
       selectedMenuIndex: 0,
-      modal2: false,
       modal_loading: false,
-      topMargin: 0, // Top margin of sub task panel
-      isDeleteActive: false, // Hide soft delete dialog
       imageURlProfilePic: "",
-      model8: '',
-      selectedUser: ''
+      selectedUser: '',
+      estimated_time: false,
+      task_priority: false,
     };
   },
   created: function() {
@@ -260,27 +190,37 @@ export default {
   methods: {
     ...mapMutations(["CLOSE_DIV"]),
     undelete: function() {
-      // Hide delete dialog
-      this.isDeleteActive = false;
-      this.topMargin = 0; // Top margin of sub task list
       this.$store.dispatch("undelete", this.todoObject);
     },
-    deleteMenuClick: function(val) {
+    moreActionMenuClick: function(val) {
+      // Show Estimated Hour val=1
+      if (val == 1){
+        this.estimated_time = true
+      }
+      // Show Task Priority val=2
+      else if(val == 2){
+        this.task_priority = true
+      }
+       // Show copy Url val=3
+      else if (val == 3) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        var url = process.env.COPY_URL_PATH + "/navbar/task/" + (this.todoObject.level + 1) + "/" + this.todoObject.id
+        $temp.val(url).select();
+        document.execCommand("copy");
+        $temp.remove();
+      }
       // Show delete dialog val=4
-      if (val == 4) {
-        this.isDeleteActive = true;
-        this.topMargin = 80;
+      else if (val == 4) {
         this.$store.dispatch("delete_Todo", this.todoObject);
       }
     },
-    deleleteTask: function() {
-      this.isDeleteActive = false;
-      this.modal2 = true;
-      this.topMargin = 30; // Top margin of sub task list
+    closeDialog() {
+      this.estimated_time = false
+      this.task_priority = false
     },
     deletePermently: function() {
       this.$store.dispatch("deletePermently", this.todoObject);
-      this.modal2 = false;
     },
     getListUserName: function(userName){
         if(userName){
@@ -574,6 +514,8 @@ export default {
     Avatar,
     Datepicker,
     // Comment,
+    EstimatedHours,
+    TaskPriority
   }
 };
 </script>
@@ -630,7 +572,7 @@ div.right_pannel {
 .tab-pannel {
   /* overflow-y: scroll; */
   height: 95%;
-  position: absolute;
+  /* position: absolute; */
   width: 100%;
   overflow-x: hidden;
 }
