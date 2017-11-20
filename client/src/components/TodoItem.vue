@@ -178,7 +178,7 @@
       },
       getType() {
         // console.log("Get tyepe:--",this.selectedType.id === this.todo.type_id);
-        if (this.todo.type_id) {
+        if (this.todo.type_id && this.selectedType && this.selectedType.id) {
           this.isTypeTodo = this.selectedType.id === this.todo.type_id
         }
         return this.isTypeTodo
@@ -269,7 +269,8 @@
           this.$store.dispatch('deleteRoles', this.todo)
         }
       },
-      async onFocusClick(id,level,created_by,typeId){
+      async onFocusClick(select,id,level,created_by,typeId){
+        console.log('Select::-',select)
         console.log('onFoucusclick',typeId)
      
         $("#" + id + "_" + level).addClass("lifocus")

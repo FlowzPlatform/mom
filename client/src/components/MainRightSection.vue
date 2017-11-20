@@ -43,14 +43,44 @@
               <Option value="punjab">punjab</Option>
               <Option value="gujarat">gujarat</Option>
         </Select> -->
-        <div class="nav_bottom" style="z-index: 10;">
+        <div class="nav_bottom">
           <div class="navbar-bottom" id="myNavbar">
             <a href="javascript:void(0)" id="#subtask" v-bind:class="selectedMenuIndex==0?activeClass:''" class="nav-tab" @click="subTaskShow">
               <Tooltip content="Task" placement="top-start">
                 <i class="nav-icon ion-navicon-round" style="font-size:20px"></i>
               </Tooltip>
             </a>
-            <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab" @click="historyShow">
+             <!-- Assign task to user menu item -->
+            <div class="assing-to-menu">
+                      <span style="float:left;margin-top:-3px">
+                        <avatar v-if="imageURlProfilePic" :username="getUserName()" :size='30' :src='imageURlProfilePic'></avatar>
+                        <avatar v-else :username="getUserName()" color='#fff' :size='30'></avatar>
+                      </span>
+                      <Row>
+                            <Col span="2" style="padding-right:10px">
+                                <Select  not-found-text="No user found" placeholder="user"  placement="top" v-model="selectedUser" @on-change="userListClick" filterable  style="width:180px;z-index:99999">
+                                      <Option style="margin:5px"  v-for="user in getUserList"  :label="getListUserName(user.email)" :value="user._id" :key="user._id">
+                                          <span style="float:left;margin-right:10px;margin-top:-8px;width: 30px; height: 30px; border-radius: 50%; text-align: center; vertical-align: middle;background:#ccc">
+                                            <avatar v-if="user.image_url" :username="user.email?user.email:'n/a'" :size='30' :src='checkProfilePicUrl(user.image_url)'></avatar>
+                                            <avatar v-else color="white" :username="user.email?user.email:'n/a'"  :size='30'></avatar>
+                                          </span>
+                                          {{getListUserName(user.email)}}
+                                      </Option>
+                                </Select>
+                            </col>
+                      </Row>                                
+            </div>
+            <!-- Task due date menu item -->
+             <div class="due-date">
+               <DatePicker size="small" placement="top" type="date"
+                           :value="todoObject.dueDate"
+                           @on-change="dueDateClick"
+                           format="dd MMM yyyy"
+                           placeholder="Due date" style="width: 200px">
+               </DatePicker>                             
+            </div> 
+            <!-- History -->
+            <a href="javascript:void(0)"  v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab hidden" @click="historyShow">
               <Tooltip content="History" placement="top-start">
                 <i class="nav-icon fa fa-history" aria-hidden="true" style="font-size:20px"></i>
               </Tooltip>
@@ -70,27 +100,6 @@
                 <i class="nav-icon fa fa-comments" aria-hidden="true" style="font-size:20px"></i>
               </Tooltip>
             </a>
-            <div class="assing-to-menu">
-                      <span style="float:left;margin-right:10px;margin-top:-3px">
-                        <avatar username="getUserLetters()" :size='30' src='https://s3.amazonaws.com/profile_photos/329633778653756.1pmLUlVhFA8h81mZ3biR_60x60.png'></avatar>
-                      </span>
-                      <Row>
-                            <Col span="2" style="padding-right:10px">
-                                <Select not-found-text="No user found" placeholder="user"  placement="top" v-model="selectedUser" filterable  style="width:180px;z-index:99999">
-                                      <Option v-for="user in getUserList" not-found-text="AAxsd" :label="getListUserName(user.email)" :value="getListUserName(user.email)" :key="user._id">
-                                        <span style="float:left;margin-right:10px;margin-top:-8px">
-                                          <avatar username="getUserLetters()" :size='30' src='https://s3.amazonaws.com/profile_photos/329633778653756.1pmLUlVhFA8h81mZ3biR_60x60.png'></avatar>
-                                        </span>
-                                        {{getListUserName(user.email)}}
-                                        </Option>
-                                      <!-- <Option value="gujarat"><avatar username="getUserLetters()" :size='30' src='https://s3.amazonaws.com/profile_photos/329633778653756.1pmLUlVhFA8h81mZ3biR_60x60.png'></avatar>gujarat</Option> -->
-                                </Select>
-                            </col>
-                      </Row>                                
-            </div>  
-              <div class="assing-to-menu">
-                        <DatePicker placement="top" type="date" placeholder="Select date" style="width: 200px"></DatePicker>                             
-            </div>  
             <div class="option">
               <Dropdown @on-click="deleteMenuClick" trigger="click" placement="top">
                 <a href="javascript:void(0)" @click="handleOpen" class="option-menu">
@@ -101,6 +110,7 @@
                   <DropdownItem name="2">Task Priority</DropdownItem>
                   <DropdownItem name="3">Copy Task URL</DropdownItem>
                   <DropdownItem name="4">Delete Task</DropdownItem>
+                  <DropdownItem name="5">History</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>
@@ -223,11 +233,15 @@ import CmnFunc from "./CommonFunc.js";
 import * as Constant from "./Constants.js";
 import AsyncComputed from "vue-async-computed";
 import Avatar from "vue-avatar/dist/Avatar";
-import Datepicker from 'vuejs-datepicker'
-
+import Datepicker from "vuejs-datepicker";
+import moment from "moment";
 
 Vue.use(AsyncComputed);
-
+Vue.filter("formatDate", function(value) {
+  if (value) {
+    return moment(String(value)).format("MMM DD");
+  }
+});
 export default {
   props: ["pholder", "todoObject", "id"],
   data: function() {
@@ -247,11 +261,13 @@ export default {
       selectedMenuIndex: 0,
       modal2: false,
       modal_loading: false,
-      topMargin: 0, // Top margin of sub task panel
+      topMargin: 20, // Top margin of sub task panel
       isDeleteActive: false, // Hide soft delete dialog
       imageURlProfilePic: "",
-      model8: '',
-      selectedUser: ''
+      model8: "",
+      selectedUser: this.todoObject.assigned_to,
+      previousUser: this.todoObject.assigned_to,
+      userObj: "" // selected user object
     };
   },
   created: function() {
@@ -284,12 +300,30 @@ export default {
       this.$store.dispatch("deletePermently", this.todoObject);
       this.modal2 = false;
     },
-    getListUserName: function(userName){
-        if(userName){
-          return userName
-        }else{
-          return 'n/a'
-        }
+    getListValue: function(user) {
+      if (user.email) {
+        return user.email;
+      } else {
+        return "n/a";
+      }
+    },
+    getListUserName: function(userName) {
+      if (userName) {
+        return userName;
+      } else {
+        return "n/a";
+      }
+    },
+    onUserClick: function(user) {
+      this.userObj = user;
+      if (user.email) {
+        return user.email;
+      } else {
+        return "n/a";
+      }
+    },
+    userClick: function(user) {
+      console.log("user detail call");
     },
     async onReadComment(id, level, created_by, typeId) {
       let permisionResult = await CmnFunc.checkActionPermision(
@@ -449,9 +483,21 @@ export default {
         ]).isPinned = false;
       }
     },
+    async setAssignUser(userId) {
+      console.log("user id -->", userId);
+      var user = _.find(this.$store.state.arrAllUsers, ["_id", userId]);
+      console.log("Selected User setAssignUser method:", user);
+      if (user) {
+        this.$store.dispatch("editTaskName", {
+          todo: this.todoObject,
+          assigned_by: this.$store.state.userObject._id,
+          assigned_to: user._id
+        });
+      }
+    },
     getAssignedUserName() {
       var user = this.getAssignedUserObj();
-      return this.getName(user.email);
+      return user.email ? this.getName(user.email) : "";
     },
     getName(name) {
       var str = name;
@@ -459,7 +505,7 @@ export default {
       var res = str.substr(0, n);
       return res;
     },
-    getAssignedUserObj() {
+    getAssignedUserObj(assignUserId) {
       var objUser;
       // console.log('filteredTodo.assigned_to', this.todoObject.assigned_to)
       // console.log('this.$store.state.userObject._id', this.$store.state.userObject)
@@ -468,20 +514,25 @@ export default {
       } else {
         objUser = _.find(this.$store.state.arrAllUsers, [
           "_id",
-          this.todoObject.assigned_to
+          assignUserId
         ]);
       }
       // console.log('User', objUser)
       return objUser;
     },
-    getUserLetters() {
-      var user = this.getAssignedUserObj();
-      if (user.image_url) {
-        this.imageURlProfilePic = user.image_url;
+    getUserName() {
+      var user = this.getAssignedUserObj(this.todoObject.assigned_to)
+      if (!user) {
         return;
       }
+      this.selectedUser = user._id;
+      this.previousUser=user._id;
+      if (user.image_url) {
+        this.imageURlProfilePic = user.image_url;
+        return "";
+      }
       this.imageURlProfilePic = "";
-      return this.capitalizeLetters(user.email);
+      return user.email;
     },
     capitalizeLetters(name) {
       var str = "null";
@@ -495,14 +546,39 @@ export default {
       // var str = name.email
       var firstLetters = str.substr(0, 2);
       return firstLetters.toUpperCase();
+    },
+    checkProfilePicUrl(url) {
+      if (url) {
+        return url;
+      } else {
+        return "";
+      }
+    },
+    dueDateClick(dateTo) {
+      var selectedDate = moment(dateTo, "YYYY-MM-DD").format("MMM DD");
+      this.$store.dispatch("editTaskName", {
+        todo: this.todoObject,
+        selectedDate: dateTo
+      });
+    },
+    /**
+    * Selected user from assign user list
+    */
+    userListClick: function(user_id){
+      if(this.selectedUser!==this.previousUser)
+         this.setAssignUser(user_id)
     }
   },
   watch: {
     // whenever question changes, this function will run
     todolistSubTasks: function(newQuestion) {},
     todoObject: function() {
-      console.log("Right Section Log history", this.todoObject)
-      this.$store.dispatch('findHistoryLog', this.todoObject.id)
+      console.log("Right Section Log history", this.todoObject);
+      this.$store.dispatch("findHistoryLog", this.todoObject.id);
+    },
+    todoObject: function(todo) {
+      this.previousUser=this.selectedUser;
+      this.selectedUser = todo.assigned_to;
     }
   },
   computed: {
@@ -537,10 +613,10 @@ export default {
         createdAt: new Date().toJSON(),
         updatedAt: new Date().toJSON(),
         project_id: this.$store.state.currentProjectId
-      })
-      this.todolistSubTasks = taskArray
-      this.userDetail(this.todolistSubTasks)
-      return taskArray
+      });
+      this.todolistSubTasks = taskArray;
+      this.userDetail(this.todolistSubTasks);
+      return taskArray;
     }
   },
   asyncComputed: {
@@ -576,7 +652,7 @@ export default {
     HistoryLog,
     SubComment,
     Avatar,
-    Datepicker,
+    Datepicker
     // Comment,
   }
 };
@@ -656,6 +732,7 @@ div.right_pannel {
   width: 100%;
   /* height of the bottom tab bar */
   height: 36px;
+  z-index: 999;
 }
 
 .nav-sub-bottom {
@@ -687,21 +764,36 @@ a.option-menu.glyphicon.glyphicon-option-horizontal {
   margin-right: 10px;
   color: #ed3f14;
 }
-.navbar-bottom{
-
+.navbar-bottom {
 }
-.navbar-bottom .assing-to-menu{
+.navbar-bottom .assing-to-menu {
   padding: 5px;
   border-radius: 30px;
-  background: #745a93ab;
+  background: #fff;
   float: left;
-  height: 35px;
-  width:150px;
+  height: 34px;
+  width: 117px;
 }
-.navbar-bottom .assing-to-menu:hover{
-  background: #745a93;
+.navbar-bottom .assing-to-menu:hover {
+  background: #fff;
+  -webkit-box-shadow: 0 0 0 3px #02CEFF;
+  height: 32px;
 }
-
+.navbar-bottom .due-date {
+  padding: 5px;
+  border-radius: 30px;
+  background: #fff;
+  float: left;
+  margin-top:2px;
+  height: 33px;
+  width: 120px;
+  margin-left:2px;
+}
+.navbar-bottom .due-date:hover {
+  background: #fff;
+  -webkit-box-shadow: 0 0 0 3px #02CEFF;
+  height: 32px;
+}
 
 </style>
 
