@@ -2449,9 +2449,9 @@ hr {
     display: inline-block;
 }
 .popup ul.popup-content li:hover .newTag > b {color:#fff}
-.task-tag-box:hover, .task-tag-box:focus {
-box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
-}
+/* .task-tag-box:hover, .task-tag-box:focus {
+    box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
+} */
     .popup {
         width: 100%;
         position: absolute;
@@ -5761,11 +5761,52 @@ CSS for splitter view
 /**
    CSS for splitter view end
 */
-.ivu-dropdown .ivu-select-dropdown {
+.navbar-bottom .ivu-dropdown .ivu-select-dropdown {
     width: 150px;
-  }
-
-  .ivu-select-single .ivu-select-selection{
-    bottom: 7px;
-    width: 82px;
 }
+
+.navbar-bottom .ivu-select-single .ivu-select-selection{
+    bottom: 7px;
+    width: 70px;
+}
+.navbar-bottom .ivu-select-single .ivu-select-input{
+    /* color:#000; */
+    /* background: #5e4c73; */
+    /* font-weight:bold; */
+    padding: 0 0px 0 1px;
+    /* -webkit-text-fill-color: #fff; */
+}
+.navbar-bottom .ivu-select-visible .ivu-select-selection{
+    box-shadow:0;
+}
+.navbar-bottom .ivu-select-single .ivu-select-input:hover{
+    /* background: #745a93; */
+    /* -webkit-text-fill-color:#fff; */
+}
+.navbar-bottom .ivu-select-selection{
+    border: 0;
+}
+/* icon color change */
+.navbar-bottom .ivu-select-arrow{
+    color:transparent
+}
+
+/* Due date picker width */
+.due-date .ivu-date-picker {
+    width: 105px !important;
+}
+.navbar-bottom .due-date .ivu-input{
+    border-color:transparent;
+}
+.navbar-bottom .due-date .ivu-input:hover{
+    /* color:transparent; */
+    border-color:transparent;
+}
+.navbar-bottom .due-date .ivu-input:focus{
+    box-shadow: none;
+    border-color:transparent;
+}
+.ivu-input-icon-normal+.ivu-input{
+    padding-right: 2px
+}
+
