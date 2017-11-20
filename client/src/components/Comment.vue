@@ -9,18 +9,17 @@
     </div>
 </template>
 <script>
+
 /* eslint-disable*/
 import { mapGetters } from 'vuex'
 import { markdownEditor } from 'vue-simplemde'
 // import { markdownEditor } from 'vue-simplemde'
-
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 import ViewComments from './ViewComments.vue'
 import RightFooter from './RightFooter.vue'
 import locale from 'element-ui/lib/locale/lang/en'
 Vue.use(ElementUI, { locale })
-
 
 export default {
     components: {
@@ -36,25 +35,20 @@ export default {
     },
     methods: {
         writeComment: function() {
-
             // Write comment
             if (this.isReadComment) {
-                
                 this.currentView = RightFooter
                 $("#icon-comment").removeClass('fa-pencil');
                 $("#icon-comment").addClass('fa-comments-o');
             } else {
-                // this.currentView = RightFooter
                 this.currentView = ViewComments
-                // Read comment
                 $("#icon-comment").removeClass('fa-comments-o');
                 $("#icon-comment").addClass('fa-pencil');
             }
-
+            
             this.isReadComment = !this.isReadComment
         }
     }
-
 }
 </script>
 <style >

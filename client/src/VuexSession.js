@@ -36,8 +36,8 @@ function uploadFileOnAmazonS3(file, fileTimeStamp, cb) {
       store.state.progress = parseInt((evt.loaded * 100) / evt.total)
       store.commit('progressVal')
     }).send(function (err, data) {
-      // console.log('err ===> ', err)
-      // console.log('data ===> ', data)
+      console.log('err ===> ', err)
+      console.log('data ===> ', data)
       cb(data.Location)
     });
   }
@@ -259,7 +259,6 @@ export const store = new Vuex.Store({
         }
       }
     },
-    
     CLOSE_DIV(state, payload) {
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
@@ -303,16 +302,16 @@ export const store = new Vuex.Store({
       
       state.userObject = {}
       state.isAuthorized = false
-      state.todolist = []
-      state.parentIdArr = []
+      state.todolist.length = 0
+      state.parentIdArr.length = 0
       // state.progress_count = ''
       state.visibility = 'active'
-      state.arrAttachment = []
+      state.arrAttachment.length = 0
       state.isLoading = false
-      state.settingsObject = []
-      state.taskComment = []
-      state.taskTags = []
-      state.tagsList = []
+      state.settingsObject.length = 0
+      state.taskComment.length = 0
+      state.taskTags.length = 0
+      state.tagsList.length = 0
       state.isProgress = false
       state.isDueDate = false
       state.todoObjectByID = {}
@@ -322,10 +321,10 @@ export const store = new Vuex.Store({
       state.currentModified = false
       state.isDeleteObj = false
       state.deleteItemsSelected = false
-      state.deletedTaskArr = []
-      state.arrAllUsers = []
-      state.projectlist = []
-      state.userRoles = []
+      state.deletedTaskArr.length = 0
+      state.arrAllUsers.length = 0
+      state.projectlist.length = 0
+      state.userRoles.length = 0
       state.currentProjectId = undefined
       state.currentProjectName = undefined
       state.currentProjectPrivacy = ''
@@ -333,14 +332,14 @@ export const store = new Vuex.Store({
       state.currentProjectMember= ''
       state.c={}
       state.projectSettingMenuOffset= 0
-      state.createdByTaskList= []
-      state.recentlyCompletedTasks= []
+      state.createdByTaskList.length = 0
+      state.recentlyCompletedTasks.length = 0
       state.searchView= ''
-      state.assignedToOthers= [],
+      state.assignedToOthers.length = 0
       state.taskIndex= -1
-      state.task_types_list= []
-      state.task_state_list= []
-      state.task_types_state= []
+      state.task_types_list.length = 0
+      state.task_state_list.length = 0
+      state.task_types_state.length = 0
       state.googleId= ''
       state.removeMember={}
       state.permissions={}

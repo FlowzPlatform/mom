@@ -24,7 +24,6 @@
             </span>
         </Alert>
         <div class="tab-pannel">
-           
           <component :is="currentView" 
             :id="id" 
             :taskId="todoObject.id" 

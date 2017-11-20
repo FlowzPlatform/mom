@@ -9,7 +9,7 @@
                   <ul class="dropdown-menu">
                      <li v-for="(val, key) in commentFilter">
                           <a :href="'#/' + key" @click="getSortByName(key)">{{key | capitalizeFirstLetter}}</a>
-                      </li>
+                     </li>
                   </ul>
               </div>
           </div>
@@ -76,7 +76,6 @@
 /* eslint-disable*/
 import { mapGetters } from "vuex";
 
-// import { markdownEditor } from 'vue-simplemde'
 import Avatar from 'vue-avatar/dist/Avatar'
 import Vue from "vue";
 import moment from 'moment';
@@ -186,19 +185,22 @@ export default {
       let indexParent = _.findIndex(parentList, function (d) { return d.id === comment.parentId })
       
       if (indexParent < 0) {
-      let tempParentId=this.commentParentId;
-        // parentList.forEach(function(element,index) {
-        //     console.log("element::-",element);
-        //     console.log("element index::-",index);
-        //     if(element.show_type==="subcomment")
-        //     { 
-        //       tempParentId=element.id;
-        //        this.$store.state.parentIdArr.splice(index,1)
-              
-        //     }
+      let removeIndex=[];
+        parentList.forEach(function(element,index) {
+            console.log("element::-",element);
+            console.log("element index::-",index);
+            if(element.show_type==="subcomment")
+            { 
+              removeIndex.push(index);               
+            }
+          }, this);
 
-        //   }, this);
-          this.$store.state.parentIdArr.length=1;
+          let tempIndex=0;
+          removeIndex.forEach(element => {
+            this.$store.state.parentIdArr.splice(element-tempIndex,1)
+            tempIndex+=element;
+          });
+          // this.$store.state.parentIdArr.length=1;
         } else {
           let tempC = parentList[indexParent];
           console.log("Parent Index indexParent:------->", indexParent)
@@ -240,13 +242,17 @@ export default {
         services.taskComments.find({ query: { task_id: this.commentTaskId, parentId:  this.commentParentId ? this.commentParentId:'' } }).then(response => {
           this.taskSortComments = response;
           this.getSubTaskComments();
+          this.taskComments=this.taskSortComments.slice();
         });
+        this.visibleFilter='all'
       },
       commentParentId: function () {
         services.taskComments.find({ query: { task_id: this.commentTaskId, parentId:  this.commentParentId ? this.commentParentId:''} }).then(response => {
           this.taskSortComments = response;
           this.getSubTaskComments();
+          this.taskComments=this.taskSortComments.slice();
         });
+        this.visibleFilter='all'
       },
       visibleFilter: function () {
         this.taskSortComments = commentFilter[this.visibleFilter](this.taskComments);
