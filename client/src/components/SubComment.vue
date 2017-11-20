@@ -6,7 +6,7 @@
                     <i id="icon-comment" class="fa fa-pencil"></i>
                 </div>
             </div>
-            <component :is="currentView" :filteredTodoTaskId="commentTaskId"></component>
+            <component :is="currentView" :commentTaskId="commentTaskId" :commentParentId="commentParentId"></component>
     
             <div class="todoapp comment_right_bar hidden">
                 <div class="comment-header header-scroll">
@@ -166,21 +166,21 @@
         Vue.use(ElementUI, { locale })
 
         Vue.filter('parseDate', function (value) {
-            console.log("Comment Dialog", value)
+            // console.log("Comment Dialog", value)
         if (value) {
           return moment(String(value)).calendar()
         }
       })
       Vue.filter('parseDateAgo', function (value) {
-            console.log("Comment Dialog", value)
+            //console.log("Comment Dialog", value)
         if (value) {
           return moment(String(value)).fromNow()
         }
       })
-      Vue.filter('capitalizeFirstLetter', function (str) {
-            let str1 =  str.split('_').join(' ')
-            return str1.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
-        })
+    //   Vue.filter('capitalizeFirstLetter', function (str) {
+    //         let str1 =  str.split('_').join(' ')
+    //         return str1.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+    //     })
       const commentFilter = {
             all: totalComment => totalComment,
             group_By: totalComment => _(totalComment).groupBy(x => x.fullname)
@@ -219,13 +219,13 @@
             created: function () {
                 $("#new_project_dialog_content_name_input").focus();
                 let vm=this;
-                services.taskComments.on('created', message => {
-                    if(message.parentId===vm.comment.id)
-                    {
-                        this.setcommenteduserData(message)
-                        this.taskSubComments.push(message)
-                    }
-                })
+                // services.taskComments.on('created', message => {
+                //     if(message.parentId===vm.comment.id)
+                //     {
+                //         this.setcommenteduserData(message)
+                //         this.taskSubComments.push(message)
+                //     }
+                // })
                 // services.taskComments.find({ query: { task_id:  this.commentTaskId, parentId:  this.commentParentId } }).then(response => {
                 //         this.taskSubComments = response;
                 //         this.getSubTaskComments();
@@ -300,11 +300,13 @@
                     comment.parentId= this.commentParentId
                     console.log("Click Comment:--",comment)
                     let parentList=this.$store.state.parentIdArr;
-                    let index = _.findIndex(parentList, function (d) { return d.parentId === comment.parentId })
-                    console.log("Parent Index:------->",index)
+                    // let index = _.findIndex(parentList, function (d) { return d.parentId === comment.parentId })
+                    // console.log("Parent Index:------->",index)
     
                     let indexParent = _.findIndex(parentList, function (d) { return d.id === comment.parentId })
+                    console.log("Parent Index indexParent:------->",indexParent)
                     let tempC=parentList[indexParent];
+                    console.log("Parent Index:------->",tempC)
                     this.$store.dispatch('closeChildComment', tempC)
     
                     // if(index<1)
@@ -349,13 +351,22 @@
                         c.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
                         c.email = this.$store.state.arrAllUsers[userIndex].email
                     }
-                    console.log("---tasksubcomment---->", c)
+                   // console.log("---tasksubcomment---->", c)
                 },
                 getSortByName:function(key){
                     this.visibleFilter = key
                 },
                 deleteCommnet:function(commentObj){
                     this.$store.dispatch('delete_Comment', commentObj)
+                },
+                async onDeleteComment(id,level,created_by,typeId) {
+                    let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.COMMENT,Constant.PERMISSION_ACTION.DELETE)
+                    console.log("permisionResult Delete Comment-->",permisionResult)
+                    if (!permisionResult && id != -1) {
+                        this.isDeleteComment = false
+                    } else {
+                        this.isDeleteComment = true
+                    }  
                 },
             }
             

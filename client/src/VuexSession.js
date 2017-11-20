@@ -515,12 +515,16 @@ export const store = new Vuex.Store({
       state.taskComment.push({
         id: data.id,
         task_id: data.task_id,
+        parentId:data.parentId,
         commentBy: data.commentBy,
         comment: data.comment,
         createdAt: new Date().toJSON(),
         username: state.userObject.fullname,
         image_url: state.userObject.image_url
       })
+
+
+  
     },
     DELETE_COMMENT(state, data) {
       let removeTaskComments = _.findIndex(state.taskComment, function (d) { return d.id == data.id })
@@ -906,7 +910,7 @@ export const store = new Vuex.Store({
       })
 
       services.taskComments.on('created', message => {
-        console.log("Message history Logs Cretaed:-->", message)
+        console.log("Message commen Logs Cretaed:-->", message)
         commit('ADD_COMMENT', message)
       })
 
@@ -1248,7 +1252,8 @@ export const store = new Vuex.Store({
         },
         {query :{ 
             pId: data.pId,
-            rId: data.rId, task_type: data.taskType}
+            rId: data.rId, 
+            task_type: data.taskType}
         }
       ).then(response => {
         console.log("Response patch permission::", response);
@@ -1256,6 +1261,41 @@ export const store = new Vuex.Store({
         // commit('SELECT_FILE', response.data) 
         // }
       });
+     },
+     setAccessPermision(data) {
+      console.log("Set permission params:",data);
+      return axios.post('http://172.16.160.32:3000' + '/setpermission', {
+          resourceId:  data.pId ,
+          roleId:  data.rId ,
+          taskType:  data.taskType,
+          accessValue: data.access_value,
+          app: "todoapp"
+      }, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          }
+        })
+        .then(function (response) {
+          console.log("Set permission response:",response);
+        })
+        .catch(function (error) {
+          console.log("Set permission error:",error);
+          console.log(error);
+        });
+     },
+     getAllPermissions(){
+      axios.get('http://172.16.160.32:3000' + '/getallpermission/todoapp', {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+      }).then(function (response) {
+          console.log("Get all permissions response:",response.data.data);
+          return response.data.data
+        })
+        .catch(function (error) {
+          console.log("Get all permissions error:",error);
+          console.log(error);
+        })
      },
     addAccessPermision({ commit }, data) {
       services.roleAccessService.create({
@@ -1347,14 +1387,13 @@ export const store = new Vuex.Store({
      
       if (!payload.comment || payload.comment.trim().length==0)
         return
+        payload.createAt=new Date().toJSON(); 
+        if(!payload.parentId)
+          payload.parentId=""       
         console.log("Reesponse create Payload From DB::", payload);
-        services.taskComments.create({
-        task_id: payload.id,
-        commentBy: payload.commentBy,
-        comment: payload.comment.trim(),
-        createdAt: new Date().toJSON()
-      }).then(function (response) {
-        console.log("Reesponse create Commnets From DB::", response);
+
+        services.taskComments.create(payload).then(function (response) {
+          console.log("Reesponse create Commnets From DB::", response);
       })
     },
     insertProjectInvite({ commit }, inviteDetail) {
@@ -1491,7 +1530,10 @@ export const store = new Vuex.Store({
         });
     },
     userLoginProcess({ commit }, loginObj) {
-      return axios.post(process.env.USER_AUTH + '/api/login', {
+     // let apiUrl = loginObj.userType == 1 ? '/api/login' : '/api/login';
+     let apiUrl = (loginObj.userType == 1 ? "/api/login" : "/api/ldapauth");
+     console.log("API url:",apiUrl)
+      return axios.post(process.env.USER_AUTH + apiUrl, {
         email: loginObj.email,
         password: loginObj.password
       }, {
@@ -1527,6 +1569,27 @@ export const store = new Vuex.Store({
           throw new Error('This Email id already exists')
         }
       });
+    },
+    signInWithLDAP({ commit }, loginObj){
+      console.log("Login Object",loginObj);
+      return axios.post(process.env.USER_AUTH +'/api/ldapauth', {
+        userid: loginObj.userid,
+        passwd: loginObj.passwd 
+      },{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+      }).then(function (response) {
+          console.log('LDAP response obj: ', response);
+          commit('SAVE_USERTOKEN', response.data.logintoken)
+        })
+        .catch(function (error) {
+          if (error.response) {
+            console.log('================================');
+            console.log(error.response.data);
+            console.log('--------------------------------');
+          }
+        });
     },
     getUserDetail({ commit }) {
       console.log('token: ', store.state.userToken)
@@ -2000,8 +2063,9 @@ export const store = new Vuex.Store({
       let parentIdArr=store.state.parentIdArr;
       let index=0;
       
-      let tempParentId='-1';
+      let tempParentId='';
       let removeIndex=[];
+    
       parentIdArr.forEach(function(element) { 
           console.log("element id:",element); 
           if(element.show_type==="subcomment" && (element.parentId===tempParentId || element.parentId===comment.id ))
@@ -2060,8 +2124,8 @@ export const store = new Vuex.Store({
     },
     settingArr: state => state.settingsObject,
     getCommentById: (state, getters) => {
-      return function (id) {
-        var comment = state.taskComment.filter(c => c.task_id === id)
+      return function (id,parentId) {
+        var comment = state.taskComment.filter(c => c.task_id === id && c.parentId===parentId)
         return comment
       }
     },
