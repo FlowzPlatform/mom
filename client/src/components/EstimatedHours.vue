@@ -2,9 +2,14 @@
   <modal :showModal="showModal" :closeAction="closeAction" class="pos">
     <h3 slot="header">Estimated Time</h3>
     <span slot="body" class="modal-body">
-        <!-- <span class="">Task: {{filteredTodo.taskName}}</span> -->
+        <div class="modalObjectInfos">
+            <div class="objectInfoItem">
+              <span class="objectInfoItemName">Task:</span>
+              {{filteredTodo.taskName}}
+            </div>
+          </div>
          <label class="form-label">
-                    Estimated Time:
+              Estimated Time:
             <input class="form-control" v-model="filteredTodo.estimatedTime">
         </label>
     </span>
