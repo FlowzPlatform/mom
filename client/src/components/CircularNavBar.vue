@@ -7,21 +7,21 @@
           <a class="menu-button fa fa-times" href="#" title="Hide navigation"></a>
         
         <li class="menu-item icon-cogs">
-          <a class="menu-item-back" @click="showRoleAccess"></a>
+          <a class="menu-item-back" data-toggle="tooltip" title="Role Access" @click="showRoleAccess"></a>
         </li>
         <li class="menu-item icon-tasks">
-          <a class="menu-item-back" @click="showMainTask"></a>
+          <a class="menu-item-back" data-toggle="tooltip" title="Tasks" @click="showMainTask"></a>
         </li>
         <li class="menu-item icon-trash">
-          <a class="menu-item-back" @click="showDeleteTasks"></a>
+          <a class="menu-item-back" data-toggle="tooltip" title="Deleted Item" @click="showDeleteTasks"></a>
         </li>
         <li class="menu-item fa fa-plus-square-o">
-          <a class="menu-item-back"  @click="createProject"></a>
+          <a class="menu-item-back" data-toggle="tooltip" title="Create Project"  @click="createProject"></a>
         </li>
         <li class="menu-item icon-search">
-          <a class="menu-item-back"  @click="searchResult"></a>
+          <a class="menu-item-back" data-toggle="tooltip" title="Search"  @click="searchResult"></a>
         </li>
-        <Poptip class="menu-item icon-list-alt" placement="bottom-end">
+        <Poptip data-toggle="tooltip" class="menu-item icon-list-alt" placement="bottom-end">
           <li></li>
           <div slot="title">
             <i style="color:black; font-size:large;">Projects</i>
@@ -280,6 +280,11 @@
   import ProjectItem from './ProjectItem.vue'
   import CreateProjectDialog from './CreateProjectDialog.vue'
   import Avatar from 'vue-avatar/dist/Avatar'
+  // $(document).ready(function(){
+  //   $('[data-toggle="tooltip"]').tooltip();
+  // });
+  // document.getElementsByClassName("ivu-poptip-rel").setAttribute("data-toggle","tooltip")
+  // document.getElementsByClassName("ivu-poptip-rel").setAttribute("Title","Projects")
   Vue.directive('draggable', {
   bind: function (el) {
     el.style.position = 'fixed';
@@ -337,6 +342,9 @@
       }
     },
     created() {
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
       this.$store.dispatch('getUsersRoles');
       this.$store.dispatch("getAllUsersList", this.callAllProjectList)
     },
