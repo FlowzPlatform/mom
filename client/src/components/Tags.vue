@@ -39,7 +39,7 @@
 <script>
 /* eslint-disable*/
 import Vue from 'vue'
-import 'element-ui/lib/theme-default/index.css'
+//import 'element-ui/lib/theme-default/index.css'
 import { mapGetters } from 'vuex'
 import * as Constant from './Constants.js'
 import CmnFunc from './CommonFunc.js'
