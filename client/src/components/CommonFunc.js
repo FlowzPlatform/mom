@@ -135,7 +135,7 @@ export default {
   insertHistoryLog:function(context,createdBy,text,taskId,logAction)
   {
     services.taskHistoryLogs.create({created_by:createdBy,text:text,task_id:taskId,log_action:logAction,created_on:new Date()}).then(response=> {
-      console.log("Reponse task update:--->",response)
+      console.log("History log:--->",response)
       context.state.taskHistoryLog.unshift(response)
     })
   },
