@@ -1,4 +1,3 @@
-
 'use strict';
 const service = require('feathers-rethinkdb');
 const config = require('config');
@@ -11,7 +10,7 @@ const hooks = require('./hooks');
 
 module.exports = function() {
   const app = this;
-  const r = require('rethinkdbdash')({
+  const r = require('rethinkdbdash')({  
     db: 'vue_todo',
     host: db_host,
     port:db_port
@@ -20,7 +19,7 @@ module.exports = function() {
   const options = {
     Model: r,
     name: table, 
-    events: ['deleteProjectMember'] 
+    events: ['deleteProjectMember']
   };
 
   // Initialize our service with any options it requires 

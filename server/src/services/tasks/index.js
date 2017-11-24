@@ -40,7 +40,6 @@ module.exports = function() {
 
 // }));
 
-  
 
   // Get our initialize service to that we can bind hooks
   const taskService = app.service('/tasks');
@@ -53,12 +52,7 @@ module.exports = function() {
 
   // Set up our after hooks
   taskService.after(hooks.after);
-
-
-
- 
-
-
+  
   taskService.filter(function(data, connection, hook) {
      console.log("<========Tassk Filter Call task =====>",data);
     var userId=connection.userId;

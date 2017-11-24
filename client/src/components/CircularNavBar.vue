@@ -1,6 +1,6 @@
 <template>
   <div>
-      <div id="drag-2" v-draggable>
+      <div id="drag-2"  v-draggable>
           <ul id="menu">
               <a class="menu-button fa fa-bars" href="#menu" title="Show navigation"></a>
               <a class="menu-button fa fa-times" href="#" title="Hide navigation"></a>
@@ -37,7 +37,6 @@
                                       <path d="M24,12v-0.125V8c0-4.411-3.589-8-8-8S8,3.589,8,8v4H6v18h20V12H24z M14,12V8c0-1.103,0.897-2,2-2s2,0.897,2,2v4H14z M10,8c0-3.309,2.691-6,6-6s6,2.691,6,6v4h-2V8c0-2.206-1.794-4-4-4s-4,1.794-4,4v4h-2V8z M24,28H8V14h16V28z"></path>
                                   </svg>
                               </span>
-
                           </a>
                       </span>
                       <p class="teamList" slot="content">
@@ -119,7 +118,7 @@
                                           </svg>
                                       </span>
                                   </div>
-                                  <div class="ser-dro-lis TeamInviteTypeahead">
+                                  <div class="ser-dro-lis TeamInviteTypeahead" >
                                       <!-- Search text box -->
                                       <input :id="'input-'+project.id" @keyup="showList(project.id)" type="text" v-model="inputValue" class="textInput textInput--medium TeamInviteTypeahead-input" value="" name="" placeholder="Invite People">
                                       <!-- Drop down list -->
@@ -315,6 +314,8 @@ data: function(){
   created(){
     this.$store.dispatch('getUsersRoles');
     this.$store.dispatch("getAllUsersList", this.callAllProjectList)
+
+    // $('#drag-2').on('mousedown','div',function(){return false});
   },
   computed:{
     ...mapGetters({
@@ -374,6 +375,10 @@ data: function(){
     ...mapMutations([
           'showDeleteTasks'
       ]),
+      divmousedown:function()
+      {
+        return false;
+      },
     callAllProjectList: function() {
       this.$store.dispatch('getPermissions');
       this.$store.dispatch('getAllProjects', this.$store.state.userObject._id);
@@ -397,6 +402,7 @@ data: function(){
       this.isRoleAccess = false
       this.isMyTask = false
       this.isSearchMenu = true
+      this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length);
       this.$emit('eventChangeMenu',  this.isMyTask, this.isRoleAccess, this.isSearchMenu)
     },
     projectNameElipse(str, max) {
@@ -649,6 +655,10 @@ data: function(){
 </script>
 <style>
 @import url(https://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css);
+
+.nolink {
+       cursor: default;
+}
 #drag-2 {
 /* min-height: 6.5em; */
 /* margin: 10%; */

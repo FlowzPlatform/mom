@@ -149,6 +149,8 @@
       return firstLetters.toUpperCase()
     }
   })
+
+  var  focusTimeOut;
   export default {
     props: ['todo', 'pholder', 'nextIndex', 'prevIndex', 'id'],
     data: function () {
@@ -160,7 +162,8 @@
         selectedObject: {},
         selectedType: {},
         isTypeTodo: true,
-        email: ''
+        email: '',
+       
       }
     },
     created() {
@@ -178,7 +181,7 @@
       },
       getType() {
         // console.log("Get tyepe:--",this.selectedType.id === this.todo.type_id);
-        if (this.todo.type_id) {
+        if (this.todo.type_id && this.selectedType && this.selectedType.id) {
           this.isTypeTodo = this.selectedType.id === this.todo.type_id
         }
         return this.isTypeTodo
@@ -205,7 +208,7 @@
       },
       showStatusList() {
         this.$store.dispatch('getTypeState', this.todo.type_id)
-      },
+      }, 
       selectStatus: function(objStatus) {  
         console.log('State changed', objStatus) 
         this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedState": objStatus.state_id })
@@ -269,7 +272,8 @@
           this.$store.dispatch('deleteRoles', this.todo)
         }
       },
-      async onFocusClick(id,level,created_by,typeId){
+      async onFocusClick(select,id,level,created_by,typeId){
+        console.log('Select::-',select)
         console.log('onFoucusclick',typeId)
      
         $("#" + id + "_" + level).addClass("lifocus")
@@ -290,6 +294,7 @@
       },
       performAction(e) {
         if (e.keyCode == 40) {
+          
           $('.' + this.nextIndex).focus();
           this.changeFocus(this.nextIndex)
         } else if (e.keyCode == 38) {
@@ -310,17 +315,19 @@
         }
       },
       changeFocus(indexId) {
+        if(focusTimeOut)
+            clearTimeout(focusTimeOut);
         var self = this;
-        setTimeout(function () {
-          var el = $('.' + indexId);
-          if (el) {
-            el.focus();
-          }
+      focusTimeOut= setTimeout(function () {
+          // var el = $('.' + indexId);
+          // if (el) {
+          //   el.focus();
+          // }
           var todoid = indexId.split("_")
           let showTodoIndex = _.findIndex(self.$store.state.todolist, function (d) { return d.id == todoid[0] })
           if (showTodoIndex != -1)
             self.$store.commit('SHOW_DIV', self.$store.state.todolist[showTodoIndex])
-        }, 100);
+        }, 1000);
       },
       taskStateList: function (state) {
         state.forEach(function (c) {

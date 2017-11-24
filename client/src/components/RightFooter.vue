@@ -5,9 +5,10 @@
                 <div class="taskCommentsView ">
                     <div class="photo-view photo-view-remix inbox-size photo-view-rounded-corners taskCommentsView-photo">
                         <div v-if="$store.state.userObject.email" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <avatar v-if="$store.state.userObject.image_url" :username="$store.state.userObject.email" :src="$store.state.userObject.image_url"
-                                :size="30"></avatar>
-                            <avatar v-else :username="$store.state.userObject.email" :size="30" color="#fff"></avatar>
+                            <avatar v-if="$store.state.userObject.image_url" :username="$store.state.userObject.email" :src="$store.state.userObject.image_url" :size="30">
+                            </avatar>
+                            <avatar v-else :username="$store.state.userObject.email" :size="30" color="#fff">      
+                            </avatar>
                         </div>
                     </div>
                     <div style="width: 475px;">
@@ -23,7 +24,7 @@
                             <el-tab-pane label="Markdown editor">
                                 <div class="markdownEditor">
                                     <!-- <markdown-editor>
-                    </markdown-editor> -->
+                                         </markdown-editor> -->
                                     <markdown-editor v-model="content" ref="markdownEditor" :value="content" :configs="configs">
                                     </markdown-editor>
                                 </div>
@@ -38,7 +39,7 @@
                     <!-- <div>
                     <markdown-editor>
                     </markdown-editor>
-                </div>     -->
+                </div>   -->
                     <div class="taskCommentsView-toolbar">
                         <div id="details_property_sheet__new_comment_button" @click="insertComment(commentTaskId)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton"
                             style="" tabindex="710">
@@ -65,10 +66,7 @@
     import ElementUI from 'element-ui'
     import locale from 'element-ui/lib/locale/lang/en'
     Vue.use(ElementUI, { locale })
-
-
     export default {
-       
         props: ['commentTaskId','commentParentId'],
         data: function () {
             return {

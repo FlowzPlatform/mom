@@ -171,11 +171,11 @@ button {
 .todo-list li:hover .destroy:hover {color:#1aafd0;}
 
 .destroy{
-	fill: #B9BCC0;
+	/* fill: #B9BCC0; */
     position: absolute;
-    right: 5px;
+    /* right: 5px; */
     cursor: pointer;
-    top: 2px;
+    /* top: 2px; */
     z-index: 1;
 }
 .destroy:hover {color:#1aafd0;}
@@ -759,6 +759,7 @@ border: 1px solid transparent;
     flex: 5500 1 605px;
     min-width: 405px;
     z-index: 2;
+    overflow-y:auto;
 }
 .right_pane_container{
 	    -webkit-box-flex: 4500;
@@ -1659,7 +1660,7 @@ button, input, op.modal-headertgroup, select, textarea {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     background-color: transparent;
-    color: #B9BCC0;
+    /* color: #B9BCC0; */
     fill: #B9BCC0;
     display: -webkit-inline-box;
     display: -moz-inline-box;
@@ -2139,7 +2140,7 @@ text-rendering: auto; -webkit-font-smoothing: antialiased;  vertical-align: top;
 	border-radius: 50%;
 }
 
-.right_pane_container #right_pane > .rightsection-view.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
+/* .right_pane_container #right_pane > .rightsection-view.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar > div {width: 50%; float: left}
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar >  .details-pane-toolbar.toolbar-no-grad {width: 100%}
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar > div.taskbarsect {
@@ -2158,6 +2159,30 @@ position: fixed;
 }
 .right_pane_container #right_pane > .rightsection-view.open .todoapp.right_bar {height: 100%;}
 .right_pane_container #right_pane > .rightsection-view.open #details_pane_footer {
+    position: fixed;
+    width: 50%;
+    right: 0;
+    bottom: 5px;
+} */
+.right_pane_container.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
+.right_pane_container.open .todoapp.right_bar > div {width: 50%; float: left}
+.right_pane_container.open .todoapp.right_bar >  .details-pane-toolbar.toolbar-no-grad {width: 100%}
+.right_pane_container.open .todoapp.right_bar > div.taskbarsect {
+    position: fixed;
+    width: 50%;
+    left: 0;
+    height: calc(100% - 95px);
+    top: 95px;overflow: auto;
+}
+.right_pane_container.open .todoapp.right_bar > div.SingleTaskPane-feed {
+position: fixed;
+    width: 50%;
+    right: 0;
+    height: calc(100% - 215px);
+    top: 95px;overflow: auto;
+}
+.right_pane_container.open .todoapp.right_bar {height: 100%;}
+.right_pane_container.open #details_pane_footer {
     position: fixed;
     width: 50%;
     right: 0;
@@ -2424,9 +2449,9 @@ hr {
     display: inline-block;
 }
 .popup ul.popup-content li:hover .newTag > b {color:#fff}
-.task-tag-box:hover, .task-tag-box:focus {
-box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
-}
+/* .task-tag-box:hover, .task-tag-box:focus {
+    box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
+} */
     .popup {
         width: 100%;
         position: absolute;
@@ -2845,7 +2870,7 @@ box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
     display: none;
 }
 .delete-view {
-    z-index: 60;
+    /* z-index: 60; */
     position: absolute;
     right: 10px;
     top: 7px;
@@ -5736,11 +5761,52 @@ CSS for splitter view
 /**
    CSS for splitter view end
 */
-.ivu-dropdown .ivu-select-dropdown {
+.navbar-bottom .ivu-dropdown .ivu-select-dropdown {
     width: 150px;
-  }
-
-  .ivu-select-single .ivu-select-selection{
-    bottom: 7px;
-    width: 82px;
 }
+
+.navbar-bottom .ivu-select-single .ivu-select-selection{
+    bottom: 7px;
+    width: 70px;
+}
+.navbar-bottom .ivu-select-single .ivu-select-input{
+    /* color:#000; */
+    /* background: #5e4c73; */
+    /* font-weight:bold; */
+    padding: 0 0px 0 1px;
+    /* -webkit-text-fill-color: #fff; */
+}
+.navbar-bottom .ivu-select-visible .ivu-select-selection{
+    box-shadow:0;
+}
+.navbar-bottom .ivu-select-single .ivu-select-input:hover{
+    /* background: #745a93; */
+    /* -webkit-text-fill-color:#fff; */
+}
+.navbar-bottom .ivu-select-selection{
+    border: 0;
+}
+/* icon color change */
+.navbar-bottom .ivu-select-arrow{
+    color:transparent
+}
+
+/* Due date picker width */
+.due-date .ivu-date-picker {
+    width: 105px !important;
+}
+.navbar-bottom .due-date .ivu-input{
+    border-color:transparent;
+}
+.navbar-bottom .due-date .ivu-input:hover{
+    /* color:transparent; */
+    border-color:transparent;
+}
+.navbar-bottom .due-date .ivu-input:focus{
+    box-shadow: none;
+    border-color:transparent;
+}
+.ivu-input-icon-normal+.ivu-input{
+    padding-right: 2px
+}
+

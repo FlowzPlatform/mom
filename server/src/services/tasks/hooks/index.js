@@ -21,10 +21,8 @@ exports.before = {
       .merge({ 'isTaskUpdate': false })
       .merge({ 'isPinned': false })
       .merge({ 'attachmentprogress': 0 })
-      .merge({ 'deleteprogress': 0 }).orderBy('index')
-
-  console.log("--> query=======",query);
-      
+      .merge({ 'deleteprogress': 0 })
+      .orderBy('index')
   },
   get: [],
   create(hook){

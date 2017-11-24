@@ -34,7 +34,7 @@
                             <template v-for="n in 4" v-else>
                                 <td :style="getSectionBorderClass(fieldNumber-1,n)">
                                     <!-- {{getObjectValue(item, field, n)}} -->
-                                    <component :class="field.dataClass" is="custom-action" :row-data="item" :row-index="itemNumber" :row-check="getObjectValue(item, field, n)"
+                                    <component :class="field.dataClass" is="custom-action" :row-field-data="item"  :row-index="itemNumber" :row-check="getObjectValue(item, field, n)"
                                         :row-field="field" :role-value="getRoleValue(n)" :task-type-id="taskTypeId"></component>
                                 </td>
                             </template>
@@ -197,12 +197,12 @@ export default {
             // defaultValue = (typeof defaultValue == 'undefined') ? null : defaultValue
             if (path.id) {
                 var roleId = object.roleid;
-                let roleIndex = _.findIndex(roleId, function (role) { return role.rId === path.id })
+                let roleIndex = _.findIndex(roleId, function (role) { return role.roleId === path.id })
                 if (roleIndex < 0)
                     return false;
 
                 var role = roleId[roleIndex];
-                if (role.rId == path.id) {
+                if (role.roleId == path.id) {
                     if (role.access_value) {
                         if (crudIndex == 1) {
                             return role.access_value >= 8

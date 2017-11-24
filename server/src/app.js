@@ -47,8 +47,6 @@ app.configure(socketio(function(io) {
       socket.on('userdata', function (data) {
                 socket.feathers.userId=data ;
       });
-
-
     });
 
     io.use(function(socket, next) {
