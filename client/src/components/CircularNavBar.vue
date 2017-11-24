@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div id="drag-2" v-draggable onmousedown="return false">
-        
+    <div id="drag-2" v-draggable onmousedown="return false"> 
       <ul id="menu">
           <a class="menu-button fa fa-bars" href="#menu" title="Show navigation"></a>
           <a class="menu-button fa fa-times" href="#" title="Hide navigation"></a>
@@ -277,14 +276,8 @@
   import Vue from 'vue'
   import { mapGetters, mapMutations } from 'vuex'
   import CmnFunc from './CommonFunc.js'
-  import ProjectItem from './ProjectItem.vue'
   import CreateProjectDialog from './CreateProjectDialog.vue'
   import Avatar from 'vue-avatar/dist/Avatar'
-  // $(document).ready(function(){
-  //   $('[data-toggle="tooltip"]').tooltip();
-  // });
-  // document.getElementsByClassName("ivu-poptip-rel").setAttribute("data-toggle","tooltip")
-  // document.getElementsByClassName("ivu-poptip-rel").setAttribute("Title","Projects")
   Vue.directive('draggable', {
   bind: function (el) {
     el.style.position = 'fixed';
@@ -575,7 +568,6 @@
           this.name = item.name
           // Hide header 
           $("#listHeader" + project.id).addClass("hidden");
-          // Hide header 
           $("#listHeader" + project.id).addClass("hidden");
           // Close last open dialog
           if (this.lastOpenDialogId !== '') {
@@ -656,7 +648,6 @@
       },
       showMemberDialog(project) {
         // Hide project setting menu
-        console.log("========================", project)
         this.$store.state.projectSettingId = project.id;
         this.$store.state.currentProjectMember = project.members;
         this.$store.state.currentProjectCreatedBy = project.create_by;
@@ -675,7 +666,6 @@
     },
     components: {
       CreateProjectDialog,
-      ProjectItem,
       Avatar
     }
   }

@@ -35,19 +35,11 @@
                 value: ''
             }
         },
-        created() {
-            // this.$store.dispatch('getTypeState')
-        },
         computed: {
             ...mapGetters([
                 'getTaskStausList',
                 'getTask_types_state'
             ]),
-            // taskState() {
-            //     let stateList = this.getTask_types_state
-            //     this.taskStateList(stateList)
-            //     return stateList
-            // },
             setSelectedState() {
                 let selectedList = this.getTaskStausList
                 this.stateSelectedList(selectedList)
@@ -66,19 +58,6 @@
                     this.$store.dispatch('remove_type_state', findObject)    
                 }
             },
-            // taskStateList: function (state) {
-            //     state.forEach(function (c) {
-            //         let stateId = c.state_id
-            //         let stateIndex = _.findIndex(this.$store.state.task_state_list, function (m) {
-            //             return m.id === stateId
-            //         })
-            //         if (stateIndex < 0) {
-            //         } else {
-            //             c.color = this.$store.state.task_state_list[stateIndex].color
-            //             c.state = this.$store.state.task_state_list[stateIndex].taskState
-            //         }
-            //     }, this)
-            // },
             stateSelectedList: function(list) {
                 list.forEach(function (c) {
                     let stateId = c.id

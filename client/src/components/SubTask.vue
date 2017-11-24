@@ -1,8 +1,5 @@
 <template>
     <div>
-        <!--<span id="close" class="destroy" @click="CLOSE_DIV(filteredTodo)">
-            <i class="fa fa-close"></i>
-        </span>-->
         <text-description :id="id" :filteredTodo="filteredTodo">
         </text-description>
         <main-left-section 
@@ -27,12 +24,6 @@ export default {
         ...mapMutations([
             'CLOSE_DIV'
         ]),
-    },
-    methods: {
-        ...mapMutations([
-            'CLOSE_DIV'
-        ]),
-
     },
     components: {
         TextDescription,

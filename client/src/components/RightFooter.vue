@@ -136,12 +136,3 @@
         }
     }
 </script>
-<style>
-    .markdown-editor {
-        height: 500px;
-    }
-
-    /* CodeMirror cm-s-paper CodeMirror-wrap CodeMirror-empty{
-  height: 406px;
-}  */
-</style>

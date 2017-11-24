@@ -48,10 +48,6 @@
     import MainRightSection from './MainRightSection.vue'
     import { mapGetters } from 'vuex'
     export default {
-        data: function () {
-            return {
-            }
-        },
         methods:{
             showTaskCreatedBy: function () {
                 this.$store.state.searchView = "Tasks I've Created"
@@ -158,5 +154,4 @@
     font-size: 40px;
     padding: 0 10px 0 25px;
 }
-
 </style>

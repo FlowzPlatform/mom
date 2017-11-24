@@ -61,17 +61,12 @@
             },
             userDetail(self) {
                 self.$store.dispatch('getUserDetail')             
-                    //  self.$store.dispatch('getUserRegister')                           
                     .then(function () {                 
-                         self.$router.replace('/navbar/mainapp')   
-                         
-                         console.log("Socket-->",)
+                         self.$router.replace('/navbar/mainapp')
           
                     })             
                     .catch(function(error) {      
-                        console.log("login error",error)
                        if (error.response.status === 401) { 
-                          // console.log('error: ', error.response.status) 
                           CmnFunc.deleteAutheticationDetail()
                           self.$router.replace('/')
                           return 

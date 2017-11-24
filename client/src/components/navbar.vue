@@ -48,12 +48,6 @@
                     <path d="M24.23,16.781C26.491,15.368,28,12.863,28,10c0-4.418-3.582-8-8-8s-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C11.233,18.494,8,22.864,8,28c0,0.683,0.07,1.348,0.18,2h23.64c0.11-0.652,0.18-1.317,0.18-2C32,22.864,28.767,18.494,24.23,16.781z M14,10c0-3.308,2.692-6,6-6s6,2.692,6,6s-2.692,6-6,6S14,13.308,14,10z M10,28c0-5.514,4.486-10,10-10c5.514,0,10,4.486,10,10H10z"></path>
                     <path d="M2,28c0-4.829,3.441-8.869,8-9.798V15.65C7.673,14.824,6,12.606,6,10c0-3.308,2.692-6,6-6V2c-4.418,0-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C3.233,18.494,0,22.864,0,28c0,0.683,0.07,1.348,0.18,2H6v-2H2z"></path>
                   </svg>
-                  <!-- <div class="projectHeaderFacepile-privacySummaryDropdownText" v-if="$store.state.currentProjectPrivacy==0">Public to all</div>
-                  <div class="projectHeaderFacepile-privacySummaryDropdownText" v-else-if="$store.state.currentProjectPrivacy==1">Private to member</div>
-                  <div class="projectHeaderFacepile-privacySummaryDropdownText" v-else="$store.state.currentProjectPrivacy==2">Private to me</div>
-                  <svg class="Icon DownIcon projectHeaderFacepile-privacySummaryDropdownDownIcon" title="DownIcon" viewBox="0 0 32 32">
-                    <path d="M4.686,12.686l9.899,9.9c0.781,0.781,2.047,0.781,2.828,0l9.9-9.9l-2.475-2.475L16,19.05l-8.839-8.839L4.686,12.686z"></path>
-                  </svg> -->
                 </div>
                 <!-- Change privacy  -->
                 <div v-show="showPrivacyPopup" @mouseleave="hidePopup" class="layerPositioner-privacy layerPositioner--offsetRight layerPositioner--alignRight layerPositioner--below"
@@ -220,9 +214,7 @@
         </div>
       </div>
     </div>
-    <!-- Member setting dialog  -->
     <members-dialog></members-dialog>
-    <!-- Project delete dialog  -->
     <delete-project-dialog></delete-project-dialog>
   </div>
 </template>
@@ -264,7 +256,6 @@
       }
     },
     created() {
-      //  this.$store.dispatch('getAllUsersList')
     },
     computed: {
       ...mapGetters([
@@ -287,7 +278,6 @@
           },
           set(value){
             this.pName = value;
-           // this.$store.commit('updateProjectName', value)
           }
         },
     },
@@ -299,7 +289,6 @@
         $('.Topbar-navButton').css('margin-left', '-35px');
         document.getElementById('mySidenav').style.width = "250px"
         document.getElementById("top-bar").style.marginLeft = "250px"
-        // document.getElementById("center_pane").style.marginLeft = "250px";
         document.getElementById("main-container").style.marginLeft = "250px";
         this.isOpen = true
         this.$store.commit('UPDATE_SLIDER_VALUE', this.isOpen)
@@ -309,10 +298,6 @@
       },
       btnLogoutClicked() {
         CmnFunc.deleteAutheticationDetail()
-        // this.$store.state.userObject = {}
-        // this.$store.state.isAuthorized = false
-        // this.$store.commit('userData')
-        // this.$store.commit('authorize')
         window.location = "/"
       },
       btnUpdateProfileClicked() {
@@ -322,15 +307,12 @@
           'role': this.role,
           'dob': this.dob,
           'aboutme': this.aboutme,
-          //'signup_type': this.$store.state.userObject.signup_type,
           'image_url': this.imageURlProfilePic
         })
           .then(function () {
             self.$store.state.userObject.fullname = self.username
             self.$store.state.userObject.role = self.role
-            //if (this.dob) {
             self.$store.state.userObject.dob = self.dob
-            //}
             self.$store.state.userObject.aboutme = self.aboutme
             self.$store.commit('userData')
           })
@@ -414,20 +396,6 @@
           bucket.upload(params).on('httpUploadProgress', function (evt) {
             console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total) + '%');
           }).send(function (err, data) {
-            // console.log("Amazon-data :: ", err);
-            // self.$http.post('/updateImageURL', {
-            // email: self.$store.state.userObject.email,
-            // signup_type: self.$store.state.userObject.signup_type,
-            // image_url: data.Location,
-            // image_name: file.name
-            // }).then(response => {
-            //     if (response.body.replaced) {
-            //         self.imageURlProfilePic = data.Location
-            //         self.$store.state.userObject.image_url = self.imageURlProfilePic
-            //         self.$store.state.userObject.image_name = file.name
-            //         self.$store.commit('userData')
-            //         self.loading = false
-            //     }
             self.$store.dispatch('updateUserProfile', {
               image_url: data.Location,
               image_name: file.name
@@ -447,14 +415,6 @@
         }
         return false;
       },
-      // createImage(file) {
-      //   var image = new Image();
-      //   var reader = new FileReader();
-      //   reader.onload = (e) => {
-      //     this.image = e.target.result;
-      //   };
-      //   reader.readAsDataURL(file);
-      // },
       removeImage: function (e) {
         this.loading = true
         this.imageURlProfilePic = null
@@ -467,19 +427,6 @@
         }
         bucketInstance.deleteObject(params, function (err, data) {
           if (data) {
-
-            // self.$http.post('/updateImageURL', {
-            //   email: self.$store.state.userObject.email,
-            //   signup_type: self.$store.state.userObject.signup_type,
-            //   image_url: self.imageURlProfilePic,
-            //   image_name: ''
-            //   }).then(response => {
-            //       if (response.body.replaced) {
-            //           self.$store.state.userObject.image_url = self.imageURlProfilePic
-            //           self.$store.state.userObject.image_name = ''
-            //           self.$store.commit('userData')
-            //           self.loading = false
-            //       }
             self.$store.dispatch('updateUserProfile', {
               image_url: self.imageURlProfilePic,
               image_name: ''

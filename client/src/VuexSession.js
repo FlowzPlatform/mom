@@ -1030,9 +1030,6 @@ export const store = new Vuex.Store({
               CmnFunc.insertHistoryLog(store,store.state.userObject._id,insertElement.taskName,dbId,Constant.HISTORY_LOG_ACTION.TASK_UPDATE)
             }
         });
-
-       
-
       } else {
         
         services.tasksService.create({

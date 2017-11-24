@@ -10,7 +10,6 @@
             <span class="token-input-container">
                 <el-tag :key="tag.id" v-for="tag in taskTags" :closable="true" :close-transition="false" @close="handleClose(tag)">
                     {{getTagNameFromId(tag)}}
-                    <!--{{tag.name}}-->
                 </el-tag>
             </span>
             <span class="el-dropdowns-parts" v-show="isTagCreatePermission">
@@ -19,7 +18,6 @@
                 <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
                 <div class="popup hidden" ref="menuTag">
                     <ul class="popup-content" style="overflow-y:scroll;">
-
                         <template v-for="item in searchItems">
                             <li @click="selectLiTag(item)">
                                 <span class="tag">
@@ -27,7 +25,6 @@
                                         <b>ADD NEW</b>
                                     </div>{{ item.name }}</span>
                             </li>
-                            <hr class="divider">
                         </template>
                     </ul>
                 </div>
@@ -52,9 +49,6 @@ import {
 Vue.use(Tag)
 Vue.use(Button)
 Vue.use(Input)
-
-
-
 export default {
     props: ['filteredTodo'],
     data() {
@@ -75,12 +69,9 @@ export default {
         this.newTagPermission();
         this.deleteTagPermission();
         this.$store.dispatch('getTagsList')
-        
-        //this.$store.dispatch('getAllTaskTags', this.filteredTodo.id);
     },
     computed: {
         ...mapGetters({
-            // taskTags:'getTaskTags', // Hemant
             taskTagsById: 'getTaskTagsById'
         }),
         taskTags: function() {
@@ -113,7 +104,6 @@ export default {
             }
             else
                 return ''
-            //  return this.$store.state.tagsList[index].name
         },
         selectLiTag: function(item) {
             this.selectFromList = true;
@@ -189,7 +179,6 @@ export default {
             }
             else {
                 this.inputVisible = false;
-                // this.inputValue = '';
             }
 
             this.hideDropDownMenu();
@@ -198,13 +187,10 @@ export default {
             this.eventEnter = true;
             this.inputVisible = false;
             let tag = String(this.inputValue).trim();
-            //   this.inputValue='';
             if (tag && tag.length > 0) {
-                //    this.tagItem.id=new Date().getMilliseconds()
                 this.inputValue = tag;
                 this.$refs.saveTagInput.$refs.input.blur();
             }
-
         },
         insertTag(value) {
             // Insert new tag into tags table
@@ -233,9 +219,7 @@ export default {
             console.log("Tag Delete permission:", this.isTagDeletePermission)
         }
 
-    }, components: {
-
-    },
+    }
 }
 
 </script>
