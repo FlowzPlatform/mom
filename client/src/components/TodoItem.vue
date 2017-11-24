@@ -67,6 +67,8 @@
   </li>
 </template>
 <style>
+
+  
   col-md-2.border-right:after {
     content: "";
     border-right: solid 1px #ccc;
@@ -204,10 +206,12 @@
         this.selectedObject = this.taskState.find(state => state.state_id === objStatus.state_id)
       },
       addTodo: function (todoId) {
-        if (this.id !== 'taskTypes' && this.id !== 'taskState') {
-          this.$store.dispatch('insertTodo', this.todo)
+        // console.log("onKeyenter add TODO called===>")
+        // if (this.id !== 'taskTypes' && this.id !== 'taskState') {
+        //   this.$store.dispatch('insertTodo', this.todo)
           
-        } else if (this.id === "taskTypes") {
+        // } else 
+        if (this.id === "taskTypes") {
           this.$store.dispatch('addTask_Type', this.todo)
         } else if (this.id === "taskState") {
           this.$store.dispatch('addTask_State', { "state": this.todo })
@@ -267,6 +271,7 @@
         this.$store.state.currentModified = (this.todo.id == -1) ? true : false
       },
       changeValue: function (todoId) {
+        console.log("Change value called===>")
         this.$store.dispatch('insertTodo', this.todo)
         var nextTaskIndex = todoId.split('_')[0];
         if (nextTaskIndex == -1) {

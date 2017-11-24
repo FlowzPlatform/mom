@@ -38,7 +38,7 @@ var devMiddleware = require('webpack-dev-middleware')(compiler, {
 		timings: false,
 		chunks: false,
 		chunkModules: false
-	  }
+	  }   
 })
 
 var hotMiddleware = require('webpack-hot-middleware')(compiler, {
