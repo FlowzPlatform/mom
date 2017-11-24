@@ -143,10 +143,6 @@
         -webkit-transition: max-height .2s ease;
         transition: max-height .2s ease;
     }
-        .ui.vertical.stripe h3 {
-          font-size: 2em;
-        }
-
     .side-filter__category-list {
         padding-left: 0;
         margin-top: 3px;
@@ -193,9 +189,6 @@
         background-color: #02ceff;
     }
 
-    li.side-filter__category-item:active {
-        background-color: #02ceff;
-    }
     .secondary.pointing.menu .toc.item {
         display: none;
     }
@@ -323,11 +316,6 @@
         },
         methods: {
             itemAction: function(action,isChecked, data,rowField,roleValue,taskTypeId) {
-               
-                //  let roleIndex = _.findIndex(data.roleid, function (role) { return role.rId === rowField.id })
-                //  var role = data.roleid[roleIndex];
-                //  var accessValues = role.access_value ? role.access_value : 0
-                //  var patchValue = isChecked ? accessValues + roleValue : accessValues - roleValue
                   let roleIndex = _.findIndex(data.roleid, function (role) { return role.rId === rowField.id })
                  if(roleIndex>-1)
                  {
@@ -349,15 +337,6 @@
                      })
                         data.roleid.push({rId: rowField.id,access_value:roleValue})
                  }
-                // this.$store.dispatch('setAccessPermision', {
-                //          rId: rowField.id,
-                //          pId: data.id,
-                //          access_value:  patchValue,
-                //          taskType:taskTypeId
-                //      })
-                //      role.access_value=patchValue;
-                //      console.log("role::-",role)
-                    //  data.roleid.push({rId: rowField.id,access_value:roleValue})
             },
             onClick: function (event) {
                 console.log('custom-action: on-click----->', event.target)
@@ -384,7 +363,6 @@
             }
         },
         created() {
-            // this.$store.dispatch('eventListener');
             services.roleService.find().then(response =>{
                 console.log("Response :--",response)
                 tableColumns = [{
@@ -397,14 +375,8 @@
                 response.forEach(function (row) {
                     row.titleClass = 'center aligned'
                     row.dataClass = 'center aligned'
-                    // console.log("Field row", row);
-                    //    tableColumns.push(row)
                     tableColumns.push(row)
-                    //    this.fields.push(row);
-                    // console.log("Field tablerow", tableColumns);
-
                 }, this);
-                //   this.fields.push(tableColumns);  
                 this.callTaskList();
             })
            
@@ -421,13 +393,6 @@
                     console.log("Response roles:--", response)
                     this.tableData = response;
                 });
-                // this.$store.dispatch('getAllPermissions').then(function (response) {
-                //     console.log("Got some data, now lets show something in this component:-", response)
-                //     this.tableData = response
-                //  })
-                //  .catch(function (error) {
-                //     console.error("Got nothing from server. Prompt user to check internet connection and try again",error)
-                // })
             },
             rowClassCB: function (data, index) {
                 return (index % 2) === 0 ? 'odd' : 'even'

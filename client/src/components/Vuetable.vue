@@ -33,7 +33,6 @@
 
                             <template v-for="n in 4" v-else>
                                 <td :style="getSectionBorderClass(fieldNumber-1,n)">
-                                    <!-- {{getObjectValue(item, field, n)}} -->
                                     <component :class="field.dataClass" is="custom-action" :row-field-data="item"  :row-index="itemNumber" :row-check="getObjectValue(item, field, n)"
                                         :row-field="field" :role-value="getRoleValue(n)" :task-type-id="taskTypeId"></component>
                                 </td>
@@ -118,8 +117,6 @@ export default {
         getSectionBorderClass: function (fieldIndex, colSpanIndex) {
             if (colSpanIndex == 1)
                 return "border-left: 1px solid #000000;"
-            // else if (colSpanIndex == 4 && fieldIndex < this.fields.length - 2)
-            //     return "border-right: 1px solid #000000;"
             else
                 return ""
         },
@@ -248,27 +245,21 @@ export default {
             var idColumn = this.extractArgs(fieldName)
             var selector = 'th.checkbox_' + idColumn + ' input[type=checkbox]'
             var els = document.querySelectorAll(selector)
-
-            // count how many checkbox row in the current page has been checked
             var selected = this.tableData.filter(function(item) {
                 return self.selectedTo.indexOf(item[idColumn]) >= 0
             })
-
-            // count == 0, clear the checkbox
             if (selected.length <= 0) {
                 els.forEach(function(el) {
                     el.indeterminate = false
                 })
                 return false
             }
-            // count > 0 and count < perPage, set checkbox state to 'indeterminate'
             else if (selected.length < this.perPage) {
                 els.forEach(function(el) {
                     el.indeterminate = true
                 })
                 return true
             }
-            // count == perPage, set checkbox state to 'checked'
             else {
                 els.forEach(function(el) {
                     el.indeterminate = false
@@ -291,7 +282,6 @@ export default {
             if (typeof this.$parent[func] == 'function') {
                 return this.$parent[func].call(this.$parent, item)
             } else {
-                // console.error('Function "'+func+'()" does not exist!')
             }
         },
         deleteRole: function(item) {
@@ -345,12 +335,6 @@ export default {
         }
     },
     created: function() {
-       // this.checkForDeprecatedProps()
-        // this.normalizeFields()
-    
-        // this.$nextTick(function() {
-        //     this.callPaginationConfig()
-        // })
     }
 }
 </script>

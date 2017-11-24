@@ -28,14 +28,14 @@ export default {
       }
       return false
   },
-    deleteAutheticationDetail: function () {
-      store.commit('DELETE_USERTOKEN')
-      store.commit('DELETE_ATTACHMENTS')
-      store.commit('DELETE_ALLUSERSLIST')
-      store.state.userObject = {}
-      store.state.isAuthorized = false
-      store.commit('userData')
-      store.commit('authorize')
+  deleteAutheticationDetail: function () {
+    store.commit('DELETE_USERTOKEN')
+    store.commit('DELETE_ATTACHMENTS')
+    store.commit('DELETE_ALLUSERSLIST')
+    store.state.userObject = {}
+    store.state.isAuthorized = false
+    store.commit('userData')
+    store.commit('authorize')
       
   },
   resetProjectDefault: function () {
@@ -64,7 +64,7 @@ export default {
       {
         let accessRight;
         let permisisonId;
-         // If accessPermission object empty then call function callRoleAccessService
+        // If accessPermission object empty then call function callRoleAccessService
         // and store value in accessRight vuex data
         let accessPermission = await this.checkAccessValue(context,taskTypeId,selfRoleId);
         console.log("object empty:",accessPermission);
@@ -81,7 +81,6 @@ export default {
               store.state.accessRight = accessRight;
         }
         if (!_.isEmpty(accessRight)) {
-          
           let accessValue = await this.getAccessValue(context, accessRight, permisisonId, taskTypeId)
           console.log("accessValue--->", accessValue)
           if (permisisonAction === Constant.PERMISSION_ACTION.CREATE)
@@ -95,7 +94,6 @@ export default {
         }else{
           return this.isCreatedByLoginUser(context);  
         }
-        // });
       }
       else{
         return this.isCreatedByLoginUser(context);
@@ -110,7 +108,6 @@ export default {
     return services.roleAccessService.find({ query: { task_type: taskTypeId, rId: selfRoleId } }).then(response => {
       console.log("Res--->", response)
       return response;
-      
     });
   },
   getSelfRoleId:function(context)
@@ -135,8 +132,8 @@ export default {
   insertHistoryLog:function(context,createdBy,text,taskId,logAction)
   {
     services.taskHistoryLogs.create({created_by:createdBy,text:text,task_id:taskId,log_action:logAction,created_on:new Date()}).then(response=> {
-      console.log("History log:--->",response)
-      context.state.taskHistoryLog.unshift(response)
+      console.log("Reponse task update:--->",response)
+      context.state.taskHistoryLog.push(response)
     })
   },
   /**
@@ -144,13 +141,8 @@ export default {
    * return task_type object
    */
   checkAccessValue:function(context,taskTypeId,selfRoleId){
-      return _.find(context.$store.state.accessRight, function (obj) {
-        // console.log("obj:",obj);
-        // console.log("taskTypeId:",taskTypeId);
-        // console.log("selfRoleId:",selfRoleId);
-        
-      //  console.log("obj:",(obj.task_type == taskTypeId && obj.rId == selfRoleId));
-        return (obj.task_type == taskTypeId && obj.rId == selfRoleId);
-      });
+    return _.find(context.$store.state.accessRight, function (obj) {
+      return (obj.task_type == taskTypeId && obj.rId == selfRoleId);
+    });
   }
 }

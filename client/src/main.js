@@ -1,5 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+/* eslint-disable*/
 import Vue from 'vue'
 import App from './App.vue';
 import router from './router'
@@ -17,7 +18,7 @@ Vue.config.warnHandler = function (msg, vm, trace) {
   console.warn(msg, vm, trace);
   // `trace` is the component hierarchy trace
 }
-/* eslint-disable*/
+
 import { store } from './VuexSession'
 
 new Vue({

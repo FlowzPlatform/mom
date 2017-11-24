@@ -1,27 +1,26 @@
 <template>
   <div>
-    <div id="drag-2" v-draggable onmousedown="return false">
-        
+    <div id="drag-2" v-draggable onmousedown="return false"> 
       <ul id="menu">
           <a class="menu-button fa fa-bars" href="#menu" title="Show navigation"></a>
           <a class="menu-button fa fa-times" href="#" title="Hide navigation"></a>
         
         <li class="menu-item icon-cogs">
-          <a class="menu-item-back" @click="showRoleAccess"></a>
+          <a class="menu-item-back" data-toggle="tooltip" title="Role Access" @click="showRoleAccess"></a>
         </li>
         <li class="menu-item icon-tasks">
-          <a class="menu-item-back" @click="showMainTask"></a>
+          <a class="menu-item-back" data-toggle="tooltip" title="Tasks" @click="showMainTask"></a>
         </li>
         <li class="menu-item icon-trash">
-          <a class="menu-item-back" @click="showDeleteTasks"></a>
+          <a class="menu-item-back" data-toggle="tooltip" title="Deleted Item" @click="showDeleteTasks"></a>
         </li>
         <li class="menu-item fa fa-plus-square-o">
-          <a class="menu-item-back"  @click="createProject"></a>
+          <a class="menu-item-back" data-toggle="tooltip" title="Create Project"  @click="createProject"></a>
         </li>
         <li class="menu-item icon-search">
-          <a class="menu-item-back"  @click="searchResult"></a>
+          <a class="menu-item-back" data-toggle="tooltip" title="Search"  @click="searchResult"></a>
         </li>
-        <Poptip class="menu-item icon-list-alt" placement="bottom-end">
+        <Poptip data-toggle="tooltip" class="menu-item icon-list-alt" placement="bottom-end">
           <li></li>
           <div slot="title">
             <i style="color:black; font-size:large;">Projects</i>
@@ -277,7 +276,6 @@
   import Vue from 'vue'
   import { mapGetters, mapMutations } from 'vuex'
   import CmnFunc from './CommonFunc.js'
-  import ProjectItem from './ProjectItem.vue'
   import CreateProjectDialog from './CreateProjectDialog.vue'
   import Avatar from 'vue-avatar/dist/Avatar'
   Vue.directive('draggable', {
@@ -337,6 +335,9 @@
       }
     },
     created() {
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
       this.$store.dispatch('getUsersRoles');
       this.$store.dispatch("getAllUsersList", this.callAllProjectList)
     },
@@ -567,7 +568,6 @@
           this.name = item.name
           // Hide header 
           $("#listHeader" + project.id).addClass("hidden");
-          // Hide header 
           $("#listHeader" + project.id).addClass("hidden");
           // Close last open dialog
           if (this.lastOpenDialogId !== '') {
@@ -648,7 +648,6 @@
       },
       showMemberDialog(project) {
         // Hide project setting menu
-        console.log("========================", project)
         this.$store.state.projectSettingId = project.id;
         this.$store.state.currentProjectMember = project.members;
         this.$store.state.currentProjectCreatedBy = project.create_by;
@@ -667,7 +666,6 @@
     },
     components: {
       CreateProjectDialog,
-      ProjectItem,
       Avatar
     }
   }

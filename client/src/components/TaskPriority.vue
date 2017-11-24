@@ -33,8 +33,6 @@
     methods:{
     clickAction () {
         this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "taskPriority": this.filteredTodo.priority})
-        // this.showModal=false
-        // this.$emit('showModal', this.showModal);
         this.closeAction()
 
       },

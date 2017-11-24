@@ -5826,3 +5826,34 @@ CSS for splitter view
     min-width: 70px;
     padding-right: 10px;
 }
+.markdown-editor {
+    height: 500px;
+}
+.nav {
+    right: 42px;
+    z-index: 20;
+    width: 45px;
+    bottom: 15px;
+    height: 45px;
+    display: block;
+    position: absolute;
+    /* bottom: 50px; */
+    line-height: 45px;
+    border-radius: 50%;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .75);
+}
+.mask {
+    z-index: 21;
+   color: #fff;
+   width: inherit;
+   height: inherit;
+   cursor: pointer;
+   font-size: 28px;
+   text-align: center;
+   border-radius: 50%;
+   position: absolute;
+   /*bottom: 50px; */
+   background: #f23363;
+   -webkit-transition: all .1s ease-in-out 0s;
+   transition: all .1s ease-in-out 0s;
+}

@@ -84,7 +84,9 @@
     import VueRouter from 'vue-router'
     import iView from 'iview';
     import 'iview/dist/styles/iview.css';
+    import locale from 'iview/dist/locale/en-US';
 
+    Vue.use(iView, { locale });
 
     Vue.use(iView);
 

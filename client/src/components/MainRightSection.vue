@@ -43,11 +43,6 @@
             :commentTaskId="todoObject.id">
           </component>
         </div>
-         <!-- <Select placeholder="hemant" placement="top" v-model="model8" style="right:0;width:200px;position:absolute;bottom:36px;z-index:99999">
-              <Option value="delhi">delhi</Option>
-              <Option value="punjab">punjab</Option>
-              <Option value="gujarat">gujarat</Option>
-        </Select> -->
         <div class="nav_bottom">
           <div class="navbar-bottom" id="myNavbar">
             <a href="javascript:void(0)" id="#subtask" v-bind:class="selectedMenuIndex==0?activeClass:''" class="nav-tab" @click="subTaskShow">
@@ -58,8 +53,10 @@
              <!-- Assign task to user menu item -->
             <div class="assing-to-menu">
                       <span style="float:left;margin-top:-3px">
-                        <avatar v-if="imageURlProfilePic" :username="getUserName()" :size='30' :src='imageURlProfilePic'></avatar>
-                        <avatar v-else :username="getUserName()" color='#fff' :size='30'></avatar>
+                        <div v-if="getUserName()">
+                          <avatar v-if="imageURlProfilePic" :username="getUserName()" :size='30' :src='imageURlProfilePic'></avatar>
+                          <avatar v-else :username="getUserName()" color='#fff' :size='30'></avatar>
+                        </div>
                       </span>
                       <Row>
                             <Col span="2" style="padding-right:10px">
@@ -150,8 +147,6 @@
 import Vue from "vue";
 import MainLeftSection from "./MainLeftSection.vue";
 import TextDescription from "./TextDescription.vue";
-// import RightFooter from './RightFooter.vue'
-// import Comment from './Comment.vue'
 import SubComment from "./SubComment.vue";
 import HistoryLog from "./HistoryLog.vue";
 import RightToolbar from "./RightToolbar.vue";
@@ -393,12 +388,10 @@ export default {
     },
     commentsShow() {
       this.selectedMenuIndex = 4;
-      // this.currentView = Comment
       this.currentView = SubComment;
     },
     assignToShow() {
       this.selectedMenuIndex = 5;
-      // this.currentView = Comment
     },
     handleOpen() {
       this.selectedMenuIndex = 5;
@@ -456,8 +449,6 @@ export default {
     },
     getAssignedUserObj(assignUserId) {
       var objUser;
-      // console.log('filteredTodo.assigned_to', this.todoObject.assigned_to)
-      // console.log('this.$store.state.userObject._id', this.$store.state.userObject)
       if (this.todoObject.assigned_to === this.$store.state.userObject._id) {
         objUser = this.$store.state.userObject;
       } else {
@@ -466,7 +457,6 @@ export default {
           assignUserId
         ]);
       }
-      // console.log('User', objUser)
       return objUser;
     },
     getUserName() {
@@ -697,8 +687,6 @@ a.option-menu.glyphicon.glyphicon-option-horizontal {
   font-size: 2.5em;
   margin-right: 10px;
   color: #ed3f14;
-}
-.navbar-bottom {
 }
 .navbar-bottom .assing-to-menu {
   padding: 5px;
