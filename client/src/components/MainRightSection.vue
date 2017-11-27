@@ -85,7 +85,7 @@
                </DatePicker>                             
             </div> 
             <!-- History -->
-            <a href="javascript:void(0)"  v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab hidden" @click="historyShow">
+            <a href="javascript:void(0)"  v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab" @click="historyShow">
               <Tooltip content="History" placement="top-start">
                 <i class="nav-icon fa fa-history" aria-hidden="true" style="font-size:20px"></i>
               </Tooltip>
@@ -115,7 +115,6 @@
                   <DropdownItem name="2">Task Priority</DropdownItem>
                   <DropdownItem name="3">Copy Task URL</DropdownItem>
                   <DropdownItem name="4">Delete Task</DropdownItem>
-                  <DropdownItem name="5">History</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>

@@ -46,9 +46,9 @@
                                                 <div tabindex="3" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in</div>
                                         </TabPane>
                                         <TabPane label="LDAP" name="2">
-                                                <input placeholder="LDAP Username" tabindex="1" type="email" name="e" id="ldap_username" value="" v-model="emailId" v-on:change="enableButtons()">
-                                                <input placeholder="Password" tabindex="2" type="password" name="p" id="password_input_ldap" v-model="pwd" @keyup.enter="btnLogInClicked()">
-                                                <div tabindex="3" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in</div>
+                                                <input placeholder="LDAP Username" tabindex="4" type="email" name="e" id="ldap_username" value="" v-model="emailId" v-on:change="enableButtons()">
+                                                <input placeholder="Password" tabindex="5" type="password" name="p" id="password_input_ldap" v-model="pwd" @keyup.enter="btnLogInClicked()">
+                                                <div tabindex="6" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in</div>
                                         </TabPane>
                                 </Tabs>
                                 </div>
@@ -58,10 +58,10 @@
                     <div class="form-item sign-up">
                         <div class="table">
                             <div class="table-cell">
-                                <input placeholder="Email" tabindex="4" type="email" name="e" id="emailInput" value="" v-model="emailId" v-on:change="enableButtons()">
-                                <input placeholder="Password" tabindex="5" type="password" name="p" id="passwordInput" v-model="pwd">
-                                <input placeholder="Confirm Password" tabindex="6" type="password" v-model="confPwd" id="confirmpwd">
-                                <div tabindex="7" class="btn" id="signup_btn" @click="btnSubmitClicked()">
+                                <input placeholder="Email" tabindex="7" type="email" name="e" id="emailInput" value="" v-model="emailId" v-on:change="enableButtons()">
+                                <input placeholder="Password" tabindex="8" type="password" name="p" id="passwordInput" v-model="pwd">
+                                <input placeholder="Confirm Password" tabindex="9" type="password" v-model="confPwd" id="confirmpwd">
+                                <div tabindex="10" class="btn" id="signup_btn" @click="btnSubmitClicked()">
                                     Submit
                                 </div>
                             </div>

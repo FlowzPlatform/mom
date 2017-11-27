@@ -2,6 +2,12 @@
   <modal :showModal="showModal" :closeAction="closeAction" class="pos">
     <h3 slot="header">Task Priority</h3>
     <span slot="body" class="modal-body">
+        <div class="modalObjectInfos">
+            <div class="objectInfoItem">
+              <span class="objectInfoItemName">Task:</span>
+              {{filteredTodo.taskName}}
+            </div>
+          </div>
          <label class="form-label" for="sel1">
                     Task Priority:
                   <select class="form-control" id="sel1" v-model="filteredTodo.priority">
