@@ -122,7 +122,7 @@ export default {
         historyDetailList: function (historyList) {
             historyList.forEach(function (c) {
                 let userId = c.created_by
-                let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
+                let userIndex = this.$lodashFindIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
                 if (userIndex < 0) {
                 } else {
                     var id = this.$store.state.arrAllUsers[userIndex]._id

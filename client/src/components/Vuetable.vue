@@ -197,7 +197,7 @@ export default {
             // defaultValue = (typeof defaultValue == 'undefined') ? null : defaultValue
             if (path.id) {
                 var roleId = object.roleid;
-                let roleIndex = _.findIndex(roleId, function (role) { return role.roleId === path.id })
+                let roleIndex = this.$lodashFindIndex(roleId, function (role) { return role.roleId === path.id })
                 if (roleIndex < 0)
                     return false;
 

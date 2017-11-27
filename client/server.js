@@ -3,7 +3,7 @@ const r = require('rethinkdbdash')()
 const bodyParser = require('body-parser')
 const webpack = require('webpack')
 const config = require('./build/webpack.dev.conf')
-const _ = require('lodash')
+// const _ = require('lodash')
 
 const app = express()
 const router = express.Router()

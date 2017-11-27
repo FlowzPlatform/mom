@@ -303,7 +303,7 @@
                     // let index = _.findIndex(parentList, function (d) { return d.parentId === comment.parentId })
                     // console.log("Parent Index:------->",index)
     
-                    let indexParent = _.findIndex(parentList, function (d) { return d.id === comment.parentId })
+                    let indexParent = this.$lodashFindIndex(parentList, function (d) { return d.id === comment.parentId })
                     console.log("Parent Index indexParent:------->",indexParent)
                     let tempC=parentList[indexParent];
                     console.log("Parent Index:------->",tempC)
@@ -343,7 +343,7 @@
                 },
                 setcommenteduserData: function (c) {
                     let userId = c.commentBy
-                    let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
+                    let userIndex = this.$lodashFindIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
                     if (userIndex < 0) {
                     } else {
                         var id = this.$store.state.arrAllUsers[userIndex]._id

@@ -172,6 +172,7 @@ import Datepicker from "vuejs-datepicker";
 import moment from "moment";
 import EstimatedHours from './EstimatedHours.vue'
 import TaskPriority from './TaskPriority.vue'
+
 Vue.use(AsyncComputed);
 Vue.filter("formatDate", function(value) {
   if (value) {
@@ -306,7 +307,7 @@ export default {
     userDetail(deletedTasks) {
       deletedTasks.forEach(function(c) {
         let userId = c.assigned_to;
-        let userIndex = _.findIndex(this.$store.state.arrAllUsers, function(m) {
+        let userIndex = this.$lodashFindIndex(this.$store.state.arrAllUsers, function(m) {
           return m._id === userId;
         });
         if (userIndex < 0) {
@@ -344,7 +345,7 @@ export default {
       );
     },
     checkAttachmentExistance() {
-      let attachmentArray = _.find(this.$store.state.arrAttachment, [
+      let attachmentArray = this.$lodashFindIndex(this.$store.state.arrAttachment, [
         "task_id",
         this.todoObject.id
       ]);
@@ -416,17 +417,17 @@ export default {
     pinit(filteredTodo) {
       console.log("TODO Object", filteredTodo);
       if (
-        _.find(this.$store.state.todolist, ["id", filteredTodo.id]) &&
-        !_.find(this.$store.state.todolist, ["id", filteredTodo.id]).isPinned
+        this.$lodashFind(this.$store.state.todolist, ["id", filteredTodo.id]) &&
+        !this.$lodashFind(this.$store.state.todolist, ["id", filteredTodo.id]).isPinned
       ) {
         console.log("pinnned true");
-        _.find(this.$store.state.todolist, [
+        this.$lodashFind(this.$store.state.todolist, [
           "id",
           filteredTodo.id
         ]).isPinned = true;
       } else {
         console.log("pinnned false");
-        _.find(this.$store.state.todolist, [
+        this.$lodashFind(this.$store.state.todolist, [
           "id",
           filteredTodo.id
         ]).isPinned = false;
@@ -434,7 +435,7 @@ export default {
     },
     async setAssignUser(userId) {
       console.log("user id -->", userId);
-      var user = _.find(this.$store.state.arrAllUsers, ["_id", userId]);
+      var user = this.$lodashFind(this.$store.state.arrAllUsers, ["_id", userId]);
       console.log("Selected User setAssignUser method:", user);
       if (user) {
         this.$store.dispatch("editTaskName", {
@@ -461,7 +462,7 @@ export default {
       if (this.todoObject.assigned_to === this.$store.state.userObject._id) {
         objUser = this.$store.state.userObject;
       } else {
-        objUser = _.find(this.$store.state.arrAllUsers, [
+        objUser = this.$lodashFind(this.$store.state.arrAllUsers, [
           "_id",
           assignUserId
         ]);

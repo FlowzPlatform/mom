@@ -82,7 +82,7 @@
             stateSelectedList: function(list) {
                 list.forEach(function (c) {
                     let stateId = c.id
-                    let stateIndex = _.findIndex(this.$store.state.task_types_state, function (m) {
+                    let stateIndex = this.$lodashFindIndex(this.$store.state.task_types_state, function (m) {
                         return m.state_id === stateId
                     })
                     if (stateIndex < 0) {

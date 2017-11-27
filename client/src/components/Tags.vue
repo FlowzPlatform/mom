@@ -105,7 +105,7 @@ export default {
         getTagNameFromId: function(tag) {
             if (tag.name)
                 return tag.name;
-            let index = _.findIndex(this.$store.state.tagsList, function(d) { return d.id == tag.tag_id })
+            let index = this.$lodashFindIndex(this.$store.state.tagsList, function(d) { return d.id == tag.tag_id })
             if (index > -1) {
                 if (!tag.name)
                     tag.name = this.$store.state.tagsList[index].name
@@ -144,7 +144,7 @@ export default {
                 if (this.eventEnter) {
                     this.eventEnter = false;
                     //Check duplication tag in task 
-                    let index = _.findIndex(this.taskTags, function(d) { return d.name == inputTag })
+                    let index = this.$lodashFindIndex(this.taskTags, function(d) { return d.name == inputTag })
                     if (index > -1) {
                         this.inputVisible = false;
                         this.inputValue = ''; // Clear input value
@@ -152,7 +152,7 @@ export default {
                         return;
                     } else {
                         //Check enter tag is availble in database list
-                        let index = _.findIndex(this.$store.state.tagsList, function(d) { return d.name == inputTag })
+                        let index = this.$lodashFindIndex(this.$store.state.tagsList, function(d) { return d.name == inputTag })
                         if (index > -1) {
                             var indexTag = this.$store.state.tagsList[index];
                             // Insert tag task in task
@@ -168,10 +168,10 @@ export default {
                 } else {
                     this.selectFromList = false;
                     if (tag.name) {
-                        let index = _.findIndex(this.taskTags, function(d) { return d.name == tag.name })
+                        let index = this.$lodashFindIndex(this.taskTags, function(d) { return d.name == tag.name })
                         if (index > -1) {
                         } else {
-                            let index = _.findIndex(this.$store.state.tagsList, function(d) { return d.name == inputTag })
+                            let index = this.$lodashFindIndex(this.$store.state.tagsList, function(d) { return d.name == inputTag })
                             if (index > -1) {
                                 var indexTag = this.$store.state.tagsList[index];
                                 // Insert tag task in task

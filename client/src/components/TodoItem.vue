@@ -126,14 +126,14 @@
   import BootstrapVue from 'bootstrap-vue'
   import KeenUI from 'keen-ui';
   import Resource from 'vue-resource'
-  import lodash from 'lodash'
+  // import lodash from 'lodash'
   import * as services from '../services'
   import VueLodash from 'vue-lodash/dist/vue-lodash.min'
   import CmnFunc from './CommonFunc.js'
   import * as Constant from './Constants.js'
   import moment from 'moment'
   import Avatar from 'vue-avatar/dist/Avatar'
-  Vue.use(VueLodash, lodash)
+  // Vue.use(VueLodash, lodash)
   Vue.use(BootstrapVue)
   Vue.use(KeenUI);
   Vue.use(Resource)
@@ -329,7 +329,7 @@
           //   el.focus();
           // }
           var todoid = indexId.split("_")
-          let showTodoIndex = _.findIndex(self.$store.state.todolist, function (d) { return d.id == todoid[0] })
+          let showTodoIndex = this.$lodashFindIndex(self.$store.state.todolist, function (d) { return d.id == todoid[0] })
           if (showTodoIndex != -1)
             self.$store.commit('SHOW_DIV', self.$store.state.todolist[showTodoIndex])
         }, 1000);
@@ -337,7 +337,7 @@
       taskStateList: function (state) {
         state.forEach(function (c) {
           let stateId = c.state_id
-          let stateIndex = _.findIndex(this.$store.state.task_state_list, function (m) {
+          let stateIndex = this.$lodashFindIndex(this.$store.state.task_state_list, function (m) {
             return m.id === stateId
           })
           if (stateIndex < 0) {

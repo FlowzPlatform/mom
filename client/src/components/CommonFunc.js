@@ -68,7 +68,7 @@ export default {
         // and store value in accessRight vuex data
         let accessPermission = await this.checkAccessValue(context,taskTypeId,selfRoleId);
         console.log("object empty:",accessPermission);
-        if(!_.isEmpty(accessPermission)){
+        if(!this.$lodashIsEmpty(accessPermission)){
           accessRight = accessPermission;
         }else{
               permisisonId = this.getPermissionId(context,userAction)
@@ -80,7 +80,7 @@ export default {
               console.log("accessRight--->", accessRight)
               store.state.accessRight = accessRight;
         }
-        if (!_.isEmpty(accessRight)) {
+        if (!this.$lodashIsEmpty(accessRight)) {
           
           let accessValue = await this.getAccessValue(context, accessRight, permisisonId, taskTypeId)
           console.log("accessValue--->", accessValue)
@@ -115,13 +115,13 @@ export default {
   },
   getSelfRoleId:function(context)
   {
-    return _.result(_.find(context.$store.state.currentProjectMember, function (obj) {
+    return context.$lodashResult(context.$lodashFind(context.$store.state.currentProjectMember, function (obj) {
       return obj.user_id === context.$store.state.userObject._id;
     }), 'user_role_id');
   },
   getPermissionId:function(context,user_action)
   {
-    return _.result(_.find(context.$store.state.permissions, function (obj) {
+    return context.$lodashResult(context.$lodashFind(context.$store.state.permissions, function (obj) {
       return obj.index === user_action;
     }), 'id');
   },
@@ -144,7 +144,7 @@ export default {
    * return task_type object
    */
   checkAccessValue:function(context,taskTypeId,selfRoleId){
-      return _.find(context.$store.state.accessRight, function (obj) {
+      return this.$lodashFind(context.$store.state.accessRight, function (obj) {
         // console.log("obj:",obj);
         // console.log("taskTypeId:",taskTypeId);
         // console.log("selfRoleId:",selfRoleId);

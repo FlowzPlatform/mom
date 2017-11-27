@@ -159,7 +159,7 @@ export default {
         let vm=this;
         services.taskComments.on('created', message => {
             // if (message.parentId === vm.commentParentId) {       
-              let index = _.findIndex(this.taskComments, function (d) { return d.task_id == message.task_id && d.id == message.parentId})
+              let index = this.$lodashFindIndex(this.taskComments, function (d) { return d.task_id == message.task_id && d.id == message.parentId})
         console.log("--Counter----indes:--",index)
       // let counterUpdateComment=state.taskComment[index];
       // console.log("--Counter----counterUpdateComment :; ",counterUpdateComment)  
@@ -178,11 +178,11 @@ export default {
       comment.parentId = this.commentParentId 
       console.log("Click Comment:--", comment)
       let parentList = this.$store.state.parentIdArr;
-      // let index = _.findIndex(parentList, function (d) { return d.parentId === comment.parentId })
+      // let index = this.$lodashFindIndex(parentList, function (d) { return d.parentId === comment.parentId })
       // console.log("parentList:------->", index)
       
       
-      let indexParent = _.findIndex(parentList, function (d) { return d.id === comment.parentId })
+      let indexParent = this.$lodashFindIndex(parentList, function (d) { return d.id === comment.parentId })
       
       if (indexParent < 0) {
       let removeIndex=[];
@@ -223,7 +223,7 @@ export default {
     },
     setcommenteduserData: function (c) {
       let userId = c.commentBy
-      let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
+      let userIndex = this.$lodashFindIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
       if (userIndex < 0) {
       } else {
         var id = this.$store.state.arrAllUsers[userIndex]._id

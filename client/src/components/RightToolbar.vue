@@ -185,7 +185,7 @@
       },
       getAssignedType: function() {
         if (this.filteredTodo.type_id) {
-          var objType = _.find(this.$store.state.task_types_list, ['id', this.filteredTodo.type_id])
+          var objType = this.$lodashFind(this.$store.state.task_types_list, ['id', this.filteredTodo.type_id])
           return objType.type
         }else {
           // var obj = _.find(this.$store.state.task_types_list, { 'type': 'Todo.tasktype'});
@@ -347,7 +347,7 @@
         if (this.filteredTodo.assigned_to === this.$store.state.userObject._id) {
           objUser = this.$store.state.userObject
         } else {
-          objUser = _.find(this.$store.state.arrAllUsers, ['_id', this.filteredTodo.assigned_to])
+          objUser = this.$lodashFind(this.$store.state.arrAllUsers, ['_id', this.filteredTodo.assigned_to])
         }
         // console.log('User', objUser)
         return objUser

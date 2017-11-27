@@ -218,7 +218,7 @@ export default {
           //  console.log("current project member:",this.$store.state.currentProjectMember);
           //  console.log("member user_id",member.user_id);
             // var userId = this.$store.state.currentProjectCreatedBy;
-            var user =  _.find(this.$store.state.currentProjectMember, ['user_id', member.user_id])
+            var user =  this.$lodashFind(this.$store.state.currentProjectMember, ['user_id', member.user_id])
           //  console.log("user:",user);
             if(user && user.roleName === ''){
                  user.roleName = "Owner"

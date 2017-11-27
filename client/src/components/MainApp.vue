@@ -193,7 +193,7 @@
 			//               }
 			//             }else if(item.old_val){
 			//               if(item.new_val.parentId.length == 0){
-			//               let index = _.findIndex(self.taskById,function(d){return d.id == item.new_val.id})
+			//               let index = this.$lodashFindIndex(self.taskById,function(d){return d.id == item.new_val.id})
 			//               if(index > -1){
 			//                 self.taskById[index].taskName = item.new_val.taskName
 			//               }
@@ -204,7 +204,7 @@
 			//          }else if(item.old_val){
 			//            // var index = self.taskById.indexOf(item.old_val);
 			//            if(item.old_val.parentId.length == 0){
-			//            let index = _.findIndex(self.taskById,function(d){return d.id == item.old_val.id})
+			//            let index = this.$lodashFindIndex(self.taskById,function(d){return d.id == item.old_val.id})
 			//            if(index > -1){
 			//             self.taskById.splice(index, 1);
 			//            }
@@ -296,7 +296,7 @@
 					} else {
 						userId = c.assigned_to
 					}
-					let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
+					let userIndex = this.$lodashFindIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
 					if (userIndex < 0) {
 					} else {
 						c.image_url = this.$store.state.arrAllUsers[userIndex].image_url,

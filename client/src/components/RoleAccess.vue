@@ -328,7 +328,7 @@
                 //  var role = data.roleid[roleIndex];
                 //  var accessValues = role.access_value ? role.access_value : 0
                 //  var patchValue = isChecked ? accessValues + roleValue : accessValues - roleValue
-                  let roleIndex = _.findIndex(data.roleid, function (role) { return role.rId === rowField.id })
+                  let roleIndex = this.$lodashFindIndex(data.roleid, function (role) { return role.rId === rowField.id })
                  if(roleIndex>-1)
                  {
                       var role = data.roleid[roleIndex];

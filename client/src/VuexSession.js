@@ -7,6 +7,24 @@ import * as services from './services'
 import axios from 'axios'
 import * as Constant from './components/Constants.js'
 import CmnFunc from './components/CommonFunc.js'
+import lodashFindIndex from 'lodash/findIndex'
+import lodashFind from 'lodash/find'
+import lodashSortBy from 'lodash/sortBy'
+import lodashChain from 'lodash/chain'
+import lodashUnion from 'lodash/union'
+import lodashValue from 'lodash/value'
+import lodashResult from 'lodash/result'
+import lodashIsEmpty from 'lodash/isEmpty'
+import lodashDebounce from 'lodash/debounce'
+Vue.prototype.$lodashFindIndex = lodashFindIndex
+Vue.prototype.$lodashFind = lodashFind
+Vue.prototype.$lodashSortBy = lodashSortBy
+Vue.prototype.$lodashChain = lodashChain
+Vue.prototype.$lodashUnion = lodashUnion
+Vue.prototype.$lodashValue = lodashValue
+Vue.prototype.$lodashResult = lodashResult
+Vue.prototype.$lodashIsEmpty = lodashIsEmpty  
+Vue.prototype.$lodashDebounce = lodashDebounce  
 
 Vue.use(Vuex)
 
@@ -162,18 +180,18 @@ export const store = new Vuex.Store({
     // showProgress: state => state.isProgress,
     // showLoader: state => state.isLoading,
     showAttachmentProgress(state, data) {
-      let index = _.findIndex(state.todolist, function (d) { return d.id == data.id })
+      let index = lodashFindIndex(state.todolist, function (d) { return d.id == data.id })
       state.todolist[index].attachmentprogress = data.isProgress
     },
     deleteAttachmentProgress(state, data) {
-      let index = _.findIndex(state.todolist, function (d) { return d.id == data.id })
+      let index = lodashFindIndex(state.todolist, function (d) { return d.id == data.id })
       state.todolist[index].deleteprogress = data.isProgress
     },
     GET_ROLES(state, data) {
       if (data) {
         state.userRoles=data;
         for (var i = 0; i < data.length; i++) {
-          let index = _.findIndex(state.userRoles, function (d) { return d.id == data[i].id })
+          let index = lodashFindIndex(state.userRoles, function (d) { return d.id == data[i].id })
           if (index < 0) {
             state.userRoles.push(data[i])
           }
@@ -185,7 +203,7 @@ export const store = new Vuex.Store({
       if (state.todolist.length > 0) {
 
         for (var i = 0; i < data.length; i++) {
-          let index = _.findIndex(state.todolist, function (d) { return d.id == data[i].id })
+          let index = lodashFindIndex(state.todolist, function (d) { return d.id == data[i].id })
           if (index > -1) {
             state.todolist.splice(index, 1, data[i]);
           } else {
@@ -231,7 +249,13 @@ export const store = new Vuex.Store({
         await store.dispatch('getTaskComment', payload.id)
         await store.dispatch('getTypeState', payload.id)
         var parentIdArrObj = payload
-        var tempParentIds = _.chain([]).union(state.parentIdArr).sortBy([function (o) { return o.level; }]).value();
+        var unionBy=lodashUnion(state.parentIdArr);
+        var sortBy =lodashSortBy(unionBy,[function (o) { return o.level; }]);
+        var tempParentIds =lodashValue(sortBy);
+
+        if(!tempParentIds)
+          tempParentIds=[];
+        
         if (state.deleteItemsSelected || state.createdByTaskList.length > 0 || state.recentlyCompletedTasks.length > 0 || state.assignedToOthers.length > 0) {
           state.parentIdArr.splice(0, state.parentIdArr.length);
           state.parentIdArr.push(parentIdArrObj);
@@ -263,7 +287,10 @@ export const store = new Vuex.Store({
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
         var parentIdArrObj = payload
-        var tempParentIds = _.chain([]).union(state.parentIdArr).sortBy([function (o) { return o.level; }]).value();
+        var unionBy=lodashUnion(state.parentIdArr);
+        var sortBy = lodashSortBy(unionBy,[function (o) { return o.level; }]);
+        var tempParentIds = lodashValue(sortBy);
+        
         if (state.parentIdArr.length > 0) {
           state.parentIdArr.splice(0, state.parentIdArr.length);
           for (var i = 0; i < tempParentIds.length; i++) {
@@ -352,7 +379,7 @@ export const store = new Vuex.Store({
     },
     UPDATE_TODO(state, item) {
       if (item.project_id === state.currentProjectId) {
-        let updateTodoIndex = _.findIndex(state.todolist, function (d) { return d.id == item.id })
+        let updateTodoIndex = lodashFindIndex(state.todolist, function (d) { return d.id == item.id })
         if (updateTodoIndex < 0) {
           if (state.todoObjectByID)
             updateObject(state.todoObjectByID, item)
@@ -360,7 +387,7 @@ export const store = new Vuex.Store({
               Vue.set(state.todoObjectByID, 'type_id', item.type_id)
             //state.todoObjectByID.type_id=item.type_id;
           if (!item.isDelete) {
-            let deleteTodoIndex = _.findIndex(state.deletedTaskArr, function (d) { return d.id == item.id })
+            let deleteTodoIndex = lodashFindIndex(state.deletedTaskArr, function (d) { return d.id == item.id })
             state.todolist.push(item)
             state.deletedTaskArr.splice(deleteTodoIndex, 1)
             if (state.parentIdArr.length > 0) {
@@ -391,7 +418,7 @@ export const store = new Vuex.Store({
               state.todolist.splice(updateTodoIndex, 1)
               state.parentIdArr.find(todo => todo.id === item.id).isDelete = item.isDelete
             } else {
-              let deleteTodoIndex = _.findIndex(state.deletedTaskArr, function (d) { return d.id == item.id })
+              let deleteTodoIndex = lodashFindIndex(state.deletedTaskArr, function (d) { return d.id == item.id })
               state.deletedTaskArr.splice(deleteTodoIndex, 1)
               state.parentIdArr.find(todo => todo.id === item.id).isDelete = item.isDelete
             }
@@ -448,7 +475,7 @@ export const store = new Vuex.Store({
         }
     },
     deleteTodo(state, todoObject) {
-      let removeTodoIndex = _.findIndex(state.deletedTaskArr, function (d) { return d.id == todoObject.id })
+      let removeTodoIndex = lodashFindIndex(state.deletedTaskArr, function (d) { return d.id == todoObject.id })
       state.deletedTaskArr.splice(removeTodoIndex, 1)
     },
     // TOGGLE_TODO(state, todoObject) {
@@ -467,8 +494,9 @@ export const store = new Vuex.Store({
     // },
     SELECT_FILE(state, fileObject) {
       if (fileObject instanceof Array) {
-        _.forEach(fileObject, function (object) {
-          let index = _.findIndex(state.arrAttachment, function (d) { return d.id == object.id })
+        // _.forEach(fileObject, function (object) {
+          fileObject.forEach(object => {   
+          let index = lodashFindIndex(state.arrAttachment, function (d) { return d.id == object.id })
           if (index < 0) {
             state.arrAttachment.push(object)
           }
@@ -479,7 +507,7 @@ export const store = new Vuex.Store({
       }
     },
     DELETE_ATTACHMENT(state, deleteAttachment) {
-      let removeAttachementIndex = _.findIndex(state.arrAttachment, function (d) { return d.id == deleteAttachment.id })
+      let removeAttachementIndex = lodashFindIndex(state.arrAttachment, function (d) { return d.id == deleteAttachment.id })
       state.arrAttachment.splice(removeAttachementIndex, 1)
     },
     DELETE_ATTACHMENTS(state) {
@@ -491,7 +519,7 @@ export const store = new Vuex.Store({
     GET_SETTINGS(state, data) {
       state.settingsObject = data
       for (var i = 0; i < data.length; i++) {
-        let index = _.findIndex(state.settingsObject, function (d) { return d.id == data[i].id })
+        let index = lodashFindIndex(state.settingsObject, function (d) { return d.id == data[i].id })
         if (state.settingsObject[index].user_setting.length > 0) {
           if (state.settingsObject[index].type === "progress") {
             state.isProgress = state.settingsObject[index].user_setting[0].setting_value
@@ -504,7 +532,7 @@ export const store = new Vuex.Store({
     },
     GET_TASK_COMMENT(state, data) {
       for (var i = 0; i < data.length; i++) {
-        let index = _.findIndex(state.taskComment, function (d) { return d.id == data[i].id })
+        let index = lodashFindIndex(state.taskComment, function (d) { return d.id == data[i].id })
         if (index < 0) {
           state.taskComment.push(data[i])
         }
@@ -526,7 +554,7 @@ export const store = new Vuex.Store({
   
     },
     DELETE_COMMENT(state, data) {
-      let removeTaskComments = _.findIndex(state.taskComment, function (d) { return d.id == data.id })
+      let removeTaskComments = lodashFindIndex(state.taskComment, function (d) { return d.id == data.id })
       state.taskComment.splice(removeTaskComments, 1)
     },
     updateTodo(state, todoObject) {
@@ -535,7 +563,7 @@ export const store = new Vuex.Store({
     SETTING_UPDATE(state, todoObject) {
 
       for (var i = 0; i < state.settingsObject.length; i++) {
-        let index = _.findIndex(state.settingsObject, function (d) { return d.id == todoObject.settings_id })
+        let index = lodashFindIndex(state.settingsObject, function (d) { return d.id == todoObject.settings_id })
         if (state.settingsObject[index].id === todoObject.settings_id) {
           state.settingsObject[index].user_setting[0] = todoObject
         }
@@ -565,12 +593,12 @@ export const store = new Vuex.Store({
     GET_TASK_TAGS(state, datas) {
 
       if (datas instanceof Array) {
-        _.forEach(datas, function (data) {
-          let index = _.findIndex(state.taskTags, function (d) { return d.id == data.id })
-          if (index < 0) {
-            state.taskTags.push(data)
-          }
-        });
+          datas.forEach(data => {
+            let index = lodashFindIndex(state.taskTags, function (d) { return d.id == data.id })
+            if (index < 0) {
+              state.taskTags.push(data)
+            }
+          });
       } else if (datas instanceof Object) {
         state.taskTags.push(datas)
       }
@@ -583,7 +611,7 @@ export const store = new Vuex.Store({
       state.taskTags.push(taskTagObject)
     },
     REMOVE_TASKTAG(state, taskTagObject) {
-      let removeTodoIndex = _.findIndex(state.taskTags, function (d) { return d.id == taskTagObject.id })
+      let removeTodoIndex = lodashFindIndex(state.taskTags, function (d) { return d.id == taskTagObject.id })
       state.taskTags.splice(removeTodoIndex,1)
     },
     GET_OBJECT_BYID(state, todoObject) {
@@ -602,8 +630,8 @@ export const store = new Vuex.Store({
       state.isSliderOpen = sliderVal
     },
     GET_ALL_USERS(state, objAllUsers) {
-      _.forEach(objAllUsers, function (object) {
-        let index = _.findIndex(state.arrAllUsers, function (d) { return d._id == object._id })
+        objAllUsers.forEach(object => {
+        let index = lodashFindIndex(state.arrAllUsers, function (d) { return d._id == object._id })
         if (index < 0) {
           state.arrAllUsers.push(object)
         }
@@ -613,7 +641,7 @@ export const store = new Vuex.Store({
       state.arrAllUsers = []
     },
     updateProjectList(state, value) {
-      let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
+      let updateProjectIndex = lodashFindIndex(state.projectlist, function (d) { return d.id == value.id })
       if (updateProjectIndex >= 0) {
           state.projectlist[updateProjectIndex].project_privacy = value.project_privacy;
           state.projectlist[updateProjectIndex].project_name = value.project_name;
@@ -629,14 +657,14 @@ export const store = new Vuex.Store({
     },
      updateProjectServiceRoleList(state,value){
         console.log("updateProjectServiceRoleList value:",value)
-        let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.project_id })
+        let updateProjectIndex = lodashFindIndex(state.projectlist, function (d) { return d.id == value.project_id })
        // console.log("updateProjectServiceRoleList:",updateProjectIndex);
         console.log("value:updateProjectIndex",updateProjectIndex)
        if (updateProjectIndex >= 0) {
             // Find user roll name
-            var role = _.find(state.userRoles, ['id', value.user_role_id])
+            var role = lodashFind(state.userRoles, ['id', value.user_role_id])
             
-            let memberIndex = _.findIndex(state.currentProjectMember, function (member) { return member.user_id == value.user_id })
+            let memberIndex = lodashFindIndex(state.currentProjectMember, function (member) { return member.user_id == value.user_id })
             state.projectlist[updateProjectIndex].members[memberIndex].roleName = role.name;
             state.projectlist[updateProjectIndex].members[memberIndex].user_role_id = role.id;
            
@@ -651,7 +679,7 @@ export const store = new Vuex.Store({
     */
     updateDeletedProjectList(state,value){
       console.log("updateDeletedProjectList:",value);
-      let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
+      let updateProjectIndex = lodashFindIndex(state.projectlist, function (d) { return d.id == value.id })
       if (updateProjectIndex >= 0) {
            state.projectlist[updateProjectIndex].is_deleted = value.is_deleted;
            state.projectlist.splice(updateProjectIndex,0)
@@ -669,12 +697,12 @@ export const store = new Vuex.Store({
     */
     updateProjectMember(state,value){ 
           console.log("updateProjectMember()")
-          let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.project_id })
+          let updateProjectIndex = lodashFindIndex(state.projectlist, function (d) { return d.id == value.project_id })
           if (updateProjectIndex >= 0) {
           
             var tempProject=state.projectlist[updateProjectIndex];
 
-            let memberIndex = _.findIndex(tempProject.members, function (member) { return member.user_id == value.user_id })
+            let memberIndex = lodashFindIndex(tempProject.members, function (member) { return member.user_id == value.user_id })
     
             if(memberIndex>-1){
               Vue.delete(tempProject.members,memberIndex)  
@@ -683,7 +711,7 @@ export const store = new Vuex.Store({
     },
     updateAccessRight(state,value){
       console.log("updateAccessRight",value)
-      let index = _.findIndex(state.accessRight, function (d) { return d.id == value.id })
+      let index = lodashFindIndex(state.accessRight, function (d) { return d.id == value.id })
       console.log("updateAccessRight index:",index)
       if (index >= 0) {
         Vue.set(state.accessRight,index,value)
@@ -722,12 +750,12 @@ export const store = new Vuex.Store({
     },
     ASSIGN_PROJECT_MEMBER(state, assignMember) {
       console.log("Assign Member:--", assignMember)
-      let index = _.findIndex(state.projectlist, function (d) { return d.id == assignMember.project_id })
+      let index = lodashFindIndex(state.projectlist, function (d) { return d.id == assignMember.project_id })
       if (index > -1) {
         if (!state.projectlist[index].members)
           state.projectlist[index].members = []
         setTimeout(function () {
-          let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === assignMember.user_id })
+          let userIndex = lodashFindIndex(state.arrAllUsers, function (user) { return user._id === assignMember.user_id })
           if (userIndex < 0) {
             state.projectlist[index].members.push({ user_id: assignMember.user_id })
           } else {
@@ -749,7 +777,7 @@ export const store = new Vuex.Store({
           var project = response[0];
           var projectMembers = project.members;
           //  projectMembers.forEach(function(member) {
-          //      let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === member.user_id })
+          //      let userIndex = lodashFindIndex(state.arrAllUsers, function (user) { return user._id === member.user_id })
           //       console.log("User Detail", userIndex);
           //       if (userIndex < 0) {
           //        project.members.push({ user_id: assignMember.user_id  })
@@ -776,7 +804,7 @@ export const store = new Vuex.Store({
       Vue.set(state.task_types_list, state.task_types_list.length-1, payload)
     },
     DELETE_TASK_TYPE(state, payload){
-      let removeIndex = _.findIndex(state.task_types_list, function (d) { return d.id == payload.id })
+      let removeIndex = lodashFindIndex(state.task_types_list, function (d) { return d.id == payload.id })
       // state.task_types_list.splice(removeIndex, 1)
       Vue.delete(state.task_types_list, removeIndex)
     },
@@ -788,7 +816,7 @@ export const store = new Vuex.Store({
       Vue.set(state.task_state_list, state.task_state_list.length-1, payload)
     },
     DELETE_TASK_STATUS(state, payload){
-      let removeIndex = _.findIndex(state.task_state_list, function (d) { return d.id == payload.id })
+      let removeIndex = lodashFindIndex(state.task_state_list, function (d) { return d.id == payload.id })
       Vue.delete(state.task_state_list, removeIndex)
     },
     GET_TYPE_STATE(state, payload){
@@ -798,7 +826,7 @@ export const store = new Vuex.Store({
       state.task_types_state.push(payload)
     },
     DELETE_TASK_STATE(state, payload){
-      let removeIndex = _.findIndex(state.task_types_state, function (d) { return d.id == payload.id })
+      let removeIndex = lodashFindIndex(state.task_types_state, function (d) { return d.id == payload.id })
       Vue.delete(state.task_types_state, removeIndex)
     },
     PERMISSIONS(state,payload)
@@ -807,7 +835,7 @@ export const store = new Vuex.Store({
     },
     roleDelete(state,role)
     {
-      let removeIndex = _.findIndex(state.userRoles, function (d) { return d.id == role.id })
+      let removeIndex = lodashFindIndex(state.userRoles, function (d) { return d.id == role.id })
       if(removeIndex>-1)
         Vue.delete(state.userRoles, removeIndex)
     },
@@ -826,7 +854,7 @@ export const store = new Vuex.Store({
     },
     roleUpdated(state,role)
     {
-      let roleIndex = _.findIndex(state.userRoles, function (d) { return d.id == role.id })
+      let roleIndex = lodashFindIndex(state.userRoles, function (d) { return d.id == role.id })
       if(roleIndex>-1)
         Vue.set(store.state.userRoles, roleIndex, role)
     }
@@ -1926,7 +1954,7 @@ export const store = new Vuex.Store({
           is_checked: role.is_checked
         }).then(response => {
           console.log("Role Check changes",response);
-          let userIndex = _.findIndex(store.state.userRoles, function (user) { return user.id === response.id })
+          let userIndex = lodashFindIndex(store.state.userRoles, function (user) { return user.id === response.id })
           store.state.userRoles[userIndex] = response
         });
       } else {
@@ -2099,7 +2127,7 @@ export const store = new Vuex.Store({
       {
         return function (id, level) {
           var todolist = state.deletedTaskArr
-          todolist = _.sortBy(todolist, 'index')
+          todolist = lodashSortBy(todolist, 'index')
           return todolist
         }
       } else {
@@ -2107,7 +2135,7 @@ export const store = new Vuex.Store({
           var todolist = state.todolist.filter(function (todo) {
             return !todo.isDelete && todo.parentId === id
           })
-          todolist = _.sortBy(todolist, 'index')
+          todolist = lodashSortBy(todolist, 'index')
           return todolist
         }
       }
@@ -2136,7 +2164,7 @@ export const store = new Vuex.Store({
     },
     getMemberProfileDetail: (state, getters) => {
       return function (uId) {
-        let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === uId })
+        let userIndex = lodashFindIndex(state.arrAllUsers, function (user) { return user._id === uId })
         if (userIndex < 0) {
           return { user_id: uId }
         } else {
@@ -2146,7 +2174,7 @@ export const store = new Vuex.Store({
     },
     getMemberName: (state, getters) => {
       return function (uId) {
-        let userIndex = _.findIndex(state.arrAllUsers, function (user) { return user._id === uId })
+        let userIndex = lodashFindIndex(state.arrAllUsers, function (user) { return user._id === uId })
         // console.log("user index:--",userIndex)
         if(userIndex>-1)
         return state.arrAllUsers[userIndex].fullname ?  state.arrAllUsers[userIndex].fullname : state.arrAllUsers[userIndex].username

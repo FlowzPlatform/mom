@@ -73,7 +73,7 @@
   /* eslint-disable*/
 import TodoItem from './TodoItem.vue'
 import { mapActions } from 'vuex'
-import _ from 'lodash'
+
 
 export default {
   props: ['filteredTodo', 'id'],
@@ -86,9 +86,9 @@ export default {
     ...mapActions([
       'toggleTodo'
     ]),
-    updateTaskName: _.debounce(function() {
+    updateTaskName:  function() { this.$lodashDebounce(function() {
       this.$store.dispatch('editTaskName', {"todo":this.filteredTodo})
-    }, 500),
+    }, 500)},
     autoresize: function() {
       var el = document.getElementById('text-area')
       setTimeout(function () {
@@ -97,12 +97,13 @@ export default {
       // el.focus();
       }, 300)
     },
-    updateType: _.debounce(function() {
+    updateType: function() { this.$lodashDebounce(function() {
       this.$store.dispatch('editTypes', this.filteredTodo)
-    }, 2000),
-    updateStatus: _.debounce(function() {
+    }, 2000)
+    },
+    updateStatus:  function() { this.$$lodashDebounce(function() {
       this.$store.dispatch('editState', this.filteredTodo)
-    }, 2000),
+    }, 2000)},
     async onFocusClick(id,level,created_by,typeId){
       let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.TASK,Constant.PERMISSION_ACTION.UPDATE)
       console.log("permisionResult Text Description-->",permisionResult)

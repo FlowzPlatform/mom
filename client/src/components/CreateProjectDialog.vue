@@ -182,7 +182,7 @@
             getOwernerId(){
                 this.$store.state.userRoles
                 
-                let owner = _.find(this.$store.state.userRoles, ['name', "Owner"])
+                let owner = this.$lodashFind(this.$store.state.userRoles, ['name', "Owner"])
 
                 return owner.id;
             },close: function () {
