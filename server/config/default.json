@@ -25,23 +25,4 @@
   "tbl_task_types": "task_types",
   "tbl_task_state": "task_state",
   "tbl_task_type_state": "task_type_state"
-
-  // "tablelist" : {
-  //   "tables":[
-  //     "tasks", 
-  //     "attachment", 
-  //     "tags", 
-  //     "task_tags", 
-  //     "task_comments", 
-  //     "role", 
-  //     "settings", 
-  //     "user_settings",  
-  //     "accessright", 
-  //     "permission",
-  //     "users"
-  //   ]
-  // }
-  // "settings" : {
-  //   "query" : { "r.db('vue_todo').table('settings').insert({'settings_name': 'Track task by progress', 'type':'progress'}), r.db('vue_todo').table('settings').insert({'settings_name': 'Track task by duedate', 'type':'duedate'})" } 
-  // }
 }
