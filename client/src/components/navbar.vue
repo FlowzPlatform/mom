@@ -230,7 +230,7 @@
   import CmnFunc from './CommonFunc.js'
   import MembersDialog from './MembersDialog.vue'
   import DeleteProjectDialog from './DeleteProjectDialog.vue'
-  import Avatar from 'vue-avatar/dist/Avatar'
+  import Avatar from 'vue-avatar/src/Avatar'
   import { mapGetters, mapMutations } from 'vuex'
 
   export default {

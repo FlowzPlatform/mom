@@ -66,7 +66,7 @@ import draggable from 'vuedraggable'
 import { mapActions, mapGetters } from 'vuex'
 import * as services from '../services'
 import moment from 'moment';
-import Avatar from 'vue-avatar/dist/Avatar'
+import Avatar from 'vue-avatar/src/Avatar'
 Vue.use(Resource)
 export default {
     props: ['taskId'],

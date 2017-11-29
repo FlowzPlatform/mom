@@ -277,7 +277,7 @@
   import { mapGetters, mapMutations } from 'vuex'
   import CmnFunc from './CommonFunc.js'
   import CreateProjectDialog from './CreateProjectDialog.vue'
-  import Avatar from 'vue-avatar/dist/Avatar'
+  import Avatar from 'vue-avatar/src/Avatar'
   Vue.directive('draggable', {
   bind: function (el) {
     el.style.position = 'fixed';

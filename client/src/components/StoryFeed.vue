@@ -81,7 +81,7 @@
     import { mapGetters } from 'vuex'
     import CmnFunc from './CommonFunc.js'
     import * as Constant from './Constants.js'
-    import Avatar from 'vue-avatar/dist/Avatar'
+    import Avatar from 'vue-avatar/src/Avatar'
     Vue.filter('formatDate', function (value) {
         if (value) {
             return moment(String(value)).format('LLL')

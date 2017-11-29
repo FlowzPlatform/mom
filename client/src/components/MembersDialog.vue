@@ -139,7 +139,7 @@
 /* eslint-disable*/
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import Avatar from 'vue-avatar/dist/Avatar'
+import Avatar from 'vue-avatar/src/Avatar'
 export default {
  props: ['members'],
     data: function () {

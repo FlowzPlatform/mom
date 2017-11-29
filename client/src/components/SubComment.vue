@@ -94,7 +94,7 @@
         import notify from './notify.js'
         import Comment from './Comment.vue'
         import * as services from '../services'
-        import Avatar from 'vue-avatar/dist/Avatar'
+        import Avatar from 'vue-avatar/src/Avatar'
         import ViewComments from './ViewComments.vue'
         import RightFooter from './RightFooter.vue'
         // import locale from 'element-ui/lib/locale/lang/en'

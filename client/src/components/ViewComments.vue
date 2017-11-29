@@ -73,7 +73,7 @@
 <script>
 /* eslint-disable*/
 import { mapGetters } from "vuex";
-import Avatar from 'vue-avatar/dist/Avatar'
+import Avatar from 'vue-avatar/src/Avatar'
 import Vue from "vue";
 import moment from 'moment';
 import * as services from '../services'

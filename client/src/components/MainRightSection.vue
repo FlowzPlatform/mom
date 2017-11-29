@@ -162,7 +162,7 @@ import "iview/dist/styles/iview.css";
 import CmnFunc from "./CommonFunc.js";
 import * as Constant from "./Constants.js";
 import AsyncComputed from "vue-async-computed";
-import Avatar from "vue-avatar/dist/Avatar";
+import Avatar from "vue-avatar/src/Avatar";
 import Datepicker from "vuejs-datepicker";
 import moment from "moment";
 import EstimatedHours from './EstimatedHours.vue'

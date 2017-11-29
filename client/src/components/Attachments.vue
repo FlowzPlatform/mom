@@ -110,7 +110,7 @@
     // import "vue-ionicons/ionicons/css/ionicons.css";
     import iView from "iview";
     import "iview/dist/styles/iview.css";
-    import Avatar from "vue-avatar/dist/Avatar";
+    import Avatar from "vue-avatar/src/Avatar";
     import { markdownEditor } from 'vue-simplemde'
     import Ckeditor from 'vue-ckeditor2'
     Vue.use(iView);

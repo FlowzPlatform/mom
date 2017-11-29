@@ -129,7 +129,7 @@
   import CmnFunc from './CommonFunc.js'
   import * as Constant from './Constants.js'
   import moment from 'moment'
-  import Avatar from 'vue-avatar/dist/Avatar'
+  import Avatar from 'vue-avatar/src/Avatar'
   Vue.use(VueLodash, lodash)
   Vue.use(BootstrapVue)
   Vue.use(Resource)

@@ -60,7 +60,7 @@
     import Ckeditor from 'vue-ckeditor2'
     import { markdownEditor } from 'vue-simplemde'
     // import { markdownEditor } from 'vue-simplemde'
-    import Avatar from 'vue-avatar/dist/Avatar'
+    import Avatar from 'vue-avatar/src/Avatar'
     import Vue from 'vue'
     import ElementUI from 'element-ui'
     import locale from 'element-ui/lib/locale/lang/en'
