@@ -126,7 +126,8 @@
                         user_email: this.$store.state.userObject.email,
                         invited_date: new Date(),
                         is_deleted:false,
-                        user_role_id:this.getOwernerId()
+                        // user_role_id:this.getOwernerId()
+                        user_role_id:this.$store.state.userObject._id
                     }
                     this.$store.dispatch('insertProjectInvite', insertInvite)
                     this.projectName = ''
@@ -167,7 +168,7 @@
                     callback: this.projectResponse
                 }
                 this.$store.dispatch('insertProject', request)
-                  this.close();
+                //   this.close();
 
             }
         }

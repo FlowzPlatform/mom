@@ -430,7 +430,7 @@ export const store = new Vuex.Store({
             state.todolist.splice(state.todolist.length - 1)
             state.isDeleteObj = false
           }
-
+          console.log('Vuex-add todo-->')
           state.todolist.push(todoObject)
 
           // if (state.currentModified) {
@@ -592,6 +592,8 @@ export const store = new Vuex.Store({
     },
     SAVE_USERTOKEN(state, token) {
       state.userToken = token
+      // Put user token into storage
+      localStorage.setItem('auth_token', token);
     },
     GET_USERDETAIL(state, userdetail) {
       state.userObject = userdetail

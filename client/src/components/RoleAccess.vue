@@ -286,7 +286,8 @@
     Vue.use(VueWidgets)
     import ShowTaskTypes from './ShowTaskTypes.vue'
     import ShowTaskState from './ShowTaskState.vue'
-    Vue.component('vuetable', require('./Vuetable.vue'));
+    import vuetable from './vuetable.vue'
+    //Vue.component('vuetable', require('./Vuetable.vue'));
     import RolesTypes from './RolesTypes.vue'
     Vue.use(Resource)
 
@@ -451,7 +452,8 @@
             ShowTaskTypes,
             ShowTaskState,
             VueWidgets,
-            RolesTypes
+            RolesTypes,
+            vuetable
         }   
     }
 </script>

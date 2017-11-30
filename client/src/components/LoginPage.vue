@@ -110,6 +110,7 @@
         },
         created() {
             console.log('created called')
+            console.log("AUTH_TOKEN:", localStorage.getItem('auth_token'))
             var url_string = window.location.href;
             var url = new URL(url_string);
 

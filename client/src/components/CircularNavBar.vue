@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="drag-2" v-draggable onmousedown="return false"> 
+    <div id="drag-2" v-draggable> 
       <ul id="menu">
           <a class="menu-button fa fa-bars" href="#menu" title="Show navigation"></a>
           <a class="menu-button fa fa-times" href="#" title="Hide navigation"></a>
@@ -335,9 +335,9 @@
       }
     },
     created() {
-      $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-      })
+      // $(function () {
+      //   $('[data-toggle="tooltip"]').tooltip()
+      // })
       this.$store.dispatch('getUsersRoles');
       this.$store.dispatch("getAllUsersList", this.callAllProjectList)
     },
