@@ -33,8 +33,8 @@
                     <div class="form-item log-in">
                         <div class="table">
                             <div class="table-cell">
-                                <form action="http://172.16.61.101:3001/auth/Gplus" method="post">
-
+                                <form action="http://ec2-54-88-11-110.compute-1.amazonaws.com/auth/Gplus" method="post">
+                                    <input type="hidden" name="success_url" value="http://mom.flowz.com">
                                     <button class="googleAuthBtn" type="submit">Use Google Account</button>
                                 </form> 
                                 <div class="dialog--nux-seperator" id="seprator"> or </div>
@@ -85,13 +85,13 @@
     import iView from 'iview';
     import 'iview/dist/styles/iview.css';
     import locale from 'iview/dist/locale/en-US';
-
     Vue.use(iView, { locale });
-
     Vue.use(iView);
-
     Vue.use(Resource)
     Vue.use(VueRouter)
+    var VueCookie = require('vue-cookie')
+    Vue.use(VueCookie)
+
     $(document).ready(function () {
 
         $("#login_btn").attr('disabled', true);
@@ -106,6 +106,27 @@
                 confPwd: '',
                 passData: 'Send to next vue..',
                 selectedTabIndex: 1
+            }
+        },
+        mounted(){
+            var self = this
+            if(this.$cookie.get('auth_token') !== null){
+                console.log('mounted called inside');
+                self.$store.state.isAuthorized = true
+                self.$store.commit('authorize')
+                //self.userDetail(self)
+                self.$store.dispatch('getUserDetail')
+                    //  self.$store.dispatch('getUserRegister')                           
+                    .then(function () {
+                       //self.$router.replace('/navbar/mainapp')
+                    })
+                    .catch(function (error) {
+                        if (error.response.status === 401) {
+                            return
+                        }
+                        $.notify.defaults({ className: "error" })
+                        $.notify(error.message, { globalPosition: "top center" })
+                    })
             }
         },
         created() {

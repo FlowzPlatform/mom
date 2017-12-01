@@ -232,6 +232,13 @@
   import DeleteProjectDialog from './DeleteProjectDialog.vue'
   import Avatar from 'vue-avatar/src/Avatar'
   import { mapGetters, mapMutations } from 'vuex'
+  import psl from 'psl'
+  var VueCookie = require('vue-cookie')
+  Vue.use(VueCookie)
+
+  let location = psl.parse(window.location.hostname)
+  location = location.domain === null ? location.input : location.domain
+
 
   export default {
     name: 'navbar',
@@ -262,15 +269,24 @@
         'settingArr'
       ]),
       uname: function () {
-        var str = this.$store.state.userObject.email
-        var n = str.indexOf("@")
-        var res = str.substr(0, n)
-        return res
-      },
-      capitalizeLetters: function () {
-        var str = this.$store.state.userObject.email
-        var firstLetters = str.substr(0, 2)
-        return firstLetters.toUpperCase()
+        var self = this
+        self.$store.dispatch('getUserDetail')
+                    //  self.$store.dispatch('getUserRegister')                           
+                    .then(function () {
+                      // this.$router.push('/navbar/mainapp');
+                      var str = this.$store.state.userObject.email
+                      var n = str.indexOf("@")
+                      var res = str.substr(0, n)
+                      return res
+                    })
+                    .catch(function (error) {
+                        if (error.response.status === 401) {
+                            return
+                        }
+                        $.notify.defaults({ className: "error" })
+                        $.notify(error.message, { globalPosition: "top center" })
+                    })
+
       },
       projectName:{
           get(){
@@ -297,6 +313,7 @@
         this.settings_menu = false
       },
       btnLogoutClicked() {
+        this.$cookie.delete('auth_token', {domain: location});
         CmnFunc.deleteAutheticationDetail()
         window.location = "/"
       },

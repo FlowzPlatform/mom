@@ -7,8 +7,11 @@ import * as services from './services'
 import axios from 'axios'
 import * as Constant from './components/Constants.js'
 import CmnFunc from './components/CommonFunc.js'
-
 Vue.use(Vuex)
+import psl from 'psl'
+var VueCookie = require('vue-cookie')
+Vue.use(VueCookie)
+
 
 services.socket.on("reconnect", function () {
   console.log('-----reconnect fired!-------');
@@ -593,7 +596,12 @@ export const store = new Vuex.Store({
     SAVE_USERTOKEN(state, token) {
       state.userToken = token
       // Put user token into storage
-      localStorage.setItem('auth_token', token);
+      //localStorage.setItem('auth_token', token);
+      let location = psl.parse(window.location.hostname)
+      location = location.domain === null ? location.input : location.domain
+      console.log('Cookie :', Vue.cookie)
+      Vue.cookie.set('auth_token', token, {expires: 1, domain: location});
+
     },
     GET_USERDETAIL(state, userdetail) {
       state.userObject = userdetail
@@ -1596,7 +1604,8 @@ export const store = new Vuex.Store({
       return axios.get(process.env.USER_AUTH + '/api/userdetails', {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-          'Authorization': store.state.userToken
+          // 'Authorization': store.state.userToken
+          'Authorization': Vue.cookie.get('auth_token')
         },
       })
         .then(function (response) {
@@ -1621,7 +1630,7 @@ export const store = new Vuex.Store({
       }, {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            'Authorization': store.state.userToken
+            'Authorization': Vue.cookie.get('auth_token')
           }
         })
         .then(function (response) {
@@ -1636,7 +1645,7 @@ export const store = new Vuex.Store({
         let { data } = await axios.get(process.env.USER_DETAIL + '/alluserdetails', {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            'Authorization': store.state.userToken
+            'Authorization': Vue.cookie.get('auth_token')
           }
         })
         commit('GET_ALL_USERS', data.data)
