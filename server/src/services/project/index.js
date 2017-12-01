@@ -6,11 +6,15 @@ const config = require('config');
 const db = config.get('dbName')
 const db_host = config.get('db_host')
 const db_port = config.get('db_port')
+const db_username = config.get('db_username')
+const db_password = config.get('db_password')
 
 const r = require('rethinkdbdash')({
     db: db,
     host: db_host,
-    port:db_port
+    port:db_port,
+    username: db_username,
+    password: db_password
   });
 const table = config.get('tbl_project')
 

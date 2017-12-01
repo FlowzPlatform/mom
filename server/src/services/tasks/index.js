@@ -6,6 +6,8 @@ const db = config.get('dbName')
 const table = config.get('tbl_tasks')
 const db_host = config.get('db_host')
 const db_port = config.get('db_port')
+const db_username = config.get('db_username')
+const db_password = config.get('db_password')
 const socketio = require('feathers-socketio');
 
 module.exports = function() {
@@ -13,7 +15,9 @@ module.exports = function() {
   const r = require('rethinkdbdash')({
     db:db,
     host: db_host,
-    port: db_port
+    port: db_port,
+    username: db_username,
+    password: db_password
   });
 
   const options = {

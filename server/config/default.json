@@ -9,6 +9,8 @@
   "dbName": "vue_todo",
   "db_host": "localhost",
   "db_port": "28015",
+  "db_username": "",
+  "db_password": "",
   "tbl_tasks":"tasks",
   "tbl_attachment":"attachment",
   "tbl_tags":"tags",

@@ -6,13 +6,17 @@ const db = config.get('dbName')
 const table = config.get('tbl_user_settings')
 const db_host = config.get('db_host')
 const db_port = config.get('db_port')
+const db_username = config.get('db_username')
+const db_password = config.get('db_password')
 
 module.exports = function() {
   const app = this;
   const r = require('rethinkdbdash')({
     db: db,
     host: db_host,
-    port:db_port
+    port:db_port,
+    username: db_username,
+    password: db_password
   });
 
   const options = {
