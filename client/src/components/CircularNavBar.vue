@@ -2,8 +2,8 @@
   <div>
     <div id="drag-2" v-draggable> 
       <ul id="menu">
-          <a class="menu-button fa fa-bars" href="#menu" title="Show navigation"></a>
-          <a class="menu-button fa fa-times" href="#" title="Hide navigation"></a>
+          <a class="menu-button fa fa-bars" href="#menu" title="Show navigation" onmousedown="return false"></a>
+          <a class="menu-button fa fa-times" href="#" title="Hide navigation" onmousedown="return false"></a>
         
         <li class="menu-item icon-cogs">
           <a class="menu-item-back" data-toggle="tooltip" title="Role Access" @click="showRoleAccess"></a>
@@ -713,19 +713,19 @@
   }
 
   .menu-button {
-    width: 50px;
-    height: 50px;
-    position: absolute;
+    width: 55px;
+    height: 55px;
+    position: fixed;
     left: 50%;
     top: 50%;
-    margin: -25px 0 0 -25px;
+    margin: -27px 0px 0px -27px;
     background: #fff;
-    box-shadow: 0 0 0 1px #000;
-    border-radius: 500px;
-    border-radius: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 100%;
     opacity: 0;
     z-index: 0;
   }
+
 
   .fa-bars:before,
   .fa-times:before {
