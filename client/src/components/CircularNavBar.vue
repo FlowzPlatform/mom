@@ -731,7 +731,7 @@
   .fa-times:before {
     color: #000;
     position: relative;
-    top: 25%;
+    top: 33%;
     /* left: 42%; */
     transition: opacity 500ms ease-in;
     text-decoration: none;
