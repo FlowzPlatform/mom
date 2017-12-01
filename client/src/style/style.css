@@ -1352,7 +1352,7 @@ a:hover, a:focus{
 .asanaView-body { position: fixed;top: 20px;left: 0;right: 0;bottom: 0;overflow-x: auto; overflow-y: hidden; }
 .right_bar{position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: calc(100% - 135px);overflow: auto;}
 .right_pane_container #right_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;}
-#details_pane_footer {position: absolute; width: 99.75%; bottom: 0;height: 100%; overflow-y: auto;}
+#details_pane_footer {position: absolute; width: 99.75%; bottom: 37px;height: 100%; overflow-y: auto;}
 .right_pane_container{ min-width: 600px; margin-right: 10px;}
 #center_pane {
         transition: margin-left .5s;
@@ -5809,4 +5809,20 @@ CSS for splitter view
 .ivu-input-icon-normal+.ivu-input{
     padding-right: 2px
 }
+.ivu-scroll-container{
+    height: calc(100vh - 120px) !important;
+}
+
+.ivu-scroll-content-loading{
+    opacity: 100;
+}
+.ivu-spin-show-text .ivu-spin-text{
+    margin-top: 35px;
+}
+.ivu-spin-show-text .ivu-spin-text
+.ivu-scroll-spinner-icon{
+    background : red !important;
+    display : none !important;
+}
+
 

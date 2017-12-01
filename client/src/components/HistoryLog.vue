@@ -1,5 +1,5 @@
 <template>
-    <section class="main" v-cloak>
+ <Scroll loading-text="Loading more..." :distance-to-edge=[10,10] :on-reach-edge="handleMoreHistoryLog">
         <div v-bind:key="ind" v-for="(log, ind) in historyDetailLog">
             <div class="FeedBlockStory">
                 <div class="BlockStory">
@@ -61,7 +61,7 @@
                 </svg>
             </div>
         </div>
-    </section>
+ </Scroll>
 </template>
 
 <script>
@@ -78,6 +78,8 @@ export default {
     props: ['taskId'],
     data: function() {
         return {
+            mydata:['1','2','3','1','2','3','1','2','3','1','2','3','1','2','3','1','2','3'
+            ,'1','2','3','1','2','3','1','2','3','1','2','3','1','2','3']
         }
     },
     computed: {
@@ -132,6 +134,16 @@ export default {
                 }
             }, this)
         },
+        handleMoreHistoryLog: function(index){
+            services.taskHistoryLogs.find({ query: { task_id: this.taskId } }).then(response => {
+                response.sort(function (a, b) {
+                    return new Date(a.created_on).getTime() - new Date(b.created_on).getTime()
+                });
+               
+                console.log("Hisory Log:-->",response)
+
+            })
+        }
     },
     components: {
         Avatar
@@ -155,4 +167,5 @@ svg.Icon.DownIcon.FeedBlockStory-actionsDropdownIcon {
     font-weight: 400;
     line-height: 20px;
 }
+
 </style>

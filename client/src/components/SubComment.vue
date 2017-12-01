@@ -1,13 +1,12 @@
 <template>
     <div>
         <div style="height:100%;overflow-x:scroll">
-            <div class="nav">
+            <div class="nav-comment">
                 <div class="mask" @click="writeComment">
                     <i id="icon-comment" class="fa fa-pencil"></i>
                 </div>
             </div>
             <component :is="currentView" :commentTaskId="commentTaskId" :commentParentId="commentParentId"></component>
-    
             <div class="todoapp comment_right_bar hidden">
                 <div class="comment-header header-scroll">
                         <!--<div class="Comment-headerTitle">
@@ -379,11 +378,11 @@
     height: 500px;
 }
 
-.nav {
-    right: 42px;
-    z-index: 20;
+.nav-comment {
+    right: 20px;
+    z-index: 5;
     width: 45px;
-    bottom: 15px;
+    bottom: 50px;
     height: 45px;
     display: block;
     position: absolute;

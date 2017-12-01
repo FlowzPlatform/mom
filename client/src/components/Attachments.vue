@@ -1,116 +1,123 @@
 <template>
-    <div style="height:100%;overflow-x:scroll">
-         <div v-bind:key="index" v-for="(files, index) in attachmentList">
-           <Card style="margin-left:10px;margin-right:10px;margin-top:5px;margin-bottom:3px;">
-            <p slot="title">
-                <span style="float:left">
-                    <div v-if="files.email">
-                        <avatar v-if="files.image_url" :username="files.email" :src="files.image_url" :size="30"></avatar>
-                        <avatar v-else :username="files.email" :size="30" color="#fff"></avatar>
-                    </div>
-                </span> 
-                <span class="attachment-username">    
-                       <span style="font-size:10px">{{files.fullname}} </span> 
-                       <div class="attachment-time">Yesterday at 09:57</div>
-                </span>
-                 <Dropdown placement="bottom"  class="close-btn">
-                    <a href="javascript:void(0)">
-                        <Icon style="font-size:20px;color:rgb(149, 152, 157)" type="android-more-horizontal"></Icon>
-                    </a>
-                    <DropdownMenu slot="list">
-                        <DropdownItem>delete</DropdownItem>
-                        <DropdownItem>share</DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>
-                <button class="hidden close-btn" @click="deleteAttachment(files, index)">
-                                        <a v-show="isDeleteAttachment"  class="fa fa-trash-o" aria-hidden="true" />
-                </button>
-            </p>
-            <div class="BlockStory-body">
-                <div class="AddedAttachmentStory-body">
-                    <div v-if="isImage(files.file_name)" class="AddedAttachmentStory-thumbnailContainer">
-                        <a :href="files.file_url" target="_blank">
-                            <img class="image-preview" :src="files.file_url">
+    <div>
+        <div class="no-attchment" v-if="attachmentList.length<=0">
+           <p>
+            <i class="fa fa-paperclip" aria-hidden="true" style="font-size:30vh">
+           </i>
+           </p>
+           <span class="no-attchment-error">No attachment found</span>
+        </div>
+         <Scroll v-else >   
+            <div v-bind:key="index" v-for="(files, index) in attachmentList">
+            <Card style="margin-left:10px;margin-right:10px;margin-top:5px;margin-bottom:3px;">
+                <p slot="title">
+                    <span style="float:left">
+                        <div v-if="files.email">
+                            <avatar v-if="files.image_url" :username="files.email" :src="files.image_url" :size="30"></avatar>
+                            <avatar v-else :username="files.email" :size="30" color="#fff"></avatar>
+                        </div>
+                    </span> 
+                    <span class="attachment-username">    
+                        <span style="font-size:10px">{{files.fullname}} </span> 
+                        <div class="attachment-time">Yesterday at 09:57</div>
+                    </span>
+                    <Dropdown placement="bottom"  class="close-btn">
+                        <a href="javascript:void(0)">
+                            <Icon style="font-size:20px;color:rgb(149, 152, 157)" type="android-more-horizontal"></Icon>
                         </a>
-                    </div>
-                    <iframe v-else class="Thumbnail-image" v-bind:src="imgURL(files.file_url)">Hemant</iframe>
-                    <div class="">
-                        <a class="AddedAttachmentStory-link" style="color:inherit; text-decoration: none;font-size:11px" :href="files.file_url" target="_blank" tabindex="-1"><i><span style="color:black;font-size:12px">file:</span>{{files.file_name}}(512kb)</i></a>
-                        <button class="hidden"  @click="deleteAttachment(files, index)">
-                            <a v-show="isDeleteAttachment" class="fa fa-close" />
-                        </button>
+                        <DropdownMenu slot="list">
+                            <DropdownItem>delete</DropdownItem>
+                            <DropdownItem>share</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                    <button class="hidden close-btn" @click="deleteAttachment(files, index)">
+                                            <a v-show="isDeleteAttachment"  class="fa fa-trash-o" aria-hidden="true" />
+                    </button>
+                </p>
+                <div class="BlockStory-body">
+                    <div class="AddedAttachmentStory-body">
+                        <div v-if="isImage(files.file_name)" class="AddedAttachmentStory-thumbnailContainer">
+                            <a :href="files.file_url" target="_blank">
+                                <img class="image-preview" :src="files.file_url">
+                            </a>
+                        </div>
+                        <iframe v-else class="Thumbnail-image" v-bind:src="imgURL(files.file_url)">Hemant</iframe>
+                        <div class="">
+                            <a class="AddedAttachmentStory-link" style="color:inherit; text-decoration: none;font-size:11px" :href="files.file_url" target="_blank" tabindex="-1"><i><span style="color:black;font-size:12px">file:</span>{{files.file_name}}(512kb)</i></a>
+                            <button class="hidden"  @click="deleteAttachment(files, index)">
+                                <a v-show="isDeleteAttachment" class="fa fa-close" />
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="attachment-card-footer">
-                <span  style="float:left;margin-top:10px">
-                    <i class="fa fa-thumbs-o-up" style="font-size:25px;color:rgb(149, 152, 157)" aria-hidden="true"></i>
-                    <i class="fa fa-comments" style="font-size:25px;color:rgb(149, 152, 157);margin-left:30px" aria-hidden="true"></i>
-                    <a :href="files.file_url" download>
-                        <i class="fa fa-arrow-circle-o-down" style="font-size:25px;color:rgb(149, 152, 157);margin-left:30px" aria-hidden="true"></i>
+                <div class="attachment-card-footer">
+                    <span  style="float:left;margin-top:10px">
+                        <i class="fa fa-thumbs-o-up" style="font-size:25px;color:rgb(149, 152, 157)" aria-hidden="true"></i>
+                        <i class="fa fa-comments" style="font-size:25px;color:rgb(149, 152, 157);margin-left:30px" aria-hidden="true"></i>
+                        <a :href="files.file_url" download>
+                            <i class="fa fa-arrow-circle-o-down" style="font-size:25px;color:rgb(149, 152, 157);margin-left:30px" aria-hidden="true"></i>
+                        </a>
+                    </span>
+                </div>
+                <div class="attachment-comment-footer">
+                    <span  style="float:left;margin-top:10px;width:100%">
+                        <Input  type="textarea" :autosize="{minRows: 1,maxRows: 5}" style=""  placeholder="Enter comments...">
+                        </Input>
+                <div style="width: 475px;" class="hidden">
+                <el-tabs type="border-card">
+                        <el-tab-pane>
+                            <span slot="label"><i class="el-icon-date"></i> Html editor</span>
+                            <div>
+                                <!-- <ckeditor v-model="commentText">
+                                </ckeditor> -->
+                            </div>
+                        </el-tab-pane>
+                        <el-tab-pane label="Markdown editor">
+                            <div class="markdownEditor">
+                                <!-- <markdown-editor>
+                                </markdown-editor> -->
+                                <markdown-editor 
+                                    v-model="content"
+                                    ref="markdownEditor"
+                                    :value="content"
+                                    :configs="configs"> 
+                                </markdown-editor>
+                            </div>
+                        </el-tab-pane>
+                </el-tabs> 
+                </div> 
+                    </span>
+                </div>
+                    
+            </Card> 
+
+                <div class="hidden">
+                    <a target="_blank" v-bind:href="files.file_url">{{ files.file_name }}
+                        <ui-progress-linear color="primary" type="determinate" :progress="$store.state.progress" v-show="filteredTodo.attachmentprogress" v-if="index === attachmentList.length-1">
+                        </ui-progress-linear>
                     </a>
-                </span>
-            </div>
-            <div class="attachment-comment-footer">
-                <span  style="float:left;margin-top:10px;width:100%">
-                    <Input  type="textarea" :autosize="{minRows: 1,maxRows: 5}" style=""  placeholder="Enter comments...">
-                    </Input>
-            <div style="width: 475px;" class="hidden">
-               <el-tabs type="border-card">
-                    <el-tab-pane>
-                        <span slot="label"><i class="el-icon-date"></i> Html editor</span>
-                        <div>
-                            <!-- <ckeditor v-model="commentText">
-                            </ckeditor> -->
-                        </div>
-                    </el-tab-pane>
-                    <el-tab-pane label="Markdown editor">
-                        <div class="markdownEditor">
-                            <!-- <markdown-editor>
-                            </markdown-editor> -->
-                            <markdown-editor 
-                                v-model="content"
-                                ref="markdownEditor"
-                                :value="content"
-                                :configs="configs"> 
-                            </markdown-editor>
-                        </div>
-                    </el-tab-pane>
-               </el-tabs> 
-            </div> 
-                </span>
-            </div>
-                
-           </Card> 
+                    <button class="" @click="deleteAttachment(files, index)">
+                        <a v-show="isDeleteAttachment" class="fa fa-close" />
+                    </button>
+                    <iframe v-bind:src="imgURL(files.file_url)" frameborder="0"></iframe>
 
-            <div class="hidden">
-                <a target="_blank" v-bind:href="files.file_url">{{ files.file_name }}
-                    <ui-progress-linear color="primary" type="determinate" :progress="$store.state.progress" v-show="filteredTodo.attachmentprogress" v-if="index === attachmentList.length-1">
-                    </ui-progress-linear>
-                </a>
-                <button class="" @click="deleteAttachment(files, index)">
-                    <a v-show="isDeleteAttachment" class="fa fa-close" />
-                </button>
-                <iframe v-bind:src="imgURL(files.file_url)" frameborder="0"></iframe>
+                    <div style="float:right;" v-if="index === btnClickedIndex">
+                        <!--<span style="float:right;margin-right: 40px;" v-if="index === btnClickedIndex">-->
+                        <ui-progress-circular color="black" type="indeterminate" v-show="filteredTodo.deleteprogress" class="circularProgress" :size="20">
+                        </ui-progress-circular>
+                    </div>
+                </div>
 
-                <div style="float:right;" v-if="index === btnClickedIndex">
-                    <!--<span style="float:right;margin-right: 40px;" v-if="index === btnClickedIndex">-->
-                    <ui-progress-circular color="black" type="indeterminate" v-show="filteredTodo.deleteprogress" class="circularProgress" :size="20">
-                    </ui-progress-circular>
+            </div>
+      </Scroll>
+            <div class="attachment-nav">
+                <div class="attachment-mask">
+                    <label for="upload">
+                        <i class="fa fa-paperclip"></i>
+                        <input id="upload" type="file" @change="onFileChange($event)" style="display:none" />
+                    </label>
                 </div>
             </div>
-
-        </div>
-        <div class="attachment-nav">
-            <div class="attachment-mask">
-                <label for="upload">
-                    <i class="fa fa-paperclip"></i>
-                    <input id="upload" type="file" @change="onFileChange($event)" style="display:none" />
-                </label>
-            </div>
-        </div>
-
-       
     </div>
 </template>
 <script>
@@ -194,10 +201,10 @@ export default {
 </script>
 <style>
 .attachment-nav {
-  right: 42px;
-  z-index: 20;
+  right: 20px;
+  z-index: 5;
   width: 45px;
-  bottom: 15px;
+  bottom: 50px;
   height: 45px;
   display: block;
   position: absolute;
@@ -206,7 +213,7 @@ export default {
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
 }
 .attachment-mask {
-  z-index: 21;
+  z-index: 5;
   color: #fff;
   width: inherit;
   height: inherit;
@@ -292,5 +299,14 @@ export default {
     text-align: -webkit-left;
     text-align: left;
     margin: 10px;
+}
+.no-attchment{
+ opacity:0.2;
+ margin: auto;
+ width: 50%;
+ margin-top:20%;
+}
+.no-attchment-error{
+    font-size:30px;
 }
 </style>

@@ -1,5 +1,13 @@
 <template>
     <div id="details_pane_footer" class="details-pane-redesign details-pane-footer">
+         <div class="no-comment" v-if="taskSortComments.length<=0">
+           <p>
+            <i class="fa fa-comments" aria-hidden="true" style="font-size:30vh">
+           </i>
+           </p>
+           <span class="no-comment-error">No comment found</span>
+        </div>
+        <div v-else>
         <!-- <div class="Comment-headerTitle" v-html="commentName">
           </div> -->
           <hr class="StoryFeed-separator StoryFeed-topSeparator">
@@ -70,6 +78,7 @@
                   </div>
               </div>
           </div>
+        </div>
     </div>
 </template>
 <script>
@@ -265,5 +274,14 @@ export default {
 <style >
 .markdown-editor {
   height: 500px;
+}
+.no-comment{
+ opacity:0.2;
+ margin: auto;
+ width: 50%;
+ margin-top:20%;
+}
+.no-comment-error{
+    font-size:30px;
 }
 </style>

@@ -1,4 +1,5 @@
 <template>
+  <Scroll>
     <div>
         <!--<span id="close" class="destroy" @click="CLOSE_DIV(filteredTodo)">
             <i class="fa fa-close"></i>
@@ -9,34 +10,33 @@
         v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" 
         :pholder="pholder" :filtered-todos="filteredTodos"></main-left-section>
     </div>
+  </Scroll>
 </template>
 <script>
 /* eslint-disable*/
-import Vue from 'vue'
-import TextDescription from './TextDescription.vue'
-import MainLeftSection from './MainLeftSection.vue'
-import { mapMutations, mapGetters } from 'vuex'
+import Vue from "vue";
+import TextDescription from "./TextDescription.vue";
+import MainLeftSection from "./MainLeftSection.vue";
+import { mapMutations, mapGetters } from "vuex";
 export default {
-    props: ['filteredTodos', 'pholder',  'isCopyLink', 'id', 'filteredTodo'],
-    data: function() {
-        return {
-            taskObject: this.filteredTodo
-        }
-    },
-    methods: {
-        ...mapMutations([
-            'CLOSE_DIV'
-        ]),
-    },
-    methods: {
-        ...mapMutations([
-            'CLOSE_DIV'
-        ]),
-
-    },
-    components: {
-        TextDescription,
-        MainLeftSection
+  props: ["filteredTodos", "pholder", "isCopyLink", "id", "filteredTodo"],
+  data: function() {
+    return {
+      taskObject: this.filteredTodo
+    };
+  },
+  methods: {
+    ...mapMutations(["CLOSE_DIV"])
+  },
+  methods: {
+    ...mapMutations(["CLOSE_DIV"]),
+    handleReachBottom() {
+      console.log("sub task call");
     }
-}
+  },
+  components: {
+    TextDescription,
+    MainLeftSection
+  }
+};
 </script>

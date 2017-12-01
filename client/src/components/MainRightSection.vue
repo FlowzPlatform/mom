@@ -43,11 +43,6 @@
             :commentTaskId="todoObject.id">
           </component>
         </div>
-         <!-- <Select placeholder="hemant" placement="top" v-model="model8" style="right:0;width:200px;position:absolute;bottom:36px;z-index:99999">
-              <Option value="delhi">delhi</Option>
-              <Option value="punjab">punjab</Option>
-              <Option value="gujarat">gujarat</Option>
-        </Select> -->
         <div class="nav_bottom">
           <div class="navbar-bottom" id="myNavbar">
             <a href="javascript:void(0)" id="#subtask" v-bind:class="selectedMenuIndex==0?activeClass:''" class="nav-tab" @click="subTaskShow">
@@ -55,7 +50,7 @@
                 <i class="nav-icon ion-navicon-round" style="font-size:20px"></i>
               </Tooltip>
             </a>
-             <!-- Assign task to user menu item -->
+             <!-- Assign task to user menu item --> 
             <div class="assing-to-menu">
                       <span style="float:left;margin-top:-3px">
                         <avatar v-if="imageURlProfilePic" :username="getUserName()" :size='30' :src='imageURlProfilePic'></avatar>
@@ -85,7 +80,7 @@
                </DatePicker>                             
             </div> 
             <!-- History -->
-            <a href="javascript:void(0)"  v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab hidden" @click="historyShow">
+            <a href="javascript:void(0)"  v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab" @click="historyShow">
               <Tooltip content="History" placement="top-start">
                 <i class="nav-icon fa fa-history" aria-hidden="true" style="font-size:20px"></i>
               </Tooltip>
@@ -179,6 +174,7 @@ Vue.filter("formatDate", function(value) {
     return moment(String(value)).format("MMM DD");
   }
 });
+
 
 Vue.use(AsyncComputed);
 export default {
@@ -614,6 +610,14 @@ export default {
   background-color: #333;
   bottom: 0;
   width: 100%;
+  opacity:0.2;
+}
+.navbar-bottom:hover {
+  overflow: hidden;
+  background-color: #333;
+  bottom: 0;
+  width: 100%;
+  opacity:1;
 }
 .navbar-bottom a {
   float: left;
@@ -663,7 +667,6 @@ div.right_pannel {
   height: 95%;
   /* position: absolute; */
   width: 100%;
-  overflow-x: hidden;
 }
 .nav_bottom {
   position: absolute;
@@ -671,7 +674,7 @@ div.right_pannel {
   width: 100%;
   /* height of the bottom tab bar */
   height: 36px;
-  z-index: 999;
+  z-index: 5;
 }
 .nav-sub-bottom {
   height: 320px;
@@ -698,8 +701,6 @@ a.option-menu.glyphicon.glyphicon-option-horizontal {
   font-size: 2.5em;
   margin-right: 10px;
   color: #ed3f14;
-}
-.navbar-bottom {
 }
 .navbar-bottom .assing-to-menu {
   padding: 5px;
