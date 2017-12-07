@@ -1,6 +1,6 @@
 {
   "host": "localhost",
-  "port": 303,
+  "port": 3030,
   "public": "../public/",
   "paginate": {
     "default": 50,
