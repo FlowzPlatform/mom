@@ -62,7 +62,7 @@ app.configure(socketio(function(io) {
 // Set up our services (see `services/index.js`)
 app.configure(services);
 // Configure middleware (see `middleware/index.js`) - always has to be last
-app.configure(middleware);
+// app.configure(middleware);
 app.hooks(appHooks);
 app.use(errorHandler());
 module.exports = app;

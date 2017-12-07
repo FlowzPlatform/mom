@@ -11,7 +11,4 @@ module.exports = function () {
   app.use(function(error, req, res, next){
       console.log("Middleware-------->",req);
   })
-  app.use(function(req, res, next){
-    console.log("Subscrion test-------->",req);
-})
 };
