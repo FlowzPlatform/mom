@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="topicon">
+    <!-- <div id="topicon">
       <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
         tabindex="410" style="margin-top: 2px;">
         <span id="close" class="destroy circularButtonView-label" @click="CLOSE_DIV(todoObject)">
@@ -20,7 +20,7 @@
           <i class="fa fa-expand" aria-hidden="true"></i>
         </span>
       </div>
-    </div>
+    </div> -->
     <div :id="id" class="right_pannel" style="display: grid;">
       <Alert v-if="todoObject.isDelete" class="right-top-alert" type="error">
         <span slot="desc">
@@ -31,6 +31,8 @@
         </span>
       </Alert>
       <div class="tab-pannel">
+          <text-description :id="id" :filteredTodo="todoObject" :currentView="currentView"></text-description>
+          <div class="rightscroll" id="rightContainer">
           <component :is="currentView" 
             :id="id" 
             :taskId="todoObject.id" 
@@ -43,44 +45,67 @@
             :commentTaskId="todoObject.id">
           </component>
         </div>
+        </div>
         <div class="nav_bottom">
           <div class="navbar-bottom" id="myNavbar">
             <a href="javascript:void(0)" id="#subtask" v-bind:class="selectedMenuIndex==0?activeClass:''" class="nav-tab" @click="subTaskShow">
               <Tooltip content="Task" placement="top-start">
-                <i class="nav-icon ion-navicon-round" style="font-size:20px"></i>
+                <!-- <i class="fa fa-bars" style="font-size:20px"></i> -->
+                <svg class="Icon HamburgerIcon Topbar-sidebarToggleIcon" viewBox="0 0 32 32">
+                  <rect x="2" y="4" width="28" height="4"></rect>
+                  <rect x="2" y="14" width="28" height="4"></rect>
+                  <rect x="2" y="24" width="28" height="4"></rect>
+                </svg>
               </Tooltip>
             </a>
              <!-- Assign task to user menu item -->
             <div class="assing-to-menu">
-                      <span style="float:left;margin-top:-3px">
-                        <div v-if="getUserName()">
-                          <avatar v-if="imageURlProfilePic" :username="getUserName()" :size='30' :src='imageURlProfilePic'></avatar>
-                          <avatar v-else :username="getUserName()" color='#fff' :size='30'></avatar>
-                        </div>
-                      </span>
-                      <Row>
-                            <Col span="2" style="padding-right:10px">
-                                <Select  not-found-text="No user found" placeholder="user"  placement="top" v-model="selectedUser" @on-change="userListClick" filterable  style="width:180px;z-index:99999">
-                                      <Option style="margin:5px"  v-for="user in getUserList"  :label="getListUserName(user.email)" :value="user._id" :key="user._id">
-                                          <span style="float:left;margin-right:10px;margin-top:-8px;width: 30px; height: 30px; border-radius: 50%; text-align: center; vertical-align: middle;background:#ccc">
-                                            <avatar v-if="user.image_url" :username="user.email?user.email:'n/a'" :size='30' :src='checkProfilePicUrl(user.image_url)'></avatar>
-                                            <avatar v-else color="white" :username="user.email?user.email:'n/a'"  :size='30'></avatar>
-                                          </span>
-                                          {{getListUserName(user.email)}}
-                                      </Option>
-                                </Select>
-                            </col>
-                      </Row>                                
+                <span style="float:left;margin-top:-3px">
+                  <div v-if="todoObject.email">
+                    <avatar v-if="todoObject.image_url" :username="todoObject.email" :size="30" :src="todoObject.image_url"></avatar>
+                    <avatar v-else :username="todoObject.email" color='#fff' :size="30"></avatar>
+                  </div>
+                  </span>
+                  <Row>
+                    <Col span="2" style="padding-right:10px">
+                      <Select  not-found-text="No user found" placeholder="user"  placement="top" v-model="selectedUser" @on-change="userListClick" filterable  style="width:180px;z-index:99999">
+                        <Option style="margin:5px"  v-for="user in getUserList"  :label="getListUserName(user.fullname)" :value="user._id" :key="user._id">
+                          <span style="float:left;margin-right:10px;margin-top:-8px;width: 30px; height: 30px; border-radius: 50%; text-align: center; vertical-align: middle;background:#ccc">
+                            <div v-if="user.email">
+                              <avatar v-if="user.image_url" :username="user.email" :size="30" :src="user.image_url"></avatar>
+                              <avatar v-else color="white" :username="user.email"  :size="30"></avatar>
+                            </div>
+                          </span>
+                          {{getListUserName(user.email)}}
+                        </Option>
+                      </Select>
+                    </col>
+                  </Row>                                
             </div>
             <!-- Task due date menu item -->
              <div class="due-date">
-               <DatePicker size="small" placement="top" type="date"
-                           :value="todoObject.dueDate"
-                           @on-change="dueDateClick"
-                           format="dd MMM yyyy"
-                           placeholder="Due date" style="width: 200px">
-               </DatePicker>                             
-            </div> 
+               <!-- <DatePicker size="small" placement="top" type="date"
+                  :value="todoObject.dueDate"
+                  @on-change="dueDateClick"
+                  format="dd MMM yyyy"
+                  placeholder="Due date" >
+               </DatePicker>                              -->
+               <DatePicker
+               :open="open"
+               confirm
+               size="small" placement="top" type="date"
+               :value="todoObject.dueDate"
+               @on-change="dueDateClick"
+               @on-clear="handleClear"
+               @on-ok="handleOk">
+               <a href="javascript:void(0)" @click="handleClick">
+                   <Icon v-if="todoObject.dueDate === ''"  class="fa fa-calendar"></Icon>
+                   <template v-if="todoObject.dueDate === ''"></template>
+                   <template v-else>{{ todoObject.dueDate |  formatDate}}</template>
+               </a>
+           </DatePicker>
+               <!-- <div class="Avatar Avatar--medium Avatar--color7 Topbar-settingsMenuAvatar" @click="toOpenCalender">{{todoObject.dueDate |dateofDay}}</div> -->
+              </div> 
             <!-- History -->
             <a href="javascript:void(0)"  v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab" @click="historyShow">
               <Tooltip content="History" placement="top-start">
@@ -119,6 +144,12 @@
           <div class="tab-container">
           </div>
       </div>
+      <!-- <ul class="nav_bottom nav nav-pills nav-justified">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Menu 1</a></li>
+        <li><a href="#">Menu 2</a></li>
+        <li><a href="#">Menu 3</a></li>
+      </ul> -->
     </div>
     <div :class="todoObject.id" class="modal fade" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
       <div class="modal-dialog" role="document">
@@ -156,7 +187,7 @@ import Statuses from "./Statuses.vue";
 import * as services from "../services";
 import Tags from "./Tags.vue";
 import SubTask from "./SubTask.vue";
-import { mapMutations, mapGetters } from "vuex";
+import { mapMutations, mapGetters, mapActions } from "vuex";
 import iView from "iview";
 import "iview/dist/styles/iview.css";
 import CmnFunc from "./CommonFunc.js";
@@ -171,6 +202,11 @@ Vue.use(AsyncComputed);
 Vue.filter("formatDate", function(value) {
   if (value) {
     return moment(String(value)).format("MMM DD");
+  }
+});
+Vue.filter("dateofDay", function(value) {
+  if (value) {
+    return moment(String(value)).format("DD");
   }
 });
 
@@ -195,7 +231,7 @@ export default {
       modal_loading: false,
       topMargin: 20, // Top margin of sub task panel
       isDeleteActive: false, // Hide soft delete dialog
-      imageURlProfilePic: "",
+      // imageURlProfilePic: "",
       model8: "",
       selectedUser: this.todoObject.assigned_to,
       previousUser: this.todoObject.assigned_to,
@@ -203,6 +239,7 @@ export default {
       selectedUser: '',
       estimated_time: false,
       task_priority: false,
+      open: false,
     };
   },
   created: function() {
@@ -211,7 +248,7 @@ export default {
     this.tagNewPermission();
   },
   methods: {
-    ...mapMutations(["CLOSE_DIV"]),
+    // ...mapMutations(["CLOSE_DIV"]),    
     undelete: function() {
       this.$store.dispatch("undelete", this.todoObject);
     },
@@ -397,34 +434,34 @@ export default {
       this.selectedMenuIndex = 5;
       $(".nav").addClass("hidden");
     },
-    openfullwinodw: function(ind) {
-      console.log("Openfullwindow called====");
-      $(".window-full.circularButtonView")
-        .find(".fa")
-        .toggleClass("fa-compress");
-      $(".window-full.circularButtonView")
-        .parents(".right_pane_container #right_pane #" + ind)
-        .toggleClass("open");
-    },
-    pinit(filteredTodo) {
-      console.log("TODO Object", filteredTodo);
-      if (
-        _.find(this.$store.state.todolist, ["id", filteredTodo.id]) &&
-        !_.find(this.$store.state.todolist, ["id", filteredTodo.id]).isPinned
-      ) {
-        console.log("pinnned true");
-        _.find(this.$store.state.todolist, [
-          "id",
-          filteredTodo.id
-        ]).isPinned = true;
-      } else {
-        console.log("pinnned false");
-        _.find(this.$store.state.todolist, [
-          "id",
-          filteredTodo.id
-        ]).isPinned = false;
-      }
-    },
+    // openfullwinodw: function(ind) {
+    //   console.log("Openfullwindow called====");
+    //   $(".window-full.circularButtonView")
+    //     .find(".fa")
+    //     .toggleClass("fa-compress");
+    //   $(".window-full.circularButtonView")
+    //     .parents(".right_pane_container #right_pane #" + ind)
+    //     .toggleClass("open");
+    // },
+    // pinit(filteredTodo) {
+    //   console.log("TODO Object", filteredTodo);
+    //   if (
+    //     _.find(this.$store.state.todolist, ["id", filteredTodo.id]) &&
+    //     !_.find(this.$store.state.todolist, ["id", filteredTodo.id]).isPinned
+    //   ) {
+    //     console.log("pinnned true");
+    //     _.find(this.$store.state.todolist, [
+    //       "id",
+    //       filteredTodo.id
+    //     ]).isPinned = true;
+    //   } else {
+    //     console.log("pinnned false");
+    //     _.find(this.$store.state.todolist, [
+    //       "id",
+    //       filteredTodo.id
+    //     ]).isPinned = false;
+    //   }
+    // },
     async setAssignUser(userId) {
       console.log("user id -->", userId);
       var user = _.find(this.$store.state.arrAllUsers, ["_id", userId]);
@@ -459,46 +496,56 @@ export default {
       }
       return objUser;
     },
-    getUserName() {
-      var user = this.getAssignedUserObj(this.todoObject.assigned_to)
-      if (!user) {
-        return;
-      }
-      this.selectedUser = user._id;
-      this.previousUser=user._id;
-      if (user.image_url) {
-        this.imageURlProfilePic = user.image_url;
-        return "";
-      }
-      this.imageURlProfilePic = "";
-      return user.email;
-    },
-    capitalizeLetters(name) {
-      var str = "null";
-      if (name != null) {
-        str = name;
-      }
+    // getUserName() {
+    //   var user = this.getAssignedUserObj(this.todoObject.assigned_to)
+    //   if (!user) {
+    //     return;
+    //   }
+    //   this.selectedUser = user._id;
+    //   this.previousUser=user._id;
+    //   if (user.image_url) {
+    //     this.imageURlProfilePic = user.image_url;
+    //     return "";
+    //   }
+    //   this.imageURlProfilePic = "";
+    //   return user.email;
+    // },
+    // capitalizeLetters(name) {
+    //   var str = "null";
+    //   if (name != null) {
+    //     str = name;
+    //   }
       // else if(name.fullname != null){
       //   console.log('Name', name.fullname)
       //   str = name.fullname
       // }
       // var str = name.email
-      var firstLetters = str.substr(0, 2);
-      return firstLetters.toUpperCase();
-    },
-    checkProfilePicUrl(url) {
-      if (url) {
-        return url;
-      } else {
-        return "";
-      }
-    },
+    //   var firstLetters = str.substr(0, 2);
+    //   return firstLetters.toUpperCase();
+    // },
+    // checkProfilePicUrl(url) {
+    //   if (url) {
+    //     return url;
+    //   } else {
+    //     return "";
+    //   }
+    // },
     dueDateClick(dateTo) {
-      var selectedDate = moment(dateTo, "YYYY-MM-DD").format("MMM DD");
+      var selectedDate = moment(dateTo, "YYYY-MM-DD").format("DD");
       this.$store.dispatch("editTaskName", {
         todo: this.todoObject,
         selectedDate: dateTo
       });
+      this.todoObject.dueDate = dateTo
+    },
+    handleClick() {
+      this.open = !this.open;
+    },
+    handleClear() {
+      this.open = false;
+    },
+    handleOk() {
+      this.open = false;
     },
     /**
     * Selected user from assign user list
@@ -510,14 +557,15 @@ export default {
   },
   watch: {
     // whenever question changes, this function will run
-    todolistSubTasks: function(newQuestion) {},
-    todoObject: function() {
-      console.log("Right Section Log history", this.todoObject);
-      this.$store.dispatch("findHistoryLog", this.todoObject.id);
-    },
+    // todolistSubTasks: function(newQuestion) {},
+    // todoObject: function() {
+    //   console.log("Right Section Log history", this.todoObject);
+    //   this.$store.dispatch("findHistoryLog", this.todoObject.id);
+    // },
     todoObject: function(todo) {
       this.previousUser=this.selectedUser;
       this.selectedUser = todo.assigned_to;
+      this.$store.dispatch("findHistoryLog", this.todoObject.id);
     }
   },
   computed: {
@@ -597,125 +645,3 @@ export default {
   }
 };
 </script>
-<style scoped>
-.navbar-bottom {
-  overflow: hidden;
-  background-color: #333;
-  bottom: 0;
-  width: 100%;
-}
-.navbar-bottom a {
-  float: left;
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 6px 26px;
-  text-decoration: none;
-}
-.navbar-bottom div {
-  margin-top: 1px;
-}
-.navbar-bottom a.active {
-  /*background-color: rgba(63, 81, 181, 0.48);*/
-  background-color: #999999;
-  color: white;
-}
-.navbar-bottom:hover a.active {
-  /*background-color: rgba(63, 81, 181, 0.90);*/
-  background-color: #999999;
-  color: white;
-}
-.navbar-bottom .icon {
-  display: none;
-}
-.nav-icon {
-  font-size: x-large;
-}
-.nav-title {
-  font-size: small;
-}
-.tab-container {
-  display: none;
-}
-.tab-container-active {
-  display: block;
-  width: 100%;
-  background: white;
-  /* height: 510px; */
-}
-div.right_pannel {
-  width: 100%;
-  height: 100%;
-}
-.tab-pannel {
-  /* overflow-y: scroll; */
-  height: 95%;
-  /* position: absolute; */
-  width: 100%;
-  overflow-x: hidden;
-}
-.nav_bottom {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* height of the bottom tab bar */
-  height: 36px;
-  z-index: 999;
-}
-.nav-sub-bottom {
-  height: 320px;
-}
-a.option-menu.glyphicon.glyphicon-option-horizontal {
-  float: right;
-}
-.right_pane_container #right_pane {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-.option-menu {
-  float: right;
-}
-.right-top-alert {
-  top: 10px;
-}
-.ivu-alert-error {
-  border: 1px solid #d7c5c7;
-  background-color: #ffedef;
-}
-.deleteIcon {
-  font-size: 2.5em;
-  margin-right: 10px;
-  color: #ed3f14;
-}
-.navbar-bottom .assing-to-menu {
-  padding: 5px;
-  border-radius: 30px;
-  background: #fff;
-  float: left;
-  height: 34px;
-  width: 117px;
-}
-.navbar-bottom .assing-to-menu:hover {
-  background: #fff;
-  -webkit-box-shadow: 0 0 0 3px #02CEFF;
-  height: 32px;
-}
-.navbar-bottom .due-date {
-  padding: 5px;
-  border-radius: 30px;
-  background: #fff;
-  float: left;
-  margin-top:2px;
-  height: 33px;
-  width: 120px;
-  margin-left:2px;
-}
-.navbar-bottom .due-date:hover {
-  background: #fff;
-  -webkit-box-shadow: 0 0 0 3px #02CEFF;
-  height: 32px;
-}
-
-</style>
-

@@ -270,10 +270,6 @@
     tr.odd {
         background-color: #e6f5ff;
     }
-
-    body {
-        overflow-y: scroll;
-    }
 </style>
 <script src="../../dist/vue-table.js"></script>
 <script>

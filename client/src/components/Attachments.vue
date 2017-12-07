@@ -107,7 +107,6 @@
     /* eslint-disable*/
     import Vue from "vue";
     import { mapGetters } from "vuex";
-    // import "vue-ionicons/ionicons/css/ionicons.css";
     import iView from "iview";
     import "iview/dist/styles/iview.css";
     import Avatar from "vue-avatar/src/Avatar";

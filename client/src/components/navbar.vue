@@ -3,138 +3,147 @@
     <div>
       <div data-reactroot="" id="top-bar" class="Topbar">
         <div class="PageHeaderStructure-center">
-            <div class="PageHeaderStructure-titleRow">
-              <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName">
-                <input id="project-name" type="text" name="fname" maxlength="25" v-model="projectName" @blur="setProjectName" @keyup.enter="updateProjectName" style="text-align: center;"/>
-              </div>
+          <div class="PageHeaderStructure-titleRow">
+            <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName">
+              <input id="project-name" class="logo__title" type="text" name="fname" maxlength="25" v-model="projectName" @blur="setProjectName"
+                @keyup.enter="updateProjectName" style="text-align: center;" />
             </div>
           </div>
+        </div>
         <div class="PageHeaderStructure-right">
-            <div class="projectHeaderFacepile-content">
-              <div class="Facepile Facepile--grouped projectHeaderFacepile-facepile hidden">
-                <div class="Avatar Avatar--large Avatar--color2 Facepile-avatar--clickable">
-                  he
-                </div>
-                <a class="CircularButton CircularButton--enabled CircularButton--small Facepile-placeholder" tabindex="0" aria-role="button">
-                  <div class="CircularButton-label">
-                    <svg class="Icon UserIcon Facepile-placeholderIcon" title="UserIcon" viewBox="0 0 32 32">
-                      <path d="M20.534,16.765C23.203,15.204,25,12.315,25,9c0-4.971-4.029-9-9-9S7,4.029,7,9c0,3.315,1.797,6.204,4.466,7.765C5.962,18.651,2,23.857,2,30c0,0.681,0.065,1.345,0.159,2h27.682C29.935,31.345,30,30.681,30,30C30,23.857,26.038,18.651,20.534,16.765z M9,9c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S9,12.86,9,9z M4,30c0-6.617,5.383-12,12-12s12,5.383,12,12H4z"></path>
-                    </svg>
-                  </div>
-                </a>
-                <a class="CircularButton CircularButton--enabled CircularButton--small Facepile-placeholder" tabindex="0" aria-role="button">
-                  <div class="CircularButton-label">
-                    <svg class="Icon UserIcon Facepile-placeholderIcon" title="UserIcon" viewBox="0 0 32 32">
-                      <path d="M20.534,16.765C23.203,15.204,25,12.315,25,9c0-4.971-4.029-9-9-9S7,4.029,7,9c0,3.315,1.797,6.204,4.466,7.765C5.962,18.651,2,23.857,2,30c0,0.681,0.065,1.345,0.159,2h27.682C29.935,31.345,30,30.681,30,30C30,23.857,26.038,18.651,20.534,16.765z M9,9c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S9,12.86,9,9z M4,30c0-6.617,5.383-12,12-12s12,5.383,12,12H4z"></path>
-                    </svg>
-                  </div>
-                </a>
+          <div class="projectHeaderFacepile-content">
+            <div class="Facepile Facepile--grouped projectHeaderFacepile-facepile hidden">
+              <div class="Avatar Avatar--large Avatar--color2 Facepile-avatar--clickable">
+                he
               </div>
-              <a id="ProjectPageHeader-facepileAddButton" class="CircularButton CircularButton--enabled CircularButton--small projectHeaderFacepile-addButton hidden"
-                tabindex="0" aria-role="button">
+              <a class="CircularButton CircularButton--enabled CircularButton--small Facepile-placeholder" tabindex="0" aria-role="button">
                 <div class="CircularButton-label">
-                  <svg class="Icon PlusIcon projectHeaderFacepile-addIcon" title="PlusIcon" viewBox="0 0 32 32">
-                    <polygon points="28,14 18,14 18,4 14,4 14,14 4,14 4,18 14,18 14,28 18,28 18,18 28,18"></polygon>
+                  <svg class="Icon UserIcon Facepile-placeholderIcon" title="UserIcon" viewBox="0 0 32 32">
+                    <path d="M20.534,16.765C23.203,15.204,25,12.315,25,9c0-4.971-4.029-9-9-9S7,4.029,7,9c0,3.315,1.797,6.204,4.466,7.765C5.962,18.651,2,23.857,2,30c0,0.681,0.065,1.345,0.159,2h27.682C29.935,31.345,30,30.681,30,30C30,23.857,26.038,18.651,20.534,16.765z M9,9c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S9,12.86,9,9z M4,30c0-6.617,5.383-12,12-12s12,5.383,12,12H4z"></path>
                   </svg>
                 </div>
               </a>
-              <div v-show="($store.state.currentProjectName && $store.state.currentProjectName.length>0)?true:false" id="projectVisible" class="projectHeaderFacepile-privacySummary projectHeaderFacepile-privacySummaryDropdown" @click="changePrivacyPopup">
-                <div class="projectHeaderFacepile-privacySummaryDropdownTextDownIconContainer">
-                  <svg v-if="$store.state.currentProjectPrivacy==2" class="Icon UserIcon projectHeaderFacepile-privacySummaryDropdownLeftIcon"
-                    title="UserIcon" viewBox="0 0 32 32">
+              <a class="CircularButton CircularButton--enabled CircularButton--small Facepile-placeholder" tabindex="0" aria-role="button">
+                <div class="CircularButton-label">
+                  <svg class="Icon UserIcon Facepile-placeholderIcon" title="UserIcon" viewBox="0 0 32 32">
                     <path d="M20.534,16.765C23.203,15.204,25,12.315,25,9c0-4.971-4.029-9-9-9S7,4.029,7,9c0,3.315,1.797,6.204,4.466,7.765C5.962,18.651,2,23.857,2,30c0,0.681,0.065,1.345,0.159,2h27.682C29.935,31.345,30,30.681,30,30C30,23.857,26.038,18.651,20.534,16.765z M9,9c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S9,12.86,9,9z M4,30c0-6.617,5.383-12,12-12s12,5.383,12,12H4z"></path>
                   </svg>
-                  <svg v-else class="Icon UserIcon projectHeaderFacepile-privacySummaryDropdownLeftIcon" title="UserIcon" viewBox="0 0 32 32">
-                    <path d="M24.23,16.781C26.491,15.368,28,12.863,28,10c0-4.418-3.582-8-8-8s-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C11.233,18.494,8,22.864,8,28c0,0.683,0.07,1.348,0.18,2h23.64c0.11-0.652,0.18-1.317,0.18-2C32,22.864,28.767,18.494,24.23,16.781z M14,10c0-3.308,2.692-6,6-6s6,2.692,6,6s-2.692,6-6,6S14,13.308,14,10z M10,28c0-5.514,4.486-10,10-10c5.514,0,10,4.486,10,10H10z"></path>
-                    <path d="M2,28c0-4.829,3.441-8.869,8-9.798V15.65C7.673,14.824,6,12.606,6,10c0-3.308,2.692-6,6-6V2c-4.418,0-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C3.233,18.494,0,22.864,0,28c0,0.683,0.07,1.348,0.18,2H6v-2H2z"></path>
-                  </svg>
                 </div>
-                <!-- Change privacy  -->
-                <div v-show="showPrivacyPopup" @mouseleave="hidePopup" class="layerPositioner-privacy layerPositioner--offsetRight layerPositioner--alignRight layerPositioner--below"
-                  data-layerid="4" style="top: 80.339px;">
-                  <div class="layerPositioner-layer-privacy">
-                    <div class="Dropdown projectHeaderFacepile-privacySummaryDropdown">
-                      <ul class="menu menu--long">
-                        <li class="menu-item-privacy" @click="publicMode">
-                          <a id="projectHeaderFacepile-privacyPublicMenuItem" class="menuItem-button is-highlighted menuItem--small projectHeaderFacepile-privacyMenuItem">
-                            <svg v-show="showPublic" class="Icon CheckIcon menuItem-selectedIcon" title="CheckIcon" viewBox="0 0 32 32">
-                              <polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon>
-                            </svg>
-                            <svg class="Icon UsersIcon projectHeaderFacepile-privacyMenuItemIcon" title="UsersIcon" viewBox="0 0 32 32">
-                              <path d="M24.23,16.781C26.491,15.368,28,12.863,28,10c0-4.418-3.582-8-8-8s-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C11.233,18.494,8,22.864,8,28c0,0.683,0.07,1.348,0.18,2h23.64c0.11-0.652,0.18-1.317,0.18-2C32,22.864,28.767,18.494,24.23,16.781z M14,10c0-3.308,2.692-6,6-6s6,2.692,6,6s-2.692,6-6,6S14,13.308,14,10z M10,28c0-5.514,4.486-10,10-10c5.514,0,10,4.486,10,10H10z"></path>
-                              <path d="M2,28c0-4.829,3.441-8.869,8-9.798V15.65C7.673,14.824,6,12.606,6,10c0-3.308,2.692-6,6-6V2c-4.418,0-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C3.233,18.494,0,22.864,0,28c0,0.683,0.07,1.348,0.18,2H6v-2H2z"></path>
-                            </svg>
-                            <span class="menuItem-label">
-                              <div class="projectHeaderFacepile-privacyMenuItemText">Public to all</div>
-                            </span>
-                          </a>
-                        </li>
-                        <li class="menu-item-privacy" @click="privateMemberMode">
-                          <a id="projectHeaderFacepile-privacyPublicMenuItem" class="menuItem-button is-highlighted menuItem--small projectHeaderFacepile-privacyMenuItem">
-                            <svg v-show="showPrivateMember" class="Icon CheckIcon menuItem-selectedIcon" title="CheckIcon" viewBox="0 0 32 32">
-                              <polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon>
-                            </svg>
-                            <svg class="Icon UsersIcon projectHeaderFacepile-privacyMenuItemIcon" title="UsersIcon" viewBox="0 0 32 32">
-                              <path d="M24.23,16.781C26.491,15.368,28,12.863,28,10c0-4.418-3.582-8-8-8s-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C11.233,18.494,8,22.864,8,28c0,0.683,0.07,1.348,0.18,2h23.64c0.11-0.652,0.18-1.317,0.18-2C32,22.864,28.767,18.494,24.23,16.781z M14,10c0-3.308,2.692-6,6-6s6,2.692,6,6s-2.692,6-6,6S14,13.308,14,10z M10,28c0-5.514,4.486-10,10-10c5.514,0,10,4.486,10,10H10z"></path>
-                              <path d="M2,28c0-4.829,3.441-8.869,8-9.798V15.65C7.673,14.824,6,12.606,6,10c0-3.308,2.692-6,6-6V2c-4.418,0-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C3.233,18.494,0,22.864,0,28c0,0.683,0.07,1.348,0.18,2H6v-2H2z"></path>
-                            </svg>
-                            <span class="menuItem-label">
+              </a>
+            </div>
+            <a id="ProjectPageHeader-facepileAddButton" class="CircularButton CircularButton--enabled CircularButton--small projectHeaderFacepile-addButton hidden"
+              tabindex="0" aria-role="button">
+              <div class="CircularButton-label">
+                <svg class="Icon PlusIcon projectHeaderFacepile-addIcon" title="PlusIcon" viewBox="0 0 32 32">
+                  <polygon points="28,14 18,14 18,4 14,4 14,14 4,14 4,18 14,18 14,28 18,28 18,18 28,18"></polygon>
+                </svg>
+              </div>
+            </a>
+            <div v-show="($store.state.currentProjectName && $store.state.currentProjectName.length>0)?true:false" id="projectVisible"
+              class="projectHeaderFacepile-privacySummary projectHeaderFacepile-privacySummaryDropdown" @click="changePrivacyPopup">
+              <div class="projectHeaderFacepile-privacySummaryDropdownTextDownIconContainer">
+                <svg v-if="$store.state.currentProjectPrivacy==2" class="Icon UserIcon projectHeaderFacepile-privacySummaryDropdownLeftIcon"
+                  title="UserIcon" viewBox="0 0 32 32">
+                  <path d="M20.534,16.765C23.203,15.204,25,12.315,25,9c0-4.971-4.029-9-9-9S7,4.029,7,9c0,3.315,1.797,6.204,4.466,7.765C5.962,18.651,2,23.857,2,30c0,0.681,0.065,1.345,0.159,2h27.682C29.935,31.345,30,30.681,30,30C30,23.857,26.038,18.651,20.534,16.765z M9,9c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S9,12.86,9,9z M4,30c0-6.617,5.383-12,12-12s12,5.383,12,12H4z"></path>
+                </svg>
+                <svg v-else class="Icon UserIcon projectHeaderFacepile-privacySummaryDropdownLeftIcon" title="UserIcon" viewBox="0 0 32 32">
+                  <path d="M24.23,16.781C26.491,15.368,28,12.863,28,10c0-4.418-3.582-8-8-8s-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C11.233,18.494,8,22.864,8,28c0,0.683,0.07,1.348,0.18,2h23.64c0.11-0.652,0.18-1.317,0.18-2C32,22.864,28.767,18.494,24.23,16.781z M14,10c0-3.308,2.692-6,6-6s6,2.692,6,6s-2.692,6-6,6S14,13.308,14,10z M10,28c0-5.514,4.486-10,10-10c5.514,0,10,4.486,10,10H10z"></path>
+                  <path d="M2,28c0-4.829,3.441-8.869,8-9.798V15.65C7.673,14.824,6,12.606,6,10c0-3.308,2.692-6,6-6V2c-4.418,0-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C3.233,18.494,0,22.864,0,28c0,0.683,0.07,1.348,0.18,2H6v-2H2z"></path>
+                </svg>
+              </div>
+              <!-- Change privacy  -->
+              <div v-show="showPrivacyPopup" @mouseleave="hidePopup" class="layerPositioner-privacy layerPositioner--offsetRight layerPositioner--alignRight layerPositioner--below"
+                data-layerid="4" style="top: 80.339px;">
+                <div class="layerPositioner-layer-privacy">
+                  <div class="Dropdown projectHeaderFacepile-privacySummaryDropdown">
+                    <ul class="menu menu--long">
+                      <li class="menu-item-privacy" @click="publicMode">
+                        <a id="projectHeaderFacepile-privacyPublicMenuItem" class="menuItem-button is-highlighted menuItem--small projectHeaderFacepile-privacyMenuItem">
+                          <svg v-show="showPublic" class="Icon CheckIcon menuItem-selectedIcon" title="CheckIcon" viewBox="0 0 32 32">
+                            <polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon>
+                          </svg>
+                          <svg class="Icon UsersIcon projectHeaderFacepile-privacyMenuItemIcon" title="UsersIcon" viewBox="0 0 32 32">
+                            <path d="M24.23,16.781C26.491,15.368,28,12.863,28,10c0-4.418-3.582-8-8-8s-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C11.233,18.494,8,22.864,8,28c0,0.683,0.07,1.348,0.18,2h23.64c0.11-0.652,0.18-1.317,0.18-2C32,22.864,28.767,18.494,24.23,16.781z M14,10c0-3.308,2.692-6,6-6s6,2.692,6,6s-2.692,6-6,6S14,13.308,14,10z M10,28c0-5.514,4.486-10,10-10c5.514,0,10,4.486,10,10H10z"></path>
+                            <path d="M2,28c0-4.829,3.441-8.869,8-9.798V15.65C7.673,14.824,6,12.606,6,10c0-3.308,2.692-6,6-6V2c-4.418,0-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C3.233,18.494,0,22.864,0,28c0,0.683,0.07,1.348,0.18,2H6v-2H2z"></path>
+                          </svg>
+                          <span class="menuItem-label">
+                            <div class="projectHeaderFacepile-privacyMenuItemText">Public to all</div>
+                          </span>
+                        </a>
+                      </li>
+                      <li class="menu-item-privacy" @click="privateMemberMode">
+                        <a id="projectHeaderFacepile-privacyPublicMenuItem" class="menuItem-button is-highlighted menuItem--small projectHeaderFacepile-privacyMenuItem">
+                          <svg v-show="showPrivateMember" class="Icon CheckIcon menuItem-selectedIcon" title="CheckIcon" viewBox="0 0 32 32">
+                            <polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon>
+                          </svg>
+                          <svg class="Icon UsersIcon projectHeaderFacepile-privacyMenuItemIcon" title="UsersIcon" viewBox="0 0 32 32">
+                            <path d="M24.23,16.781C26.491,15.368,28,12.863,28,10c0-4.418-3.582-8-8-8s-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C11.233,18.494,8,22.864,8,28c0,0.683,0.07,1.348,0.18,2h23.64c0.11-0.652,0.18-1.317,0.18-2C32,22.864,28.767,18.494,24.23,16.781z M14,10c0-3.308,2.692-6,6-6s6,2.692,6,6s-2.692,6-6,6S14,13.308,14,10z M10,28c0-5.514,4.486-10,10-10c5.514,0,10,4.486,10,10H10z"></path>
+                            <path d="M2,28c0-4.829,3.441-8.869,8-9.798V15.65C7.673,14.824,6,12.606,6,10c0-3.308,2.692-6,6-6V2c-4.418,0-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C3.233,18.494,0,22.864,0,28c0,0.683,0.07,1.348,0.18,2H6v-2H2z"></path>
+                          </svg>
+                          <span class="menuItem-label">
+                            <div class="projectHeaderFacepile-privacyMenuItemText">Private to members</div>
+                          </span>
+                        </a>
+                      </li>
+                      <li class="hidden menu-item-privacy">
+                        <a id="projectHeaderFacepile-privacyPrivateToMembersMenuItem" class="menuItem-button is-highlighted menuItem--extralarge projectHeaderFacepile-privacyMenuItem projectHeaderFacepile-privacyMenuItemUpgradeOption">
+                          <span class="menuItem-label">
+                            <div class="projectHeaderFacepile-privacyMenuItemIconText">
+                              <svg class="Icon LockIcon projectHeaderFacepile-privacyMenuItemIcon" title="LockIcon" viewBox="0 0 32 32">
+                                <path d="M24,12v-0.125V8c0-4.411-3.589-8-8-8S8,3.589,8,8v4H6v18h20V12H24z M14,12V8c0-1.103,0.897-2,2-2s2,0.897,2,2v4H14z M10,8c0-3.309,2.691-6,6-6s6,2.691,6,6v4h-2V8c0-2.206-1.794-4-4-4s-4,1.794-4,4v4h-2V8z M24,28H8V14h16V28z"></path>
+                              </svg>
                               <div class="projectHeaderFacepile-privacyMenuItemText">Private to members</div>
-                            </span>
-                          </a>
-                        </li>
-                        <li class="hidden menu-item-privacy">
-                          <a id="projectHeaderFacepile-privacyPrivateToMembersMenuItem" class="menuItem-button is-highlighted menuItem--extralarge projectHeaderFacepile-privacyMenuItem projectHeaderFacepile-privacyMenuItemUpgradeOption">
-                            <span class="menuItem-label">
-                              <div class="projectHeaderFacepile-privacyMenuItemIconText">
-                                <svg class="Icon LockIcon projectHeaderFacepile-privacyMenuItemIcon" title="LockIcon" viewBox="0 0 32 32">
-                                  <path d="M24,12v-0.125V8c0-4.411-3.589-8-8-8S8,3.589,8,8v4H6v18h20V12H24z M14,12V8c0-1.103,0.897-2,2-2s2,0.897,2,2v4H14z M10,8c0-3.309,2.691-6,6-6s6,2.691,6,6v4h-2V8c0-2.206-1.794-4-4-4s-4,1.794-4,4v4h-2V8z M24,28H8V14h16V28z"></path>
-                                </svg>
-                                <div class="projectHeaderFacepile-privacyMenuItemText">Private to members</div>
-                              </div>
-                              <div class="hidden projectHeaderFacepile-privacyMenuItemUpgradeTextContainer">
-                                <u class="projectHeaderFacepile-privacyMenuItemUpgradeText">Upgrade to create Private Projects with multiple members</u>
-                              </div>
-                            </span>
-                          </a>
-                        </li>
-                        <li class="menu-item-privacy" @click="privateToMe">
-                          <a id="projectHeaderFacepile-privacyPrivateToMeMenuItem" class="menuItem-button menuItem--small projectHeaderFacepile-privacyMenuItem">
-                            <svg v-show="showPrivateCheck" class="Icon CheckIcon menuItem-selectedIcon" title="CheckIcon" viewBox="0 0 32 32">
-                              <polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon>
-                            </svg>
-                            <svg class="Icon UserIcon projectHeaderFacepile-privacyMenuItemIcon" title="UserIcon" viewBox="0 0 32 32">
-                              <path d="M20.534,16.765C23.203,15.204,25,12.315,25,9c0-4.971-4.029-9-9-9S7,4.029,7,9c0,3.315,1.797,6.204,4.466,7.765C5.962,18.651,2,23.857,2,30c0,0.681,0.065,1.345,0.159,2h27.682C29.935,31.345,30,30.681,30,30C30,23.857,26.038,18.651,20.534,16.765z M9,9c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S9,12.86,9,9z M4,30c0-6.617,5.383-12,12-12s12,5.383,12,12H4z"></path>
-                            </svg>
-                            <span class="menuItem-label">
-                              <div class="projectHeaderFacepile-privacyMenuItemText">Private to me</div>
-                            </span>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
+                            </div>
+                            <div class="hidden projectHeaderFacepile-privacyMenuItemUpgradeTextContainer">
+                              <u class="projectHeaderFacepile-privacyMenuItemUpgradeText">Upgrade to create Private Projects with multiple members</u>
+                            </div>
+                          </span>
+                        </a>
+                      </li>
+                      <li class="menu-item-privacy" @click="privateToMe">
+                        <a id="projectHeaderFacepile-privacyPrivateToMeMenuItem" class="menuItem-button menuItem--small projectHeaderFacepile-privacyMenuItem">
+                          <svg v-show="showPrivateCheck" class="Icon CheckIcon menuItem-selectedIcon" title="CheckIcon" viewBox="0 0 32 32">
+                            <polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 "></polygon>
+                          </svg>
+                          <svg class="Icon UserIcon projectHeaderFacepile-privacyMenuItemIcon" title="UserIcon" viewBox="0 0 32 32">
+                            <path d="M20.534,16.765C23.203,15.204,25,12.315,25,9c0-4.971-4.029-9-9-9S7,4.029,7,9c0,3.315,1.797,6.204,4.466,7.765C5.962,18.651,2,23.857,2,30c0,0.681,0.065,1.345,0.159,2h27.682C29.935,31.345,30,30.681,30,30C30,23.857,26.038,18.651,20.534,16.765z M9,9c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S9,12.86,9,9z M4,30c0-6.617,5.383-12,12-12s12,5.383,12,12H4z"></path>
+                          </svg>
+                          <span class="menuItem-label">
+                            <div class="projectHeaderFacepile-privacyMenuItemText">Private to me</div>
+                          </span>
+                        </a>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
         <div class="Topbar-accountInfo">
           <a class="Topbar-settingsMenuButton">
-            <span class="Topbar-settingsMenuDomainName"><span>Welcome {{ uname }}</span></span>
+            <span class="Topbar-settingsMenuDomainName">
+              <span>Welcome {{ uname }}</span>
+            </span>
             <div v-if="$store.state.userObject.email" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-              <avatar v-if="$store.state.userObject.image_url" :username="$store.state.userObject.email" :src="$store.state.userObject.image_url" :size="30"></avatar>
+              <avatar v-if="$store.state.userObject.image_url" :username="$store.state.userObject.email" :src="$store.state.userObject.image_url"
+                :size="30"></avatar>
               <avatar v-else :username="$store.state.userObject.email" :size="30" color="#fff"></avatar>
             </div>
             <ul class="dropdown-menu">
-              <li><a data-toggle="modal" data-target="#myModal2" @click="btnProfileClicked()">Profile</a></li>
+              <li>
+                <a data-toggle="modal" data-target="#myModal2" @click="btnProfileClicked()">Profile</a>
+              </li>
               <hr>
               <li @click="settings_menu = true">
                 <a id="settings" class="menu-item-privacy" title="">
-                    <span class="dropdown-menu-item-label" >Settings</span>
-                  </a>
+                  <span class="dropdown-menu-item-label">Settings</span>
+                </a>
               </li>
               <hr>
-              <li><a href="#" @click="btnLogoutClicked()">Sign out</a></li>
+              <li>
+                <a href="#" @click="btnLogoutClicked()">Sign out</a>
+              </li>
             </ul>
           </a>
         </div>
@@ -155,14 +164,15 @@
                     <span class="upl-img">
                       <ui-progress-circular color="black" type="indeterminate" v-show="loading" class="circularProgress">
                       </ui-progress-circular>
-                      <img v-bind:src="imageURlProfilePic"/>
+                      <img v-bind:src="imageURlProfilePic" />
                     </span>
                   </div>
                   <span class="pro-part">
                     <input type="username" v-model='username' @keyup='enableUpdateProfileBtn'>
                     <div class="picture-action-label" v-if='!imageURlProfilePic'>
-                        <input autocomplete="off" type="file" id="file" name="file" title="" class="photo-file-input" accept="image/gif,image/png,image/jpeg,image/tiff,image/bmp" @change="onFileChange">
-                        <span class="img-upload">Add a profile photo</span>
+                      <input autocomplete="off" type="file" id="file" name="file" title="" class="photo-file-input" accept="image/gif,image/png,image/jpeg,image/tiff,image/bmp"
+                        @change="onFileChange">
+                      <span class="img-upload">Add a profile photo</span>
                     </div>
                     <div class="picture-action-label" v-else>
                       <div class="picture-action-label changeProfilePosition">
@@ -170,7 +180,9 @@
                           @change="updateProfileImage">
                         <span class="img-upload">Change profile photo</span>
                       </div>
-                      <div class="clearImgBlock"><span class="img-upload clearImgPosition" @click="removeImage">Clear photo</span></div>
+                      <div class="clearImgBlock">
+                        <span class="img-upload clearImgPosition" @click="removeImage">Clear photo</span>
+                      </div>
                     </div>
                   </span>
                 </div>
@@ -179,11 +191,8 @@
                     <label>DATE OF BIRTH</label>
                   </div>
                   <span class="pro-part">
-                  <ui-datepicker
-                              icon="event"
-                              placeholder="mm-dd-yyyy"
-                              v-model="datepicker" :custom-formatter="picker9Formatter" :max-date="picker10Max">
-                  </ui-datepicker>
+                    <ui-datepicker icon="event" placeholder="mm-dd-yyyy" v-model="datepicker" :custom-formatter="picker9Formatter" :max-date="picker10Max">
+                    </ui-datepicker>
                   </span>
                 </div>
                 <div class="form-input">
@@ -259,7 +268,7 @@
         showPrivateCheck: false,
         showPrivateMember: false,
         showPublic: false,
-        pName:'' // Project Name 
+        pName: '' // Project Name 
       }
     },
     created() {
@@ -271,31 +280,31 @@
       uname: function () {
         var self = this
         self.$store.dispatch('getUserDetail')
-                    //  self.$store.dispatch('getUserRegister')                           
-                    .then(function () {
-                      // this.$router.push('/navbar/mainapp');
-                      var str = this.$store.state.userObject.email
-                      var n = str.indexOf("@")
-                      var res = str.substr(0, n)
-                      return res
-                    })
-                    .catch(function (error) {
-                        if (error.response.status === 401) {
-                            return
-                        }
-                        $.notify.defaults({ className: "error" })
-                        $.notify(error.message, { globalPosition: "top center" })
-                    })
+          //  self.$store.dispatch('getUserRegister')                           
+          .then(function () {
+            // this.$router.push('/navbar/mainapp');
+            var str = this.$store.state.userObject.email
+            var n = str.indexOf("@")
+            var res = str.substr(0, n)
+            return res
+          })
+          .catch(function (error) {
+            if (error.response.status === 401) {
+              return
+            }
+            $.notify.defaults({ className: "error" })
+            $.notify(error.message, { globalPosition: "top center" })
+          })
 
       },
-      projectName:{
-          get(){
-            return this.$store.state.currentProjectName
-          },
-          set(value){
-            this.pName = value;
-          }
+      projectName: {
+        get() {
+          return this.$store.state.currentProjectName
         },
+        set(value) {
+          this.pName = value;
+        }
+      },
     },
     methods: {
       ...mapMutations([
@@ -313,7 +322,7 @@
         this.settings_menu = false
       },
       btnLogoutClicked() {
-        this.$cookie.delete('auth_token', {domain: location});
+        this.$cookie.delete('auth_token', { domain: location });
         CmnFunc.deleteAutheticationDetail()
         window.location = "/"
       },
@@ -495,28 +504,28 @@
         $("div.project-setting").addClass("hidden");
         $("#project-setting-dialog").removeClass("hidden");
       },
-     /***
-      * Show project delete dialog 
-      */
-     showDeleteProjectDialog(){
-         this.hideProjectSetting();
-         $("#project-delete-dialog").removeClass("hidden");
-     },
-     enableUpdateProfileBtn() {
-      if (this.username) {
-        var trimmedusername = this.username.trim()
-        if (trimmedusername.length >= 1) {
-          $('#updateprofile_btn').removeClass('is-disabled')
-          $("#updateprofile_btn").attr('disabled', false);
-        } else {
-          $('#updateprofile_btn').addClass('is-disabled')
-          $("#updateprofile_btn").attr('disabled', true);
+      /***
+       * Show project delete dialog 
+       */
+      showDeleteProjectDialog() {
+        this.hideProjectSetting();
+        $("#project-delete-dialog").removeClass("hidden");
+      },
+      enableUpdateProfileBtn() {
+        if (this.username) {
+          var trimmedusername = this.username.trim()
+          if (trimmedusername.length >= 1) {
+            $('#updateprofile_btn').removeClass('is-disabled')
+            $("#updateprofile_btn").attr('disabled', false);
+          } else {
+            $('#updateprofile_btn').addClass('is-disabled')
+            $("#updateprofile_btn").attr('disabled', true);
+          }
         }
-      }
-    },
-    setProjectName(){
-           let projectName = this.$store.state.currentProjectName ;
-           $("#project-name").val(projectName);
+      },
+      setProjectName() {
+        let projectName = this.$store.state.currentProjectName;
+        $("#project-name").val(projectName);
       },
       changePrivacyPopup() {
         this.showPrivacyPopup = !this.showPrivacyPopup;
@@ -567,7 +576,7 @@
       hidePopup() {
         this.showPrivacyPopup = false;
       }
-  },
+    },
     components: {
       SettingsMenu,
       MembersDialog,

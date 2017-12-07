@@ -42,10 +42,10 @@
                     </div>
                     <a id="add-member" v-show="project.project_privacy != 2" @click="addMemberClick(project.id)" class="inviteMember" tabindex="0"
                       aria-role="button">
-                      <div v-if="$store.state.userObject.email" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <avatar v-if="$store.state.userObject.image_url" :username="$store.state.userObject.email" :src="$store.state.userObject.image_url"
+                      <div v-if="project.email" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <avatar v-if="project.image_url" :username="project.email" :src="project.image_url"
                           :size="30"></avatar>
-                        <avatar v-else :username="$store.state.userObject.email" :size="30" color="#fff"></avatar>
+                        <avatar v-else :username="project.email" :size="30" color="#fff"></avatar>
                       </div>
                     </a>
                     <span :id="'ItemRowPrivacy-'+project.id" v-show="project.project_privacy == 2" class="SidebarItemRow-statusIcon pull-right">
@@ -464,6 +464,15 @@
             }, this);
           } else {
           }
+          let userId = project.create_by
+          let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
+          if (userIndex < 0) {
+          } else {
+            var id = this.$store.state.arrAllUsers[userIndex]._id
+            project.fullname = this.$store.state.arrAllUsers[userIndex].fullname
+            project.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
+            project.email = this.$store.state.arrAllUsers[userIndex].email
+          }
         }, this);
 
       },
@@ -691,196 +700,5 @@
     overflow: hidden;
   }
 
-  #menu {
-    width: 50px;
-    height: 50px;
-    margin: -25px 0 0 -25px;
-    border-radius: 500px;
-    border-radius: 50%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    list-style: none;
-    font-size: 200%;
-    transition: width 500ms, height 500ms, margin 500ms;
-    overflow: hidden;
-  }
-
-  #menu:target {
-    width: 300px;
-    height: 300px;
-    margin: -150px 0 0 -150px;
-  }
-
-  .menu-button {
-    width: 55px;
-    height: 55px;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    margin: -27px 0px 0px -27px;
-    background: #fff;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border-radius: 100%;
-    opacity: 0;
-    z-index: 0;
-  }
-
-
-  .fa-bars:before,
-  .fa-times:before {
-    color: #000;
-    position: relative;
-    top: 33%;
-    /* left: 42%; */
-    transition: opacity 500ms ease-in;
-    text-decoration: none;
-    z-index: 2;
-  }
-
-  #menu:not(:target)>a:first-of-type,
-  #menu:target>a:last-of-type {
-    opacity: 1;
-    z-index: 1;
-  }
-
-  .menu-item-back {
-    background: #000;
-    width: 175px;
-    height: 150px;
-    position: absolute;
-    transform-origin: 0px 150px;
-    margin-top: -150px;
-    left: 50%;
-    top: 50%;
-    border: 1px solid whitesmoke;
-  }
-
-  .menu-item-back:hover {
-    background: #000;
-  }
-
-  .menu-item {
-    position: absolute;
-    text-decoration: none;
-    top: 50%;
-    left: 50%;
-    display: none;
-  }
-
-  .menu-item:before {
-    color: #fff;
-    position: absolute;
-    text-decoration: none;
-    top: -12px;
-    left: 30px;
-    z-index: 1;
-  }
-
-  .menu-item:nth-child(3) {
-    display: block;
-  }
-
-  .menu-item:nth-child(3) .menu-item-back {
-    transform: rotate(-60deg) skew(-30deg);
-    background-color: #4a4848;
-  }
-
-  .menu-item:nth-child(3):before {
-    /* margin: sin(-90deg) * 110px 0 0 cos(-90deg) * 110px; */
-    margin: -82px 0 0 0px;
-  }
-
-  .menu-item:nth-child(4) {
-    display: block;
-  }
-
-  .menu-item:nth-child(4) .menu-item-back {
-    transform: rotate(0deg) skew(-30deg);
-  }
-
-  .menu-item:nth-child(4):before {
-    /* margin: sin(-18deg) * 110px 0 0 cos(-18deg) * 110px; */
-    margin: -37px 0 0 72.26279px;
-  }
-
-  .menu-item:nth-child(5) {
-    display: block;
-  }
-
-  .menu-item:nth-child(5) .menu-item-back {
-    transform: rotate(60deg) skew(-30deg);
-    background-color: #4a4848;
-  }
-
-  .menu-item:nth-child(5):before {
-    /* margin: sin(54deg) * 110px 0 0 cos(54deg) * 110px; */
-    margin: 50px 0 0 70.26279px;
-  }
-
-  .menu-item:nth-child(6) {
-    display: block;
-  }
-
-  .menu-item:nth-child(6) .menu-item-back {
-    transform: rotate(120deg) skew(-30deg);
-  }
-
-  .menu-item:nth-child(6):before {
-    /* margin: sin(126deg) * 110px 0 0 cos(126deg) * 110px; */
-    margin: 92px 0 0 -40px;
-  }
-
-  .menu-item:nth-child(7) {
-    display: block;
-  }
-
-  .menu-item:nth-child(7) .menu-item-back {
-    transform: rotate(180deg) skew(-30deg);
-    background-color: #4a4848;
-  }
-
-  .menu-item:nth-child(7):before {
-    /* margin: sin(198deg) * 110px 0 0 cos(198deg) * 110px; */
-    margin: 51px 0 0 -78.26279px;
-  }
-
-  .menu-item:nth-child(7) .menu-item-back {
-    /* -webkit-transform: rotate(244.28571deg) skew(-38.57143deg); */
-    transform: rotate(180deg) skew(-30deg);
-  }
-
-  .menu-item:nth-child(8) {
-    display: block;
-  }
-
-  .menu-item:nth-child(8) .ivu-poptip-rel {
-    transform: rotate(240deg) skew(-30deg);
-  }
-
-  .menu-item:nth-child(8):before {
-    /* margin: sin(210deg) * 110px 0 0 cos(210deg) * 110px; */
-    margin: -40px 0 0 -120.26279px;
-  }
-
-  .ivu-poptip-rel {
-    background: #000;
-    width: 175px;
-    height: 150px;
-    position: absolute;
-    -webkit-transform-origin: 0px 150px;
-    transform-origin: 0px 150px;
-    margin-top: -150px;
-    left: 50%;
-    top: 50%;
-    border: 1px solid whitesmoke;
-  }
-
-  .ivu-poptip-popper {
-    min-width: 400px;
-  }
-
-  .fa-trash-o:before {
-    -webkit-text-fill-color: #b9bcc0;
-  }
+  
 </style>
