@@ -39,7 +39,7 @@
                                 </form> 
                                 <div class="dialog--nux-seperator" id="seprator"> or </div>
                                 <div>
-                                <Tabs type="card" value="1" @on-click=tabsClicked>
+                                <Tabs type="card" value="1" @on-click="tabsClicked">
                                         <TabPane label="Standard" name="1">
                                                 <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
                                                 <input placeholder="Password" tabindex="2" type="password" name="p" id="password_input" v-model="pwd" @keyup.enter="btnLogInClicked()">
@@ -82,14 +82,12 @@ import CmnFunc from "./CommonFunc.js";
 import notify from "./notify.js";
 import * as services from "../services";
 import VueRouter from "vue-router";
-// import iView from 'iview';
 import "iview/dist/styles/iview.css";
 import iView from "iview";
 import locale from "iview/dist/locale/en-US";
 
 Vue.use(iView, { locale });
 
-//Vue.use(iView);
 
 Vue.use(Resource);
 Vue.use(VueRouter);

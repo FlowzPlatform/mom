@@ -308,6 +308,7 @@
         this.settings_menu = false
       },
       btnLogoutClicked() {
+        this.$store.state.taskHistoryLog = {}
         CmnFunc.deleteAutheticationDetail()
         // this.$store.state.userObject = {}
         // this.$store.state.isAuthorized = false

@@ -1,5 +1,4 @@
 <template>
-  <Scroll>
     <div>
         <!--<span id="close" class="destroy" @click="CLOSE_DIV(filteredTodo)">
             <i class="fa fa-close"></i>
@@ -10,7 +9,6 @@
         v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" 
         :pholder="pholder" :filtered-todos="filteredTodos"></main-left-section>
     </div>
-  </Scroll>
 </template>
 <script>
 /* eslint-disable*/

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <right-toolbar  class="hidden" :subTasksArray="todolistSubTasks" v-if="id !== 'right+TaskTypes' && id !== 'rightTaskState' " :filteredTodo="todoObject"></right-toolbar>
     <div id="topicon">
       <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
         tabindex="410" style="margin-top: 2px;">
@@ -70,6 +71,14 @@
                             </col>
                       </Row>                                
             </div>
+            <!-- Task type -->
+            <div class="task-type-menu"> 
+                <Select  not-found-text="No task type found" placeholder="task_type"  placement="top" v-model="selectedType" @on-change="typeListClick" filterable  style="width:150px;z-index:90">
+                      <Option style="margin:5px"  v-for="task_type in getTypes"  :label="task_type.type" :value="task_type.id" :key="task_type.id">
+                          {{task_type.type}}
+                      </Option>
+                </Select>
+            </div>  
             <!-- Task due date menu item -->
              <div class="due-date">
                <DatePicker size="small" placement="top" type="date"
@@ -80,7 +89,7 @@
                </DatePicker>                             
             </div> 
             <!-- History -->
-            <a href="javascript:void(0)"  v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab" @click="historyShow">
+            <a href="javascript:void(0)"  v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab hidden" @click="historyShow">
               <Tooltip content="History" placement="top-start">
                 <i class="nav-icon fa fa-history" aria-hidden="true" style="font-size:20px"></i>
               </Tooltip>
@@ -90,7 +99,7 @@
                 <i class="nav-icon fa fa-paperclip" aria-hidden="true" style="font-size:20px"></i>
               </Tooltip>
             </a>
-            <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==3?activeClass:''" class="nav-tab" @click="tagsShow">
+            <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==3?activeClass:''" class="hidden nav-tab" @click="tagsShow">
               <Tooltip content="Tags" placement="top-start">
                 <i class="nav-icon fa fa-tags" aria-hidden="true" style="font-size:20px"></i>
               </Tooltip>
@@ -111,6 +120,7 @@
                   <DropdownItem name="3">Copy Task URL</DropdownItem>
                   <DropdownItem name="4">Delete Task</DropdownItem>
                   <DropdownItem name="5">History</DropdownItem>
+                  <DropdownItem name="6">Tags</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>
@@ -202,7 +212,7 @@ export default {
       selectedUser: this.todoObject.assigned_to,
       previousUser: this.todoObject.assigned_to,
       userObj: "", // selected user object
-      selectedUser: '',
+      selectedType:this.getAssignedType(), // Selected task type
       estimated_time: false,
       task_priority: false,
     };
@@ -238,6 +248,18 @@ export default {
       // Show delete dialog val=4
       else if (val == 4) {
         this.$store.dispatch("delete_Todo", this.todoObject);
+      }
+      // Show history log 
+      else if (val == 5){
+          this.historyShow()
+      }
+      // Show tag 
+      else if (val == 6){
+          this.tagsShow()
+      }
+      // Show attachments 
+      else if (val == 7){
+          this.attachmentShow()
       }
     },
     closeDialog() {
@@ -381,7 +403,7 @@ export default {
       this.currentView = Attachments;
     },
     tagsShow() {
-      this.selectedMenuIndex = 3;
+      // this.selectedMenuIndex = 3;
       this.currentView = Tags;
     },
     historyShow() {
@@ -513,25 +535,39 @@ export default {
     userListClick: function(user_id){
       if(this.selectedUser!==this.previousUser)
          this.setAssignUser(user_id)
+    },
+    /***
+      * Selected user from assign user list
+      */
+    async typeListClick(id){
+        if(id !== this.todoObject.task_type){
+          await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedType": id })
+          await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedState": '' })
+        }
+    },
+    /***
+      *  Get task type from todo object
+      */
+    getAssignedType: function() {
+        var objType = _.find(this.$store.state.task_types_list, ['id', this.todoObject.type_id])
+        return objType.id
     }
   },
   watch: {
-    // whenever question changes, this function will run
-    todolistSubTasks: function(newQuestion) {},
-    todoObject: function() {
-      console.log("Right Section Log history", this.todoObject);
-      this.$store.dispatch("findHistoryLog", this.todoObject.id);
-    },
     todoObject: function(todo) {
+      this.$store.dispatch("findHistoryLog", this.todoObject.id);
+      console.log("watcher method call",todo)
       this.previousUser=this.selectedUser;
       this.selectedUser = todo.assigned_to;
+      this.selectedType = this.getAssignedType()
     }
   },
   computed: {
     ...mapGetters({
       todoById: "getTodoById",
       typeStateList: "getTask_types_state",
-      getUserList: "getAllUserList"
+      getUserList: "getAllUserList",
+      getTypes: 'getTaskTypeList'
     }),
     taskById() {
       this.onReadComment(
@@ -610,21 +646,21 @@ export default {
   background-color: #333;
   bottom: 0;
   width: 100%;
-  opacity:0.2;
+  /* opacity:0.2; */
 }
 .navbar-bottom:hover {
   overflow: hidden;
   background-color: #333;
   bottom: 0;
   width: 100%;
-  opacity:1;
+  /* opacity:1; */
 }
 .navbar-bottom a {
   float: left;
   display: block;
   color: white;
   text-align: center;
-  padding: 6px 26px;
+  padding: 7px 26px;
   text-decoration: none;
 }
 .navbar-bottom div {
@@ -709,6 +745,22 @@ a.option-menu.glyphicon.glyphicon-option-horizontal {
   float: left;
   height: 34px;
   width: 117px;
+  margin-left: -5px;
+}
+.navbar-bottom .task-type-menu {
+  border-radius: 30px;
+  background: #fff;
+  float: left;
+  height: 34px;
+  width: 86px;
+  padding-left: 8px;
+  margin-left: 2px;
+  margin-right: 1px;
+}
+.navbar-bottom .task-type-menu:hover {
+  background: #fff;
+  -webkit-box-shadow: 0 0 0 3px #02CEFF;
+  height: 32px;
 }
 .navbar-bottom .assing-to-menu:hover {
   background: #fff;
@@ -724,12 +776,16 @@ a.option-menu.glyphicon.glyphicon-option-horizontal {
   height: 33px;
   width: 120px;
   margin-left:2px;
+  margin-right:2px;
 }
 .navbar-bottom .due-date:hover {
   background: #fff;
   -webkit-box-shadow: 0 0 0 3px #02CEFF;
   height: 32px;
 }
-
+.navbar-bottom .option {
+    width: 0px;
+    float: left;
+}
 </style>
 

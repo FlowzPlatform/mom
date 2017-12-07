@@ -5,7 +5,7 @@
             <i class="fa fa-comments" aria-hidden="true" style="font-size:30vh">
            </i>
            </p>
-           <span class="no-comment-error">No comment found</span>
+           <span class="no-comment-error">No comment available</span>
         </div>
         <div v-else>
         <!-- <div class="Comment-headerTitle" v-html="commentName">

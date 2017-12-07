@@ -29,6 +29,7 @@ function setProgressBar(state, todoObject) {
 }
 
 function uploadFileOnAmazonS3(file, fileTimeStamp, cb) {
+ 
   var bucket = new AWS.S3({ params: { Bucket: 'airflowbucket1/obexpense/expenses' } });
   if (file) {
     var params = { Key: fileTimeStamp, ContentType: file.type, Body: file };
@@ -1159,7 +1160,7 @@ export const store = new Vuex.Store({
     selectFile({ commit }, fileObject) {
       var file = fileObject.file.files[0];
       var fileTimeStamp = + new Date() + '_' + file.name
-      
+     
       var attachArr = {
         id: new Date().valueOf(),
         file_name: file.name,
@@ -1188,6 +1189,8 @@ export const store = new Vuex.Store({
           level: fileObject.level,
           file_name_timestamp: fileTimeStamp
         }).then(response => {
+      console.log('fileObject response',response)
+      
           store.state.arrAttachment.splice(store.state.arrAttachment.indexOf(attachArr), 1)
           var tempArr = {
             id: response.id,

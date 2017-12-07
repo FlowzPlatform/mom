@@ -34,7 +34,7 @@
       <!--</div>
       <div slot="right-pane">-->
         <div :id="n.level" class="right_pane_container" v-for="(n, index) in parentIdArray">
-          <div id="right_pane">
+		  <div id="right_pane">
             <!--<div slot="subtask">
               <main-right-section :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>
             </div>-->

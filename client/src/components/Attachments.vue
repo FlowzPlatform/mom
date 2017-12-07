@@ -7,7 +7,7 @@
            </p>
            <span class="no-attchment-error">No attachment found</span>
         </div>
-         <Scroll v-else >   
+         <div v-else >   
             <div v-bind:key="index" v-for="(files, index) in attachmentList">
             <Card style="margin-left:10px;margin-right:10px;margin-top:5px;margin-bottom:3px;">
                 <p slot="title">
@@ -109,7 +109,7 @@
                 </div>
 
             </div>
-      </Scroll>
+      </div>
             <div class="attachment-nav">
                 <div class="attachment-mask">
                     <label for="upload">

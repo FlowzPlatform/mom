@@ -5775,6 +5775,7 @@ CSS for splitter view
     /* font-weight:bold; */
     padding: 0 0px 0 1px;
     /* -webkit-text-fill-color: #fff; */
+    text-align: center;
 }
 .navbar-bottom .ivu-select-visible .ivu-select-selection{
     box-shadow:0;
@@ -5824,5 +5825,10 @@ CSS for splitter view
     background : red !important;
     display : none !important;
 }
-
+.task-type-menu .ivu-select-selection {
+    margin-top: 8px;
+    margin-right: 0px;
+    height: 25px;
+}
+  
 

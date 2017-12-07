@@ -1,5 +1,5 @@
 <template>
- <Scroll loading-text="Loading more..." :distance-to-edge=[10,10] :on-reach-edge="handleMoreHistoryLog">
+ <div>
         <div v-bind:key="ind" v-for="(log, ind) in historyDetailLog">
             <div class="FeedBlockStory">
                 <div class="BlockStory">
@@ -61,7 +61,7 @@
                 </svg>
             </div>
         </div>
- </Scroll>
+ </div>
 </template>
 
 <script>
@@ -78,8 +78,6 @@ export default {
     props: ['taskId'],
     data: function() {
         return {
-            mydata:['1','2','3','1','2','3','1','2','3','1','2','3','1','2','3','1','2','3'
-            ,'1','2','3','1','2','3','1','2','3','1','2','3','1','2','3']
         }
     },
     computed: {
@@ -122,17 +120,17 @@ export default {
             return moment(logDate).calendar()
         },
         historyDetailList: function (historyList) {
-            historyList.forEach(function (c) {
-                let userId = c.created_by
-                let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
-                if (userIndex < 0) {
-                } else {
-                    var id = this.$store.state.arrAllUsers[userIndex]._id
-                    c.fullname = this.$store.state.arrAllUsers[userIndex].fullname
-                    c.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
-                    c.email = this.$store.state.arrAllUsers[userIndex].email
-                }
-            }, this)
+                historyList.forEach(function (c) {
+                        let userId = c.created_by
+                        let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
+                        if (userIndex < 0) {
+                        } else {
+                            var id = this.$store.state.arrAllUsers[userIndex]._id
+                            c.fullname = this.$store.state.arrAllUsers[userIndex].fullname
+                            c.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
+                            c.email = this.$store.state.arrAllUsers[userIndex].email
+                        }
+                    }, this)
         },
         handleMoreHistoryLog: function(index){
             services.taskHistoryLogs.find({ query: { task_id: this.taskId } }).then(response => {
