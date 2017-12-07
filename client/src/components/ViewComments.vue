@@ -20,63 +20,50 @@
                       </li>
                   </ul>
               </div>
-          </div>
-          <hr class="StoryFeed-separator StoryFeed-topSeparator">
-          <div v-for="comment in taskSortComments">
-                  <div class="FeedBlockStory StoryFeed-blockStory">
-                      <div class="BlockStory">
-                          <div class="BlockStory-icon">
-                              <div v-if="comment.email">
-                                  <avatar v-if="comment.image_url" :username="comment.email" :src="comment.image_url" :size="30"></avatar>
-                                  <avatar v-else :username="comment.email" :size="30" color="#fff"></avatar>
-                              </div>
-                              <div v-if="visibleFilter === 'group_By'">
-                                  <div v-if="comment.list[0].email">
-                                      <avatar v-if="comment.list[0].image_url" :username="comment.list[0].email" :src="comment.list[0].image_url" :size="30"></avatar>
-                                      <avatar v-else :username="comment.list[0].email" :size="30" color="#fff"></avatar>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="BlockStory-block commentbox">
-                              <div class="BlockStory-header">
-                                  <div class="BlockStory-headerContent">
-                                      <span class="BlockStory-storyContent">
-                                          <strong>
-                                              <a v-if="visibleFilter === 'all'" class="DeprecatedNavigationLink BlockStory-actorLink">{{comment.fullname | capitalizeFirstLetter}}</a>
-                                              <a v-if="visibleFilter === 'group_By'" class="DeprecatedNavigationLink BlockStory-actorLink">{{comment.fname | capitalizeFirstLetter}}</a>
-                                          </strong>
-                                          </span>
-                                      <span class="BlockStory-metadata">
-                                          <span class="BlockStory-timestamp" :title="comment.createdAt | parseDate">
-                                              <span>{{comment.createdAt | parseDateAgo}}</span>
-                                      </span>
-                                      </span>
-                                  </div>
-                              </div>
-                              <div class="BlockStory-body">
-                                  <div class="truncatedRichText">
-                                      <div class="richText truncatedRichText-richText" v-html="comment.comment"></div>
-                                      <div v-if="visibleFilter === 'group_By'" v-for="userComment in comment.list" v-html="userComment.comment">
-                                          <div class="richText truncatedRichText-richText">{{userComment.comment}}</div>
-                                          <span class="BlockStory-metadata">
-                                          <span class="BlockStory-timestamp" :title="comment.createdAt | parseDate">
-                                              <span>{{userComment.createdAt | parseDateAgo}}</span>
-                                          </span>
-                                          </span>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div v-if="visibleFilter === 'all' " class="pull-right comment-delete" v-show="isDeleteComment">
-                                  <span class="fa fa-close" @click="deleteCommnet(comment)"></span>
-                              </div>
-                              <div v-if="visibleFilter === 'all' " class="pull-right comment-delete">
-                                  <span style="margin-right:5px;">{{comment.count ?  comment.count :0}}</span>
-                                  <span class="fa fa-reply" @click="replyCommentMethod(comment)"></span>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
+              <div v-if="visibleFilter === 'group_By'">
+                <div v-if="comment.list[0].email">
+                  <avatar v-if="comment.list[0].image_url" :username="comment.list[0].email" :src="comment.list[0].image_url" :size="30"></avatar>
+                  <avatar v-else :username="comment.list[0].email" :size="30" color="#fff"></avatar>
+                </div>
               </div>
+            </div>
+            <div class="BlockStory-block commentbox">
+              <div class="BlockStory-header">
+                <div class="BlockStory-headerContent">
+                  <span class="BlockStory-storyContent">
+                    <strong>
+                      <a v-if="visibleFilter === 'all'" class="DeprecatedNavigationLink BlockStory-actorLink">{{comment.fullname | capitalizeFirstLetter}}</a>
+                      <a v-if="visibleFilter === 'group_By'" class="DeprecatedNavigationLink BlockStory-actorLink">{{comment.fname | capitalizeFirstLetter}}</a>
+                    </strong>
+                  </span>
+                  <span class="BlockStory-metadata">
+                    <span class="BlockStory-timestamp" :title="comment.createAt | parseDate">
+                      <span>{{comment.createAt | parseDateAgo}}</span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div class="BlockStory-body">
+                <div class="truncatedRichText">
+                  <div class="richText truncatedRichText-richText" v-html="comment.comment"></div>
+                  <div v-if="visibleFilter === 'group_By'" v-for="userComment in comment.list" v-html="userComment.comment">
+                    <div class="richText truncatedRichText-richText">{{userComment.comment}}</div>
+                    <span class="BlockStory-metadata">
+                      <span class="BlockStory-timestamp" :title="comment.createAt | parseDate">
+                        <span>{{userComment.createAt | parseDateAgo}}</span>
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div v-if="visibleFilter === 'all' " class="pull-right comment-delete" v-show="isDeleteComment">
+                <span class="fa fa-close" @click="deleteCommnet(comment)"></span>
+              </div>
+              <div v-if="visibleFilter === 'all' " class="pull-right comment-delete">
+                <span style="margin-right:5px;">{{comment.count ? comment.count :0}}</span>
+                <span class="fa fa-reply" @click="replyCommentMethod(comment)"></span>
+              </div>
+            </div>
           </div>
         </div>
     </div>
@@ -84,24 +71,17 @@
 <script>
 /* eslint-disable*/
 import { mapGetters } from "vuex";
-
-// import { markdownEditor } from 'vue-simplemde'
-import Avatar from 'vue-avatar/dist/Avatar'
+import Avatar from 'vue-avatar/src/Avatar'
 import Vue from "vue";
 import moment from 'moment';
 import * as services from '../services'
-import ElementUI from "element-ui";
-import locale from "element-ui/lib/locale/lang/en";
-Vue.use(ElementUI, { locale });
 
   Vue.filter('parseDate', function (value) {
-    // console.log("Comment Dialog", value)
     if (value) {
       return moment(String(value)).calendar()
     }
   })
   Vue.filter('parseDateAgo', function (value) {
-    // console.log("Comment Dialog", value)
     if (value) {
       return moment(String(value)).fromNow()
     }
@@ -168,18 +148,9 @@ export default {
 
         let vm=this;
         services.taskComments.on('created', message => {
-            // if (message.parentId === vm.commentParentId) {       
-              let index = _.findIndex(this.taskComments, function (d) { return d.task_id == message.task_id && d.id == message.parentId})
-        console.log("--Counter----indes:--",index)
-      // let counterUpdateComment=state.taskComment[index];
-      // console.log("--Counter----counterUpdateComment :; ",counterUpdateComment)  
-      if(index>-1)
-        this.taskComments[index].count+=1
-     
-      // Vue.set(state.taskComment[index],'count',5)
-              // this.setcommenteduserData(message)
-              // this.taskSubComments.push(message)
-            // }
+        let index = _.findIndex(this.taskComments, function (d) { return d.task_id == message.task_id && d.id == message.parentId})
+        if(index>-1)
+          this.taskComments[index].count+=1
           });
   },
   methods: {
@@ -188,25 +159,10 @@ export default {
       comment.parentId = this.commentParentId 
       console.log("Click Comment:--", comment)
       let parentList = this.$store.state.parentIdArr;
-      // let index = _.findIndex(parentList, function (d) { return d.parentId === comment.parentId })
-      // console.log("parentList:------->", index)
-      
-      
       let indexParent = _.findIndex(parentList, function (d) { return d.id === comment.parentId })
       
       if (indexParent < 0) {
       let tempParentId=this.commentParentId;
-        // parentList.forEach(function(element,index) {
-        //     console.log("element::-",element);
-        //     console.log("element index::-",index);
-        //     if(element.show_type==="subcomment")
-        //     { 
-        //       tempParentId=element.id;
-        //        this.$store.state.parentIdArr.splice(index,1)
-              
-        //     }
-
-        //   }, this);
           this.$store.state.parentIdArr.length=1;
         } else {
           let tempC = parentList[indexParent];
@@ -214,14 +170,7 @@ export default {
           console.log("Parent Index:------->", tempC)
           this.$store.dispatch('closeChildComment', tempC)
         }
-        // if(index<1)
         this.$store.state.parentIdArr.push(comment)
-      // else
-      // {
-      //     Vue.set(this.$store.state.parentIdArr, index, comment)
-      // }
-      // this.updateDialogShow(true);
-      console.log("Parent Index after:-->", this.$store.state.parentIdArr)
     },
     getSubTaskComments: function () {
       this.taskSortComments.forEach(function (c) {
@@ -238,7 +187,6 @@ export default {
         c.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
         c.email = this.$store.state.arrAllUsers[userIndex].email
       }
-      //console.log("---tasksubcomment---->", c)
     },
     getSortByName:function(key){
         this.visibleFilter = key
@@ -259,7 +207,6 @@ export default {
       },
       visibleFilter: function () {
         this.taskSortComments = commentFilter[this.visibleFilter](this.taskComments);
-        // console.log("visibale filter", this.taskSortComments)
       }
     },
   computed: {
@@ -284,4 +231,4 @@ export default {
 .no-comment-error{
     font-size:30px;
 }
-</style>
+</style>s

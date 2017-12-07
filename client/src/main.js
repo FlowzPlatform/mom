@@ -1,56 +1,29 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './App.vue'
-// import Task from './Task.vue'
-// import navbar from './components/navbar.vue'
-// import Login from './components/LoginPage.vue'
-// import MainApp from './components/MainApp.vue'
-import router from './router'
-// import VueRouter from 'vue-router'
-// Vue.use(VueRouter)
-Vue.config.productionTip = false
 /* eslint-disable*/
+import Vue from 'vue'
+import App from './App.vue';
+import router from './router'
+
+Vue.config.productionTip = false
+Vue.config.silent = false
+Vue.config.devtools = true
+Vue.config.errorHandler = function (err, vm, info) {
+  console.error(err, vm, info);
+  // handle error
+  // `info` is a Vue-specific error info, e.g. which lifecycle hook
+  // the error was found in. Only available in 2.2.0+
+}
+Vue.config.warnHandler = function (msg, vm, trace) {
+  console.warn(msg, vm, trace);
+  // `trace` is the component hierarchy trace
+}
+
 import { store } from './VuexSession'
-
-// import GSignInButton from 'vue-google-signin-button'
-// Vue.use(GSignInButton)
-/* eslint-disable no-new */
-
-// const routes = [
-//      {path: '/', meta: { Auth: false }, component: Login},
-//      {path: '/main-app', meta: { Auth: true }, component: mainApp}
-// ]
-// const router = new VueRouter({
-//   routes,
-//   mode: 'history'
-// })
-
-
-// router.beforeEach((to, from, next) => {
-//   // console.log('to ' , to)
-//   // console.log('from ',from )
-//   // console.log('next ', next)
-//   console.log('window.location.href ', window.location.href)
-//   if (to.matched.some(record => record.meta.Auth)) {
-//     console.log('auth.status: ' + store.state.isAuthorized)
-//     if (!store.state.isAuthorized) {
-//       next({
-//         path: '/',
-//         query: { redirect: to.fullPath }
-//       })
-//     } else {
-//       next()
-      
-//     }
-//   } else {
-//     next()
-//   }
-// })
 
 new Vue({
   el: '#app',
-  // render: h => h(App),
+  //render: h => h(App),
   router,
   store,
   template: '<App/>',
@@ -66,11 +39,3 @@ AWS.config.update({
 });
 AWS.config.region = 'us-west-2';
 
-// new Vue({
-//   el: '#task',
-//   // render: h => h(App),
-//   router,
-//   store,
-//   template: '<Task/>',
-//   components: { Task }
-// })

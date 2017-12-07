@@ -54,8 +54,10 @@
              <!-- Assign task to user menu item --> 
             <div class="assing-to-menu">
                       <span style="float:left;margin-top:-3px">
-                        <avatar v-if="imageURlProfilePic" :username="getUserName()" :size='30' :src='imageURlProfilePic'></avatar>
-                        <avatar v-else :username="getUserName()" color='#fff' :size='30'></avatar>
+                        <div v-if="getUserName()">
+                          <avatar v-if="imageURlProfilePic" :username="getUserName()" :size='30' :src='imageURlProfilePic'></avatar>
+                          <avatar v-else :username="getUserName()" color='#fff' :size='30'></avatar>
+                        </div>
                       </span>
                       <Row>
                             <Col span="2" style="padding-right:10px">
@@ -89,7 +91,7 @@
                </DatePicker>                             
             </div> 
             <!-- History -->
-            <a href="javascript:void(0)"  v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab hidden" @click="historyShow">
+            <a href="javascript:void(0)"  v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab" @click="historyShow">
               <Tooltip content="History" placement="top-start">
                 <i class="nav-icon fa fa-history" aria-hidden="true" style="font-size:20px"></i>
               </Tooltip>
@@ -156,8 +158,6 @@
 import Vue from "vue";
 import MainLeftSection from "./MainLeftSection.vue";
 import TextDescription from "./TextDescription.vue";
-// import RightFooter from './RightFooter.vue'
-// import Comment from './Comment.vue'
 import SubComment from "./SubComment.vue";
 import HistoryLog from "./HistoryLog.vue";
 import RightToolbar from "./RightToolbar.vue";
@@ -173,7 +173,7 @@ import "iview/dist/styles/iview.css";
 import CmnFunc from "./CommonFunc.js";
 import * as Constant from "./Constants.js";
 import AsyncComputed from "vue-async-computed";
-import Avatar from "vue-avatar/dist/Avatar";
+import Avatar from "vue-avatar/src/Avatar";
 import Datepicker from "vuejs-datepicker";
 import moment from "moment";
 import EstimatedHours from './EstimatedHours.vue'
@@ -412,12 +412,10 @@ export default {
     },
     commentsShow() {
       this.selectedMenuIndex = 4;
-      // this.currentView = Comment
       this.currentView = SubComment;
     },
     assignToShow() {
       this.selectedMenuIndex = 5;
-      // this.currentView = Comment
     },
     handleOpen() {
       this.selectedMenuIndex = 5;
@@ -475,8 +473,6 @@ export default {
     },
     getAssignedUserObj(assignUserId) {
       var objUser;
-      // console.log('filteredTodo.assigned_to', this.todoObject.assigned_to)
-      // console.log('this.$store.state.userObject._id', this.$store.state.userObject)
       if (this.todoObject.assigned_to === this.$store.state.userObject._id) {
         objUser = this.$store.state.userObject;
       } else {
@@ -485,7 +481,6 @@ export default {
           assignUserId
         ]);
       }
-      // console.log('User', objUser)
       return objUser;
     },
     getUserName() {

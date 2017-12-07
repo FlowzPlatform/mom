@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!--<img src="./assets/logo.png">-->
-    <router-view></router-view>
+    <router-view></router-view>    
   </div>
 </template>
 
@@ -10,10 +10,16 @@
 export default {
   name: 'app',
 
-  // created(){
-  //   var url = window.location.href;
-  //   console.log('URL', url);
-  // }
+  created (){
+    // if(this.$session.get('auth_token')){
+    //   this.$router.push('/');
+    // }
+    
+      if(this.$cookie.get('auth_token')){
+       this.$router.push('/navbar/mainapp');
+       
+     }
+    }
 }
 </script>
 

@@ -72,7 +72,6 @@
             </div>
         </div>
     </div>
-    
     </div>
 </template>
 <script>
@@ -82,7 +81,7 @@
     import { mapGetters } from 'vuex'
     import CmnFunc from './CommonFunc.js'
     import * as Constant from './Constants.js'
-    import Avatar from 'vue-avatar/dist/Avatar'
+    import Avatar from 'vue-avatar/src/Avatar'
     Vue.filter('formatDate', function (value) {
         if (value) {
             return moment(String(value)).format('LLL')
@@ -94,10 +93,6 @@
             return firstLetters.toUpperCase()
         }
     })
-    // Vue.filter('capitalizeFirstLetter', function (str) {
-    //     let str1 =  str.split('_').join(' ')
-    //     return str1.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
-    // })
     const commentFilter = {
         all: totalComment => totalComment,
         group_By: totalComment => _(totalComment).groupBy(x => x.fullname)
@@ -140,9 +135,6 @@
                     this.isDeleteComment = true
                 }  
             },
-
-
-
         },
         computed: {
             ...mapGetters({
@@ -162,5 +154,4 @@
             Avatar
         }
     }
-
 </script>       

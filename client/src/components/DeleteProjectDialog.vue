@@ -1,9 +1,9 @@
 <template>
-    <div id="project-delete-dialog" class="hidden  tab-ring" v-esc="closeDeleteDialog" >
-            <div class="fullscreen-harness dialog2-fullscreen" style="">
+    <div id="project-delete-dialog" class="hidden  tab-ring" >
+            <div class="fullscreen-harness dialog2-fullscreen" >
                 <div class="dialog2-background"></div>
             </div>
-            <div class="fullscreen-harness dialog2-fullscreen" style="">
+            <div class="fullscreen-harness dialog2-fullscreen">
                 <div class="dialog2-container">
                     <div class="pre-spacer"></div>
                     <div id="" class="dialog2 widget-extras" tabindex="-1" style="max-height: 592.2px;">
@@ -16,9 +16,7 @@
                                 </div>
                             </div>
                             <div class="dialogView2-closeX borderless-button" @click="closeDeleteDialog">
-                                <svg class="svgIcon " viewBox="0 0 32 32" title="close dialog">
-                                    <polygon points="24.485,27.314 27.314,24.485 18.828,16 27.314,7.515 24.485,4.686 16,13.172 7.515,4.686 4.686,7.515 13.172,16 4.686,24.485 7.515,27.314 16,18.828 "></polygon>
-                                </svg>
+                                <i class="fa fa-times" aria-hidden="true"></i>
                             </div>
                         </div>
                         <div class="content">
@@ -39,7 +37,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="post-spacer"></div>
                 </div>
             </div>
     </div>
@@ -47,17 +44,7 @@
 <script>
 /* eslint-disable*/
 import Vue from 'vue'
-import VueEsc from 'vue-esc';
-
-Vue.use(VueEsc);
-
 export default {
-
-    data: function () {
-        return {
-
-        }
-    },
     methods: {
         /**
          * Close project delete dialog 
@@ -72,9 +59,7 @@ export default {
             this.$store.dispatch('deleteProject',this.$store.state.currentProject)
             this.closeDeleteDialog();
         }
-
     }
-
 }
 </script>
 

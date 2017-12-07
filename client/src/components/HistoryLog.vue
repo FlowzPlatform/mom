@@ -19,13 +19,11 @@
                                         <svg class="Icon AttachIcon" viewBox="0 0 32 32">
                                             <path d="M25.811,4.064c-3.905-3.904-10.235-3.904-14.14,0l-4.24,4.24l1.41,1.41l4.25-4.24c3.043-3.203,8.107-3.333,11.31-0.29s3.333,8.107,0.29,11.31c-0.094,0.099-0.191,0.196-0.29,0.29l-10.61,10.59c-1.986,1.918-5.152,1.863-7.07-0.123c-1.871-1.938-1.871-5.01,0-6.947l10.61-10.59c0.781-0.781,2.049-0.781,2.83,0s0.781,2.049,0,2.83l-7.07,7.07l1.41,1.42l7.07-7.07c1.563-1.563,1.563-4.097,0-5.66s-4.097-1.563-5.66,0l-10.6,10.61c-2.734,2.734-2.734,7.166,0,9.9s7.166,2.734,9.9,0l0,0l10.6-10.61C29.715,14.299,29.715,7.969,25.811,4.064z"></path>
                                         </svg>
-                                        <!-- react-text: 444 -->attached
-                                        <!-- /react-text -->
+                                        attached
                                     </span>
                                 </span>
                                 <span class="BlockStory-metadata">
                                     <span class="BlockStory-timestamp">
-                                        <!-- <span>Yesterday at 09:57</span> -->
                                         <span>{{logDate(log.created_on)}}</span>
                                     </span>
                                 </span>
@@ -40,18 +38,14 @@
                         <div class="BlockStory-body">
                             <div class="truncatedRichText">
                                 <div class="RichText truncatedRichText-richText" v-show="log.log_action===0">
-                                    <!-- react-text: 478 -->created task.
-                                    <!-- /react-text -->
+                                    created task.
                                 </div>
                                  <div class="RichText truncatedRichText-richText" v-show="log.log_action===1">
-                                    <!-- react-text: 478 -->changed task name to {{log.text}}
-                                    <!-- /react-text -->
+                                    changed task name to {{log.text}}
                                 </div>
                             </div>
                             <div class="AddedAttachmentStory-body" v-show="log.log_action===3">
                                 <a class="AddedAttachmentStory-link" :href="log.text" target="_blank" tabindex="-1">download</a>
-                                <!-- react-text: 455 -->
-                                <!-- /react-text -->
                             </div>
                         </div>
                     </div>
@@ -72,7 +66,7 @@ import draggable from 'vuedraggable'
 import { mapActions, mapGetters } from 'vuex'
 import * as services from '../services'
 import moment from 'moment';
-import Avatar from 'vue-avatar/dist/Avatar'
+import Avatar from 'vue-avatar/src/Avatar'
 Vue.use(Resource)
 export default {
     props: ['taskId'],
@@ -151,11 +145,9 @@ export default {
 <style>
 svg.Icon.DownIcon.FeedBlockStory-actionsDropdownIcon {
     cursor: pointer;
-    /* fill: #d5dce0; */
     position: absolute;
     right: 0;
     top: 10px;
-    /* visibility: hidden; */
     width: 28px;
 }
 

@@ -1,20 +1,21 @@
 /* eslint-disable*/
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/components/LoginPage'
-import MainApp from '@/components/MainApp'
-import RoleAccess from '@/components/RoleAccess'
-import navbar from '@/components/navbar'
-import ShowTaskTypes from '@/components/ShowTaskTypes'
-import SocialAuth from '@/components/SocialAuthProcess'
-import LoadProcess from '@/components/LoadProcess'
+import Login from'@/components/LoginPage'
+// const Login = () => import('../components/LoginPage.vue')
+import MainApp  from '@/components/MainApp'
+import RoleAccess  from '@/components/RoleAccess'
+import navbar  from '@/components/navbar'
+import ShowTaskTypes  from '@/components/ShowTaskTypes'
+import SocialAuth  from '@/components/SocialAuthProcess'
+import LoadProcess  from '@/components/LoadProcess'
 import '../style/style.css'
 import '../style/style1.css'
 import '../style/newStyle.css'
 import '../style/keen-ui.min.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import GSignInButton from 'vue-google-signin-button'
+import GSignInButton from 'vue-google-signin-button';
 import { Tag } from 'element-ui'
 // import iView from 'iview';
 // import 'iview/dist/styles/iview.css';

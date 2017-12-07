@@ -6,16 +6,39 @@ const config = require('config');
 const db = config.get('dbName')
 const db_host = config.get('db_host')
 const db_port = config.get('db_port')
-
-const r = require('rethinkdbdash')({
-    db: db,
-    host: db_host,
-    port:db_port
-  });
+const db_username = config.get('db_username')
+const db_password = config.get('db_password')
+let fs = require('fs');
+const rootPath = require('get-root-path');
+const path = require('path');
+// const r = require('rethinkdbdash')({
+//     db: db,
+//     host: db_host,
+//     port:db_port,
+//     username: db_username,
+//     password: db_password,
+//     ssl: {
+//       ca: caCert
+//     }
+//   });
 const table = config.get('tbl_project')
 
 module.exports = function() {
   const app = this;
+  var appDir= path.join(rootPath.rootPath, 'config/cacert');
+  fs.readFile(appDir, function(err, caCert) {
+    const r = require('rethinkdbdash')({
+      db: db,
+      host: db_host,
+      port:db_port,
+      // username: db_username,
+      authKey: db_password,
+      if(db_password){
+        ssl: {
+          ca: caCert
+        }
+      }
+    });
   const options = {
     Model: r,
     name: table,
@@ -76,6 +99,7 @@ project.filter('created',function(data, connection, hook) {
   project.after(hooks.after);
 
   // project.hooks(hooks);
-
+  
+});
 
 }

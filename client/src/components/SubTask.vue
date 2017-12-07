@@ -1,8 +1,5 @@
 <template>
     <div>
-        <!--<span id="close" class="destroy" @click="CLOSE_DIV(filteredTodo)">
-            <i class="fa fa-close"></i>
-        </span>-->
         <text-description :id="id" :filteredTodo="filteredTodo">
         </text-description>
         <main-left-section 
@@ -17,21 +14,17 @@ import TextDescription from "./TextDescription.vue";
 import MainLeftSection from "./MainLeftSection.vue";
 import { mapMutations, mapGetters } from "vuex";
 export default {
-  props: ["filteredTodos", "pholder", "isCopyLink", "id", "filteredTodo"],
-  data: function() {
-    return {
-      taskObject: this.filteredTodo
-    };
-  },
-  methods: {
-    ...mapMutations(["CLOSE_DIV"])
-  },
-  methods: {
-    ...mapMutations(["CLOSE_DIV"]),
-    handleReachBottom() {
-      console.log("sub task call");
-    }
-  },
+    props: ['filteredTodos', 'pholder',  'isCopyLink', 'id', 'filteredTodo'],
+    data: function() {
+        return {
+            taskObject: this.filteredTodo
+        }
+    },
+    methods: {
+        ...mapMutations([
+            'CLOSE_DIV'
+        ]),
+    },
   components: {
     TextDescription,
     MainLeftSection

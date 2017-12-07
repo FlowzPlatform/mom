@@ -1,5 +1,5 @@
 <template>
-    <div id="project-setting-dialog" class="hidden tab-ring" v-show="(this.$store.state.currentProjectMember && this.$store.state.currentProjectMember.length>0)" v-esc="closeDialog" tabindex="-1" data-luna1-event-id="6">
+    <div id="project-setting-dialog" class="hidden tab-ring" v-show="(this.$store.state.currentProjectMember && this.$store.state.currentProjectMember.length>0)"  tabindex="-1" data-luna1-event-id="6">
         <div class="fullscreen-harness dialog2-fullscreen">
             <div class="dialog2-container">
                 <div class="pre-spacer"></div>
@@ -68,7 +68,6 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <noscript></noscript>
                                             </div>
                                         </div>
                                     </div>
@@ -94,7 +93,7 @@
                 </div>
             </div>
         </span>
-         <div id="remove-member-dialog" class="hidden tab-ring" v-esc="closeRemoveMemberDialog" >
+         <div id="remove-member-dialog" class="hidden tab-ring" >
             <div class="fullscreen-harness dialog2-fullscreen" >
                 <div class="dialog2-container">
                     <div class="pre-spacer"></div>
@@ -131,7 +130,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="post-spacer"></div>
                 </div>
             </div>
     </div>
@@ -140,13 +138,9 @@
 <script>
 /* eslint-disable*/
 import Vue from 'vue'
-import VueEsc from 'vue-esc';
 import { mapGetters } from 'vuex'
-import Avatar from 'vue-avatar/dist/Avatar'
-Vue.use(VueEsc);
-
+import Avatar from 'vue-avatar/src/Avatar'
 export default {
-
  props: ['members'],
     data: function () {
         return {
@@ -158,7 +152,6 @@ export default {
     },
     methods: {
         closeDialog() {
-           // console.log("closed dialog");
             $("#project-setting-dialog").addClass("hidden");
             this.selectedRole = '';
         },
@@ -167,13 +160,11 @@ export default {
         **/
         showRoleDialog(member){
             // If member is owner then do no show dialog
-
             if(member.roleName !== 'Owner'){
                 this.memberItem = member;
                 this.userId = member.user_id;
                 this.selectedRole = member.roleName;
                 var pos = $('#role-selection-'+member.user_id).offset();
-                // console.log("mouse down event(x,y)", pos,"member.id:",member.user_id);
                 var top = pos.top-44;
                 var left = pos.left;
                 $("#roleDialog").removeClass("hidden");
@@ -189,7 +180,6 @@ export default {
             var roles = this.$store.state.userRoles;
             roles.forEach(function(role) {
                var name = $.trim(role.name).replace(' ','');
-                //role.name
                 $("#select-icon-"+name).css({"display":"none"});
             }, this);
              $("#roleDialog").addClass("hidden");
@@ -199,10 +189,8 @@ export default {
          */
         removeProjectMember(member){
             this.memberItem = member;
-
             this.$store.state.removeMember = member;
             this.$store.commit("removeMember");
-            //Show dialog
             $("#remove-member-dialog").removeClass("hidden");
         },
         getLetters(name) {
@@ -214,31 +202,20 @@ export default {
             return firstLetters.toUpperCase();
         },
         showRoleName(member){
-
-          //  console.log("current project member:",this.$store.state.currentProjectMember);
-          //  console.log("member user_id",member.user_id);
-            // var userId = this.$store.state.currentProjectCreatedBy;
             var user =  _.find(this.$store.state.currentProjectMember, ['user_id', member.user_id])
-          //  console.log("user:",user);
             if(user && user.roleName === ''){
                  user.roleName = "Owner"
             }
-            // if(member.roleName === ''){
-            //    member.roleName = "Admin"
-            // }
-            
             return member.roleName;
         },
         roleId(role){
-        var name = $.trim(role.name).replace(' ','');
-        return name;
+            var name = $.trim(role.name).replace(' ','');
+            return name;
         },
         /***
         * Role select from dropdown menu
         */
         roleSelect(role){
-            
-            console.log("Selected role:",role)
             // Hide selected icon 
             var roles = this.$store.state.userRoles;
             roles.forEach(function(role) {
@@ -267,7 +244,6 @@ export default {
          * Remove member from project 
          */
         removeMemberProject(){
-           // console.log("removeMember:",this.$store.state.removeMember);
             this.$store.dispatch('deleteProjectMember')
             this.closeRemoveMemberDialog();
             this.$forceUpdate();

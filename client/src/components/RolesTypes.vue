@@ -7,7 +7,6 @@
                     <main-left-section id="roleTypes" :filtered-todos="taskTypeList"></main-left-section>
                 </div>
             </div>
- 
         </div>
     </div>
 </template>

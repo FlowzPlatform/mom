@@ -45,7 +45,7 @@ app.configure(socketio(function(io) {
         console.log("connection handshaken-->",socket.feathers)
     //   socket.emit('news', { hello: 'world' });
       socket.on('userdata', function (data) {
-                socket.feathers.userId=data ;
+              socket.feathers.userId=data ;
       });
 
 

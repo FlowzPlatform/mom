@@ -66,8 +66,9 @@
     </div>
   </li>
 </template>
-
 <style>
+
+  
   col-md-2.border-right:after {
     content: "";
     border-right: solid 1px #ccc;
@@ -119,10 +120,8 @@
 </style>
 <script>
   /* eslint-disable*/
-  import txtDesc from './TextDescription.vue'
   import Vue from 'vue'
   import BootstrapVue from 'bootstrap-vue'
-  import KeenUI from 'keen-ui';
   import Resource from 'vue-resource'
   import lodash from 'lodash'
   import * as services from '../services'
@@ -130,10 +129,9 @@
   import CmnFunc from './CommonFunc.js'
   import * as Constant from './Constants.js'
   import moment from 'moment'
-  import Avatar from 'vue-avatar/dist/Avatar'
+  import Avatar from 'vue-avatar/src/Avatar'
   Vue.use(VueLodash, lodash)
   Vue.use(BootstrapVue)
-  Vue.use(KeenUI);
   Vue.use(Resource)
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -163,8 +161,6 @@
         email: ''
       }
     },
-    created() {
-    },
     computed: {
       ...mapGetters({
         statusList: 'getTask_types_state',
@@ -177,7 +173,6 @@
         return stateList
       },
       getType() {
-        // console.log("Get tyepe:--",this.selectedType.id === this.todo.type_id);
         if (this.todo.type_id && this.selectedType && this.selectedType.id) {
           this.isTypeTodo = this.selectedType.id === this.todo.type_id
         }
@@ -185,7 +180,6 @@
       },
       getAssignedUser() {
         let user = this.$store.state.todolist.find(todo => todo.id === this.todo.id)
-
         return user.email
       }
     },
@@ -211,40 +205,13 @@
         this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedState": objStatus.state_id })
         this.selectedObject = this.taskState.find(state => state.state_id === objStatus.state_id)
       },
-      // deleteTodo: function () {
-      //   this.$store.dispatch('deleteTodo', this.todo)
-      // console.log('Remove TODO:', this.filteredTodos);
-      // if(this.dbId)
-      // {
-      // this.$http.delete('/deteletask/'+ this.dbId, {
-      //   }).then(response => {
-      //       console.log('task deleted', response.data)
-      //       if(this.filteredTodos.length-1 > 0)
-      //       {
-      //         console.log('ID-Level:', this.filteredTodos[0].parentId, "===", this.filteredTodos[0].level);
-      //         var todoList = store.state.todo1(this.filteredTodos[0].parentId, (this.filteredTodos[0].level-1)); 
-      //         console.log('todoList:', todoList);
-      //         for(var i=0; i < todoList.length-1 ; i++)
-      //         {
-      //           if(todoList[i].id)
-      //             {
-      //               this.$http.post('/updatetasks', {
-      //               id: todoList[i].id,
-      //               index: i
-      //               }).then(response => {
-      //                 console.log('index updated after remove task', response.data)
-      //             })
-      //             }
-      //         }
-      //       }
-      //   })
-      //   }
-      // },
       addTodo: function (todoId) {
-        if (this.id !== 'taskTypes' && this.id !== 'taskState') {
-          this.$store.dispatch('insertTodo', this.todo)
+        // console.log("onKeyenter add TODO called===>")
+        // if (this.id !== 'taskTypes' && this.id !== 'taskState') {
+        //   this.$store.dispatch('insertTodo', this.todo)
           
-        } else if (this.id === "taskTypes") {
+        // } else 
+        if (this.id === "taskTypes") {
           this.$store.dispatch('addTask_Type', this.todo)
         } else if (this.id === "taskState") {
           this.$store.dispatch('addTask_State', { "state": this.todo })
@@ -304,6 +271,7 @@
         this.$store.state.currentModified = (this.todo.id == -1) ? true : false
       },
       changeValue: function (todoId) {
+        console.log("Change value called===>")
         this.$store.dispatch('insertTodo', this.todo)
         var nextTaskIndex = todoId.split('_')[0];
         if (nextTaskIndex == -1) {
@@ -338,7 +306,6 @@
       }
     },
     components: {
-      txtDesc,
       Avatar
     },
     mounted() {
@@ -373,5 +340,4 @@
       }
     }
   }
-
 </script>

@@ -21,10 +21,6 @@ import MainLeftSection from './MainLeftSection.vue'
 import MainRightSection from './MainRightSection.vue'
 import { mapGetters } from 'vuex'
 export default {
-    data: function () {
-        return {
-        }
-    },
     created() {
         this.$store.dispatch('getTaskTypes')
     },
@@ -44,7 +40,6 @@ export default {
             }
             return types
         }
-       
     },
     components: {
         MainLeftSection,

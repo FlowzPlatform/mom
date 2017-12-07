@@ -4,16 +4,12 @@
         <div class="modal-mask" @click="close" v-show="show" data-toggle="modal" transition="modal">
             <div class="modal-container" @click.stop>
                 <div class="modal-header">
-
                     <div class="Dialog-headerTitle">
                         New Project
                     </div>
                     <a class="CloseButton" @click="close">
-                        <svg class="Icon XIcon CloseButton-xIcon" title="XIcon" viewBox="0 0 32 32">
-                            <polygon points="24.485,27.314 27.314,24.485 18.828,16 27.314,7.515 24.485,4.686 16,13.172 7.515,4.686 4.686,7.515 13.172,16 4.686,24.485 7.515,27.314 16,18.828 "></polygon>
-                        </svg>
+                        <i class="fa fa-times" aria-hidden="true"></i>
                     </a>
-
                 </div>
 
                 <div class="modal-body scrollable scrollable--vertical NewProjectForm">
@@ -40,14 +36,11 @@
                             <div class="NewProjectFormRowStructure-contents">
                                 <div class="NewProjectForm-descriptionInput textEditor-container">
                                     <div class="textEditor-placeholder"></div>
-                                     <textarea class="quill-container" v-model="description" @keyup.esc="close">
-                                       
-                                    </textarea>
+                                     <textarea class="quill-container" v-model="description" @keyup.esc="close"></textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <!-- Privacy -->
                     <div class="NewProjectFormRowStructure-label--labelPlacementTop NewProjectFormRowStructure-label">
                         <label class="Label NewProjectForm-label">Privacy</label>
@@ -66,26 +59,9 @@
                                     <path d="M2,28c0-4.829,3.441-8.869,8-9.798V15.65C7.673,14.824,6,12.606,6,10c0-3.308,2.692-6,6-6V2c-4.418,0-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C3.233,18.494,0,22.864,0,28c0,0.683,0.07,1.348,0.18,2H6v-2H2z"></path>
                                 </svg>
                                 <div class="NewProjectForm-privacyOptionLabel">
-                                    <div class="NewProjectForm-privacyOptionText">
-                                        <!-- react-text: 65 -->Public to all
-                                        <!-- /react-text -->
-                                    </div>
+                                    <div class="NewProjectForm-privacyOptionText">Public to all</div>
                                 </div>
                             </label>
-                            <!--<label class="NewProjectForm-privacyOption">
-                                <div class="NewProjectForm-radioButton">
-                                    <input type="radio" v-model="privacyOption" value="1" name="privacy" class="NewProjectForm-privateToMembersRadio" disabled="">
-                                </div>
-                                <svg class="Icon LockIcon NewProjectForm-privacyIcon" title="LockIcon" viewBox="0 0 32 32">
-                                    <path d="M24,12v-0.125V8c0-4.411-3.589-8-8-8S8,3.589,8,8v4H6v18h20V12H24z M14,12V8c0-1.103,0.897-2,2-2s2,0.897,2,2v4H14z M10,8c0-3.309,2.691-6,6-6s6,2.691,6,6v4h-2V8c0-2.206-1.794-4-4-4s-4,1.794-4,4v4h-2V8z M24,28H8V14h16V28z"></path>
-                                </svg>
-                                <div class="NewProjectForm-privacyOptionLabel">
-                                    <div class="NewProjectForm-privacyOptionText NewProjectForm-privacyOptionDisabled">Private to project members</div>
-                                    <div class="NewProjectForm-privacyOptionSubtext">
-                                        <a class="NewProjectForm-upsellLink NewProjectForm-upsellLinkColored">Upgrade to create private projects.</a>
-                                    </div>
-                                </div>
-                            </label>-->
                              <label class="NewProjectForm-privacyOption">
                                 <div class="NewProjectForm-radioButton">
                                     <input type="radio" v-model="privacyOption" value="1" name="privacy" class="NewProjectForm-privateToUserRadio">
@@ -111,21 +87,13 @@
                             </label>
                         </div>
                     </div>
-
                     <!-- Create project -->
-
                     <div class="CreateBlankProjectRow NewProjectForm-buttonRow">
                          <a class="Button Button--medium Button--primary CreateBlankProjectRow-button NewProjectForm-createButton" aria-role="button" @click="savePost">Create Project</a>
                     </div>
-
-                </div>
-
-                <div class="hidden modal-footer text-right">
-
                 </div>
             </div>
         </div>
-        <div class="ModalLayer-bottomBuffer"></div>
     </div>
 </template>
 <script>
@@ -145,14 +113,9 @@
                 focused: true
             }
         },
-        mounted: function () {
-
-               // this.$refs.projectName.focus();
-
-            },
-            created: function () {
-                $("#new_project_dialog_content_name_input").focus();
-            },
+        created: function () {
+            $("#new_project_dialog_content_name_input").focus();
+        },
         methods: {
             projectResponse: function (response) {
                 if (!response.error) {
@@ -163,27 +126,23 @@
                         user_email: this.$store.state.userObject.email,
                         invited_date: new Date(),
                         is_deleted:false,
-                        user_role_id:this.getOwernerId()
+                        // user_role_id:this.getOwernerId()
+                        user_role_id:this.$store.state.userObject._id
                     }
                     this.$store.dispatch('insertProjectInvite', insertInvite)
-
                     this.projectName = ''
                     this.description = ''
                     this.privacyOption = ''
-                    // this.$store.state.projectlist.push(response)
                     this.$store.state.currentProjectId = response.id
                     this.$store.state.currentProjectName=response.project_name
                     this.close();
-
                 } else {
                     this.createProjectError = response.error;
                 }
             },
             getOwernerId(){
                 this.$store.state.userRoles
-                
                 let owner = _.find(this.$store.state.userRoles, ['name', "Owner"])
-
                 return owner.id;
             },close: function () {
                this.$emit('updateDialog', this.show != this.show);
@@ -204,19 +163,15 @@
                 } else {
                     this.privacyMsg = "";
                 }
-
                 var request = {
                     data: { project_name: this.projectName, project_description: this.description, project_privacy: this.privacyOption, create_by: this.$store.state.userObject._id, created_at: new Date(),is_deleted:false },
                     callback: this.projectResponse
                 }
                 this.$store.dispatch('insertProject', request)
-                  this.close();
+                //   this.close();
 
             }
         }
     }
 
 </script>
-<style>
-    
-</style>
