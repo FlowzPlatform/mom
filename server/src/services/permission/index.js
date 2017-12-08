@@ -29,6 +29,7 @@ module.exports = function() {
       db: db,
       host: db_host,
       port:db_port,
+      buffer: 5,
       // username: db_username,
       authKey: db_password,
       if(db_password){
