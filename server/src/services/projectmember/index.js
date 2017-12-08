@@ -9,16 +9,26 @@ const db_username = config.get('db_username')
 const db_password = config.get('db_password')
 const table = config.get('tbl_projectmember')
 const hooks = require('./hooks');
-
+let fs = require('fs');
+const rootPath = require('get-root-path');
+const path = require('path');
 
 module.exports = function() {
   const app = this;
+  let appDir= path.join(rootPath.rootPath, 'config/cacert');
+  fs.readFile(appDir, function(err, caCert) {
   const r = require('rethinkdbdash')({
-    db: 'vue_todo',
+    db: db,
     host: db_host,
     port:db_port,
-    username: db_username,
-    password: db_password
+    buffer: 5,
+    // username: db_username,
+    authKey: db_password,
+    if(db_password){
+      ssl: {
+        ca: caCert
+      }
+    }
   });
 
   const options = {
@@ -74,7 +84,7 @@ module.exports = function() {
     })
   });
 
-
+  });
 
 
 }

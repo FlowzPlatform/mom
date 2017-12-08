@@ -4,7 +4,7 @@ import socketio from 'feathers-socketio/client'
 import io from 'socket.io-client'
 import * as vuex from '../VuexSession.js'
 
-export const socket = io(process.env.SOCKET_IO, {transports: ['websocket'], upgrade: false});
+export const socket = io(process.env.SOCKET_IO, {transports: ['websocket'], upgrade: false}); //, path: '/mom'
 
  socket.on("connect", function(){
      var userId=vuex.store.state.userObject._id;

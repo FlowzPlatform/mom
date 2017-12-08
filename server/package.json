@@ -24,6 +24,7 @@
     "test": "npm run eslint && npm run mocha",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "start": "node src/",
+    "debug": "node --inspect --debug-brk src/index.js",
     "mocha": "mocha test/ --recursive"
   },
   "dependencies": {
@@ -38,6 +39,7 @@
     "feathers-rest": "^1.7.3",
     "feathers-rethinkdb": "^0.4.3",
     "feathers-socketio": "^2.0.0",
+    "get-root-path": "^2.0.2",
     "helmet": "^3.6.1",
     "rethinkdb": "^2.3.3",
     "rethinkdbdash": "^2.3.29",

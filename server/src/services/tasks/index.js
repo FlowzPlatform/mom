@@ -9,17 +9,36 @@ const db_port = config.get('db_port')
 const db_username = config.get('db_username')
 const db_password = config.get('db_password')
 const socketio = require('feathers-socketio');
+let fs = require('fs');
+const path = require('path');
+const rootPath = require('get-root-path');
 
 module.exports = function() {
   const app = this;
+  var appDir= path.join(rootPath.rootPath, 'config/cacert');
+  console.log("Path from :---",appDir)
+  fs.readFile(appDir, function(err, caCert) {
   const r = require('rethinkdbdash')({
     db:db,
     host: db_host,
     port: db_port,
-    username: db_username,
-    password: db_password
+    buffer: 5,
+    //username: db_username,
+    authKey: db_password,
+    if(db_password){
+      ssl: {
+        ca: caCert
+      }
+    }
   });
 
+  // var pathUrl=path.format({
+  //   dir: 'D:\Urvashi\Projects\todo-vue\TODO-Github\todo-vue-dynamic-component\server\config',
+  //   base: 'cacert'
+
+  // });
+  var appDir = path.dirname(require.main.filename);
+ 
   const options = {
     Model: r,
     name: table,
@@ -92,8 +111,7 @@ module.exports = function() {
 
       }
     })
-
-    
+   
 });
-  
+}); 
 }

@@ -6,7 +6,6 @@ module.exports = function () {
   // in Express the order matters, `notFound` and
   // the error handler have to go last.
   const app = this;
-
   app.use(notFound());
   app.use(handler());
   app.use(function(error, req, res, next){
