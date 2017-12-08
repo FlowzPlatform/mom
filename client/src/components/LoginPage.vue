@@ -228,23 +228,23 @@
                     })
                 $(".container").toggleClass("log-in");
             },
-            btnLDAPPressed() {
-                var self = this
-                // CmnFunc.resetProjectDefault()
-                console.log('LOG IN--> userloginprocess')
-                this.$store.dispatch('signInWithLDAP', { 'userid': 'xxxx', 'passwd': 'xxxx' })
-                    .then(function (response) {
-                        console.log('LDAP response successful');
-                        console.log('LOG IN--> response', response)
-                        self.$store.state.isAuthorized = true
-                        self.$store.commit('authorize')
-                        self.userDetail(self)
-                    })
-                    .catch(function (error) {
-                        $.notify.defaults({ className: "error" })
-                        $.notify(error.message, { globalPosition: "top center" })
-                    });
-            },
+            // btnLDAPPressed() {
+            //     var self = this
+            //     // CmnFunc.resetProjectDefault()
+            //     console.log('LOG IN--> userloginprocess')
+            //     this.$store.dispatch('signInWithLDAP', { 'userid': 'xxxx', 'passwd': 'xxxx' })
+            //         .then(function (response) {
+            //             console.log('LDAP response successful');
+            //             console.log('LOG IN--> response', response)
+            //             self.$store.state.isAuthorized = true
+            //             self.$store.commit('authorize')
+            //             self.userDetail(self)
+            //         })
+            //         .catch(function (error) {
+            //             $.notify.defaults({ className: "error" })
+            //             $.notify(error.message, { globalPosition: "top center" })
+            //         });
+            // },
             insertUserData(emailID, pwd, usertype, profilePic, uname) {
                 //insert user into rethink db
                 this.$http.post('/insertUsers', {

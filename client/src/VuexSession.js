@@ -1577,27 +1577,27 @@ export const store = new Vuex.Store({
         }
       });
     },
-    signInWithLDAP({ commit }, loginObj){
-      console.log("Login Object",loginObj);
-      return axios.post(process.env.USER_AUTH +'/api/ldapauth', {
-        userid: loginObj.userid,
-        passwd: loginObj.passwd 
-      },{
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-      }).then(function (response) {
-          console.log('LDAP response obj: ', response);
-          commit('SAVE_USERTOKEN', response.data.logintoken)
-        })
-        .catch(function (error) {
-          if (error.response) {
-            console.log('================================');
-            console.log(error.response.data);
-            console.log('--------------------------------');
-          }
-        });
-    },
+    // signInWithLDAP({ commit }, loginObj){
+    //   console.log("Login Object",loginObj);
+    //   return axios.post(process.env.USER_AUTH +'/api/ldapauth', {
+    //     userid: loginObj.userid,
+    //     passwd: loginObj.passwd 
+    //   },{
+    //     headers: {
+    //       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    //     }
+    //   }).then(function (response) {
+    //       console.log('LDAP response obj: ', response);
+    //       commit('SAVE_USERTOKEN', response.data.logintoken)
+    //     })
+    //     .catch(function (error) {
+    //       if (error.response) {
+    //         console.log('================================');
+    //         console.log(error.response.data);
+    //         console.log('--------------------------------');
+    //       }
+    //     });
+    // },
     getUserDetail({ commit }) {
       console.log('token: ', store.state.userToken)
       console.log('env-USER_AUTH', process.env.USER_AUTH + '/api/userdetails')
@@ -1617,6 +1617,7 @@ export const store = new Vuex.Store({
         })
     },
     updateUserProfile({ commit }, objProfile) {
+      console.log('Update USER Detail:', process.env.USER_DETAIL + '/updateuserdetails/' + store.state.userObject._id)
       var url = (process.env.USER_DETAIL + '/updateuserdetails/' + store.state.userObject._id)
       return axios.put(url, {
         fullname: objProfile.fullname,
@@ -1642,6 +1643,7 @@ export const store = new Vuex.Store({
     },
     async getAllUsersList({ commit },callback) {
       try {
+        console.log('All user detail:', process.env.USER_DETAIL + '/alluserdetails')
         let { data } = await axios.get(process.env.USER_DETAIL + '/alluserdetails', {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
