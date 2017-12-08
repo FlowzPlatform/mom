@@ -401,6 +401,9 @@
         $(".nav").removeClass("hidden");
         this.selectedMenuIndex = 2;
         this.currentView = Attachments;
+        const totalHeight = $("#"+this.id).height()
+        const divHeight = $("#text-area").height() + 40
+        document.getElementById('rightContainer').style.height = totalHeight - divHeight + "px";
       },
       tagsShow() {
         this.selectedMenuIndex = 3;
