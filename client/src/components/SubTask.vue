@@ -1,7 +1,7 @@
 <template>
     <div>
-        <text-description :id="id" :filteredTodo="filteredTodo">
-        </text-description>
+        <!-- <text-description :id="id" :filteredTodo="filteredTodo">
+        </text-description> -->
         <main-left-section 
         v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" 
         :pholder="pholder" :filtered-todos="filteredTodos"></main-left-section>
@@ -10,7 +10,7 @@
 <script>
 /* eslint-disable*/
 import Vue from 'vue'
-import TextDescription from './TextDescription.vue'
+// import TextDescription from './TextDescription.vue'
 import MainLeftSection from './MainLeftSection.vue'
 import { mapMutations, mapGetters } from 'vuex'
 export default {
@@ -26,7 +26,7 @@ export default {
         ]),
     },
     components: {
-        TextDescription,
+        // TextDescription,
         MainLeftSection
     }
 }

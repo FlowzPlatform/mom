@@ -7,8 +7,8 @@
       </div>
 		<div id="main-container" class="row asanaView-body pt-page-moveFromLeft" style="padding-top: 15px; margin: 10px 10px 10px 10px;"
 		v-show="isMyTask">
-			<div class="asanaView-paneGutter"></div>
-			<div id="center_pane_container">
+      <div class="asanaView-paneGutter"></div>
+			<div id="center_pane_container" class="scrollbar">
 				<div id="center_pane">
 					<div v-if="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
 						<left-toolbar v-if="!isCopyLink" :filters="filters">
@@ -29,7 +29,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+      </div>
 			<div :id="n.level" class="right_pane_container" v-for="(n, index) in parentIdArray">
 				<div id="right_pane">
 					<main-right-section v-show="!n.show_type" :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>
@@ -68,7 +68,6 @@
   import Search from './Search.vue'
   import iView from 'iview';
   import locale from 'iview/dist/locale/en-US';
-
   Vue.use(iView, { locale });
   Vue.use(require('vue-moment'))
 
@@ -108,8 +107,11 @@
         isCopyLink: false,
         isNewProjectDialogShow: false,
         isRoleAccess: false,
-		isMyTask:true,
-		isSearch: false
+        isMyTask:true,
+        isSearch: false,
+        settings: {
+          maxScrollbarLength: 60
+        }
       }
     },
     created() {
@@ -168,7 +170,6 @@
         var insertPermssion=CmnFunc.isCreatePermission(15);
         let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', this.url_level)
         if (insertPermssion) {
-          console.log('Insert blank TODO--->')
             taskArray.push({
               id: '-1',
               parentId: this.url_parentId,
@@ -257,7 +258,10 @@
            $.notify.defaults({ className: "error" })
            $.notify("Project name can't blank.", { globalPosition:"top center"})
         }
-      }
+      },
+      scrollHanle(evt) {
+      console.log(evt)
+    }
     },
     components: {
       MainLeftSection,
@@ -267,9 +271,9 @@
       VueSplitter,
       SubComment,
       RoleAccess,
-	  CircularNavBar,
-	  Search
-    }
+	    CircularNavBar,
+      Search
+    },
   }
 
 </script>
@@ -303,5 +307,42 @@
 @keyframes moveFromRight {
 	from { -webkit-transform: translateX(100%); transform: translateX(100%); }
 }
+.scrollbar
+{
+  overflow-y: scroll;
+  cursor: pointer;
+}
+.asanaView-body {
+  overflow-x: scroll;
+  cursor: pointer;
+}
+#center_pane_container::-webkit-scrollbar-track, #main-container::-webkit-scrollbar-track
+, #rightContainer::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
 
+#center_pane_container::-webkit-scrollbar
+, #rightContainer::-webkit-scrollbar
+{
+	width: 7px;
+	background-color: #F5F5F5;
+}
+#main-container::-webkit-scrollbar{
+  height: 7px;
+  background-color: #F5F5F5;
+}
+
+#center_pane_container::-webkit-scrollbar-thumb, #main-container::-webkit-scrollbar-thumb
+, #rightContainer::-webkit-scrollbar-thumb
+{
+	background-color: #acacac;
+	border: 1px solid #acacac;
+}
+.rightscroll{
+  width: 100%;
+  /* height: calc(100vh - 28vh); */
+  overflow-y: scroll
+}
 </style>

@@ -1308,7 +1308,7 @@ form.dialog--nux-inner {
     color: #1B2432;
     height: 40px;
     margin: 0;
-    padding: 0 0 0 10px;
+    /* padding: 0 0 0 10px; */
     width: 100%
 }
 .form-input input:focus,

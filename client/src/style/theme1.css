@@ -1,0 +1,102 @@
+.Topbar {
+    /* background: #000; */
+}
+.logo__title{
+    /* background: #000; */
+    color: #e37222;
+    font-family: esteban
+}
+.fa-bars:before,
+.fa-times:before {
+  color: #66B9BF;
+  position: relative;
+  top: 38%;
+  /* left: 42%; */
+  transition: opacity 500ms ease-in;
+  text-decoration: none;
+  z-index: 2;
+}
+.menu-item-back {
+    background: #66B9BF;
+    width: 175px;
+    height: 150px;
+    position: absolute;
+    transform-origin: 0px 150px;
+    margin-top: -150px;
+    left: 50%;
+    top: 50%;
+    border: 1px solid whitesmoke;
+  }
+
+  .menu-item-back:hover {
+    /* background: rgb(160, 160, 160); */
+    background: #008B95;
+  }
+
+  .ivu-poptip-rel:hover {
+    /* background: rgb(160, 160, 160); */
+    background: #008B95;
+  }
+
+  .menu-item:nth-child(3) .menu-item-back {
+    transform: rotate(-60deg) skew(-30deg);
+    /* background-color: #4a4848; */
+    background: #66B9BF;
+  }
+  .menu-item:nth-child(3) .menu-item-back:hover{
+      /* background: rgb(160, 160, 160); */
+      background: #008B95;
+  }
+
+  .menu-item:nth-child(5) .menu-item-back {
+    transform: rotate(60deg) skew(-30deg);
+    /* background-color: #4a4848; */
+    background: #66B9BF;
+  }
+  .menu-item:nth-child(5) .menu-item-back:hover{
+      /* background: rgb(160, 160, 160); */
+      background: #008B95;
+  }
+
+  .menu-item:nth-child(7) .menu-item-back {
+    transform: rotate(180deg) skew(-30deg);
+    /* background-color: #4a4848; */
+    background: #66B9BF;
+  }
+
+  .menu-item:nth-child(7) .menu-item-back:hover{
+      /* background: rgb(160, 160, 160); */
+      background: #008B95;
+  }
+
+  .ivu-poptip-rel {
+    /* background: #000; */
+    background: #66B9BF;
+    width: 175px;
+    height: 150px;
+    position: absolute;
+    -webkit-transform-origin: 0px 150px;
+    transform-origin: 0px 150px;
+    margin-top: -150px;
+    left: 50%;
+    top: 50%;
+    border: 1px solid whitesmoke;
+  }
+
+.navbar-bottom {
+    background-color: #EEAA7B;    
+}
+.navbar-bottom:hover a.active {
+  /*background-color: rgba(63, 81, 181, 0.90);*/
+  background-color: #e37222;
+  color: white;
+}
+.header-name{
+    color: #e37222;
+    font-family: esteban
+}
+
+.navbar-bottom .ivu-select-single .ivu-select-input{
+  background: rgb(238, 170, 123);
+  -webkit-text-fill-color: #fff;
+}

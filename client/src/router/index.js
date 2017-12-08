@@ -13,6 +13,7 @@ import '../style/style.css'
 import '../style/style1.css'
 import '../style/newStyle.css'
 import '../style/keen-ui.min.css'
+import '../style/theme1.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import GSignInButton from 'vue-google-signin-button';

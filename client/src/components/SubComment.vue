@@ -1,7 +1,7 @@
 <template>
     <div>
         <div style="height:100%;overflow-x:scroll">
-            <div class="nav">
+            <div class="nav1">
                 <div class="mask" @click="writeComment">
                     <i id="icon-comment" class="fa fa-pencil"></i>
                 </div>
