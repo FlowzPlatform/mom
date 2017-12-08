@@ -1,7 +1,7 @@
 <template id="desc">
     <div class="task">
-          <div class="view">
-              <div id="topicon">
+          <div class="view" style="position: relative;">
+              <div id="topicon" style="position: absolute; float: right; right: 0;">
                   <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
                     tabindex="410" style="margin-top: 2px;">
                     <span id="close" class="destroy circularButtonView-label" @click="CLOSE_DIV(filteredTodo)">
@@ -23,7 +23,7 @@
                   </div>
                 </div>
             <input type="checkbox" class="toggleTask" v-model="filteredTodo.completed" @change="toggleTodo(filteredTodo)" style="float: left;">
-            <input v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
+            <textarea v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
             placeholder="New Task" 
             style="height: 40px;"
             rows="1"
@@ -33,7 +33,7 @@
             @change="updateTaskName()"
             v-model="filteredTodo.taskName"
             />
-            <input v-if="id === 'rightTaskTypes'" id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
+            <textarea v-if="id === 'rightTaskTypes'" id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
             placeholder="New Task" 
             style="height: 40px;"
             rows="1"
@@ -43,7 +43,7 @@
             @keyup.enter="updateType"
             v-model="filteredTodo.type"
             />
-            <input v-if="id === 'rightTaskState'" id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
+            <textarea v-if="id === 'rightTaskState'" id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
             placeholder="New Task" 
             style="height: 40px;"
             rows="1"

@@ -103,7 +103,6 @@ button {
 	border-top: 1px solid #e6e6e6;
     float: left;
     width: 100%;
-    height: calc(100% - 36px);
 }
 
 .todo-list {
@@ -259,21 +258,13 @@ button {
 .taskDetailsView-description .autogrow-textarea{
 	background-color: #fff;
 	/*border: 1px solid #E1E2E4;*/
-    margin: 0 30px;
-    /*padding-bottom: 25px;*/
-    padding-left: 20px;
-    padding-top: 5px;
-}
-.taskDetailsView-descriptiontaskDetailsView-description .autogrow-textarea{
-	background-color: #fff;
-	/*border: 1px solid #E1E2E4;*/
-    margin: 0 30px;
+    /* margin: 0 30px; */
     /*padding-bottom: 25px;*/
     padding-left: 20px;
     padding-top: 5px;
 }
 .autogrow-textarea{
-	display: table;
+	display: inline-flex;
 	font-size: 14px;
 	line-height: 20px;
 	position: relative;
@@ -284,11 +275,11 @@ button {
     position: absolute;
     width: 100%;
 }
-.taskDetailsView-description .field-description{
+/* .taskDetailsView-description .field-description{
 	margin-top: -5px;
 margin-bottom: -5px;
 margin-left: -11px;
-}
+} */
 .autogrow-textarea [contenteditable="true"]{
 	min-height: 52px;
 white-space: pre-wrap
@@ -304,7 +295,7 @@ resize: both;
 overflow-y: auto;
 }
 .field-description{
-	padding: 5px 5px;
+	/* padding: 5px 5px; */
     resize: none;
     /* width: 100%; */
 }
@@ -407,9 +398,8 @@ border: 1px solid transparent;
     display: block;
     padding: 5px;
     padding-left: 50px;
-    /* width: 100%; */
+    width: 100%;
     float: left;
-    text-overflow: ellipsis;
 }
 .PageHeaderStructure-center{
 	    -webkit-box-align: center;
@@ -1896,7 +1886,6 @@ input[type="file"].hidden-file-input {
     overflow: hidden;
 }
 .modal-header {
-    padding: 10px;
     background-color: #1aafd0;
     color: #fff;
 }
@@ -3652,9 +3641,6 @@ a.CloseButton.Dialog-closeButton {
         color: #42b983;
         background-color: transparent;
         padding: 0px;
-        margin-top: -5px;
-        color: #42b983;
-        background-color: transparent;
         margin-top: 10px;
         padding-right: 10px;
         padding-bottom: 10px;
@@ -5506,22 +5492,6 @@ textarea.showing,
 .recurly .recurly-hosted-field.showing {
     border: 1px solid #d5dce0;
 }
-
-.generic-input,
-textarea,
-.recurly input[type=text],
-.recurly .recurly-hosted-field {
-    border-radius: 3px 3px 3px 3px;
-    -webkit-border-radius: 3px 3px 3px 3px;
-    border: 1px solid transparent;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    color: #151b26;
-     /* padding-left: 10px;  */
-    border: 1px solid transparent;
-}
-
 .ui.segment:first-child {
     top: 5%;
     margin-top: 5px;
@@ -6141,7 +6111,7 @@ CSS for splitter view
     /* overflow-y: scroll; */
     /* height: 95%; */
     /* position: absolute; */
-    width: 100%;
+    /* width: 100%; */
     overflow-x: hidden;
   }
   .nav_bottom {
@@ -6216,4 +6186,12 @@ CSS for splitter view
     margin: 0 0 .2em -.05em;
     line-height: .7;
     font-weight: 700;
+}
+.task > div > div#topicon {
+    display: none;
+}
+
+.task:hover > div > div#topicon {
+    display: block;
+    
 }

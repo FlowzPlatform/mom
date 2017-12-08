@@ -342,7 +342,7 @@
 }
 .rightscroll{
   width: 100%;
-  height: calc(100vh - 28vh);
+  /* height: calc(100vh - 28vh); */
   overflow-y: scroll
 }
 </style>
