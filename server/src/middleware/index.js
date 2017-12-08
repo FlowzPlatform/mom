@@ -9,12 +9,20 @@ module.exports = function () {
   // the error handler have to go last.
   const app = this;
   app.use(subscription.subscription)
-  app.use(notFound());
-  app.use(handler());
+  var totalMessage = 6;
+  console.log('Total Message', '====', totalMessage)
+  subscription.secureService.validate = (route, params, secureRouteInfo) => {
+    return new Promise((resolve, reject) => {
+      console.log(secureRouteInfo.value, '====', totalMessage)
+      if (route === '/tasks' && secureRouteInfo.value >= totalMessage) {
+        resolve(true)
+      }
+      resolve(false)
+    })
+  }
+  // app.use(notFound());
+  // app.use(handler());
   app.use(function(error, req, res, next){
       console.log("Middleware-------->",req);
   })
-  app.use(function(req, res, next){
-    console.log("Subscrion test-------->",req);
-})
 };

@@ -1021,9 +1021,21 @@ export const store = new Vuex.Store({
       }).then(response => {
         commit('GET_TODO', response)
       });
-      // Vue.http.post('/tasks_parentId', { parentId: payload.parentId }).then(function (response) {
-      //   commit('GET_TODO', response.data)
+     
+      // axios.get('http://localhost:3030' + '/tasks', {
+      //   headers: {
+      //     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      //     'Authorization':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1OTlhNzJhYmEwMDVmYzAwMjA2MTFhODUiLCJpYXQiOjE1MTI3Mjg0MDMsImV4cCI6MTUxMjczMjAzMywiYXVkIjoiaHR0cHM6Ly95b3VyZG9tYWluLmNvbSIsImlzcyI6ImZlYXRoZXJzIiwic3ViIjoiYW5vbnltb3VzIn0.AMHVTiWP8PJ-9rZhLNFd-eQICPIMfxBJUE_DHCmEnLE'
+      //   }
+      // })
+      // .then(function (response) {
+      //   console.log("Task GET response",response);
+      //   commit('GET_TODO', response)
+      // })
+      // .catch(function (error) {
+      //   console.log(error);
       // });
+
     },
     removeParentIdArray({ commit }) {
       commit('REMOVE_PARENT_ID_ARRAY')
@@ -1063,6 +1075,33 @@ export const store = new Vuex.Store({
           CmnFunc.insertHistoryLog(store,store.state.userObject._id,store.state.userObject._id,response.id,Constant.HISTORY_LOG_ACTION.TASK_CREATE)
           
         });
+
+        // axios.post('http://localhost:3030' + '/tasks',{parentId: insertElement.parentId,
+        //   taskName: insertElement.taskName,
+        //   taskDesc: '',
+        //   level: insertElement.level,
+        //   completed: false,
+        //   index: insertElement.index,
+        //   dueDate: '',
+        //   createdAt: new Date().toJSON(),
+        //   updatedAt: new Date().toJSON(),
+        //   created_by: store.state.userObject._id,
+        //   assigned_by: store.state.userObject._id,
+        //   assigned_to: store.state.userObject._id,
+        //   isDelete: false,
+        //   project_id: insertElement.project_id}, {
+        //   headers: {
+        //     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        //     'Authorization':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1OTlhNzJhYmEwMDVmYzAwMjA2MTFhODUiLCJpYXQiOjE1MTI3MzM5MjMsImV4cCI6MTUxMjczNzU1MywiYXVkIjoiaHR0cHM6Ly95b3VyZG9tYWluLmNvbSIsImlzcyI6ImZlYXRoZXJzIiwic3ViIjoiYW5vbnltb3VzIn0.I9Z4pVXiB2jHe1_2iYt-GBFMh-88eALAtOOVdkvrz0E'
+        //   }
+        // })
+        // .then(function (response) {
+        //   console.log("CREATE response",response);
+        //   CmnFunc.insertHistoryLog(store,store.state.userObject._id,store.state.userObject._id,response.id,Constant.HISTORY_LOG_ACTION.TASK_CREATE)
+        // })
+        // .catch(function (error) {
+        //   console.log(error);
+        // });
 
       }
     },
