@@ -411,7 +411,7 @@
         this.$emit('eventChangeMenu', this.isMyTask, this.isRoleAccess, this.isSearchMenu)
       },
       showMainTask() {
-        this.$store.state.deleteItemsSelected = false
+        this.$store.commit('showMyTasks')
         this.isRoleAccess = false
         this.isMyTask = true
         this.isSearchMenu = false

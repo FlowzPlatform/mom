@@ -224,6 +224,7 @@ export const store = new Vuex.Store({
       //   scrollLeft: totalWidth
       // }, 800)
       // END scroll to last opened right div 
+      
 
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
@@ -261,6 +262,8 @@ export const store = new Vuex.Store({
           }
         }
       }
+      // const divHeight = $(".task").height() + 40
+      // document.getElementById('rightContainer').style.height = 904 - divHeight + "px"
     },
     
     CLOSE_DIV(state, payload) {

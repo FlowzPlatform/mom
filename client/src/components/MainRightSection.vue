@@ -87,7 +87,7 @@
               <DatePicker :open="open" confirm size="small" placement="top" type="date" :value="todoObject.dueDate" @on-change="dueDateClick"
                 @on-clear="handleClear" @on-ok="handleOk">
                 <a href="javascript:void(0)" @click="handleClick">
-                  <Icon v-if="todoObject.dueDate === ''" class="fa fa-calendar"></Icon>
+                  <Icon v-if="todoObject.dueDate === ''" class="nav-icon fa fa-calendar"></Icon>
                   <template v-if="todoObject.dueDate === ''"></template>
                   <template v-else>{{ todoObject.dueDate | formatDate}}</template>
                 </a>
@@ -178,7 +178,6 @@
   import * as Constant from "./Constants.js";
   import AsyncComputed from "vue-async-computed";
   import Avatar from "vue-avatar/src/Avatar";
-  import Datepicker from "vuejs-datepicker";
   import moment from "moment";
   import EstimatedHours from './EstimatedHours.vue'
   import TaskPriority from './TaskPriority.vue'
@@ -408,6 +407,9 @@
       tagsShow() {
         this.selectedMenuIndex = 3;
         this.currentView = Tags;
+        const totalHeight = $("#"+this.id).height()
+        const divHeight = $("#text-area").height() + 40
+        document.getElementById('rightContainer').style.height = totalHeight - divHeight + "px";
       },
       historyShow() {
         this.selectedMenuIndex = 1;
@@ -419,6 +421,9 @@
       commentsShow() {
         this.selectedMenuIndex = 4;
         this.currentView = SubComment;
+        const totalHeight = $("#"+this.id).height()
+        const divHeight = $("#text-area").height() + 40
+        document.getElementById('rightContainer').style.height = totalHeight - divHeight + "px";
       },
       assignToShow() {
         this.selectedMenuIndex = 5;
@@ -631,7 +636,6 @@
       HistoryLog,
       SubComment,
       Avatar,
-      Datepicker,
       // Comment,
       EstimatedHours,
       TaskPriority
