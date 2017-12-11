@@ -146,7 +146,6 @@
 
             var id = url.searchParams.get('ob_id')
             if (id) {
-                console.log('//socialAuth....')
                 this.$store.state.googleId = id
                 this.$store.commit('googleId')
                 this.$router.replace('/socialAuth')
@@ -324,7 +323,8 @@
                 self.$store.dispatch('getUserDetail')
                     //  self.$store.dispatch('getUserRegister')                           
                     .then(function () {
-                        self.$router.replace('/navbar/mainapp')
+                        //self.$router.replace('/navbar/mainapp')
+                        self.$router.replace('/socialAuth')
                     })
                     .catch(function (error) {
                         if (error.response.status === 401) {
