@@ -323,8 +323,7 @@
                 self.$store.dispatch('getUserDetail')
                     //  self.$store.dispatch('getUserRegister')                           
                     .then(function () {
-                        //self.$router.replace('/navbar/mainapp')
-                        self.$router.replace('/socialAuth')
+                        self.$router.replace('/navbar/mainapp')
                     })
                     .catch(function (error) {
                         if (error.response.status === 401) {
