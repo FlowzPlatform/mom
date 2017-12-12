@@ -322,6 +322,7 @@
         this.settings_menu = false
       },
       btnLogoutClicked() {
+        this.$store.state.taskHistoryLog = []
         this.$cookie.delete('auth_token', { domain: location });
         CmnFunc.deleteAutheticationDetail()
         window.location = "/"

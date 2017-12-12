@@ -151,7 +151,7 @@ export const store = new Vuex.Store({
     permissions:{},
     currentProjectRoleid:'',
     commentValue: '',
-    taskHistoryLog:{},
+    taskHistoryLog:[],
     accessRight:{}
   },
   mutations: {
@@ -201,7 +201,14 @@ export const store = new Vuex.Store({
       }
     },
     async SHOW_DIV(state, payload) {
-       state.isSliderOpen = false
+      console.log("SHOW_DIV call ==>", state.taskHistoryLog.length)
+      
+      // Clear history log, attachement, tags
+      // state.taskHistoryLog.length = 0
+      // state.arrAttachment.length = 0
+      // state.tagsList.length = 0
+            
+      state.isSliderOpen = false
       // START scroll to last opened right div 
       //set focus on selected TODO Item. 
       //CAUTION:Take care before add any code here. If made any change in focus set code it may interrupt functionality.03/08/2017
@@ -1032,16 +1039,16 @@ export const store = new Vuex.Store({
       let dbId = insertElement.id
       if (!(insertElement.taskName && insertElement.taskName.trim()))
         return
-      if (dbId != -1) {
+      if (dbId != -1) { // Update existing record
         services.tasksService.patch(dbId, { taskName: insertElement.taskName, taskDesc: '', updatedBy: store.state.userObject._id }, { query: { 'id': dbId } }).then(response => {
-          console.log("Response patch::", response);
-          if(response.id)
+          console.log("Update todo list::", response);
+            if(response.id)
             {
               CmnFunc.insertHistoryLog(store,store.state.userObject._id,insertElement.taskName,dbId,Constant.HISTORY_LOG_ACTION.TASK_UPDATE)
             }
         });
       } else {
-        
+        // Insert new record
         services.tasksService.create({
           parentId: insertElement.parentId,
           taskName: insertElement.taskName,
@@ -1058,7 +1065,7 @@ export const store = new Vuex.Store({
           isDelete: false,
           project_id: insertElement.project_id
         }).then(response => {
-          console.log("Response create::---->", response);
+          console.log("Insert new todo::---->", response);
           
           CmnFunc.insertHistoryLog(store,store.state.userObject._id,store.state.userObject._id,response.id,Constant.HISTORY_LOG_ACTION.TASK_CREATE)
           
@@ -2025,15 +2032,17 @@ export const store = new Vuex.Store({
 
       })
     },
-
+    /**
+     * Find history log using task id
+     */
     findHistoryLog({commit},taskId){
-      services.taskHistoryLogs.find({ query: { task_id: taskId } }).then(response => {
-        response.sort(function (a, b) {
-            return new Date(b.created_on).getTime() - new Date(a.created_on).getTime()
-        });
-        store.state.taskHistoryLog = response
-        console.log("Hisory Log watch:-->", store.state.taskHistoryLog)
-    })
+        services.taskHistoryLogs.find({ query: { task_id: taskId } }).then(response => {
+          response.sort(function (a, b) {
+              return new Date(b.created_on).getTime() - new Date(a.created_on).getTime()
+          });
+          store.state.taskHistoryLog = response
+          console.log('findHistoryLog() method call',store.state.taskHistoryLog)
+        })
     },
     deleteRoles({commit},role)
     {

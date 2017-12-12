@@ -37,11 +37,16 @@
                         </div>
                         <div class="BlockStory-body">
                             <div class="truncatedRichText">
+                                <!-- Create task -->
                                 <div class="RichText truncatedRichText-richText" v-show="log.log_action===0">
                                     created task.
                                 </div>
+                                <!-- Update task -->
                                  <div class="RichText truncatedRichText-richText" v-show="log.log_action===1">
                                     changed task name to {{log.text}}
+                                </div>
+                                <div class="RichText truncatedRichText-richText" v-show="log.log_action===8">
+                                    task assigned to {{getUser(log.text)}}
                                 </div>
                             </div>
                             <div class="AddedAttachmentStory-body" v-show="log.log_action===3">
@@ -80,40 +85,34 @@ export default {
         }),
         historyDetailLog(){
             let log = this.historyLog
+            console.log('historyDetailLog()',log)
             this.historyDetailList(log)
             return log
         }
     },
+    created(){
+        console.log("oncreated call")
+        // Load history log when component created 
+        this.$store.dispatch("findHistoryLog", this.taskId);
+    },
     watch: {
-        taskId: function() {
-            // services.taskHistoryLogs.find({ query: { task_id: this.taskId } }).then(response => {
-            //     response.sort(function (a, b) {
-            //         return new Date(a.created_on).getTime() - new Date(b.created_on).getTime()
-            //     });
-            //     this.historyLog = response
-            //     console.log("Hisory Log watch:-->", this.historyLog)
-            // })
+        // Find history log using taskid 
+        taskId: function(newTaskId,oldTaskId) {
+             this.$store.dispatch("findHistoryLog", this.taskId);
         }
     },
     methods: {
         getUrlExtension(url) {
             return url.split('.').pop();
         },
-        historyLogService() {
-            // services.taskHistoryLogs.find({ query: { task_id: this.taskId } }).then(response => {
-            //     response.sort(function (a, b) {
-            //         return new Date(a.created_on).getTime() - new Date(b.created_on).getTime()
-            //     });
-            //     this.historyLog = response
-            //     console.log("Hisory Log:-->", this.historyLog)
-
-            // })
-            // return this.historyLog
-        },
         logDate(logDate) {
             return moment(logDate).calendar()
         },
+        /**
+         * Add user detail into history log
+         */
         historyDetailList: function (historyList) {
+            console.log("In historyDetailList() method:",historyList)
             historyList.forEach(function (c) {
                 let userId = c.created_by
                 let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
@@ -126,6 +125,22 @@ export default {
                 }
             }, this)
         },
+        /**
+         * Get user name 
+         * @userId
+         * 
+         */
+        getUser(userId){
+            let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
+            if (userIndex < 0) {
+            } else {
+                let user = this.$store.state.arrAllUsers[userIndex]
+                if(user.username){
+                    return user.username
+                }
+                return  user.email
+            }
+        }
     },
     components: {
         Avatar

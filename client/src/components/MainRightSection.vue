@@ -35,7 +35,7 @@
       <div class="tab-pannel">
         <text-description :id="id" :filteredTodo="todoObject" :currentView="currentView"></text-description>
         <div class="rightscroll" id="rightContainer">
-          <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
+          <component :is="currentView" :id="id" :taskId="todoObject.id"  :isDeleteAttachment="chkAttachment"
             :filteredTodo="todoObject" v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'"
             :pholder="pholder" :filtered-todos="taskById" :commentTaskId="todoObject.id">
           </component>
@@ -202,7 +202,6 @@
         todolistSubTasks: [],
         createCommentBox: true,
         readCommentBox: true,
-        historyLog: [],
         isDelete: false,
         chkAttachment: false,
         attchmentReadPerm: false,
@@ -218,18 +217,17 @@
         // imageURlProfilePic: "",
         model8: "",
         selectedUser: this.todoObject.assigned_to,
-        previousUser: this.todoObject.assigned_to,
+        previousUser:this.todoObject.assigned_to,
         userObj: "", // selected user object
-        selectedUser: '',
         estimated_time: false,
         task_priority: false,
         open: false,
       };
     },
     created: function () {
-      this.manageAttachmentCreatePermission();
-      this.tagReadPermission();
-      this.tagNewPermission();
+      // this.manageAttachmentCreatePermission();
+      // this.tagReadPermission();
+      // this.tagNewPermission();
     },
     methods: {
       // ...mapMutations(["CLOSE_DIV"]),    
@@ -456,9 +454,11 @@
       //   }
       // },
       async setAssignUser(userId) {
-        console.log("user id -->", userId);
         var user = _.find(this.$store.state.arrAllUsers, ["_id", userId]);
         console.log("Selected User setAssignUser method:", user);
+        this.todoObject.image_url  = user.image_url
+        this.todoObject.email  = user.email
+
         if (user) {
           this.$store.dispatch("editTaskName", {
             todo: this.todoObject,
@@ -489,40 +489,6 @@
         }
         return objUser;
       },
-      // getUserName() {
-      //   var user = this.getAssignedUserObj(this.todoObject.assigned_to)
-      //   if (!user) {
-      //     return;
-      //   }
-      //   this.selectedUser = user._id;
-      //   this.previousUser=user._id;
-      //   if (user.image_url) {
-      //     this.imageURlProfilePic = user.image_url;
-      //     return "";
-      //   }
-      //   this.imageURlProfilePic = "";
-      //   return user.email;
-      // },
-      // capitalizeLetters(name) {
-      //   var str = "null";
-      //   if (name != null) {
-      //     str = name;
-      //   }
-      // else if(name.fullname != null){
-      //   console.log('Name', name.fullname)
-      //   str = name.fullname
-      // }
-      // var str = name.email
-      //   var firstLetters = str.substr(0, 2);
-      //   return firstLetters.toUpperCase();
-      // },
-      // checkProfilePicUrl(url) {
-      //   if (url) {
-      //     return url;
-      //   } else {
-      //     return "";
-      //   }
-      // },
       dueDateClick(dateTo) {
         var selectedDate = moment(dateTo, "YYYY-MM-DD").format("DD");
         this.$store.dispatch("editTaskName", {
@@ -544,8 +510,11 @@
       * Selected user from assign user list
       */
       userListClick: function (user_id) {
-        if (this.selectedUser !== this.previousUser)
-          this.setAssignUser(user_id)
+        //console.log("on-change:",user_id," this.selectedUser:",this.selectedUser)
+
+         console.log("userListClick click call",this.selectedUser+" previousUser:"+this.previousUser)
+         if (this.selectedUser !== this.previousUser)
+           this.setAssignUser(user_id)
       }
     },
     watch: {
@@ -556,9 +525,8 @@
       //   this.$store.dispatch("findHistoryLog", this.todoObject.id);
       // },
       todoObject: function (todo) {
-        this.previousUser = this.selectedUser;
+        this.previousUser = todo.assigned_to;
         this.selectedUser = todo.assigned_to;
-        this.$store.dispatch("findHistoryLog", this.todoObject.id);
       }
     },
     computed: {
