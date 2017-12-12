@@ -1,12 +1,20 @@
 <template>
     <div>
-        <div style="height:100%;overflow-x:scroll">
+        <!-- <text-description v-if="commentName" :commentName="commentName" :currentView="currentView"></text-description> -->
+        <div class="comment-header" v-html="commentName">{{commentName}}</div>
+        <div>
             <div class="nav1">
-                <div class="mask" @click="writeComment">
+                <div class="share" @click="writeComment">
                     <i id="icon-comment" class="fa fa-pencil"></i>
                 </div>
+                <div class="one">
+                    <i class="fa fa-code" @click="htmlEditor"></i>
+                </div>
+                <div class="two">
+                    <i class="fa fa-twitter" @click="markdownEditor"></i>
+                </div>
             </div>
-            <component :is="currentView" :commentTaskId="commentTaskId" :commentParentId="commentParentId"></component>
+            <component :is="currentView" :view="view" :commentTaskId="commentTaskId" :commentParentId="commentParentId"></component>
             <div class="todoapp comment_right_bar hidden">
                 <div class="comment-header header-scroll">
                 </div>
@@ -97,10 +105,7 @@
         import Avatar from 'vue-avatar/src/Avatar'
         import ViewComments from './ViewComments.vue'
         import RightFooter from './RightFooter.vue'
-        // import locale from 'element-ui/lib/locale/lang/en'
-        // import ElementUI from 'element-ui'
-        // Vue.use(ElementUI, { locale })
-
+        import TextDescription from "./TextDescription.vue";
       const commentFilter = {
             all: totalComment => totalComment,
             group_By: totalComment => _(totalComment).groupBy(x => x.fullname)
@@ -112,7 +117,8 @@
                 RightFooter,
                 Comment,
                 Avatar,
-                ViewComments
+                ViewComments,
+                TextDescription
             },
             props: ['show', 'commentTaskId', 'commentParentId', 'commentName'],
             directives: { focus: focus },
@@ -132,7 +138,9 @@
                     visibleFilter: 'all',
                     isDeleteComment: true,
                     currentView: ViewComments,
-                    isReadComment: true
+                    isReadComment: true,
+                    flag:0,
+                    view:""
                 }
             },
             created: function () {
@@ -166,18 +174,61 @@
                     });
                 },
                 writeComment: function () {
+                    if(this.flag === 0) {
+                            $('.share').siblings('.one').animate({
+                            top:'-60px',
+                            left:'50%',
+                          },200);
+                          
+                           $('.share').siblings('.two').delay(200).animate({
+                            top:'-120px',
+                            left:'50%'
+                          },200);
+                          
+                           $('.share').siblings('.three').delay(300).animate({
+                            top:'260px',
+                            left:'60%'
+                          },200);
+                                    
+                          $('.one i,.two i, .three i').delay(500).fadeIn(200);  
+                            this.flag = 1;
+                          }
+                          
+                          
+                        else{
+                          $('.one, .two, .three').animate({
+                              top:'300px',
+                              left:'50%'
+                            },200);
+                            
+                            $('.one i,.two i, .three i').delay(500).fadeOut(200);
+                            this.flag = 0;
+                            }
+                        
                     // Write comment
-                    if (this.isReadComment) {
-                        this.currentView = RightFooter
-                        $("#icon-comment").removeClass('fa-pencil');
-                        $("#icon-comment").addClass('fa-comments-o');
-                    } else {
+                    // if (this.isReadComment) {
+                    //     this.currentView = RightFooter
+                    //     $("#icon-comment").removeClass('fa-pencil');
+                    //     $("#icon-comment").addClass('fa-comments-o');
+                    // } else {
                         this.currentView = ViewComments
                         // Read comment
                         $("#icon-comment").removeClass('fa-comments-o');
                         $("#icon-comment").addClass('fa-pencil');
-                    }
+                    // }
                     this.isReadComment = !this.isReadComment
+                },
+                htmlEditor() {
+                    this.view="htmlEditor"
+                    this.currentView = RightFooter
+                        $("#icon-comment").removeClass('fa-pencil');
+                        $("#icon-comment").addClass('fa-comments-o');
+                },
+                markdownEditor() {
+                    this.view="markdownEditor"
+                    this.currentView = RightFooter
+                        $("#icon-comment").removeClass('fa-pencil');
+                        $("#icon-comment").addClass('fa-comments-o');
                 },
                 replyCommentMethod(comment){
                     this.replyComnet=comment;
@@ -235,3 +286,73 @@
             }            
     }    
 </script>
+<style>
+    .share{
+  display:block;
+  width:60px;
+  height:60px;
+  background:#ff9100;
+  position:absolute;
+  top:0px;
+  left:50%;
+  z-index:999;
+  text-align:center;
+  overflow:hidden;
+  line-height:65px;
+  font-size:1.5em;
+  color:#fff;
+  -moz-box-shadow: 0px 3px 9px rgba(0,0,0,.5);
+-webkit-box-shadow: 0px 3px 9px rgba(0,0,0,.5);
+box-shadow: 0px 3px 9px rgba(0,0,0,.5);
+  border-radius:50px;
+  -webkit-transform:translate(-50%,-50%);
+  transform:translate(-50%,-50%);
+}
+
+.share:hover{
+  cursor:pointer;
+}
+
+.one, .two, .three{
+  position:absolute;
+  width:50px;
+  height:50px;
+  color:#fff;
+  border-radius:50px;
+  text-align:center;
+  line-height:49px;
+  font-size:1.5em;
+    top:0px;
+  left:50%; 
+   -webkit-transform:translate(-50%,-50%);
+  transform:translate(-50%,-50%);
+  -webkit-box-shadow: 0px 3px 9px rgba(0,0,0,.2);
+box-shadow: 0px 3px 9px rgba(0,0,0,.2);
+  -webkit-transition:transform  .3s ease-in-out;
+  transition:transform .3s ease-in-out;
+}
+
+.one:hover, 
+.two:hover,
+.three:hover{
+  cursor:pointer;
+}
+
+.one i, .two i, .three i{
+  display:none;
+}
+
+
+.one{
+  background:#2196f3;
+}
+
+.two{
+  background:#00e5ff;
+}
+
+.three{
+  background:#6a1b9a;
+}
+
+</style>

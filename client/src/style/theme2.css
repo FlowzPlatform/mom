@@ -90,7 +90,7 @@
 .navbar-bottom:hover a.active {
   /*background-color: rgba(63, 81, 181, 0.90);*/
   background-color: #d9af04;
-  color: white;
+  color: #747373;
 }
 .header-name{
     color: #ffcc00;
@@ -115,3 +115,7 @@
     background: #007849;
     border: 1px solid #747373;
 }
+.comment-header {
+    color: #ffcc00;
+    font-family: esteban
+  }

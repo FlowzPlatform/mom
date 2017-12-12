@@ -22,6 +22,7 @@
                     </span>
                   </div>
                 </div>
+                <div v-html="commentName">{{commentName}}</div>
             <input type="checkbox" class="toggleTask" v-model="filteredTodo.completed" @change="toggleTodo(filteredTodo)" style="float: left;">
             <textarea v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" id="text-area" class="field-description generic-input hypertext-input notranslate header-name" 
             placeholder="New Task" 
@@ -97,7 +98,7 @@ import { mapMutations, mapActions } from "vuex";
 import _ from 'lodash'
 
 export default {
-  props: ['filteredTodo', 'id','currentView'],
+  props: ['filteredTodo', 'id','currentView', 'commentName'],
     data: function () {
       return {
         textName:''

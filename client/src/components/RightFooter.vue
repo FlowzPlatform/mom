@@ -11,37 +11,16 @@
                         </div>
                     </div>
                     <div style="width: 475px;">
-                        <el-tabs type="border-card">
-                            <el-tab-pane>
-                                <span slot="label">
-                                    <i class="el-icon-date"></i> Html editor</span>
-                                <div>
-                                    <ckeditor v-model="commentText">
-                                    </ckeditor>
-                                </div>
-                            </el-tab-pane>
-                            <el-tab-pane label="Markdown editor">
-                                <div class="markdownEditor">
-                                    <!-- <markdown-editor>
-                    </markdown-editor> -->
-                                    <markdown-editor v-model="content" ref="markdownEditor" :value="content" :configs="configs">
-                                    </markdown-editor>
-                                </div>
-                            </el-tab-pane>
-                        </el-tabs>
+                        <div v-if="view==='htmlEditor'">
+                            <ckeditor v-model="commentText"></ckeditor>
+                        </div>
+                        <div v-if="view==='markdownEditor'" class="markdownEditor">
+                            <markdown-editor v-model="content" ref="markdownEditor" :value="content" :configs="configs"></markdown-editor>
+                        </div>
                     </div>
-
-                    <!-- <div>
-                    <ckeditor v-model="commentText">
-                    </ckeditor>
-                </div>   -->
-                    <!-- <div>
-                    <markdown-editor>
-                    </markdown-editor>
-                </div>     -->
                     <div class="taskCommentsView-toolbar">
                         <div id="details_property_sheet__new_comment_button" @click="insertComment(commentTaskId)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton"
-                            style="" tabindex="710">
+                            tabindex="710">
                             <span class="left-button-icon"></span>
                             <span class="new-button-text">Comment</span>
                             <span class="right-button-icon"></span>
@@ -69,7 +48,7 @@
 
     export default {
        
-        props: ['commentTaskId','commentParentId'],
+        props: ['commentTaskId','commentParentId', 'view'],
         data: function () {
             return {
                 picker1: null,

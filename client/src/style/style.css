@@ -99,7 +99,7 @@ button {
 }
 .main {
 	position: relative;
-	/* z-index: 2; */
+	z-index: 2;
 	border-top: 1px solid #e6e6e6;
     float: left;
     width: 100%;
@@ -861,8 +861,8 @@ border: 1px solid transparent;
     -moz-flex-shrink: 0;
     flex-shrink: 0;
     -ms-flex-negative: 0;
-    background-color: #F8F8F9;
-    border-top: 1px solid #E1E2E4;
+    /* background-color: #F8F8F9; */
+    /* border-top: 1px solid #E1E2E4; */
     margin: 0 2px;
 }
 .taskCommentsView {
@@ -1324,7 +1324,6 @@ a:hover, a:focus{
     width: 6px;
     float: left;
 }
-.todo-list li.todo.sortable-chosen {z-index: 2;}
 .Topbar {
      position: fixed;
     top: 0;
@@ -1578,56 +1577,15 @@ input.toggleTask:checked:after {
     top: -3px;
     z-index: 10;
 }
-.DeprecatedDueDateInput {
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    color: #1b2432;
-    display: -webkit-inline-box;
-    display: -webkit-inline-flex;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    font-size: 12px;
-}
+
 .DeprecatedDropdown-anchor {
     position: relative;
 }
-.DeprecatedDueDateInput.has-dueDate .DeprecatedDueDateInput-icon {
-    border-style: solid;
-}
-.DeprecatedDueDateInput-icon {
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    border: 1px dashed #cdcfd2;
-    border-radius: 50%;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    display: -webkit-inline-box;
-    display: -webkit-inline-flex;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    fill: #b9bcc0;
-    height: 30px;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    margin-left: 15px;
-    margin-right: -46px;
-    width: 30px;
-    z-index: 100;
-}
+
 .textInput.textInput--large {
     height: 40px;
     padding-bottom: 9px;
     padding-top: 9px;
-}
-.DeprecatedDueDateInput-input {
-    padding-left: 54px;
-    width: 200px;
 }
 input {
     line-height: normal;
@@ -2243,6 +2201,7 @@ position: fixed;
 }
 
 .text-right {
+    display: -webkit-inline-box;
     text-align: right;
     background-color: #179DBA;
     border-radius: 10%;
@@ -5813,8 +5772,8 @@ CSS for splitter view
     position: absolute;
     /* bottom: 50px; */
     line-height: 45px;
-    border-radius: 50%;
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .75);
+    /* border-radius: 50%;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .75); */
 }
 .mask {
     z-index: 21;
@@ -6194,4 +6153,38 @@ CSS for splitter view
 .task:hover > div > div#topicon {
     display: block;
     
+}
+.navbar-bottom a:hover {
+    cursor: pointer;
+}
+.comment-header {
+    line-height: 28px;
+    font-size: 24px;
+    font-weight: 600;
+    background: transparent;
+    display: -webkit-box;
+    margin-left: 10px;
+}
+/* #rightContainer:after {
+    content: "\f087";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    position: absolute;
+    font-size: 400px;
+    color: lightblue;
+    top: 80%;
+    left: 50%;
+    margin: -300px 0 0 -200px;
+    z-index: 1;
+} */
+
+.ivu-poptip-body {
+    overflow: scroll;
+    max-height: 400px;
+    padding: 8px 8px;
+}
+.ivu-poptip-body-content {
+    overflow: hidden;
 }
