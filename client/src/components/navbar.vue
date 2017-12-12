@@ -278,13 +278,28 @@
         'settingArr'
       ]),
       uname: function () {
-        var self = this
+
+        let self = this
+
+      if(self.$store.state.userObject.fullname || self.$store.state.userObject.email) {
+        let str = ''
+        let strIndex = ''
+        if(self.$store.state.userObject.fullname){
+          str = self.$store.state.userObject.fullname
+          strIndex = str.indexOf(" ")
+        }else if(self.$store.state.userObject.email){
+          str = self.$store.state.userObject.email
+          strIndex = str.indexOf("@")  
+        }
+        let res = str.substr(0, strIndex)
+        return res
+      }else{
         self.$store.dispatch('getUserDetail')
           //  self.$store.dispatch('getUserRegister')                           
           .then(function () {
             // this.$router.push('/navbar/mainapp');
-            var str = this.$store.state.userObject.email
-            var n = str.indexOf("@")
+            var str = self.$store.state.userObject.fullname
+            var n = str.indexOf(" ")
             var res = str.substr(0, n)
             return res
           })
@@ -295,8 +310,9 @@
             $.notify.defaults({ className: "error" })
             $.notify(error.message, { globalPosition: "top center" })
           })
-
-      },
+      }   
+        
+    },
       projectName: {
         get() {
           return this.$store.state.currentProjectName

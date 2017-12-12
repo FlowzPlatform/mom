@@ -13,18 +13,18 @@
                         <span style="font-size:10px">{{files.fullname}} </span>
                         <!-- <div class="attachment-time">{{file}}</div> -->
                     </span>
-                    <Dropdown placement="bottom" class="close-btn">
+                    <!-- <Dropdown placement="bottom" class="close-btn" trigger="click" @on-click="attachmentActionMenu">
                         <a href="javascript:void(0)">
                             <Icon style="font-size:20px;color:rgb(149, 152, 157)" type="android-more-horizontal"></Icon>
                         </a>
                         <DropdownMenu slot="list">
-                            <DropdownItem>delete</DropdownItem>
-                            <DropdownItem>share</DropdownItem>
+                            <DropdownItem name="1">delete</DropdownItem>
+                            <DropdownItem name="2">share</DropdownItem>
                         </DropdownMenu>
-                    </Dropdown>
-                    <button class="hidden close-btn" @click="deleteAttachment(files, index)">
+                    </Dropdown> -->
+                    <!-- <button class="close-btn" @click="deleteAttachment(files, index)">
                         <a v-show="isDeleteAttachment" class="fa fa-trash-o" aria-hidden="true" />
-                    </button>
+                    </button> -->
                 </p>
                 <div class="BlockStory-body">
                     <div class="AddedAttachmentStory-body">
@@ -36,9 +36,9 @@
                         <iframe v-else class="Thumbnail-image" v-bind:src="imgURL(files.file_url)">Hemant</iframe>
                         <div class="">
                             <a class="AddedAttachmentStory-link" style="color:inherit; text-decoration: none;font-size:11px" :href="files.file_url" target="_blank" tabindex="-1">
-                                <i><span style="color:black;font-size:12px">file:</span>{{files.file_name}}(512kb)</i>
+                                <i><span style="color:black;font-size:12px">file:</span>{{files.file_name}}</i>
                             </a>
-                            <button class="hidden" @click="deleteAttachment(files, index)">
+                            <button class="" @click="deleteAttachment(files, index)">
                                 <a v-show="isDeleteAttachment" class="fa fa-close" />
                             </button>
                         </div>
@@ -46,14 +46,18 @@
                 </div>
                 <div class="attachment-card-footer">
                     <span style="float:left;margin-top:10px">
-                        <i class="fa fa-thumbs-o-up" style="font-size:25px;color:rgb(149, 152, 157)" aria-hidden="true"></i>
-                        <i class="fa fa-comments" style="font-size:25px;color:rgb(149, 152, 157);margin-left:30px" aria-hidden="true"></i>
+                        <!-- <i class="fa fa-thumbs-o-up" style="font-size:25px;color:rgb(149, 152, 157)" aria-hidden="true"></i>
+                        <i class="fa fa-comments" style="font-size:25px;color:rgb(149, 152, 157);margin-left:30px" aria-hidden="true"></i> -->
                         <a :href="files.file_url" download>
-                            <i class="fa fa-arrow-circle-o-down" style="font-size:25px;color:rgb(149, 152, 157);margin-left:30px" aria-hidden="true"></i>
+                            <i class="fa fa-arrow-circle-o-down" style="font-size:25px; color:rgb(211, 211, 211);" aria-hidden="true"></i>
                         </a>
+                        <button class="close-btn" @click="deleteAttachment(files, index)">
+                            <!-- <a v-show="isDeleteAttachment" class="fa fa-trash-o" aria-hidden="true" /> -->
+                            <a v-show="true" class="fa fa-trash-o" aria-hidden="true" style="font-size:25px; color:rgb(211, 211, 211); margin-left:30px"/>
+                        </button>
                     </span>
                 </div>
-                <div class="attachment-comment-footer">
+                <!-- <div class="attachment-comment-footer">
                     <span style="float:left;margin-top:10px;width:100%">
                         <Input type="textarea" :autosize="{minRows: 1,maxRows: 5}" placeholder="Enter comments...">
                         </Input>
@@ -72,7 +76,7 @@
                             </el-tabs>
                         </div>
                     </span>
-                </div>
+                </div> -->
             </Card>
             <div class="hidden">
                 <a target="_blank" v-bind:href="files.file_url">{{ files.file_name }}
@@ -138,8 +142,12 @@
         },
         methods: {
             deleteAttachment(objAttachment, btnIndex) {
+                console.log('delete attachment index:', objAttachment)
                 this.btnClickedIndex = btnIndex;
                 this.$store.dispatch("deleteAttachmentFromDB", objAttachment);
+            },
+            attachmentActionMenu (val) {
+                console.log('delete attachment index:', val)
             },
             onFileChange(e) {
                 var fileChooser = e.target; // document.getElementById('file');

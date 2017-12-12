@@ -1513,7 +1513,7 @@ export const store = new Vuex.Store({
         email: regObject.email,
         password: regObject.password,
         username: regObject.email,
-        fullname: '',
+        fullname: regObject.fullname,
         role: '',
         aboutme: '',
         dob: '',
@@ -1600,7 +1600,7 @@ export const store = new Vuex.Store({
     },
     getUserDetail({ commit }) {
       console.log('token: ', store.state.userToken)
-      console.log('env-USER_AUTH', process.env.USER_AUTH + '/api/userdetails')
+      console.log('cookie token', Vue.cookie.get('auth_token'))
       return axios.get(process.env.USER_AUTH + '/api/userdetails', {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -1609,10 +1609,12 @@ export const store = new Vuex.Store({
         },
       })
         .then(function (response) {
+          console.log('userdetail response:', response.data.data)
           commit('GET_USERDETAIL', response.data.data)
           services.socket.emit("userdata", response.data.data._id);
         })
         .catch(function (error) {
+          console.log('userdetail error:', error)
           throw error
         })
     },
