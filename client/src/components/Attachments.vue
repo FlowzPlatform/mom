@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div> 
         <div v-bind:key="index" v-for="(files, index) in attachmentList">
             <Card style="margin-left:10px;margin-right:10px;margin-top:5px;margin-bottom:3px;">
                 <p slot="title">
@@ -94,7 +94,7 @@
 
         </div>
         <div class="nav1">
-            <div class="mask">
+            <div class="share">
                 <label for="upload">
                 <i class="fa fa-paperclip"></i>
                 <input id="upload" type="file" @change="onFileChange($event)" style="display:none" />

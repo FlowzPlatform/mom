@@ -1,7 +1,6 @@
 <template>
     <div>
-        <h3 class="ui header">Types</h3>
-        <div id="main-container" class="row asanaView-body" style="left: 20%;right: 20px;">
+        <div id="main-container" class="row right-tasktype" >
             <div id="center_pane_container" class="known-list">
                 <div id="center_pane">
                     <main-left-section id="taskTypes" :filtered-todos="taskTypeList"></main-left-section>
@@ -9,7 +8,8 @@
             </div>
             <div class="right_pane_container" v-for="(n, index) in parentIdArr">
                 <div id="right_pane">
-                    <main-right-section id="rightTaskTypes" :todoObject="n"></main-right-section>
+                    <!-- <main-right-section id="rightTaskTypes" :todoObject="n"></main-right-section> -->
+                    <role-access-right-sec id="rightTaskTypes" :todoObject="n"></role-access-right-sec>
                 </div>
             </div>
         </div>
@@ -18,7 +18,8 @@
 <script>
 /* eslint-disable*/
 import MainLeftSection from './MainLeftSection.vue'
-import MainRightSection from './MainRightSection.vue'
+// import MainRightSection from './MainRightSection.vue'
+import RoleAccessRightSec from './RoleAccessRightSec.vue'
 import { mapGetters } from 'vuex'
 export default {
     created() {
@@ -43,7 +44,8 @@ export default {
     },
     components: {
         MainLeftSection,
-        MainRightSection
+        // MainRightSection,
+        RoleAccessRightSec
     }
 }
 </script>

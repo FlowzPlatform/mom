@@ -10,7 +10,7 @@
 .fa-times:before {
   color: #66B9BF;
   position: relative;
-  top: 38%;
+  top: 33%;
   /* left: 42%; */
   transition: opacity 500ms ease-in;
   text-decoration: none;
@@ -104,7 +104,28 @@
   background: #07889b;
   border: 1px solid white;
 }
-.comment-header {
+.comment-title {
   color: #e37222;
   font-family: esteban
+}
+.navbar-bottom .due-date:hover {
+  background: #e37222;
+}
+.navbar-bottom a:hover {
+  cursor: pointer;
+  background: #e37222;
+}
+.share { 
+  background: #07889b
+}
+
+.one {
+  background: #07889b;
+}
+
+.two {
+  background: #07889b;
+}
+#rightContainer:after {
+  color:#def2f3
 }

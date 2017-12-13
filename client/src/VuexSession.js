@@ -1142,6 +1142,7 @@ export const store = new Vuex.Store({
             id: dragTodo[i].id,
             index: i
           }, { query: { 'id': dragTodo[i].id } }).then(response => {
+              console.log("Resopnse from drag todo", response)
           });
 
         }

@@ -694,11 +694,5 @@
     Box-sizing: Border-box;
   }
 
-  html,
-  body {
-    background: #e0e0e0;
-    overflow: hidden;
-  }
-
   
 </style>

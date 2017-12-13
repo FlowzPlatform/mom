@@ -35,7 +35,7 @@
       <div class="tab-pannel">
         <text-description :id="id" :filteredTodo="todoObject" :currentView="currentView"></text-description>
         <div class="rightscroll" id="rightContainer">
-          <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
+          <component style="z-index: 2;" :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
             :filteredTodo="todoObject" v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'"
             :pholder="pholder" :filtered-todos="taskById" :commentTaskId="todoObject.id">
           </component>
@@ -80,6 +80,14 @@
                 </col>
               </Row>
             </Tooltip>
+          </div>
+          <!-- Task type -->
+          <div class="task-type-menu"> 
+              <Select  not-found-text="No task type found" placeholder="task_type"  placement="top" v-model="selectedType" @on-change="typeListClick" filterable  style="width:150px;z-index:90">
+                    <Option style="margin:5px"  v-for="task_type in getTypes"  :label="task_type.type" :value="task_type.id" :key="task_type.id">
+                        {{task_type.type}}
+                    </Option>
+              </Select>
           </div>
           <!-- Task due date menu item -->
           <div class="due-date">
@@ -223,6 +231,7 @@
         estimated_time: false,
         task_priority: false,
         open: false,
+        selectedType:this.todoObject.type_id, // Selected task type
       };
     },
     created: function () {
@@ -551,26 +560,31 @@
       userListClick: function (user_id) {
         if (this.selectedUser !== this.previousUser)
           this.setAssignUser(user_id)
+      },
+      /***
+      * Selected user from assign user list
+      */
+    async typeListClick(id) {
+        if (id !== this.todoObject.task_type) {
+          await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedType": id })
+          await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedState": '' })
+        }
       }
     },
     watch: {
-      // whenever question changes, this function will run
-      // todolistSubTasks: function(newQuestion) {},
-      // todoObject: function() {
-      //   console.log("Right Section Log history", this.todoObject);
-      //   this.$store.dispatch("findHistoryLog", this.todoObject.id);
-      // },
       todoObject: function (todo) {
         this.previousUser = this.selectedUser;
         this.selectedUser = todo.assigned_to;
         this.$store.dispatch("findHistoryLog", this.todoObject.id);
+        this.selectedType = todo.type_id
       }
     },
     computed: {
       ...mapGetters({
         todoById: "getTodoById",
         typeStateList: "getTask_types_state",
-        getUserList: "getAllUserList"
+        getUserList: "getAllUserList",
+        getTypes: 'getTaskTypeList'
       }),
       taskById() {
         this.onReadComment(

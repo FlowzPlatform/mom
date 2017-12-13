@@ -1,4 +1,91 @@
 <template>
+    <div class="wrapper">
+        <div class="sidebar">
+            <div class="logo">
+                <a href="../assets/Flowz_logo.png" class="simple-text"></a>
+            </div>
+            <div class="sidebar-wrapper">
+                <ul class="nav">
+                    <li class="active">
+                        <a @click="showACL">
+                            <i class="material-icons"></i>
+                            <p>ACL</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a @click="showTaskType">
+                            <i class="material-icons"></i>
+                            <p>Task Type</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a @click="showTaskState">
+                            <i class="material-icons"></i>
+                            <p>Task State</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a @click="showRoleState">
+                            <i class="material-icons"></i>
+                            <p>Role</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <nav class="navbar navbar-transparent navbar-absolute">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">{{ accessName }}</a>
+                    </div>
+                </div>
+            </nav>
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div>
+                                    <div id="app" class="ui vertical stripe segment" v-show="isUserGroup">
+                                        <div class="ui container">
+                                            <div id="content" class="ui basic segment">
+                                                <div v-for="(item, itemNumber) in tableData">
+                                                    <Widget>
+                                                        <WidgetHeading :id="1" :Title="'Sales'" :TextColor="false" :DeleteButton="false" :ColorBox="false" :Expand="false" :Collapse="true"
+                                                            :HeaderEditable="false">
+                                                            {{item.type}}
+                                                        </WidgetHeading>
+                                                        <WidgetBody>
+                                                            <vuetable table-wrapper=".vuetable-wrapper" :fields="fields" row-class-callback="rowClassCB" :tableData="item.permission"
+                                                                :taskTypeId="item.id"></vuetable>
+                                                        </WidgetBody>
+                                                    </Widget>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="app" class="ui vertical stripe segment" v-show="isTaskType">
+                                        <show-task-types></show-task-types>
+                                    </div>
+                                    <div id="app" class="ui vertical stripe segment" v-show="isTaskState">
+                                        <show-task-state></show-task-state>
+                                    </div>
+                                    <div id="app" class="ui vertical stripe segment" v-show="isRoleList">
+                                        <roles-types></roles-types>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- <template>
     <div>
             <div class="content content--full">
                 <div class="row">
@@ -45,7 +132,6 @@
                         </div>
                     </div>
                     <div class="col-md-10">
-                        <!-- Page Contents -->
                         <div style="height: calc( 100% - 40px);">
                             <div id="app" class="ui vertical stripe segment" v-show="isUserGroup">
                                 <div class="ui container">
@@ -80,9 +166,17 @@
                 </div>
             </div>
         </div>
-</template>
+</template> -->
 <style type="text/css">
-    .col-md-2.border-right::after {position: fixed; left: 16.55%;border-right: solid 1px #ccc; content: ""; height: 100%; top: 0px; bottom: 0px;}
+    .col-md-2.border-right::after {
+        position: fixed;
+        left: 16.55%;
+        border-right: solid 1px #ccc;
+        content: "";
+        height: 100%;
+        top: 0px;
+        bottom: 0px;
+    }
 
     .ui.segment {
         top: 0 !important;
@@ -107,19 +201,22 @@
         width: 100%;
         padding: 0 !important;
         margin: 0 !important;
-            overflow-x: scroll;
-        
+        overflow-x: scroll;
+
     }
+
     .ui.blue.table td {
         margin: 0;
         text-align: center
     }
+
     .ui.blue.table td input {
         width: 20px;
         margin-top: 5px;
         margin-bottom: 5px;
         align-items: center;
     }
+
     .ui.vertical.stripe h3 {
         font-size: 2em;
     }
@@ -143,6 +240,7 @@
         -webkit-transition: max-height .2s ease;
         transition: max-height .2s ease;
     }
+
     .side-filter__category-list {
         padding-left: 0;
         margin-top: 3px;
@@ -198,11 +296,12 @@
         margin: 0px;
     }
 
-    .col-lg-6{
+    .col-lg-6 {
         margin: 3px;
         margin-left: 0;
         margin-right: 0;
     }
+
     .vuetable {
         margin-top: 1em !important;
     }
@@ -290,7 +389,7 @@
     Vue.component('custom-action', {
         template: [
             '<div>',
-                '<input type="checkbox"  @click="itemAction(\'check-item\', $event.target.checked,rowFieldData,rowField,roleValue,taskTypeId)" :checked="rowCheck" />',
+            '<input type="checkbox"  @click="itemAction(\'check-item\', $event.target.checked,rowFieldData,rowField,roleValue,taskTypeId)" :checked="rowCheck" />',
             '</div>'
         ].join(''),
         props: {
@@ -304,36 +403,35 @@
             rowField: {
                 required: true
             },
-             roleValue:{
+            roleValue: {
                 required: true
             },
-            taskTypeId:{
+            taskTypeId: {
                 required: true
             }
         },
         methods: {
-            itemAction: function(action,isChecked, data,rowField,roleValue,taskTypeId) {
-                  let roleIndex = _.findIndex(data.roleid, function (role) { return role.rId === rowField.id })
-                 if(roleIndex>-1)
-                 {
-                      var role = data.roleid[roleIndex];
-                     var accessValues = role.access_value ? role.access_value : 0
-                     var patchValue = isChecked ? accessValues + roleValue : accessValues - roleValue
-                     this.$store.dispatch('patchAccessPermision', {
-                         rId: rowField.id,
-                         pId: data.id,
-                         access_value: patchValue
-                     })
-                     role.access_value=patchValue;
-                 }else{
-                     this.$store.dispatch('addAccessPermision', {
-                         rId: rowField.id,
-                         pId: data.id,
-                         access_value:  roleValue,
-                         taskType:taskTypeId
-                     })
-                        data.roleid.push({rId: rowField.id,access_value:roleValue})
-                 }
+            itemAction: function (action, isChecked, data, rowField, roleValue, taskTypeId) {
+                let roleIndex = _.findIndex(data.roleid, function (role) { return role.rId === rowField.id })
+                if (roleIndex > -1) {
+                    var role = data.roleid[roleIndex];
+                    var accessValues = role.access_value ? role.access_value : 0
+                    var patchValue = isChecked ? accessValues + roleValue : accessValues - roleValue
+                    this.$store.dispatch('patchAccessPermision', {
+                        rId: rowField.id,
+                        pId: data.id,
+                        access_value: patchValue
+                    })
+                    role.access_value = patchValue;
+                } else {
+                    this.$store.dispatch('addAccessPermision', {
+                        rId: rowField.id,
+                        pId: data.id,
+                        access_value: roleValue,
+                        taskType: taskTypeId
+                    })
+                    data.roleid.push({ rId: rowField.id, access_value: roleValue })
+                }
             },
             onClick: function (event) {
                 console.log('custom-action: on-click----->', event.target)
@@ -356,12 +454,13 @@
                 isUserGroup: false,
                 isTaskType: false,
                 isTaskState: false,
-                isRoleList:false
+                isRoleList: false,
+                accessName:''
             }
         },
         created() {
-            services.roleService.find().then(response =>{
-                console.log("Response :--",response)
+            services.roleService.find().then(response => {
+                console.log("Response :--", response)
                 tableColumns = [{
                     name: 'name',
                     title: '',
@@ -376,7 +475,7 @@
                 }, this);
                 this.callTaskList();
             })
-           
+
         },
         methods: {
             callTaskList: function () {
@@ -394,34 +493,38 @@
             rowClassCB: function (data, index) {
                 return (index % 2) === 0 ? 'odd' : 'even'
             },
-            AddSubmit: function(obj){
-                this.$store.dispatch('insertNewRole', {"name":obj, "index":this.tableData.length}) 
+            AddSubmit: function (obj) {
+                this.$store.dispatch('insertNewRole', { "name": obj, "index": this.tableData.length })
             },
-            showACL: function() {
+            showACL: function () {
                 this.isUserGroup = true
                 this.isTaskType = false
                 this.isTaskState = false,
-                this.isRoleList=false
+                this.isRoleList = false
+                this.accessName = "ACL"
             },
-            showTaskType: function() {
+            showTaskType: function () {
+                this.accessName = "Task Type"
                 this.isTaskType = true
                 this.isUserGroup = false
                 this.isTaskState = false
-                this.isRoleList=false
+                this.isRoleList = false
                 this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
             },
-            showTaskState: function() {
+            showTaskState: function () {
+                this.accessName = "Task State"
                 this.isTaskType = false
                 this.isUserGroup = false
                 this.isTaskState = true
-                this.isRoleList=false
+                this.isRoleList = false
                 this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
             },
-            showRoleState: function(){
+            showRoleState: function () {
+                this.accessName = "Roles"
                 this.isTaskType = false
                 this.isUserGroup = false
                 this.isTaskState = false
-                this.isRoleList=true
+                this.isRoleList = true
                 this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
             }
 
@@ -450,6 +553,6 @@
             VueWidgets,
             RolesTypes,
             Vuetable
-        }   
+        }
     }
 </script>

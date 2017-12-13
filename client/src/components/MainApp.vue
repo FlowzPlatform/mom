@@ -39,7 +39,7 @@
 			<div class="asanaView-paneGutter"></div>
 			<create-project-dialog :show="isNewProjectDialogShow" v-on:updateDialog='updateDialogShow'></create-project-dialog>
 		</div>
-		<div id="roleAccess" class="row asanaView-body pt-page-moveFromRight" v-show="isRoleAccess">
+		<div id="roleAccess" class="pt-page-moveFromRight" v-show="isRoleAccess">
 		<role-access></role-access>
 		</div>
 		<div id="search" class="row asanaView-body pt-page-moveFromRight" v-show="isSearch">
