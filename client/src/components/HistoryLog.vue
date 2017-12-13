@@ -1,6 +1,6 @@
 <template>
     <section class="main" v-cloak>
-        <div v-bind:key="ind" v-for="(log, ind) in historyDetailLog">
+        <div v-bind:key="ind"  v-for="(log, ind) in historyDetailLog">
             <div class="FeedBlockStory">
                 <div class="BlockStory">
                     <div class="BlockStory-icon">
@@ -13,7 +13,7 @@
                         <div class="BlockStory-header">
                             <div class="BlockStory-headerContent">
                                 <span class="BlockStory-storyContent">
-                                    <a class="NavigationLink BlockStory-actorLink" href="javascript:void(0)">
+                                    <a class="history-username" href="javascript:void(0)">
                                         {{log.fullname}}</a>
                                     <span class="AddedAttachmentStory-content"  v-show="log.log_action===3">
                                         <svg class="Icon AttachIcon" viewBox="0 0 32 32">
@@ -38,20 +38,51 @@
                         <div class="BlockStory-body">
                             <div class="truncatedRichText">
                                 <!-- Create task -->
-                                <div class="RichText truncatedRichText-richText" v-show="log.log_action===0">
+                                <div class="history-label" v-show="log.log_action===0">
                                     created task.
                                 </div>
                                 <!-- Update task -->
-                                 <div class="RichText truncatedRichText-richText" v-show="log.log_action===1">
+                                <div class="history-label" v-show="log.log_action===1">
                                     changed task name to {{log.text}}
                                 </div>
-                                <div class="RichText truncatedRichText-richText" v-show="log.log_action===8">
+                                <!-- Task assigned -->
+                                <div class="history-label" v-show="log.log_action===8">
                                     task assigned to {{getUser(log.text)}}
                                 </div>
+                                <!-- Due date -->
+                                <div class="history-label" v-show="log.log_action===9">
+                                     changed the due date to {{formateDate(log.text)}}
+                                </div>
+                                <!-- Task description -->
+                                <div class="history-label" v-show="log.log_action===10">
+                                     added task description {{log.text}}
+                                </div>
+                                <!-- Tag create -->
+                                <div class="history-label" v-show="log.log_action===11">
+                                     created tag  {{getTagNameFromId(log.text)}}
+                                </div>
+                                <!-- Tag add -->
+                                <div class="history-label" v-show="log.log_action===12">
+                                     added tag  {{getTagNameFromId(log.text)}}
+                                </div>
+                                <!-- Tag Delete -->
+                                <div class="history-label" v-show="log.log_action===13">
+                                     removed tag {{getTagNameFromId(log.text)}}
+                                </div>
+                                <!-- Comment Add -->
+                                <div class="history-label" v-show="log.log_action===14">
+                                     comment added  <span v-html="getComment(log.text)"></span>
+                                </div>
+                                <!-- Comment delete -->
+                                <div class="history-label" v-show="log.log_action===15">
+                                     comment deleted <span v-html="getComment(log.text)"></span>
+                                </div>
+                                <!-- File upload log -->
+                                <div class="AddedAttachmentStory-body" v-if="log.log_action===3">
+                                    <a class="AddedAttachmentStory-link" :href="getAttachment(log.text).file_url" target="_blank" tabindex="-1"><div>{{getAttachment(log.text).file_name}}</div></a>
+                                </div>
                             </div>
-                            <div class="AddedAttachmentStory-body" v-show="log.log_action===3">
-                                <a class="AddedAttachmentStory-link" :href="log.text" target="_blank" tabindex="-1">download</a>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -108,6 +139,9 @@ export default {
         logDate(logDate) {
             return moment(logDate).calendar()
         },
+        formateDate(dateTo){
+            return  moment(dateTo, "YYYY-MM-DD").format("YYYY-MMM-DD");
+        },
         /**
          * Add user detail into history log
          */
@@ -140,7 +174,45 @@ export default {
                 }
                 return  user.email
             }
+        },
+        /**
+         * Get tag name
+         * @augments tagId  */
+        getTagNameFromId(tagId) {
+          
+            let index = _.findIndex(this.$store.state.tagsList, function(d) { return d.id == tagId })
+            if (index > -1) {
+                let   tag_name = this.$store.state.tagsList[index].name
+                return tag_name
+            }
+            else
+                return ''
+        },
+        /**
+         * Get comment 
+         * @augments commentId */
+        getComment(commentId){
+            let index = _.findIndex(this.$store.state.taskComment, function(d) { return d.id == commentId })
+            if (index > -1) {
+                let   comment = this.$store.state.taskComment[index].comment
+                return comment
+            }
+            else
+                return commentId
+        },
+        /**
+         * Find attachment 
+         * @augments attachmentID 
+         * */
+        getAttachment(id){
+            let index = _.findIndex(this.$store.state.arrAttachment, function(d) { return d.id == id })
+            if (index > -1) {
+                let   attachment = this.$store.state.arrAttachment[index]
+                return attachment
+            }
         }
+
+
     },
     components: {
         Avatar
@@ -154,5 +226,14 @@ svg.Icon.DownIcon.FeedBlockStory-actionsDropdownIcon {
     right: 0;
     top: 10px;
     width: 28px;
+}
+.history-label{
+    color: #848f99;
+    font-size: 11px;
+    line-height: 17px;
+}
+a.history-username{
+     color: inherit;
+    font-size: 11px;
 }
 </style>

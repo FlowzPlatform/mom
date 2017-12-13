@@ -41,7 +41,12 @@ function uploadFileOnAmazonS3(file, fileTimeStamp, cb) {
     }).send(function (err, data) {
       // console.log('err ===> ', err)
       // console.log('data ===> ', data)
-      cb(data.Location)
+      try{
+        cb(data.Location)
+      }catch(e){
+        cb("fail")
+      }
+      
     });
   }
   return false;
@@ -203,7 +208,7 @@ export const store = new Vuex.Store({
     async SHOW_DIV(state, payload) {
       console.log("SHOW_DIV call ==>", state.taskHistoryLog.length)
       
-      // Clear history log, attachement, tags
+      // Clear history log, attachment, tags
       // state.taskHistoryLog.length = 0
       // state.arrAttachment.length = 0
       // state.tagsList.length = 0
@@ -490,8 +495,8 @@ export const store = new Vuex.Store({
       }
     },
     DELETE_ATTACHMENT(state, deleteAttachment) {
-      let removeAttachementIndex = _.findIndex(state.arrAttachment, function (d) { return d.id == deleteAttachment.id })
-      state.arrAttachment.splice(removeAttachementIndex, 1)
+      let removeAttachmentIndex = _.findIndex(state.arrAttachment, function (d) { return d.id == deleteAttachment.id })
+      state.arrAttachment.splice(removeAttachmentIndex, 1)
     },
     DELETE_ATTACHMENTS(state) {
       state.arrAttachment = []
@@ -532,13 +537,12 @@ export const store = new Vuex.Store({
         username: state.userObject.fullname,
         image_url: state.userObject.image_url
       })
-
-
-  
+      console.log("state.taskComment:",state.taskComment)
     },
     DELETE_COMMENT(state, data) {
       let removeTaskComments = _.findIndex(state.taskComment, function (d) { return d.id == data.id })
       state.taskComment.splice(removeTaskComments, 1)
+      console.log('DELETE_COMMENT', state.taskComment)
     },
     updateTodo(state, todoObject) {
       // setCheckboxColor(state, todoObject)
@@ -609,6 +613,12 @@ export const store = new Vuex.Store({
       console.log('Cookie :', Vue.cookie)
       Vue.cookie.set('auth_token', token, {expires: 1, domain: location});
 
+    },
+    INSERT_HISTORY_LOG(state, histroyObject) {
+      console.log("INSERT_HISTORY_LOG updated",histroyObject)
+      if(histroyObject.log_action != 0){
+        state.taskHistoryLog.unshift(histroyObject)
+      }
     },
     GET_USERDETAIL(state, userdetail) {
       state.userObject = userdetail
@@ -901,12 +911,12 @@ export const store = new Vuex.Store({
       })
 
       services.taskAttachmentService.on('created', message => {
-        console.log("Message Attachement Cretaed:-->", message)
+        console.log("Message Attachment Cretaed:-->", message)
         commit('SELECT_FILE', message)
       })
 
       services.taskAttachmentService.on('removed', message => {
-        console.log("Message Attachement removed:-->", message)
+        console.log("Message Attachment removed:-->", message)
         commit('DELETE_ATTACHMENT', message)
       })
 
@@ -945,7 +955,9 @@ export const store = new Vuex.Store({
         }
         
       })
-
+      services.taskHistoryLogs.on('created',message=>{
+        commit('INSERT_HISTORY_LOG', message)
+      })
       services.projectMemberService.on('created', message => {
       //  console.log("ASSIGN_PROJECT_MEMBER:-->", message)
         commit('ASSIGN_PROJECT_MEMBER', message)
@@ -1074,6 +1086,7 @@ export const store = new Vuex.Store({
       }
     },
     editTaskName({ commit }, editObject) {
+      console.log("editObject: ",editObject)
       if (editObject.todo.id) {
         let self=this
         services.tasksService.patch(editObject.todo.id, {
@@ -1089,7 +1102,7 @@ export const store = new Vuex.Store({
           state_id: editObject.selectedState
         }, { query: { 'id': editObject.todo.id } }).then(response => {
           console.log("Response editTaskName::", response);
-          CmnFunc.insertHistoryLog(store,store.state.userObject._id,response.assigned_to,response.id,Constant.HISTORY_LOG_ACTION.TASK_ASSIGN)
+          CmnFunc.insertHistoryLog(store,store.state.userObject._id,editObject.log_text,response.id,editObject.log_action)
           if (editObject.isAssigned) {
             editObject.callback()
             
@@ -1182,44 +1195,52 @@ export const store = new Vuex.Store({
         file_name_timestamp: fileTimeStamp
       }
 
-      store.state.arrAttachment.push(attachArr);
+      
       // commit('SELECT_FILE', attachArr)
 
       //store.state.isProgress = true
       store.commit('showAttachmentProgress', { 'isProgress': true, 'id': fileObject.taskId })
-      uploadFileOnAmazonS3(file, fileTimeStamp, function (src) {
-        // store.state.isProgress = false
-        store.commit('showAttachmentProgress', { 'isProgress': false, 'id': fileObject.taskId })
-        // store.commit('showProgress')
-        store.state.progress = 0
-        store.commit('progressVal')
-        //Insert Attachment detail in DB
-        services.taskAttachmentService.create({
-          task_id: fileObject.taskId,
-          file_name: file.name,
-          file_url: src,
-          uploadedBy: store.state.userObject._id,
-          level: fileObject.level,
-          file_name_timestamp: fileTimeStamp
-        }).then(response => {
-          store.state.arrAttachment.splice(store.state.arrAttachment.indexOf(attachArr), 1)
-          var tempArr = {
-            id: response.id,
+ 
+        uploadFileOnAmazonS3(file, fileTimeStamp, function (src) {
+          if(src == "fail"){
+             fileObject.cb("fail")
+             return
+          }
+          store.state.arrAttachment.push(attachArr);
+
+          // store.state.isProgress = false
+          store.commit('showAttachmentProgress', { 'isProgress': false, 'id': fileObject.taskId })
+          // store.commit('showProgress')
+          store.state.progress = 0
+          store.commit('progressVal')
+          //Insert Attachment detail in DB
+          services.taskAttachmentService.create({
             task_id: fileObject.taskId,
             file_name: file.name,
             file_url: src,
             uploadedBy: store.state.userObject._id,
             level: fileObject.level,
             file_name_timestamp: fileTimeStamp
-          }
-          CmnFunc.insertHistoryLog(store,store.state.userObject._id,src,fileObject.taskId,Constant.HISTORY_LOG_ACTION.ATTACHEMENT_UPLOAD)
-          
-          // state.arrAttachment.filter(attachement => attachement.id === attachArr.id)
+          }).then(response => {
+            store.state.arrAttachment.splice(store.state.arrAttachment.indexOf(attachArr), 1)
+            var tempArr = {
+              id: response.id,
+              task_id: fileObject.taskId,
+              file_name: file.name,
+              file_url: src,
+              uploadedBy: store.state.userObject._id,
+              level: fileObject.level,
+              file_name_timestamp: fileTimeStamp
+            }
+            CmnFunc.insertHistoryLog(store,store.state.userObject._id,response.id,fileObject.taskId,Constant.HISTORY_LOG_ACTION.ATTACHMENT_UPLOAD)
+            
+            // state.arrAttachment.filter(attachment => attachment.id === attachArr.id)
 
-          // commit('SELECT_FILE', tempArr)
-          fileObject.cb()
-        });
-      })
+            // commit('SELECT_FILE', tempArr)
+            fileObject.cb("success")
+          });
+        })
+    
     },
     deleteAttachmentFromDB({ commit }, deleteObject) {
       //store.state.isLoading = true
@@ -1407,7 +1428,8 @@ export const store = new Vuex.Store({
         console.log("Reesponse create Payload From DB::", payload);
 
         services.taskComments.create(payload).then(function (response) {
-          console.log("Reesponse create Commnets From DB::", response);
+          console.log("Response create Comments From DB::", response);
+          CmnFunc.insertHistoryLog(store,store.state.userObject._id,response.id,response.task_id,Constant.HISTORY_LOG_ACTION.COMMENT_ADD)
       })
     },
     insertProjectInvite({ commit }, inviteDetail) {
@@ -1437,11 +1459,15 @@ export const store = new Vuex.Store({
       //   });
     },
     insertTagsInDB({ commit }, tagObject) {
+      // Create new tag
       services.tagsService.create({
         name: tagObject.tagName,
         created_by_user_id: store.state.userObject._id
       }).then(response => {
-        console.log("Response Tag Cerate::", response);
+        console.log("Response Tag Create::", response);
+        // Create new tag log entry
+           CmnFunc.insertHistoryLog(store,store.state.userObject._id,response.id,tagObject.taskId,Constant.HISTORY_LOG_ACTION.TAG_CREATE)
+        // Add tag into task 
         services.taskTagsService.create({
           tag_id: response.id,
           task_id: tagObject.taskId,
@@ -1449,7 +1475,9 @@ export const store = new Vuex.Store({
           is_deleted: false,
           name: tagObject.name
         }).then(response => {
-          console.log("Reesponse Tag_Tsak create::", response);
+          console.log("Response Tag_Task create::", response);
+          // Add tag into task log entry
+             CmnFunc.insertHistoryLog(store,store.state.userObject._id,response.tag_id,response.task_id,Constant.HISTORY_LOG_ACTION.TAG_ADD)
         });
       });
       // Vue.http.post('/insert_tag', {
@@ -1479,7 +1507,8 @@ export const store = new Vuex.Store({
         is_deleted: false,
         created_by_user_id: store.state.userObject._id
       }).then(response => {
-        console.log("Response Tag Find::", response);
+          console.log("Response Tag Find::", response);
+          CmnFunc.insertHistoryLog(store,store.state.userObject._id,taskTagObject.tag.id,taskTagObject.taskId,Constant.HISTORY_LOG_ACTION.TAG_ADD)
       });
       // Vue.http.post('/insert_taskTag', {
       //     tag_id: taskTagObject.tag.id,
@@ -1498,8 +1527,9 @@ export const store = new Vuex.Store({
       services.taskTagsService.patch(null, {
         is_deleted: true, deleted_by_user_id: store.state.userObject._id
       }, { query: { "task_id": taskTagObject.task_id, "tag_id": taskTagObject.tag_id } }).then(response => {
-        console.log("Response update task tags:", response);
-        //  commit('UPDATE_TODO', insertElement)
+          console.log("Response update task tags:", response);
+          // Remove tag into task log entry
+             CmnFunc.insertHistoryLog(store,store.state.userObject._id,response.tag_id,response.task_id,Constant.HISTORY_LOG_ACTION.TAG_DELETE)
       });
     },
     changeProjectPrivacy({ commit }, privacy_id) {
@@ -1740,11 +1770,15 @@ export const store = new Vuex.Store({
       services.tasksService.remove(dbId, { query: { 'id': dbId } }).then(response => {
         console.log("Reesponse deleteTodo::", response);
       });
+      services.tasksService.on('removed', message => {
+      
+      })
     },
     delete_Comment({ commit }, deleteCommentObj) {
       let commentId = deleteCommentObj.id
       services.taskComments.remove(commentId, { query: { 'id': commentId } }).then(response => {
         console.log("Response To Delete Comment:--", response)
+        CmnFunc.insertHistoryLog(store,store.state.userObject._id,deleteCommentObj.comment,response.task_id,Constant.HISTORY_LOG_ACTION.COMMENT_DELETE)
       })
     },
     getTaskCreatedBy({ commit }, payload) {
