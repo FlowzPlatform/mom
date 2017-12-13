@@ -147,11 +147,10 @@ export const store = new Vuex.Store({
     task_types_state: [],
     googleId: '',
     removeMember:{},
-    currentProject:{},
     permissions:{},
     currentProjectRoleid:'',
     commentValue: '',
-    taskHistoryLog:{},
+    taskHistoryLog:[],
     accessRight:{}
   },
   mutations: {
@@ -2114,7 +2113,7 @@ export const store = new Vuex.Store({
       } else {
         return function (id, level) {
           var todolist = state.todolist.filter(function (todo) {
-            return !todo.isDelete && todo.parentId === id
+            return !todo.isDelete && todo.parentId === id && todo.project_id === store.state.currentProjectId
           })
           todolist = _.sortBy(todolist, 'index')
           return todolist

@@ -22,12 +22,13 @@
 									<span class="fa fa-file-text-o fa-5x" @click="openCreateDialogs" />
 									<div class="text gridPaneSearchEmptyView-noProjectItemsTitleText">Add New Project
 									</div>
-									<div class="text gridPaneSearchEmptyView-noProjectItemsText" v-show="$store.state.projectlist.length==0">You have no project created.
+									<div class="text gridPaneSearchEmptyView-noProjectItemsText" >You have no project created.
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+          </div>
+          
 				</div>
       </div>
 			<div :id="n.level" class="right_pane_container" v-for="(n, index) in parentIdArray">
@@ -131,17 +132,18 @@
         this.$store.dispatch('getAllTaskTags', this.url_parentId);
         this.$store.dispatch('getTaskComment', this.url_parentId)
       }
+      
       this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
       this.$store.commit('DELETE_ALLTAGS')
       this.$store.dispatch('getTaskStaus')
       this.$store.dispatch('getTaskTypes')
 
-      this.$store.state.todolist = []
+      this.$store.state.todolist.length=0
       var projects = this.getProjectWiseTodo;
       var projectId = this.$store.state.currentProjectId
       console.log("projectId:--",projectId)
-      if (!projectId && projects.length > 0) {
-        projectId = projects[0].id
+      if (projects.length > 0) {
+       var projectId = projects[0].id
         this.$store.state.currentProjectId = projects[0].id
         this.$store.state.currentProjectName = projects[0].project_name
         this.$store.state.currentProjectMember = projects[0].members; 

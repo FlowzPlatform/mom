@@ -24,19 +24,36 @@ module.exports = function() {
   const app = this;
   var appDir= path.join(rootPath.rootPath, 'config/cacert');
   fs.readFile(appDir, function(err, caCert) {
-    const r = require('rethinkdbdash')({
+    // const r = require('rethinkdbdash')({
+    //   db: db,
+    //   host: db_host,
+    //   port:db_port,
+    //   buffer: 5,
+    //   // username: db_username,
+    //   authKey: db_password,
+    //   if(db_password){
+    //     ssl: {
+    //       ca: caCert
+    //     }
+    //   }
+    // });
+    var connOption= {
       db: db,
-      host: db_host,
-      port:db_port,
+      discovery: false,
+      timeout: 10,
       buffer: 5,
-      // username: db_username,
       authKey: db_password,
-      if(db_password){
-        ssl: {
-          ca: caCert
-        }
-      }
-    });
+      servers: [
+          {
+              host: db_host,
+              port: db_port
+          }
+      ]
+  }
+    if(db_password && db_password.length>0) {  connOption.ssl= {ca: caCert, rejectUnauthorized: true}}
+    
+    const r = require('rethinkdbdash')(connOption);
+    
   const options = {
     Model: r,
     name: table

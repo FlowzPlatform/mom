@@ -18,20 +18,40 @@ module.exports = function() {
   var appDir= path.join(rootPath.rootPath, 'config/cacert');
   console.log("Path from :---",appDir)
   fs.readFile(appDir, function(err, caCert) {
-  const r = require('rethinkdbdash')({
-    db:db,
-    host: db_host,
-    port: db_port,
-    buffer: 5,
-    //username: db_username,
-    authKey: db_password,
-    if(db_password){
-      ssl: {
-        ca: caCert
-      }
-    }
-  });
+  // const r = require('rethinkdbdash')({
+  //   db:db,
+  //   host: db_host,
+  //   port: db_port,
+  //   buffer: 5,
+  //   user: db_username,
+  //   password: db_password,
+  //   timeout:60,
+  //   pingInterval:5,
+  //   // if(db_password){
+  //   //   ssl: {
+  //   //     ca: caCert
+  //   //   } 
+  //   // }
+  // });
 
+ var connOption= {
+    db: db,
+    discovery: false,
+    timeout: 10,
+    buffer: 5,
+    authKey: db_password,
+    servers: [
+        {
+            host: db_host,
+            port: db_port
+        }
+    ]
+}
+  if(db_password && db_password.length>0) {  connOption.ssl= {ca: caCert, rejectUnauthorized: true}}
+  const r = require('rethinkdbdash')(connOption);
+
+
+console.log("ssl options:--", r);
   // var pathUrl=path.format({
   //   dir: 'D:\Urvashi\Projects\todo-vue\TODO-Github\todo-vue-dynamic-component\server\config',
   //   base: 'cacert'
