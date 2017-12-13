@@ -46,14 +46,14 @@
                 </div>
                 <div class="attachment-card-footer">
                     <span style="float:left;margin-top:10px">
-                        <i class="fa fa-thumbs-o-up" style="font-size:25px;color:rgb(149, 152, 157)" aria-hidden="true"></i>
-                        <i class="fa fa-comments" style="font-size:25px;color:rgb(149, 152, 157);margin-left:30px" aria-hidden="true"></i>
+                        <i class="fa fa-thumbs-o-up hidden" style="font-size:25px;color:rgb(149, 152, 157)" aria-hidden="true"></i>
+                        <i class="fa fa-comments hidden" style="font-size:25px;color:rgb(149, 152, 157);margin-left:30px" aria-hidden="true"></i>
                         <a :href="files.file_url" download>
                             <i class="fa fa-arrow-circle-o-down" style="font-size:25px;color:rgb(149, 152, 157);margin-left:30px" aria-hidden="true"></i>
                         </a>
                     </span>
                 </div>
-                <div class="attachment-comment-footer">
+                <div class="attachment-comment-footer hidden">
                     <span style="float:left;margin-top:10px;width:100%">
                         <Input type="textarea" :autosize="{minRows: 1,maxRows: 5}" placeholder="Enter comments...">
                         </Input>
