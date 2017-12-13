@@ -18,8 +18,8 @@
                             <Icon style="font-size:20px;color:rgb(149, 152, 157)" type="android-more-horizontal"></Icon>
                         </a>
                         <DropdownMenu slot="list">
-                            <DropdownItem name="1"><span @click="deleteAttachment(files, index)">delete</span></DropdownItem>
-                            <DropdownItem name="2">share <span class="hidden">{{files}}</span></DropdownItem>
+                            <DropdownItem name="1"><span @click="deleteAttachment(files, index)">Delete</span></DropdownItem>
+                            <DropdownItem class="hidden" name="2">share <span class="hidden">{{files}}</span></DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
                     <button class="hidden close-btn" @click="deleteAttachment(files, index)">
