@@ -13,7 +13,7 @@
                         <span style="font-size:10px">{{files.fullname}} </span>
                         <!-- <div class="attachment-time">{{file}}</div> -->
                     </span>
-                    <!-- <Dropdown placement="bottom" class="close-btn" trigger="click" @on-click="attachmentActionMenu">
+                    <Dropdown placement="bottom" class="close-btn">
                         <a href="javascript:void(0)">
                             <Icon style="font-size:20px;color:rgb(149, 152, 157)" type="android-more-horizontal"></Icon>
                         </a>
@@ -21,8 +21,8 @@
                             <DropdownItem name="1">delete</DropdownItem>
                             <DropdownItem name="2">share</DropdownItem>
                         </DropdownMenu>
-                    </Dropdown> -->
-                    <!-- <button class="close-btn" @click="deleteAttachment(files, index)">
+                    </Dropdown>
+                    <!-- <button class="hidden close-btn" @click="deleteAttachment(files, index)">
                         <a v-show="isDeleteAttachment" class="fa fa-trash-o" aria-hidden="true" />
                     </button> -->
                 </p>
@@ -51,10 +51,9 @@
                         <a :href="files.file_url" download>
                             <i class="fa fa-arrow-circle-o-down" style="font-size:25px; color:rgb(211, 211, 211);" aria-hidden="true"></i>
                         </a>
-                        <button class="close-btn" @click="deleteAttachment(files, index)">
-                            <!-- <a v-show="isDeleteAttachment" class="fa fa-trash-o" aria-hidden="true" /> -->
-                            <a v-show="true" class="fa fa-trash-o" aria-hidden="true" style="font-size:25px; color:rgb(211, 211, 211); margin-left:30px"/>
-                        </button>
+                        <!-- <button class="close-btn" @click="deleteAttachment(files, index)">
+                            <a v-show="isDeleteAttachment" class="fa fa-trash-o" aria-hidden="true" />
+                        </button> -->
                     </span>
                 </div>
                 <!-- <div class="attachment-comment-footer">
@@ -145,9 +144,6 @@
                 console.log('delete attachment index:', objAttachment)
                 this.btnClickedIndex = btnIndex;
                 this.$store.dispatch("deleteAttachmentFromDB", objAttachment);
-            },
-            attachmentActionMenu (val) {
-                console.log('delete attachment index:', val)
             },
             onFileChange(e) {
                 var fileChooser = e.target; // document.getElementById('file');

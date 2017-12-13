@@ -1823,7 +1823,9 @@ input[type="file"].hidden-file-input {
 .Topbar-accountInfo .dropdown-menu hr { margin: 0;}
 .Topbar-accountInfo .dropdown-menu li a:hover {background-color: #1aafd0;color: #fff;}
 .Topbar-accountInfo .dropdown-menu li a {
-    padding: 3px 35px;    line-height: 3.00857143;}
+    padding: 3px 35px;  
+    color: #898e95;  
+    line-height: 3.00857143;}
 .modal-open .modal {
     top: 40px;
      background-color: rgba(0, 0, 0, 0.28);

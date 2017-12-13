@@ -187,7 +187,6 @@
         this.todolist = taskArray
         this.userDetail(this.todolist)
         return filters[this.$store.state.visibility](taskArray)
-
       },
       todos: function () {
         return this.$store.getters.getTodoById('', 0)
