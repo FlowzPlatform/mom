@@ -380,7 +380,7 @@ border: 1px solid transparent;
   opacity: 0;
 }
 .generic-input:hover:not(.override-hover-border):not([disabled]){
-	    border-color: #CDCFD2;
+	    /* border-color: #CDCFD2; */
     -webkit-transition: border-color 150ms;
     -moz-transition: border-color 150ms;
     transition: border-color 150ms;
@@ -1823,7 +1823,9 @@ input[type="file"].hidden-file-input {
 .Topbar-accountInfo .dropdown-menu hr { margin: 0;}
 .Topbar-accountInfo .dropdown-menu li a:hover {background-color: #1aafd0;color: #fff;}
 .Topbar-accountInfo .dropdown-menu li a {
-    padding: 3px 35px;    line-height: 3.00857143;}
+    padding: 3px 35px;  
+    color: #898e95;  
+    line-height: 3.00857143;}
 .modal-open .modal {
     top: 40px;
      background-color: rgba(0, 0, 0, 0.28);
@@ -5385,33 +5387,46 @@ table {
     padding: 4px 10px 4px 4px;
     vertical-align: middle;
 }
+.registration {
+    height: 100vh;
+    width: 100%;
+    background-color: #5356ad;
+}
+.registration .container .box:before {
+    background-color: #474a80
+}
+.registration .container .box:after {
+    background-color: #d0d4f3
+}
 .social-auth {
-   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transform: -webkit-translate(-50%, -50%);
-  transform: -moz-translate(-50%, -50%);
-  transform: -ms-translate(-50%, -50%);
-   background-color: #87a6ff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transform: -webkit-translate(-50%, -50%);
+    transform: -moz-translate(-50%, -50%);
+    transform: -ms-translate(-50%, -50%);
+    background-color: #ffffff;
     padding: 15px;
-    border-radius: 5px;
-    border: solid 10px #fff;
     max-width: 400px;
+    height: 370px;
 }
 .social-auth-btn {
     width: 100px;
     height: 45px;
-    font-size: 15px;
-    color: white;
-    border-radius: 7%;
-    margin-top: 10px;
-    border: solid 2px #fff;
+    font-size: 17px;
+    color: #fff;
+    /* border-radius: 7%; */
+    margin-top: 32px;
+    /* border: solid 2px #fff; */
+    box-shadow: 0 0 10px 1px #ff73b3;
+    background-color: #ff73b3;
+    font-family: Droid serif;
 }
 .social-auth .social-header {
     border-bottom: solid 1px #eaeaea;
     padding-bottom: 5px;
-    color: #fff;
+    color: #0f0000;
     font-size: 23px;
 }
 .social-auth  .form-input {
@@ -5419,7 +5434,16 @@ table {
     display: inline-block;
     width: 100%;
 }
-.social-auth  .form-input label {color:#fff;font-size: 15px;font-weight: bold;}
+.social-auth  .social-header label {
+    color: #a39f9f;
+    font-family: Droid serif;
+    font-size: 20px;
+}
+.social-auth  .form-input label {
+    color:#a39f9f;
+    font-family: Droid serif;
+    font-size: 16px;
+}
 .social-auth  .form-input .pro-part {width:100%}
 .googleAuthBtn {
     background-color: #1AAFD0;
@@ -5490,7 +5514,7 @@ input[type=password].generic-input {
 textarea.showing,
 .recurly input[type=text].showing,
 .recurly .recurly-hosted-field.showing {
-    border: 1px solid #d5dce0;
+    border: 1px solid gray;
 }
 .ui.segment:first-child {
     top: 5%;
