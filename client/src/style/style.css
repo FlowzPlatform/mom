@@ -6195,3 +6195,13 @@ CSS for splitter view
     display: block;
     
 }
+/* .vw-widget {
+    overflow-x: scroll;
+    width:1000px;
+} */
+/* .vw-widget-heading {
+    width: 1130px;
+} */
+.vw-widget-body {
+    padding: 0px;
+}

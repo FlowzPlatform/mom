@@ -36,7 +36,7 @@ export default {
     store.state.isAuthorized = false
     store.commit('userData')
     store.commit('authorize')
-      
+    store.commit('CLEAR_PROJECT_DEFAULT')  
   },
   resetProjectDefault: function () {
    store.commit('CLEAR_PROJECT_DEFAULT')

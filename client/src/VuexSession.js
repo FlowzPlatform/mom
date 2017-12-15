@@ -303,19 +303,19 @@ export const store = new Vuex.Store({
       
     },
     CLEAR_PROJECT_DEFAULT(state) {
-      
+      console.log("Clean data");
       state.userObject = {}
       state.isAuthorized = false
-      state.todolist = []
-      state.parentIdArr = []
+      state.todolist.length = 0
+      state.parentIdArr.length = 0
       // state.progress_count = ''
       state.visibility = 'active'
-      state.arrAttachment = []
+      state.arrAttachment.length = 0
       state.isLoading = false
-      state.settingsObject = []
-      state.taskComment = []
-      state.taskTags = []
-      state.tagsList = []
+      state.settingsObject.length = 0
+      state.taskComment.length = 0
+      state.taskTags.length = 0
+      state.tagsList.length = 0
       state.isProgress = false
       state.isDueDate = false
       state.todoObjectByID = {}
@@ -325,10 +325,10 @@ export const store = new Vuex.Store({
       state.currentModified = false
       state.isDeleteObj = false
       state.deleteItemsSelected = false
-      state.deletedTaskArr = []
-      state.arrAllUsers = []
-      state.projectlist = []
-      state.userRoles = []
+      state.deletedTaskArr.length = 0
+      state.arrAllUsers.length = 0
+      state.projectlist.length = 0
+      state.userRoles.length = 0
       state.currentProjectId = undefined
       state.currentProjectName = undefined
       state.currentProjectPrivacy = ''
@@ -336,20 +336,24 @@ export const store = new Vuex.Store({
       state.currentProjectMember= ''
       state.c={}
       state.projectSettingMenuOffset= 0
-      state.createdByTaskList= []
-      state.recentlyCompletedTasks= []
+      state.createdByTaskList.length = 0
+      state.recentlyCompletedTasks.length = 0
       state.searchView= ''
-      state.assignedToOthers= [],
+      state.assignedToOthers.length = 0,
       state.taskIndex= -1
-      state.task_types_list= []
-      state.task_state_list= []
-      state.task_types_state= []
+      state.task_types_list.length = 0
+      state.task_state_list.length = 0
+      state.task_types_state.length = 0
       state.googleId= ''
       state.removeMember={}
       state.permissions={}
       state.currentProjectRoleid=''
+      state.taskHistoryLog.length = 0
+      state.currentProjectCreatedBy = ''
+      state.editedValue = ''
+      state.visibility = ''
 
-      console.log("Reset ALl ")
+      console.log("Reset ALL ")
     },
     changeFilters(state, key) {
       state.visibility = key
@@ -663,17 +667,24 @@ export const store = new Vuex.Store({
     updateDeletedProjectList(state,value){
       console.log("updateDeletedProjectList:",value);
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
+
       if (updateProjectIndex >= 0) {
            state.projectlist[updateProjectIndex].is_deleted = value.is_deleted;
            state.projectlist.splice(updateProjectIndex,0)
+           console.log("updateDeletedProjectList inside:",value);
         }
-           state.todolist=[]
-           state.currentProjectId = ""
-           state.currentProjectName = ""
-           state.currentProjectPrivacy = ''
-           state.currentTodoObj= '' 
-           state.currentProject='' 
-           state.userRoles = ''
+
+          if(value.is_deleted){
+            console.log("updateDeletedProjectList inside delete:",value);
+            state.todolist=[]
+            state.currentProjectId = ""
+            state.currentProjectName = ""
+            state.currentProjectPrivacy = ''
+            state.currentTodoObj= '' 
+            state.currentProject='' 
+            state.userRoles = ''
+          }
+          
     },
     /**
     * Update current project member list
@@ -863,6 +874,7 @@ export const store = new Vuex.Store({
       services.taskComments.removeListener('created')
       services.taskComments.removeListener('removed')
       services.projectService.removeListener('patched')
+      services.projectService.removeListener('removed')
       services.projectMemberService.removeListener('created')
       services.projectService.removeListener('created')
       services.roleService.removeListener('removed')
@@ -934,6 +946,7 @@ export const store = new Vuex.Store({
         if(message.is_deleted === true){
           commit('updateDeletedProjectList', message)
         }else{
+          console.log("Path 2------------");
           commit('updateProjectList', message)
         }
         
@@ -983,6 +996,7 @@ export const store = new Vuex.Store({
        })
       // Project delete custom patch call
       services.projectService.on('deleteProject', message =>{
+        console.log("Path 1------------");
           commit('updateDeletedProjectList', message)
       })
 
@@ -1995,10 +2009,11 @@ export const store = new Vuex.Store({
     },
     renameProjectName ({commit}, value) {
       console.log("value->>",value)
-      var data = store.state.currentProject;
+      var projectId = store.state.currentProjectId;
+      console.log("value data->>",projectId)
       services.projectService.find({
         query: {
-          'id': data.id, 
+          'id': projectId, 
            project_name: value,
           $client: {
             flag: 'projectrename'
@@ -2010,7 +2025,7 @@ export const store = new Vuex.Store({
             $.notify(response.error, { globalPosition:"top center"})  
         }else{
           
-            services.projectService.patch(data.id, {
+            services.projectService.patch(projectId, {
             project_name: value,
             updated_by: store.state.userObject._id
             }).then(response => {

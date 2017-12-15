@@ -6,10 +6,13 @@
                 <div class="modal-header">
                     <div class="Dialog-headerTitle">
                         New Project
+                        <span style="float:right;font-size:18px;margin-right:5px">
+                        <a class="CloseButton" @click="close">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </a>
+                        </span>
                     </div>
-                    <a class="CloseButton" @click="close">
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                    </a>
+                   
                 </div>
 
                 <div class="modal-body scrollable scrollable--vertical NewProjectForm">

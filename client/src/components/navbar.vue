@@ -248,6 +248,13 @@
   let location = psl.parse(window.location.hostname)
   location = location.domain === null ? location.input : location.domain
 
+  // $(window).on('popstate', function(event) {
+  //   console.log("location: " + document.location);
+  //   history.go(0);
+  //   if(!history.pushState){
+  //     history.go(0);
+  //   }    
+  // });
 
   export default {
     name: 'navbar',
@@ -278,23 +285,30 @@
         'settingArr'
       ]),
       uname: function () {
-        var self = this
-        self.$store.dispatch('getUserDetail')
-          //  self.$store.dispatch('getUserRegister')                           
-          .then(function () {
-            // this.$router.push('/navbar/mainapp');
+        if(this.$store.state.userObject.email){
             var str = this.$store.state.userObject.email
             var n = str.indexOf("@")
             var res = str.substr(0, n)
             return res
-          })
-          .catch(function (error) {
-            if (error.response.status === 401) {
-              return
-            }
-            $.notify.defaults({ className: "error" })
-            $.notify(error.message, { globalPosition: "top center" })
-          })
+        }
+
+        // var self = this
+        // self.$store.dispatch('getUserDetail')
+        //   //  self.$store.dispatch('getUserRegister')                           
+        //   .then(function () {
+        //     // this.$router.push('/navbar/mainapp');
+        //     var str = this.$store.state.userObject.email
+        //     var n = str.indexOf("@")
+        //     var res = str.substr(0, n)
+        //     return res
+        //   })
+        //   .catch(function (error) {
+        //     if (error.response.status === 401) {
+        //       return
+        //     }
+        //     $.notify.defaults({ className: "error" })
+        //     $.notify(error.message, { globalPosition: "top center" })
+        //   })
 
       },
       projectName: {
@@ -353,6 +367,16 @@
             $.notify.defaults({ className: "error" })
             $.notify(error.message, { globalPosition: "top center" })
           });
+      },
+      updateProjectName(){
+        if(this.pName && this.pName.length > 0){
+           this.$store.dispatch('renameProjectName',this.pName)
+           $('input').blur();
+          // this.pName = '';
+        }else{
+           $.notify.defaults({ className: "error" })
+           $.notify("Project name can't blank.", { globalPosition:"top center"})
+        }
       },
       btnProfileClicked() {
         this.username = this.$store.state.userObject.fullname,
@@ -523,7 +547,8 @@
           }
         }
       },
-      setProjectName() {
+      setProjectName(e) {
+        console.log("value for dfd:>",$("#project-name").val());
         let projectName = this.$store.state.currentProjectName;
         $("#project-name").val(projectName);
       },
