@@ -23,7 +23,7 @@
     "bootstrap-vue": "^1.2.0",
     "chalk": "^2.3.0",
     "circular-menu": "^1.0.6",
-    "element-ui": "^2.0.5",
+    "element-ui": "^2.0.8",
     "extract-css": "^1.0.3",
     "fast-deep-equal": "^1.0.0",
     "feathers-client": "^2.4.0",
