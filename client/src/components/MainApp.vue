@@ -188,6 +188,7 @@
           }
         this.todolist = taskArray
         this.userDetail(this.todolist)
+        console.log('Visibility:-', this.$store.state.visibility)
         return filters[this.$store.state.visibility](taskArray)
       },
       todos: function () {

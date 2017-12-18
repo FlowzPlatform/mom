@@ -324,7 +324,7 @@ export const store = new Vuex.Store({
       state.todolist.length = 0
       state.parentIdArr.length = 0
       // state.progress_count = ''
-      state.visibility = 'active'
+      // state.visibility = 'active'
       state.arrAttachment.length = 0
       state.isLoading = false
       state.settingsObject.length = 0
@@ -366,7 +366,7 @@ export const store = new Vuex.Store({
       state.taskHistoryLog.length = 0
       state.currentProjectCreatedBy = ''
       state.editedValue = ''
-      state.visibility = ''
+      // state.visibility = ''
 
       console.log("Reset ALL ")
     },
