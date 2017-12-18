@@ -138,6 +138,7 @@
                     this.privacyOption = ''
                     this.$store.state.currentProjectId = response.id
                     this.$store.state.currentProjectName=response.project_name
+                    this.$store.state.todolist.length=0
                     this.close();
                 } else {
                     this.createProjectError = response.error;

@@ -1,6 +1,6 @@
 <template>
     <div id="details_pane_footer" class="details-pane-redesign details-pane-footer">
-      <hr class="StoryFeed-separator StoryFeed-topSeparator">
+      <!-- <hr class="StoryFeed-separator StoryFeed-topSeparator"> -->
       <div class="dropdown sort-menu">
         <div class="dropdown">
           <button class="btn btn-defualt glyphicon glyphicon-cog" type="button" data-toggle="dropdown"></button>
@@ -142,7 +142,7 @@ export default {
     };
   },
   created: function () {
-    services.taskComments.find({ query: { task_id: this.commentTaskId, parentId: this.commentParentId ? this.commentParentId:'' } }).then(response => {
+        services.taskComments.find({ query: { task_id: this.commentTaskId, parentId: this.commentParentId ? this.commentParentId:'' } }).then(response => {
           this.taskSortComments = response;
           this.getSubTaskComments();
           this.taskComments=this.taskSortComments.slice();
@@ -150,10 +150,48 @@ export default {
 
         let vm=this;
         services.taskComments.on('created', message => {
-        let index = _.findIndex(this.taskComments, function (d) { return d.task_id == message.task_id && d.id == message.parentId})
-        if(index>-1)
-          this.taskComments[index].count+=1
-          });
+            console.log("task comment created listener",message)
+            let indexCount = _.findIndex(this.taskComments, function (d) { return d.task_id == message.task_id && d.id == message.parentId})
+            console.log("this.taskComments:",this.taskComments)
+            // Comment counter increament
+            if (indexCount>-1){
+               this.taskComments[indexCount].count+=1
+            }
+            // Add new comment
+             let index = _.findIndex(this.taskSortComments, function (d) { return d.id == message.id})
+              console.log("index:=>>",index)
+              if(index<0 && indexCount<0){
+                this.setcommenteduserData(message);
+                console.log("this.taskComments user:",message)
+                this.taskSortComments.unshift(message)
+                this.taskComments.unshift(message) 
+              }
+
+        });
+        services.taskComments.on('removed', message => {
+              console.log("remove comment:",message)
+            //   let index = _.findIndex(this.taskSortComments, function (d) { return d.id == message.id})
+
+            //   console.log("taskComments:", this.taskSortComments.length)
+              
+            // let indexCount = _.findIndex(this.taskComments, function (d) { return d.task_id == message.task_id && d.id == message.parentId})
+            // console.log("this.taskComments:",this.taskComments)
+            // Comment counter decreament
+            let indexCount = _.findIndex(this.taskComments, function (d) { return d.task_id == message.task_id && d.id == message.parentId})
+            if (indexCount>-1){
+               this.taskComments[indexCount].count-=1
+            }
+            console.log("indexCount:",indexCount)
+            // Remove comment
+             let index = _.findIndex(this.taskSortComments, function (d) { return d.id == message.id})
+              console.log("index:=>>",index)
+              if(index>-1 && indexCount<0){
+                this.taskSortComments.splice(index,1)
+                this.taskComments=this.taskSortComments.slice();
+              }
+
+            }
+        );
   },
   methods: {
     replyCommentMethod(comment) {
@@ -191,7 +229,10 @@ export default {
       }
     },
     getSortByName:function(key){
-        this.visibleFilter = key
+      this.visibleFilter = key
+    },
+    deleteCommnet:function(commentObj){
+      this.$store.dispatch('delete_Comment', commentObj)
     }
   },
   watch: {

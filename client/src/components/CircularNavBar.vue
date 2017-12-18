@@ -418,7 +418,7 @@
         this.$emit('eventChangeMenu', this.isMyTask, this.isRoleAccess, this.isSearchMenu)
       },
       showMainTask() {
-        this.$store.state.deleteItemsSelected = false
+        this.$store.commit('showMyTasks')
         this.isRoleAccess = false
         this.isMyTask = true
         this.isSearchMenu = false
@@ -503,7 +503,7 @@
         this.$store.state.currentProjectId = project.id;
         this.$store.state.currentProject = project;
         this.$store.state.currentProjectPrivacy = project.project_privacy;
-        this.$store.state.todolist = []
+        this.$store.state.todolist.length=0;
         this.$store.commit('CLOSE_DIV', '')
         this.$store.dispatch('getAllTodos', { 'parentId': '', project_id: project.id });
         // Close last open dialog
@@ -699,12 +699,6 @@
 
   * {
     Box-sizing: Border-box;
-  }
-
-  html,
-  body {
-    background: #e0e0e0;
-    overflow: hidden;
   }
 
   

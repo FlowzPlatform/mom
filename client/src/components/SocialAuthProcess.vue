@@ -1,22 +1,27 @@
 <template>
-    <div class="social-auth">
-        <div class="social-header">
-            <label>Registration Process</label>
+    <div class="registration">
+        <div class="container">
+            <div class="box"></div>
         </div>
-        <div class="form-input">
-            <label>Email</label>
-            <span class="pro-part">
-            <input type="Email" v-model='emailId' id="email_input">
-            </span>
-        </div>
-        <div class="form-input">
-            <label>About me</label>
-            <span class="pro-part">
-            <textarea class="generic-input showing about-me" v-model='aboutme' id="" style="height: 100px;" placeholder="" maxlength="200"></textarea>
-            </span>
-        </div>
-        <div>
-            <button class="social-auth-btn" @click="btnRegisterClicked()">Register</button>
+        <div class="social-auth">
+            <div class="social-header">
+                <label>Registration Process</label>
+            </div>
+            <div class="form-input">
+                <label>Email</label>
+                <span class="pro-part">
+                <input type="Email" v-model='emailId' id="email_input">
+                </span>
+            </div>
+            <div class="form-input">
+                <label>About me</label>
+                <span class="pro-part">
+                <textarea class="generic-input showing about-me" v-model='aboutme' id="" style="height: 100px;" placeholder="" maxlength="200"></textarea>
+                </span>
+            </div>
+            <div>
+                <button class="social-auth-btn" @click="btnRegisterClicked()">Register</button>
+            </div>
         </div>
     </div>
 </template>

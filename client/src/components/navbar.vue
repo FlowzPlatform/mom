@@ -122,10 +122,11 @@
         </div>
         <div class="Topbar-accountInfo">
           <a class="Topbar-settingsMenuButton">
-            <span class="Topbar-settingsMenuDomainName">
-              <span>Welcome {{ uname }}</span>
-            </span>
+            
             <div v-if="$store.state.userObject.email" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="Topbar-settingsMenuDomainName">
+                    <span>Welcome {{ uname }}</span>
+                  </span>
               <avatar v-if="$store.state.userObject.image_url" :username="$store.state.userObject.email" :src="$store.state.userObject.image_url"
                 :size="30"></avatar>
               <avatar v-else :username="$store.state.userObject.email" :size="30" color="#fff"></avatar>
@@ -284,32 +285,41 @@
         'settingArr'
       ]),
       uname: function () {
-        if(this.$store.state.userObject.email){
-            var str = this.$store.state.userObject.email
-            var n = str.indexOf("@")
+
+        let self = this
+
+      if(self.$store.state.userObject.fullname || self.$store.state.userObject.email) {
+        let str = ''
+        let strIndex = ''
+        if(self.$store.state.userObject.fullname){
+          str = self.$store.state.userObject.fullname
+          strIndex = str.indexOf(" ")
+        }else if(self.$store.state.userObject.email){
+          str = self.$store.state.userObject.email
+          strIndex = str.indexOf("@")  
+        }
+        let res = str.substr(0, strIndex)
+        return res
+      }else{
+        self.$store.dispatch('getUserDetail')
+          //  self.$store.dispatch('getUserRegister')                           
+          .then(function () {
+            // this.$router.push('/navbar/mainapp');
+            var str = self.$store.state.userObject.fullname
+            var n = str.indexOf(" ")
             var res = str.substr(0, n)
             return res
-        }
-
-        // var self = this
-        // self.$store.dispatch('getUserDetail')
-        //   //  self.$store.dispatch('getUserRegister')                           
-        //   .then(function () {
-        //     // this.$router.push('/navbar/mainapp');
-        //     var str = this.$store.state.userObject.email
-        //     var n = str.indexOf("@")
-        //     var res = str.substr(0, n)
-        //     return res
-        //   })
-        //   .catch(function (error) {
-        //     if (error.response.status === 401) {
-        //       return
-        //     }
-        //     $.notify.defaults({ className: "error" })
-        //     $.notify(error.message, { globalPosition: "top center" })
-        //   })
-
-      },
+          })
+          .catch(function (error) {
+            if (error.response.status === 401) {
+              return
+            }
+            $.notify.defaults({ className: "error" })
+            $.notify(error.message, { globalPosition: "top center" })
+          })
+      }   
+        
+    },
       projectName: {
         get() {
           return this.$store.state.currentProjectName
@@ -335,6 +345,7 @@
         this.settings_menu = false
       },
       btnLogoutClicked() {
+        this.$store.state.taskHistoryLog = []
         this.$cookie.delete('auth_token', { domain: location });
         CmnFunc.deleteAutheticationDetail()
         window.location = "/"
@@ -599,7 +610,15 @@
       },
       hidePopup() {
         this.showPrivacyPopup = false;
-      }
+      },
+      updateProjectName(){
+        if(this.pName && this.pName.length > 0){
+           this.$store.dispatch('renameProjectName',this.pName)
+        }else{
+           $.notify.defaults({ className: "error" })
+           $.notify("Project name can't blank.", { globalPosition:"top center"})
+        }
+      },
     },
     components: {
       SettingsMenu,
@@ -609,3 +628,24 @@
     }
   }
 </script>
+
+<style>
+  .vue-avatar--wrapper{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    background-color: rgb(33, 150, 243);
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    font-stretch: normal;
+    font-size: 12px;
+    line-height: 31px;
+    font-family: Helvetica, Arial, sans-serif;
+    color: rgb(255, 255, 255);
+    vertical-align: middle;
+    display: inline-block;
+  }
+</style>
