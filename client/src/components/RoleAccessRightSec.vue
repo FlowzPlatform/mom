@@ -1,12 +1,13 @@
 <template>
     <div>
-        <text-description :id="id" :filteredTodo="todoObject"></text-description>
+        <task-heading :id="id" :filteredTodo="todoObject"></task-heading>
         <statuses :selectedState="typeStateList" :filteredTodo="todoObject" :id="id"></statuses>
     </div>
 </template>
 <script>
     /* eslint-disable*/
     import TextDescription from "./TextDescription.vue";
+    import TaskHeading from './TaskHeading.vue'
     import Statuses from './Statuses.vue'
     import { mapGetters } from 'vuex'
     export default {
@@ -23,7 +24,8 @@
         },
         components: {
             TextDescription,
-            Statuses
+            Statuses,
+            TaskHeading
         }
     }
 </script>

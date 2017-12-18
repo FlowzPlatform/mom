@@ -334,6 +334,7 @@ border: 1px solid transparent;
     padding: 6px;
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
+    height: 12%;
 }
 .task .toggle {
 	text-align: center;
@@ -931,7 +932,7 @@ border: 1px solid transparent;
 .taskCommentsView-toolbar {
     height: 30px;
     padding: 10px;
-    text-align: right;
+    text-align: left;
     -webkit-transition: margin 200ms;
     -moz-transition: margin 200ms;
     transition: margin 200ms;
@@ -1317,6 +1318,9 @@ a:hover, a:focus{
 .todo-list li .new-todo:focus + span i> b {color:#1aafd0;}
 .todo-list li:hover .new-todo + span i,
 .todo-list li .new-todo:focus + span i {position: absolute; top: 13px; font-size: 18px; left: 7px;     color: #ccc;width: 16px;    height: 16px;    overflow: hidden;    cursor: move;}
+/* type state dropdown click event */
+.todo-list li.todo.sortable-chosen {z-index: 2;}
+/*end type state dropdown click event */
 .todo-list li .new-todo + span i > b {
     font-size: 14px;
     width: 6px;
@@ -1334,7 +1338,7 @@ a:hover, a:focus{
    top: 0;
    left: 0;
    right: 0;
-    z-index: 1;
+    z-index: 5;
 }
 .PageHeaderStructure {position: fixed;top: 40px;left: 0;right: 0;}
 .known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;overflow: auto;min-width: 450px;}
@@ -5697,7 +5701,7 @@ CSS for splitter view
 }
 
 .navbar-bottom .ivu-select-single .ivu-select-selection{
-    bottom: 7px;
+    bottom: 5px;
     width: 70px;
 }
 .navbar-bottom .ivu-select-single .ivu-select-input{
@@ -5710,6 +5714,9 @@ CSS for splitter view
 .navbar-bottom .ivu-select-single .ivu-select-input:hover{
     /* background: #745a93; */
     /* -webkit-text-fill-color:#fff; */
+}
+.ivu-select-input {
+    padding: 0px 6px 0px 8px;
 }
 .navbar-bottom .ivu-select-selection{
     border: 0;
@@ -5758,7 +5765,7 @@ CSS for splitter view
     padding-right: 10px;
 }
 .markdown-editor {
-    height: 500px;
+    height: 400px;
 }
 .nav1 {
     right: 65px;
@@ -6022,6 +6029,7 @@ CSS for splitter view
     background-color: #333;
     bottom: 0;
     width: 100%;
+    height: 32px;
   }
   .navbar-bottom a {
     float: left;
@@ -6064,7 +6072,7 @@ CSS for splitter view
   }
   .tab-pannel {
     /* overflow-y: scroll; */
-    /* height: 95%; */
+    height: calc(100vh - 95px);
     /* position: absolute; */
     /* width: 100%; */
     overflow-x: hidden;
@@ -6109,7 +6117,7 @@ CSS for splitter view
     /* background: #fff; */
     background: rgba(255, 255, 255, 0);
     float: left;
-    height: 34px;
+    height: 32px;
     width: 117px;
   }
   .navbar-bottom .assing-to-menu:hover {
@@ -6138,11 +6146,9 @@ CSS for splitter view
     border-radius: 30px;
     /* background: #fff; */
     float: left;
-    height: 34px;
+    height: 32px;
     width: 86px;
-    padding-left: 8px;
-    margin-left: 2px;
-    margin-right: 1px;
+    padding: 5px;
   }
   .navbar-bottom .task-type-menu:hover {
     /* background: #fff; */
@@ -6179,7 +6185,7 @@ CSS for splitter view
     display: -webkit-box;
     margin-left: 10px;
 }
-#rightContainer:after {
+/* #rightContainer:after {
     content: "\f1da";
     font-family: FontAwesome;
     font-style: normal;
@@ -6192,7 +6198,7 @@ CSS for splitter view
     left: 50%;
     margin: -300px 0 0 -200px;
     z-index: 1;
-}
+} */
 
 .ivu-poptip-body {
     overflow: scroll;
@@ -6212,7 +6218,7 @@ CSS for splitter view
     left: 50%;
     z-index: 999;
     text-align: center;
-    overflow: hidden;
+    /* overflow: hidden; */
     line-height: 65px;
     font-size: 1.5em;
     color: #fff;
@@ -6303,9 +6309,6 @@ CSS for splitter view
     transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
     max-height: 100%;
 }
-.perfect-scrollbar-off .sidebar .sidebar-wrapper, .perfect-scrollbar-off .main-panel {
-    overflow: auto;
-}
 .sidebar:before, .off-canvas-sidebar:before {
     opacity: .33;
 }
@@ -6334,16 +6337,10 @@ CSS for splitter view
     font-weight: 400;
     line-height: 30px;
 }
-.perfect-scrollbar-off .sidebar .sidebar-wrapper, .perfect-scrollbar-off .main-panel {
-    overflow: auto;
-}
-.perfect-scrollbar-on .sidebar .sidebar-wrapper, .sidebar .sidebar-wrapper, .perfect-scrollbar-on .main-panel, .main-panel {
-    overflow: hidden;
-}
 .sidebar .sidebar-wrapper, .off-canvas-sidebar .sidebar-wrapper {
     position: relative;
     height: calc(100vh - 75px);
-    overflow: auto;
+    /* overflow: auto; */
     width: 260px;
     z-index: 4;
 }
@@ -6407,7 +6404,7 @@ CSS for splitter view
     z-index: 1;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    /* overflow: hidden; */
     border-radius: inherit;
     pointer-events: none;
 }
@@ -6454,6 +6451,6 @@ CSS for splitter view
     position: fixed;
     top: 65px;
     bottom: 0;
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
     width: calc(100% - 260px);
 }

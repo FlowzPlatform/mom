@@ -575,7 +575,15 @@
       },
       hidePopup() {
         this.showPrivacyPopup = false;
-      }
+      },
+      updateProjectName(){
+        if(this.pName && this.pName.length > 0){
+           this.$store.dispatch('renameProjectName',this.pName)
+        }else{
+           $.notify.defaults({ className: "error" })
+           $.notify("Project name can't blank.", { globalPosition:"top center"})
+        }
+      },
     },
     components: {
       SettingsMenu,

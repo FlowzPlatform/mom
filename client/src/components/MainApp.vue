@@ -251,14 +251,7 @@
             $.notify(error.message, { globalPosition: "top center" })
           })
       },
-      updateProjectName(){
-        if(this.pName && this.pName.length > 0){
-           this.$store.dispatch('renameProjectName',this.pName)
-        }else{
-           $.notify.defaults({ className: "error" })
-           $.notify("Project name can't blank.", { globalPosition:"top center"})
-        }
-      },
+      
       scrollHanle(evt) {
       console.log(evt)
     }
@@ -288,7 +281,8 @@
 
 .pt-page-moveFromRight {
 	-webkit-animation: moveFromRight .6s ease both;
-	animation: moveFromRight .6s ease both;
+  animation: moveFromRight .6s ease both;
+  overflow: hidden;
 }
 
 /********************************* keyframes **************************************/
@@ -343,6 +337,6 @@
 .rightscroll{
   width: 100%;
   /* height: calc(100vh - 28vh); */
-  overflow-y: scroll
+  /* overflow-y: scroll */
 }
 </style>

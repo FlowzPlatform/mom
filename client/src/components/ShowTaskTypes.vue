@@ -1,12 +1,12 @@
 <template>
     <div>
         <div id="main-container" class="row right-tasktype" >
-            <div id="center_pane_container" class="known-list">
+            <div id="center_pane_container" class="scrollbar">
                 <div id="center_pane">
                     <main-left-section id="taskTypes" :filtered-todos="taskTypeList"></main-left-section>
                 </div>
             </div>
-            <div class="right_pane_container" v-for="(n, index) in parentIdArr">
+            <div id="main-container" class="right_pane_container scrollbar" v-for="(n, index) in parentIdArr">
                 <div id="right_pane">
                     <!-- <main-right-section id="rightTaskTypes" :todoObject="n"></main-right-section> -->
                     <role-access-right-sec id="rightTaskTypes" :todoObject="n"></role-access-right-sec>

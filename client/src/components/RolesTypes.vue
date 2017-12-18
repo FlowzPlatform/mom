@@ -1,7 +1,7 @@
 <template>
     <div>
         <div id="main-container" class="row right-tasktype" >
-            <div id="center_pane_container" class="known-list">
+            <div id="center_pane_container" class="scrollbar">
                 <div id="center_pane">
                     <main-left-section id="roleTypes" :filtered-todos="taskTypeList"></main-left-section>
                 </div>

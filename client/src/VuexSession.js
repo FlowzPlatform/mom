@@ -1998,7 +1998,6 @@ export const store = new Vuex.Store({
       })
     },
     renameProjectName ({commit}, value) {
-      console.log("value->>",value)
       var data = store.state.currentProject;
       services.projectService.find({
         query: {

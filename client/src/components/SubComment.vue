@@ -1,7 +1,7 @@
 <template>
     <div>
-        <!-- <text-description v-if="commentName" :commentName="commentName" :currentView="currentView"></text-description> -->
-        <div class="comment-title" v-html="commentName">{{commentName}}</div>
+        <!-- <div class="comment-title" v-html="commentName">{{commentName}}</div> -->
+        <task-heading :commentName="commentName"></task-heading>
         <div>
             <div class="nav1">
                 <div class="share" :id="setCommentId('share')" @click="writeComment">
@@ -105,7 +105,7 @@
     import Avatar from 'vue-avatar/src/Avatar'
     import ViewComments from './ViewComments.vue'
     import RightFooter from './RightFooter.vue'
-    import TextDescription from "./TextDescription.vue";
+    import TaskHeading from './TaskHeading.vue'
     const commentFilter = {
         all: totalComment => totalComment,
         group_By: totalComment => _(totalComment).groupBy(x => x.fullname)
@@ -118,7 +118,7 @@
             Comment,
             Avatar,
             ViewComments,
-            TextDescription
+            TaskHeading
         },
         props: ['show', 'commentTaskId', 'commentParentId', 'commentName'],
         directives: { focus: focus },
