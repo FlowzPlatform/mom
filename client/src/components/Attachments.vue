@@ -75,7 +75,7 @@
                             </el-tabs>
                         </div>
                     </span>
-                </div> -->
+                </div> 
             </Card>
             <div class="hidden">
                 <a target="_blank" v-bind:href="files.file_url">{{ files.file_name }}

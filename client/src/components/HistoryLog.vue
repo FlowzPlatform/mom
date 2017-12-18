@@ -1,6 +1,6 @@
 <template>
     <section class="main" v-cloak>
-        <div v-bind:key="ind"  v-for="(log, ind) in historyDetailLog">
+        <div v-bind:key="ind" v-show="!(log.log_action==3 && getAttachment(log.text) < 0)" v-for="(log, ind) in historyDetailLog">
             <div class="FeedBlockStory">
                 <div class="BlockStory">
                     <div class="BlockStory-icon">
@@ -214,6 +214,7 @@ export default {
                 let   attachment = this.$store.state.arrAttachment[index]
                 return attachment
             }
+            return index
         }
 
 

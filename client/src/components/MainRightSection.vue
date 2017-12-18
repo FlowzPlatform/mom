@@ -125,11 +125,11 @@
                 </Tooltip>
               </a>
               <DropdownMenu slot="list">
-                <DropdownItem name="1">Estimated Hours</DropdownItem>
+                <DropdownItem name="1">Tags</DropdownItem>
                 <DropdownItem name="2">Task Priority</DropdownItem>
                 <DropdownItem name="3">Copy Task URL</DropdownItem>
                 <DropdownItem name="4">Delete Task</DropdownItem>
-                <DropdownItem name="5">Tags</DropdownItem>
+                <DropdownItem name="5">Estimated Hours</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -240,7 +240,8 @@
       moreActionMenuClick: function (val) {
         // Show Estimated Hour val=1
         if (val == 1) {
-          this.estimated_time = true
+          // Show tags
+          this.tagsShow()
         }
         // Show Task Priority val=2
         else if (val == 2) {
@@ -260,8 +261,7 @@
           this.$store.dispatch("delete_Todo", this.todoObject);
         }
         else if (val == 5) { 
-          // Show tags
-          this.tagsShow()
+          this.estimated_time = true
         }
       },
       closeDialog() {
