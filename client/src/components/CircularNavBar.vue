@@ -496,7 +496,7 @@
         this.$store.state.currentProjectId = project.id;
         this.$store.state.currentProject = project;
         this.$store.state.currentProjectPrivacy = project.project_privacy;
-        this.$store.state.todolist = []
+        this.$store.state.todolist.length=0;
         this.$store.commit('CLOSE_DIV', '')
         this.$store.dispatch('getAllTodos', { 'parentId': '', project_id: project.id });
         // Close last open dialog

@@ -59,22 +59,24 @@
             <Tooltip content="Assignee" placement="top-start">
               <span style="float:left;margin-top:-3px">
                 <div v-if="todoObject.email">
-                  <avatar v-if="todoObject.image_url" :username="todoObject.email" :size="30" :src="todoObject.image_url"></avatar>
-                  <avatar v-else :username="todoObject.email" color='#fff' :size="30"></avatar>
+                  <avatar v-if="todoObject.image_url" :username="getListUserName(todoObject,0)" :size="30" :src="todoObject.image_url"></avatar>
+                  <avatar v-else :username="getListUserName(todoObject,0)" color='#fff' :size="30"></avatar>
                 </div>
               </span>
               <Row>
                 <Col span="2" style="padding-right:10px">
                 <Select not-found-text="No user found" placeholder="user" placement="top" v-model="selectedUser" @on-change="userListClick"
                   filterable style="width:180px;z-index:99999">
-                  <Option style="margin:5px" v-for="user in getUserList" :label="getListUserName(user.fullname)" :value="user._id" :key="user._id">
-                    <span style="float:left;margin-right:10px;margin-top:-8px;width: 30px; height: 30px; border-radius: 50%; text-align: center; vertical-align: middle;background:#ccc">
-                      <div v-if="user.email">
-                        <avatar v-if="user.image_url" :username="user.email" :size="30" :src="user.image_url"></avatar>
-                        <avatar v-else color="white" :username="user.email" :size="30"></avatar>
-                      </div>
+                  <Option  v-show="checkEmail(user.email,user.fullname)" style="margin:5px" v-for="user in getUserList" :label="getListUserName(user)" :value="user._id" :key="user._id">
+                    <span >
+                      <span style="float:left;margin-right:10px;margin-top:-8px;width: 30px; height: 30px; border-radius: 50%; text-align: center; vertical-align: middle;background:#ccc">
+                        <div>
+                          <avatar v-if="user.image_url" :username="getListUserName(user,0)" :size="30" :src="user.image_url"></avatar>
+                          <avatar v-else color="white" :username="getListUserName(user,0)" :size="30"></avatar>
+                        </div>
+                      </span>
+                      {{getListUserName(user,1)}}
                     </span>
-                    {{getListUserName(user.email)}}
                   </Option>
                 </Select>
                 </col>
@@ -113,7 +115,7 @@
               <i class="nav-icon fa fa-paperclip" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
           </a>
-          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==3?activeClass:''" class="nav-tab" @click="tagsShow">
+          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==3?activeClass:''" class="nav-tab hidden" @click="tagsShow">
             <Tooltip content="Tags" placement="top-start">
               <i class="nav-icon fa fa-tags" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
@@ -131,10 +133,11 @@
                 </Tooltip>
               </a>
               <DropdownMenu slot="list">
-                <DropdownItem name="1">Estimated Hours</DropdownItem>
+                <DropdownItem name="1">Tags</DropdownItem>
                 <DropdownItem name="2">Task Priority</DropdownItem>
                 <DropdownItem name="3">Copy Task URL</DropdownItem>
                 <DropdownItem name="4">Delete Task</DropdownItem>
+                <DropdownItem name="5">Estimated Hours</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -209,7 +212,6 @@
         todolistSubTasks: [],
         createCommentBox: true,
         readCommentBox: true,
-        historyLog: [],
         isDelete: false,
         chkAttachment: false,
         attchmentReadPerm: false,
@@ -223,9 +225,8 @@
         topMargin: 20, // Top margin of sub task panel
         isDeleteActive: false, // Hide soft delete dialog
         selectedUser: this.todoObject.assigned_to,
-        previousUser: this.todoObject.assigned_to,
+        previousUser:this.todoObject.assigned_to,
         userObj: "", // selected user object
-        selectedUser: '',
         estimated_time: false,
         task_priority: false,
         open: false,
@@ -233,10 +234,9 @@
       };
     },
     created: function () {
-      this.manageAttachmentCreatePermission();
-      this.tagReadPermission();
-      this.tagNewPermission();
-
+      // this.manageAttachmentCreatePermission();
+      // this.tagReadPermission();
+      // this.tagNewPermission();
     },
     methods: {
       undelete: function () {
@@ -245,7 +245,8 @@
       moreActionMenuClick: function (val) {
         // Show Estimated Hour val=1
         if (val == 1) {
-          this.estimated_time = true
+          // Show tags
+          this.tagsShow()
         }
         // Show Task Priority val=2
         else if (val == 2) {
@@ -264,6 +265,9 @@
         else if (val == 4) {
           this.$store.dispatch("delete_Todo", this.todoObject);
         }
+        else if (val == 5) { 
+          this.estimated_time = true
+        }
       },
       closeDialog() {
         this.estimated_time = false
@@ -276,14 +280,18 @@
         if (user.email) {
           return user.email;
         } else {
-          return "n/a";
+          return 
         }
       },
-      getListUserName: function (userName) {
-        if (userName) {
-          return userName;
-        } else {
-          return "n/a";
+      getListUserName: function (user,flag) {
+      
+        if (user.fullname && user.fullname.trim().length > 0) {
+          return user.fullname;
+        } else if(user.email){
+          // return user.email.substr(0,user.email.indexOf("@"));
+        return flag==0? user.email.substr(0,user.email.indexOf("@")):user.email;
+        }else{
+          return "Un"
         }
       },
       onUserClick: function (user) {
@@ -291,7 +299,7 @@
         if (user.email) {
           return user.email;
         } else {
-          return "n/a";
+          return;
         }
       },
       userClick: function (user) {
@@ -342,7 +350,7 @@
         this.chkAttachment = await CmnFunc.checkActionPermision(
           this,
           this.todoObject.type_id,
-          Constant.USER_ACTION.ATTACHEMENT,
+          Constant.USER_ACTION.ATTACHMENT,
           Constant.PERMISSION_ACTION.DELETE,
           "attachment"
         );
@@ -351,7 +359,7 @@
         return await CmnFunc.checkActionPermision(
           this,
           this.todoObject.type_id,
-          Constant.USER_ACTION.ATTACHEMENT,
+          Constant.USER_ACTION.ATTACHMENT,
           Constant.PERMISSION_ACTION.READ,
           "attachment"
         );
@@ -360,7 +368,7 @@
         this.isCreatePermission = await CmnFunc.checkActionPermision(
           this,
           this.todoObject.type_id,
-          Constant.USER_ACTION.ATTACHEMENT,
+          Constant.USER_ACTION.ATTACHMENT,
           Constant.PERMISSION_ACTION.CREATE,
           "attachment"
         );
@@ -425,14 +433,18 @@
         $(".nav").addClass("hidden");
       },
       async setAssignUser(userId) {
-        console.log("user id -->", userId);
         var user = _.find(this.$store.state.arrAllUsers, ["_id", userId]);
         console.log("Selected User setAssignUser method:", user);
+        this.todoObject.image_url  = user.image_url
+        this.todoObject.email  = user.email
+
         if (user) {
           this.$store.dispatch("editTaskName", {
             todo: this.todoObject,
             assigned_by: this.$store.state.userObject._id,
-            assigned_to: user._id
+            assigned_to: user._id,
+            log_action:Constant.HISTORY_LOG_ACTION.TASK_ASSIGN,
+            log_text:userId
           });
         }
       },
@@ -462,7 +474,9 @@
         var selectedDate = moment(dateTo, "YYYY-MM-DD").format("DD");
         this.$store.dispatch("editTaskName", {
           todo: this.todoObject,
-          selectedDate: dateTo
+          selectedDate: dateTo,
+          log_action:Constant.HISTORY_LOG_ACTION.DUE_DATE,
+          log_text:dateTo
         });
         this.todoObject.dueDate = dateTo
       },
@@ -487,11 +501,16 @@
           await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedType": objType})
           await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedState": '' })
         }
+      },
+      checkEmail(email,fullname){
+        // console.log("check fullname",fullname)
+        // console.log("check email",email)
+        return (fullname && fullname.length>0) || (email && email.length>0 && CmnFunc.checkValidEmail(email))
       }
     },
     watch: {
       todoObject: function (todo) {
-        this.previousUser = this.selectedUser;
+        this.previousUser = todo.assigned_to;
         this.selectedUser = todo.assigned_to;
         this.$store.dispatch("findHistoryLog", this.todoObject.id);
         this.selectedType = todo.type_id  

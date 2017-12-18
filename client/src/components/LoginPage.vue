@@ -33,7 +33,7 @@
                     <div class="form-item log-in">
                         <div class="table">
                             <div class="table-cell">
-                                <form action="http://ec2-54-88-11-110.compute-1.amazonaws.com/auth/Gplus" method="post">
+                                <form action="http://auth.flowz.com/auth/Gplus" method="post">
                                     <input type="hidden" name="success_url" value="http://mom.flowz.com">
                                     <button class="googleAuthBtn" type="submit">Use Google Account</button>
                                 </form> 
@@ -58,10 +58,12 @@
                     <div class="form-item sign-up">
                         <div class="table">
                             <div class="table-cell">
-                                <input placeholder="Email" tabindex="7" type="email" name="e" id="emailInput" value="" v-model="emailId" v-on:change="enableButtons()">
-                                <input placeholder="Password" tabindex="8" type="password" name="p" id="passwordInput" v-model="pwd">
-                                <input placeholder="Confirm Password" tabindex="9" type="password" v-model="confPwd" id="confirmpwd">
-                                <div tabindex="10" class="btn" id="signup_btn" @click="btnSubmitClicked()">
+                                <input placeholder="First Name" tabindex="7" type="firstname" id="firstnameInput" v-model="fname">
+                                <input placeholder="Last Name" tabindex="8" type="lastname" id="lastnameInput" v-model="lname">
+                                <input placeholder="Email" tabindex="9" type="email" name="e" id="emailInput" value="" v-model="emailId" v-on:change="enableButtons()">
+                                <input placeholder="Password" tabindex="10" type="password" name="p" id="passwordInput" v-model="pwd">
+                                <input placeholder="Confirm Password" tabindex="11" type="password" v-model="confPwd" id="confirmpwd">
+                                <div tabindex="12" class="btn" id="signup_btn" @click="btnSubmitClicked()">
                                     Submit
                                 </div>
                             </div>
@@ -105,7 +107,9 @@
                 pwd: '',
                 confPwd: '',
                 passData: 'Send to next vue..',
-                selectedTabIndex: 1
+                selectedTabIndex: 1,
+                fname: '',
+                lname: ''
             }
         },
         mounted(){
@@ -137,16 +141,15 @@
 
             var token = url.searchParams.get('token')
             if (token) {
-                console.log('TOKEN exist')
+                console.log('TOKEN exist:', token)
                 this.$store.commit('SAVE_USERTOKEN', token)
                 this.$router.replace('/loadProcess')
-                //this.userDetail(this)
+                this.userDetail(this)
                 //this.getAccessTokenAPI(code)
             }
 
             var id = url.searchParams.get('ob_id')
             if (id) {
-                console.log('//socialAuth....')
                 this.$store.state.googleId = id
                 this.$store.commit('googleId')
                 this.$router.replace('/socialAuth')
@@ -175,44 +178,62 @@
                 $(".container").toggleClass("log-in");
             },
             btnSubmitClicked() {
-                var trimmedEmail = this.emailId.trim()
-                var trimmedPwd = this.pwd.trim()
-                var trimmedConfPwd = this.confPwd.trim()
+                let trimmedFname = this.fname.trim()
+                let trimmedLname = this.lname.trim()
+                let trimmedEmail = this.emailId.trim()
+                let trimmedPwd = this.pwd.trim()
+                let trimmedConfPwd = this.confPwd.trim()
 
-                var validateEmail = CmnFunc.checkBlankField(trimmedEmail)
+                let validateFname = CmnFunc.checkBlankField(trimmedFname)
+                if(!validateFname){
+                    $("#firstnameInput").notify("First name should not be blank")
+                    return
+                }
+
+                let validateLname = CmnFunc.checkBlankField(trimmedLname)
+                if(!validateLname){
+                    $("#lastnameInput").notify("Last name should not be blank")
+                    return
+                }
+                
+                let validateEmail = CmnFunc.checkBlankField(trimmedEmail)
                 if (!validateEmail) {
                     $("#emailInput").notify("Email address should not be blank")
                     return
                 }
 
-                var validEmail = CmnFunc.checkValidEmail(trimmedEmail)
+                let validEmail = CmnFunc.checkValidEmail(trimmedEmail)
                 if (!validEmail) {
                     $("#emailInput").notify("Please enter valid email address")
                     return
                 }
 
-                var validatePwd = CmnFunc.checkBlankField(trimmedPwd)
+                let validatePwd = CmnFunc.checkBlankField(trimmedPwd)
                 if (!validatePwd) {
                     $("#passwordInput").notify("Password should not be blank")
                     return
                 }
-                var validateConfPwd = CmnFunc.checkBlankField(trimmedConfPwd)
+                let validateConfPwd = CmnFunc.checkBlankField(trimmedConfPwd)
                 if (!validateConfPwd) {
                     $("#confirmpwd").notify("Confirm password field should not be blank")
                     return
                 }
-                var matchPwd = CmnFunc.matchPassword(trimmedPwd, trimmedConfPwd)
+                let matchPwd = CmnFunc.matchPassword(trimmedPwd, trimmedConfPwd)
                 if (!matchPwd) {
                     $("#confirmpwd").notify("Password and Confirm password fields do not match")
                     return
                 }
-                var self = this
-                this.$store.dispatch('userRegistrationProcess', { 'email': trimmedEmail, 'password': trimmedPwd, 'signup_type': 'email', 'image_url': '' })
+
+                let fullname = CmnFunc.capitalizeFirstLetter(trimmedFname) + ' ' + CmnFunc.capitalizeFirstLetter(trimmedLname)
+                
+                let self = this
+                this.$store.dispatch('userRegistrationProcess', { 'email': trimmedEmail, 'password': trimmedPwd, 'signup_type': 'email', 'image_url': '', 'fullname': fullname })
                     .then(function (response) {
-                        console.log('response successful')
                         self.emailId = ''
                         self.pwd = ''
                         self.confPwd = ''
+                        self.fname = ''
+                        self.lname = ''
                         $('#confirmpwd').hide();
                         $('#login_btn').show()
                         $('.title').text('Log In')
@@ -229,7 +250,7 @@
                 $(".container").toggleClass("log-in");
             },
             btnLDAPPressed() {
-                var self = this
+                let self = this
                 // CmnFunc.resetProjectDefault()
                 console.log('LOG IN--> userloginprocess')
                 this.$store.dispatch('signInWithLDAP', { 'userid': 'xxxx', 'passwd': 'xxxx' })

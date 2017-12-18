@@ -14,6 +14,9 @@ export default {
       return true
     }
   },
+  capitalizeFirstLetter: function(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  },
   checkValidEmail: function (emailId) {
     var filter = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
     if (filter.test(emailId)) {
@@ -132,9 +135,14 @@ export default {
   insertHistoryLog:function(context,createdBy,text,taskId,logAction)
   {
     services.taskHistoryLogs.create({created_by:createdBy,text:text,task_id:taskId,log_action:logAction,created_on:new Date()}).then(response=> {
-      console.log("Reponse task update:--->",response)
-      console.log("Context: --->",context)
-      // context.state.taskHistoryLog.push(response)
+      console.log("insertHistoryLog update:--->",response)
+      // console.log("Context: --->",context)
+      // if(logAction != 0){
+      //   context.state.taskHistoryLog.unshift(response)
+      //   console.log('logAction',logAction)
+      // }else{
+      //   console.log('else logAction',logAction)
+      // }
     })
   },
   /**

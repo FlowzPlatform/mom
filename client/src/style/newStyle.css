@@ -1303,12 +1303,12 @@ form.dialog--nux-inner {
 .form-input select,
 .form-input textarea {
     background-color: #fff;
-    border: 1px solid #CDCFD2;
+    border: 1px solid gray;
     border-radius: 3px;
     color: #1B2432;
     height: 40px;
     margin: 0;
-    /* padding: 0 0 0 10px; */
+    padding: 0 0 0 10px;
     width: 100%
 }
 .form-input input:focus,
@@ -1337,7 +1337,7 @@ form.dialog--nux-inner {
     line-height: normal
 }
 .form-input input:focus {
-    border-color: #B9BCC0;
+    /* border-color: #B9BCC0; */
     box-shadow: inset 0px 1px 1px 0px #eff0f1
 }
 .form-input input[type="checkbox"],
@@ -1363,10 +1363,10 @@ form.dialog--nux-inner {
 .form-input label {
     color: #898E95;
     display: block;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 200;
     margin-bottom: 7px;
-    text-transform: uppercase
+    text-transform: capitalize
 }
 .form-input--button {
     text-align: right
