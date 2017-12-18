@@ -34,13 +34,13 @@
 			<div :id="n.level" v-bind:key="index" class="right_pane_container" v-for="(n, index) in parentIdArray">
 				<div id="right_pane">
 					<main-right-section v-show="!n.show_type" :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>
-					<SubComment v-show="n.show_type==='subcomment'" :commentTaskId="n.task_id" :commentParentId="n.id" :commentName="n.comment"></SubComment>
+					<SubComment v-show="n.show_type==='subcomment'" :commentTaskId="n.task_id"   :commentParentId="n.id" :commentName="n.comment"></SubComment>
         </div>
 			</div>
 			<div class="asanaView-paneGutter"></div>
 			<create-project-dialog :show="isNewProjectDialogShow" v-on:updateDialog='updateDialogShow'></create-project-dialog>
 		</div>
-		<div id="roleAccess" class="row asanaView-body pt-page-moveFromRight" v-show="isRoleAccess">
+		<div id="roleAccess" class="pt-page-moveFromRight" v-show="isRoleAccess">
 		<role-access></role-access>
 		</div>
 		<div id="search" class="row asanaView-body pt-page-moveFromRight" v-show="isSearch">
@@ -171,7 +171,7 @@
       taskById() {
         var insertPermssion=CmnFunc.isCreatePermission(15);
         let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', this.url_level)
-        if (insertPermssion) {
+        if (insertPermssion && !this.$store.state.deleteItemsSelected) {
             taskArray.push({
               id: '-1',
               parentId: this.url_parentId,
@@ -252,14 +252,7 @@
             $.notify(error.message, { globalPosition: "top center" })
           })
       },
-      updateProjectName(){
-        if(this.pName && this.pName.length > 0){
-           this.$store.dispatch('renameProjectName',this.pName)
-        }else{
-           $.notify.defaults({ className: "error" })
-           $.notify("Project name can't blank.", { globalPosition:"top center"})
-        }
-      },
+      
       scrollHanle(evt) {
       console.log(evt)
     }
@@ -289,7 +282,8 @@
 
 .pt-page-moveFromRight {
 	-webkit-animation: moveFromRight .6s ease both;
-	animation: moveFromRight .6s ease both;
+  animation: moveFromRight .6s ease both;
+  overflow: hidden;
 }
 
 /********************************* keyframes **************************************/
@@ -344,6 +338,6 @@
 .rightscroll{
   width: 100%;
   /* height: calc(100vh - 28vh); */
-  overflow-y: scroll
+  /* overflow-y: scroll */
 }
 </style>

@@ -32,7 +32,7 @@ export default {
 }
 </script>
 <style>
-  /* .dropdown.pull-right.open > ul::before {
+ /* .dropdown.pull-right.open > ul::before {
     -webkit-transform: scale3d(1,1,1);
     transform: scale3d(1,1,1);
     -webkit-transition: none;
@@ -40,6 +40,7 @@ export default {
     -webkit-animation: expand 0.6s ease-out;
     animation: expand 0.6s ease-out;
 }
+
 .dropdown.pull-right > ul::before {
     content: '';
     position: absolute;

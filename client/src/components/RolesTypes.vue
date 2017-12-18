@@ -1,8 +1,7 @@
 <template>
     <div>
-        <h3 class="ui header">Roles</h3>
-        <div id="main-container" class="row asanaView-body" style="left: 20%;right: 20px;">
-            <div id="center_pane_container" class="known-list">
+        <div id="main-container" class="row right-tasktype" >
+            <div id="center_pane_container" class="scrollbar">
                 <div id="center_pane">
                     <main-left-section id="roleTypes" :filtered-todos="taskTypeList"></main-left-section>
                 </div>

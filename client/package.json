@@ -69,7 +69,6 @@
     "vue-widgets": "^1.0.9",
     "vue2-scrollbar": "0.0.3",
     "vuedraggable": "^2.13.1",
-    "vuejs-datepicker": "^0.9.20",
     "vuetify": "^0.17.2",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.3.2",

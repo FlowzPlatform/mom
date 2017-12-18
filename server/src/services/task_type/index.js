@@ -59,7 +59,7 @@ module.exports = function() {
       if(taskTypes.tables_created)
       {
         r.db(db).table(table).insert([
-          {'type': 'Todo', 'index': 0},
+          {'type': 'Todo', 'defualt_Type': 'Todo'},
         ]).run()
       }
   });
