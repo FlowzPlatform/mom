@@ -6197,7 +6197,6 @@ CSS for splitter view
     display: block;
     
 }
-<<<<<<< HEAD
 /* .vw-widget {
     overflow-x: scroll;
     width:1000px;
@@ -6207,7 +6206,7 @@ CSS for splitter view
 } */
 .vw-widget-body {
     padding: 0px;
-=======
+}
 .navbar-bottom a:hover {
     cursor: pointer;
     background: #999999;
@@ -6488,5 +6487,4 @@ CSS for splitter view
     bottom: 0;
     /* overflow-y: hidden; */
     width: calc(100% - 260px);
->>>>>>> master
 }
