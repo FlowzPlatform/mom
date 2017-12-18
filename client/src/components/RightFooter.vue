@@ -10,48 +10,26 @@
                             <avatar v-else :username="$store.state.userObject.email" :size="30" color="#fff"></avatar>
                         </div>
                     </div>
-                    <div style="width: 475px;">
-                        <el-tabs type="border-card">
-                            <el-tab-pane>
-                                <span slot="label">
-                                    <i class="el-icon-date"></i> Html editor</span>
-                                <div>
-                                    <ckeditor v-model="commentText">
-                                    </ckeditor>
-                                </div>
-                            </el-tab-pane>
-                            <el-tab-pane label="Markdown editor">
-                                <div class="markdownEditor">
-                                    <!-- <markdown-editor>
-                    </markdown-editor> -->
-                                    <markdown-editor v-model="content" ref="markdownEditor" :value="content" :configs="configs">
-                                    </markdown-editor>
-                                </div>
-                            </el-tab-pane>
-                        </el-tabs>
-                    </div>
-
-                    <!-- <div>
-                    <ckeditor v-model="commentText">
-                    </ckeditor>
-                </div>   -->
-                    <!-- <div>
-                    <markdown-editor>
-                    </markdown-editor>
-                </div>     -->
-                    <div class="taskCommentsView-toolbar">
-                        <div id="details_property_sheet__new_comment_button" @click="insertComment(commentTaskId)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton"
-                            style="" tabindex="710">
-                            <span class="left-button-icon"></span>
-                            <span class="new-button-text">Comment</span>
-                            <span class="right-button-icon"></span>
+                    <div>
+                        <div v-if="view==='htmlEditor'">
+                            <ckeditor v-model="commentText"></ckeditor>
+                        </div>
+                        <div v-if="view==='markdownEditor'" class="markdownEditor">
+                            <markdown-editor v-model="content" ref="markdownEditor" :value="content" :configs="configs"></markdown-editor>
                         </div>
                     </div>
+                    
                 </div>
             </div>
-            </div>
-            </div>
         </div>
+        <div class="taskCommentsView-toolbar">
+                <div id="details_property_sheet__new_comment_button" @click="insertComment(commentTaskId)" class="buttonView new-button new-primary-button buttonView--primary buttonView--default taskCommentsView-commentButton"
+                    tabindex="710">
+                    <span class="left-button-icon"></span>
+                    <span class="new-button-text">Comment</span>
+                    <span class="right-button-icon"></span>
+                </div>
+            </div>
     </div>
 </template>
 <script>
@@ -59,17 +37,14 @@
     import { mapGetters } from 'vuex'
     import Ckeditor from 'vue-ckeditor2'
     import { markdownEditor } from 'vue-simplemde'
-    // import { markdownEditor } from 'vue-simplemde'
     import Avatar from 'vue-avatar/src/Avatar'
     import Vue from 'vue'
-    import ElementUI from 'element-ui'
     import locale from 'element-ui/lib/locale/lang/en'
-    Vue.use(ElementUI, { locale })
-
+    import 'simplemde/dist/simplemde.min.css'
 
     export default {
        
-        props: ['commentTaskId','commentParentId'],
+        props: ['commentTaskId','commentParentId', 'view'],
         data: function () {
             return {
                 picker1: null,
@@ -98,8 +73,6 @@
                     let frame = document.getElementsByClassName('cke_reset')[3].contentWindow
                     frame.document.getElementsByClassName('cke_editable cke_editable_themed cke_contents_ltr cke_show_borders')[0].innerHTML = '';
                 } else {
-                    console.log(this.content)
-                    console.log(this.$refs.markdownEditor.simplemde.markdown(this.content))
                     var mdString = this.$refs.markdownEditor.simplemde.markdown(this.content).replace('<table>', '<table border=1 style="border:1px solid #bbb;">');
                     var mdString2 = mdString.replace(new RegExp('<th>', 'g'), '<th style="padding:5px">');
                     var mdString3 = mdString2.replace(new RegExp('<td>', 'g'), '<td style="padding:5px">');

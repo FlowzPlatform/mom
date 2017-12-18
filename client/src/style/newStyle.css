@@ -947,16 +947,16 @@
 }
 .buttonView.buttonView--primary:focus,
 .buttonView.buttonView--primary:hover {
-    background: #02CEFF;
-    border-color: #02CEFF;
-    box-shadow: inset 0 0 transparent, 0 0 0 3px #80E6FF;
-    -moz-box-shadow: inset 0 0 transparent, 0 0 0 3px #80E6FF;
-    -webkit-box-shadow: inset 0 0 transparent, 0 0 0 3px #80E6FF
+    background: #062f4f;
+    border-color: #062f4f;
+    box-shadow: inset 0 0 transparent, 0 0 0 3px #062f4f;
+    -moz-box-shadow: inset 0 0 transparent, 0 0 0 3px #062f4f;
+    -webkit-box-shadow: inset 0 0 transparent, 0 0 0 3px #062f4f
 }
 .buttonView.buttonView--primary:active,
 .buttonView.buttonView--primary.is-active {
-    background: #179DBA;
-    border-color: #179DBA
+    background: #062f4f;
+    border-color: #062f4f
 }
 .buttonView.buttonView--primary.is-disabled {
     box-shadow: inset 0 0 transparent, 0 0 0 0 transparent;

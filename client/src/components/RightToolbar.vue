@@ -150,7 +150,6 @@
   import Vue from 'vue';
   import KeenUI from 'keen-ui';
   import moment from 'moment';
-  import Datepicker from 'vuejs-datepicker'
   import EstimatedHours from './EstimatedHours.vue'
   import TaskPriority from './TaskPriority.vue'
   import { mapMutations, mapGetters } from 'vuex'
@@ -337,7 +336,6 @@
       }
     },
     components: {
-      Datepicker,
       EstimatedHours,
       TaskPriority,
     }

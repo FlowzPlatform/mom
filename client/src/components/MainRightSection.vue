@@ -32,10 +32,10 @@
           <a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
         </span>
       </Alert>
-      <div class="tab-pannel">
-        <text-description :id="id" :filteredTodo="todoObject" :currentView="currentView"></text-description>
-        <div class="rightscroll" id="rightContainer">
-          <component :is="currentView" :id="id" :taskId="todoObject.id"  :isDeleteAttachment="chkAttachment"
+      <div class="tab-pannel"  id="rightContainer">
+        <task-heading :id="id" :filteredTodo="todoObject"></task-heading>
+        <div class="rightscroll">
+          <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
             :filteredTodo="todoObject" v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'"
             :pholder="pholder" :filtered-todos="taskById" :commentTaskId="todoObject.id">
           </component>
@@ -83,13 +83,21 @@
               </Row>
             </Tooltip>
           </div>
+          <!-- Task type -->          
+          <div class="task-type-menu"> 
+              <Select  placement="top" v-model="selectedType" @on-change="btnTypeClicked" filterable  style="width:150px;z-index:90">
+                    <Option style="margin:5px"  v-for="task_type in getTaskTypes"  :label="task_type.type" :value="task_type.id" :key="task_type.id">
+                        {{task_type.type}}
+                    </Option>
+              </Select>
+          </div>
           <!-- Task due date menu item -->
           <div class="due-date">
             <Tooltip content="Due Date" placement="top-start">
               <DatePicker :open="open" confirm size="small" placement="top" type="date" :value="todoObject.dueDate" @on-change="dueDateClick"
                 @on-clear="handleClear" @on-ok="handleOk">
                 <a href="javascript:void(0)" @click="handleClick">
-                  <Icon v-if="todoObject.dueDate === ''" class="fa fa-calendar"></Icon>
+                  <Icon v-if="todoObject.dueDate === ''" class="nav-icon fa fa-calendar"></Icon>
                   <template v-if="todoObject.dueDate === ''"></template>
                   <template v-else>{{ todoObject.dueDate | formatDate}}</template>
                 </a>
@@ -164,7 +172,6 @@
   /* eslint-disable*/
   import Vue from "vue";
   import MainLeftSection from "./MainLeftSection.vue";
-  import TextDescription from "./TextDescription.vue";
   import SubComment from "./SubComment.vue";
   import HistoryLog from "./HistoryLog.vue";
   import RightToolbar from "./RightToolbar.vue";
@@ -181,10 +188,10 @@
   import * as Constant from "./Constants.js";
   import AsyncComputed from "vue-async-computed";
   import Avatar from "vue-avatar/src/Avatar";
-  import Datepicker from "vuejs-datepicker";
   import moment from "moment";
   import EstimatedHours from './EstimatedHours.vue'
   import TaskPriority from './TaskPriority.vue'
+  import TaskHeading from './TaskHeading.vue'
   Vue.use(AsyncComputed);
   Vue.filter("formatDate", function (value) {
     if (value) {
@@ -206,6 +213,7 @@
         createCommentBox: true,
         readCommentBox: true,
         isDelete: false,
+        historyLog: [],
         chkAttachment: false,
         attchmentReadPerm: false,
         isCreatePermission: false,
@@ -217,14 +225,13 @@
         modal_loading: false,
         topMargin: 20, // Top margin of sub task panel
         isDeleteActive: false, // Hide soft delete dialog
-        // imageURlProfilePic: "",
-        model8: "",
         selectedUser: this.todoObject.assigned_to,
         previousUser:this.todoObject.assigned_to,
         userObj: "", // selected user object
         estimated_time: false,
         task_priority: false,
         open: false,
+        selectedType:this.todoObject.type_id
       };
     },
     created: function () {
@@ -233,7 +240,6 @@
       // this.tagNewPermission();
     },
     methods: {
-      // ...mapMutations(["CLOSE_DIV"]),    
       undelete: function () {
         this.$store.dispatch("undelete", this.todoObject);
       },
@@ -402,17 +408,11 @@
       subTaskShow() {
         this.selectedMenuIndex = 0;
         this.currentView = SubTask;
-        const totalHeight = $("#"+this.id).height()
-        const divHeight = $(".task").height() + 40
-        document.getElementById('rightContainer').style.height = totalHeight - divHeight + "px";
       },
       attachmentShow() {
         $(".nav").removeClass("hidden");
         this.selectedMenuIndex = 2;
         this.currentView = Attachments;
-        const totalHeight = $("#"+this.id).height()
-        const divHeight = $("#text-area").height() + 40
-        document.getElementById('rightContainer').style.height = totalHeight - divHeight + "px";
       },
       tagsShow() {
         this.selectedMenuIndex = 3;
@@ -421,9 +421,6 @@
       historyShow() {
         this.selectedMenuIndex = 1;
         this.currentView = HistoryLog;
-        const totalHeight = $("#"+this.id).height()
-        const divHeight = $("#text-area").height() + 40
-        document.getElementById('rightContainer').style.height = totalHeight - divHeight + "px";
       },
       commentsShow() {
         this.selectedMenuIndex = 4;
@@ -436,34 +433,6 @@
         this.selectedMenuIndex = 5;
         $(".nav").addClass("hidden");
       },
-      // openfullwinodw: function(ind) {
-      //   console.log("Openfullwindow called====");
-      //   $(".window-full.circularButtonView")
-      //     .find(".fa")
-      //     .toggleClass("fa-compress");
-      //   $(".window-full.circularButtonView")
-      //     .parents(".right_pane_container #right_pane #" + ind)
-      //     .toggleClass("open");
-      // },
-      // pinit(filteredTodo) {
-      //   console.log("TODO Object", filteredTodo);
-      //   if (
-      //     _.find(this.$store.state.todolist, ["id", filteredTodo.id]) &&
-      //     !_.find(this.$store.state.todolist, ["id", filteredTodo.id]).isPinned
-      //   ) {
-      //     console.log("pinnned true");
-      //     _.find(this.$store.state.todolist, [
-      //       "id",
-      //       filteredTodo.id
-      //     ]).isPinned = true;
-      //   } else {
-      //     console.log("pinnned false");
-      //     _.find(this.$store.state.todolist, [
-      //       "id",
-      //       filteredTodo.id
-      //     ]).isPinned = false;
-      //   }
-      // },
       async setAssignUser(userId) {
         var user = _.find(this.$store.state.arrAllUsers, ["_id", userId]);
         console.log("Selected User setAssignUser method:", user);
@@ -525,11 +494,14 @@
       * Selected user from assign user list
       */
       userListClick: function (user_id) {
-        //console.log("on-change:",user_id," this.selectedUser:",this.selectedUser)
-
-         console.log("userListClick click call",this.selectedUser+" previousUser:"+this.previousUser)
-         if (this.selectedUser !== this.previousUser)
-           this.setAssignUser(user_id)
+        if (this.selectedUser !== this.previousUser)
+          this.setAssignUser(user_id)
+      },
+      async btnTypeClicked(objType) {
+        if(objType !== this.todoObject.type_id){
+          await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedType": objType})
+          await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedState": '' })
+        }
       },
       checkEmail(email,fullname){
         // console.log("check fullname",fullname)
@@ -538,23 +510,23 @@
       }
     },
     watch: {
-      // whenever question changes, this function will run
-      // todolistSubTasks: function(newQuestion) {},
-      // todoObject: function() {
-      //   console.log("Right Section Log history", this.todoObject);
-      //   this.$store.dispatch("findHistoryLog", this.todoObject.id);
-      // },
       todoObject: function (todo) {
         this.previousUser = todo.assigned_to;
         this.selectedUser = todo.assigned_to;
+        this.$store.dispatch("findHistoryLog", this.todoObject.id);
+        this.selectedType = todo.type_id  
       }
     },
     computed: {
       ...mapGetters({
         todoById: "getTodoById",
         typeStateList: "getTask_types_state",
-        getUserList: "getAllUserList"
+        getUserList: "getAllUserList",
+        // getTypes: 'getTaskTypeList'
       }),
+      getTaskTypes() {
+        return this.$store.state.task_types_list.filter(type => type.id !== '-1')
+      },
       taskById() {
         this.onReadComment(
           this.todoObject.id,
@@ -608,9 +580,7 @@
       }
     },
     components: {
-      // RightFooter,
       MainLeftSection,
-      TextDescription,
       RightToolbar,
       Attachments,
       StoryFeed,
@@ -619,10 +589,9 @@
       HistoryLog,
       SubComment,
       Avatar,
-      Datepicker,
-      // Comment,
       EstimatedHours,
-      TaskPriority
+      TaskPriority,
+      TaskHeading
     }
   };
 </script>

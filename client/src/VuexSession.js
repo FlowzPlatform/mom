@@ -236,6 +236,7 @@ export const store = new Vuex.Store({
       //   scrollLeft: totalWidth
       // }, 800)
       // END scroll to last opened right div 
+      
 
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
@@ -273,6 +274,8 @@ export const store = new Vuex.Store({
           }
         }
       }
+      // const divHeight = $(".task").height() + 40
+      // document.getElementById('rightContainer').style.height = 904 - divHeight + "px"
     },
     
     CLOSE_DIV(state, payload) {
@@ -1165,6 +1168,7 @@ export const store = new Vuex.Store({
             id: dragTodo[i].id,
             index: i
           }, { query: { 'id': dragTodo[i].id } }).then(response => {
+              console.log("Resopnse from drag todo", response)
           });
 
         }
@@ -2044,7 +2048,6 @@ export const store = new Vuex.Store({
       })
     },
     renameProjectName ({commit}, value) {
-      console.log("value->>",value)
       var data = store.state.currentProject;
       services.projectService.find({
         query: {

@@ -1,6 +1,6 @@
 <template>
     <div id="details_pane_footer" class="details-pane-redesign details-pane-footer">
-      <hr class="StoryFeed-separator StoryFeed-topSeparator">
+      <!-- <hr class="StoryFeed-separator StoryFeed-topSeparator"> -->
       <div class="dropdown sort-menu">
         <div class="dropdown">
           <button class="btn btn-defualt glyphicon glyphicon-cog" type="button" data-toggle="dropdown"></button>
