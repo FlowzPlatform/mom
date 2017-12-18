@@ -47,8 +47,6 @@ app.configure(socketio(function(io) {
       socket.on('userdata', function (data) {
               socket.feathers.userId=data ;
       });
-
-
     });
 
     io.use(function(socket, next) {
@@ -57,7 +55,6 @@ app.configure(socketio(function(io) {
     });
 
 }));
-
 
 // Set up our services (see `services/index.js`)
 app.configure(services);

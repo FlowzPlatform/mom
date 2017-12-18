@@ -101,7 +101,7 @@ function updateTaskCount(state, todoObject) {
 function updateObject(oldObject, newObject) {
   var keys = Object.keys(oldObject)
   for (var i = 0; i < keys.length; i++) {
-    if (newObject[keys[i]]) {
+    if (newObject[keys[i]] !== undefined) {
       oldObject[keys[i]] = newObject[keys[i]];
     }
   }
@@ -152,7 +152,6 @@ export const store = new Vuex.Store({
     task_types_state: [],
     googleId: '',
     removeMember:{},
-    currentProject:{},
     permissions:{},
     currentProjectRoleid:'',
     commentValue: '',
@@ -371,8 +370,9 @@ export const store = new Vuex.Store({
       if (item.project_id === state.currentProjectId) {
         let updateTodoIndex = _.findIndex(state.todolist, function (d) { return d.id == item.id })
         if (updateTodoIndex < 0) {
-          if (state.todoObjectByID)
+          if (state.todoObjectByID){
             updateObject(state.todoObjectByID, item)
+          }
             if(item.type_id)
               Vue.set(state.todoObjectByID, 'type_id', item.type_id)
             //state.todoObjectByID.type_id=item.type_id;
@@ -389,7 +389,12 @@ export const store = new Vuex.Store({
           }
         } else {
           var isValueAvailable = state.todolist[updateTodoIndex].isDelete
+          
           updateObject(state.todolist[updateTodoIndex], item)
+          // console.log('state.todolist before:', JSON.stringify(state.todolist))
+          // let temp = _.sortBy(state.todolist, function(o) { return o.index})
+          // console.log('state.todolist after:', temp)
+      
           if(item.type_id)
             Vue.set(state.todolist[updateTodoIndex], 'type_id', item.type_id)
             if(item.type_id){
@@ -1552,7 +1557,7 @@ export const store = new Vuex.Store({
         email: regObject.email,
         password: regObject.password,
         username: regObject.email,
-        fullname: '',
+        fullname: regObject.fullname,
         role: '',
         aboutme: '',
         dob: '',
@@ -1639,7 +1644,7 @@ export const store = new Vuex.Store({
     },
     getUserDetail({ commit }) {
       console.log('token: ', store.state.userToken)
-      console.log('env-USER_AUTH', process.env.USER_AUTH + '/api/userdetails')
+      console.log('cookie token', Vue.cookie.get('auth_token'))
       return axios.get(process.env.USER_AUTH + '/api/userdetails', {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -1648,10 +1653,12 @@ export const store = new Vuex.Store({
         },
       })
         .then(function (response) {
+          console.log('userdetail response:', response.data.data)
           commit('GET_USERDETAIL', response.data.data)
           services.socket.emit("userdata", response.data.data._id);
         })
         .catch(function (error) {
+          console.log('userdetail error:', error)
           throw error
         })
     },
@@ -2159,7 +2166,7 @@ export const store = new Vuex.Store({
       } else {
         return function (id, level) {
           var todolist = state.todolist.filter(function (todo) {
-            return !todo.isDelete && todo.parentId === id
+            return !todo.isDelete && todo.parentId === id && todo.project_id === store.state.currentProjectId
           })
           todolist = _.sortBy(todolist, 'index')
           return todolist

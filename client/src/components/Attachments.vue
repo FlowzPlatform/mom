@@ -22,9 +22,9 @@
                             <DropdownItem class="hidden" name="2">share <span class="hidden">{{files}}</span></DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
-                    <button class="hidden close-btn" @click="deleteAttachment(files, index)">
+                    <!-- <button class="hidden close-btn" @click="deleteAttachment(files, index)">
                         <a v-show="isDeleteAttachment" class="fa fa-trash-o" aria-hidden="true" />
-                    </button>
+                    </button> -->
                 </p>
                 <div class="BlockStory-body">
                     <div class="AddedAttachmentStory-body">
@@ -38,7 +38,7 @@
                             <a class="AddedAttachmentStory-link" style="color:inherit; text-decoration: none;font-size:11px" :href="files.file_url" target="_blank" tabindex="-1">
                                 <i><span style="color:black;font-size:12px">file:</span>{{files.file_name}}</i>
                             </a>
-                            <button class="hidden" @click="deleteAttachment(files, index)">
+                            <button class="" @click="deleteAttachment(files, index)">
                                 <a v-show="isDeleteAttachment" class="fa fa-close" />
                             </button>
                         </div>
@@ -49,8 +49,11 @@
                         <i class="fa fa-thumbs-o-up hidden" style="font-size:25px;color:rgb(149, 152, 157)" aria-hidden="true"></i>
                         <i class="fa fa-comments hidden" style="font-size:25px;color:rgb(149, 152, 157);margin-left:30px" aria-hidden="true"></i>
                         <a :href="files.file_url" download>
-                            <i class="fa fa-arrow-circle-o-down" style="font-size:25px;color:rgb(149, 152, 157);margin-left:30px" aria-hidden="true"></i>
+                            <i class="fa fa-arrow-circle-o-down" style="font-size:25px; color:rgb(211, 211, 211);" aria-hidden="true"></i>
                         </a>
+                        <!-- <button class="close-btn" @click="deleteAttachment(files, index)">
+                            <a v-show="isDeleteAttachment" class="fa fa-trash-o" aria-hidden="true" />
+                        </button> -->
                     </span>
                 </div>
                 <div class="attachment-comment-footer hidden">
@@ -72,7 +75,7 @@
                             </el-tabs>
                         </div>
                     </span>
-                </div>
+                </div> -->
             </Card>
             <div class="hidden">
                 <a target="_blank" v-bind:href="files.file_url">{{ files.file_name }}
