@@ -60,7 +60,7 @@
           <span class="autogrow-textarea">
               <textarea v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" rows="3" cols="50"
               v-model="filteredTodo.taskDesc"
-              @change="updateTaskName()" 
+              @change="updateTaskDescription()" 
               contenteditable="true" disable_highlighting_for_diagnostics="true" 
               tabindex="10" 
               class="field-description generic-input hypertext-input notranslate" 
@@ -95,6 +95,7 @@
 import TodoItem from './TodoItem.vue'
 import { mapMutations, mapActions } from "vuex";
 import _ from 'lodash'
+import * as Constant from "./Constants.js";
 
 export default {
   props: ['filteredTodo', 'id','currentView'],
@@ -109,7 +110,18 @@ export default {
     ]),
     ...mapMutations(["CLOSE_DIV"]),   
     updateTaskName: _.debounce(function() {
-      this.$store.dispatch('editTaskName', {"todo":this.filteredTodo})
+      this.$store.dispatch('editTaskName', {
+        "todo":this.filteredTodo,
+          log_action:Constant.HISTORY_LOG_ACTION.TASK_UPDATE,
+          log_text:this.filteredTodo.taskName
+      })
+    }, 500),
+    updateTaskDescription: _.debounce(function() {
+      this.$store.dispatch('editTaskName', {
+        "todo":this.filteredTodo,
+          log_action:Constant.HISTORY_LOG_ACTION.TASK_DESCRIPTION,
+          log_text:this.filteredTodo.taskDesc
+      })
     }, 500),
     autoresize: function() {
       var el = document.getElementById('text-area')

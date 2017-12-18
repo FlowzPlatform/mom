@@ -31,7 +31,7 @@
           
 				</div>
       </div>
-			<div :id="n.level" class="right_pane_container" v-for="(n, index) in parentIdArray">
+			<div :id="n.level" v-bind:key="index" class="right_pane_container" v-for="(n, index) in parentIdArray">
 				<div id="right_pane">
 					<main-right-section v-show="!n.show_type" :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>
 					<SubComment v-show="n.show_type==='subcomment'" :commentTaskId="n.task_id" :commentParentId="n.id" :commentName="n.comment"></SubComment>
