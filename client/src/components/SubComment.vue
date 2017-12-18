@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- <div class="comment-title" v-html="commentName">{{commentName}}</div> -->
-        <task-heading :commentName="commentName"></task-heading>
+        <!-- <task-heading :commentName="commentName"></task-heading> -->
         <div>
             <div class="nav1">
                 <div class="share" :id="setCommentId('share')" @click="writeComment">

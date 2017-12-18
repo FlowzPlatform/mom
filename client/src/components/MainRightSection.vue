@@ -35,7 +35,7 @@
       <div class="tab-pannel"  id="rightContainer">
         <task-heading :id="id" :filteredTodo="todoObject"></task-heading>
         <div class="rightscroll">
-          <component style="z-index: 2;" :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
+          <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
             :filteredTodo="todoObject" v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'"
             :pholder="pholder" :filtered-todos="taskById" :commentTaskId="todoObject.id">
           </component>
@@ -213,6 +213,7 @@
         createCommentBox: true,
         readCommentBox: true,
         isDelete: false,
+        historyLog: [],
         chkAttachment: false,
         attchmentReadPerm: false,
         isCreatePermission: false,
