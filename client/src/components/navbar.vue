@@ -250,7 +250,6 @@
 
   // $(window).on('popstate', function(event) {
   //   console.log("location: " + document.location);
-  //   history.go(0);
   //   if(!history.pushState){
   //     history.go(0);
   //   }    
