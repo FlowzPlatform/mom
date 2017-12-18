@@ -35,5 +35,6 @@ export const USER_ACTION={
         TAG_ADD:12,
         TAG_DELETE:13,
         COMMENT_ADD:14,
-        COMMENT_DELETE:15
+        COMMENT_DELETE:15,
+        ATTACHMENT_DELETE:16
     }

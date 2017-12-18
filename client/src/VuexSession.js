@@ -157,7 +157,8 @@ export const store = new Vuex.Store({
     currentProjectRoleid:'',
     commentValue: '',
     taskHistoryLog:[],
-    accessRight:{}
+    accessRight:{},
+    deleteFileName:''
   },
   mutations: {
     userData: state => state.userObject,
@@ -1253,6 +1254,7 @@ export const store = new Vuex.Store({
       }
       bucketInstance.deleteObject(params, function (err, data) {
         if (data) {
+          CmnFunc.insertHistoryLog(store,store.state.userObject._id,deleteObject.file_name,deleteObject.task_id,Constant.HISTORY_LOG_ACTION.ATTACHMENT_DELETE)
           //Update attachment fields in DB
           services.taskAttachmentService.remove(deleteObject.id, {
             // isDeleted: true,

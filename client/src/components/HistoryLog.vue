@@ -51,8 +51,8 @@
                                 </div>
                                 <!-- Due date -->
                                 <div class="history-label" v-show="log.log_action===9">
-                                     changed the due date to {{formateDate(log.text)}}
-                                </div>
+                                     changed the due date to {{formateDate(log.text)}}.
+                                </div> 
                                 <!-- Task description -->
                                 <div class="history-label" v-show="log.log_action===10">
                                      added task description {{log.text}}
@@ -77,8 +77,12 @@
                                 <div class="history-label" v-show="log.log_action===15">
                                      comment deleted <span v-html="getComment(log.text)"></span>
                                 </div>
-                                <!-- File upload log -->
-                                <div class="AddedAttachmentStory-body" v-if="log.log_action===3">
+                                <!-- Attachment remove log -->
+                                 <div class="AddedAttachmentStory-body" v-if="log.log_action===16">
+                                    remove attachment <div>{{log.text}}</div>
+                                </div>
+                                <!-- Attchment upload log -->
+                                <div class="AddedAttachmentStory-body" v-else-if="log.log_action===3">
                                     <a class="AddedAttachmentStory-link" :href="getAttachment(log.text).file_url" target="_blank" tabindex="-1"><div>{{getAttachment(log.text).file_name}}</div></a>
                                 </div>
                             </div>
@@ -140,7 +144,7 @@ export default {
             return moment(logDate).calendar()
         },
         formateDate(dateTo){
-            return  moment(dateTo, "YYYY-MM-DD").format("YYYY-MMM-DD");
+            return  moment(dateTo).format('ll')
         },
         /**
          * Add user detail into history log
