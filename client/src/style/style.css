@@ -774,8 +774,8 @@ border: 1px solid transparent;
     -webkit-transition: margin-left 0.2s;
     -moz-transition: margin-left 0.2s;
     transition: margin-left 0.2s;
-    margin-left: 15px;
-    max-width: 675px;
+    /* margin-left: 15px; */
+    /* max-width: 675px; */
     position: relative;
 
     /*z-index: 0;*/
@@ -797,7 +797,7 @@ border: 1px solid transparent;
     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     background-color: #fff;
 }
-#center_pane_container, .right_pane_container{
+#left_container, .right_pane_container{
        display: -webkit-box;
     /*display: -moz-box;*/
     display: box;
@@ -1341,12 +1341,21 @@ a:hover, a:focus{
     z-index: 5;
 }
 .PageHeaderStructure {position: fixed;top: 40px;left: 0;right: 0;}
+<<<<<<< HEAD
 .known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;overflow: auto;min-width: 450px;}
 .asanaView-body { position: fixed;top: 20px;left: 0;right: 0;bottom: 0; overflow-y: hidden; }
 .right_bar{position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: calc(100% - 135px);overflow: auto;}
 .right_pane_container #right_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;}
 /* #details_pane_footer {position: absolute; width: 99.75%; bottom: 0;height: 100%; overflow-y: auto;} */
 .right_pane_container{ min-width: 600px; margin-right: 10px;}
+=======
+#center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;overflow: auto;min-width: 225px;}
+.asanaView-body { position: fixed;top: 20px;left: 0;right: 0;bottom: 0;overflow-x: auto; overflow-y: hidden; }
+.right_bar{position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: calc(100% - 135px);overflow: auto;}
+.right_pane_container #right_pane {position: absolute;left: 4px;right: 0;top: 0;bottom: 0;height: 100%;}
+#details_pane_footer {position: absolute; width: 99.75%; bottom: 0;height: 100%; overflow-y: auto;}
+.right_pane_container{ min-width: 225px; margin-right: 5px;}
+>>>>>>> splitter-vue
 #center_pane {
         transition: margin-left .5s;
         padding: 16px;
@@ -5359,6 +5368,7 @@ table {
 .registration .container .box:after {
     background-color: #d0d4f3
 }
+<<<<<<< HEAD
 .social-auth {
     position: fixed;
     top: 50%;
@@ -5368,6 +5378,27 @@ table {
     transform: -moz-translate(-50%, -50%);
     transform: -ms-translate(-50%, -50%);
     background-color: #ffffff;
+=======
+/* .reg-container {
+    top: 50%;
+    background-color: aquamarine;
+    left: 50%;
+    width: 700px;
+    height: 300px;
+    margin: auto;
+    position: fixed;
+    transform: translate(-50%, -50%);
+} */
+.social-auth {
+   position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform: -webkit-translate(-50%, -50%);
+  transform: -moz-translate(-50%, -50%);
+  transform: -ms-translate(-50%, -50%);
+   background-color: #ffffff;
+>>>>>>> splitter-vue
     padding: 15px;
     max-width: 400px;
     height: 370px;
@@ -5685,15 +5716,6 @@ CSS for splitter view
     border: 1px solid #ddd;
     border-radius: 4px;
   } 
-
-.split {
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
 
   .gutter {
     background-color: #eee;
@@ -6488,3 +6510,98 @@ CSS for splitter view
     /* overflow-y: hidden; */
     width: calc(100% - 260px);
 }
+#left_container {
+    -webkit-transition: margin-left 0.25s ease-out,width 0.25s ease-out;
+    -moz-transition: margin-left 0.25s ease-out,width 0.25s ease-out;
+    transition: margin-left 0.25s ease-out,width 0.25s ease-out;
+    -webkit-box-flex: 5500;
+    -moz-box-flex: 5500;
+    box-flex: 5500;
+    -webkit-flex: 5500 1 605px;
+    -moz-flex: 5500 1 605px;
+    -ms-flex: 5500 1 605px;
+    flex: 5500 1 605px;
+    min-width: 225px;
+    z-index: 2;
+    overflow-y: auto;
+}
+
+.main-container-class {
+    height: calc(100vh - 30px);
+    /* overflow-x: auto; */
+    /* width: 100%; */
+    padding-top: 15px;
+    margin: 10px 0px 10px 0px;
+    position: fixed;
+    top: 20px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.split {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    /* overflow-y: auto;
+    overflow-x: scroll; */
+  }
+
+  .gutter {
+    background-color: #eee;
+    background-position: 50%;
+  }
+
+  .gutter.gutter-horizontal {
+    cursor: col-resize;
+    background-image: url('../assets/vertical.png');
+    background-repeat: no-repeat
+  }
+
+  .gutter.gutter-vertical {
+    cursor: row-resize;
+    background-image: url('../assets/horizontal.png');
+    background-repeat: no-repeat;
+
+  }
+
+  .split.split-horizontal,
+  .gutter.gutter-horizontal {
+    height: 100%;
+    position: relative;
+    /* z-index: 11; */
+    /* float: left; */
+  }
+
+  .main-split-container {
+    overflow-x: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: -webkit-box;
+    position: relative;
+    top: 0;
+  }
+
+  .type-split-container{
+    overflow-x: auto;
+    left: 217px;
+    right: 0;
+    bottom: 0;
+    display: -webkit-box;
+    position: fixed;
+    top: 90px;
+  }
+
+  /* .state-split-container{
+    overflow-x: auto;
+    left: 217px;
+    right: 0;
+    bottom: 0;
+    display: -webkit-box;
+    position: fixed;
+    top: 90px;
+} */
+
