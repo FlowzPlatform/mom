@@ -3,7 +3,7 @@
 }
 .logo__title{
     /* background: #000; */
-    color: #e37222;
+    color: #B67A0E;
     font-family: esteban
 }
 .fa-bars:before,
@@ -18,14 +18,6 @@
 }
 .menu-item-back {
     background: #66B9BF;
-    width: 175px;
-    height: 150px;
-    position: absolute;
-    transform-origin: 0px 150px;
-    margin-top: -150px;
-    left: 50%;
-    top: 50%;
-    border: 1px solid whitesmoke;
   }
 
   .menu-item-back:hover {
@@ -92,7 +84,7 @@
   color: white;
 }
 .header-name{
-    color: #e37222;
+    color: #B67A0E;
     font-family: esteban
 }
 
@@ -128,4 +120,16 @@
 }
 #rightContainer:after {
   color:#def2f3
+}
+.buttonView.buttonView--primary {
+  background: #143979;
+  border-color: #143979;
+}
+.buttonView.buttonView--primary:focus,
+.buttonView.buttonView--primary:hover {
+    background: #08285F;
+    border-color: #08285F;
+    box-shadow: inset 0 0 transparent, 0 0 0 3px #08285F;
+    -moz-box-shadow: inset 0 0 transparent, 0 0 0 3px #08285F;
+    -webkit-box-shadow: inset 0 0 transparent, 0 0 0 3px #08285F
 }

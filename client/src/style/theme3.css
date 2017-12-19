@@ -4,12 +4,12 @@
 }
 .logo__title{
     /* background: #000; */
-    color: #8D4A00;
+    color: #A44563;
     font-family: 'Gotham Rounded SSm A','Gotham Rounded SSm B'
 }
 .fa-bars:before,
 .fa-times:before {
-  color: #FA8060;
+  color: #9ECA76;
   position: relative;
   top: 33%;
   /* left: 42%; */
@@ -18,53 +18,61 @@
   z-index: 2;
 }
 .menu-item-back {
-    background: #FA8060;
+    background: #9ECA76;
+    width: 175px;
+    height: 150px;
+    position: absolute;
+    transform-origin: 0px 150px;
+    margin-top: -150px;
+    left: 50%;
+    top: 50%;
+    border: 1px solid whitesmoke;
   }
 
   .menu-item-back:hover {
     /* background: rgb(160, 160, 160); */
-    background: #EC471B;
+    background: #7A9F35;
   }
 
   .ivu-poptip-rel:hover {
     /* background: rgb(160, 160, 160); */
-    background: #EC471B;
+    background: #7A9F35;
   }
 
   .menu-item:nth-child(3) .menu-item-back {
     transform: rotate(-60deg) skew(-30deg);
     /* background-color: #4a4848; */
-    background: #FA8060;
+    background: #9ECA76;
   }
   .menu-item:nth-child(3) .menu-item-back:hover{
       /* background: rgb(160, 160, 160); */
-      background: #EC471B;
+      background: #7A9F35;
   }
 
   .menu-item:nth-child(5) .menu-item-back {
     transform: rotate(60deg) skew(-30deg);
     /* background-color: #4a4848; */
-    background: #FA8060;
+    background: #9ECA76;
   }
   .menu-item:nth-child(5) .menu-item-back:hover{
       /* background: rgb(160, 160, 160); */
-      background: #EC471B;
+      background: #7A9F35;
   }
 
   .menu-item:nth-child(7) .menu-item-back {
     transform: rotate(180deg) skew(-30deg);
     /* background-color: #4a4848; */
-    background: #FA8060;
+    background: #9ECA76;
   }
 
   .menu-item:nth-child(7) .menu-item-back:hover{
       /* background: rgb(160, 160, 160); */
-      background: #EC471B;
+      background: #7A9F35;
   }
 
   .ivu-poptip-rel {
     /* background: #000; */
-    background: #FA8060;
+    background: #9ECA76;
     width: 175px;
     height: 150px;
     position: absolute;
@@ -77,70 +85,60 @@
   }
 
 .navbar-bottom {
-    background-color: #45B274ad;    
+    background-color: #915693ad;    
 }
 .navbar-bottom:hover a.active {
   /*background-color: rgba(63, 81, 181, 0.90);*/
-  background-color: #13A854;
-  /* color: #747373; */
+  background-color: #915693;
+  color: #fff;
 }
 .header-name{
-    color: #8D4A00;
+    color: #A44563;
     font-family: esteban
 }
 
 .navbar-bottom .ivu-select-single .ivu-select-input{
-  background: #45B274ad;
+  background: #915693ad;
   -webkit-text-fill-color: #fff;
 }
-
-/* .navbar-bottom a {
-    color: #747373;
-}
-.Topbar-sidebarToggleIcon {
-    fill: #747373;
-} */
-.navbar-bottom .ivu-select-single .ivu-select-input {
-    /* -webkit-text-fill-color : #747373; */
-}
 .mask {
-    background: #007849;
+    background: #7C8D25;
     border: 1px solid #747373;
 }
 .comment-title {
-    color: #8D4A00;
+    color: #915693;
     font-family: esteban
   }
   .navbar-bottom .due-date:hover {
-    background: #13A854;
+    background: #915693;
   }
   .navbar-bottom a:hover {
     cursor: pointer;
-    background: #13A854;
+    background: #915693;
   }
   .share { 
-    background: #EC471B
+    background: #7C8D25
   }
   
   .one {
-    background: #EC471B;
+    background: #7C8D25;
   }
   
   .two {
-    background: #EC471B;
+    background: #7C8D25;
   }
   #rightContainer:after {
     color:#dbf2ff
   }
   .buttonView.buttonView--primary {
-    background: #176C95;
-    border-color: #176C95;
+    background: #A2B34B;
+    border-color: #A2B34B;
   }
   .buttonView.buttonView--primary:focus,
   .buttonView.buttonView--primary:hover {
-      background: #033D59;
-      border-color: #033D59;
-      box-shadow: inset 0 0 transparent, 0 0 0 3px #033D59;
-      -moz-box-shadow: inset 0 0 transparent, 0 0 0 3px #033D59;
-      -webkit-box-shadow: inset 0 0 transparent, 0 0 0 3px #033D59;
+      background: #7C8D25;
+      border-color: #7C8D25;
+      box-shadow: inset 0 0 transparent, 0 0 0 3px #7C8D25;
+      -moz-box-shadow: inset 0 0 transparent, 0 0 0 3px #7C8D25;
+      -webkit-box-shadow: inset 0 0 transparent, 0 0 0 3px #7C8D25
   }
