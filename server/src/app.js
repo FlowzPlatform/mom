@@ -40,7 +40,7 @@ app.configure(hooks());
 // Enable the REST provider for services.
 app.configure(rest())
 // app.configure(socketio());
-app.configure(socketio(function(io) {
+app.configure(socketio(4030,{wsEngine: 'uws'},function(io) {
     io.on('connection', function(socket) {
         console.log("connection handshaken-->",socket.feathers)
     //   socket.emit('news', { hello: 'world' });
