@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id="main-container" class="row right-tasktype" >
+        <!-- <div id="main-container" class="row right-tasktype" >
             <div id="center_pane_container" class="scrollbar">
                 <div id="center_pane">
                     <main-left-section id="taskTypes" :filtered-todos="taskTypeList"></main-left-section>
@@ -8,10 +8,10 @@
             </div>
             <div id="main-container" class="right_pane_container scrollbar" v-for="(n, index) in parentIdArr">
                 <div id="right_pane">
-                    <!-- <main-right-section id="rightTaskTypes" :todoObject="n"></main-right-section> -->
-                    <role-access-right-sec id="rightTaskTypes" :todoObject="n"></role-access-right-sec>
-        <!-- <h3 class="ui header">Types</h3>
-        <div id="main-container" class="row asanaView-body" style="left: 20%;right: 20px;">
+                    
+                    <role-access-right-sec id="rightTaskTypes" :todoObject="n"></role-access-right-sec> -->
+
+        <div id="main-container" class="row right-tasktype">
             <div id="split-container" class="type-split-container" style=" height: calc(100vh);">
                 <div id="left_type_container" class="split split-horizontal">
                     <div id="center_pane">
@@ -20,8 +20,9 @@
                 </div>
                 <div :id="'type-' + index" class="right_pane_container split split-horizontal" v-for="(n, index) in parentIdList">
                     <div id="right_pane">
-                        <main-right-section id="rightTaskTypes" :todoObject="n"></main-right-section>
-                    </div> -->
+                        <!-- <main-right-section id="rightTaskTypes" :todoObject="n"></main-right-section> -->
+                        <role-access-right-sec id="rightTaskTypes" :todoObject="n"></role-access-right-sec>
+                    </div>
                 </div>
             </div>
         </div>

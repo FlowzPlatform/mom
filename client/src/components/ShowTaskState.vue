@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id="main-container" class="row right-tasktype" >
+        <!-- <div id="main-container" class="row right-tasktype" >
             <div id="center_pane_container" class="scrollbar">
                 <div id="center_pane">
                     <main-left-section id="taskState" :filtered-todos="taskStausList"></main-left-section>
@@ -8,11 +8,10 @@
             </div>
             <div class="right_pane_container" v-for="(n, index) in pidArr">
                 <div id="right_pane">
-                    <!-- <main-right-section id="rightTaskState" :todoObject="n"></main-right-section> -->
-                    <role-access-right-sec id="rightTaskState" :todoObject="n"></role-access-right-sec>
-        <!-- <h3 class="ui header">State</h3>
-        <div id="main-container" class="row asanaView-body" style="left: 20%;right: 20px;">
-            <div id="split-container" class="state-split-container" style="height: calc(100vh);">
+                    <role-access-right-sec id="rightTaskState" :todoObject="n"></role-access-right-sec> -->
+        
+        <div id="main-container" class="row right-tasktype" style="left: 20%;right: 20px;">
+            <div id="split-container" class="type-split-container" style="height: calc(100vh);">
                 <div id="left_task_container" class="split split-horizontal">
                     <div id="center_pane">
                         <main-left-section id="taskState" :filtered-todos="taskStausList"></main-left-section>
@@ -20,8 +19,8 @@
                 </div>
                 <div :id="'task-' + index" class="right_pane_container split split-horizontal" v-for="(n, index) in splitIdList">
                     <div id="right_pane">
-                        <main-right-section id="rightTaskState" :todoObject="n"></main-right-section>
-                    </div> -->
+                            <role-access-right-sec id="rightTaskState" :todoObject="n"></role-access-right-sec>
+                    </div>
                 </div>
             </div>
         </div>

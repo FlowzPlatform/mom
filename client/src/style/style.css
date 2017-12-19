@@ -115,7 +115,7 @@ button {
 .todo-list li {
 	position: relative;
 	font-size: 24px;
-	border-bottom: 1px solid #ededed;
+    border-bottom: 1px solid #ededed;
 }
 
 .todo-list li:last-child {
@@ -831,6 +831,42 @@ border: 1px solid transparent;
 	    min-width: 450px;
         z-index: 0;
 }
+#left_type_container, .right_pane_container{
+    display: -webkit-box;
+ /*display: -moz-box;*/
+ display: box;
+ display: -webkit-flex;
+ /*display: -moz-flex;*/
+ /*display: -ms-flexbox;*/
+ display: flex;
+ -webkit-box-orient: vertical;
+ -moz-box-orient: vertical;
+ box-orient: vertical;
+ -webkit-flex-direction: column;
+ -moz-flex-direction: column;
+ flex-direction: column;
+ -ms-flex-direction: column;
+ /*min-width: 0;*/
+ position: relative;
+}
+#left_task_container, .right_pane_container{
+    display: -webkit-box;
+ /*display: -moz-box;*/
+ display: box;
+ display: -webkit-flex;
+ /*display: -moz-flex;*/
+ /*display: -ms-flexbox;*/
+ display: flex;
+ -webkit-box-orient: vertical;
+ -moz-box-orient: vertical;
+ box-orient: vertical;
+ -webkit-flex-direction: column;
+ -moz-flex-direction: column;
+ flex-direction: column;
+ -ms-flex-direction: column;
+ /*min-width: 0;*/
+ position: relative;
+}
 #center_pane__contents {
     -webkit-box-flex: 1;
     -moz-box-flex: 1;
@@ -1341,21 +1377,12 @@ a:hover, a:focus{
     z-index: 5;
 }
 .PageHeaderStructure {position: fixed;top: 40px;left: 0;right: 0;}
-<<<<<<< HEAD
-.known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;overflow: auto;min-width: 450px;}
-.asanaView-body { position: fixed;top: 20px;left: 0;right: 0;bottom: 0; overflow-y: hidden; }
-.right_bar{position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: calc(100% - 135px);overflow: auto;}
-.right_pane_container #right_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;}
-/* #details_pane_footer {position: absolute; width: 99.75%; bottom: 0;height: 100%; overflow-y: auto;} */
-.right_pane_container{ min-width: 600px; margin-right: 10px;}
-=======
-#center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;overflow: auto;min-width: 225px;}
+/* #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;min-width: 225px;} */
 .asanaView-body { position: fixed;top: 20px;left: 0;right: 0;bottom: 0;overflow-x: auto; overflow-y: hidden; }
 .right_bar{position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: calc(100% - 135px);overflow: auto;}
 .right_pane_container #right_pane {position: absolute;left: 4px;right: 0;top: 0;bottom: 0;height: 100%;}
-#details_pane_footer {position: absolute; width: 99.75%; bottom: 0;height: 100%; overflow-y: auto;}
+/* #details_pane_footer {position: absolute; width: 99.75%; bottom: 0;height: 100%; overflow-y: auto;} */
 .right_pane_container{ min-width: 225px; margin-right: 5px;}
->>>>>>> splitter-vue
 #center_pane {
         transition: margin-left .5s;
         padding: 16px;
@@ -5368,17 +5395,6 @@ table {
 .registration .container .box:after {
     background-color: #d0d4f3
 }
-<<<<<<< HEAD
-.social-auth {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transform: -webkit-translate(-50%, -50%);
-    transform: -moz-translate(-50%, -50%);
-    transform: -ms-translate(-50%, -50%);
-    background-color: #ffffff;
-=======
 /* .reg-container {
     top: 50%;
     background-color: aquamarine;
@@ -5398,7 +5414,6 @@ table {
   transform: -moz-translate(-50%, -50%);
   transform: -ms-translate(-50%, -50%);
    background-color: #ffffff;
->>>>>>> splitter-vue
     padding: 15px;
     max-width: 400px;
     height: 370px;
@@ -6523,7 +6538,7 @@ CSS for splitter view
     flex: 5500 1 605px;
     min-width: 225px;
     z-index: 2;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 
 .main-container-class {
@@ -6587,7 +6602,7 @@ CSS for splitter view
 
   .type-split-container{
     overflow-x: auto;
-    left: 217px;
+    left: 260px;
     right: 0;
     bottom: 0;
     display: -webkit-box;

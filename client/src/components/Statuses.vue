@@ -1,6 +1,6 @@
 <template>
     <div>
-        <hr>
+        <!-- <hr> -->
          <div class="[ row ]" style="margin-left: 0; margin-right: 0; display: inline-table; text-align: -webkit-auto;" v-if="id === 'rightTaskTypes'">
             <h4 class="uiStatus"><b>State</b></h4>
             <div class="[ form-group ]"  v-for="state in setSelectedState" style="margin: 5px;" v-if="state.id !== '-1'">

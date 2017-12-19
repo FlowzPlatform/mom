@@ -3,7 +3,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from'@/components/LoginPage'
 // const Login = () => import('../components/LoginPage.vue')
-import MainApp  from '@/components/MainApp'
+import MainApp  from '@/components/ContainerComponent'
 import RoleAccess  from '@/components/RoleAccess'
 import navbar  from '@/components/navbar'
 import ShowTaskTypes  from '@/components/ShowTaskTypes'
