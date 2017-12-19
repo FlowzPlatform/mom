@@ -31,3 +31,14 @@ jobs:
     - stage: Finish Rancher Service
       script:
       - bash ./finish.sh
+notifications:
+  email:
+    recipients:
+      - arpitap@officebeacon.com
+      - kaushalm@officebrain.com
+      - anuj@officebrain.com
+      - naveeng@officebrain.com
+      - uhirani@officebrain.com
+      - igandhi@officebrain.com
+    on_success: always 
+    on_failure: always
