@@ -30,6 +30,7 @@ new Vue({
   components: { App }
 })
 
+console.log('AWS===>', process.env.accesskey + "====="+ process.env.secretkey)
 var AWS = require('aws-sdk');
 AWS.config.update({
   accessKeyId : process.env.accesskey,
