@@ -389,7 +389,7 @@ border: 1px solid transparent;
   opacity: 0;
 }
 .generic-input:hover:not(.override-hover-border):not([disabled]){
-	    border-color: #CDCFD2;
+	    /* border-color: #CDCFD2; */
     -webkit-transition: border-color 150ms;
     -moz-transition: border-color 150ms;
     transition: border-color 150ms;
@@ -781,8 +781,8 @@ border: 1px solid transparent;
     -webkit-transition: margin-left 0.2s;
     -moz-transition: margin-left 0.2s;
     transition: margin-left 0.2s;
-    margin-left: 15px;
-    max-width: 675px;
+    /* margin-left: 15px; */
+    /* max-width: 675px; */
     position: relative;
 
     /*z-index: 0;*/
@@ -804,7 +804,7 @@ border: 1px solid transparent;
     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     background-color: #fff;
 }
-#center_pane_container, .right_pane_container{
+#left_container, .right_pane_container{
        display: -webkit-box;
     /*display: -moz-box;*/
     display: box;
@@ -1348,12 +1348,12 @@ a:hover, a:focus{
     z-index: 1;
 }
 .PageHeaderStructure {position: fixed;top: 40px;left: 0;right: 0;}
-.known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;overflow: auto;min-width: 450px;}
+#center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;overflow: auto;min-width: 225px;}
 .asanaView-body { position: fixed;top: 20px;left: 0;right: 0;bottom: 0;overflow-x: auto; overflow-y: hidden; }
 .right_bar{position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: calc(100% - 135px);overflow: auto;}
-.right_pane_container #right_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;}
+.right_pane_container #right_pane {position: absolute;left: 4px;right: 0;top: 0;bottom: 0;height: 100%;}
 #details_pane_footer {position: absolute; width: 99.75%; bottom: 0;height: 100%; overflow-y: auto;}
-.right_pane_container{ min-width: 600px; margin-right: 10px;}
+.right_pane_container{ min-width: 225px; margin-right: 5px;}
 #center_pane {
         transition: margin-left .5s;
         padding: 16px;
@@ -5379,6 +5379,27 @@ table {
     padding: 4px 10px 4px 4px;
     vertical-align: middle;
 }
+.registration {
+    height: 100vh;
+    width: 100%;
+    background-color: #5356ad;
+}
+.registration .container .box:before {
+    background-color: #474a80
+}
+.registration .container .box:after {
+    background-color: #d0d4f3
+}
+/* .reg-container {
+    top: 50%;
+    background-color: aquamarine;
+    left: 50%;
+    width: 700px;
+    height: 300px;
+    margin: auto;
+    position: fixed;
+    transform: translate(-50%, -50%);
+} */
 .social-auth {
    position: fixed;
   top: 50%;
@@ -5387,25 +5408,27 @@ table {
   transform: -webkit-translate(-50%, -50%);
   transform: -moz-translate(-50%, -50%);
   transform: -ms-translate(-50%, -50%);
-   background-color: #87a6ff;
+   background-color: #ffffff;
     padding: 15px;
-    border-radius: 5px;
-    border: solid 10px #fff;
     max-width: 400px;
+    height: 370px;
 }
 .social-auth-btn {
     width: 100px;
     height: 45px;
-    font-size: 15px;
-    color: white;
-    border-radius: 7%;
-    margin-top: 10px;
-    border: solid 2px #fff;
+    font-size: 17px;
+    color: #fff;
+    /* border-radius: 7%; */
+    margin-top: 32px;
+    /* border: solid 2px #fff; */
+    box-shadow: 0 0 10px 1px #ff73b3;
+    background-color: #ff73b3;
+    font-family: Droid serif;
 }
 .social-auth .social-header {
     border-bottom: solid 1px #eaeaea;
     padding-bottom: 5px;
-    color: #fff;
+    color: #0f0000;
     font-size: 23px;
 }
 .social-auth  .form-input {
@@ -5413,7 +5436,16 @@ table {
     display: inline-block;
     width: 100%;
 }
-.social-auth  .form-input label {color:#fff;font-size: 15px;font-weight: bold;}
+.social-auth  .social-header label {
+    color: #a39f9f;
+    font-family: Droid serif;
+    font-size: 20px;
+}
+.social-auth  .form-input label {
+    color:#a39f9f;
+    font-family: Droid serif;
+    font-size: 16px;
+}
 .social-auth  .form-input .pro-part {width:100%}
 .googleAuthBtn {
     background-color: #1AAFD0;
@@ -5484,7 +5516,7 @@ input[type=password].generic-input {
 textarea.showing,
 .recurly input[type=text].showing,
 .recurly .recurly-hosted-field.showing {
-    border: 1px solid #d5dce0;
+    border: 1px solid gray;
 }
 
 .generic-input,
@@ -5727,15 +5759,6 @@ CSS for splitter view
     border-radius: 4px;
   } 
 
-.split {
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
   .gutter {
     background-color: #eee;
 
@@ -5809,4 +5832,99 @@ CSS for splitter view
 .ivu-input-icon-normal+.ivu-input{
     padding-right: 2px
 }
+
+#left_container {
+    -webkit-transition: margin-left 0.25s ease-out,width 0.25s ease-out;
+    -moz-transition: margin-left 0.25s ease-out,width 0.25s ease-out;
+    transition: margin-left 0.25s ease-out,width 0.25s ease-out;
+    -webkit-box-flex: 5500;
+    -moz-box-flex: 5500;
+    box-flex: 5500;
+    -webkit-flex: 5500 1 605px;
+    -moz-flex: 5500 1 605px;
+    -ms-flex: 5500 1 605px;
+    flex: 5500 1 605px;
+    min-width: 225px;
+    z-index: 2;
+    overflow-y: auto;
+}
+
+.main-container-class {
+    height: calc(100vh - 30px);
+    /* overflow-x: auto; */
+    /* width: 100%; */
+    padding-top: 15px;
+    margin: 10px 0px 10px 0px;
+    position: fixed;
+    top: 20px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.split {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    /* overflow-y: auto;
+    overflow-x: scroll; */
+  }
+
+  .gutter {
+    background-color: #eee;
+    background-position: 50%;
+  }
+
+  .gutter.gutter-horizontal {
+    cursor: col-resize;
+    background-image: url('../assets/vertical.png');
+    background-repeat: no-repeat
+  }
+
+  .gutter.gutter-vertical {
+    cursor: row-resize;
+    background-image: url('../assets/horizontal.png');
+    background-repeat: no-repeat;
+
+  }
+
+  .split.split-horizontal,
+  .gutter.gutter-horizontal {
+    height: 100%;
+    position: relative;
+    /* z-index: 11; */
+    /* float: left; */
+  }
+
+  .main-split-container {
+    overflow-x: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: -webkit-box;
+    position: relative;
+    top: 0;
+  }
+
+  .type-split-container{
+    overflow-x: auto;
+    left: 217px;
+    right: 0;
+    bottom: 0;
+    display: -webkit-box;
+    position: fixed;
+    top: 90px;
+  }
+
+  /* .state-split-container{
+    overflow-x: auto;
+    left: 217px;
+    right: 0;
+    bottom: 0;
+    display: -webkit-box;
+    position: fixed;
+    top: 90px;
+} */
 

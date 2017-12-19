@@ -2,14 +2,16 @@
     <div>
         <h3 class="ui header">State</h3>
         <div id="main-container" class="row asanaView-body" style="left: 20%;right: 20px;">
-            <div id="center_pane_container" class="known-list">
-                <div id="center_pane">
-                    <main-left-section id="taskState" :filtered-todos="taskStausList"></main-left-section>
+            <div id="split-container" class="state-split-container" style="height: calc(100vh);">
+                <div id="left_task_container" class="split split-horizontal">
+                    <div id="center_pane">
+                        <main-left-section id="taskState" :filtered-todos="taskStausList"></main-left-section>
+                    </div>
                 </div>
-            </div>
-            <div class="right_pane_container" v-for="(n, index) in pidArr">
-                <div id="right_pane">
-                    <main-right-section id="rightTaskState" :todoObject="n"></main-right-section>
+                <div :id="'task-' + index" class="right_pane_container split split-horizontal" v-for="(n, index) in splitIdList">
+                    <div id="right_pane">
+                        <main-right-section id="rightTaskState" :todoObject="n"></main-right-section>
+                    </div>
                 </div>
             </div>
         </div>
@@ -20,13 +22,42 @@
 import MainLeftSection from './MainLeftSection.vue'
 import MainRightSection from './MainRightSection.vue'
 import { mapGetters } from 'vuex'
+import Split from 'split.js'
+
 export default {
     data: function () {
         return {
+            splitIdList: this.splitIdMethod(),
+            instanceState: null
         }
     },
     created() {
         this.$store.dispatch('getTaskStaus')
+    },
+    mounted()  {
+        this.splitIdMethod();
+    },
+    watch: {
+        splitIdList: function () {
+        
+        let ids = ['#left_task_container'];
+        
+        if (this.splitIdList) {
+          for (let i = 0; i <= this.splitIdList.length-1; ++i) {
+            ids.push('#task-' + i);
+          }
+          
+          if (ids.length > 0) {
+            setTimeout(function() {
+              if(this.instanceState){
+                this.instanceState.destroy()
+                this.instanceState = null
+              } 
+              this.instanceState = Split(ids, {minSize: 225});
+            }, 20);
+          }
+        }
+      }
     },
     computed:{
         ...mapGetters({
@@ -44,6 +75,12 @@ export default {
             }
             return this.stateList
         }
+    },
+    methods: {
+        splitIdMethod: function () {
+            let array = this.pidArr;
+            this.splitIdList = array;
+      }
     },
     components: {
         MainLeftSection,

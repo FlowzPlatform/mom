@@ -14,7 +14,6 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
-    "@rmp135/vue-splitter": "^1.2.1",
     "aws-sdk": "^2.149.0",
     "axios": "^0.16.2",
     "base64-img": "^1.0.3",
@@ -45,6 +44,7 @@
     "rubberduck": "^1.1.1",
     "semver": "^5.4.1",
     "socket.io-client": "^2.0.4",
+    "split.js": "^1.3.5",
     "uberproto": "^1.2.0",
     "uws": "^8.14.1",
     "vue": "^2.5.3",
@@ -62,7 +62,6 @@
     "vue-resource": "^1.3.1",
     "vue-router": "^2.3.0",
     "vue-simplemde": "^0.3.8",
-    "vue-splitter-comp": "^1.1.1",
     "vue-sticky-position": "^2.0.0",
     "vue-template-compiler": "^2.4.4",
     "vue-widgets": "^1.0.9",

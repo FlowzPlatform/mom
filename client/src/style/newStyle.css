@@ -1303,7 +1303,7 @@ form.dialog--nux-inner {
 .form-input select,
 .form-input textarea {
     background-color: #fff;
-    border: 1px solid #CDCFD2;
+    border: 1px solid gray;
     border-radius: 3px;
     color: #1B2432;
     height: 40px;
@@ -1363,10 +1363,10 @@ form.dialog--nux-inner {
 .form-input label {
     color: #898E95;
     display: block;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 200;
     margin-bottom: 7px;
-    text-transform: uppercase
+    text-transform: capitalize
 }
 .form-input--button {
     text-align: right

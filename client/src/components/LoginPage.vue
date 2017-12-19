@@ -33,8 +33,8 @@
                     <div class="form-item log-in">
                         <div class="table">
                             <div class="table-cell">
-                                <form action="http://172.16.61.101:3001/auth/Gplus" method="post">
-
+                                <form action="http://ec2-54-88-11-110.compute-1.amazonaws.com/auth/Gplus" method="post">
+                                    
                                     <button class="googleAuthBtn" type="submit">Use Google Account</button>
                                 </form> 
                                 <div class="dialog--nux-seperator" id="seprator"> or </div>
@@ -122,7 +122,6 @@
 
             var id = url.searchParams.get('ob_id')
             if (id) {
-                console.log('//socialAuth....')
                 this.$store.state.googleId = id
                 this.$store.commit('googleId')
                 this.$router.replace('/socialAuth')
