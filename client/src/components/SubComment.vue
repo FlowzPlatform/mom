@@ -2,7 +2,7 @@
     <div>
         <!-- <div class="comment-title" v-html="commentName">{{commentName}}</div> -->
         <!-- <task-heading :commentName="commentName"></task-heading> -->
-        <div>
+        <div :id="id">
             <div class="nav1">
                 <div class="share" :id="setCommentId('share')" @click="writeComment">
                     <i id="icon-comment" class="fa fa-pencil"></i>
@@ -120,7 +120,7 @@
             ViewComments,
             TaskHeading
         },
-        props: ['show', 'commentTaskId', 'commentParentId', 'commentName'],
+        props: ['show', 'commentTaskId', 'commentParentId', 'commentName', 'id'],
         directives: { focus: focus },
         data: function () {
             return {

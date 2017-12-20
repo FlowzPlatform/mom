@@ -32,10 +32,12 @@
 						</div>
 					</div>
 				</div>
-				<div :id="'slot-' + n.level" class="right_pane_container split split-horizontal" v-for="(n, index) in parentIdList">
+				<div :id="'slot-' + index" class="right_pane_container split split-horizontal" v-for="(n, index) in parentIdList">
 					<div id="right_pane">
-						<main-right-section v-show="!n.show_type" :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>
-						<SubComment v-show="n.show_type==='subcomment'" :commentTaskId="n.task_id" :commentParentId="n.id" :commentName="n.comment"></SubComment>
+						<component :is="currentView(n.show_type)" :id="index" :pholder="subtaskPholder" :todoObject="n" :a="n" :commentTaskId="n.task_id" :commentParentId="n.id" :commentName="n.comment">
+          				</component>
+						<!-- <main-right-section v-show="!n.show_type" :id="n.level" :pholder="subtaskPholder" :todoObject="n" :a="n"></main-right-section>
+						<SubComment v-show="n.show_type==='subcomment'" :commentTaskId="n.task_id" :commentParentId="n.id" :commentName="n.comment"></SubComment> -->
 					</div>
 				</div>
 			</div>	
@@ -315,7 +317,7 @@
 								this.instance.destroy()
 								this.instance = null
 							}
-
+							console.log('splitter ids:', ids)	
 							//splitter logic goes here
 							let self = this;
 							this.instance = Split(ids, {sizes: sizeArray, minSize: 225,
@@ -403,6 +405,9 @@
 			parentIdMethod: function () {
 				let array = this.parentIdArray;
 				this.parentIdList = array;
+			},
+			currentView(type) {
+				return type === 'subcomment' ? SubComment : MainRightSection
 			},
 			changeMenu(isMainTask, isRoleAccess, isSearch) {
 				this.isRoleAccess = isRoleAccess
