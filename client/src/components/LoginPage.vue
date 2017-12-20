@@ -385,7 +385,7 @@
 </script>
 <style>
     .login-pages {
-        background-color: #5356ad;
+        background-color:#5356ad;
         position: fixed;
         left: 0;
         right: 0;

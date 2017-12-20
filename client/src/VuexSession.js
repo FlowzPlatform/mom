@@ -14,6 +14,7 @@ Vue.use(VueCookie)
 
 
 services.socket.on("reconnect", function () {
+  console.log('Debug',process.env.DEBUG);
   console.log('-----reconnect fired!-------');
 });
 
@@ -2187,6 +2188,7 @@ export const store = new Vuex.Store({
     //   }
     // },
     getTodoById: (state, getters) => {
+      console.log('Debug--->',process.env.DEBUG);
       if (state.deleteItemsSelected) 
       {
         return function (id, level) {

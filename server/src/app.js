@@ -21,6 +21,16 @@ const rest = require('feathers-rest');
 
 const app = feathers();
 
+let conf = configuration();
+
+app.configure(conf);
+
+// console.log('HOST:', app.get('db_host'));
+// console.log('PORT:', app.get('db_port'));
+// console.log('USERNAME:',app.get('db_username'));
+// console.log('Password:',app.get('db_password'));
+// console.log('Conf----->',conf());
+
 // Load app configuration
 app.configure(configuration(path.join(__dirname, '..')));
 
@@ -40,7 +50,7 @@ app.configure(hooks());
 // Enable the REST provider for services.
 app.configure(rest())
 // app.configure(socketio());
-app.configure(socketio(function(io) {
+app.configure(socketio(4030,{wsEngine: 'uws', origin: '*.flowz.com:*'},function(io) {
     io.on('connection', function(socket) {
         console.log("connection handshaken-->",socket.feathers)
     //   socket.emit('news', { hello: 'world' });
