@@ -65,7 +65,7 @@
 	import RoleAccess from './RoleAccess.vue'
 	import 'bootstrap/dist/css/bootstrap.css'
 	import 'bootstrap-vue/dist/bootstrap-vue.css'
-	import { mapGetters, mapActions } from 'vuex'
+	import { mapGetters, mapActions, mapMutation } from 'vuex'
 	import CircularNavBar from './CircularNavBar.vue'
 	import Search from './Search.vue'
 	import iView from 'iview';
@@ -257,7 +257,7 @@
 								//fetches value of splitter size array from local storage
 								this.sizes = localStorage.getItem('split-sizes')
 								this.sizes = JSON.parse(this.sizes)
-
+								
 								//following if condition is applicable when user closes sections
 								if(me.parentIdNum > me.parentIdList.length && me.parentIdList.length > 0){
 									
@@ -293,7 +293,7 @@
 									for (var size in this.sizes) {
 										//conversion of percentage into pixel(width) of section
 										let sectionWidth = (containerWidth * this.sizes[size]) / 100
-
+										console.log('section width:', sectionWidth)
 										//conversion of width(pixel) into percentage
 										let sectionPercent = (sectionWidth * 100) / containerNewWidth
 
@@ -323,6 +323,13 @@
 									//save splitter size array in local storage.
 									localStorage.setItem('split-sizes', JSON.stringify(self.instance.getSizes()));
 									self.isSplitterDrag = true
+									
+									let arrSize = localStorage.getItem('split-sizes')
+									arrSize = JSON.parse(arrSize)
+									me.$store.commit('setSplitWidth',arrSize)
+								},
+								onDrag: function (){
+									console.log('on drag called')
 								}
 							});
 						}, 5);

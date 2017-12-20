@@ -169,7 +169,8 @@ export const store = new Vuex.Store({
     commentValue: '',
     taskHistoryLog:[],
     accessRight:{},
-    deleteFileName:''
+    deleteFileName:'',
+    splitWidthArr: []
   },
   mutations: {
     userData: state => state.userObject,
@@ -177,8 +178,13 @@ export const store = new Vuex.Store({
     progressVal: state => state.progress,
     googleId: state => state.googleId,
     removeMember: state => state.removeMember,
-   
+    splitWidthArr: state => state.splitWidthArr,
 
+    setSplitWidth(state, data){
+     // console.log('SplitWidth Data:', data)
+      state.splitWidthArr = data
+      console.log('SplitWidth Data:', state.splitWidthArr)
+    },
     // showProgress: state => state.isProgress,
     // showLoader: state => state.isLoading,
     showAttachmentProgress(state, data) {
