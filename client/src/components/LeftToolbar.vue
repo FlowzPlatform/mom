@@ -1,6 +1,6 @@
 <template>
   <div class="dropdown">
-  <div class="dropdown pull-right">
+  <div class="dropdown pull-right setColor">
     {{$store.state.visibility | capitalize}} Tasks
     <button class="btn btn-defualt glyphicon glyphicon-cog" type="button" data-toggle="dropdown"></button>
     <ul class="dropdown-menu">

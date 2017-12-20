@@ -5754,6 +5754,9 @@ CSS for splitter view
 .ivu-select-input {
     padding: 0px 6px 0px 8px;
 }
+.ivu-select-single .ivu-select-input{
+    color: white;
+}
 .navbar-bottom .ivu-select-selection{
     border: 0;
 }

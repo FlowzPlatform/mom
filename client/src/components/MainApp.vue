@@ -365,7 +365,7 @@
 			taskById() {
 				var insertPermssion = CmnFunc.isCreatePermission(15);
 				let taskArray = this.todoById(this.url_parentId ? this.url_parentId : '', this.url_level)
-				if (insertPermssion) {
+				if (insertPermssion  && !this.$store.state.deleteItemsSelected) {
 					taskArray.push({
 						id: '-1',
 						parentId: this.url_parentId,
