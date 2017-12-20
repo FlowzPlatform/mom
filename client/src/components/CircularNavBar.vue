@@ -278,6 +278,12 @@
   import CmnFunc from './CommonFunc.js'
   import CreateProjectDialog from './CreateProjectDialog.vue'
   import Avatar from 'vue-avatar/src/Avatar'
+
+    $('a').click(function(event){
+    event.preventDefault();
+    //do whatever
+     });
+
   Vue.directive('draggable', {
   bind: function (el) {
     el.style.position = 'fixed';
@@ -307,6 +313,7 @@
     });
   }
   })
+
   export default {
     data: function () {
       return {

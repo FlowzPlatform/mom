@@ -10,6 +10,7 @@ module.exports = merge(prodEnv, {
   // USER_AUTH: '"http://172.16.61.101:3001"',
   // USER_DETAIL: '"http://54.88.11.110:81"',
   COPY_URL_PATH: '"http://localhost:3000"',
+  SUCCESS_URL: '"http://localhost:3000"',
   accesskey: JSON.stringify(process.env.accesskey),
   secretkey: JSON.stringify(process.env.secretkey)
 })

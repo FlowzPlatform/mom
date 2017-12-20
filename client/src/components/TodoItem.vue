@@ -66,58 +66,6 @@
     </div>
   </li>
 </template>
-<style>
-
-  
-  col-md-2.border-right:after {
-    content: "";
-    border-right: solid 1px #ccc;
-    top: 0;
-    left: 16.55%;
-    height: 100%;
-    bottom: 0;
-    position: fixed;
-  }
-
-  .ui.vertical.segment {
-    border-bottom: 0px;
-  }
-
-  .taskRow {
-    margin-right: 10px;
-  }
-
-  .stateCircle {
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    /* background: center/cover #cdcfd2; */
-    border-radius: 50%;
-    box-shadow: inset 0 0 0 3px rgba(10, 10, 10, 1.2);
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    color: #000;
-    display: -webkit-inline-box;
-    display: -webkit-inline-flex;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    position: relative;
-    /* vertical-align: top; */
-    overflow: hidden;
-  }
-
-  .stateCircle.Avatar--small {
-    position: absolute;
-    left: 30px;
-    top: 7px;
-    right: 0;
-  }
-</style>
 <script>
   /* eslint-disable*/
   import Vue from 'vue'

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id="main-container" class="row right-tasktype" >
+        <!-- <div id="main-container" class="row right-tasktype" >
             <div id="center_pane_container" class="scrollbar">
                 <div id="center_pane">
                     <main-left-section id="taskTypes" :filtered-todos="taskTypeList"></main-left-section>
@@ -8,8 +8,21 @@
             </div>
             <div id="main-container" class="right_pane_container scrollbar" v-for="(n, index) in parentIdArr">
                 <div id="right_pane">
-                    <!-- <main-right-section id="rightTaskTypes" :todoObject="n"></main-right-section> -->
-                    <role-access-right-sec id="rightTaskTypes" :todoObject="n"></role-access-right-sec>
+                    
+                    <role-access-right-sec id="rightTaskTypes" :todoObject="n"></role-access-right-sec> -->
+
+        <div id="main-container" class="row right-tasktype">
+            <div id="split-container" class="type-split-container" style=" height: calc(100vh);">
+                <div id="left_type_container" class="split split-horizontal scrollbar">
+                    <div id="center_pane">
+                        <main-left-section id="taskTypes" :filtered-todos="taskTypeList"></main-left-section>
+                    </div>
+                </div>
+                <div :id="'type-' + index" class="right_pane_container split split-horizontal" v-for="(n, index) in parentIdList">
+                    <div id="right_pane">
+                        <!-- <main-right-section id="rightTaskTypes" :todoObject="n"></main-right-section> -->
+                        <role-access-right-sec id="rightTaskTypes" :todoObject="n"></role-access-right-sec>
+                    </div>
                 </div>
             </div>
         </div>
@@ -21,9 +34,42 @@ import MainLeftSection from './MainLeftSection.vue'
 // import MainRightSection from './MainRightSection.vue'
 import RoleAccessRightSec from './RoleAccessRightSec.vue'
 import { mapGetters } from 'vuex'
+import Split from 'split.js'
+
 export default {
+    data: function () {
+        return {
+            parentIdList: this.parentIdMethod(),
+            instanceType: null
+        }
+    },
     created() {
         this.$store.dispatch('getTaskTypes')
+    },
+    mounted()  {
+        this.parentIdMethod();
+    },
+    watch: {
+      parentIdList: function () {
+        
+        let ids = ['#left_type_container'];
+        
+        if (this.parentIdList) {
+          for (let i = 0; i <= this.parentIdList.length-1; ++i) {
+            ids.push('#type-' + i);
+          }
+          
+          if (ids.length > 0) {
+            setTimeout(function() {
+              if(this.instanceType){
+                this.instanceType.destroy()
+                this.instanceType = null
+              } 
+              this.instanceType = Split(ids, {minSize: 225});
+            }, 20);
+          }
+        }
+      }
     },
     computed: {
         ...mapGetters({
@@ -41,6 +87,12 @@ export default {
             }
             return types
         }
+    },
+    methods: {
+      parentIdMethod: function () {
+        let array = this.parentIdArr;
+        this.parentIdList = array;
+      }
     },
     components: {
         MainLeftSection,

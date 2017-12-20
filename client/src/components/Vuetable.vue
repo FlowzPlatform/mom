@@ -1,7 +1,7 @@
 <template>
-  <div v-bind:class="wrapperClass">
+  <div v-bind:class="wrapperClass" class="table-wrapper">
         <table class="vuetable" v-bind:class="tableClass">
-            <thead>
+            <thead class="header">
                 <tr>
                     <template v-for="(field, fieldNumber) in fields">
                         <th :class="field.titleClass" colspan="4" :style="getSectionBorderClass(fieldNumber-1,1) ">
@@ -10,7 +10,7 @@
                     </template>
                 </tr>
             </thead>
-            <tbody v-cloak>
+            <tbody v-cloak  class="results">
                 <tr>
                     <th class="center aligned" colspan="4">
                         User Action
@@ -116,7 +116,7 @@ export default {
         },
         getSectionBorderClass: function (fieldIndex, colSpanIndex) {
             if (colSpanIndex == 1)
-                return "border-left: 1px solid #000000;"
+                return ""
             else
                 return ""
         },
@@ -373,5 +373,25 @@ export default {
     box-shadow: inset 0 0 1px 0 rgba(0,0,0,.5);
     background-color: rgba(255,0,0,.3);
     text-align: center;
+}
+
+.table-wrapper { 
+    overflow-x:scroll;
+    overflow-y:visible;
+    margin-left: 115px;
+}
+
+td, th {
+    padding: 5px 20px;
+    width: 100px;
+}
+
+th:first-child {
+    position: fixed;
+    left: 30px
+}
+td:first-child {
+    position: fixed;
+    left: 30px
 }
 </style>
