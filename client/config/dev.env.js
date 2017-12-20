@@ -12,5 +12,6 @@ module.exports = merge(prodEnv, {
   COPY_URL_PATH: '"http://localhost:3000"',
   SUCCESS_URL: '"http://localhost:3000"',
   accesskey: JSON.stringify(process.env.accesskey),
-  secretkey: JSON.stringify(process.env.secretkey)
+  secretkey: JSON.stringify(process.env.secretkey),
+  DEBUG:true
 })
