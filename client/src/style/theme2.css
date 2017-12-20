@@ -10,12 +10,6 @@
 .fa-bars:before,
 .fa-times:before {
   color: #FA8060;
-  position: relative;
-  top: 33%;
-  /* left: 42%; */
-  transition: opacity 500ms ease-in;
-  text-decoration: none;
-  z-index: 2;
 }
 .menu-item-back {
     background: #FA8060;
@@ -63,37 +57,21 @@
   }
 
   .ivu-poptip-rel {
-    /* background: #000; */
     background: #FA8060;
-    width: 175px;
-    height: 150px;
-    position: absolute;
-    -webkit-transform-origin: 0px 150px;
-    transform-origin: 0px 150px;
-    margin-top: -150px;
-    left: 50%;
-    top: 50%;
-    border: 1px solid whitesmoke;
   }
 
 .navbar-bottom {
-    background-color: #45B274ad;    
+    background-color: #13A854;    
 }
 .navbar-bottom:hover a.active {
   /*background-color: rgba(63, 81, 181, 0.90);*/
-  background-color: #13A854;
+  background-color: #45B274ad;
   /* color: #747373; */
 }
 .header-name{
     color: #8D4A00;
     font-family: esteban
 }
-
-.navbar-bottom .ivu-select-single .ivu-select-input{
-  background: #45B274ad;
-  -webkit-text-fill-color: #fff;
-}
-
 /* .navbar-bottom a {
     color: #747373;
 }
@@ -101,7 +79,7 @@
     fill: #747373;
 } */
 .navbar-bottom .ivu-select-single .ivu-select-input {
-    /* -webkit-text-fill-color : #747373; */
+    -webkit-text-fill-color : #fff;
 }
 .mask {
     background: #007849;
@@ -112,11 +90,11 @@
     font-family: esteban
   }
   .navbar-bottom .due-date:hover {
-    background: #13A854;
+    background: #45B274ad;
   }
   .navbar-bottom a:hover {
     cursor: pointer;
-    background: #13A854;
+    background: #45B274ad;
   }
   .share { 
     background: #EC471B

@@ -264,7 +264,7 @@ button {
     padding-top: 5px;
 }
 .autogrow-textarea{
-	display: inline-flex;
+	display: flex;
 	font-size: 14px;
 	line-height: 20px;
 	position: relative;
@@ -381,7 +381,7 @@ border: 1px solid transparent;
   opacity: 0;
 }
 .generic-input:hover:not(.override-hover-border):not([disabled]){
-	    /* border-color: #CDCFD2; */
+	    border-color: #CDCFD2;
     -webkit-transition: border-color 150ms;
     -moz-transition: border-color 150ms;
     transition: border-color 150ms;
@@ -944,7 +944,8 @@ border: 1px solid transparent;
     bottom: 10px;
 }
 .buttonView.buttonView--default {
-    height: 30px;
+    height: 40px;
+    width: 160px;
     line-height: 30px;
     padding: 0 10px;
 }
@@ -970,7 +971,7 @@ border: 1px solid transparent;
     -o-align-items: center;
     align-items: center;
     -ms-flex-align: center;
-    border-radius: 3px;
+    border-radius: 30px;
     border-style: solid;
     border-width: 1px;
     box-sizing: border-box;
@@ -1341,7 +1342,7 @@ a:hover, a:focus{
     z-index: 5;
 }
 .PageHeaderStructure {position: fixed;top: 40px;left: 0;right: 0;}
-.known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;overflow: auto;min-width: 450px;}
+/* .known-list #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;overflow: auto;min-width: 450px;} */
 .asanaView-body { position: fixed;top: 20px;left: 0;right: 0;bottom: 0; overflow-y: hidden; }
 .right_bar{position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: calc(100% - 135px);overflow: auto;}
 .right_pane_container #right_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;}
@@ -3608,6 +3609,7 @@ a.CloseButton.Dialog-closeButton {
         padding-right: 10px;
         padding-bottom: 10px;
         padding-left: 30px;
+        display: -webkit-box;
 }
 .my-dialog .modal-footer {
         border-color: transparent;
@@ -5728,22 +5730,18 @@ CSS for splitter view
     bottom: 5px;
     width: 70px;
 }
-.navbar-bottom .ivu-select-single .ivu-select-input{
-    background: rgb(51, 51, 51);
-    -webkit-text-fill-color: #fff;
-}
+
 .navbar-bottom .ivu-select-visible .ivu-select-selection{
     box-shadow:0;
-}
-.navbar-bottom .ivu-select-single .ivu-select-input:hover{
-    /* background: #745a93; */
-    /* -webkit-text-fill-color:#fff; */
 }
 .ivu-select-input {
     padding: 0px 6px 0px 8px;
 }
 .navbar-bottom .ivu-select-selection{
     border: 0;
+}
+.ivu-select-selection {
+    background-color: #fff0
 }
 /* icon color change */
 .navbar-bottom .ivu-select-arrow{

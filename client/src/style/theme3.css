@@ -10,12 +10,6 @@
 .fa-bars:before,
 .fa-times:before {
   color: #9ECA76;
-  position: relative;
-  top: 33%;
-  /* left: 42%; */
-  transition: opacity 500ms ease-in;
-  text-decoration: none;
-  z-index: 2;
 }
 .menu-item-back {
     background: #9ECA76;
@@ -71,17 +65,7 @@
   }
 
   .ivu-poptip-rel {
-    /* background: #000; */
     background: #9ECA76;
-    width: 175px;
-    height: 150px;
-    position: absolute;
-    -webkit-transform-origin: 0px 150px;
-    transform-origin: 0px 150px;
-    margin-top: -150px;
-    left: 50%;
-    top: 50%;
-    border: 1px solid whitesmoke;
   }
 
 .navbar-bottom {
@@ -97,10 +81,6 @@
     font-family: esteban
 }
 
-.navbar-bottom .ivu-select-single .ivu-select-input{
-  background: #915693ad;
-  -webkit-text-fill-color: #fff;
-}
 .mask {
     background: #7C8D25;
     border: 1px solid #747373;
