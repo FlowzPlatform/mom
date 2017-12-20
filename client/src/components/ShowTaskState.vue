@@ -12,7 +12,7 @@
         
         <div id="main-container" class="row right-tasktype" style="left: 20%;right: 20px;">
             <div id="split-container" class="type-split-container" style="height: calc(100vh);">
-                <div id="left_task_container" class="split split-horizontal">
+                <div id="left_task_container" class="split split-horizontal scrollbar">
                     <div id="center_pane">
                         <main-left-section id="taskState" :filtered-todos="taskStausList"></main-left-section>
                     </div>

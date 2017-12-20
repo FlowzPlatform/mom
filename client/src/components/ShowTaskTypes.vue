@@ -13,7 +13,7 @@
 
         <div id="main-container" class="row right-tasktype">
             <div id="split-container" class="type-split-container" style=" height: calc(100vh);">
-                <div id="left_type_container" class="split split-horizontal">
+                <div id="left_type_container" class="split split-horizontal scrollbar">
                     <div id="center_pane">
                         <main-left-section id="taskTypes" :filtered-todos="taskTypeList"></main-left-section>
                     </div>
