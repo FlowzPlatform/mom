@@ -1,0 +1,123 @@
+html, body {
+  background: #1d1d1d;
+}
+#center_pane {
+  background: #1d1d1d;
+}
+.todo-list li {
+  border-bottom: 1px solid #383838;
+}
+.progress {
+  background: #1d1d1d;
+}
+.right_pane_container #right_pane {
+  background: #1d1d1d;
+}
+.todo-list li input {
+  color: #fff;
+}
+.taskDetailsView-description .autogrow-textarea {
+  background-color: #1d1d1d;
+}
+.stateCircle {
+  -webkit-box-shadow: inset 0 0 0 3px rgb(255, 255, 255);
+  box-shadow: inset 0 0 0 3px rgb(255, 255, 255);
+}
+.setColor {
+  color: #fff;
+}
+.ivu-select-single .ivu-select-input {
+  color: white;
+}
+.fa-bars:before,
+.fa-times:before {
+  color: #88A95B;
+}
+.menu-item-back {
+    background: #88A95B;
+  }
+
+  .menu-item-back:hover {
+    background: #4F7121;
+  }
+
+  .ivu-poptip-rel:hover {
+    background: #4F7121;
+  }
+
+  .menu-item:nth-child(3) .menu-item-back {
+    transform: rotate(-60deg) skew(-30deg);
+    background: #88A95B;
+  }
+  .menu-item:nth-child(3) .menu-item-back:hover{
+      background: #4F7121;
+  }
+
+  .menu-item:nth-child(5) .menu-item-back {
+    transform: rotate(60deg) skew(-30deg);
+    background: #88A95B;
+  }
+  .menu-item:nth-child(5) .menu-item-back:hover{
+      background: #4F7121;
+  }
+
+  .menu-item:nth-child(7) .menu-item-back {
+    transform: rotate(180deg) skew(-30deg);
+    background: #88A95B;
+  }
+
+  .menu-item:nth-child(7) .menu-item-back:hover{
+      background: #4F7121;
+  }
+  .ivu-poptip-rel {
+    background: #88A95B;
+  }
+  .logo__title{
+    color: #B96363;
+    font-family: 'Gotham Rounded SSm A','Gotham Rounded SSm B'
+}
+.header-name{
+  color: #B96363;
+  font-family: esteban
+}
+.comment-title {
+  color: #B96363;
+  font-family: esteban
+}
+.navbar-bottom {
+  background-color: #E2D69Bad;    
+}
+.navbar-bottom:hover a.active {
+background-color: #7B6C24;
+color: #fff;
+}
+.navbar-bottom .due-date:hover {
+  background: #7B6C24;
+}
+.navbar-bottom a:hover {
+  cursor: pointer;
+  background: #7B6C24;
+}
+.share { 
+  background: #7B709C
+}
+
+.one {
+  background: #7B709C;
+}
+
+.two {
+  background: #7B709C;
+}
+.buttonView.buttonView--primary {
+  background: #1D621D;
+  border-color: #1D621D;
+}
+.buttonView.buttonView--primary:focus,
+.buttonView.buttonView--primary:hover {
+    background: #7CB57C;
+    border-color: #7CB57C;
+    box-shadow: inset 0 0 transparent, 0 0 0 3px #7CB57C;
+    -moz-box-shadow: inset 0 0 transparent, 0 0 0 3px #7CB57C;
+    -webkit-box-shadow: inset 0 0 transparent, 0 0 0 3px #7CB57C
+}

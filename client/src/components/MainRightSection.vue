@@ -37,7 +37,7 @@
         <div class="rightscroll">
           <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
             :filteredTodo="todoObject" v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'"
-            :pholder="pholder" :filtered-todos="taskById" :commentTaskId="todoObject.id">
+            :pholder="pholder" :filtered-todos="taskById" :commentTaskId="todoObject.id" v-bind:class="applyBackground()">
           </component>
         </div>
       </div>
@@ -54,13 +54,12 @@
             </Tooltip>
           </a>
           <!-- Assign task to user menu item -->
-
           <div class="assing-to-menu">
             <Tooltip content="Assignee" placement="top-start">
               <span style="float:left;margin-top:-3px">
                 <div v-if="todoObject.email">
-                  <avatar v-if="todoObject.image_url" :username="getListUserName(todoObject,0)" :size="30" :src="todoObject.image_url"></avatar>
-                  <avatar v-else :username="getListUserName(todoObject,0)" color='#fff' :size="30"></avatar>
+                  <avatar v-if="todoObject.image_url" :username="todoObject.email" :size="30" :src="todoObject.image_url"></avatar>
+                  <avatar v-else :username="todoObject.email" color='#fff' :size="30"></avatar>
                 </div>
               </span>
               <Row>
@@ -70,9 +69,9 @@
                   <Option  v-show="checkEmail(user.email,user.fullname)" style="margin:5px" v-for="user in getUserList" :label="getListUserName(user)" :value="user._id" :key="user._id">
                     <span >
                       <span style="float:left;margin-right:10px;margin-top:-8px;width: 30px; height: 30px; border-radius: 50%; text-align: center; vertical-align: middle;background:#ccc">
-                        <div>
-                          <avatar v-if="user.image_url" :username="getListUserName(user,0)" :size="30" :src="user.image_url"></avatar>
-                          <avatar v-else color="white" :username="getListUserName(user,0)" :size="30"></avatar>
+                        <div v-if="user.email">
+                          <avatar v-if="user.image_url" :username="user.email" :size="30" :src="user.image_url"></avatar>
+                          <avatar v-else color="white" :username="user.email" :size="30"></avatar>
                         </div>
                       </span>
                       {{getListUserName(user,1)}}
@@ -507,6 +506,15 @@
         // console.log("check fullname",fullname)
         // console.log("check email",email)
         return (fullname && fullname.length>0) || (email && email.length>0 && CmnFunc.checkValidEmail(email))
+      },
+      applyBackground(){
+        console.log("Apply background theme")
+        if(this.currentView == SubTask)
+        {
+          return 'task_bg'
+        }else if(this.currentView == Attachments){
+            return 'history_bg'
+        }
       }
     },
     watch: {
@@ -595,3 +603,26 @@
     }
   };
 </script>
+<style>
+.task_bg{
+  /* background-color: coral; */
+
+}
+.history_bg{
+  background-color: blueviolet;
+}
+/* #rightContainer:after {
+    content: "\f1da";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    position: absolute;
+    font-size: 400px;
+    color: #f1f1f1;
+      top: 80%;
+      left: 50%;
+    margin: -300px 0 0 -200px;
+    z-index: 1;
+} */
+</style>

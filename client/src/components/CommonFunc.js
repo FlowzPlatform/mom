@@ -39,7 +39,9 @@ export default {
     store.state.isAuthorized = false
     store.commit('userData')
     store.commit('authorize')
-    store.commit('CLEAR_PROJECT_DEFAULT')  
+    store.commit('CLEAR_PROJECT_DEFAULT') 
+    store.state.splitWidthArr = []
+    store.commit('splitWidthArr')
   },
   resetProjectDefault: function () {
    store.commit('CLEAR_PROJECT_DEFAULT')

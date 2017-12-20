@@ -3,7 +3,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from'@/components/LoginPage'
 // const Login = () => import('../components/LoginPage.vue')
-import MainApp  from '@/components/MainApp'
+import MainApp  from '@/components/ContainerComponent'
 import RoleAccess  from '@/components/RoleAccess'
 import navbar  from '@/components/navbar'
 import ShowTaskTypes  from '@/components/ShowTaskTypes'
@@ -13,8 +13,11 @@ import '../style/style.css'
 import '../style/style1.css'
 import '../style/newStyle.css'
 import '../style/keen-ui.min.css'
-// import '../style/theme1.css'
-import '../style/theme2.css'
+import '../style/theme1.css'
+// import '../style/theme2.css'
+// import '../style/theme3.css'
+// import '../style/theme4.css'
+// import '../style/theme5_black.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import GSignInButton from 'vue-google-signin-button';
@@ -82,4 +85,3 @@ export default new Router({
     }
   ]
 })
-

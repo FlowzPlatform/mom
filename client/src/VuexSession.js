@@ -107,6 +107,18 @@ function updateObject(oldObject, newObject) {
     }
   }
 }
+function scrollToLeft() {
+  var children = document.getElementById('main-container').children;
+  var totalWidth = 0;
+  
+  for (var i = 0; i < children.length; i++) {
+    totalWidth += children[i].offsetWidth;
+  }
+  var leftPos = $('#main-container').scrollLeft();
+  $("div#main-container").animate({
+    scrollLeft: totalWidth
+  }, 800)
+}
 
 export const store = new Vuex.Store({
   state: {
@@ -158,7 +170,8 @@ export const store = new Vuex.Store({
     commentValue: '',
     taskHistoryLog:[],
     accessRight:{},
-    deleteFileName:''
+    deleteFileName:'',
+    splitWidthArr: []
   },
   mutations: {
     userData: state => state.userObject,
@@ -166,8 +179,13 @@ export const store = new Vuex.Store({
     progressVal: state => state.progress,
     googleId: state => state.googleId,
     removeMember: state => state.removeMember,
-   
+    splitWidthArr: state => state.splitWidthArr,
 
+    setSplitWidth(state, data){
+     // console.log('SplitWidth Data:', data)
+      state.splitWidthArr = data
+      console.log('SplitWidth Data:', state.splitWidthArr)
+    },
     // showProgress: state => state.isProgress,
     // showLoader: state => state.isLoading,
     showAttachmentProgress(state, data) {
@@ -227,15 +245,7 @@ export const store = new Vuex.Store({
       },100)
       //****************************************************** */
 
-      // var children = document.getElementById('main-container').children;
-      // var totalWidth = 0;
-      // for (var i = 0; i < children.length; i++) {
-      //   totalWidth += children[i].offsetWidth;
-      // }
-      // var leftPos = $('#main-container').scrollLeft();
-      // $("div#main-container").animate({
-      //   scrollLeft: totalWidth
-      // }, 800)
+      scrollToLeft()
       // END scroll to last opened right div 
       
 
@@ -299,6 +309,8 @@ export const store = new Vuex.Store({
           }
         }
       }
+      
+      scrollToLeft()
     },
     REMOVE_PARENT_ID_ARRAY(state) {
       state.parentIdArr.splice(0, state.parentIdArr.length)
