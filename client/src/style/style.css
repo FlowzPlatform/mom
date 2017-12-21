@@ -6650,4 +6650,10 @@ col-md-2.border-right:after {
     top: 7px;
     right: 0;
   }
+.ql-container.ql-snow {
+    min-height: 200px;
+}
+.ql-snow .ql-formats {
+    float: left;
+}
   /* Todo Item End */
