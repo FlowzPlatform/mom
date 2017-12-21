@@ -278,6 +278,7 @@
       }
     },
     created() {
+      console.log('Navbar called...')
     },
     computed: {
       ...mapGetters([

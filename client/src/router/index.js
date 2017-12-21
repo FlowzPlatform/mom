@@ -15,9 +15,6 @@ import '../style/newStyle.css'
 import '../style/keen-ui.min.css'
 import '../style/theme1.css'
 // import '../style/theme2.css'
-// import '../style/theme3.css'
-// import '../style/theme4.css'
-// import '../style/theme5_black.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import GSignInButton from 'vue-google-signin-button';
@@ -61,7 +58,7 @@ export default new Router({
     {
       path: '/navbar/task/:level/:id',
       //query: {id:''},
-      name: 'mainapp',
+      name: 'copytask',
       component: MainApp,
     },
     {
@@ -74,8 +71,8 @@ export default new Router({
         {
           path: 'mainapp',
           name: 'MainApp',
-          component: MainApp
-        },
+          component: MainApp,
+        },       
         {
           path: 'roleaccess',
           name: 'RoleAccess',
@@ -85,3 +82,4 @@ export default new Router({
     }
   ]
 })
+

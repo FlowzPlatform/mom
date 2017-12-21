@@ -16,8 +16,15 @@ export default {
     // }
     
       if(this.$cookie.get('auth_token')){
+      let isCopyLink = false;  
+      let url = window.location.href;
+			if (url.indexOf('task') > -1) {
+        isCopyLink = true
+      }
+      console.log('Copytask URL:', isCopyLink)
+      if(!isCopyLink)
        this.$router.push('/navbar/mainapp');
-       
+      
      }
     }
 }
