@@ -61,7 +61,7 @@ export default new Router({
     {
       path: '/navbar/task/:level/:id',
       //query: {id:''},
-      name: 'mainapp',
+      name: 'copytask',
       component: MainApp,
     },
     {
@@ -74,8 +74,8 @@ export default new Router({
         {
           path: 'mainapp',
           name: 'MainApp',
-          component: MainApp
-        },
+          component: MainApp,
+        },       
         {
           path: 'roleaccess',
           name: 'RoleAccess',
@@ -85,3 +85,4 @@ export default new Router({
     }
   ]
 })
+

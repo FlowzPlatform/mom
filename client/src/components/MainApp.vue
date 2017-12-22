@@ -165,27 +165,50 @@
 								//fetches value of splitter size array from local storage
 								this.sizes = localStorage.getItem('split-sizes')
 								this.sizes = JSON.parse(this.sizes)
-								
 								//following if condition is applicable when user closes sections
 								if(me.parentIdNum > me.parentIdList.length && me.parentIdList.length > 0){
-									
 									this.sizes.length = me.parentIdList.length + 1
-									let tempArr = [];
 									let totalPercent = 0
+									let totalWidth = 0
+									let index = 0
 									for (var size in this.sizes){
-										sizeArray.push(100 / this.sizes.length)
+										
+										let extendedWidth = containerNewWidth + ($(window).width() / 2)
+										index++
+										let sectionWidth = (extendedWidth * this.sizes[size]) / 100
+										totalWidth += sectionWidth
+					
+										if(index === this.sizes.length){
+											let extraWidth = containerNewWidth - totalWidth
+											sectionWidth = extraWidth + sectionWidth
+										}
+										let sectionPercent = (sectionWidth * 100) / containerNewWidth
+										sizeArray.push(sectionPercent)
+
+									 	//sizeArray.push(100 / this.sizes.length)
 									}
 									localStorage.setItem('split-sizes', JSON.stringify(sizeArray));
 								}else{
 									let totalPercent = 0
 									for (var size in this.sizes) {
-										//conversion of percentage into pixel(width) of section
-										let sectionWidth = (containerWidth * this.sizes[size]) / 100
-										//conversion of width(pixel) into percentage
-										let sectionPercent = (sectionWidth * 100) / containerNewWidth
-
-										sizeArray.push(sectionPercent)
-										totalPercent += sectionPercent
+										
+										//When comment section is closed following if condition exectes
+										if(this.sizes.length > 2 && ids.length === this.sizes.length){
+											let sectionWidth = (containerNewWidth * this.sizes[size]) / 100
+											let sectionPercent = (sectionWidth * 100) / containerNewWidth
+											sizeArray.push(sectionPercent)
+											totalPercent += sectionPercent
+										}else{
+											//conversion of percentage into pixel(width) of section
+											let sectionWidth = (containerWidth * this.sizes[size]) / 100
+											
+											//conversion of width(pixel) into percentage
+											let sectionPercent = (sectionWidth * 100) / containerNewWidth
+											
+											sizeArray.push(sectionPercent)
+											totalPercent += sectionPercent
+										}
+										
 									}
 									totalPercent = 100 - totalPercent
 									if (totalPercent > 0) {

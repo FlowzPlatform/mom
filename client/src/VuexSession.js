@@ -103,18 +103,18 @@ function updateObject(oldObject, newObject) {
     }
   }
 }
-function scrollToLeft() {
-  var children = document.getElementById('main-container').children;
-  var totalWidth = 0;
-
-  for (var i = 0; i < children.length; i++) {
-    totalWidth += children[i].offsetWidth;
-  }
-  var leftPos = $('#main-container').scrollLeft();
-  $("div#main-container").animate({
-    scrollLeft: totalWidth
-  }, 800)
-}
+// function scrollToLeft() {
+//   var children = document.getElementById('main-container').children;
+//   var totalWidth = 0;
+  
+//   for (var i = 0; i < children.length; i++) {
+//     totalWidth += children[i].offsetWidth;
+//   }
+//   var leftPos = $('#main-container').scrollLeft();
+//   $("div#main-container").animate({
+//     scrollLeft: totalWidth
+//   }, 800)
+// }
 
 export const store = new Vuex.Store({
   state: {
@@ -235,7 +235,7 @@ export const store = new Vuex.Store({
       }, 100)
       //****************************************************** */
 
-      scrollToLeft()
+      CmnFunc.scrollToLeft()
       // END scroll to last opened right div 
 
 
@@ -296,7 +296,8 @@ export const store = new Vuex.Store({
           }
         }
       }
-      scrollToLeft()
+      
+      CmnFunc.scrollToLeft()
     },
     REMOVE_PARENT_ID_ARRAY(state) {
       state.parentIdArr.splice(0, state.parentIdArr.length)

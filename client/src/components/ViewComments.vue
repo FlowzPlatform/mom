@@ -71,12 +71,13 @@
   </div>
 </template>
 <script>
-  /* eslint-disable*/
-  import { mapGetters } from "vuex";
-  import Avatar from 'vue-avatar/src/Avatar'
-  import Vue from "vue";
-  import moment from 'moment';
-  import * as services from '../services'
+/* eslint-disable*/
+import { mapGetters } from "vuex";
+import Avatar from 'vue-avatar/src/Avatar'
+import Vue from "vue";
+import moment from 'moment';
+import * as services from '../services'
+import CmnFunc from './CommonFunc.js'
 
   Vue.filter('parseDate', function (value) {
     if (value) {

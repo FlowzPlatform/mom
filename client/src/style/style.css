@@ -6661,3 +6661,10 @@ a.history-username{
         margin: 30px auto;
     }
 }
+.ql-container.ql-snow {
+    min-height: 200px;
+}
+.ql-snow .ql-formats {
+    float: left;
+}
+  /* Todo Item End */
