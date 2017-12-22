@@ -155,5 +155,17 @@ export default {
     return _.find(context.$store.state.accessRight, function (obj) {
       return (obj.task_type == taskTypeId && obj.rId == selfRoleId);
     });
+  },
+  scrollToLeft: function(){ 
+    var children = document.getElementById('main-container').children;
+    var totalWidth = 0;
+    
+    for (var i = 0; i < children.length; i++) {
+      totalWidth += children[i].offsetWidth;
+    }
+    var leftPos = $('#main-container').scrollLeft();
+    $("div#main-container").animate({
+      scrollLeft: totalWidth
+    }, 800)
   }
 }

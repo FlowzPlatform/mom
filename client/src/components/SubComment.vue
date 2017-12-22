@@ -254,7 +254,7 @@
                 this.replyComnet = comment;
                 comment.show_type = 'subcomment'
                 comment.parentId = this.commentParentId
-                console.log("Click Comment:--", comment)
+                // console.log("Click Comment:--", comment)
                 let parentList = this.$store.state.parentIdArr;
                 let indexParent = _.findIndex(parentList, function (d) { return d.id === comment.parentId })
                 let tempC = parentList[indexParent];
