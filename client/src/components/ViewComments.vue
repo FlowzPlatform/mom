@@ -77,6 +77,7 @@ import Avatar from 'vue-avatar/src/Avatar'
 import Vue from "vue";
 import moment from 'moment';
 import * as services from '../services'
+import CmnFunc from './CommonFunc.js'
 
   Vue.filter('parseDate', function (value) {
     if (value) {
@@ -195,6 +196,7 @@ export default {
   },
   methods: {
     replyCommentMethod(comment) {
+      CmnFunc.scrollToLeft()
       comment.show_type = 'subcomment'
       comment.parentId = this.commentParentId 
       console.log("Click Comment:--", comment)

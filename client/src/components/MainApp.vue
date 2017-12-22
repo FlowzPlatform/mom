@@ -259,48 +259,50 @@
 								//fetches value of splitter size array from local storage
 								this.sizes = localStorage.getItem('split-sizes')
 								this.sizes = JSON.parse(this.sizes)
-								
 								//following if condition is applicable when user closes sections
 								if(me.parentIdNum > me.parentIdList.length && me.parentIdList.length > 0){
-									
 									this.sizes.length = me.parentIdList.length + 1
-									let tempArr = [];
 									let totalPercent = 0
+									let totalWidth = 0
+									let index = 0
 									for (var size in this.sizes){
-										// console.log('containerWidth:', containerWidth)
-										// console.log('containerNewWidth:',containerNewWidth)
-										// let sectionWidth = (containerNewWidth * this.sizes[size]) / 100
-										// console.log('sectionWidth:', sectionWidth)
-										// let sectionPercent = (sectionWidth * 100) / containerWidth
-										// console.log('sectionPercent:', sectionPercent)
+										
+										let extendedWidth = containerNewWidth + ($(window).width() / 2)
+										index++
+										let sectionWidth = (extendedWidth * this.sizes[size]) / 100
+										totalWidth += sectionWidth
+					
+										if(index === this.sizes.length){
+											let extraWidth = containerNewWidth - totalWidth
+											sectionWidth = extraWidth + sectionWidth
+										}
+										let sectionPercent = (sectionWidth * 100) / containerNewWidth
+										sizeArray.push(sectionPercent)
 
-										// sizeArray.push(sectionPercent)
-										// console.log('tempArr:', tempArr)
-										// totalPercent += sectionPercent
-										// console.log('totalPercent:', totalPercent)
-
-										// if(size == this.sizes.length-1){
-										// 	totalPercent = 100 - totalPercent
-										// 	let valLastIndex = sizeArray[size]
-										// 	valLastIndex += totalPercent
-										// 	console.log('valueLast:', valLastIndex)
-										// 	sizeArray[size] = valLastIndex
-										// 	console.log('tempArr1:', tempArr)
-										// }
-										sizeArray.push(100 / this.sizes.length)
+									 	//sizeArray.push(100 / this.sizes.length)
 									}
 									localStorage.setItem('split-sizes', JSON.stringify(sizeArray));
 								}else{
 									let totalPercent = 0
 									for (var size in this.sizes) {
-										//conversion of percentage into pixel(width) of section
-										let sectionWidth = (containerWidth * this.sizes[size]) / 100
-										console.log('section width:', sectionWidth)
-										//conversion of width(pixel) into percentage
-										let sectionPercent = (sectionWidth * 100) / containerNewWidth
-
-										sizeArray.push(sectionPercent)
-										totalPercent += sectionPercent
+										
+										//When comment section is closed following if condition exectes
+										if(this.sizes.length > 2 && ids.length === this.sizes.length){
+											let sectionWidth = (containerNewWidth * this.sizes[size]) / 100
+											let sectionPercent = (sectionWidth * 100) / containerNewWidth
+											sizeArray.push(sectionPercent)
+											totalPercent += sectionPercent
+										}else{
+											//conversion of percentage into pixel(width) of section
+											let sectionWidth = (containerWidth * this.sizes[size]) / 100
+											
+											//conversion of width(pixel) into percentage
+											let sectionPercent = (sectionWidth * 100) / containerNewWidth
+											
+											sizeArray.push(sectionPercent)
+											totalPercent += sectionPercent
+										}
+										
 									}
 									totalPercent = 100 - totalPercent
 									if (totalPercent > 0) {
@@ -317,7 +319,6 @@
 								this.instance.destroy()
 								this.instance = null
 							}
-							console.log('splitter ids:', ids)	
 							//splitter logic goes here
 							let self = this;
 							this.instance = Split(ids, {sizes: sizeArray, minSize: 420,
