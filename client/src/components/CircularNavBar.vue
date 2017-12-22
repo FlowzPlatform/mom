@@ -90,7 +90,7 @@
                             </div>
                           </a>
                           <!--Member 3-->
-                          <div v-if="isMemberAvailable(project,2) && project.members[2].is_deleted !== true" @click="showMemberDetail($event)" class="Avatar Avatar--small Avatar--color3 Facepile-avatar">
+                          <div v-if="isMemberAvailable(project,2) && project.members[2].is_deleted !== true" @click="showMemberDetail($event)" class="taskRow">
                             <div v-if="project.members[2].email">
                               <avatar v-if="project.members[2].url" :username="project.members[2].email" :src="project.members[2].url" :size="25"></avatar>
                               <avatar v-else :username="project.members[2].email" :size="25" color="#fff"></avatar>

@@ -4194,7 +4194,7 @@ a {
         height: 50px;
         padding: 0 15px;
     }
-.Avatar.Avatar--small.Avatar--color1.Facepile-avatar {
+/* .Avatar.Avatar--small.Avatar--color1.Facepile-avatar {
         background-color: #8c3208;
 }
 .Avatar.Avatar--small.Avatar--color2.Facepile-avatar {
@@ -4211,7 +4211,7 @@ a {
 }
 .Avatar.Avatar--small.Avatar--color6.Facepile-avatar {
         background-color: #7a6ff0;
-}
+} */
 .TypeaheadItem-textWrapper {
         -webkit-box-flex: 1;
         -webkit-flex-grow: 1;

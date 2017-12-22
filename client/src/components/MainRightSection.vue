@@ -153,7 +153,6 @@
   import HistoryLog from "./HistoryLog.vue";
   import RightToolbar from "./RightToolbar.vue";
   import Attachments from "./Attachments.vue";
-  import StoryFeed from "./StoryFeed.vue";
   import Tags from "./Tags.vue";
   import SubTask from "./SubTask.vue";
   import { mapMutations, mapGetters, mapActions } from "vuex";
@@ -489,7 +488,6 @@
       MainLeftSection,
       RightToolbar,
       Attachments,
-      StoryFeed,
       Tags,
       HistoryLog,
       SubComment,
