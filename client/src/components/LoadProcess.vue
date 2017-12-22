@@ -42,7 +42,6 @@
                     .catch(function(error) {      
                         console.log("login error",error)
                        if (error.response.status === 401) { 
-                          // console.log('error: ', error.response.status) 
                            return 
                         }              
                         $.notify.defaults({ className: "error" })                 

@@ -46,15 +46,9 @@
 import Vue from 'vue'
 export default {
     methods: {
-        /**
-         * Close project delete dialog 
-         */
         closeDeleteDialog(){
             $("#project-delete-dialog").addClass("hidden");
         },
-        /***
-         * Delete project 
-         */
         deleteProject(){
             this.$store.dispatch('deleteProject',this.$store.state.currentProject)
             this.closeDeleteDialog();

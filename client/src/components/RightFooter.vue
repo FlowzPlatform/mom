@@ -79,7 +79,6 @@ Vue.use(VueQuillEditor, /* { default global options } */)
         methods: {
             insertComment: function (taskId) {
                 if (this.commentText) {
-                    console.log('Comment by', this.$store.state.userObject.fullname)
                     let comment = {
                             task_id: this.commentTaskId,
                             commentBy: this.$store.state.userObject._id,

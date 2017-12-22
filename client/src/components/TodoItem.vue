@@ -43,7 +43,7 @@
         <div class="task-row-overlay grid-tags-and-date">
           <a class="taskRow">
             <span v-if="todo.isTaskUpdate" style="color: red">&#x25cf;</span><span v-else></span>
-            <span class="grid_due_date">{{todo.dueDate | formatDate_todo}}</span>
+            <span class="grid_due_date">{{todo.dueDate | formatDate}}</span>
           </a>
         </div>
         <div v-if="todo.email">
@@ -84,11 +84,11 @@
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import { mapMutations, mapGetters, mapActions } from 'vuex'
-  Vue.filter('formatDate_todo', function (value) {
-    if (value) {
-      return moment(String(value)).format('MMM DD')
-    }
-  })
+  // Vue.filter('formatDate_todo', function (value) {
+  //   if (value) {
+  //     return moment(String(value)).format('MMM DD')
+  //   }
+  // })
   Vue.filter('fistLatter', function (str) {
     if (str) {
       var firstLetters = str.substr(0, 1)
@@ -149,12 +149,10 @@
         this.$store.dispatch('getTypeState', this.todo.type_id)
       },
       selectStatus: function(objStatus) {  
-        console.log('State changed', objStatus) 
         this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedState": objStatus.state_id })
         this.selectedObject = this.taskState.find(state => state.state_id === objStatus.state_id)
       },
       addTodo: function (todoId) {
-        // console.log("onKeyenter add TODO called===>")
         // if (this.id !== 'taskTypes' && this.id !== 'taskState') {
         //   this.$store.dispatch('insertTodo', this.todo)
           
@@ -170,7 +168,6 @@
         {
           this.$store.dispatch('insertRole', this.todo)
         this.todo.name=""           
-        console.log("this.todo-->",this.todo)
         
         }
       },
@@ -185,8 +182,6 @@
         }
       },
       async onFocusClick(select,id,level,created_by,typeId){
-        // console.log('Select::-',select)
-        // console.log('onFoucusclick',typeId)
      
         $("#" + id + "_" + level).addClass("lifocus")
         if (this.todo.isTaskUpdate) {
@@ -219,7 +214,6 @@
         this.$store.state.currentModified = (this.todo.id == -1) ? true : false
       },
       changeValue: function (todoId) {
-        console.log("Change value called===>")
         this.$store.dispatch('insertTodo', this.todo)
         var nextTaskIndex = todoId.split('_')[0];
         if (nextTaskIndex == -1) {

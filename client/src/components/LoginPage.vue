@@ -69,7 +69,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -82,7 +81,6 @@
     import Resource from 'vue-resource'
     import CmnFunc from './CommonFunc.js'
     import notify from './notify.js'
-    import * as services from '../services'
     import VueRouter from 'vue-router'
     import iView from 'iview';
     import 'iview/dist/styles/iview.css';
@@ -93,7 +91,6 @@
     Vue.use(VueRouter)
     var VueCookie = require('vue-cookie')
     Vue.use(VueCookie)
-
     $(document).ready(function () {
 
         $("#login_btn").attr('disabled', true);
@@ -115,14 +112,11 @@
         mounted(){
             var self = this
             if(this.$cookie.get('auth_token') !== null){
-                console.log('mounted called inside');
                 self.$store.state.isAuthorized = true
                 self.$store.commit('authorize')
                 //self.userDetail(self)
                 self.$store.dispatch('getUserDetail')
-                    //  self.$store.dispatch('getUserRegister')                           
                     .then(function () {
-                       //self.$router.replace('/navbar/mainapp')
                     })
                     .catch(function (error) {
                         if (error.response.status === 401) {
@@ -134,7 +128,6 @@
             }
         },
         created() {
-            console.log('created called')
             console.log("AUTH_TOKEN:", localStorage.getItem('auth_token'))
             var url_string = window.location.href;
             var url = new URL(url_string);
@@ -168,7 +161,6 @@
                 this.emailId = ''
                 this.pwd = ''
                 this.confPwd = ''
-                console.log('value is:',val);
                 this.selectedTabIndex = val;
             },
             btnSignUpClicked() {
@@ -252,10 +244,8 @@
             btnLDAPPressed() {
                 let self = this
                 // CmnFunc.resetProjectDefault()
-                console.log('LOG IN--> userloginprocess')
                 this.$store.dispatch('signInWithLDAP', { 'userid': 'xxxx', 'passwd': 'xxxx' })
                     .then(function (response) {
-                        console.log('LDAP response successful');
                         console.log('LOG IN--> response', response)
                         self.$store.state.isAuthorized = true
                         self.$store.commit('authorize')
@@ -282,7 +272,6 @@
                 }).then(response => response.json())
                     .then(json => {
                         if (json.inserted) {
-                            console.log('data successfully inserted')
                             $('#confirmpwd').hide();
                             $('#login_btn').show()
                             $('.title').text('Log In')
@@ -294,7 +283,6 @@
                     })
             },
             btnLogInClicked() {
-                console.log('selectedTabIndex value is:',this.selectedTabIndex);
                 var trimmedEmail = this.emailId.trim()
                 var trimmedPwd = this.pwd.trim()
 
@@ -327,7 +315,6 @@
 
                 var self = this
                 CmnFunc.resetProjectDefault()
-                console.log('LOG IN--> userloginprocess')
 
                 this.$store.dispatch('userLoginProcess', { 'email': trimmedEmail, 'password': trimmedPwd, 'userType':this.selectedTabIndex})
                     .then(function () {

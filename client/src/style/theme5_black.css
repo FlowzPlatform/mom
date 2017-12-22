@@ -73,41 +73,41 @@ html, body {
     background: #88A95B;
   }
   .logo__title{
-    color: #B96363;
+    color: #ff00a9;
     font-family: 'Gotham Rounded SSm A','Gotham Rounded SSm B'
 }
 .header-name{
-  color: #B96363;
+  color: #ff00a9;
   font-family: esteban
 }
 .comment-title {
-  color: #B96363;
+  color: #ff00a9;
   font-family: esteban
 }
 .navbar-bottom {
-  background-color: #E2D69Bad;    
+  background-color: #36b631;    
 }
 .navbar-bottom:hover a.active {
-background-color: #7B6C24;
+background-color:	#13890f;
 color: #fff;
 }
 .navbar-bottom .due-date:hover {
-  background: #7B6C24;
+  background: 	#13890f;
 }
 .navbar-bottom a:hover {
   cursor: pointer;
-  background: #7B6C24;
+  background: 	#13890f;
 }
 .share { 
-  background: #7B709C
+  background: #ff6000
 }
 
 .one {
-  background: #7B709C;
+  background: #ff6000;
 }
 
 .two {
-  background: #7B709C;
+  background: #ff6000;
 }
 .buttonView.buttonView--primary {
   background: #1D621D;
@@ -120,4 +120,42 @@ color: #fff;
     box-shadow: inset 0 0 transparent, 0 0 0 3px #7CB57C;
     -moz-box-shadow: inset 0 0 transparent, 0 0 0 3px #7CB57C;
     -webkit-box-shadow: inset 0 0 transparent, 0 0 0 3px #7CB57C
+}
+
+.BlockStory-storyContent {
+  color: #fff300;
+}
+.BlockStory-metadata {
+  color: #fff;
+}
+.history-label {
+  color: #fff;
+}
+svg.Icon.AttachIcon {
+  fill: #88a95b;
+}
+.ivu-card {
+  background: transparent;
+}
+.attachment-username {
+  color: #fff300;
+}
+.BlockStory-block.commentbox {
+  background: #fff0;
+  border-radius: 4px;
+  /* box-shadow: 1px 1px 1px rgba(0,0,0,0.1); */
+  box-shadow: 0px 2px 5px 0px rgba(255, 255, 255, 0.28), 0px 2px 5px 0px rgba(0,0,0,0.23);
+
+}
+.truncatedRichText {
+  color: white;
+}
+.BlockStory-block.commentbox::before {
+  border-top-color: #dddddd45;
+}
+.pull-right {
+  color: white;
+}
+.autogrow-textarea textarea, .autogrow-textarea [contenteditable="true"] {
+  color: white;
 }
