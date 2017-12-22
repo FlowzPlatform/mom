@@ -149,12 +149,10 @@
         this.$store.dispatch('getTypeState', this.todo.type_id)
       },
       selectStatus: function(objStatus) {  
-        console.log('State changed', objStatus) 
         this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedState": objStatus.state_id })
         this.selectedObject = this.taskState.find(state => state.state_id === objStatus.state_id)
       },
       addTodo: function (todoId) {
-        // console.log("onKeyenter add TODO called===>")
         // if (this.id !== 'taskTypes' && this.id !== 'taskState') {
         //   this.$store.dispatch('insertTodo', this.todo)
           
@@ -170,7 +168,6 @@
         {
           this.$store.dispatch('insertRole', this.todo)
         this.todo.name=""           
-        console.log("this.todo-->",this.todo)
         
         }
       },
@@ -185,8 +182,6 @@
         }
       },
       async onFocusClick(select,id,level,created_by,typeId){
-        // console.log('Select::-',select)
-        // console.log('onFoucusclick',typeId)
      
         $("#" + id + "_" + level).addClass("lifocus")
         if (this.todo.isTaskUpdate) {
@@ -219,7 +214,6 @@
         this.$store.state.currentModified = (this.todo.id == -1) ? true : false
       },
       changeValue: function (todoId) {
-        console.log("Change value called===>")
         this.$store.dispatch('insertTodo', this.todo)
         var nextTaskIndex = todoId.split('_')[0];
         if (nextTaskIndex == -1) {

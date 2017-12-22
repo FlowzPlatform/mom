@@ -4,25 +4,24 @@
       <ul id="menu">
           <a class="menu-button fa fa-bars" href="#menu" title="Show navigation" onmousedown="return false"></a>
           <a class="menu-button fa fa-times" href="#" title="Hide navigation" onmousedown="return false"></a>
-        
         <li class="menu-item icon-cogs">
-          <a class="menu-item-back" data-toggle="tooltip" title="Role Access" @click="showRoleAccess"></a>
+          <a class="menu-item-back" title="Role Access" @click="showRoleAccess"></a>
         </li>
         <li class="menu-item icon-tasks">
-          <a class="menu-item-back" data-toggle="tooltip" title="Tasks" @click="showMainTask"></a>
+          <a class="menu-item-back" title="Tasks" @click="showMainTask"></a>
         </li>
         <li class="menu-item icon-trash">
-          <a class="menu-item-back" data-toggle="tooltip" title="Deleted Item" @click="showDeleteTasks"></a>
+          <a class="menu-item-back" title="Deleted Item" @click="showDeleteTasks"></a>
         </li>
         <li class="menu-item fa fa-plus-square-o">
-          <a class="menu-item-back" data-toggle="tooltip" title="Create Project"  @click="createProject"></a>
+          <a class="menu-item-back" data-target="#createProject" data-toggle="modal" title="Create Project" ></a>
         </li>
         <li class="menu-item icon-search">
-          <a class="menu-item-back" data-toggle="tooltip" title="Search"  @click="searchResult"></a>
+          <a class="menu-item-back" title="Search"  @click="searchResult"></a>
         </li>
-        <Poptip data-toggle="tooltip" class="menu-item icon-list-alt" placement="bottom-end">
+        <Poptip class="menu-item icon-list-alt" placement="bottom-end">
           <li></li>
-          <div slot="title">
+          <div slot="title"  title="Project List" >
             <i style="color:black; font-size:large;">Projects</i>
           </div>
           <div slot="content" v-show="project.is_deleted==false" v-bind:key="project.id" v-for="(project, index) in projectList">
@@ -268,7 +267,7 @@
         </Poptip>
       </ul>
     </div>
-    <create-project-dialog :show="isNewProjectDialogShow" v-on:updateDialog='updateDialogShow'></create-project-dialog>
+    <create-project-dialog></create-project-dialog>
   </div>
 </template>
 <script>
@@ -532,12 +531,6 @@
         $("#itemRow-" + id).addClass("hidden");
         $("#expandableList" + id).removeClass("hidden");
       },
-      createProject: function () {
-        this.isNewProjectDialogShow = true;
-      },
-      updateDialogShow(isDialogVal) {
-        this.isNewProjectDialogShow = isDialogVal
-      },
       showProjectSetting: function (project) {
         // Show option icon white
         $("#ItemRowMenu-" + project.id).css({ "fill": "white" });
@@ -648,7 +641,6 @@
       },
       async addMemberPermission() {
         this.isAddMemberPermission = await CmnFunc.checkActionPermision(this, this.todoObject.type_id, Constant.USER_ACTION.MEMBER, Constant.PERMISSION_ACTION.CREATE)
-        console.log("Member Add permission.", this.isAddMemberPermission);
       },
       onSelect(item) {
         this.item = item
@@ -701,5 +693,31 @@
     Box-sizing: Border-box;
   }
 
-  
+  #menu {
+    width: 50px;
+    height: 50px;
+    margin: -25px 0 0 -25px;
+    border-radius: 500px;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    list-style: none;
+    font-size: 200%;
+    transition: width 500ms, height 500ms, margin 500ms;
+    overflow: hidden;
+  }
+
+  #menu:target {
+    width: 300px;
+    height: 300px;
+    margin: -150px 0 0 -150px;
+  }
+
+  #menu:not(:target)>a:first-of-type,
+  #menu:target>a:last-of-type {
+    opacity: 1;
+    z-index: 1;
+  }
+
 </style>

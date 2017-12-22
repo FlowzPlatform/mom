@@ -40,6 +40,8 @@
             :pholder="pholder" :filtered-todos="taskById" :commentTaskId="todoObject.id" v-bind:class="applyBackground()">
           </component>
         </div>
+        <task-priority :filteredTodo="todoObject"></task-priority>
+        <estimated-hours :filteredTodo="todoObject"></estimated-hours>
       </div>
       <div class="nav_bottom">
         <div class="navbar-bottom" id="myNavbar">
@@ -133,10 +135,10 @@
               </a>
               <DropdownMenu slot="list">
                 <DropdownItem name="1">Tags</DropdownItem>
-                <DropdownItem name="2">Task Priority</DropdownItem>
+                <DropdownItem name="2"  :data-target="'#taskPriority'+todoObject.id" data-toggle="modal">Task Priority</DropdownItem>
                 <DropdownItem name="3">Copy Task URL</DropdownItem>
                 <DropdownItem name="4">Delete Task</DropdownItem>
-                <DropdownItem name="5">Estimated Hours</DropdownItem>
+                <DropdownItem name="5" :data-target="'#estimateHr'+todoObject.id" data-toggle="modal">Estimated Hours</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -162,9 +164,7 @@
           </div>
         </div>
       </div>
-    </div>
-    <estimated-hours :showModal="estimated_time" :closeAction="closeDialog" :filteredTodo="todoObject"></estimated-hours>
-    <task-priority :showModal="task_priority" :closeAction="closeDialog" :filteredTodo="todoObject"></task-priority>
+    </div>    
   </div>
 </template>
 <script>
@@ -227,8 +227,6 @@
         selectedUser: this.todoObject.assigned_to,
         previousUser:this.todoObject.assigned_to,
         userObj: "", // selected user object
-        estimated_time: false,
-        task_priority: false,
         open: false,
         selectedType:this.todoObject.type_id
       };
@@ -243,14 +241,9 @@
         this.$store.dispatch("undelete", this.todoObject);
       },
       moreActionMenuClick: function (val) {
-        // Show Estimated Hour val=1
         if (val == 1) {
           // Show tags
           this.tagsShow()
-        }
-        // Show Task Priority val=2
-        else if (val == 2) {
-          this.task_priority = true
         }
         // Show copy Url val=3
         else if (val == 3) {
@@ -265,13 +258,6 @@
         else if (val == 4) {
           this.$store.dispatch("delete_Todo", this.todoObject);
         }
-        else if (val == 5) { 
-          this.estimated_time = true
-        }
-      },
-      closeDialog() {
-        this.estimated_time = false
-        this.task_priority = false
       },
       deletePermently: function () {
         this.$store.dispatch("deletePermently", this.todoObject);
@@ -301,9 +287,6 @@
         } else {
           return;
         }
-      },
-      userClick: function (user) {
-        console.log("user detail call");
       },
       async onReadComment(id, level, created_by, typeId) {
         let permisionResult = await CmnFunc.checkActionPermision(
@@ -434,7 +417,6 @@
       },
       async setAssignUser(userId) {
         var user = _.find(this.$store.state.arrAllUsers, ["_id", userId]);
-        console.log("Selected User setAssignUser method:", user);
         this.todoObject.image_url  = user.image_url
         this.todoObject.email  = user.email
 
@@ -503,12 +485,9 @@
         }
       },
       checkEmail(email,fullname){
-        // console.log("check fullname",fullname)
-        // console.log("check email",email)
         return (fullname && fullname.length>0) || (email && email.length>0 && CmnFunc.checkValidEmail(email))
       },
       applyBackground(){
-        console.log("Apply background theme")
         if(this.currentView == SubTask)
         {
           return 'task_bg'
@@ -576,11 +555,9 @@
         //check attachment for only  read permission.
         let isReadPermission = await this.manageAttachmentReadPermission();
         if (isReadPermission) {
-          console.log("inside read permission");
           //check whether attachment array has value or not
           return this.checkAttachmentExistance();
         } else {
-          console.log("read permission false:", isReadPermission);
           //this.attchmentReadPerm = false
           return false;
         }
@@ -609,7 +586,7 @@
 
 }
 .history_bg{
-  background-color: blueviolet;
+  /* background-color: blueviolet; */
 }
 /* #rightContainer:after {
     content: "\f1da";

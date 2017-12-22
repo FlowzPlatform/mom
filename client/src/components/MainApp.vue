@@ -7,7 +7,7 @@
 		</div> -->
 		<!-- removed class row asanaView-body and added class main-container-class-->
 		<div id="main-container" class="asanaView-body main-container-class pt-page-moveFromLeft" >
-			<div class="asanaView-paneGutter"></div>
+			<!-- <div class="asanaView-paneGutter"></div> -->
 			<!-- removed class center_pane_container -->
 			<div id="split-container" class="main-split-container" style="height: calc(100vh - 60px);">
 				<div id="left_container" class="scrollbar split split-horizontal">
@@ -158,7 +158,6 @@
 			// this.getProjectWiseTodo;
 			var projects = this.getProjectWiseTodo;
 			var projectId = this.$store.state.currentProjectId
-			console.log("projectId:--", projectId)
 			if (!projectId && projects.length > 0) {
 				projectId = projects[0].id
 				this.$store.state.currentProjectId = projects[0].id
@@ -295,7 +294,6 @@
 									for (var size in this.sizes) {
 										//conversion of percentage into pixel(width) of section
 										let sectionWidth = (containerWidth * this.sizes[size]) / 100
-										console.log('section width:', sectionWidth)
 										//conversion of width(pixel) into percentage
 										let sectionPercent = (sectionWidth * 100) / containerNewWidth
 
@@ -317,7 +315,6 @@
 								this.instance.destroy()
 								this.instance = null
 							}
-							console.log('splitter ids:', ids)	
 							//splitter logic goes here
 							let self = this;
 							this.instance = Split(ids, {sizes: sizeArray, minSize: 225,
@@ -331,7 +328,7 @@
 									me.$store.commit('setSplitWidth',arrSize)
 								},
 								onDrag: function (){
-									console.log('on drag called')
+									// console.log('on drag called')
 								}
 							});
 						}, 5);

@@ -115,7 +115,6 @@
         mounted(){
             var self = this
             if(this.$cookie.get('auth_token') !== null){
-                console.log('mounted called inside');
                 self.$store.state.isAuthorized = true
                 self.$store.commit('authorize')
                 //self.userDetail(self)
@@ -134,7 +133,6 @@
             }
         },
         created() {
-            console.log('created called')
             console.log("AUTH_TOKEN:", localStorage.getItem('auth_token'))
             var url_string = window.location.href;
             var url = new URL(url_string);
@@ -168,7 +166,6 @@
                 this.emailId = ''
                 this.pwd = ''
                 this.confPwd = ''
-                console.log('value is:',val);
                 this.selectedTabIndex = val;
             },
             btnSignUpClicked() {
@@ -252,10 +249,8 @@
             btnLDAPPressed() {
                 let self = this
                 // CmnFunc.resetProjectDefault()
-                console.log('LOG IN--> userloginprocess')
                 this.$store.dispatch('signInWithLDAP', { 'userid': 'xxxx', 'passwd': 'xxxx' })
                     .then(function (response) {
-                        console.log('LDAP response successful');
                         console.log('LOG IN--> response', response)
                         self.$store.state.isAuthorized = true
                         self.$store.commit('authorize')
@@ -282,7 +277,6 @@
                 }).then(response => response.json())
                     .then(json => {
                         if (json.inserted) {
-                            console.log('data successfully inserted')
                             $('#confirmpwd').hide();
                             $('#login_btn').show()
                             $('.title').text('Log In')
@@ -294,7 +288,6 @@
                     })
             },
             btnLogInClicked() {
-                console.log('selectedTabIndex value is:',this.selectedTabIndex);
                 var trimmedEmail = this.emailId.trim()
                 var trimmedPwd = this.pwd.trim()
 
@@ -327,7 +320,6 @@
 
                 var self = this
                 CmnFunc.resetProjectDefault()
-                console.log('LOG IN--> userloginprocess')
 
                 this.$store.dispatch('userLoginProcess', { 'email': trimmedEmail, 'password': trimmedPwd, 'userType':this.selectedTabIndex})
                     .then(function () {

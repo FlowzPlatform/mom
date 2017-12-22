@@ -432,12 +432,6 @@
                     })
                     data.roleid.push({ rId: rowField.id, access_value: roleValue })
                 }
-            },
-            onClick: function (event) {
-                console.log('custom-action: on-click----->', event.target)
-            },
-            onDoubleClick: function (event) {
-                console.log('custom-action: on-dblclick', event.target)
             }
         }
     })
@@ -460,7 +454,6 @@
         },
         created() {
             services.roleService.find().then(response => {
-                console.log("Response :--", response)
                 tableColumns = [{
                     name: 'name',
                     title: '',
@@ -486,7 +479,6 @@
                         }
                     }
                 }).then(response => {
-                    console.log("Response roles:--", response)
                     this.tableData = response;
                 });
             },

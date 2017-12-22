@@ -4,7 +4,7 @@
             <hr class="StoryFeed-separator StoryFeed-topSeparator">
             <div class="dropdown sort-menu">
                 <div class="dropdown">
-                    <button class="btn btn-defualt glyphicon glyphicon-cog" type="button" data-toggle="dropdown"></button>
+                    <button class="btn btn-defualt glyphicon glyphicon-cog setColor" type="button" data-toggle="dropdown"></button>
                     <ul class="dropdown-menu">
                        <li v-for="(val, key) in commentFilter">
                             <a :href="'#/' + key" @click="getSortByName(key)" >{{key | capitalizeFirstLetter}}</a>
