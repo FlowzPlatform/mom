@@ -320,7 +320,7 @@
 							console.log('splitter ids:', ids)	
 							//splitter logic goes here
 							let self = this;
-							this.instance = Split(ids, {sizes: sizeArray, minSize: 225,
+							this.instance = Split(ids, {sizes: sizeArray, minSize: 420,
 								onDragEnd: function () {
 									//save splitter size array in local storage.
 									localStorage.setItem('split-sizes', JSON.stringify(self.instance.getSizes()));

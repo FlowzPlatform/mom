@@ -85,6 +85,10 @@
                                 <div class="AddedAttachmentStory-body" v-else-if="log.log_action===3">
                                     <a class="AddedAttachmentStory-link" :href="getAttachment(log.text).file_url" target="_blank" tabindex="-1"><div>{{getAttachment(log.text).file_name}}</div></a>
                                 </div>
+                                <!-- Task type -->
+                                <div class="AddedAttachmentStory-body" v-if="log.log_action===17">
+                                    task type changed to <span>{{getTaskType(log.text)}}</span>
+                                </div>
                             </div>
                             
                         </div>
@@ -215,6 +219,18 @@ export default {
                 return attachment
             }
             return index
+        },
+        /**
+        * Get task type 
+        * @augments taskTypeId */
+        getTaskType(id){
+            let index = _.findIndex(this.$store.state.task_types_list, function(d) { return d.id == id })
+            if (index > -1) {
+                let   type = this.$store.state.task_types_list[index].type
+                return type
+            }
+            else
+                return ""
         }
 
 

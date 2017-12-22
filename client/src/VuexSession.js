@@ -1137,10 +1137,11 @@ export const store = new Vuex.Store({
           state_id: editObject.selectedState
         }, { query: { 'id': editObject.todo.id } }).then(response => {
           console.log("Response editTaskName::", response);
-          CmnFunc.insertHistoryLog(store,store.state.userObject._id,editObject.log_text,response.id,editObject.log_action)
+          if(editObject.log_action){
+            CmnFunc.insertHistoryLog(store,store.state.userObject._id,editObject.log_text,response.id,editObject.log_action)
+          }
           if (editObject.isAssigned) {
             editObject.callback()
-            
           }         
         });
         // Vue.http.post('/updatetasks', {
@@ -2262,6 +2263,7 @@ export const store = new Vuex.Store({
     },
     getTaskStausList : state => state.task_state_list,
     getTask_types_state: state => state.task_types_state,
+    getIdArray:state =>  state.splitWidthArr
   },
 
   plugins: [createPersistedState()]

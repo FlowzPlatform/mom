@@ -1,5 +1,6 @@
 <template>
     <div> 
+      <Progress :percent="$store.state.progress" v-show="filteredTodo.attachmentprogress"></Progress>
         <div v-bind:key="index" v-for="(files, index) in attachmentList">
             <Card style="margin-left:10px;margin-right:10px;margin-top:5px;margin-bottom:3px;">
                 <p slot="title">
@@ -79,9 +80,9 @@
             </Card>
             <div class="hidden">
                 <a target="_blank" v-bind:href="files.file_url">{{ files.file_name }}
-                    <ui-progress-linear color="primary" type="determinate" :progress="$store.state.progress" v-show="filteredTodo.attachmentprogress"
+                    <!-- <ui-progress-linear color="primary" type="determinate" :progress="$store.state.progress" v-show="filteredTodo.attachmentprogress"
                         v-if="index === attachmentList.length-1">
-                    </ui-progress-linear>
+                    </ui-progress-linear> -->
                 </a>
                 <button class="" @click="deleteAttachment(files, index)">
                     <a v-show="isDeleteAttachment" class="fa fa-close" />
@@ -98,9 +99,9 @@
         </div>
         <div class="nav1">
             <div class="share">
-                <label for="upload">
+                <label :for="'upload'+filteredTodo.level">
                 <i class="fa fa-paperclip"></i>
-                <input id="upload" type="file" @change="onFileChange($event)" style="display:none" />
+                <input :id="'upload'+filteredTodo.level" type="file" @change="onFileChange($event)" style="display:none" />
                 </label>
             </div>
         </div>
@@ -147,7 +148,7 @@ export default {
         ],
         placeholder: "Type here..."
       },
-      file:{}
+      file: {}
     };
   },
   computed: {
@@ -162,8 +163,15 @@ export default {
   },
   methods: {
     deleteAttachment(objAttachment, btnIndex) {
-      this.btnClickedIndex = btnIndex;
-      this.$store.dispatch("deleteAttachmentFromDB", objAttachment);
+      this.$Modal.confirm({
+        title: "Attachment",
+        content:
+          "<p>Are you sure that you want to permanently delete attachment?</p>",
+        onOk: () => {
+          this.btnClickedIndex = btnIndex;
+          this.$store.dispatch("deleteAttachmentFromDB", objAttachment);
+        }
+      });
     },
     onFileChange(e) {
       var fileChooser = e.target; // document.getElementById('file');
@@ -208,10 +216,9 @@ export default {
         }
       }, this);
     },
-    moreActionMenuClick(key,val) {
-      console.log("moreActionMenuClick",key)
+    moreActionMenuClick(key, val) {
+      console.log("moreActionMenuClick", key);
       if (val == 1) {
-        
       }
     }
   },
@@ -336,5 +343,24 @@ export default {
   text-align: -webkit-left;
   text-align: left;
   margin: 10px;
+}
+.demo-spin-icon-load {
+  animation: ani-demo-spin 1s linear infinite;
+}
+@keyframes ani-demo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.demo-spin-col {
+  height: 100px;
+  position: relative;
+  border: 1px solid #eee;
 }
 </style>
