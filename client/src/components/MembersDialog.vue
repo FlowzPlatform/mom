@@ -79,7 +79,7 @@
             </div>
         </div>
         <!-- Project role dialog-->
-        <span id="roleDialog" @mouseleave="hideRoleDialog" class="hidden dropdown-style-default" style="position:relative">
+        <span id="roleDialog" @mouseleave="hideRoleDialog" class="hidden dropdown-style-default" style="position:absolute">
             <div class="dropdown " id="workspace_guestness_select_381642285954276_dropdown_menu" style="min-width: 60.7366px;z-index: 5000;">
                 <div class="dropdown-menu some-items-are-selected " >
                     <a  :id="'role-'+roleId(role)" v-show="role.name !== 'Owner' " class="menu-item-privacy  selected"  v-for="role in $store.state.userRoles" v-bind:key="role.id" @click="roleSelect(role)">
@@ -138,14 +138,13 @@
 <script>
 /* eslint-disable*/
 import Vue from 'vue'
-import { mapGetters } from 'vuex'
 import Avatar from 'vue-avatar/src/Avatar'
 export default {
- props: ['members'],
+//  props: ['members'],
     data: function () {
         return {
             selectedRole:'',
-            selectedRoleId:'',
+            // selectedRoleId:'',
             userId:'',
             memberItem:''
         }
@@ -193,14 +192,6 @@ export default {
             this.$store.commit("removeMember");
             $("#remove-member-dialog").removeClass("hidden");
         },
-        getLetters(name) {
-            var str = name;
-            if (!str || str.length == 0)
-                return "X";
-
-            var firstLetters = str.substr(0, 2);
-            return firstLetters.toUpperCase();
-        },
         showRoleName(member){
             var user =  _.find(this.$store.state.currentProjectMember, ['user_id', member.user_id])
             if(user && user.roleName === ''){
@@ -220,14 +211,11 @@ export default {
             var roles = this.$store.state.userRoles;
             roles.forEach(function(role) {
                var name = $.trim(role.name).replace(' ','');
-                //role.name
                 $("#select-icon-"+name).css({"display":"none"});
             }, this);
 
             var id = $.trim(role.name).replace(' ','');
-            // Show selection icon 
             $("#select-icon-"+id).css({"display":"list-item"});
-            // Update project member role into database 
             var projectID = this.$store.state.currentProjectId;
             this.$store.dispatch('changeUserRole',{"roleId":role.id,"projectId":projectID,"userId":this.userId})
         },

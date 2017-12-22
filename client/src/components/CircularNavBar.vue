@@ -1,27 +1,25 @@
 <template>
   <div>
-    <div id="drag-2" v-draggable> 
+    <div id="drag-2" v-draggable>
       <ul id="menu">
-          <a class="menu-button fa fa-bars" href="#menu" title="Show navigation" onmousedown="return false"></a>
-          <a class="menu-button fa fa-times" href="#" title="Hide navigation" onmousedown="return false"></a>
-        
+        <a class="menu-button fa fa-bars" href="#menu" title="Show navigation" onmousedown="return false"></a>
+        <a class="menu-button fa fa-times" href="#" title="Hide navigation" onmousedown="return false"></a>
         <li class="menu-item icon-cogs">
-          <a class="menu-item-back" data-toggle="tooltip" title="Role Access" @click="showRoleAccess"></a>
+          <a class="menu-item-back" title="Role Access" @click="showRoleAccess"></a>
         </li>
         <li class="menu-item icon-tasks">
-          <a class="menu-item-back" data-toggle="tooltip" title="Tasks" @click="showMainTask"></a>
+          <a class="menu-item-back" title="Tasks" @click="showMainTask"></a>
         </li>
         <li class="menu-item icon-trash">
-          <a class="menu-item-back" data-toggle="tooltip" title="Deleted Item" @click="showDeleteTasks"></a>
+          <a class="menu-item-back" title="Deleted Item" @click="showDeleteTasks"></a>
         </li>
         <li class="menu-item fa fa-plus-square-o">
-          <a class="menu-item-back" data-toggle="tooltip" title="Create Project"  @click="createProject"></a>
+          <a class="menu-item-back" data-target="#createProject" data-toggle="modal" title="Create Project"></a>
         </li>
         <li class="menu-item icon-search">
-          <a class="menu-item-back" data-toggle="tooltip" title="Search"  @click="searchResult"></a>
+          <a class="menu-item-back" title="Search" @click="searchResult"></a>
         </li>
-        <Poptip data-toggle="tooltip" class="menu-item icon-list-alt" placement="bottom-end">
-          <li></li>
+        <Poptip class="menu-item icon-list-alt" placement="bottom-end">
           <div slot="title">
             <i style="color:black; font-size:large;">Projects</i>
           </div>
@@ -43,8 +41,7 @@
                     <a id="add-member" v-show="project.project_privacy != 2" @click="addMemberClick(project.id)" class="inviteMember" tabindex="0"
                       aria-role="button">
                       <div v-if="project.email" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <avatar v-if="project.image_url" :username="project.email" :src="project.image_url"
-                          :size="30"></avatar>
+                        <avatar v-if="project.image_url" :username="project.email" :src="project.image_url" :size="30"></avatar>
                         <avatar v-else :username="project.email" :size="30" color="#fff"></avatar>
                       </div>
                     </a>
@@ -93,7 +90,7 @@
                             </div>
                           </a>
                           <!--Member 3-->
-                          <div v-if="isMemberAvailable(project,2) && project.members[2].is_deleted !== true" @click="showMemberDetail($event)" class="Avatar Avatar--small Avatar--color3 Facepile-avatar">
+                          <div v-if="isMemberAvailable(project,2) && project.members[2].is_deleted !== true" @click="showMemberDetail($event)" class="taskRow">
                             <div v-if="project.members[2].email">
                               <avatar v-if="project.members[2].url" :username="project.members[2].email" :src="project.members[2].url" :size="25"></avatar>
                               <avatar v-else :username="project.members[2].email" :size="25" color="#fff"></avatar>
@@ -268,7 +265,7 @@
         </Poptip>
       </ul>
     </div>
-    <create-project-dialog :show="isNewProjectDialogShow" v-on:updateDialog='updateDialogShow'></create-project-dialog>
+    <create-project-dialog></create-project-dialog>
   </div>
 </template>
 <script>
@@ -279,39 +276,39 @@
   import CreateProjectDialog from './CreateProjectDialog.vue'
   import Avatar from 'vue-avatar/src/Avatar'
 
-    $('a').click(function(event){
+  $('a').click(function (event) {
     event.preventDefault();
     //do whatever
-     });
+  });
 
   Vue.directive('draggable', {
-  bind: function (el) {
-    el.style.position = 'fixed';
-    var startX, startY, initialMouseX, initialMouseY;
+    bind: function (el) {
+      el.style.position = 'fixed';
+      var startX, startY, initialMouseX, initialMouseY;
 
-    function mousemove(e) {
-      var dx = e.clientX - initialMouseX;
-      var dy = e.clientY - initialMouseY;
-      el.style.top = startY + dy + 'px';
-      el.style.left = startX + dx + 'px';
-      return false;
+      function mousemove(e) {
+        var dx = e.clientX - initialMouseX;
+        var dy = e.clientY - initialMouseY;
+        el.style.top = startY + dy + 'px';
+        el.style.left = startX + dx + 'px';
+        return false;
+      }
+
+      function mouseup() {
+        document.removeEventListener('mousemove', mousemove);
+        document.removeEventListener('mouseup', mouseup);
+      }
+
+      el.addEventListener('mousedown', function (e) {
+        startX = el.offsetLeft;
+        startY = el.offsetTop;
+        initialMouseX = e.clientX;
+        initialMouseY = e.clientY;
+        document.addEventListener('mousemove', mousemove);
+        document.addEventListener('mouseup', mouseup);
+        return false;
+      });
     }
-
-    function mouseup() {
-      document.removeEventListener('mousemove', mousemove);
-      document.removeEventListener('mouseup', mouseup);
-    }
-
-    el.addEventListener('mousedown', function(e) {
-      startX = el.offsetLeft;
-      startY = el.offsetTop;
-      initialMouseX = e.clientX;
-      initialMouseY = e.clientY;
-      document.addEventListener('mousemove', mousemove);
-      document.addEventListener('mouseup', mouseup);
-      return false;
-    });
-  }
   })
 
   export default {
@@ -342,9 +339,6 @@
       }
     },
     created() {
-      // $(function () {
-      //   $('[data-toggle="tooltip"]').tooltip()
-      // })
       this.$store.dispatch('getUsersRoles');
       this.$store.dispatch("getAllUsersList", this.callAllProjectList)
     },
@@ -353,14 +347,14 @@
         getProjectList: 'getProjectList',
         memberName: 'getMemberName'
       }),
-      myProjectList: {
-        get() {
-          return this.$store.state.projectlist
-        },
-        set(value) {
-          this.$store.commit('updateProjectList', value)
-        }
-      },
+      // myProjectList: {
+      //   get() {
+      //     return this.$store.state.projectlist
+      //   },
+      //   set(value) {
+      //     this.$store.commit('updateProjectList', value)
+      //   }
+      // },
       searchItems: function () {
         var self = this
         var sameMatch = false;
@@ -478,7 +472,7 @@
             var id = this.$store.state.arrAllUsers[userIndex]._id
             project.fullname = this.$store.state.arrAllUsers[userIndex].fullname
             project.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
-            project.email = this.$store.state.arrAllUsers[userIndex].email
+              project.email = this.$store.state.arrAllUsers[userIndex].email
           }
         }, this);
 
@@ -503,7 +497,7 @@
         this.$store.state.currentProjectId = project.id;
         this.$store.state.currentProject = project;
         this.$store.state.currentProjectPrivacy = project.project_privacy;
-        this.$store.state.todolist.length=0;
+        this.$store.state.todolist.length = 0;
         this.$store.commit('CLOSE_DIV', '')
         this.$store.dispatch('getAllTodos', { 'parentId': '', project_id: project.id });
         // Close last open dialog
@@ -531,12 +525,6 @@
         // Hide member horizontal list
         $("#itemRow-" + id).addClass("hidden");
         $("#expandableList" + id).removeClass("hidden");
-      },
-      createProject: function () {
-        this.isNewProjectDialogShow = true;
-      },
-      updateDialogShow(isDialogVal) {
-        this.isNewProjectDialogShow = isDialogVal
       },
       showProjectSetting: function (project) {
         // Show option icon white
@@ -648,7 +636,6 @@
       },
       async addMemberPermission() {
         this.isAddMemberPermission = await CmnFunc.checkActionPermision(this, this.todoObject.type_id, Constant.USER_ACTION.MEMBER, Constant.PERMISSION_ACTION.CREATE)
-        console.log("Member Add permission.", this.isAddMemberPermission);
       },
       onSelect(item) {
         this.item = item
@@ -701,5 +688,30 @@
     Box-sizing: Border-box;
   }
 
-  
+  #menu {
+    width: 50px;
+    height: 50px;
+    margin: -25px 0 0 -25px;
+    border-radius: 500px;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    list-style: none;
+    font-size: 200%;
+    transition: width 500ms, height 500ms, margin 500ms;
+    overflow: hidden;
+  }
+
+  #menu:target {
+    width: 300px;
+    height: 300px;
+    margin: -150px 0 0 -150px;
+  }
+
+  #menu:not(:target)>a:first-of-type,
+  #menu:target>a:last-of-type {
+    opacity: 1;
+    z-index: 1;
+  }
 </style>
