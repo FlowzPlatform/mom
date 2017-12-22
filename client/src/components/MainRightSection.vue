@@ -1,26 +1,5 @@
 <template>
   <div>
-    <!-- <div id="topicon">
-      <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-        tabindex="410" style="margin-top: 2px;">
-        <span id="close" class="destroy circularButtonView-label" @click="CLOSE_DIV(todoObject)">
-          <i class="fa fa-close"></i>
-        </span>
-      </div>
-      <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-        style="margin-top: 2px;">
-        <span class="circularButtonView-label" @click="pinit(todoObject)">
-          <img class="init" v-if="todoObject.isPinned" src="../assets/unpin.png" style="width:20px; height:20px;"></img>
-          <img class="init" v-else src="../assets/pin.png" style="width:16px; height:16px; margin-bottom:2px;"></img>
-        </span>
-      </div>
-      <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-        tabindex="410" @click="openfullwinodw(todoObject.level)" style="margin-top: 2px; ">
-        <span class="circularButtonView-label">
-          <i class="fa fa-expand" aria-hidden="true"></i>
-        </span>
-      </div>
-    </div> -->
     <div :id="id" class="right_pannel" style="display: grid;">
       <Alert v-if="todoObject.isDelete" class="right-top-alert" type="error">
         <span slot="desc">
@@ -37,7 +16,7 @@
         <div class="rightscroll">
           <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
             :filteredTodo="todoObject" v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'"
-            :pholder="pholder" :filtered-todos="taskById" :commentTaskId="todoObject.id" v-bind:class="applyBackground()">
+            :pholder="pholder" :filtered-todos="taskById" :commentTaskId="todoObject.id">
           </component>
         </div>
         <task-priority :filteredTodo="todoObject"></task-priority>
@@ -47,7 +26,6 @@
         <div class="navbar-bottom" id="myNavbar">
           <a href="javascript:void(0)" id="#subtask" v-bind:class="selectedMenuIndex==0?activeClass:''" class="nav-tab" @click="subTaskShow">
             <Tooltip content="Task" placement="top-start">
-              <!-- <i class="fa fa-bars" style="font-size:20px"></i> -->
               <svg class="Icon HamburgerIcon Topbar-sidebarToggleIcon" viewBox="0 0 32 32">
                 <rect x="2" y="4" width="28" height="4"></rect>
                 <rect x="2" y="14" width="28" height="4"></rect>
@@ -176,8 +154,6 @@
   import RightToolbar from "./RightToolbar.vue";
   import Attachments from "./Attachments.vue";
   import StoryFeed from "./StoryFeed.vue";
-  import Statuses from "./Statuses.vue";
-  import * as services from "../services";
   import Tags from "./Tags.vue";
   import SubTask from "./SubTask.vue";
   import { mapMutations, mapGetters, mapActions } from "vuex";
@@ -197,11 +173,6 @@
       return moment(String(value)).format("MMM DD");
     }
   });
-  Vue.filter("dateofDay", function (value) {
-    if (value) {
-      return moment(String(value)).format("DD");
-    }
-  });
 
   Vue.use(AsyncComputed);
   export default {
@@ -211,7 +182,6 @@
         todolistSubTasks: [],
         createCommentBox: true,
         readCommentBox: true,
-        isDelete: false,
         historyLog: [],
         chkAttachment: false,
         attchmentReadPerm: false,
@@ -221,9 +191,6 @@
         currentView: SubTask,
         activeClass: "active",
         selectedMenuIndex: 0,
-        modal_loading: false,
-        topMargin: 20, // Top margin of sub task panel
-        isDeleteActive: false, // Hide soft delete dialog
         selectedUser: this.todoObject.assigned_to,
         previousUser:this.todoObject.assigned_to,
         userObj: "", // selected user object
@@ -232,9 +199,9 @@
       };
     },
     created: function () {
-      // this.manageAttachmentCreatePermission();
-      // this.tagReadPermission();
-      // this.tagNewPermission();
+      this.manageAttachmentCreatePermission();
+      this.tagReadPermission();
+      this.tagNewPermission();
     },
     methods: {
       undelete: function () {
@@ -262,13 +229,6 @@
       deletePermently: function () {
         this.$store.dispatch("deletePermently", this.todoObject);
       },
-      getListValue: function (user) {
-        if (user.email) {
-          return user.email;
-        } else {
-          return 
-        }
-      },
       getListUserName: function (user,flag) {
       
         if (user.fullname && user.fullname.trim().length > 0) {
@@ -278,14 +238,6 @@
         return flag==0? user.email.substr(0,user.email.indexOf("@")):user.email;
         }else{
           return "Un"
-        }
-      },
-      onUserClick: function (user) {
-        this.userObj = user;
-        if (user.email) {
-          return user.email;
-        } else {
-          return;
         }
       },
       async onReadComment(id, level, created_by, typeId) {
@@ -430,28 +382,6 @@
           });
         }
       },
-      getAssignedUserName() {
-        var user = this.getAssignedUserObj();
-        return user.email ? this.getName(user.email) : "";
-      },
-      getName(name) {
-        var str = name;
-        var n = str.indexOf("@");
-        var res = str.substr(0, n);
-        return res;
-      },
-      getAssignedUserObj(assignUserId) {
-        var objUser;
-        if (this.todoObject.assigned_to === this.$store.state.userObject._id) {
-          objUser = this.$store.state.userObject;
-        } else {
-          objUser = _.find(this.$store.state.arrAllUsers, [
-            "_id",
-            assignUserId
-          ]);
-        }
-        return objUser;
-      },
       dueDateClick(dateTo) {
         var selectedDate = moment(dateTo, "YYYY-MM-DD").format("DD");
         this.$store.dispatch("editTaskName", {
@@ -486,14 +416,6 @@
       },
       checkEmail(email,fullname){
         return (fullname && fullname.length>0) || (email && email.length>0 && CmnFunc.checkValidEmail(email))
-      },
-      applyBackground(){
-        if(this.currentView == SubTask)
-        {
-          return 'task_bg'
-        }else if(this.currentView == Attachments){
-            return 'history_bg'
-        }
       }
     },
     watch: {
@@ -509,7 +431,6 @@
         todoById: "getTodoById",
         typeStateList: "getTask_types_state",
         getUserList: "getAllUserList",
-        // getTypes: 'getTaskTypeList'
       }),
       getTaskTypes() {
         return this.$store.state.task_types_list.filter(type => type.id !== '-1')
@@ -570,7 +491,6 @@
       Attachments,
       StoryFeed,
       Tags,
-      Statuses,
       HistoryLog,
       SubComment,
       Avatar,
@@ -580,26 +500,3 @@
     }
   };
 </script>
-<style>
-.task_bg{
-  /* background-color: coral; */
-
-}
-.history_bg{
-  /* background-color: blueviolet; */
-}
-/* #rightContainer:after {
-    content: "\f1da";
-    font-family: FontAwesome;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: inherit;
-    position: absolute;
-    font-size: 400px;
-    color: #f1f1f1;
-      top: 80%;
-      left: 50%;
-    margin: -300px 0 0 -200px;
-    z-index: 1;
-} */
-</style>

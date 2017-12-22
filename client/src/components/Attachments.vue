@@ -75,13 +75,13 @@
 
     </div>
     <div class="nav1">
-      <div class="share">
-        <label for="upload">
+      <div :id="filteredTodo.id" class="share">
+        <label :for="'upload'+filteredTodo.level" :id="filteredTodo.level">
           <i class="fa fa-paperclip"></i>
-          <input id="upload" type="file" @change="onFileChange($event)" style="display:none" />
-        </label>
+          <input :id="'upload'+filteredTodo.level" type="file" @change="onFileChange" style="display:none" /> </label>
       </div>
     </div>
+
   </div>
 </template>
 <script>

@@ -1827,7 +1827,9 @@ input[type="file"].hidden-file-input {
     line-height: 3.00857143;}
 .modal-open .modal {
     top: 40px;
-     background-color: rgba(0, 0, 0, 0.28);
+    background-color: rgba(0, 0, 0, 0.28);
+    overflow-x: unset;
+    overflow-y: unset;
 }
 .modal-open .modal .modal-dialog {
     top: 0;
@@ -2447,8 +2449,9 @@ hr {
         width: 100%;
 }
 .task-tag-icon{display: inline-block;}
-.task-tag-box { width: calc(100% - 66px);
-    background-color: #fff;
+.task-tag-box {
+    width: calc(100% - 66px);
+    background-color: rgba(255, 255, 255, 0);
     padding: 5px;
     display: inline-block;
     vertical-align: middle;
@@ -3617,7 +3620,7 @@ a.CloseButton.Dialog-closeButton {
         width: 580px;
         padding: 0px;
 }
-/* .my-dialog .modal-header {
+.my-dialog .modal-header {
         color: #42b983;
         background-color: transparent;
         padding: 0px;
@@ -3626,7 +3629,7 @@ a.CloseButton.Dialog-closeButton {
         padding-bottom: 10px;
         padding-left: 30px;
         display: -webkit-box;
-} */
+}
 .my-dialog .modal-footer {
         border-color: transparent;
         background-color: transparent;
@@ -3726,17 +3729,17 @@ a.CloseButton.Dialog-closeButton {
         margin-top: 10px;
 }
 .NewProjectFormRowStructure-label {
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        cursor: default;
-        display: -webkit-inline-box;
-        display: -webkit-inline-flex;
-        display: -ms-inline-flexbox;
-        display: inline-flex;
-        -webkit-box-flex: 0;
-        -webkit-flex: 0 0 auto;
-        -ms-flex: 0 0 auto;
-        flex: 0 0 auto;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: default;
+    display: -webkit-box;
+    display: -webkit-box;
+    display: -ms-inline-flexbox;
+    display: -webkit-box;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
 }
 .NewProjectForm-description.is-descriptionShowing {
         margin-top: 5px;
@@ -3878,7 +3881,8 @@ input[type="radio"] {
         line-height: 16px;
         overflow: hidden;
         text-overflow: ellipsis;
-        color:#898e95
+        color:#898e95;
+        float: left;
 }
 .NewProjectForm-privacyOptionText,.NewProjectForm-privacyOptionTextWithDropdown {
         white-space: nowrap;
@@ -6651,7 +6655,7 @@ a.history-username{
 
  /* history style end*/
 
-@media (min-width: 576px){
+@media (max-width: 576px){
     .modal-dialog {
         max-width: 500px;
         margin: 30px auto;

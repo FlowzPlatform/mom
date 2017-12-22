@@ -69,7 +69,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -82,7 +81,6 @@
     import Resource from 'vue-resource'
     import CmnFunc from './CommonFunc.js'
     import notify from './notify.js'
-    import * as services from '../services'
     import VueRouter from 'vue-router'
     import iView from 'iview';
     import 'iview/dist/styles/iview.css';
@@ -93,7 +91,6 @@
     Vue.use(VueRouter)
     var VueCookie = require('vue-cookie')
     Vue.use(VueCookie)
-
     $(document).ready(function () {
 
         $("#login_btn").attr('disabled', true);
@@ -119,9 +116,7 @@
                 self.$store.commit('authorize')
                 //self.userDetail(self)
                 self.$store.dispatch('getUserDetail')
-                    //  self.$store.dispatch('getUserRegister')                           
                     .then(function () {
-                       //self.$router.replace('/navbar/mainapp')
                     })
                     .catch(function (error) {
                         if (error.response.status === 401) {

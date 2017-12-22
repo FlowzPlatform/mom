@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div id="drag-2" v-draggable> 
+    <div id="drag-2" v-draggable>
       <ul id="menu">
-          <a class="menu-button fa fa-bars" href="#menu" title="Show navigation" onmousedown="return false"></a>
-          <a class="menu-button fa fa-times" href="#" title="Hide navigation" onmousedown="return false"></a>
+        <a class="menu-button fa fa-bars" href="#menu" title="Show navigation" onmousedown="return false"></a>
+        <a class="menu-button fa fa-times" href="#" title="Hide navigation" onmousedown="return false"></a>
         <li class="menu-item icon-cogs">
           <a class="menu-item-back" title="Role Access" @click="showRoleAccess"></a>
         </li>
@@ -14,14 +14,13 @@
           <a class="menu-item-back" title="Deleted Item" @click="showDeleteTasks"></a>
         </li>
         <li class="menu-item fa fa-plus-square-o">
-          <a class="menu-item-back" data-target="#createProject" data-toggle="modal" title="Create Project" ></a>
+          <a class="menu-item-back" data-target="#createProject" data-toggle="modal" title="Create Project"></a>
         </li>
         <li class="menu-item icon-search">
-          <a class="menu-item-back" title="Search"  @click="searchResult"></a>
+          <a class="menu-item-back" title="Search" @click="searchResult"></a>
         </li>
         <Poptip class="menu-item icon-list-alt" placement="bottom-end">
-          <li></li>
-          <div slot="title"  title="Project List" >
+          <div slot="title">
             <i style="color:black; font-size:large;">Projects</i>
           </div>
           <div slot="content" v-show="project.is_deleted==false" v-bind:key="project.id" v-for="(project, index) in projectList">
@@ -42,8 +41,7 @@
                     <a id="add-member" v-show="project.project_privacy != 2" @click="addMemberClick(project.id)" class="inviteMember" tabindex="0"
                       aria-role="button">
                       <div v-if="project.email" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <avatar v-if="project.image_url" :username="project.email" :src="project.image_url"
-                          :size="30"></avatar>
+                        <avatar v-if="project.image_url" :username="project.email" :src="project.image_url" :size="30"></avatar>
                         <avatar v-else :username="project.email" :size="30" color="#fff"></avatar>
                       </div>
                     </a>
@@ -278,39 +276,39 @@
   import CreateProjectDialog from './CreateProjectDialog.vue'
   import Avatar from 'vue-avatar/src/Avatar'
 
-    $('a').click(function(event){
+  $('a').click(function (event) {
     event.preventDefault();
     //do whatever
-     });
+  });
 
   Vue.directive('draggable', {
-  bind: function (el) {
-    el.style.position = 'fixed';
-    var startX, startY, initialMouseX, initialMouseY;
+    bind: function (el) {
+      el.style.position = 'fixed';
+      var startX, startY, initialMouseX, initialMouseY;
 
-    function mousemove(e) {
-      var dx = e.clientX - initialMouseX;
-      var dy = e.clientY - initialMouseY;
-      el.style.top = startY + dy + 'px';
-      el.style.left = startX + dx + 'px';
-      return false;
+      function mousemove(e) {
+        var dx = e.clientX - initialMouseX;
+        var dy = e.clientY - initialMouseY;
+        el.style.top = startY + dy + 'px';
+        el.style.left = startX + dx + 'px';
+        return false;
+      }
+
+      function mouseup() {
+        document.removeEventListener('mousemove', mousemove);
+        document.removeEventListener('mouseup', mouseup);
+      }
+
+      el.addEventListener('mousedown', function (e) {
+        startX = el.offsetLeft;
+        startY = el.offsetTop;
+        initialMouseX = e.clientX;
+        initialMouseY = e.clientY;
+        document.addEventListener('mousemove', mousemove);
+        document.addEventListener('mouseup', mouseup);
+        return false;
+      });
     }
-
-    function mouseup() {
-      document.removeEventListener('mousemove', mousemove);
-      document.removeEventListener('mouseup', mouseup);
-    }
-
-    el.addEventListener('mousedown', function(e) {
-      startX = el.offsetLeft;
-      startY = el.offsetTop;
-      initialMouseX = e.clientX;
-      initialMouseY = e.clientY;
-      document.addEventListener('mousemove', mousemove);
-      document.addEventListener('mouseup', mouseup);
-      return false;
-    });
-  }
   })
 
   export default {
@@ -341,9 +339,6 @@
       }
     },
     created() {
-      // $(function () {
-      //   $('[data-toggle="tooltip"]').tooltip()
-      // })
       this.$store.dispatch('getUsersRoles');
       this.$store.dispatch("getAllUsersList", this.callAllProjectList)
     },
@@ -352,14 +347,14 @@
         getProjectList: 'getProjectList',
         memberName: 'getMemberName'
       }),
-      myProjectList: {
-        get() {
-          return this.$store.state.projectlist
-        },
-        set(value) {
-          this.$store.commit('updateProjectList', value)
-        }
-      },
+      // myProjectList: {
+      //   get() {
+      //     return this.$store.state.projectlist
+      //   },
+      //   set(value) {
+      //     this.$store.commit('updateProjectList', value)
+      //   }
+      // },
       searchItems: function () {
         var self = this
         var sameMatch = false;
@@ -477,7 +472,7 @@
             var id = this.$store.state.arrAllUsers[userIndex]._id
             project.fullname = this.$store.state.arrAllUsers[userIndex].fullname
             project.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
-            project.email = this.$store.state.arrAllUsers[userIndex].email
+              project.email = this.$store.state.arrAllUsers[userIndex].email
           }
         }, this);
 
@@ -502,7 +497,7 @@
         this.$store.state.currentProjectId = project.id;
         this.$store.state.currentProject = project;
         this.$store.state.currentProjectPrivacy = project.project_privacy;
-        this.$store.state.todolist.length=0;
+        this.$store.state.todolist.length = 0;
         this.$store.commit('CLOSE_DIV', '')
         this.$store.dispatch('getAllTodos', { 'parentId': '', project_id: project.id });
         // Close last open dialog
@@ -719,5 +714,4 @@
     opacity: 1;
     z-index: 1;
   }
-
 </style>

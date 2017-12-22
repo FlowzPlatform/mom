@@ -102,18 +102,12 @@
 /* eslint-disable*/
 import Vue from 'vue'
 import Resource from 'vue-resource'
-import draggable from 'vuedraggable'
-import { mapActions, mapGetters } from 'vuex'
-import * as services from '../services'
+import { mapGetters } from 'vuex'
 import moment from 'moment';
 import Avatar from 'vue-avatar/src/Avatar'
 Vue.use(Resource)
 export default {
     props: ['taskId'],
-    data: function() {
-        return {
-        }
-    },
     computed: {
         ...mapGetters({
             historyLog: 'taskHistoryLog'

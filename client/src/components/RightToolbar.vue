@@ -154,11 +154,11 @@
   import TaskPriority from './TaskPriority.vue'
   import { mapMutations, mapGetters } from 'vuex'
   Vue.use(KeenUI);
-  Vue.filter('formatDate', function (value) {
-    if (value) {
-      return moment(String(value)).format('MMM DD')
-    }
-  })
+  // Vue.filter('formatDate', function (value) {
+  //   if (value) {
+  //     return moment(String(value)).format('MMM DD')
+  //   }
+  // })
   export default {
     props: ['filteredTodo', 'subTasksArray'],
     data() {

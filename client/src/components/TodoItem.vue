@@ -43,7 +43,7 @@
         <div class="task-row-overlay grid-tags-and-date">
           <a class="taskRow">
             <span v-if="todo.isTaskUpdate" style="color: red">&#x25cf;</span><span v-else></span>
-            <span class="grid_due_date">{{todo.dueDate | formatDate_todo}}</span>
+            <span class="grid_due_date">{{todo.dueDate | formatDate}}</span>
           </a>
         </div>
         <div v-if="todo.email">
@@ -84,11 +84,11 @@
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import { mapMutations, mapGetters, mapActions } from 'vuex'
-  Vue.filter('formatDate_todo', function (value) {
-    if (value) {
-      return moment(String(value)).format('MMM DD')
-    }
-  })
+  // Vue.filter('formatDate_todo', function (value) {
+  //   if (value) {
+  //     return moment(String(value)).format('MMM DD')
+  //   }
+  // })
   Vue.filter('fistLatter', function (str) {
     if (str) {
       var firstLetters = str.substr(0, 1)

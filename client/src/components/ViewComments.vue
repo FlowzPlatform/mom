@@ -189,18 +189,15 @@ export default {
       comment.show_type = 'subcomment'
       comment.parentId = this.commentParentId 
       let parentList = this.$store.state.parentIdArr;
-      let indexParent = _.findIndex(parentList, function (d) { return d.id === comment.parentId })
-      
-      if (indexParent < 0) {
-      let tempParentId=this.commentParentId;
-          this.$store.state.parentIdArr.length=1;
-        } else {
-          let tempC = parentList[indexParent];
-          console.log("Parent Index indexParent:------->", indexParent)
-          console.log("Parent Index:------->", tempC)
-          this.$store.dispatch('closeChildComment', tempC)
-        }
-        this.$store.state.parentIdArr.push(comment)
+      let index;
+      if(!comment.parentId){
+        index = _.findIndex(parentList, function (d) { return d.id === comment.task_id })
+      }else{
+        index= _.findIndex(parentList, function (d) { return d.id === comment.parentId })
+      }
+      console.log("Index copy:-->",index);
+
+      this.$store.state.parentIdArr.splice(index+1, 0, comment)
     },
     getSubTaskComments: function () {
       this.taskSortComments.forEach(function (c) {

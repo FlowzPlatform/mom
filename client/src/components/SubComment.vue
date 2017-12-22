@@ -25,7 +25,6 @@
     import moment from 'moment';
     import { focus } from 'vue-focus';
     import notify from './notify.js'
-    import Comment from './Comment.vue'
     import * as services from '../services'
     import ViewComments from './ViewComments.vue'
     import RightFooter from './RightFooter.vue'
@@ -34,7 +33,6 @@
     export default {
         components: {
             RightFooter,
-            Comment,
             ViewComments,
             TaskHeading
         },
