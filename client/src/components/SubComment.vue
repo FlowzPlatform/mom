@@ -8,10 +8,10 @@
                     <i id="icon-comment" class="fa fa-pencil"></i>
                 </div>
                 <div class="one" :id="setCommentId('one')">
-                    <i class="fa fa-code" @click="htmlEditor"></i>
+                    <i class="fa fa-code" title="Quill editor" @click="htmlEditor"></i>
                 </div>
                 <div class="two" :id="setCommentId('two')">
-                    <i class="fa fa-html5" @click="markdownEditor"></i>
+                    <i class="fa fa-html5" title="Markdown editor" @click="markdownEditor"></i>
                 </div>
             </div>
             <component :is="currentView" :view="view" :commentTaskId="commentTaskId" :commentParentId="commentParentId"></component>
