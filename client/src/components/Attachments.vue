@@ -118,6 +118,7 @@ import Ckeditor from "vue-ckeditor2";
 import notify from "./notify.js";
 Vue.use(iView);
 export default {
+  
   props: ["filteredTodo", "isDeleteAttachment"],
   data: function() {
     return {
