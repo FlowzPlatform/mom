@@ -203,12 +203,16 @@ import CmnFunc from './CommonFunc.js'
           index = _.findIndex(parentList, function (d) { return d.id === comment.parentId })
         }
 
-        let parentIndex = _.findIndex(parentList, function (d) { return d.parentId === comment.parentId })
-        console.log("Index copy:-->", index);
-        if (parentIndex < 0)
-          this.$store.state.parentIdArr.splice(index + 1, 0, comment)
-        else
-          this.$store.state.parentIdArr.splice(index + 1, 1, comment)
+        let parentCounter=0;
+        let lastCommentParentId=comment.parentId;
+        parentList.forEach(element => {
+          if(element.parentId ===  lastCommentParentId){
+            lastCommentParentId=element.id;
+            parentCounter++;   
+          }
+        });
+       
+        this.$store.state.parentIdArr.splice(index + 1, parentCounter, comment)
       }
       },
       getSubTaskComments: function () {
