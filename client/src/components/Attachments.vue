@@ -1,6 +1,10 @@
 <template>
     <div> 
       <Progress :percent="$store.state.progress" v-show="filteredTodo.attachmentprogress"></Progress>
+        <div v-show="filteredTodo.deleteprogress">
+          <img  src="../assets/attach_delete.gif" style="width:30px; height:30px;"/>
+          <span class="del_attachment_text">Deleting...</span>
+       </div>  
         <div v-bind:key="index" v-for="(files, index) in attachmentList">
             <Card style="margin-left:10px;margin-right:10px;margin-top:5px;margin-bottom:3px;">
                 <p slot="title">
@@ -12,14 +16,16 @@
                     </span>
                     <span class="attachment-username">
                         <span style="font-size:10px">{{files.fullname}} </span>
-                        <!-- <div class="attachment-time">{{file}}</div> -->
+                         <span class="BlockStory-timestamp">
+                                <span>{{logDate(files.created_on)}}</span>
+                         </span>
                     </span>
                     <Dropdown @on-click="moreActionMenuClick" trigger="click" placement="bottom" class="close-btn">
                         <a href="javascript:void(0)">
                             <Icon style="font-size:20px;color:rgb(149, 152, 157)" type="android-more-horizontal"></Icon>
                         </a>
                         <DropdownMenu slot="list">
-                            <DropdownItem name="1"><span @click="deleteAttachment(files, index)">Delete</span></DropdownItem>
+                            <DropdownItem name="1"><span style="padding:10px" @click="deleteAttachment(files, index)">Delete</span></DropdownItem>
                             <DropdownItem class="hidden" name="2">share <span class="hidden">{{files}}</span></DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
@@ -78,11 +84,11 @@
                     </span>
                 </div> 
             </Card>
-            <div class="hidden">
+            <!-- <div class="hidden">
                 <a target="_blank" v-bind:href="files.file_url">{{ files.file_name }}
-                    <!-- <ui-progress-linear color="primary" type="determinate" :progress="$store.state.progress" v-show="filteredTodo.attachmentprogress"
+                    <ui-progress-linear color="primary" type="determinate" :progress="$store.state.progress" v-show="filteredTodo.attachmentprogress"
                         v-if="index === attachmentList.length-1">
-                    </ui-progress-linear> -->
+                    </ui-progress-linear>
                 </a>
                 <button class="" @click="deleteAttachment(files, index)">
                     <a v-show="isDeleteAttachment" class="fa fa-close" />
@@ -90,11 +96,11 @@
                 <iframe v-bind:src="imgURL(files.file_url)" frameborder="0"></iframe>
 
                 <div style="float:right;" v-if="index === btnClickedIndex">
-                    <!--<span style="float:right;margin-right: 40px;" v-if="index === btnClickedIndex">-->
+                    <span style="float:right;margin-right: 40px;" v-if="index === btnClickedIndex">
                     <ui-progress-circular color="black" type="indeterminate" v-show="filteredTodo.deleteprogress" class="circularProgress" :size="20">
                     </ui-progress-circular>
                 </div>
-            </div>
+            </div> -->
 
         </div>
         <div class="nav1">
@@ -117,6 +123,8 @@ import Avatar from "vue-avatar/src/Avatar";
 import { markdownEditor } from "vue-simplemde";
 import Ckeditor from "vue-ckeditor2";
 import notify from "./notify.js";
+import moment from 'moment';
+
 Vue.use(iView);
 export default {
   props: ["filteredTodo", "isDeleteAttachment"],
@@ -220,6 +228,9 @@ export default {
       console.log("moreActionMenuClick", key);
       if (val == 1) {
       }
+    },
+    logDate(logDate) {
+          return moment(logDate).calendar()
     }
   },
   components: {
@@ -344,23 +355,39 @@ export default {
   text-align: left;
   margin: 10px;
 }
-.demo-spin-icon-load {
-  animation: ani-demo-spin 1s linear infinite;
-}
-@keyframes ani-demo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(180deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-.demo-spin-col {
+.loading {
+  margin: 20px;
+  width: 100px;
   height: 100px;
-  position: relative;
-  border: 1px solid #eee;
+  -webkit-animation-name: spin;
+  -webkit-animation-duration: 2000ms;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-name: spin;
+  -moz-animation-duration: 2000ms;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
+  -ms-animation-name: spin;
+  -ms-animation-duration: 2000ms;
+  -ms-animation-iteration-count: infinite;
+  -ms-animation-timing-function: linear;
+  animation-name: spin;
+  animation-duration: 2000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 }
+span.del_attachment_text {
+    color: #ee7aa5;
+}
+
+.close-btn.ivu-dropdown ul {
+    min-width: inherit;
+}
+.close-btn.ivu-dropdown ul li {
+    padding: 7px 0px;
+}
+.BlockStory-timestamp{
+  margin-left: 50px;
+}
+
 </style>

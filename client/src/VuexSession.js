@@ -256,6 +256,7 @@ export const store = new Vuex.Store({
         await store.dispatch('getAllTaskTags', payload.id);
         await store.dispatch('getTaskComment', payload.id)
         await store.dispatch('getTypeState', payload.id)
+        await store.dispatch('getHistoryFromDB', payload.id)
         var parentIdArrObj = payload
         var tempParentIds = _.chain([]).union(state.parentIdArr).sortBy([function (o) { return o.level; }]).value();
         if (state.deleteItemsSelected || state.createdByTaskList.length > 0 || state.recentlyCompletedTasks.length > 0 || state.assignedToOthers.length > 0) {
@@ -511,12 +512,25 @@ export const store = new Vuex.Store({
         _.forEach(fileObject, function (object) {
           let index = _.findIndex(state.arrAttachment, function (d) { return d.id == object.id })
           if (index < 0) {
-            state.arrAttachment.push(object)
+            state.arrAttachment.unshift(object)
           }
         });
       }
       else if (fileObject instanceof Object) {
-        state.arrAttachment.push(fileObject)
+        state.arrAttachment.unshift(fileObject)
+      }
+    },
+    HISTORY_LOG(state, historyObject) {
+      if (historyObject instanceof Array) {
+        _.forEach(historyObject, function (object) {
+          let index = _.findIndex(state.taskHistoryLog, function (d) { return d.id == object.id })
+          if (index < 0) {
+            state.taskHistoryLog.push(object)
+          }
+        });
+      }
+      else if (historyObject instanceof Object) {
+        state.taskHistoryLog.push(historyObject)
       }
     },
     DELETE_ATTACHMENT(state, deleteAttachment) {
@@ -1110,7 +1124,8 @@ export const store = new Vuex.Store({
           assigned_by: store.state.userObject._id,
           assigned_to: store.state.userObject._id,
           isDelete: false,
-          project_id: insertElement.project_id
+          project_id: insertElement.project_id,
+          type_id: store.state.task_types_list[0].id // Default task type is todo 
         }).then(response => {
           console.log("Insert new todo::---->", response);
           
@@ -1243,7 +1258,7 @@ export const store = new Vuex.Store({
              fileObject.cb("fail")
              return
           }
-          store.state.arrAttachment.push(attachArr);
+          store.state.arrAttachment.unshift(attachArr);
 
           // store.state.isProgress = false
           store.commit('showAttachmentProgress', { 'isProgress': false, 'id': fileObject.taskId })
@@ -1393,6 +1408,7 @@ export const store = new Vuex.Store({
           commit('SELECT_FILE', response.data)
         }
       });
+     
       // Vue.http.post('/getAttachments', {
       //   task_id: taskId,
       //   isDeleted: false
@@ -1401,6 +1417,19 @@ export const store = new Vuex.Store({
       //     commit('SELECT_FILE', response.data)
       //   }
       // })
+    },
+     getHistoryFromDB({ commit }, taskId) {
+        services.taskHistoryLogs.find({
+          query: {
+            task_id: taskId,
+          }
+        }).then(response => {
+          console.log("response=>",response)
+          if (response.length > 0) {
+            console.log("response=>",response)
+            commit('HISTORY_LOG', response)
+          }
+      });
     },
     getSettings({ commit }, payload) {
       // Vue.http.post('/getSttings', {
@@ -2206,7 +2235,14 @@ export const store = new Vuex.Store({
       }
     },
     parentIdArr: state => state.parentIdArr,
-    taskHistoryLog: state => state.taskHistoryLog,
+    // taskHistoryLog: state => state.taskHistoryLog,
+    getHistoryLog: (state, getters) => {
+      return function (id) {
+        console.log("id:",id)
+        var history = state.taskHistoryLog.filter(history => history.task_id === id)
+        return history
+      }
+    },
     // getAttachment: state => state.arrAttachment,
     getAttachment: (state, getters) => {
       return function (id, level) {
