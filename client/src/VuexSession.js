@@ -1595,7 +1595,7 @@ export const store = new Vuex.Store({
         });
     },
     socialAuthRegistration({ commit }, objSocialAuth) {
-      return axios.post(process.env.USER_AUTH + '/api/googleauthprocess', {
+      return axios.post(process.env.USER_AUTH + '/api/verifyemail', {
         email: objSocialAuth.email,
         aboutme: objSocialAuth.aboutme,
         id: store.state.googleId

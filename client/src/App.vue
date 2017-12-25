@@ -23,8 +23,8 @@ export default {
       console.log('Copytask URL:', isCopyLink)
       if(!isCopyLink)
         this.$router.push('/navbar/mainapp');
-      }
     }
+  }
 }
 </script>
 
