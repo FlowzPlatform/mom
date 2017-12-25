@@ -188,18 +188,28 @@ import CmnFunc from './CommonFunc.js'
     },
     methods: {
       replyCommentMethod(comment) {
+        let parentList = this.$store.state.parentIdArr;
+      let avaiIndex=_.findIndex(parentList, function (d) { return d.id === comment.id })
+      console.log("avilIndex:-->",avaiIndex)
+      if (avaiIndex < 0) {
         comment.show_type = 'subcomment'
         comment.parentId = this.commentParentId
-        let parentList = this.$store.state.parentIdArr;
+        console.log("Click Comment:--", comment)
+
         let index;
         if (!comment.parentId) {
           index = _.findIndex(parentList, function (d) { return d.id === comment.task_id })
         } else {
           index = _.findIndex(parentList, function (d) { return d.id === comment.parentId })
         }
-        console.log("Index copy:-->", index);
 
-        this.$store.state.parentIdArr.splice(index + 1, 0, comment)
+        let parentIndex = _.findIndex(parentList, function (d) { return d.parentId === comment.parentId })
+        console.log("Index copy:-->", index);
+        if (parentIndex < 0)
+          this.$store.state.parentIdArr.splice(index + 1, 0, comment)
+        else
+          this.$store.state.parentIdArr.splice(index + 1, 1, comment)
+      }
       },
       getSubTaskComments: function () {
         this.taskSortComments.forEach(function (c) {
