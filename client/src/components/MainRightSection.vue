@@ -562,7 +562,7 @@
       todoObject: function (todo) {
         this.previousUser = todo.assigned_to;
         this.selectedUser = todo.assigned_to;
-        this.$store.dispatch("findHistoryLog", this.todoObject.id);
+        // this.$store.dispatch("findHistoryLog", this.todoObject.id);
         this.selectedType = todo.type_id  
       },
       getIdArray:function(ids){

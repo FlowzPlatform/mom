@@ -512,7 +512,7 @@ export const store = new Vuex.Store({
         _.forEach(fileObject, function (object) {
           let index = _.findIndex(state.arrAttachment, function (d) { return d.id == object.id })
           if (index < 0) {
-            state.arrAttachment.unshift(object)
+            state.arrAttachment.push(object)
           }
         });
       }
@@ -530,7 +530,7 @@ export const store = new Vuex.Store({
         });
       }
       else if (historyObject instanceof Object) {
-        state.taskHistoryLog.push(historyObject)
+        state.taskHistoryLog.unshift(historyObject)
       }
     },
     DELETE_ATTACHMENT(state, deleteAttachment) {
@@ -1258,7 +1258,7 @@ export const store = new Vuex.Store({
              fileObject.cb("fail")
              return
           }
-          store.state.arrAttachment.unshift(attachArr);
+          commit('SELECT_FILE', attachArr)
 
           // store.state.isProgress = false
           store.commit('showAttachmentProgress', { 'isProgress': false, 'id': fileObject.taskId })
@@ -1272,23 +1272,13 @@ export const store = new Vuex.Store({
             file_url: src,
             uploadedBy: store.state.userObject._id,
             level: fileObject.level,
-            file_name_timestamp: fileTimeStamp
+            file_name_timestamp: fileTimeStamp,
+            created_on: new Date()
           }).then(response => {
             store.state.arrAttachment.splice(store.state.arrAttachment.indexOf(attachArr), 1)
-            var tempArr = {
-              id: response.id,
-              task_id: fileObject.taskId,
-              file_name: file.name,
-              file_url: src,
-              uploadedBy: store.state.userObject._id,
-              level: fileObject.level,
-              file_name_timestamp: fileTimeStamp
-            }
+            
             CmnFunc.insertHistoryLog(store,store.state.userObject._id,response.id,fileObject.taskId,Constant.HISTORY_LOG_ACTION.ATTACHMENT_UPLOAD)
             
-            // state.arrAttachment.filter(attachment => attachment.id === attachArr.id)
-
-            // commit('SELECT_FILE', tempArr)
             fileObject.cb("success")
           });
         })
@@ -1399,15 +1389,24 @@ export const store = new Vuex.Store({
       });
     },
     getAttachmentFromDB({ commit }, taskId) {
-      services.taskAttachmentService.find({
-        query: {
-          task_id: taskId,
-        }
-      }).then(response => {
+      // services.taskAttachmentService.find({
+      //   query: {
+      //     task_id: taskId,
+      //   }
+      // }).then(response => {
+      //   if (response.data.length > 0) {
+      //     commit('SELECT_FILE', response.data)
+      //   }
+      // });
+
+      services.taskAttachmentService.find({ query: { task_id: taskId } }).then(response => {
+        response.data.sort(function (a, b) {
+            return new Date(b.created_on).getTime() - new Date(a.created_on).getTime()
+        });
         if (response.data.length > 0) {
           commit('SELECT_FILE', response.data)
         }
-      });
+      })
      
       // Vue.http.post('/getAttachments', {
       //   task_id: taskId,
@@ -1419,17 +1418,14 @@ export const store = new Vuex.Store({
       // })
     },
      getHistoryFromDB({ commit }, taskId) {
-        services.taskHistoryLogs.find({
-          query: {
-            task_id: taskId,
-          }
-        }).then(response => {
-          console.log("response=>",response)
+        services.taskHistoryLogs.find({ query: { task_id: taskId } }).then(response => {
+          response.sort(function (a, b) {
+              return new Date(b.created_on).getTime() - new Date(a.created_on).getTime()
+          });
           if (response.length > 0) {
-            console.log("response=>",response)
-            commit('HISTORY_LOG', response)
-          }
-      });
+              commit('HISTORY_LOG', response)
+            }
+        })
     },
     getSettings({ commit }, payload) {
       // Vue.http.post('/getSttings', {
@@ -2240,6 +2236,7 @@ export const store = new Vuex.Store({
       return function (id) {
         console.log("id:",id)
         var history = state.taskHistoryLog.filter(history => history.task_id === id)
+        console.log("history:",history)
         return history
       }
     },

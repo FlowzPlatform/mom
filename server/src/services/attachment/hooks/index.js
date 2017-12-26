@@ -6,7 +6,11 @@ exports.before = {
     // call global hook
     globalHooks.myHook()
   ],
-  find: [],
+  find(hook){
+    const query = this.createQuery(hook.params.query);
+    const r = this.options.r;
+    hook.params.rethinkdb = query.orderBy('created_on')
+  },
   get: [],
   create: [],
   update:[],

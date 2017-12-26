@@ -1,10 +1,10 @@
 <template>
     <div> 
       <Progress :percent="$store.state.progress" v-show="filteredTodo.attachmentprogress"></Progress>
-        <div v-show="filteredTodo.deleteprogress">
+        <!-- <div v-show="filteredTodo.deleteprogress">
           <img  src="../assets/attach_delete.gif" style="width:30px; height:30px;"/>
           <span class="del_attachment_text">Deleting...</span>
-       </div>  
+       </div>   -->
         <div v-bind:key="index" v-for="(files, index) in attachmentList">
             <Card style="margin-left:10px;margin-right:10px;margin-top:5px;margin-bottom:3px;">
                 <p slot="title">
@@ -35,12 +35,16 @@
                 </p>
                 <div class="BlockStory-body">
                     <div class="AddedAttachmentStory-body">
-                        <div v-if="isImage(files.file_name)" class="AddedAttachmentStory-thumbnailContainer">
+                        <div style="display: inline;" v-if="isImage(files.file_name)" class="AddedAttachmentStory-thumbnailContainer">
                             <a :href="files.file_url" target="_blank">
                                 <img class="image-preview" :src="files.file_url">
                             </a>
                         </div>
-                        <iframe v-else class="Thumbnail-image" v-bind:src="imgURL(files.file_url)">Hemant</iframe>
+                        <iframe style="vertical-align: middle;" v-else class="Thumbnail-image" v-bind:src="imgURL(files.file_url)"></iframe>
+                        <span style="display:inline-block;" v-show="index==btnClickedIndex && filteredTodo.deleteprogress"> 
+                              <img  src="../assets/attach_delete.gif" style="width:30px; height:30px;"/>
+                              <span class="del_attachment_text">Deleting...</span>
+                        </span>                          
                         <div class="">
                             <a class="AddedAttachmentStory-link" style="color:inherit; text-decoration: none;font-size:11px" :href="files.file_url" target="_blank" tabindex="-1">
                                 <i><span style="color:black;font-size:12px">file:</span>{{files.file_name}}</i>
@@ -105,9 +109,9 @@
         </div>
         <div class="nav1">
             <div class="share">
-                <label :for="'upload'+filteredTodo.level">
-                <i class="fa fa-paperclip"></i>
-                <input :id="'upload'+filteredTodo.level" type="file" @change="onFileChange($event)" style="display:none" />
+                <label class="attchment-icon" :for="'upload'+filteredTodo.level">
+                  <i class="fa fa-paperclip"></i>
+                  <input :id="'upload'+filteredTodo.level" type="file" @change="onFileChange($event)" style="display:none" />
                 </label>
             </div>
         </div>
@@ -156,7 +160,7 @@ export default {
         ],
         placeholder: "Type here..."
       },
-      file: {}
+      file: {},
     };
   },
   computed: {
@@ -171,6 +175,7 @@ export default {
   },
   methods: {
     deleteAttachment(objAttachment, btnIndex) {
+      this.deletedIndex = btnIndex
       this.$Modal.confirm({
         title: "Attachment",
         content:
@@ -230,7 +235,11 @@ export default {
       }
     },
     logDate(logDate) {
+        if(logDate){
           return moment(logDate).calendar()
+        }else{
+          return ''
+        }
     }
   },
   components: {
@@ -389,5 +398,10 @@ span.del_attachment_text {
 .BlockStory-timestamp{
   margin-left: 50px;
 }
-
+label.attchment-icon {
+    padding-top: 0px;
+    padding-left: 22px;
+    float: left;
+    padding-right: 20px;
+}
 </style>
