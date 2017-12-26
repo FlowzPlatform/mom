@@ -511,7 +511,9 @@ export const store = new Vuex.Store({
       if (fileObject instanceof Array) {
         _.forEach(fileObject, function (object) {
           let index = _.findIndex(state.arrAttachment, function (d) { return d.id == object.id })
+          console.log("attachment ->index:",index)
           if (index < 0) {
+            console.log("SELECT_FILE object:",object)
             state.arrAttachment.push(object)
           }
         });
@@ -524,7 +526,9 @@ export const store = new Vuex.Store({
       if (historyObject instanceof Array) {
         _.forEach(historyObject, function (object) {
           let index = _.findIndex(state.taskHistoryLog, function (d) { return d.id == object.id })
+          console.log("history ->index:",index)
           if (index < 0) {
+            console.log("object:",object)
             state.taskHistoryLog.push(object)
           }
         });
@@ -656,7 +660,11 @@ export const store = new Vuex.Store({
     INSERT_HISTORY_LOG(state, histroyObject) {
       console.log("INSERT_HISTORY_LOG updated",histroyObject)
       if(histroyObject.log_action != 0){
-        state.taskHistoryLog.unshift(histroyObject)
+        try{
+          state.taskHistoryLog.unshift(histroyObject)
+        }catch(e){
+          state.taskHistoryLog.push(histroyObject)
+        }
       }
     },
     GET_USERDETAIL(state, userdetail) {
@@ -1422,9 +1430,10 @@ export const store = new Vuex.Store({
           response.sort(function (a, b) {
               return new Date(b.created_on).getTime() - new Date(a.created_on).getTime()
           });
+          console.log("response:=>",response)
           if (response.length > 0) {
               commit('HISTORY_LOG', response)
-            }
+          }
         })
     },
     getSettings({ commit }, payload) {

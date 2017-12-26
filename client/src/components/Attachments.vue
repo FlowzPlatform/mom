@@ -109,7 +109,7 @@
         </div>
     <div class="nav1">
       <div :id="filteredTodo.id" class="share">
-        <label :for="'upload'+filteredTodo.level" :id="filteredTodo.level">
+        <label class="attchment-icon" :for="'upload'+filteredTodo.level" :id="filteredTodo.level">
           <i class="fa fa-paperclip"></i>
           <input :id="'upload'+filteredTodo.level" type="file" @change="onFileChange" style="display:none" /> </label>
       </div>
@@ -163,29 +163,6 @@ export default {
       file: {},
     };
   },
-  computed: {
-    ...mapGetters({
-      getFiles: "getAttachment"
-    }),
-    attachmentList() {
-      var array = this.getFiles(this.filteredTodo.id);
-      this.attachmentDetailList(array);
-      return array;
-    }
-  },
-  methods: {
-    deleteAttachment(objAttachment, btnIndex) {
-      this.deletedIndex = btnIndex
-      this.$Modal.confirm({
-        title: "Attachment",
-        content:
-          "<p>Are you sure that you want to permanently delete attachment?</p>",
-        onOk: () => {
-          this.btnClickedIndex = btnIndex;
-          this.$store.dispatch("deleteAttachmentFromDB", objAttachment);
-        }
-      });
-    },
     computed: {
       ...mapGetters({
         getFiles: "getAttachment"
@@ -198,8 +175,16 @@ export default {
     },
     methods: {
       deleteAttachment(objAttachment, btnIndex) {
-        this.btnClickedIndex = btnIndex;
-        this.$store.dispatch("deleteAttachmentFromDB", objAttachment);
+       
+        this.$Modal.confirm({
+          title: "Attachment",
+          content:
+            "<p>Are you sure that you want to permanently delete attachment?</p>",
+          onOk: () => {
+            this.btnClickedIndex = btnIndex;
+            this.$store.dispatch("deleteAttachmentFromDB", objAttachment);
+          }
+        });
       },
       onFileChange(e) {
         var fileChooser = e.target; // document.getElementById('file');
@@ -259,7 +244,6 @@ export default {
     components: {
       Avatar
     }
-  }
 }
 </script>
 <style>
@@ -369,6 +353,7 @@ span.del_attachment_text {
 }
 .BlockStory-timestamp{
   margin-left: 50px;
+  font-size: 10px;
 }
 label.attchment-icon {
     padding-top: 0px;
