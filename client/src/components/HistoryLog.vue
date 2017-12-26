@@ -106,18 +106,12 @@
 /* eslint-disable*/
 import Vue from 'vue'
 import Resource from 'vue-resource'
-import draggable from 'vuedraggable'
-import { mapActions, mapGetters } from 'vuex'
-import * as services from '../services'
+import { mapGetters } from 'vuex'
 import moment from 'moment';
 import Avatar from 'vue-avatar/src/Avatar'
 Vue.use(Resource)
 export default {
     props: ['taskId'],
-    data: function() {
-        return {
-        }
-    },
     computed: {
         ...mapGetters({
             findLog: 'getHistoryLog'
@@ -130,7 +124,6 @@ export default {
         }
     },
     created(){
-        console.log("oncreated call")
         // Load history log when component created 
         // this.$store.dispatch("findHistoryLog", this.taskId);
     },
@@ -154,7 +147,6 @@ export default {
          * Add user detail into history log
          */
         historyDetailList: function (historyList) {
-            console.log("In historyDetailList() method:",historyList)
             historyList.forEach(function (c) {
                 let userId = c.created_by
                 let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
@@ -241,20 +233,5 @@ export default {
 }
 </script>   
 <style>
-svg.Icon.DownIcon.FeedBlockStory-actionsDropdownIcon {
-    cursor: pointer;
-    position: absolute;
-    right: 0;
-    top: 10px;
-    width: 28px;
-}
-.history-label{
-    color: #848f99;
-    font-size: 11px;
-    line-height: 17px;
-}
-a.history-username{
-     color: inherit;
-    font-size: 11px;
-}
+
 </style>

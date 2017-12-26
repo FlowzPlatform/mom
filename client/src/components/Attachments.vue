@@ -107,15 +107,15 @@
             </div> -->
 
         </div>
-        <div class="nav1">
-            <div class="share">
-                <label class="attchment-icon" :for="'upload'+filteredTodo.level">
-                  <i class="fa fa-paperclip"></i>
-                  <input :id="'upload'+filteredTodo.level" type="file" @change="onFileChange($event)" style="display:none" />
-                </label>
-            </div>
-        </div>
+    <div class="nav1">
+      <div :id="filteredTodo.id" class="share">
+        <label :for="'upload'+filteredTodo.level" :id="filteredTodo.level">
+          <i class="fa fa-paperclip"></i>
+          <input :id="'upload'+filteredTodo.level" type="file" @change="onFileChange" style="display:none" /> </label>
+      </div>
     </div>
+
+  </div>
 </template>
 <script>
 /* eslint-disable*/
@@ -186,49 +186,63 @@ export default {
         }
       });
     },
-    onFileChange(e) {
-      var fileChooser = e.target; // document.getElementById('file');
-      try {
-        this.$store.dispatch("selectFile", {
-          file: fileChooser,
-          taskId: this.filteredTodo.id,
-          level: this.filteredTodo.level,
-          cb: function(result) {
-            fileChooser.value = "";
-            if (result == "success") {
-            } else {
-              console.log("File upload fail");
-              $.notify.defaults({ className: "error" });
-              $.notify("File upload error", { globalPosition: "top center" });
-            }
-          }
-        });
-      } catch (exception) {
-        console.log("File upload error");
+    computed: {
+      ...mapGetters({
+        getFiles: "getAttachment"
+      }),
+      attachmentList() {
+        var array = this.getFiles(this.filteredTodo.id);
+        this.attachmentDetailList(array);
+        return array;
       }
     },
-    imgURL(url) {
-      let doc = "http://docs.google.com/gview?url=" + url + "&embedded=true";
-      return doc;
-    },
-    isImage(fileName) {
-      return fileName.match(/.(jpg|jpeg|png|gif)$/i);
-    },
-    attachmentDetailList: function(attachList) {
-      attachList.forEach(function(c) {
-        let userId = c.uploadedBy;
-        let userIndex = _.findIndex(this.$store.state.arrAllUsers, function(m) {
-          return m._id === userId;
-        });
-        if (userIndex < 0) {
-        } else {
-          var id = this.$store.state.arrAllUsers[userIndex]._id;
-          c.fullname = this.$store.state.arrAllUsers[userIndex].fullname;
-          (c.image_url = this.$store.state.arrAllUsers[userIndex].image_url),
-            (c.email = this.$store.state.arrAllUsers[userIndex].email);
+    methods: {
+      deleteAttachment(objAttachment, btnIndex) {
+        this.btnClickedIndex = btnIndex;
+        this.$store.dispatch("deleteAttachmentFromDB", objAttachment);
+      },
+      onFileChange(e) {
+        var fileChooser = e.target; // document.getElementById('file');
+        try {
+          this.$store.dispatch("selectFile", {
+            file: fileChooser,
+            taskId: this.filteredTodo.id,
+            level: this.filteredTodo.level,
+            cb: function (result) {
+              fileChooser.value = "";
+              if (result == "success") {
+              } else {
+                $.notify.defaults({ className: "error" });
+                $.notify("File upload error", { globalPosition: "top center" });
+              }
+            }
+          });
+        } catch (exception) {
+          console.log("File upload error");
         }
-      }, this);
-    },
+      },
+      imgURL(url) {
+        let doc = "http://docs.google.com/gview?url=" + url + "&embedded=true";
+        return doc;
+      },
+      isImage(fileName) {
+        return fileName.match(/.(jpg|jpeg|png|gif)$/i);
+      },
+      attachmentDetailList: function (attachList) {
+        attachList.forEach(function (c) {
+          let userId = c.uploadedBy;
+          let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) {
+            return m._id === userId;
+          });
+          if (userIndex < 0) {
+          } else {
+            var id = this.$store.state.arrAllUsers[userIndex]._id;
+            c.fullname = this.$store.state.arrAllUsers[userIndex].fullname;
+            (c.image_url = this.$store.state.arrAllUsers[userIndex].image_url),
+              (c.email = this.$store.state.arrAllUsers[userIndex].email);
+          }
+        }, this);
+      },
     moreActionMenuClick(key, val) {
       console.log("moreActionMenuClick", key);
       if (val == 1) {
@@ -240,124 +254,82 @@ export default {
         }else{
           return ''
         }
+      }
+    },
+    components: {
+      Avatar
     }
-  },
-  components: {
-    Avatar,
-    markdownEditor,
-    Ckeditor
   }
-};
+}
 </script>
 <style>
-.attachment-nav {
-  right: 42px;
-  z-index: 20;
-  width: 45px;
-  bottom: 15px;
-  height: 45px;
-  display: block;
-  position: absolute;
-  line-height: 45px;
-  border-radius: 50%;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
-}
+  .thumbnail {
+    width: 300px;
+    height: 160px;
+  }
 
-.attachment-mask {
-  z-index: 21;
-  color: #fff;
-  width: inherit;
-  height: inherit;
-  cursor: pointer;
-  font-size: 28px;
-  text-align: center;
-  border-radius: 50%;
-  position: absolute;
-  background: #f23363;
-  -webkit-transition: all 0.1s ease-in-out 0s;
-  transition: all 0.1s ease-in-out 0s;
-}
+  .Thumbnail-image {
+    border: 1px solid #b7bfc6;
+    display: inline-block;
+    max-width: 100%;
+    position: relative;
+    z-index: 1;
+    background: url("../assets/ob_logo.svg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
 
-.thumbnail {
-  width: 300px;
-  height: 160px;
-}
+  .image-preview {
+    width: 300px;
+    height: 160px;
+  }
 
-.thumbnail iframe {
-  width: 900px;
-  height: 480px;
-  -webkit-transform-origin: 0 0;
-  -moz-transform-origin: 0 0;
-  transform-origin: 0 0;
-  -webkit-transform: scale(0.3, 0.3);
-  -moz-transform: scale(0.3, 0.3);
-  transform: scale(0.3, 0.3);
-  overflow: hidden;
-}
+  .ivu-card-head p,
+  .ivu-card-head-inner {
+    padding-bottom: 30px;
+  }
 
-.Thumbnail-image {
-  border: 1px solid #b7bfc6;
-  display: inline-block;
-  max-width: 100%;
-  position: relative;
-  z-index: 1;
-  background: url("../assets/ob_logo.svg");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-}
+  .attachment-username {
+    text-align: -webkit-left;
+    text-align: left;
+    margin-left: 10px;
+    font-size: 20px;
+    color: gray;
+    float: left;
+  }
 
-.image-preview {
-  width: 300px;
-  height: 160px;
-}
+  .attachment-time {
+    margin-top: -5px;
+    font-size: 10px;
+  }
 
-.ivu-card-head p,
-.ivu-card-head-inner {
-  padding-bottom: 30px;
-}
+  .ivu-card-head {
+    padding: 10px 10px;
+  }
 
-.attachment-username {
-  text-align: -webkit-left;
-  text-align: left;
-  margin-left: 10px;
-  margin-top: -3px;
-  font-size: 8px;
-  color: gray;
-  float: left;
-}
+  .attachment-card-footer {
+    border-top: 1px solid #e9eaec;
+    height: 36px;
+    padding-left: -16px;
+    padding-right: -16px;
+    line-height: 36px;
+    text-align: center;
+  }
 
-.attachment-time {
-  margin-top: -5px;
-  font-size: 10px;
-}
+  .attachment-comment-footer {
+    margin-top: 10px;
+    border-top: 1px solid #e9eaec;
+    padding-left: -16px;
+    padding-right: -16px;
+    line-height: 36px;
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+  }
 
-.ivu-card-head {
-  padding: 10px 10px;
-}
-
-.attachment-card-footer {
-  border-top: 1px solid #e9eaec;
-  height: 36px;
-  padding-left: -16px;
-  padding-right: -16px;
-  line-height: 36px;
-  text-align: center;
-}
-
-.attachment-comment-footer {
-  margin-top: 10px;
-  border-top: 1px solid #e9eaec;
-  padding-left: -16px;
-  padding-right: -16px;
-  line-height: 36px;
-  text-align: center;
-  display: inline-block;
-  width: 100%;
-}
-
-.close-btn {
-  float: right;
-}
+  .close-btn {
+    float: right;
+  }
 
 .AddedAttachmentStory-body {
   text-align: -webkit-left;

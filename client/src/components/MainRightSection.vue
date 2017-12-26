@@ -1,26 +1,5 @@
 <template>
   <div>
-    <!-- <div id="topicon">
-      <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-        tabindex="410" style="margin-top: 2px;">
-        <span id="close" class="destroy circularButtonView-label" @click="CLOSE_DIV(todoObject)">
-          <i class="fa fa-close"></i>
-        </span>
-      </div>
-      <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-        style="margin-top: 2px;">
-        <span class="circularButtonView-label" @click="pinit(todoObject)">
-          <img class="init" v-if="todoObject.isPinned" src="../assets/unpin.png" style="width:20px; height:20px;"></img>
-          <img class="init" v-else src="../assets/pin.png" style="width:16px; height:16px; margin-bottom:2px;"></img>
-        </span>
-      </div>
-      <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-        tabindex="410" @click="openfullwinodw(todoObject.level)" style="margin-top: 2px; ">
-        <span class="circularButtonView-label">
-          <i class="fa fa-expand" aria-hidden="true"></i>
-        </span>
-      </div>
-    </div> -->
     <div :id="id" class="right_pannel" style="display: grid;">
        <Alert v-if="todoObject.isDelete" class="right-top-alert" type="error">
         <span slot="desc">
@@ -40,12 +19,13 @@
             :pholder="pholder" :filtered-todos="taskById" :commentTaskId="todoObject.id">
           </component>
         </div>
+        <task-priority :filteredTodo="todoObject"></task-priority>
+        <estimated-hours :filteredTodo="todoObject"></estimated-hours>
       </div>
       <div class="nav_bottom">
         <div class="navbar-bottom" id="myNavbar">
           <a href="javascript:void(0)" id="#subtask" v-bind:class="selectedMenuIndex==0?activeClass:''" class="nav-tab" @click="subTaskShow">
             <Tooltip content="Task" placement="top-start">
-              <!-- <i class="fa fa-bars" style="font-size:20px"></i> -->
               <svg class="Icon HamburgerIcon Topbar-sidebarToggleIcon" viewBox="0 0 32 32">
                 <rect x="2" y="4" width="28" height="4"></rect>
                 <rect x="2" y="14" width="28" height="4"></rect>
@@ -54,13 +34,12 @@
             </Tooltip>
           </a>
           <!-- Assign task to user menu item -->
-
           <div class="assing-to-menu">
             <Tooltip content="Assignee" placement="top-start">
               <span style="float:left;margin-top:-3px">
                 <div v-if="todoObject.email">
-                  <avatar v-if="todoObject.image_url" :username="getListUserName(todoObject,0)" :size="30" :src="todoObject.image_url"></avatar>
-                  <avatar v-else :username="getListUserName(todoObject,0)" color='#fff' :size="30"></avatar>
+                  <avatar v-if="todoObject.image_url" :username="todoObject.email" :size="30" :src="todoObject.image_url"></avatar>
+                  <avatar v-else :username="todoObject.email" color='#fff' :size="30"></avatar>
                 </div>
               </span>
               <Row>
@@ -70,9 +49,9 @@
                   <Option  v-show="checkEmail(user.email,user.fullname)" style="margin:5px" v-for="user in getUserList" :label="getListUserName(user)" :value="user._id" :key="user._id">
                     <span >
                       <span style="float:left;margin-right:10px;margin-top:-8px;width: 30px; height: 30px; border-radius: 50%; text-align: center; vertical-align: middle;background:#ccc">
-                        <div>
-                          <avatar v-if="user.image_url" :username="getListUserName(user,0)" :size="30" :src="user.image_url"></avatar>
-                          <avatar v-else color="white" :username="getListUserName(user,0)" :size="30"></avatar>
+                        <div v-if="user.email">
+                          <avatar v-if="user.image_url" :username="user.email" :size="30" :src="user.image_url"></avatar>
+                          <avatar v-else color="white" :username="user.email" :size="30"></avatar>
                         </div>
                       </span>
                       {{getListUserName(user,1)}}
@@ -136,7 +115,7 @@
               </a>
               <DropdownMenu slot="list">
                 <DropdownItem name="1">Tags</DropdownItem>
-                <DropdownItem name="2">Task Priority</DropdownItem>
+                <DropdownItem name="2"  :data-target="'#taskPriority'+todoObject.id" data-toggle="modal">Task Priority</DropdownItem>
                 <DropdownItem name="3">Copy Task URL</DropdownItem>
                 <DropdownItem name="4">Delete Task</DropdownItem>
                 <DropdownItem name="5">Estimated Hours</DropdownItem>
@@ -168,9 +147,7 @@
           </div>
         </div>
       </div>
-    </div>
-    <estimated-hours :showModal="estimated_time" :closeAction="closeDialog" :filteredTodo="todoObject"></estimated-hours>
-    <task-priority :showModal="task_priority" :closeAction="closeDialog" :filteredTodo="todoObject"></task-priority>
+    </div>    
   </div>
 </template>
 <script>
@@ -181,9 +158,6 @@
   import HistoryLog from "./HistoryLog.vue";
   import RightToolbar from "./RightToolbar.vue";
   import Attachments from "./Attachments.vue";
-  import StoryFeed from "./StoryFeed.vue";
-  import Statuses from "./Statuses.vue";
-  import * as services from "../services";
   import Tags from "./Tags.vue";
   import SubTask from "./SubTask.vue";
   import { mapMutations, mapGetters, mapActions } from "vuex";
@@ -203,11 +177,6 @@
       return moment(String(value)).format("MMM DD");
     }
   });
-  Vue.filter("dateofDay", function (value) {
-    if (value) {
-      return moment(String(value)).format("DD");
-    }
-  });
 
   Vue.use(AsyncComputed);
   export default {
@@ -217,7 +186,6 @@
         todolistSubTasks: [],
         createCommentBox: true,
         readCommentBox: true,
-        isDelete: false,
         historyLog: [],
         chkAttachment: false,
         attchmentReadPerm: false,
@@ -227,23 +195,18 @@
         currentView: SubTask,
         activeClass: "active",
         selectedMenuIndex: 0,
-        modal_loading: false,
-        topMargin: 20, // Top margin of sub task panel
-        isDeleteActive: false, // Hide soft delete dialog
         selectedUser: this.todoObject.assigned_to,
         previousUser:this.todoObject.assigned_to,
         userObj: "", // selected user object
-        estimated_time: false,
-        task_priority: false,
         open: false,
         selectedType:this.todoObject.type_id,
         selectedIndex:-1
       };
     },
     created: function () {
-      // this.manageAttachmentCreatePermission();
-      // this.tagReadPermission();
-      // this.tagNewPermission();
+      this.manageAttachmentCreatePermission();
+      this.tagReadPermission();
+      this.tagNewPermission();
     },
     methods: {
       undelete: function () {
@@ -253,10 +216,6 @@
         // Show Estimated tags val=1
         if (val == 1) {
           this.tagsShow()
-        }
-        // Show Task Priority val=2
-        else if (val == 2) {
-          this.task_priority = true
         }
         // Show copy Url val=3
         else if (val == 3) {
@@ -296,13 +255,6 @@
       deletePermently: function () {
         this.$store.dispatch("deletePermently", this.todoObject);
       },
-      getListValue: function (user) {
-        if (user.email) {
-          return user.email;
-        } else {
-          return 
-        }
-      },
       getListUserName: function (user,flag) {
       
         if (user.fullname && user.fullname.trim().length > 0) {
@@ -313,17 +265,6 @@
         }else{
           return "Un"
         }
-      },
-      onUserClick: function (user) {
-        this.userObj = user;
-        if (user.email) {
-          return user.email;
-        } else {
-          return;
-        }
-      },
-      userClick: function (user) {
-        console.log("user detail call");
       },
       async onReadComment(id, level, created_by, typeId) {
         let permisionResult = await CmnFunc.checkActionPermision(
@@ -456,7 +397,6 @@
       },
       async setAssignUser(userId) {
         var user = _.find(this.$store.state.arrAllUsers, ["_id", userId]);
-        console.log("Selected User setAssignUser method:", user);
         this.todoObject.image_url  = user.image_url
         this.todoObject.email  = user.email
 
@@ -469,28 +409,6 @@
             log_text:userId
           });
         }
-      },
-      getAssignedUserName() {
-        var user = this.getAssignedUserObj();
-        return user.email ? this.getName(user.email) : "";
-      },
-      getName(name) {
-        var str = name;
-        var n = str.indexOf("@");
-        var res = str.substr(0, n);
-        return res;
-      },
-      getAssignedUserObj(assignUserId) {
-        var objUser;
-        if (this.todoObject.assigned_to === this.$store.state.userObject._id) {
-          objUser = this.$store.state.userObject;
-        } else {
-          objUser = _.find(this.$store.state.arrAllUsers, [
-            "_id",
-            assignUserId
-          ]);
-        }
-        return objUser;
       },
       dueDateClick(dateTo) {
         var selectedDate = moment(dateTo, "YYYY-MM-DD").format("DD");
@@ -528,8 +446,6 @@
         }
       },
       checkEmail(email,fullname){
-        // console.log("check fullname",fullname)
-        // console.log("check email",email)
         return (fullname && fullname.length>0) || (email && email.length>0 && CmnFunc.checkValidEmail(email))
       },
       displayComment(){
@@ -752,11 +668,9 @@
         //check attachment for only  read permission.
         let isReadPermission = await this.manageAttachmentReadPermission();
         if (isReadPermission) {
-          console.log("inside read permission");
           //check whether attachment array has value or not
           return this.checkAttachmentExistance();
         } else {
-          console.log("read permission false:", isReadPermission);
           //this.attchmentReadPerm = false
           return false;
         }
@@ -767,9 +681,7 @@
       MainLeftSection,
       RightToolbar,
       Attachments,
-      StoryFeed,
       Tags,
-      Statuses,
       HistoryLog,
       SubComment,
       Avatar,

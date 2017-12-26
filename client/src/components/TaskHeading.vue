@@ -78,7 +78,6 @@
                 }
             },
             pinit(filteredTodo) {
-                console.log("TODO Object", filteredTodo);
                 if (
                     _.find(this.$store.state.todolist, ["id", filteredTodo.id]) &&
                     !_.find(this.$store.state.todolist, ["id", filteredTodo.id]).isPinned
@@ -97,7 +96,6 @@
                 }
             },
             openfullwinodw: function (ind) {
-                console.log("Openfullwindow called====");
                 $(".window-full.circularButtonView")
                     .find(".fa")
                     .toggleClass("fa-compress");

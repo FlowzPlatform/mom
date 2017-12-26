@@ -135,7 +135,7 @@
                 <a data-toggle="modal" data-target="#myModal2" @click="btnProfileClicked()">Profile</a>
               </li>
               <hr>
-              <li @click="settings_menu = true">
+              <li data-target="#settingsMenu" data-toggle="modal">
                 <a id="settings" class="menu-item-privacy" title="">
                   <span class="dropdown-menu-item-label">Settings</span>
                 </a>
@@ -149,7 +149,7 @@
         </div>
       </div>
       <router-view></router-view>
-      <settings-menu :settingArr="settingArr" :showModal="settings_menu" :closeAction="closeDialog"></settings-menu>
+      <settings-menu :settingArr="settingArr"></settings-menu>
       <div class="todoapp">
         <div id="myModal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
           <div class="modal-dialog" role="document">
@@ -249,7 +249,6 @@
   location = location.domain === null ? location.input : location.domain
 
   // $(window).on('popstate', function(event) {
-  //   console.log("location: " + document.location);
   //   if(!history.pushState){
   //     history.go(0);
   //   }    
@@ -268,7 +267,6 @@
         image: '',
         imageURlProfilePic: this.$store.state.userObject.image_url,
         loading: false,
-        settings_menu: false,
         isOpen: this.$store.state.isSliderOpen,
         showPrivacyPopup: false,
         showPrivateCheck: false,
@@ -278,6 +276,7 @@
       }
     },
     created() {
+      console.log('Navbar called...')
     },
     computed: {
       ...mapGetters([
@@ -330,9 +329,6 @@
         document.getElementById("main-container").style.marginLeft = "250px";
         this.isOpen = true
         this.$store.commit('UPDATE_SLIDER_VALUE', this.isOpen)
-      },
-      closeDialog() {
-        this.settings_menu = false
       },
       btnLogoutClicked() {
         this.$cookie.delete('auth_token', { domain: location });
@@ -402,7 +398,6 @@
         if (file) {
           var params = { Key: file.name, ContentType: file.type, Body: file };
           bucket.upload(params).on('httpUploadProgress', function (evt) {
-            console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total) + '%');
           }).send(function (err, data) {
             self.imageURlProfilePic = data.Location
             self.$store.state.userObject.image_url = self.imageURlProfilePic
@@ -443,7 +438,6 @@
         if (file) {
           var params = { Key: file.name, ContentType: file.type, Body: file };
           bucket.upload(params).on('httpUploadProgress', function (evt) {
-            console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total) + '%');
           }).send(function (err, data) {
             self.$store.dispatch('updateUserProfile', {
               image_url: data.Location,
@@ -498,7 +492,6 @@
         });
       },
       enableUpdateProfileBtn() {
-        console.log('UN', this.username)
         if (this.username) {
           var trimmedusername = this.username.trim()
           if (trimmedusername.length >= 1) {
@@ -547,7 +540,6 @@
         }
       },
       setProjectName(e) {
-        console.log("value for dfd:>",$("#project-name").val());
         let projectName = this.$store.state.currentProjectName;
         $("#project-name").val(projectName);
       },

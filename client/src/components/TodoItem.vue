@@ -43,7 +43,7 @@
         <div class="task-row-overlay grid-tags-and-date">
           <a class="taskRow">
             <span v-if="todo.isTaskUpdate" style="color: red">&#x25cf;</span><span v-else></span>
-            <span class="grid_due_date">{{todo.dueDate | formatDate_todo}}</span>
+            <span class="grid_due_date">{{todo.dueDate | formatDate}}</span>
           </a>
         </div>
         <div v-if="todo.email">
@@ -66,58 +66,6 @@
     </div>
   </li>
 </template>
-<style>
-
-  
-  col-md-2.border-right:after {
-    content: "";
-    border-right: solid 1px #ccc;
-    top: 0;
-    left: 16.55%;
-    height: 100%;
-    bottom: 0;
-    position: fixed;
-  }
-
-  .ui.vertical.segment {
-    border-bottom: 0px;
-  }
-
-  .taskRow {
-    margin-right: 10px;
-  }
-
-  .stateCircle {
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    /* background: center/cover #cdcfd2; */
-    border-radius: 50%;
-    box-shadow: inset 0 0 0 3px rgba(10, 10, 10, 1.2);
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    color: #000;
-    display: -webkit-inline-box;
-    display: -webkit-inline-flex;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    position: relative;
-    /* vertical-align: top; */
-    overflow: hidden;
-  }
-
-  .stateCircle.Avatar--small {
-    position: absolute;
-    left: 30px;
-    top: 7px;
-    right: 0;
-  }
-</style>
 <script>
   /* eslint-disable*/
   import Vue from 'vue'
@@ -136,11 +84,11 @@
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import { mapMutations, mapGetters, mapActions } from 'vuex'
-  Vue.filter('formatDate_todo', function (value) {
-    if (value) {
-      return moment(String(value)).format('MMM DD')
-    }
-  })
+  // Vue.filter('formatDate_todo', function (value) {
+  //   if (value) {
+  //     return moment(String(value)).format('MMM DD')
+  //   }
+  // })
   Vue.filter('fistLatter', function (str) {
     if (str) {
       var firstLetters = str.substr(0, 1)
@@ -201,12 +149,10 @@
         this.$store.dispatch('getTypeState', this.todo.type_id)
       },
       selectStatus: function(objStatus) {  
-        console.log('State changed', objStatus) 
         this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedState": objStatus.state_id })
         this.selectedObject = this.taskState.find(state => state.state_id === objStatus.state_id)
       },
       addTodo: function (todoId) {
-        // console.log("onKeyenter add TODO called===>")
         // if (this.id !== 'taskTypes' && this.id !== 'taskState') {
         //   this.$store.dispatch('insertTodo', this.todo)
           
@@ -222,7 +168,6 @@
         {
           this.$store.dispatch('insertRole', this.todo)
         this.todo.name=""           
-        console.log("this.todo-->",this.todo)
         
         }
       },
@@ -237,8 +182,6 @@
         }
       },
       async onFocusClick(select,id,level,created_by,typeId){
-        // console.log('Select::-',select)
-        // console.log('onFoucusclick',typeId)
      
         $("#" + id + "_" + level).addClass("lifocus")
         if (this.todo.isTaskUpdate) {
@@ -271,7 +214,6 @@
         this.$store.state.currentModified = (this.todo.id == -1) ? true : false
       },
       changeValue: function (todoId) {
-        console.log("Change value called===>")
         this.$store.dispatch('insertTodo', this.todo)
         var nextTaskIndex = todoId.split('_')[0];
         if (nextTaskIndex == -1) {
@@ -313,7 +255,7 @@
         if (this.todo.state_id) {
           this.selectedObject = this.allState.find(state => state.id === this.todo.state_id)
         }
-        this.selectedType = this.findType.find(type => type.defualt_Type === 'Todo')
+        this.selectedType = this.findType.find(type => type.default_Type === 'Todo')
         if (this.selectedType) {
           this.isTypeTodo = this.todo.type_id === this.selectedType.id
         }

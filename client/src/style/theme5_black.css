@@ -1,0 +1,161 @@
+html, body {
+  background: #1d1d1d;
+}
+#center_pane {
+  background: #1d1d1d;
+}
+.todo-list li {
+  border-bottom: 1px solid #383838;
+}
+.progress {
+  background: #1d1d1d;
+}
+.right_pane_container #right_pane {
+  background: #1d1d1d;
+}
+.todo-list li input {
+  color: #fff;
+}
+.taskDetailsView-description .autogrow-textarea {
+  background-color: #1d1d1d;
+}
+.stateCircle {
+  -webkit-box-shadow: inset 0 0 0 3px rgb(255, 255, 255);
+  box-shadow: inset 0 0 0 3px rgb(255, 255, 255);
+}
+.setColor {
+  color: #fff;
+}
+.ivu-select-single .ivu-select-input {
+  color: white;
+}
+.fa-bars:before,
+.fa-times:before {
+  color: #88A95B;
+}
+.menu-item-back {
+    background: #88A95B;
+  }
+
+  .menu-item-back:hover {
+    background: #4F7121;
+  }
+
+  .ivu-poptip-rel:hover {
+    background: #4F7121;
+  }
+
+  .menu-item:nth-child(3) .menu-item-back {
+    transform: rotate(-60deg) skew(-30deg);
+    background: #88A95B;
+  }
+  .menu-item:nth-child(3) .menu-item-back:hover{
+      background: #4F7121;
+  }
+
+  .menu-item:nth-child(5) .menu-item-back {
+    transform: rotate(60deg) skew(-30deg);
+    background: #88A95B;
+  }
+  .menu-item:nth-child(5) .menu-item-back:hover{
+      background: #4F7121;
+  }
+
+  .menu-item:nth-child(7) .menu-item-back {
+    transform: rotate(180deg) skew(-30deg);
+    background: #88A95B;
+  }
+
+  .menu-item:nth-child(7) .menu-item-back:hover{
+      background: #4F7121;
+  }
+  .ivu-poptip-rel {
+    background: #88A95B;
+  }
+  .logo__title{
+    color: #ff00a9;
+    font-family: 'Gotham Rounded SSm A','Gotham Rounded SSm B'
+}
+.header-name{
+  color: #ff00a9;
+  font-family: esteban
+}
+.comment-title {
+  color: #ff00a9;
+  font-family: esteban
+}
+.navbar-bottom {
+  background-color: #36b631;    
+}
+.navbar-bottom:hover a.active {
+background-color:	#13890f;
+color: #fff;
+}
+.navbar-bottom .due-date:hover {
+  background: 	#13890f;
+}
+.navbar-bottom a:hover {
+  cursor: pointer;
+  background: 	#13890f;
+}
+.share { 
+  background: #ff6000
+}
+
+.one {
+  background: #ff6000;
+}
+
+.two {
+  background: #ff6000;
+}
+.buttonView.buttonView--primary {
+  background: #1D621D;
+  border-color: #1D621D;
+}
+.buttonView.buttonView--primary:focus,
+.buttonView.buttonView--primary:hover {
+    background: #7CB57C;
+    border-color: #7CB57C;
+    box-shadow: inset 0 0 transparent, 0 0 0 3px #7CB57C;
+    -moz-box-shadow: inset 0 0 transparent, 0 0 0 3px #7CB57C;
+    -webkit-box-shadow: inset 0 0 transparent, 0 0 0 3px #7CB57C
+}
+
+.BlockStory-storyContent {
+  color: #fff300;
+}
+.BlockStory-metadata {
+  color: #fff;
+}
+.history-label {
+  color: #fff;
+}
+svg.Icon.AttachIcon {
+  fill: #88a95b;
+}
+.ivu-card {
+  background: transparent;
+}
+.attachment-username {
+  color: #fff300;
+}
+.BlockStory-block.commentbox {
+  background: #fff0;
+  border-radius: 4px;
+  /* box-shadow: 1px 1px 1px rgba(0,0,0,0.1); */
+  box-shadow: 0px 2px 5px 0px rgba(255, 255, 255, 0.28), 0px 2px 5px 0px rgba(0,0,0,0.23);
+
+}
+.truncatedRichText {
+  color: white;
+}
+.BlockStory-block.commentbox::before {
+  border-top-color: #dddddd45;
+}
+.pull-right {
+  color: white;
+}
+.autogrow-textarea textarea, .autogrow-textarea [contenteditable="true"] {
+  color: white;
+}

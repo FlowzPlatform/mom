@@ -3,29 +3,15 @@
 }
 .logo__title{
     /* background: #000; */
-    color: #e37222;
+    color: #3D62A0;
     font-family: esteban
 }
 .fa-bars:before,
 .fa-times:before {
   color: #66B9BF;
-  position: relative;
-  top: 33%;
-  /* left: 42%; */
-  transition: opacity 500ms ease-in;
-  text-decoration: none;
-  z-index: 2;
 }
 .menu-item-back {
     background: #66B9BF;
-    width: 175px;
-    height: 150px;
-    position: absolute;
-    transform-origin: 0px 150px;
-    margin-top: -150px;
-    left: 50%;
-    top: 50%;
-    border: 1px solid whitesmoke;
   }
 
   .menu-item-back:hover {
@@ -70,17 +56,7 @@
   }
 
   .ivu-poptip-rel {
-    /* background: #000; */
     background: #66B9BF;
-    width: 175px;
-    height: 150px;
-    position: absolute;
-    -webkit-transform-origin: 0px 150px;
-    transform-origin: 0px 150px;
-    margin-top: -150px;
-    left: 50%;
-    top: 50%;
-    border: 1px solid whitesmoke;
   }
 
 .navbar-bottom {
@@ -92,12 +68,11 @@
   color: white;
 }
 .header-name{
-    color: #e37222;
+    color: #3D62A0;
     font-family: esteban
 }
 
 .navbar-bottom .ivu-select-single .ivu-select-input{
-  background: rgb(238, 170, 123);
   -webkit-text-fill-color: #fff;
 }
 .mask {
@@ -128,4 +103,16 @@
 }
 #rightContainer:after {
   color:#def2f3
+}
+.buttonView.buttonView--primary {
+  background: #F1B74D;
+  border-color: #F1B74D;
+}
+.buttonView.buttonView--primary:focus,
+.buttonView.buttonView--primary:hover {
+    background: #B67A0E;
+    border-color: #B67A0E;
+    box-shadow: inset 0 0 transparent, 0 0 0 3px #B67A0E;
+    -moz-box-shadow: inset 0 0 transparent, 0 0 0 3px #B67A0E;
+    -webkit-box-shadow: inset 0 0 transparent, 0 0 0 3px #B67A0E
 }

@@ -12,7 +12,14 @@
                     </div>
                     <div>
                         <div v-if="view==='htmlEditor'">
-                            <ckeditor v-model="commentText"></ckeditor>
+                            <!-- <ckeditor v-model="commentText"></ckeditor> -->
+                            <htmlvue-quill-editor v-model="commentText"
+                                ref="quillEditorA"
+                                :options="editorOption"
+                                @blur="onEditorBlur($event)"
+                                @focus="onEditorFocus($event)"
+                                @ready="onEditorReady($event)">
+                            </htmlvue-quill-editor>
                         </div>
                         <div v-if="view==='markdownEditor'" class="markdownEditor">
                             <markdown-editor v-model="content" ref="markdownEditor" :value="content" :configs="configs"></markdown-editor>
@@ -34,13 +41,19 @@
 </template>
 <script>
     /* eslint-disable*/
-    import { mapGetters } from 'vuex'
-    import Ckeditor from 'vue-ckeditor2'
-    import { markdownEditor } from 'vue-simplemde'
-    import Avatar from 'vue-avatar/src/Avatar'
-    import Vue from 'vue'
-    import locale from 'element-ui/lib/locale/lang/en'
-    import 'simplemde/dist/simplemde.min.css'
+import { mapGetters } from 'vuex'
+import Ckeditor from 'vue-ckeditor2'
+import { markdownEditor } from 'vue-simplemde'
+import Avatar from 'vue-avatar/src/Avatar'
+import Vue from 'vue'
+import locale from 'element-ui/lib/locale/lang/en'
+import 'simplemde/dist/simplemde.min.css'
+
+import VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+Vue.use(VueQuillEditor, /* { default global options } */)
 
     export default {
        
@@ -54,13 +67,18 @@
                 configs: {
                     toolbar: ['undo', 'redo', 'bold', 'italic', 'strikethrough', 'heading', 'quote', 'unordered-list', 'ordered-list', 'clean-block', 'link', 'image', 'table', 'horizontal-rule', 'preview', 'side-by-side', 'fullscreen', 'guide'],
                     placeholder: 'Type here...'
+                },
+                editorOption: {
+                    theme: 'snow'
                 }
             }
+        },
+        mounted() {
+            console.log('this is quill A instance object', this.editorA)
         },
         methods: {
             insertComment: function (taskId) {
                 if (this.commentText) {
-                    console.log('Comment by', this.$store.state.userObject.fullname)
                     let comment = {
                             task_id: this.commentTaskId,
                             commentBy: this.$store.state.userObject._id,
@@ -87,6 +105,15 @@
                     this.$store.dispatch('insertTaskComment', comment)
                     this.content = '';
                 }
+            },
+            onEditorBlur(quill) {
+                console.log('editor blur!', quill)
+            },
+            onEditorFocus(quill) {
+                console.log('editor focus!', quill)
+            },
+            onEditorReady(quill) {
+                console.log('editor ready!', quill)
             }
         },
         computed: {
@@ -101,9 +128,13 @@
             getCommentByTaskId() {
                 let commentList = this.getComment(this.commentTaskId)
                 return commentList
+            },
+            editorA() {
+                return this.$refs.quillEditorA.quill
             }
         }, components: {
-            Ckeditor,
+            //Ckeditor,
+            HtmlvueQuillEditor: VueQuillEditor.quillEditor,
             markdownEditor,
             Avatar
         }
