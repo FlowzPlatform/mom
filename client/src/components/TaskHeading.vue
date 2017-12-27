@@ -2,25 +2,25 @@
     <div class="task">
         <div class="view" style="position: relative;">
             <div id="topicon" style="position: absolute; float: right; right: 0;">
-                <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+                <div id="closeWindow" class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
                     tabindex="410" style="margin-top: 2px;">
                     <span id="close" class="destroy circularButtonView-label" @click="CLOSE_DIV(filteredTodo)">
                         <i class="fa fa-close"></i>
                     </span>
                 </div>
-                <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+                <div id="pinnedWindow" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
                     style="margin-top: 2px;">
                     <span class="circularButtonView-label" @click="pinit(filteredTodo)">
                         <img class="init" v-if="filteredTodo.isPinned" src="../assets/unpin.png" style="width:20px; height:20px;"></img>
                         <img class="init" v-else src="../assets/pin.png" style="width:16px; height:16px; margin-bottom:2px;"></img>
                     </span>
                 </div>
-                <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+                <!-- <div id="fullWindow" class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
                     tabindex="410" @click="openfullwinodw(filteredTodo.level)" style="margin-top: 2px; ">
                     <span class="circularButtonView-label">
                         <i class="fa fa-expand" aria-hidden="true"></i>
                     </span>
-                </div>
+                </div> -->
             </div>
             <div v-if="commentName" v-html="commentName">{{commentName}}</div>            
             <input type="checkbox" class="toggleTask" v-model="filteredTodo.completed" @change="toggleTodo(filteredTodo)" style="float: left;">
@@ -101,10 +101,10 @@
                 }
             },
             openfullwinodw: function (ind) {
-                $(".window-full.circularButtonView")
+                $("#fullWindow")
                     .find(".fa")
                     .toggleClass("fa-compress");
-                $(".window-full.circularButtonView")
+                $("#fullWindow")
                     .parents(".right_pane_container #right_pane #" + ind)
                     .toggleClass("open");
             }

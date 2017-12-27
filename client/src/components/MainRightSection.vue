@@ -11,7 +11,7 @@
           <a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
         </span>
       </Alert>
-      <div class="tab-pannel"  id="rightContainer">
+      <div class="tab-pannel" id="rightContainer">
         <task-heading :id="id" :filteredTodo="todoObject"></task-heading>
         <div class="rightscroll">
           <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
@@ -46,8 +46,9 @@
                 <Col span="2" style="padding-right:10px">
                 <Select not-found-text="No user found" placeholder="user" placement="top" v-model="selectedUser" @on-change="userListClick"
                   filterable style="width:180px;z-index:99999">
-                  <Option  v-show="checkEmail(user.email,user.fullname)" style="margin:5px" v-for="user in getUserList" :label="getListUserName(user)" :value="user._id" :key="user._id">
-                    <span >
+                  <Option v-show="checkEmail(user.email,user.fullname)" style="margin:5px" v-for="user in getUserList" :label="getListUserName(user)"
+                    :value="user._id" :key="user._id">
+                    <span>
                       <span style="float:left;margin-right:10px;margin-top:-8px;width: 30px; height: 30px; border-radius: 50%; text-align: center; vertical-align: middle;background:#ccc">
                         <div v-if="user.email">
                           <avatar v-if="user.image_url" :username="user.email" :size="30" :src="user.image_url"></avatar>
@@ -62,13 +63,13 @@
               </Row>
             </Tooltip>
           </div>
-          <!-- Task type -->          
-          <div class="task-type-menu"> 
-              <Select  placement="top" v-model="selectedType" @on-change="btnTypeClicked" filterable  style="width:150px;z-index:90">
-                    <Option style="margin:5px"  v-for="task_type in getTaskTypes"  :label="task_type.type" :value="task_type.id" :key="task_type.id">
-                        {{task_type.type}}
-                    </Option>
-              </Select>
+          <!-- Task type -->
+          <div class="task-type-menu">
+            <Select placement="top" v-model="selectedType" @on-change="btnTypeClicked" filterable style="width:150px;z-index:90">
+              <Option style="margin:5px" v-for="task_type in getTaskTypes" :label="task_type.type" :value="task_type.id" :key="task_type.id">
+                {{task_type.type}}
+              </Option>
+            </Select>
           </div>
           <!-- Task due date menu item -->
           <div :id="'calendar-'+id"  class="due-date">
@@ -115,7 +116,7 @@
               </a>
               <DropdownMenu slot="list">
                 <DropdownItem name="1">Tags</DropdownItem>
-                <DropdownItem name="2"  :data-target="'#taskPriority'+todoObject.id" data-toggle="modal">Task Priority</DropdownItem>
+                <DropdownItem name="2" :data-target="'#taskPriority'+todoObject.id" data-toggle="modal">Task Priority</DropdownItem>
                 <DropdownItem name="3">Copy Task URL</DropdownItem>
                 <DropdownItem name="4">Delete Task</DropdownItem>
                 <DropdownItem name="5" :data-target="'#estimateHr'+todoObject.id" data-toggle="modal">Estimated Hours</DropdownItem>
@@ -147,7 +148,7 @@
           </div>
         </div>
       </div>
-    </div>    
+    </div>
   </div>
 </template>
 <script>
@@ -156,7 +157,6 @@
   import MainLeftSection from "./MainLeftSection.vue";
   import SubComment from "./SubComment.vue";
   import HistoryLog from "./HistoryLog.vue";
-  import RightToolbar from "./RightToolbar.vue";
   import Attachments from "./Attachments.vue";
   import Tags from "./Tags.vue";
   import SubTask from "./SubTask.vue";
@@ -177,7 +177,39 @@
       return moment(String(value)).format("MMM DD");
     }
   });
-
+  function setIcon(currentView, id){
+    if(currentView === SubTask){
+        $('#'+id).addClass('fa fa-tasks')
+        $('#'+id).removeClass('fa fa-history')
+        $('#'+id).removeClass('fa fa-paperclip')
+        $('#'+id).removeClass('fa fa-tags')
+        $('#'+id).removeClass('fa fa-comments')
+    } else if(currentView === HistoryLog) {
+        $('#'+id).addClass('fa fa-history')
+        $('#'+id).removeClass('fa fa-tasks')
+        $('#'+id).removeClass('fa fa-paperclip')
+        $('#'+id).removeClass('fa fa-tags')
+        $('#'+id).removeClass('fa fa-comments')
+    } else if(currentView === Attachments) {
+        $('#'+id).addClass('fa fa-paperclip')
+        $('#'+id).removeClass('fa fa-tasks')
+        $('#'+id).removeClass('fa fa-history')
+        $('#'+id).removeClass('fa fa-tags')
+        $('#'+id).removeClass('fa fa-comments')
+    } else if(currentView === Tags) {
+        $('#'+id).addClass('fa fa-tags')
+        $('#'+id).removeClass('fa fa-paperclip')
+        $('#'+id).removeClass('fa fa-tasks')
+        $('#'+id).removeClass('fa fa-history')
+        $('#'+id).removeClass('fa fa-comments')
+    } else if (currentView === SubComment) {
+        $('#'+id).addClass('fa fa-comments')
+        $('#'+id).removeClass('fa fa-paperclip')
+        $('#'+id).removeClass('fa fa-tasks')
+        $('#'+id).removeClass('fa fa-history')
+        $('#'+id).removeClass('fa fa-tags')
+    }
+  }
   Vue.use(AsyncComputed);
   export default {
     props: ["pholder", "todoObject", "id"],
@@ -196,7 +228,7 @@
         activeClass: "active",
         selectedMenuIndex: 0,
         selectedUser: this.todoObject.assigned_to,
-        previousUser:this.todoObject.assigned_to,
+        previousUser: this.todoObject.assigned_to,
         userObj: "", // selected user object
         open: false,
         selectedType:this.todoObject.type_id,
@@ -207,6 +239,9 @@
       this.manageAttachmentCreatePermission();
       this.tagReadPermission();
       this.tagNewPermission();
+    },
+    mounted(){
+      setIcon(SubTask, this.id)
     },
     methods: {
       undelete: function () {
@@ -255,14 +290,14 @@
       deletePermently: function () {
         this.$store.dispatch("deletePermently", this.todoObject);
       },
-      getListUserName: function (user,flag) {
-      
+      getListUserName: function (user, flag) {
+
         if (user.fullname && user.fullname.trim().length > 0) {
           return user.fullname;
-        } else if(user.email){
+        } else if (user.email) {
           // return user.email.substr(0,user.email.indexOf("@"));
-        return flag==0? user.email.substr(0,user.email.indexOf("@")):user.email;
-        }else{
+          return flag == 0 ? user.email.substr(0, user.email.indexOf("@")) : user.email;
+        } else {
           return "Un"
         }
       },
@@ -368,23 +403,28 @@
       subTaskShow() {
         this.selectedMenuIndex = 0;
         this.currentView = SubTask;
+        setIcon(SubTask, this.id)
       },
       attachmentShow() {
         $(".nav").removeClass("hidden");
         this.selectedMenuIndex = 2;
         this.currentView = Attachments;
+        setIcon(Attachments, this.id)
       },
       tagsShow() {
         this.selectedMenuIndex = 3;
         this.currentView = Tags;
+        setIcon(Tags, this.id)
       },
       historyShow() {
         this.selectedMenuIndex = 1;
         this.currentView = HistoryLog;
+        setIcon(HistoryLog, this.id)
       },
       commentsShow() {
         this.selectedMenuIndex = 4;
         this.currentView = SubComment;
+        setIcon(SubComment, this.id)
       },
       assignToShow() {
         this.selectedMenuIndex = 5;
@@ -397,16 +437,16 @@
       },
       async setAssignUser(userId) {
         var user = _.find(this.$store.state.arrAllUsers, ["_id", userId]);
-        this.todoObject.image_url  = user.image_url
-        this.todoObject.email  = user.email
+        this.todoObject.image_url = user.image_url
+        this.todoObject.email = user.email
 
         if (user) {
           this.$store.dispatch("editTaskName", {
             todo: this.todoObject,
             assigned_by: this.$store.state.userObject._id,
             assigned_to: user._id,
-            log_action:Constant.HISTORY_LOG_ACTION.TASK_ASSIGN,
-            log_text:userId
+            log_action: Constant.HISTORY_LOG_ACTION.TASK_ASSIGN,
+            log_text: userId
           });
         }
       },
@@ -415,8 +455,8 @@
         this.$store.dispatch("editTaskName", {
           todo: this.todoObject,
           selectedDate: dateTo,
-          log_action:Constant.HISTORY_LOG_ACTION.DUE_DATE,
-          log_text:dateTo
+          log_action: Constant.HISTORY_LOG_ACTION.DUE_DATE,
+          log_text: dateTo
         });
         this.todoObject.dueDate = dateTo
       },
@@ -679,7 +719,6 @@
     },
     components: {
       MainLeftSection,
-      RightToolbar,
       Attachments,
       Tags,
       HistoryLog,
@@ -689,5 +728,5 @@
       TaskPriority,
       TaskHeading
     }
-  };
+  }
 </script>

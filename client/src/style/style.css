@@ -902,6 +902,8 @@ border: 1px solid transparent;
     /* background-color: #F8F8F9; */
     /* border-top: 1px solid #E1E2E4; */
     margin: 0 2px;
+    z-index: 2;
+    position: relative;
 }
 .taskCommentsView {
     background: #F8F8F9;
@@ -2176,25 +2178,25 @@ position: fixed;
     right: 0;
     bottom: 5px;
 } */
-.right_pane_container.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
-.right_pane_container.open .todoapp.right_bar > div {width: 50%; float: left}
-.right_pane_container.open .todoapp.right_bar >  .details-pane-toolbar.toolbar-no-grad {width: 100%}
-.right_pane_container.open .todoapp.right_bar > div.taskbarsect {
+.right_pane_container #right_pane > div > .right_pannel.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
+.right_pane_container #right_pane > div > .right_pannel.open .tab-pannel {width: 50%; float: left}
+.right_pane_container #right_pane > div > .right_pannel.open .nav_bottom {width: 100%}
+/* .right_pannel.open .todoapp.right_bar > div.taskbarsect {
     position: fixed;
     width: 50%;
     left: 0;
     height: calc(100% - 95px);
     top: 95px;overflow: auto;
-}
-.right_pane_container.open .todoapp.right_bar > div.SingleTaskPane-feed {
+} */
+/* .right_pannel.open .todoapp.right_bar > div.SingleTaskPane-feed {
 position: fixed;
     width: 50%;
     right: 0;
     height: calc(100% - 215px);
     top: 95px;overflow: auto;
-}
-.right_pane_container.open .todoapp.right_bar {height: 100%;}
-.right_pane_container.open #details_pane_footer {
+} */
+.right_pane_container #right_pane > div > .right_pannel.open .tab-pannel {height: 100%;}
+.right_pane_container #right_pane > div > .right_pannel.open #details_pane_footer {
     position: fixed;
     width: 50%;
     right: 0;
@@ -3109,7 +3111,7 @@ svg:not(:root), symbol, image, marker, pattern, foreignObject {
     padding: 12px 10px;
     /* text-align: center; */
     /* color: #fff; */
-    background: #fff;
+    background: rgba(255, 255, 255, 0);
     border-radius: 4px;
     /*box-shadow: 1px 1px 1px rgba(0,0,0,0.1);*/
     box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.16), 0px 2px 5px 0px rgba(0,0,0,0.23);
@@ -6220,21 +6222,6 @@ CSS for splitter view
     display: -webkit-box;
     margin-left: 10px;
 }
-/* #rightContainer:after {
-    content: "\f1da";
-    font-family: FontAwesome;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: inherit;
-    position: absolute;
-    font-size: 400px;
-    color: #f1f1f1;
-    top: 80%;
-    left: 50%;
-    margin: -300px 0 0 -200px;
-    z-index: 1;
-} */
-
 .ivu-poptip-body {
     overflow: scroll;
     max-height: 400px;
@@ -6673,3 +6660,21 @@ a.history-username{
     float: left;
 }
   /* Todo Item End */
+.ivu-card {
+    background: transparent;
+}  
+.right_pannel::before {
+    /* content: ""; */
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    position: absolute;
+    font-size: 400px;
+    color: rgb(160, 160, 160);
+    top: 50%;
+    left: 50%;
+    margin: 0 0 0 -200px;
+    z-index: 1;
+    opacity: 0.3;
+  } 

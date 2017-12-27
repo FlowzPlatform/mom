@@ -1060,9 +1060,8 @@ export const store = new Vuex.Store({
           
        })
       // Project delete custom patch call
-      services.projectService.on('deleteProject', message =>{
-        console.log("Path 1------------");
-          commit('updateDeletedProjectList', message)
+      services.projectService.on('deleteProject', message => {
+        commit('updateDeletedProjectList', message)
       })
 
       services.roleService.on("removed",message=>{
@@ -1916,7 +1915,7 @@ export const store = new Vuex.Store({
       } else {
         services.taskTypesService.create({
           type: payload.type,
-          defualt_Type:payload.type,
+          default_Type:payload.type,
           createdAt: new Date().toJSON()
         }).then(response => {
           console.log("Insert Task Type in DB:", response)

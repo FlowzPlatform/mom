@@ -1,10 +1,6 @@
 <template>
     <div> 
       <Progress :percent="$store.state.progress" v-show="filteredTodo.attachmentprogress"></Progress>
-        <!-- <div v-show="filteredTodo.deleteprogress">
-          <img  src="../assets/attach_delete.gif" style="width:30px; height:30px;"/>
-          <span class="del_attachment_text">Deleting...</span>
-       </div>   -->
         <div v-bind:key="index" v-for="(files, index) in attachmentList">
             <Card style="margin-left:10px;margin-right:10px;margin-top:5px;margin-bottom:3px;">
                 <p slot="title">
@@ -29,9 +25,6 @@
                             <DropdownItem class="hidden" name="2">share <span class="hidden">{{files}}</span></DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
-                    <!-- <button class="hidden close-btn" @click="deleteAttachment(files, index)">
-                        <a v-show="isDeleteAttachment" class="fa fa-trash-o" aria-hidden="true" />
-                    </button> -->
                 </p>
                 <div class="BlockStory-body">
                     <div class="AddedAttachmentStory-body">
@@ -62,50 +55,9 @@
                         <a :href="files.file_url" download>
                             <i class="fa fa-arrow-circle-o-down" style="font-size:25px; color:rgb(211, 211, 211);" aria-hidden="true"></i>
                         </a>
-                        <!-- <button class="close-btn" @click="deleteAttachment(files, index)">
-                            <a v-show="isDeleteAttachment" class="fa fa-trash-o" aria-hidden="true" />
-                        </button> -->
                     </span>
-                </div>
-                <div class="attachment-comment-footer hidden">
-                    <span style="float:left;margin-top:10px;width:100%">
-                        <Input type="textarea" :autosize="{minRows: 1,maxRows: 5}" placeholder="Enter comments...">
-                        </Input>
-                        <div style="width: 475px;" class="hidden">
-                            <el-tabs type="border-card">
-                                <el-tab-pane>
-                                    <span slot="label">
-                                        <i class="el-icon-date"></i> Html editor</span>
-                                </el-tab-pane>
-                                <el-tab-pane label="Markdown editor">
-                                    <div class="markdownEditor">
-                                        <markdown-editor v-model="content" ref="markdownEditor" :value="content" :configs="configs">
-                                        </markdown-editor>
-                                    </div>
-                                </el-tab-pane>
-                            </el-tabs>
-                        </div>
-                    </span>
-                </div> 
+                  </div>
             </Card>
-            <!-- <div class="hidden">
-                <a target="_blank" v-bind:href="files.file_url">{{ files.file_name }}
-                    <ui-progress-linear color="primary" type="determinate" :progress="$store.state.progress" v-show="filteredTodo.attachmentprogress"
-                        v-if="index === attachmentList.length-1">
-                    </ui-progress-linear>
-                </a>
-                <button class="" @click="deleteAttachment(files, index)">
-                    <a v-show="isDeleteAttachment" class="fa fa-close" />
-                </button>
-                <iframe v-bind:src="imgURL(files.file_url)" frameborder="0"></iframe>
-
-                <div style="float:right;" v-if="index === btnClickedIndex">
-                    <span style="float:right;margin-right: 40px;" v-if="index === btnClickedIndex">
-                    <ui-progress-circular color="black" type="indeterminate" v-show="filteredTodo.deleteprogress" class="circularProgress" :size="20">
-                    </ui-progress-circular>
-                </div>
-            </div> -->
-
         </div>
     <div class="nav1">
       <div :id="filteredTodo.id" class="share">
@@ -124,8 +76,6 @@ import { mapGetters } from "vuex";
 import iView from "iview";
 import "iview/dist/styles/iview.css";
 import Avatar from "vue-avatar/src/Avatar";
-import { markdownEditor } from "vue-simplemde";
-import Ckeditor from "vue-ckeditor2";
 import notify from "./notify.js";
 import moment from 'moment';
 
@@ -136,30 +86,6 @@ export default {
     return {
       btnClickedIndex: 0,
       content: "",
-      commentText: "",
-      configs: {
-        toolbar: [
-          "undo",
-          "redo",
-          "bold",
-          "italic",
-          "strikethrough",
-          "heading",
-          "quote",
-          "unordered-list",
-          "ordered-list",
-          "clean-block",
-          "link",
-          "image",
-          "table",
-          "horizontal-rule",
-          "preview",
-          "side-by-side",
-          "fullscreen",
-          "guide"
-        ],
-        placeholder: "Type here..."
-      },
       file: {},
     };
   },

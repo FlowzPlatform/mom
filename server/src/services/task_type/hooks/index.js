@@ -5,7 +5,7 @@ exports.before = {
     const query = this.createQuery(hook.params.query);
     const r = this.options.r;
     console.log("query:---------", query)
-    hook.params.rethinkdb =query.orderBy('createdAt').merge({ 'isPinned': false })
+    hook.params.rethinkdb =query.orderBy('createdAt')
   },
   // find: [],
   get: [],

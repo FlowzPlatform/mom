@@ -1,6 +1,5 @@
 <template>
   <div id="details_pane_footer" class="details-pane-redesign details-pane-footer">
-    <!-- <hr class="StoryFeed-separator StoryFeed-topSeparator"> -->
     <div class="dropdown sort-menu">
       <div class="dropdown">
         <button class="btn btn-defualt glyphicon glyphicon-cog setColor" type="button" data-toggle="dropdown"></button>
@@ -108,38 +107,11 @@ import CmnFunc from './CommonFunc.js'
     props: ['commentTaskId', 'commentParentId'],
     data: function () {
       return {
-        picker1: null,
-        imageURlProfilePic: this.$store.state.userObject.image_url,
-        commentText: "",
-        content: "",
         taskComments: [],
         taskSortComments: [],
         commentFilter: commentFilter,
         visibleFilter: 'all',
-        isDeleteComment: true,
-        configs: {
-          toolbar: [
-            "undo",
-            "redo",
-            "bold",
-            "italic",
-            "strikethrough",
-            "heading",
-            "quote",
-            "unordered-list",
-            "ordered-list",
-            "clean-block",
-            "link",
-            "image",
-            "table",
-            "horizontal-rule",
-            "preview",
-            "side-by-side",
-            "fullscreen",
-            "guide"
-          ],
-          placeholder: "Type here..."
-        }
+        isDeleteComment: true
       };
     },
     created: function () {
@@ -167,11 +139,6 @@ import CmnFunc from './CommonFunc.js'
 
       });
       services.taskComments.on('removed', message => {
-        //   let index = _.findIndex(this.taskSortComments, function (d) { return d.id == message.id})
-
-
-        // let indexCount = _.findIndex(this.taskComments, function (d) { return d.task_id == message.task_id && d.id == message.parentId})
-        // Comment counter decreament
         let indexCount = _.findIndex(this.taskComments, function (d) { return d.task_id == message.task_id && d.id == message.parentId })
         if (indexCount > -1) {
           this.taskComments[indexCount].count -= 1
@@ -182,7 +149,6 @@ import CmnFunc from './CommonFunc.js'
           this.taskSortComments.splice(index, 1)
           this.taskComments = this.taskSortComments.slice();
         }
-
       }
       );
     },
