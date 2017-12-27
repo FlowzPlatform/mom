@@ -13,6 +13,10 @@ export const socket = io(process.env.SOCKET_IO, {transports: ['websocket'], upgr
       socket.emit("userdata",userId );   
      }
  });
+ socket.on("error",function(error){
+    console.log('error', error)
+    // window.location="redirect subscription page URL";
+ });
 export const app = feathers().configure(socketio(socket));
 
 export const tasksService = app.service('tasks')

@@ -5,12 +5,12 @@
 		<div id="split-container" class="main-split-container" style="height: calc(100vh - 60px);">
 			<div id="left_container" class="scrollbar split split-horizontal">
 				<div id="center_pane">
-					<div v-show="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
+					<div v-if="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
 						<left-toolbar v-if="!isCopyLink" :filters="filters">
 						</left-toolbar>
 						<main-left-section id="todoTask" :isCopyLink="isCopyLink" :todoObject="todoObjectById" :pholder="taskPholder" :filtered-todos="taskById"></main-left-section>
 					</div>
-					<div class="outer">
+					<div class="outer" v-else>
 						<div class="middle">
 							<div class="inner">
 								<div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems" v-show="isProjectAvailable">

@@ -118,7 +118,7 @@
                 <DropdownItem name="2"  :data-target="'#taskPriority'+todoObject.id" data-toggle="modal">Task Priority</DropdownItem>
                 <DropdownItem name="3">Copy Task URL</DropdownItem>
                 <DropdownItem name="4">Delete Task</DropdownItem>
-                <DropdownItem name="5">Estimated Hours</DropdownItem>
+                <DropdownItem name="5" :data-target="'#estimateHr'+todoObject.id" data-toggle="modal">Estimated Hours</DropdownItem>
                 <DropdownItem  :id="'comment-opt-'+id" style="display:none" name="6">Comments</DropdownItem>
                 <DropdownItem  :id="'attchment-opt-'+id" style="display:none" name="7">Attachments</DropdownItem>
                 <DropdownItem  :id="'history-opt-'+id" style="display:none" name="8">History</DropdownItem>
