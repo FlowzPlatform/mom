@@ -158,6 +158,7 @@
           
         // } else 
         if (this.id === "taskTypes") {
+          this.todo.created_by=this.$store.state.userObject._id
           this.$store.dispatch('addTask_Type', this.todo)
         } else if (this.id === "taskState") {
           this.$store.dispatch('addTask_State', { "state": this.todo })
@@ -166,6 +167,7 @@
       addRole:function(){
         if(this.todo && this.todo.name.length>0)
         {
+          this.todo.created_by=this.$store.state.userObject._id
           this.$store.dispatch('insertRole', this.todo)
         this.todo.name=""           
         

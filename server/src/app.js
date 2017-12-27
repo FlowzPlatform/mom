@@ -60,20 +60,20 @@ app.configure(socketio(4030,{wsEngine: 'uws', origin: '*.flowz.com:*'},function(
       socket.on('userdata', function (data) {
               socket.feathers.userId=data ;
       });
-      // socket.on('authorization', function (data) {
-      //   console.log("=========DATA========",data);
-      //   authToken = data
-      //   // socket.io.opts.query.authorization=data.Token;        
-      // });
-      // socket.use((packet, next) => {
-      //   // console.log("=========1111========socket middleware call===request=====", socket.id,"========",packet, authToken)
-      //   console.log("=========Packet========",packet);
-      //   console.log('---socket.handshake:-->',authToken);
-      //   // console.log('---socket.feathers.authorization:-->',socket.feathers.userId);
-      //   subscription.socketSubscription(authToken, packet, next, socket)
-      //   if(packet[0]==='authorization' || packet[0]==='userdata')
-      //     next()
-      // })
+      socket.on('authorization', function (data) {
+        console.log("=========DATA========",data);
+        authToken = data
+        // socket.io.opts.query.authorization=data.Token;        
+      });
+      socket.use((packet, next) => {
+        // console.log("=========1111========socket middleware call===request=====", socket.id,"========",packet, authToken)
+        console.log("=========Packet========",packet);
+        console.log('---socket.handshake:-->',authToken);
+        // console.log('---socket.feathers.authorization:-->',socket.feathers.userId);
+        subscription.socketSubscription(authToken, packet, next, socket)
+        if(packet[0]==='authorization' || packet[0]==='userdata' || authToken.length==0)
+          next()
+      })
       
     });
 
@@ -87,7 +87,7 @@ app.configure(socketio(4030,{wsEngine: 'uws', origin: '*.flowz.com:*'},function(
 // Set up our services (see `services/index.js`)
 app.configure(services);
 // Configure middleware (see `middleware/index.js`) - always has to be last
-// app.configure(middleware);
+app.configure(middleware);
 app.hooks(appHooks);
 app.use(errorHandler());
 module.exports = app;
