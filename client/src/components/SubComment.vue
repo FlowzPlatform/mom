@@ -25,7 +25,6 @@
     import moment from 'moment';
     import { focus } from 'vue-focus';
     import notify from './notify.js'
-    import * as services from '../services'
     import ViewComments from './ViewComments.vue'
     import RightFooter from './RightFooter.vue'
     import TaskHeading from './TaskHeading.vue'
@@ -36,36 +35,16 @@
             ViewComments,
             TaskHeading
         },
-        props: ['show', 'commentTaskId', 'commentParentId', 'commentName', 'id'],
+        props: ['commentTaskId', 'commentParentId', 'commentName', 'id'],
         directives: { focus: focus },
         data: function () {
             return {
-                projectName: '',
-                description: '',
-                privacyOption: '',
-                createProjectError: '',
-                privacyMsg: '',
-                createCommentBox: true,
-                focused: true,
-                imageURlProfilePic: "",
-                taskSubComments: [],
-                commentText: '',
-                isDeleteComment: true,
                 currentView: ViewComments,
                 isReadComment: true,
                 flag: 0,
                 view: ""
             }
         },
-        // watch: {
-        //     commentParentId: function () {
-        //         console.log("Comment commentParentId watch", this.comment);
-
-        //     },
-        //     commentTaskId: function () {
-        //         console.log("Comment commentTaskId watch", this.comment);
-        //     }
-        // },
         methods: {
             writeComment: function () {
                 if (this.flag === 0) {

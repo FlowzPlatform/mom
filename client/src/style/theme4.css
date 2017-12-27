@@ -116,8 +116,8 @@
   .two {
     background: #8A2733;
   }
-  #rightContainer:after {
-    color:#dbf2ff
+  .right_pannel::before {
+    color:#D875AD
   }
   .buttonView.buttonView--primary {
     background: #742150;

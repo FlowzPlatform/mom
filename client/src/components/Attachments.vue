@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-bind:key="index" v-for="(files, index) in attachmentList">
-      <Card style="margin-left:10px;margin-right:10px;margin-top:5px;margin-bottom:3px;">
+      <Card style="margin: 5px 10px 3px;position: relative;z-index: 2;">
         <p slot="title">
           <span style="float:left">
             <div v-if="files.email">

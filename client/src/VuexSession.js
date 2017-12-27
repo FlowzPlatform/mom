@@ -998,7 +998,6 @@ export const store = new Vuex.Store({
       })
       // Project delete custom patch call
       services.projectService.on('deleteProject', message => {
-        console.log("Path 1------------");
         commit('updateDeletedProjectList', message)
       })
 

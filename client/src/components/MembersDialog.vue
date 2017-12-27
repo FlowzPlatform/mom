@@ -144,7 +144,6 @@ export default {
     data: function () {
         return {
             selectedRole:'',
-            // selectedRoleId:'',
             userId:'',
             memberItem:''
         }
