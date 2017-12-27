@@ -1,82 +1,67 @@
 <template>
-  <div>
-    <div v-bind:key="index" v-for="(files, index) in attachmentList">
-      <Card style="margin: 5px 10px 3px;position: relative;z-index: 2;">
-        <p slot="title">
-          <span style="float:left">
-            <div v-if="files.email">
-              <avatar v-if="files.image_url" :username="files.email" :src="files.image_url" :size="30"></avatar>
-              <avatar v-else :username="files.email" :size="30" color="#fff"></avatar>
-            </div>
-          </span>
-          <span class="attachment-username">
-            <span style="font-size:10px">{{files.fullname}} </span>
-          </span>
-          <Dropdown @on-click="moreActionMenuClick" trigger="click" placement="bottom" class="close-btn">
-            <a href="javascript:void(0)">
-              <Icon style="font-size:20px;color:rgb(149, 152, 157)" type="android-more-horizontal"></Icon>
-            </a>
-            <DropdownMenu slot="list">
-              <DropdownItem name="1">
-                <span @click="deleteAttachment(files, index)">Delete</span>
-              </DropdownItem>
-              <DropdownItem class="hidden" name="2">share
-                <span class="hidden">{{files}}</span>
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </p>
-        <div class="BlockStory-body">
-          <div class="AddedAttachmentStory-body">
-            <div v-if="isImage(files.file_name)" class="AddedAttachmentStory-thumbnailContainer">
-              <a :href="files.file_url" target="_blank">
-                <img class="image-preview" :src="files.file_url">
-              </a>
-            </div>
-            <iframe v-else class="Thumbnail-image" v-bind:src="imgURL(files.file_url)">Hemant</iframe>
-            <div class="">
-              <a class="AddedAttachmentStory-link" style="color:inherit; text-decoration: none;font-size:11px" :href="files.file_url" target="_blank"
-                tabindex="-1">
-                <i>
-                  <span style="color:black;font-size:12px">file:</span>{{files.file_name}}</i>
-              </a>
-              <button class="" @click="deleteAttachment(files, index)">
-                <a v-show="isDeleteAttachment" class="fa fa-close" />
-              </button>
-            </div>
-          </div>
+    <div> 
+      <Progress :percent="$store.state.progress" v-show="filteredTodo.attachmentprogress"></Progress>
+        <div v-bind:key="index" v-for="(files, index) in attachmentList">
+            <Card style="margin-left:10px;margin-right:10px;margin-top:5px;margin-bottom:3px;">
+                <p slot="title">
+                    <span style="float:left">
+                        <div v-if="files.email">
+                            <avatar v-if="files.image_url" :username="files.email" :src="files.image_url" :size="30"></avatar>
+                            <avatar v-else :username="files.email" :size="30" color="#fff"></avatar>
+                        </div>
+                    </span>
+                    <span class="attachment-username">
+                        <span style="font-size:10px">{{files.fullname}} </span>
+                         <span class="BlockStory-timestamp">
+                                <span>{{logDate(files.created_on)}}</span>
+                         </span>
+                    </span>
+                    <Dropdown @on-click="moreActionMenuClick" trigger="click" placement="bottom" class="close-btn">
+                        <a href="javascript:void(0)">
+                            <Icon style="font-size:20px;color:rgb(149, 152, 157)" type="android-more-horizontal"></Icon>
+                        </a>
+                        <DropdownMenu slot="list">
+                            <DropdownItem name="1"><span style="padding:10px" @click="deleteAttachment(files, index)">Delete</span></DropdownItem>
+                            <DropdownItem class="hidden" name="2">share <span class="hidden">{{files}}</span></DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                </p>
+                <div class="BlockStory-body">
+                    <div class="AddedAttachmentStory-body">
+                        <div style="display: inline;" v-if="isImage(files.file_name)" class="AddedAttachmentStory-thumbnailContainer">
+                            <a :href="files.file_url" target="_blank">
+                                <img class="image-preview" :src="files.file_url">
+                            </a>
+                        </div>
+                        <iframe style="vertical-align: middle;" v-else class="Thumbnail-image" v-bind:src="imgURL(files.file_url)"></iframe>
+                        <span style="display:inline-block;" v-show="index==btnClickedIndex && filteredTodo.deleteprogress"> 
+                              <img  src="../assets/attach_delete.gif" style="width:30px; height:30px;"/>
+                              <span class="del_attachment_text">Deleting...</span>
+                        </span>                          
+                        <div class="">
+                            <a class="AddedAttachmentStory-link" style="color:inherit; text-decoration: none;font-size:11px" :href="files.file_url" target="_blank" tabindex="-1">
+                                <i><span style="color:black;font-size:12px">file:</span>{{files.file_name}}</i>
+                            </a>
+                            <button class="" @click="deleteAttachment(files, index)">
+                                <a v-show="isDeleteAttachment" class="fa fa-close" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="attachment-card-footer">
+                    <span style="float:left;margin-top:10px">
+                        <i class="fa fa-thumbs-o-up hidden" style="font-size:25px;color:rgb(149, 152, 157)" aria-hidden="true"></i>
+                        <i class="fa fa-comments hidden" style="font-size:25px;color:rgb(149, 152, 157);margin-left:30px" aria-hidden="true"></i>
+                        <a :href="files.file_url" download>
+                            <i class="fa fa-arrow-circle-o-down" style="font-size:25px; color:rgb(211, 211, 211);" aria-hidden="true"></i>
+                        </a>
+                    </span>
+                  </div>
+            </Card>
         </div>
-        <div class="attachment-card-footer">
-          <span style="float:left;margin-top:10px">
-            <i class="fa fa-thumbs-o-up hidden" style="font-size:25px;color:rgb(149, 152, 157)" aria-hidden="true"></i>
-            <i class="fa fa-comments hidden" style="font-size:25px;color:rgb(149, 152, 157);margin-left:30px" aria-hidden="true"></i>
-            <a :href="files.file_url" download>
-              <i class="fa fa-arrow-circle-o-down" style="font-size:25px; color:rgb(211, 211, 211);" aria-hidden="true"></i>
-            </a>
-          </span>
-        </div>
-      </Card>
-      <div class="hidden">
-        <a target="_blank" v-bind:href="files.file_url">{{ files.file_name }}
-          <ui-progress-linear color="primary" type="determinate" :progress="$store.state.progress" v-show="filteredTodo.attachmentprogress"
-            v-if="index === attachmentList.length-1">
-          </ui-progress-linear>
-        </a>
-        <button class="" @click="deleteAttachment(files, index)">
-          <a v-show="isDeleteAttachment" class="fa fa-close" />
-        </button>
-        <iframe v-bind:src="imgURL(files.file_url)" frameborder="0"></iframe>
-
-        <div style="float:right;" v-if="index === btnClickedIndex">
-          <ui-progress-circular color="black" type="indeterminate" v-show="filteredTodo.deleteprogress" class="circularProgress" :size="20">
-          </ui-progress-circular>
-        </div>
-      </div>
-
-    </div>
     <div class="nav1">
       <div :id="filteredTodo.id" class="share">
-        <label :for="'upload'+filteredTodo.level" :id="filteredTodo.level">
+        <label class="attchment-icon" :for="'upload'+filteredTodo.level" :id="filteredTodo.level">
           <i class="fa fa-paperclip"></i>
           <input :id="'upload'+filteredTodo.level" type="file" @change="onFileChange" style="display:none" /> </label>
       </div>
@@ -85,24 +70,25 @@
   </div>
 </template>
 <script>
-  /* eslint-disable*/
-  import Vue from "vue";
-  import { mapGetters } from "vuex";
-  import iView from "iview";
-  import "iview/dist/styles/iview.css";
-  import Avatar from "vue-avatar/src/Avatar";
-  import notify from "./notify.js";
-  Vue.use(iView);
-  export default {
-    props: ["filteredTodo", "isDeleteAttachment"],
-    data: function () {
-      return {
-        btnClickedIndex: 0,
-        content: "",
-        commentText: "",
-        file: {}
-      };
-    },
+/* eslint-disable*/
+import Vue from "vue";
+import { mapGetters } from "vuex";
+import iView from "iview";
+import "iview/dist/styles/iview.css";
+import Avatar from "vue-avatar/src/Avatar";
+import notify from "./notify.js";
+import moment from 'moment';
+
+Vue.use(iView);
+export default {
+  props: ["filteredTodo", "isDeleteAttachment"],
+  data: function() {
+    return {
+      btnClickedIndex: 0,
+      content: "",
+      file: {},
+    };
+  },
     computed: {
       ...mapGetters({
         getFiles: "getAttachment"
@@ -115,8 +101,16 @@
     },
     methods: {
       deleteAttachment(objAttachment, btnIndex) {
-        this.btnClickedIndex = btnIndex;
-        this.$store.dispatch("deleteAttachmentFromDB", objAttachment);
+       
+        this.$Modal.confirm({
+          title: "Attachment",
+          content:
+            "<p>Are you sure that you want to permanently delete attachment?</p>",
+          onOk: () => {
+            this.btnClickedIndex = btnIndex;
+            this.$store.dispatch("deleteAttachmentFromDB", objAttachment);
+          }
+        });
       },
       onFileChange(e) {
         var fileChooser = e.target; // document.getElementById('file');
@@ -160,16 +154,23 @@
           }
         }, this);
       },
-      moreActionMenuClick(key, val) {
-        if (val == 1) {
-
+    moreActionMenuClick(key, val) {
+      console.log("moreActionMenuClick", key);
+      if (val == 1) {
+      }
+    },
+    logDate(logDate) {
+        if(logDate){
+          return moment(logDate).calendar()
+        }else{
+          return ''
         }
       }
     },
     components: {
       Avatar
     }
-  };
+}
 </script>
 <style>
   .thumbnail {
@@ -240,9 +241,50 @@
     float: right;
   }
 
-  .AddedAttachmentStory-body {
-    text-align: -webkit-left;
-    text-align: left;
-    margin: 10px;
-  }
+.AddedAttachmentStory-body {
+  text-align: -webkit-left;
+  text-align: left;
+  /* margin: 10px; */
+}
+.loading {
+  margin: 20px;
+  width: 100px;
+  height: 100px;
+  -webkit-animation-name: spin;
+  -webkit-animation-duration: 2000ms;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-name: spin;
+  -moz-animation-duration: 2000ms;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
+  -ms-animation-name: spin;
+  -ms-animation-duration: 2000ms;
+  -ms-animation-iteration-count: infinite;
+  -ms-animation-timing-function: linear;
+  animation-name: spin;
+  animation-duration: 2000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+span.del_attachment_text {
+    color: #ee7aa5;
+}
+
+.close-btn.ivu-dropdown ul {
+    min-width: inherit;
+}
+.close-btn.ivu-dropdown ul li {
+    padding: 7px 0px;
+}
+.BlockStory-timestamp{
+  margin-left: 50px;
+  font-size: 10px;
+}
+label.attchment-icon {
+    padding-top: 0px;
+    padding-left: 22px;
+    float: left;
+    padding-right: 20px;
+}
 </style>

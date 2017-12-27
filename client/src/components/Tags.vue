@@ -12,9 +12,8 @@
                     {{getTagNameFromId(tag)}}
                 </el-tag>
             </span>
-            <span class="el-dropdowns-parts" v-show="isTagCreatePermission">
-                <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="mini" @keyup.enter.native="handleEnterConfirm"
-                    @blur="handleInputConfirm" @keyup.native="showMenu">
+            <span class="el-dropdowns-parts" v-show="true">
+                <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="mini" @keyup.enter.native="handleEnterConfirm" @blur="handleInputConfirm" @keyup.native="showMenu">
                 </el-input>
                 <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
                 <div class="popup hidden" ref="menuTag">

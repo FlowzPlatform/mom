@@ -2367,7 +2367,7 @@ hr {
     margin: 2px -28px;
 }
 .FeedBlockStory {
-    padding: 10px 15px;
+    padding: 5px 15px;
     /*position: relative;*/
     width: 100%;
 }
@@ -5747,6 +5747,7 @@ CSS for splitter view
 */
 .navbar-bottom .ivu-dropdown .ivu-select-dropdown {
     width: 150px;
+    transform: translateX(-39px);
 }
 
 .ivu-select-dropdown {
@@ -6486,7 +6487,7 @@ CSS for splitter view
     -moz-flex: 5500 1 605px;
     -ms-flex: 5500 1 605px;
     flex: 5500 1 605px;
-    min-width: 225px;
+    min-width: 420px;
     z-index: 2;
     /* overflow-y: auto; */
 }
@@ -6569,6 +6570,10 @@ CSS for splitter view
     position: fixed;
     top: 90px;
 } */
+/* Bottom otion menu */
+.option .ivu-dropdown {
+    float: right;
+}
 
 /* Todo Item */
 col-md-2.border-right:after {

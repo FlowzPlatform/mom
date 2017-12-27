@@ -248,7 +248,7 @@
         if (this.todo.state_id) {
           this.selectedObject = this.allState.find(state => state.id === this.todo.state_id)
         }
-        this.selectedType = this.findType.find(type => type.defualt_Type === 'Todo')
+        this.selectedType = this.findType.find(type => type.default_Type === 'Todo')
         if (this.selectedType) {
           this.isTypeTodo = this.todo.type_id === this.selectedType.id
         }

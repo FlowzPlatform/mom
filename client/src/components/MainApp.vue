@@ -13,7 +13,7 @@
 					<div class="outer" v-else>
 						<div class="middle">
 							<div class="inner">
-								<div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems">
+								<div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems" v-show="isProjectAvailable">
 									<span class="fa fa-file-text-o fa-5x" data-target="#createProject" data-toggle="modal"/>
 									<div class="text gridPaneSearchEmptyView-noProjectItemsTitleText">Add New Project
 									</div>
@@ -227,7 +227,7 @@
 							}
 							//splitter logic goes here
 							let self = this;
-							this.instance = Split(ids, {sizes: sizeArray, minSize: 225,
+							this.instance = Split(ids, {sizes: sizeArray, minSize: 420,
 								onDragEnd: function () {
 									//save splitter size array in local storage.
 									localStorage.setItem('split-sizes', JSON.stringify(self.instance.getSizes()));
@@ -251,6 +251,7 @@
 				todoById: 'getTodoById',
 				parentIdArray: 'parentIdArr',
 				todoObjectById: 'getObjectById',
+				isProjectAvailable: 'isProjectAvailable'
 			}),
 			getProjectWiseTodo() {
 				return this.$store.state.projectlist;

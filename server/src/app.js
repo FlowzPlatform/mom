@@ -23,6 +23,9 @@ const app = feathers();
 
 let conf = configuration();
 
+const subscription = require('flowz-subscription')
+let authToken='';
+
 app.configure(conf);
 
 // console.log('HOST:', app.get('db_host'));
@@ -57,6 +60,21 @@ app.configure(socketio(4030,{wsEngine: 'uws', origin: '*.flowz.com:*'},function(
       socket.on('userdata', function (data) {
               socket.feathers.userId=data ;
       });
+      // socket.on('authorization', function (data) {
+      //   console.log("=========DATA========",data);
+      //   authToken = data
+      //   // socket.io.opts.query.authorization=data.Token;        
+      // });
+      // socket.use((packet, next) => {
+      //   // console.log("=========1111========socket middleware call===request=====", socket.id,"========",packet, authToken)
+      //   console.log("=========Packet========",packet);
+      //   console.log('---socket.handshake:-->',authToken);
+      //   // console.log('---socket.feathers.authorization:-->',socket.feathers.userId);
+      //   subscription.socketSubscription(authToken, packet, next, socket)
+      //   if(packet[0]==='authorization' || packet[0]==='userdata')
+      //     next()
+      // })
+      
     });
 
     io.use(function(socket, next) {
