@@ -5,15 +5,15 @@
 		<div id="split-container" class="main-split-container" style="height: calc(100vh - 60px);">
 			<div id="left_container" class="scrollbar split split-horizontal">
 				<div id="center_pane">
-					<div v-if="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
+					<div v-show="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
 						<left-toolbar v-if="!isCopyLink" :filters="filters">
 						</left-toolbar>
 						<main-left-section id="todoTask" :isCopyLink="isCopyLink" :todoObject="todoObjectById" :pholder="taskPholder" :filtered-todos="taskById"></main-left-section>
 					</div>
-					<div class="outer" v-else>
+					<div class="outer">
 						<div class="middle">
 							<div class="inner">
-								<div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems">
+								<div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems" v-show="isProjectAvailable">
 									<span class="fa fa-file-text-o fa-5x" data-target="#createProject" data-toggle="modal"/>
 									<div class="text gridPaneSearchEmptyView-noProjectItemsTitleText">Add New Project
 									</div>
@@ -251,6 +251,7 @@
 				todoById: 'getTodoById',
 				parentIdArray: 'parentIdArr',
 				todoObjectById: 'getObjectById',
+				isProjectAvailable: 'isProjectAvailable'
 			}),
 			getProjectWiseTodo() {
 				return this.$store.state.projectlist;

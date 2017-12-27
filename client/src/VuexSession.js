@@ -170,7 +170,8 @@ export const store = new Vuex.Store({
     taskHistoryLog:[],
     accessRight:{},
     deleteFileName:'',
-    splitWidthArr: []
+    splitWidthArr: [],
+    isNoProjectShow:false
   },
   mutations: {
     userData: state => state.userObject,
@@ -774,6 +775,8 @@ export const store = new Vuex.Store({
     },
     async GET_PROJECT_LIST(state, data) {
       state.projectlist = data;
+      if(data.length==0)
+        state.isNoProjectShow=true;
       if (!state.currentProjectId && data.length > 0) {
         state.currentProjectId = data[0].id
         state.currentProjectName = data[0].project_name
@@ -2289,6 +2292,7 @@ export const store = new Vuex.Store({
           return ""
       }
     },
+    isProjectAvailable: state => state.isNoProjectShow,
     getAccessRight:state => state.accessRight,
     getObjectById: state => state.todoObjectByID,
     getAllUserList: state => state.arrAllUsers,
