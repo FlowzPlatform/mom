@@ -40,6 +40,7 @@
     /* eslint-disable*/
     import { mapMutations, mapActions } from "vuex";
     import TaskHeading from './TaskHeading.vue'
+    import * as Constant from "./Constants.js";
     export default {
         props: ['filteredTodo', 'id', 'commentName'],
         data: function () {
@@ -52,7 +53,11 @@
             ]),
             ...mapMutations(["CLOSE_DIV"]),
             updateTaskName: _.debounce(function () {
-                this.$store.dispatch('editTaskName', { "todo": this.filteredTodo })
+                this.$store.dispatch('editTaskName', 
+                {  "todo":this.filteredTodo,
+                    log_action:Constant.HISTORY_LOG_ACTION.TASK_UPDATE,
+                    log_text:this.filteredTodo.taskName 
+                })
             }, 500),
             autoresize: function () {
                 var el = document.getElementById('text-area')

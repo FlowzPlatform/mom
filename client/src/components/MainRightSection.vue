@@ -1,7 +1,7 @@
 <template>
   <div>
     <div :id="id" class="right_pannel" style="display: grid;">
-      <Alert v-if="todoObject.isDelete" class="right-top-alert" type="error">
+       <Alert v-if="todoObject.isDelete" class="right-top-alert" type="error">
         <span slot="desc">
           <span class="deleteIcon">
             <Icon type="android-delete"></Icon>
@@ -58,7 +58,7 @@
                     </span>
                   </Option>
                 </Select>
-                </col>
+                </Col>
               </Row>
             </Tooltip>
           </div>
@@ -71,7 +71,7 @@
               </Select>
           </div>
           <!-- Task due date menu item -->
-          <div class="due-date">
+          <div :id="'calendar-'+id"  class="due-date">
             <Tooltip content="Due Date" placement="top-start">
               <DatePicker :open="open" confirm size="small" placement="top" type="date" :value="todoObject.dueDate" @on-change="dueDateClick"
                 @on-clear="handleClear" @on-ok="handleOk">
@@ -84,22 +84,24 @@
             </Tooltip>
           </div>
           <!-- History -->
-          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab" @click="historyShow">
+          <a :id="'history-'+id" href="javascript:void(0)"  v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab" @click="historyShow">
             <Tooltip content="History" placement="top-start">
               <i class="nav-icon fa fa-history" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
           </a>
-          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==2?activeClass:''" class="nav-tab" @click="attachmentShow">
+          <!-- Attchments -->
+          <a :id="'attchment-'+id" href="javascript:void(0)"  v-bind:class="selectedMenuIndex==2?activeClass:''" class="nav-tab" @click="attachmentShow">
             <Tooltip content="Attachments" placement="top-start">
               <i class="nav-icon fa fa-paperclip" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
           </a>
-          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==3?activeClass:''" class="nav-tab hidden" @click="tagsShow">
+          <!-- Tags -->
+          <a href="javascript:void(0)"  v-bind:class="selectedMenuIndex==3?activeClass:''" class="nav-tab hidden" @click="tagsShow">
             <Tooltip content="Tags" placement="top-start">
               <i class="nav-icon fa fa-tags" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
           </a>
-          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==4?activeClass:''" class="nav-tab" @click="commentsShow">
+          <a :id="'comment-'+id" href="javascript:void(0)"  v-bind:class="selectedMenuIndex==4?activeClass:''" class="nav-tab" @click="commentsShow">
             <Tooltip content="Comments" placement="top-start">
               <i class="nav-icon fa fa-comments" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
@@ -117,6 +119,9 @@
                 <DropdownItem name="3">Copy Task URL</DropdownItem>
                 <DropdownItem name="4">Delete Task</DropdownItem>
                 <DropdownItem name="5" :data-target="'#estimateHr'+todoObject.id" data-toggle="modal">Estimated Hours</DropdownItem>
+                <DropdownItem  :id="'comment-opt-'+id" style="display:none" name="6">Comments</DropdownItem>
+                <DropdownItem  :id="'attchment-opt-'+id" style="display:none" name="7">Attachments</DropdownItem>
+                <DropdownItem  :id="'history-opt-'+id" style="display:none" name="8">History</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -194,7 +199,8 @@
         previousUser:this.todoObject.assigned_to,
         userObj: "", // selected user object
         open: false,
-        selectedType:this.todoObject.type_id
+        selectedType:this.todoObject.type_id,
+        selectedIndex:-1
       };
     },
     created: function () {
@@ -207,8 +213,8 @@
         this.$store.dispatch("undelete", this.todoObject);
       },
       moreActionMenuClick: function (val) {
+        // Show Estimated tags val=1
         if (val == 1) {
-          // Show tags
           this.tagsShow()
         }
         // Show copy Url val=3
@@ -224,6 +230,27 @@
         else if (val == 4) {
           this.$store.dispatch("delete_Todo", this.todoObject);
         }
+        // Show estimate hour val=5
+        else if (val == 5) { 
+          this.estimated_time = true
+        }
+        // Show comments val=6
+        else if (val == 6) { 
+          this.commentsShow()
+        }
+        // Show attachments val=7
+        else if (val == 7) { 
+          this.attachmentShow()
+        }
+        // Show history val=8
+        else if (val == 8) { 
+          this.historyShow()
+        }
+
+      },
+      closeDialog() {
+        this.estimated_time = false
+        this.task_priority = false
       },
       deletePermently: function () {
         this.$store.dispatch("deletePermently", this.todoObject);
@@ -363,8 +390,10 @@
         this.selectedMenuIndex = 5;
       },
       handleOpen() {
+        console.log("handle open click",this.open)
         this.selectedMenuIndex = 5;
         $(".nav").addClass("hidden");
+        this.open = false;
       },
       async setAssignUser(userId) {
         var user = _.find(this.$store.state.arrAllUsers, ["_id", userId]);
@@ -409,20 +438,182 @@
       },
       async btnTypeClicked(objType) {
         if(objType !== this.todoObject.type_id){
-          await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedType": objType})
+              
+            
+          await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedType": objType,
+              log_action:Constant.HISTORY_LOG_ACTION.TASK_TYPE, log_text:objType})
           await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedState": '' })
         }
       },
       checkEmail(email,fullname){
         return (fullname && fullname.length>0) || (email && email.length>0 && CmnFunc.checkValidEmail(email))
+      },
+      displayComment(){
+         $('#comment-'+this.id).css( "display", "block" );
+         $('#comment-opt-'+this.id).css( "display", "none" );
+      },
+      hideComment(){
+        $('#comment-'+this.id).css( "display", "none" );
+        $('#comment-opt-'+this.id).css( "display", "block" );
+      },
+      displayAttchment(){
+        $('#attchment-'+this.id).css( "display", "block" );
+        $('#attchment-opt-'+this.id).css( "display", "none" );
+      },
+      hideAttchment(){
+        $('#attchment-'+this.id).css( "display", "none" );
+        $('#attchment-opt-'+this.id).css( "display", "block" );
+      },
+      displayHistory(){
+        $('#history-'+this.id).css( "display", "block" );
+        $('#history-opt-'+this.id).css( "display", "none" );
+      },
+      hideHistory(){
+        $('#history-'+this.id).css( "display", "none" );
+        $('#history-opt-'+this.id).css( "display", "block" );
       }
+
     },
     watch: {
       todoObject: function (todo) {
         this.previousUser = todo.assigned_to;
         this.selectedUser = todo.assigned_to;
-        this.$store.dispatch("findHistoryLog", this.todoObject.id);
+        // this.$store.dispatch("findHistoryLog", this.todoObject.id);
         this.selectedType = todo.type_id  
+      },
+      getIdArray:function(ids){
+       let sectionWidth = 0
+        console.log("----------------")
+        console.log("this.id:",this.id)
+       	let containerWidth = ($(window).width())
+        for (var id in ids) {
+            //conversion of percentage into pixel(width) of section
+            this.sectionWidth = (containerWidth * ids[id]) / 100
+            if((this.id+1) == id){
+                this.selectedIndex = this.id
+                console.log('section width:', this.sectionWidth)
+               
+              // Comment
+                if(parseInt(this.sectionWidth) > 371  && parseInt(this.sectionWidth) < 442 ){
+                  console.log("call block 1")
+                  // Hide menu
+                  this.hideComment()
+                  // Show menu
+                  this.displayAttchment()
+                  this.displayHistory()
+
+                }else if(parseInt(this.sectionWidth) > 333  && parseInt(this.sectionWidth) < 371 ){
+                  console.log("call block 2")
+                   // Hide menu
+                  this.hideComment()
+                  this.hideAttchment()
+                  // Show menu
+                  this.displayHistory()
+                }else if(parseInt(this.sectionWidth) > 300  && parseInt(this.sectionWidth) < 333 ){
+                  console.log("call block 3")
+                   // Hide menu
+                  this.hideComment()
+                  this.hideAttchment()
+                  this.hideHistory()
+                  // Show menu
+                }
+                else if(parseInt(this.sectionWidth) > 0  && parseInt(this.sectionWidth) < 300 ){
+                  console.log("call block 4")
+                    // Hide menu
+                  this.hideComment()
+                  this.hideAttchment()
+                  this.hideHistory()
+                  this.hideCalendar()
+                }else{
+                  this.displayComment()
+                  this.displayAttchment()
+                  this.displayHistory()
+                }
+              
+
+              // // Comment
+              //   if(parseInt(this.sectionWidth) > 371  && parseInt(this.sectionWidth) < 503 ){
+              //     console.log("call block 1")
+              //     this.hideComment()
+              //   }else if(parseInt(this.sectionWidth) > 503){
+              //     console.log("call block 2")
+              //      this.displayComment()
+              //   }
+              
+              // // Attchments
+              //   if(parseInt(this.sectionWidth) > 371){
+              //     console.log("call block 4")
+              //     this.hideAttchment()
+              //   }else if(parseInt(this.sectionWidth) > 333  && parseInt(this.sectionWidth) < 371 ){
+              //     console.log("call block 3")
+              //     this.displayAttchment()
+              //   }
+
+              // // History
+              //  if(parseInt(this.sectionWidth) >= 333){
+              //     console.log("call block 5")
+              //     this.hideHistory()
+              //   }else if(parseInt(this.sectionWidth) > 300  && parseInt(this.sectionWidth) < 333 ){
+              //     console.log("call block 6")
+              //     this.displayHistory()
+              //   }
+
+              // // Calendar
+              //   if(parseInt(this.sectionWidth) >= 300){
+              //     console.log("call block 7")
+              //     this.hideCalendar()
+              //   }else if(parseInt(this.sectionWidth) > 256  && parseInt(this.sectionWidth) < 300 ){
+              //     console.log("call block 8")
+              //     this.displayCalendar()
+              //   }
+
+
+                // When two sliptter section 
+                if(ids.length==2){
+                    if(parseInt(this.sectionWidth) > 550  && parseInt(this.sectionWidth) < 663){
+                        console.log("call block 6")
+                        // Hide menu
+                        this.hideComment()
+                        // Show menu
+                        this.displayAttchment()
+                        this.displayHistory()
+                        this.displayCalendar()
+                      }else if(parseInt(this.sectionWidth) > 511 && parseInt(this.sectionWidth) < 550){
+                        console.log("call block 7")
+                        this.hideComment()
+                        this.hideAttchment()
+                        // Show menu
+                        this.displayHistory()
+                        this.displayCalendar()
+                      }else if(parseInt(this.sectionWidth) > 446 && parseInt(this.sectionWidth) < 511){
+                        console.log("call block 8")
+                          // Hide menu
+                        this.hideComment()
+                        this.hideAttchment()
+                        this.hideHistory()
+                        // Show menu
+                        this.displayCalendar()
+
+                      }else if(parseInt(this.sectionWidth) > 350 && parseInt(this.sectionWidth) < 446){
+                        console.log("call block 9")
+                          // Hide menu
+                        this.hideComment()
+                        this.hideAttchment()
+                        this.hideHistory()
+                        this.hideCalendar()
+                      }else if(parseInt(this.sectionWidth) > 250 && parseInt(this.sectionWidth) < 350){
+                        console.log("call block 10")
+                      }else{
+                        this.displayComment()
+                        this.displayAttchment()
+                        this.displayHistory()
+                        this.displayCalendar()
+                      }                
+                }
+                
+                
+            }
+        }
       }
     },
     computed: {
@@ -430,6 +621,8 @@
         todoById: "getTodoById",
         typeStateList: "getTask_types_state",
         getUserList: "getAllUserList",
+        // getTypes: 'getTaskTypeList'
+        getIdArray:'getIdArray'
       }),
       getTaskTypes() {
         return this.$store.state.task_types_list.filter(type => type.id !== '-1')
