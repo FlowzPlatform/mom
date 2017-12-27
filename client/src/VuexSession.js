@@ -1649,6 +1649,8 @@ export const store = new Vuex.Store({
           console.log('userdetail response:', response.data.data)
           commit('GET_USERDETAIL', response.data.data)
           services.socket.emit("userdata", response.data.data._id);
+          console.log('USER TOKEN: --->', store.state.userToken )
+          services.socket.emit("authorization",store.state.userToken);
         })
         .catch(function (error) {
           console.log('userdetail error:', error)
