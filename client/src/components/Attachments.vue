@@ -318,7 +318,7 @@ export default {
 .AddedAttachmentStory-body {
   text-align: -webkit-left;
   text-align: left;
-  margin: 10px;
+  /* margin: 10px; */
 }
 .loading {
   margin: 20px;

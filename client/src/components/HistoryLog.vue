@@ -86,8 +86,7 @@
                                     <a class="AddedAttachmentStory-link" :href="getAttachment(log.text).file_url" target="_blank" tabindex="-1"><div>{{getAttachment(log.text).file_name}}</div></a>
                                 </div>
                                 <!-- Task type -->
-                                <div class="history-label AddedAttachmentStory-body" v-if="log.log_action===17">
-                                    task type changed to <span>{{getTaskType(log.text)}}</span>
+                                <div class="history-label AddedAttachmentStory-body" v-if="log.log_action===17">task type changed to <span>{{getTaskType(log.text)}}</span>
                                 </div>
                             </div>
                             
