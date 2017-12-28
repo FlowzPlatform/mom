@@ -1915,8 +1915,9 @@ export const store = new Vuex.Store({
       } else {
         services.taskTypesService.create({
           type: payload.type,
-          default_Type:payload.type,
-          createdAt: new Date().toJSON()
+          default_Type: payload.type,
+          createdAt: new Date().toJSON(),
+          created_by:payload.created_by
         }).then(response => {
           console.log("Insert Task Type in DB:", response)
         })
@@ -2058,17 +2059,17 @@ export const store = new Vuex.Store({
           store.state.userRoles[userIndex] = response
         });
       } else {
-        if(role.name.length>0){
-        let insertRole=role
-        insertRole.is_checked=true
-        // console.log("insert Role --->",insertRole);
-        store.dispatch("insertRole", insertRole);
-      }}
+        if (role.name.length > 0) {
+          let insertRole = role
+          insertRole.is_checked = true
+          // console.log("insert Role --->",insertRole);
+          store.dispatch("insertRole", insertRole);
+        }
+      }
     },
-    insertRole({commit},role)
-    {
-      console.log("insert Role --->",role);
-      services.roleService.create({name:role.name,is_checked:role.is_checked,is_editable:role.is_editable}).then(response=>{
+    insertRole({ commit }, role) {
+      console.log("insert Role --->", role);
+      services.roleService.create({ name: role.name, is_checked: role.is_checked, is_editable: role.is_editable ,created_by:role.created_by}).then(response => {
         // store.state.userRoles.push(response)
         // Vue.set(store.state.userRoles, store.state.userRoles.length-1, response)
       })
