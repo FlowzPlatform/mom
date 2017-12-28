@@ -101,8 +101,9 @@
 .two {
   background: #07889b;
 }
-#rightContainer:after {
-  color:#def2f3
+.right_pannel::before {
+  color:#def2f3;
+  opacity: 0.5;
 }
 .buttonView.buttonView--primary {
   background: #F1B74D;

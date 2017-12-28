@@ -1,6 +1,8 @@
 <template>
     <div>
         <task-heading :id="id" :filteredTodo="todoObject"></task-heading>
+        <text-description :id="id" :filteredTodo="todoObject">
+            </text-description>
         <statuses :selectedState="typeStateList" :filteredTodo="todoObject" :id="id"></statuses>
     </div>
 </template>

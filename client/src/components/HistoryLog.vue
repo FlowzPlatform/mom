@@ -52,7 +52,7 @@
                                 <!-- Due date -->
                                 <div class="history-label" v-show="log.log_action===9">
                                      changed the due date to {{formateDate(log.text)}}.
-                                </div> 
+                                </div>
                                 <!-- Task description -->
                                 <div class="history-label" v-show="log.log_action===10">
                                      added task description {{log.text}}
@@ -78,12 +78,15 @@
                                      comment deleted <span v-html="getComment(log.text)"></span>
                                 </div>
                                 <!-- Attachment remove log -->
-                                 <div class="AddedAttachmentStory-body" v-if="log.log_action===16">
+                                 <div class="history-label AddedAttachmentStory-body" v-if="log.log_action===16">
                                     remove attachment <div>{{log.text}}</div>
                                 </div>
                                 <!-- Attchment upload log -->
-                                <div class="AddedAttachmentStory-body" v-else-if="log.log_action===3">
+                                <div class="history-label AddedAttachmentStory-body" v-else-if="log.log_action===3">
                                     <a class="AddedAttachmentStory-link" :href="getAttachment(log.text).file_url" target="_blank" tabindex="-1"><div>{{getAttachment(log.text).file_name}}</div></a>
+                                </div>
+                                <!-- Task type -->
+                                <div class="history-label AddedAttachmentStory-body" v-if="log.log_action===17">task type changed to <span>{{getTaskType(log.text)}}</span>
                                 </div>
                             </div>
                             
@@ -102,39 +105,32 @@
 /* eslint-disable*/
 import Vue from 'vue'
 import Resource from 'vue-resource'
-import draggable from 'vuedraggable'
-import { mapActions, mapGetters } from 'vuex'
-import * as services from '../services'
+import { mapGetters } from 'vuex'
 import moment from 'moment';
 import Avatar from 'vue-avatar/src/Avatar'
 Vue.use(Resource)
 export default {
     props: ['taskId'],
-    data: function() {
-        return {
-        }
-    },
     computed: {
         ...mapGetters({
-            historyLog: 'taskHistoryLog'
+            findLog: 'getHistoryLog'
         }),
         historyDetailLog(){
-            let log = this.historyLog
+            let log = this.findLog(this.taskId)
             console.log('historyDetailLog()',log)
             this.historyDetailList(log)
             return log
         }
     },
     created(){
-        console.log("oncreated call")
         // Load history log when component created 
-        this.$store.dispatch("findHistoryLog", this.taskId);
+        // this.$store.dispatch("findHistoryLog", this.taskId);
     },
     watch: {
         // Find history log using taskid 
-        taskId: function(newTaskId,oldTaskId) {
-             this.$store.dispatch("findHistoryLog", this.taskId);
-        }
+        // taskId: function(newTaskId,oldTaskId) {
+        //      this.$store.dispatch("findHistoryLog", this.taskId);
+        // }
     },
     methods: {
         getUrlExtension(url) {
@@ -150,7 +146,6 @@ export default {
          * Add user detail into history log
          */
         historyDetailList: function (historyList) {
-            console.log("In historyDetailList() method:",historyList)
             historyList.forEach(function (c) {
                 let userId = c.created_by
                 let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
@@ -215,6 +210,18 @@ export default {
                 return attachment
             }
             return index
+        },
+        /**
+        * Get task type 
+        * @augments taskTypeId */
+        getTaskType(id){
+            let index = _.findIndex(this.$store.state.task_types_list, function(d) { return d.id == id })
+            if (index > -1) {
+                let   type = this.$store.state.task_types_list[index].type
+                return type
+            }
+            else
+                return ""
         }
 
 
@@ -225,20 +232,5 @@ export default {
 }
 </script>   
 <style>
-svg.Icon.DownIcon.FeedBlockStory-actionsDropdownIcon {
-    cursor: pointer;
-    position: absolute;
-    right: 0;
-    top: 10px;
-    width: 28px;
-}
-.history-label{
-    color: #848f99;
-    font-size: 11px;
-    line-height: 17px;
-}
-a.history-username{
-     color: inherit;
-    font-size: 11px;
-}
+
 </style>

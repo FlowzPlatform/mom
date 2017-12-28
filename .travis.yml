@@ -20,7 +20,11 @@ jobs:
       - docker push $DOCKER_USERNAME/mom_frontend_flowz:demo
     - stage: Upgrade Rancher Service
       script:
-      - bash ./upgrade.sh
+      - 'if [ ${TRAVIS_BRANCH} = "demo" ]; then
+            bash ./upgrade_demo.sh;
+         else
+            bash ./upgrade.sh;
+         fi'
     - stage: Finish Rancher Service
       script:
       - bash ./finish.sh

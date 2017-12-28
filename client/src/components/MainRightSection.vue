@@ -1,28 +1,7 @@
 <template>
   <div>
-    <!-- <div id="topicon">
-      <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-        tabindex="410" style="margin-top: 2px;">
-        <span id="close" class="destroy circularButtonView-label" @click="CLOSE_DIV(todoObject)">
-          <i class="fa fa-close"></i>
-        </span>
-      </div>
-      <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-        style="margin-top: 2px;">
-        <span class="circularButtonView-label" @click="pinit(todoObject)">
-          <img class="init" v-if="todoObject.isPinned" src="../assets/unpin.png" style="width:20px; height:20px;"></img>
-          <img class="init" v-else src="../assets/pin.png" style="width:16px; height:16px; margin-bottom:2px;"></img>
-        </span>
-      </div>
-      <div class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-        tabindex="410" @click="openfullwinodw(todoObject.level)" style="margin-top: 2px; ">
-        <span class="circularButtonView-label">
-          <i class="fa fa-expand" aria-hidden="true"></i>
-        </span>
-      </div>
-    </div> -->
     <div :id="id" class="right_pannel" style="display: grid;">
-      <Alert v-if="todoObject.isDelete" class="right-top-alert" type="error">
+       <Alert v-if="todoObject.isDelete" class="right-top-alert" type="error">
         <span slot="desc">
           <span class="deleteIcon">
             <Icon type="android-delete"></Icon>
@@ -32,20 +11,21 @@
           <a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
         </span>
       </Alert>
-      <div class="tab-pannel"  id="rightContainer">
+      <div class="tab-pannel" id="rightContainer">
         <task-heading :id="id" :filteredTodo="todoObject"></task-heading>
         <div class="rightscroll">
           <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
             :filteredTodo="todoObject" v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'"
-            :pholder="pholder" :filtered-todos="taskById" :commentTaskId="todoObject.id" v-bind:class="applyBackground()">
+            :pholder="pholder" :filtered-todos="taskById" :commentTaskId="todoObject.id">
           </component>
         </div>
+        <task-priority :filteredTodo="todoObject"></task-priority>
+        <estimated-hours :filteredTodo="todoObject"></estimated-hours>
       </div>
       <div class="nav_bottom">
         <div class="navbar-bottom" id="myNavbar">
           <a href="javascript:void(0)" id="#subtask" v-bind:class="selectedMenuIndex==0?activeClass:''" class="nav-tab" @click="subTaskShow">
             <Tooltip content="Task" placement="top-start">
-              <!-- <i class="fa fa-bars" style="font-size:20px"></i> -->
               <svg class="Icon HamburgerIcon Topbar-sidebarToggleIcon" viewBox="0 0 32 32">
                 <rect x="2" y="4" width="28" height="4"></rect>
                 <rect x="2" y="14" width="28" height="4"></rect>
@@ -66,8 +46,9 @@
                 <Col span="2" style="padding-right:10px">
                 <Select not-found-text="No user found" placeholder="user" placement="top" v-model="selectedUser" @on-change="userListClick"
                   filterable style="width:180px;z-index:99999">
-                  <Option  v-show="checkEmail(user.email,user.fullname)" style="margin:5px" v-for="user in getUserList" :label="getListUserName(user)" :value="user._id" :key="user._id">
-                    <span >
+                  <Option v-show="checkEmail(user.email,user.fullname)" style="margin:5px" v-for="user in getUserList" :label="getListUserName(user)"
+                    :value="user._id" :key="user._id">
+                    <span>
                       <span style="float:left;margin-right:10px;margin-top:-8px;width: 30px; height: 30px; border-radius: 50%; text-align: center; vertical-align: middle;background:#ccc">
                         <div v-if="user.email">
                           <avatar v-if="user.image_url" :username="user.email" :size="30" :src="user.image_url"></avatar>
@@ -78,20 +59,20 @@
                     </span>
                   </Option>
                 </Select>
-                </col>
+                </Col>
               </Row>
             </Tooltip>
           </div>
-          <!-- Task type -->          
-          <div class="task-type-menu"> 
-              <Select  placement="top" v-model="selectedType" @on-change="btnTypeClicked" filterable  style="width:150px;z-index:90">
-                    <Option style="margin:5px"  v-for="task_type in getTaskTypes"  :label="task_type.type" :value="task_type.id" :key="task_type.id">
-                        {{task_type.type}}
-                    </Option>
-              </Select>
+          <!-- Task type -->
+          <div class="task-type-menu">
+            <Select placement="top" v-model="selectedType" @on-change="btnTypeClicked" filterable style="width:150px;z-index:90">
+              <Option style="margin:5px" v-for="task_type in getTaskTypes" :label="task_type.type" :value="task_type.id" :key="task_type.id">
+                {{task_type.type}}
+              </Option>
+            </Select>
           </div>
           <!-- Task due date menu item -->
-          <div class="due-date">
+          <div :id="'calendar-'+id"  class="due-date">
             <Tooltip content="Due Date" placement="top-start">
               <DatePicker :open="open" confirm size="small" placement="top" type="date" :value="todoObject.dueDate" @on-change="dueDateClick"
                 @on-clear="handleClear" @on-ok="handleOk">
@@ -104,22 +85,24 @@
             </Tooltip>
           </div>
           <!-- History -->
-          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab" @click="historyShow">
+          <a :id="'history-'+id" href="javascript:void(0)"  v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab" @click="historyShow">
             <Tooltip content="History" placement="top-start">
               <i class="nav-icon fa fa-history" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
           </a>
-          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==2?activeClass:''" class="nav-tab" @click="attachmentShow">
+          <!-- Attchments -->
+          <a :id="'attchment-'+id" href="javascript:void(0)"  v-bind:class="selectedMenuIndex==2?activeClass:''" class="nav-tab" @click="attachmentShow">
             <Tooltip content="Attachments" placement="top-start">
               <i class="nav-icon fa fa-paperclip" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
           </a>
-          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==3?activeClass:''" class="nav-tab hidden" @click="tagsShow">
+          <!-- Tags -->
+          <a href="javascript:void(0)"  v-bind:class="selectedMenuIndex==3?activeClass:''" class="nav-tab hidden" @click="tagsShow">
             <Tooltip content="Tags" placement="top-start">
               <i class="nav-icon fa fa-tags" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
           </a>
-          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==4?activeClass:''" class="nav-tab" @click="commentsShow">
+          <a :id="'comment-'+id" href="javascript:void(0)"  v-bind:class="selectedMenuIndex==4?activeClass:''" class="nav-tab" @click="commentsShow">
             <Tooltip content="Comments" placement="top-start">
               <i class="nav-icon fa fa-comments" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
@@ -133,10 +116,13 @@
               </a>
               <DropdownMenu slot="list">
                 <DropdownItem name="1">Tags</DropdownItem>
-                <DropdownItem name="2">Task Priority</DropdownItem>
+                <DropdownItem name="2" :data-target="'#taskPriority'+todoObject.id" data-toggle="modal">Task Priority</DropdownItem>
                 <DropdownItem name="3">Copy Task URL</DropdownItem>
                 <DropdownItem name="4">Delete Task</DropdownItem>
-                <DropdownItem name="5">Estimated Hours</DropdownItem>
+                <DropdownItem name="5" :data-target="'#estimateHr'+todoObject.id" data-toggle="modal">Estimated Hours</DropdownItem>
+                <DropdownItem  :id="'comment-opt-'+id" style="display:none" name="6">Comments</DropdownItem>
+                <DropdownItem  :id="'attchment-opt-'+id" style="display:none" name="7">Attachments</DropdownItem>
+                <DropdownItem  :id="'history-opt-'+id" style="display:none" name="8">History</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -163,8 +149,6 @@
         </div>
       </div>
     </div>
-    <estimated-hours :showModal="estimated_time" :closeAction="closeDialog" :filteredTodo="todoObject"></estimated-hours>
-    <task-priority :showModal="task_priority" :closeAction="closeDialog" :filteredTodo="todoObject"></task-priority>
   </div>
 </template>
 <script>
@@ -173,11 +157,7 @@
   import MainLeftSection from "./MainLeftSection.vue";
   import SubComment from "./SubComment.vue";
   import HistoryLog from "./HistoryLog.vue";
-  import RightToolbar from "./RightToolbar.vue";
   import Attachments from "./Attachments.vue";
-  import StoryFeed from "./StoryFeed.vue";
-  import Statuses from "./Statuses.vue";
-  import * as services from "../services";
   import Tags from "./Tags.vue";
   import SubTask from "./SubTask.vue";
   import { mapMutations, mapGetters, mapActions } from "vuex";
@@ -197,12 +177,39 @@
       return moment(String(value)).format("MMM DD");
     }
   });
-  Vue.filter("dateofDay", function (value) {
-    if (value) {
-      return moment(String(value)).format("DD");
+  function setIcon(currentView, id){
+    if(currentView === SubTask){
+        $('#'+id).addClass('fa fa-tasks')
+        $('#'+id).removeClass('fa fa-history')
+        $('#'+id).removeClass('fa fa-paperclip')
+        $('#'+id).removeClass('fa fa-tags')
+        $('#'+id).removeClass('fa fa-comments')
+    } else if(currentView === HistoryLog) {
+        $('#'+id).addClass('fa fa-history')
+        $('#'+id).removeClass('fa fa-tasks')
+        $('#'+id).removeClass('fa fa-paperclip')
+        $('#'+id).removeClass('fa fa-tags')
+        $('#'+id).removeClass('fa fa-comments')
+    } else if(currentView === Attachments) {
+        $('#'+id).addClass('fa fa-paperclip')
+        $('#'+id).removeClass('fa fa-tasks')
+        $('#'+id).removeClass('fa fa-history')
+        $('#'+id).removeClass('fa fa-tags')
+        $('#'+id).removeClass('fa fa-comments')
+    } else if(currentView === Tags) {
+        $('#'+id).addClass('fa fa-tags')
+        $('#'+id).removeClass('fa fa-paperclip')
+        $('#'+id).removeClass('fa fa-tasks')
+        $('#'+id).removeClass('fa fa-history')
+        $('#'+id).removeClass('fa fa-comments')
+    } else if (currentView === SubComment) {
+        $('#'+id).addClass('fa fa-comments')
+        $('#'+id).removeClass('fa fa-paperclip')
+        $('#'+id).removeClass('fa fa-tasks')
+        $('#'+id).removeClass('fa fa-history')
+        $('#'+id).removeClass('fa fa-tags')
     }
-  });
-
+  }
   Vue.use(AsyncComputed);
   export default {
     props: ["pholder", "todoObject", "id"],
@@ -211,7 +218,6 @@
         todolistSubTasks: [],
         createCommentBox: true,
         readCommentBox: true,
-        isDelete: false,
         historyLog: [],
         chkAttachment: false,
         attchmentReadPerm: false,
@@ -221,36 +227,30 @@
         currentView: SubTask,
         activeClass: "active",
         selectedMenuIndex: 0,
-        modal_loading: false,
-        topMargin: 20, // Top margin of sub task panel
-        isDeleteActive: false, // Hide soft delete dialog
         selectedUser: this.todoObject.assigned_to,
-        previousUser:this.todoObject.assigned_to,
+        previousUser: this.todoObject.assigned_to,
         userObj: "", // selected user object
-        estimated_time: false,
-        task_priority: false,
         open: false,
-        selectedType:this.todoObject.type_id
+        selectedType:this.todoObject.type_id,
+        selectedIndex:-1
       };
     },
     created: function () {
-      // this.manageAttachmentCreatePermission();
-      // this.tagReadPermission();
-      // this.tagNewPermission();
+      this.manageAttachmentCreatePermission();
+      this.tagReadPermission();
+      this.tagNewPermission();
+    },
+    mounted(){
+      setIcon(SubTask, this.id)
     },
     methods: {
       undelete: function () {
         this.$store.dispatch("undelete", this.todoObject);
       },
       moreActionMenuClick: function (val) {
-        // Show Estimated Hour val=1
+        // Show Estimated tags val=1
         if (val == 1) {
-          // Show tags
           this.tagsShow()
-        }
-        // Show Task Priority val=2
-        else if (val == 2) {
-          this.task_priority = true
         }
         // Show copy Url val=3
         else if (val == 3) {
@@ -265,9 +265,23 @@
         else if (val == 4) {
           this.$store.dispatch("delete_Todo", this.todoObject);
         }
+        // Show estimate hour val=5
         else if (val == 5) { 
           this.estimated_time = true
         }
+        // Show comments val=6
+        else if (val == 6) { 
+          this.commentsShow()
+        }
+        // Show attachments val=7
+        else if (val == 7) { 
+          this.attachmentShow()
+        }
+        // Show history val=8
+        else if (val == 8) { 
+          this.historyShow()
+        }
+
       },
       closeDialog() {
         this.estimated_time = false
@@ -276,34 +290,16 @@
       deletePermently: function () {
         this.$store.dispatch("deletePermently", this.todoObject);
       },
-      getListValue: function (user) {
-        if (user.email) {
-          return user.email;
-        } else {
-          return 
-        }
-      },
-      getListUserName: function (user,flag) {
-      
+      getListUserName: function (user, flag) {
+
         if (user.fullname && user.fullname.trim().length > 0) {
           return user.fullname;
-        } else if(user.email){
+        } else if (user.email) {
           // return user.email.substr(0,user.email.indexOf("@"));
-        return flag==0? user.email.substr(0,user.email.indexOf("@")):user.email;
-        }else{
+          return flag == 0 ? user.email.substr(0, user.email.indexOf("@")) : user.email;
+        } else {
           return "Un"
         }
-      },
-      onUserClick: function (user) {
-        this.userObj = user;
-        if (user.email) {
-          return user.email;
-        } else {
-          return;
-        }
-      },
-      userClick: function (user) {
-        console.log("user detail call");
       },
       async onReadComment(id, level, created_by, typeId) {
         let permisionResult = await CmnFunc.checkActionPermision(
@@ -407,76 +403,60 @@
       subTaskShow() {
         this.selectedMenuIndex = 0;
         this.currentView = SubTask;
+        setIcon(SubTask, this.id)
       },
       attachmentShow() {
         $(".nav").removeClass("hidden");
         this.selectedMenuIndex = 2;
         this.currentView = Attachments;
+        setIcon(Attachments, this.id)
       },
       tagsShow() {
         this.selectedMenuIndex = 3;
         this.currentView = Tags;
+        setIcon(Tags, this.id)
       },
       historyShow() {
         this.selectedMenuIndex = 1;
         this.currentView = HistoryLog;
+        setIcon(HistoryLog, this.id)
       },
       commentsShow() {
         this.selectedMenuIndex = 4;
         this.currentView = SubComment;
+        setIcon(SubComment, this.id)
       },
       assignToShow() {
         this.selectedMenuIndex = 5;
       },
       handleOpen() {
+        console.log("handle open click",this.open)
         this.selectedMenuIndex = 5;
         $(".nav").addClass("hidden");
+        this.open = false;
       },
       async setAssignUser(userId) {
         var user = _.find(this.$store.state.arrAllUsers, ["_id", userId]);
-        console.log("Selected User setAssignUser method:", user);
-        this.todoObject.image_url  = user.image_url
-        this.todoObject.email  = user.email
+        this.todoObject.image_url = user.image_url
+        this.todoObject.email = user.email
 
         if (user) {
           this.$store.dispatch("editTaskName", {
             todo: this.todoObject,
             assigned_by: this.$store.state.userObject._id,
             assigned_to: user._id,
-            log_action:Constant.HISTORY_LOG_ACTION.TASK_ASSIGN,
-            log_text:userId
+            log_action: Constant.HISTORY_LOG_ACTION.TASK_ASSIGN,
+            log_text: userId
           });
         }
-      },
-      getAssignedUserName() {
-        var user = this.getAssignedUserObj();
-        return user.email ? this.getName(user.email) : "";
-      },
-      getName(name) {
-        var str = name;
-        var n = str.indexOf("@");
-        var res = str.substr(0, n);
-        return res;
-      },
-      getAssignedUserObj(assignUserId) {
-        var objUser;
-        if (this.todoObject.assigned_to === this.$store.state.userObject._id) {
-          objUser = this.$store.state.userObject;
-        } else {
-          objUser = _.find(this.$store.state.arrAllUsers, [
-            "_id",
-            assignUserId
-          ]);
-        }
-        return objUser;
       },
       dueDateClick(dateTo) {
         var selectedDate = moment(dateTo, "YYYY-MM-DD").format("DD");
         this.$store.dispatch("editTaskName", {
           todo: this.todoObject,
           selectedDate: dateTo,
-          log_action:Constant.HISTORY_LOG_ACTION.DUE_DATE,
-          log_text:dateTo
+          log_action: Constant.HISTORY_LOG_ACTION.DUE_DATE,
+          log_text: dateTo
         });
         this.todoObject.dueDate = dateTo
       },
@@ -498,31 +478,182 @@
       },
       async btnTypeClicked(objType) {
         if(objType !== this.todoObject.type_id){
-          await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedType": objType})
+              
+            
+          await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedType": objType,
+              log_action:Constant.HISTORY_LOG_ACTION.TASK_TYPE, log_text:objType})
           await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedState": '' })
         }
       },
       checkEmail(email,fullname){
-        // console.log("check fullname",fullname)
-        // console.log("check email",email)
         return (fullname && fullname.length>0) || (email && email.length>0 && CmnFunc.checkValidEmail(email))
       },
-      applyBackground(){
-        console.log("Apply background theme")
-        if(this.currentView == SubTask)
-        {
-          return 'task_bg'
-        }else if(this.currentView == Attachments){
-            return 'history_bg'
-        }
+      displayComment(){
+         $('#comment-'+this.id).css( "display", "block" );
+         $('#comment-opt-'+this.id).css( "display", "none" );
+      },
+      hideComment(){
+        $('#comment-'+this.id).css( "display", "none" );
+        $('#comment-opt-'+this.id).css( "display", "block" );
+      },
+      displayAttchment(){
+        $('#attchment-'+this.id).css( "display", "block" );
+        $('#attchment-opt-'+this.id).css( "display", "none" );
+      },
+      hideAttchment(){
+        $('#attchment-'+this.id).css( "display", "none" );
+        $('#attchment-opt-'+this.id).css( "display", "block" );
+      },
+      displayHistory(){
+        $('#history-'+this.id).css( "display", "block" );
+        $('#history-opt-'+this.id).css( "display", "none" );
+      },
+      hideHistory(){
+        $('#history-'+this.id).css( "display", "none" );
+        $('#history-opt-'+this.id).css( "display", "block" );
       }
+
     },
     watch: {
       todoObject: function (todo) {
         this.previousUser = todo.assigned_to;
         this.selectedUser = todo.assigned_to;
-        this.$store.dispatch("findHistoryLog", this.todoObject.id);
+        // this.$store.dispatch("findHistoryLog", this.todoObject.id);
         this.selectedType = todo.type_id  
+      },
+      getIdArray:function(ids){
+       let sectionWidth = 0
+        console.log("----------------")
+        console.log("this.id:",this.id)
+       	let containerWidth = ($(window).width())
+        for (var id in ids) {
+            //conversion of percentage into pixel(width) of section
+            this.sectionWidth = (containerWidth * ids[id]) / 100
+            if((this.id+1) == id){
+                this.selectedIndex = this.id
+                console.log('section width:', this.sectionWidth)
+               
+              // Comment
+                if(parseInt(this.sectionWidth) > 371  && parseInt(this.sectionWidth) < 442 ){
+                  console.log("call block 1")
+                  // Hide menu
+                  this.hideComment()
+                  // Show menu
+                  this.displayAttchment()
+                  this.displayHistory()
+
+                }else if(parseInt(this.sectionWidth) > 333  && parseInt(this.sectionWidth) < 371 ){
+                  console.log("call block 2")
+                   // Hide menu
+                  this.hideComment()
+                  this.hideAttchment()
+                  // Show menu
+                  this.displayHistory()
+                }else if(parseInt(this.sectionWidth) > 300  && parseInt(this.sectionWidth) < 333 ){
+                  console.log("call block 3")
+                   // Hide menu
+                  this.hideComment()
+                  this.hideAttchment()
+                  this.hideHistory()
+                  // Show menu
+                }
+                else if(parseInt(this.sectionWidth) > 0  && parseInt(this.sectionWidth) < 300 ){
+                  console.log("call block 4")
+                    // Hide menu
+                  this.hideComment()
+                  this.hideAttchment()
+                  this.hideHistory()
+                  this.hideCalendar()
+                }else{
+                  this.displayComment()
+                  this.displayAttchment()
+                  this.displayHistory()
+                }
+              
+
+              // // Comment
+              //   if(parseInt(this.sectionWidth) > 371  && parseInt(this.sectionWidth) < 503 ){
+              //     console.log("call block 1")
+              //     this.hideComment()
+              //   }else if(parseInt(this.sectionWidth) > 503){
+              //     console.log("call block 2")
+              //      this.displayComment()
+              //   }
+              
+              // // Attchments
+              //   if(parseInt(this.sectionWidth) > 371){
+              //     console.log("call block 4")
+              //     this.hideAttchment()
+              //   }else if(parseInt(this.sectionWidth) > 333  && parseInt(this.sectionWidth) < 371 ){
+              //     console.log("call block 3")
+              //     this.displayAttchment()
+              //   }
+
+              // // History
+              //  if(parseInt(this.sectionWidth) >= 333){
+              //     console.log("call block 5")
+              //     this.hideHistory()
+              //   }else if(parseInt(this.sectionWidth) > 300  && parseInt(this.sectionWidth) < 333 ){
+              //     console.log("call block 6")
+              //     this.displayHistory()
+              //   }
+
+              // // Calendar
+              //   if(parseInt(this.sectionWidth) >= 300){
+              //     console.log("call block 7")
+              //     this.hideCalendar()
+              //   }else if(parseInt(this.sectionWidth) > 256  && parseInt(this.sectionWidth) < 300 ){
+              //     console.log("call block 8")
+              //     this.displayCalendar()
+              //   }
+
+
+                // When two sliptter section 
+                if(ids.length==2){
+                    if(parseInt(this.sectionWidth) > 550  && parseInt(this.sectionWidth) < 663){
+                        console.log("call block 6")
+                        // Hide menu
+                        this.hideComment()
+                        // Show menu
+                        this.displayAttchment()
+                        this.displayHistory()
+                        this.displayCalendar()
+                      }else if(parseInt(this.sectionWidth) > 511 && parseInt(this.sectionWidth) < 550){
+                        console.log("call block 7")
+                        this.hideComment()
+                        this.hideAttchment()
+                        // Show menu
+                        this.displayHistory()
+                        this.displayCalendar()
+                      }else if(parseInt(this.sectionWidth) > 446 && parseInt(this.sectionWidth) < 511){
+                        console.log("call block 8")
+                          // Hide menu
+                        this.hideComment()
+                        this.hideAttchment()
+                        this.hideHistory()
+                        // Show menu
+                        this.displayCalendar()
+
+                      }else if(parseInt(this.sectionWidth) > 350 && parseInt(this.sectionWidth) < 446){
+                        console.log("call block 9")
+                          // Hide menu
+                        this.hideComment()
+                        this.hideAttchment()
+                        this.hideHistory()
+                        this.hideCalendar()
+                      }else if(parseInt(this.sectionWidth) > 250 && parseInt(this.sectionWidth) < 350){
+                        console.log("call block 10")
+                      }else{
+                        this.displayComment()
+                        this.displayAttchment()
+                        this.displayHistory()
+                        this.displayCalendar()
+                      }                
+                }
+                
+                
+            }
+        }
       }
     },
     computed: {
@@ -531,6 +662,7 @@
         typeStateList: "getTask_types_state",
         getUserList: "getAllUserList",
         // getTypes: 'getTaskTypeList'
+        getIdArray:'getIdArray'
       }),
       getTaskTypes() {
         return this.$store.state.task_types_list.filter(type => type.id !== '-1')
@@ -576,11 +708,9 @@
         //check attachment for only  read permission.
         let isReadPermission = await this.manageAttachmentReadPermission();
         if (isReadPermission) {
-          console.log("inside read permission");
           //check whether attachment array has value or not
           return this.checkAttachmentExistance();
         } else {
-          console.log("read permission false:", isReadPermission);
           //this.attchmentReadPerm = false
           return false;
         }
@@ -589,11 +719,8 @@
     },
     components: {
       MainLeftSection,
-      RightToolbar,
       Attachments,
-      StoryFeed,
       Tags,
-      Statuses,
       HistoryLog,
       SubComment,
       Avatar,
@@ -601,28 +728,5 @@
       TaskPriority,
       TaskHeading
     }
-  };
+  }
 </script>
-<style>
-.task_bg{
-  /* background-color: coral; */
-
-}
-.history_bg{
-  background-color: blueviolet;
-}
-/* #rightContainer:after {
-    content: "\f1da";
-    font-family: FontAwesome;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: inherit;
-    position: absolute;
-    font-size: 400px;
-    color: #f1f1f1;
-      top: 80%;
-      left: 50%;
-    margin: -300px 0 0 -200px;
-    z-index: 1;
-} */
-</style>

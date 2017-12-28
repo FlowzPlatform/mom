@@ -12,33 +12,6 @@
         </div>
         <div class="PageHeaderStructure-right">
           <div class="projectHeaderFacepile-content">
-            <div class="Facepile Facepile--grouped projectHeaderFacepile-facepile hidden">
-              <div class="Avatar Avatar--large Avatar--color2 Facepile-avatar--clickable">
-                he
-              </div>
-              <a class="CircularButton CircularButton--enabled CircularButton--small Facepile-placeholder" tabindex="0" aria-role="button">
-                <div class="CircularButton-label">
-                  <svg class="Icon UserIcon Facepile-placeholderIcon" title="UserIcon" viewBox="0 0 32 32">
-                    <path d="M20.534,16.765C23.203,15.204,25,12.315,25,9c0-4.971-4.029-9-9-9S7,4.029,7,9c0,3.315,1.797,6.204,4.466,7.765C5.962,18.651,2,23.857,2,30c0,0.681,0.065,1.345,0.159,2h27.682C29.935,31.345,30,30.681,30,30C30,23.857,26.038,18.651,20.534,16.765z M9,9c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S9,12.86,9,9z M4,30c0-6.617,5.383-12,12-12s12,5.383,12,12H4z"></path>
-                  </svg>
-                </div>
-              </a>
-              <a class="CircularButton CircularButton--enabled CircularButton--small Facepile-placeholder" tabindex="0" aria-role="button">
-                <div class="CircularButton-label">
-                  <svg class="Icon UserIcon Facepile-placeholderIcon" title="UserIcon" viewBox="0 0 32 32">
-                    <path d="M20.534,16.765C23.203,15.204,25,12.315,25,9c0-4.971-4.029-9-9-9S7,4.029,7,9c0,3.315,1.797,6.204,4.466,7.765C5.962,18.651,2,23.857,2,30c0,0.681,0.065,1.345,0.159,2h27.682C29.935,31.345,30,30.681,30,30C30,23.857,26.038,18.651,20.534,16.765z M9,9c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S9,12.86,9,9z M4,30c0-6.617,5.383-12,12-12s12,5.383,12,12H4z"></path>
-                  </svg>
-                </div>
-              </a>
-            </div>
-            <a id="ProjectPageHeader-facepileAddButton" class="CircularButton CircularButton--enabled CircularButton--small projectHeaderFacepile-addButton hidden"
-              tabindex="0" aria-role="button">
-              <div class="CircularButton-label">
-                <svg class="Icon PlusIcon projectHeaderFacepile-addIcon" title="PlusIcon" viewBox="0 0 32 32">
-                  <polygon points="28,14 18,14 18,4 14,4 14,14 4,14 4,18 14,18 14,28 18,28 18,18 28,18"></polygon>
-                </svg>
-              </div>
-            </a>
             <div v-show="($store.state.currentProjectName && $store.state.currentProjectName.length>0)?true:false" id="projectVisible"
               class="projectHeaderFacepile-privacySummary projectHeaderFacepile-privacySummaryDropdown" @click="changePrivacyPopup">
               <div class="projectHeaderFacepile-privacySummaryDropdownTextDownIconContainer">
@@ -135,7 +108,7 @@
                 <a data-toggle="modal" data-target="#myModal2" @click="btnProfileClicked()">Profile</a>
               </li>
               <hr>
-              <li @click="settings_menu = true">
+              <li data-target="#settingsMenu" data-toggle="modal">
                 <a id="settings" class="menu-item-privacy" title="">
                   <span class="dropdown-menu-item-label">Settings</span>
                 </a>
@@ -149,7 +122,7 @@
         </div>
       </div>
       <router-view></router-view>
-      <settings-menu :settingArr="settingArr" :showModal="settings_menu" :closeAction="closeDialog"></settings-menu>
+      <settings-menu :settingArr="settingArr"></settings-menu>
       <div class="todoapp">
         <div id="myModal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" style="display: none;">
           <div class="modal-dialog" role="document">
@@ -244,16 +217,10 @@
   import psl from 'psl'
   var VueCookie = require('vue-cookie')
   Vue.use(VueCookie)
-
+  import KeenUI from 'keen-ui';
+  Vue.use(KeenUI)
   let location = psl.parse(window.location.hostname)
   location = location.domain === null ? location.input : location.domain
-
-  // $(window).on('popstate', function(event) {
-  //   console.log("location: " + document.location);
-  //   if(!history.pushState){
-  //     history.go(0);
-  //   }    
-  // });
 
   export default {
     name: 'navbar',
@@ -265,10 +232,8 @@
         dob: '',
         datepicker: null,
         picker10Max: new Date(),
-        image: '',
         imageURlProfilePic: this.$store.state.userObject.image_url,
         loading: false,
-        settings_menu: false,
         isOpen: this.$store.state.isSliderOpen,
         showPrivacyPopup: false,
         showPrivateCheck: false,
@@ -278,7 +243,6 @@
       }
     },
     created() {
-      console.log('Navbar called...')
     },
     computed: {
       ...mapGetters([
@@ -291,25 +255,6 @@
             var res = str.substr(0, n)
             return res
         }
-
-        // var self = this
-        // self.$store.dispatch('getUserDetail')
-        //   //  self.$store.dispatch('getUserRegister')                           
-        //   .then(function () {
-        //     // this.$router.push('/navbar/mainapp');
-        //     var str = this.$store.state.userObject.email
-        //     var n = str.indexOf("@")
-        //     var res = str.substr(0, n)
-        //     return res
-        //   })
-        //   .catch(function (error) {
-        //     if (error.response.status === 401) {
-        //       return
-        //     }
-        //     $.notify.defaults({ className: "error" })
-        //     $.notify(error.message, { globalPosition: "top center" })
-        //   })
-
       },
       projectName: {
         get() {
@@ -324,17 +269,6 @@
       ...mapMutations([
         'showMyTasks'
       ]),
-      openCloseNav: function () {
-        $('.Topbar-navButton').css('margin-left', '-35px');
-        document.getElementById('mySidenav').style.width = "250px"
-        document.getElementById("top-bar").style.marginLeft = "250px"
-        document.getElementById("main-container").style.marginLeft = "250px";
-        this.isOpen = true
-        this.$store.commit('UPDATE_SLIDER_VALUE', this.isOpen)
-      },
-      closeDialog() {
-        this.settings_menu = false
-      },
       btnLogoutClicked() {
         this.$cookie.delete('auth_token', { domain: location });
         CmnFunc.deleteAutheticationDetail()
@@ -403,7 +337,6 @@
         if (file) {
           var params = { Key: file.name, ContentType: file.type, Body: file };
           bucket.upload(params).on('httpUploadProgress', function (evt) {
-            console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total) + '%');
           }).send(function (err, data) {
             self.imageURlProfilePic = data.Location
             self.$store.state.userObject.image_url = self.imageURlProfilePic
@@ -444,7 +377,6 @@
         if (file) {
           var params = { Key: file.name, ContentType: file.type, Body: file };
           bucket.upload(params).on('httpUploadProgress', function (evt) {
-            console.log("Uploaded :: " + parseInt((evt.loaded * 100) / evt.total) + '%');
           }).send(function (err, data) {
             self.$store.dispatch('updateUserProfile', {
               image_url: data.Location,
@@ -499,7 +431,6 @@
         });
       },
       enableUpdateProfileBtn() {
-        console.log('UN', this.username)
         if (this.username) {
           var trimmedusername = this.username.trim()
           if (trimmedusername.length >= 1) {
@@ -519,22 +450,6 @@
         this.$store.state.projectSettingId
         $("div.project-setting").addClass("hidden");
       },
-      /***
-       * Show project member dialog
-       * 
-       * */
-      showMemberDialog() {
-        // Hide project setting menu
-        $("div.project-setting").addClass("hidden");
-        $("#project-setting-dialog").removeClass("hidden");
-      },
-      /***
-       * Show project delete dialog 
-       */
-      showDeleteProjectDialog() {
-        this.hideProjectSetting();
-        $("#project-delete-dialog").removeClass("hidden");
-      },
       enableUpdateProfileBtn() {
         if (this.username) {
           var trimmedusername = this.username.trim()
@@ -548,7 +463,6 @@
         }
       },
       setProjectName(e) {
-        console.log("value for dfd:>",$("#project-name").val());
         let projectName = this.$store.state.currentProjectName;
         $("#project-name").val(projectName);
       },

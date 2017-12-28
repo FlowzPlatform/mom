@@ -1,16 +1,5 @@
 <template>
     <div>
-        <!-- <div id="main-container" class="row right-tasktype" >
-            <div id="center_pane_container" class="scrollbar">
-                <div id="center_pane">
-                    <main-left-section id="taskTypes" :filtered-todos="taskTypeList"></main-left-section>
-                </div>
-            </div>
-            <div id="main-container" class="right_pane_container scrollbar" v-for="(n, index) in parentIdArr">
-                <div id="right_pane">
-                    
-                    <role-access-right-sec id="rightTaskTypes" :todoObject="n"></role-access-right-sec> -->
-
         <div id="main-container" class="row right-tasktype">
             <div id="split-container" class="type-split-container" style=" height: calc(100vh);">
                 <div id="left_type_container" class="split split-horizontal scrollbar">
@@ -20,7 +9,6 @@
                 </div>
                 <div :id="'type-' + index" class="right_pane_container split split-horizontal" v-for="(n, index) in parentIdList">
                     <div id="right_pane">
-                        <!-- <main-right-section id="rightTaskTypes" :todoObject="n"></main-right-section> -->
                         <role-access-right-sec id="rightTaskTypes" :todoObject="n"></role-access-right-sec>
                     </div>
                 </div>
@@ -31,7 +19,6 @@
 <script>
 /* eslint-disable*/
 import MainLeftSection from './MainLeftSection.vue'
-// import MainRightSection from './MainRightSection.vue'
 import RoleAccessRightSec from './RoleAccessRightSec.vue'
 import { mapGetters } from 'vuex'
 import Split from 'split.js'
@@ -96,7 +83,6 @@ export default {
     },
     components: {
         MainLeftSection,
-        // MainRightSection,
         RoleAccessRightSec
     }
 }

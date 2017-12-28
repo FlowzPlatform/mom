@@ -902,6 +902,8 @@ border: 1px solid transparent;
     /* background-color: #F8F8F9; */
     /* border-top: 1px solid #E1E2E4; */
     margin: 0 2px;
+    z-index: 2;
+    position: relative;
 }
 .taskCommentsView {
     background: #F8F8F9;
@@ -1827,7 +1829,9 @@ input[type="file"].hidden-file-input {
     line-height: 3.00857143;}
 .modal-open .modal {
     top: 40px;
-     background-color: rgba(0, 0, 0, 0.28);
+    background-color: rgba(0, 0, 0, 0.28);
+    overflow-x: unset;
+    overflow-y: unset;
 }
 .modal-open .modal .modal-dialog {
     top: 0;
@@ -2174,25 +2178,25 @@ position: fixed;
     right: 0;
     bottom: 5px;
 } */
-.right_pane_container.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
-.right_pane_container.open .todoapp.right_bar > div {width: 50%; float: left}
-.right_pane_container.open .todoapp.right_bar >  .details-pane-toolbar.toolbar-no-grad {width: 100%}
-.right_pane_container.open .todoapp.right_bar > div.taskbarsect {
+.right_pane_container #right_pane > div > .right_pannel.open {position: fixed; left: 0; right: 0; width: 100%; display: inline-block; height: calc(100% - 45px); top: 40px; z-index: 999; max-width: 100%; margin: 0px; padding: 0px; background-color: #fff;}
+.right_pane_container #right_pane > div > .right_pannel.open .tab-pannel {width: 50%; float: left}
+.right_pane_container #right_pane > div > .right_pannel.open .nav_bottom {width: 100%}
+/* .right_pannel.open .todoapp.right_bar > div.taskbarsect {
     position: fixed;
     width: 50%;
     left: 0;
     height: calc(100% - 95px);
     top: 95px;overflow: auto;
-}
-.right_pane_container.open .todoapp.right_bar > div.SingleTaskPane-feed {
+} */
+/* .right_pannel.open .todoapp.right_bar > div.SingleTaskPane-feed {
 position: fixed;
     width: 50%;
     right: 0;
     height: calc(100% - 215px);
     top: 95px;overflow: auto;
-}
-.right_pane_container.open .todoapp.right_bar {height: 100%;}
-.right_pane_container.open #details_pane_footer {
+} */
+.right_pane_container #right_pane > div > .right_pannel.open .tab-pannel {height: 100%;}
+.right_pane_container #right_pane > div > .right_pannel.open #details_pane_footer {
     position: fixed;
     width: 50%;
     right: 0;
@@ -2280,7 +2284,7 @@ position: fixed;
 .close:focus, .close:hover{
     color: #02ceff
 }
-.pos > .modal{
+.pos > .div{
     position: absolute;
 }
 .table th, .table td{
@@ -2363,7 +2367,7 @@ hr {
     margin: 2px -28px;
 }
 .FeedBlockStory {
-    padding: 10px 15px;
+    padding: 5px 15px;
     /*position: relative;*/
     width: 100%;
 }
@@ -2447,8 +2451,9 @@ hr {
         width: 100%;
 }
 .task-tag-icon{display: inline-block;}
-.task-tag-box { width: calc(100% - 66px);
-    background-color: #fff;
+.task-tag-box {
+    width: calc(100% - 66px);
+    background-color: rgba(255, 255, 255, 0);
     padding: 5px;
     display: inline-block;
     vertical-align: middle;
@@ -3106,7 +3111,7 @@ svg:not(:root), symbol, image, marker, pattern, foreignObject {
     padding: 12px 10px;
     /* text-align: center; */
     /* color: #fff; */
-    background: #fff;
+    background: rgba(255, 255, 255, 0);
     border-radius: 4px;
     /*box-shadow: 1px 1px 1px rgba(0,0,0,0.1);*/
     box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.16), 0px 2px 5px 0px rgba(0,0,0,0.23);
@@ -3726,17 +3731,17 @@ a.CloseButton.Dialog-closeButton {
         margin-top: 10px;
 }
 .NewProjectFormRowStructure-label {
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        cursor: default;
-        display: -webkit-inline-box;
-        display: -webkit-inline-flex;
-        display: -ms-inline-flexbox;
-        display: inline-flex;
-        -webkit-box-flex: 0;
-        -webkit-flex: 0 0 auto;
-        -ms-flex: 0 0 auto;
-        flex: 0 0 auto;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: default;
+    display: -webkit-box;
+    display: -webkit-box;
+    display: -ms-inline-flexbox;
+    display: -webkit-box;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
 }
 .NewProjectForm-description.is-descriptionShowing {
         margin-top: 5px;
@@ -3878,7 +3883,8 @@ input[type="radio"] {
         line-height: 16px;
         overflow: hidden;
         text-overflow: ellipsis;
-        color:#898e95
+        color:#898e95;
+        float: left;
 }
 .NewProjectForm-privacyOptionText,.NewProjectForm-privacyOptionTextWithDropdown {
         white-space: nowrap;
@@ -4190,7 +4196,7 @@ a {
         height: 50px;
         padding: 0 15px;
     }
-.Avatar.Avatar--small.Avatar--color1.Facepile-avatar {
+/* .Avatar.Avatar--small.Avatar--color1.Facepile-avatar {
         background-color: #8c3208;
 }
 .Avatar.Avatar--small.Avatar--color2.Facepile-avatar {
@@ -4207,7 +4213,7 @@ a {
 }
 .Avatar.Avatar--small.Avatar--color6.Facepile-avatar {
         background-color: #7a6ff0;
-}
+} */
 .TypeaheadItem-textWrapper {
         -webkit-box-flex: 1;
         -webkit-flex-grow: 1;
@@ -5741,6 +5747,11 @@ CSS for splitter view
 */
 .navbar-bottom .ivu-dropdown .ivu-select-dropdown {
     width: 150px;
+    transform: translateX(-39px);
+}
+
+.ivu-select-dropdown {
+    width: auto !important;
 }
 
 .navbar-bottom .ivu-select-single .ivu-select-selection{
@@ -5846,26 +5857,7 @@ CSS for splitter view
 
 
 /* circular menu color defualt */
-#menu {
-    width: 50px;
-    height: 50px;
-    margin: -25px 0 0 -25px;
-    border-radius: 500px;
-    border-radius: 50%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    list-style: none;
-    font-size: 200%;
-    transition: width 500ms, height 500ms, margin 500ms;
-    overflow: hidden;
-  }
 
-  #menu:target {
-    width: 300px;
-    height: 300px;
-    margin: -150px 0 0 -150px;
-  }
 
   .menu-button {
     width: 85px;
@@ -5892,13 +5884,6 @@ CSS for splitter view
     text-decoration: none;
     z-index: 2;
   }
-
-  #menu:not(:target)>a:first-of-type,
-  #menu:target>a:last-of-type {
-    opacity: 1;
-    z-index: 1;
-  }
-
   .menu-item-back {
     background: #000;
     width: 175px;
@@ -6237,21 +6222,6 @@ CSS for splitter view
     display: -webkit-box;
     margin-left: 10px;
 }
-/* #rightContainer:after {
-    content: "\f1da";
-    font-family: FontAwesome;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: inherit;
-    position: absolute;
-    font-size: 400px;
-    color: #f1f1f1;
-    top: 80%;
-    left: 50%;
-    margin: -300px 0 0 -200px;
-    z-index: 1;
-} */
-
 .ivu-poptip-body {
     overflow: scroll;
     max-height: 400px;
@@ -6517,7 +6487,7 @@ CSS for splitter view
     -moz-flex: 5500 1 605px;
     -ms-flex: 5500 1 605px;
     flex: 5500 1 605px;
-    min-width: 225px;
+    min-width: 420px;
     z-index: 2;
     /* overflow-y: auto; */
 }
@@ -6600,6 +6570,10 @@ CSS for splitter view
     position: fixed;
     top: 90px;
 } */
+/* Bottom otion menu */
+.option .ivu-dropdown {
+    float: right;
+}
 
 /* Todo Item */
 col-md-2.border-right:after {
@@ -6650,6 +6624,35 @@ col-md-2.border-right:after {
     top: 7px;
     right: 0;
   }
+  /* Todo Item End */
+
+  /* history style */
+
+  svg.Icon.DownIcon.FeedBlockStory-actionsDropdownIcon {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    width: 28px;
+}
+.history-label{
+    color: #848f99;
+    font-size: 11px;
+    line-height: 17px;
+}
+a.history-username{
+     color: inherit;
+    font-size: 11px;
+}
+
+ /* history style end*/
+
+@media (max-width: 576px){
+    .modal-dialog {
+        max-width: 500px;
+        margin: 30px auto;
+    }
+}
 .ql-container.ql-snow {
     min-height: 200px;
 }
@@ -6657,3 +6660,21 @@ col-md-2.border-right:after {
     float: left;
 }
   /* Todo Item End */
+.ivu-card {
+    background: transparent;
+}  
+.right_pannel::before {
+    /* content: ""; */
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    position: absolute;
+    font-size: 400px;
+    color: rgb(160, 160, 160);
+    top: 50%;
+    left: 50%;
+    margin: 0 0 0 -200px;
+    z-index: 1;
+    opacity: 0.3;
+  } 
