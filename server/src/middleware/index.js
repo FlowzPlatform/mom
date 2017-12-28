@@ -43,12 +43,12 @@ module.exports = function () {
       if ((route === '/tasks' || route === 'tasks')) {
         app.service('tasks').find({query: { created_by: userId }}).then(result=>{
           // console.log("Result:---",result.length)
-          resolve(packageInfo.value >= result.length)
+          resolve(packageInfo.value > result.length)
         })
       }else if ((route === '/project' || route === 'project')) {
         app.service('project').find({query: { create_by: userId }}).then(result=>{
           // console.log("Result:---",result.length)
-          resolve(packageInfo.value >= result.length)
+          resolve(packageInfo.value > result.length)
         })
       }else if ((route === '/projectmember' || route === 'projectmember')) {
         app.service('projectmember').find({query: { create_by: userId }}).then(result=>{
@@ -58,27 +58,27 @@ module.exports = function () {
       }else if ((route === '/tags' || route === 'tags')) {
         app.service('tags').find({query: { created_by_user_id: userId }}).then(result=>{
           console.log("Result tags:---",result.length)
-          resolve(packageInfo.value >= result.length)
+          resolve(packageInfo.value > result.length)
         })
       }else if ((route === '/role' || route === 'role')) {
         app.service('role').find({query: { created_by: userId }}).then(result=>{
-          // console.log("Result:---",result.length)
-          resolve(packageInfo.value >= result.length)
+          console.log("Result:---",result.length)
+          resolve(packageInfo.value > result.length)
         })
       }else if ((route === '/task_types' || route === 'task_types')) {
         app.service('task_types').find({query: { created_by: userId }}).then(result=>{
           // console.log("Result:---",result.length)
-          resolve(packageInfo.value >= result.length)
+          resolve(packageInfo.value > result.length)
         })
       }else if ((route === '/task_comments' || route === 'task_comments')) {
         app.service('task_comments').find({query: { commentBy: userId }}).then(result=>{
           // console.log("Result:---",result.length)
-          resolve(packageInfo.value >= result.length)
+          resolve(packageInfo.value > result.length)
         })
       }else if ((route === '/task_tags' || route === 'task_tags')) {
         app.service('task_tags').find({query: { created_by_user_id: userId }}).then(result=>{
           // console.log("Result:---",result.length)
-          resolve(packageInfo.value >= result.length)
+          resolve(packageInfo.value > result.length)
         })
       }
       else{
