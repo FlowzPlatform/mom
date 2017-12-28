@@ -3,7 +3,8 @@
         <div class="property-sheet-view">
             <div class="loading-boundary ">
                 <div class="taskCommentsView ">
-                    <div class="photo-view photo-view-remix inbox-size photo-view-rounded-corners taskCommentsView-photo">
+                        <!-- photo-view photo-view-remix inbox-size photo-view-rounded-corners  -->
+                    <div class="taskCommentsView-photo">
                         <div v-if="$store.state.userObject.email" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <avatar v-if="$store.state.userObject.image_url" :username="$store.state.userObject.email" :src="$store.state.userObject.image_url"
                                 :size="30"></avatar>
@@ -12,7 +13,6 @@
                     </div>
                     <div>
                         <div v-if="view==='htmlEditor'">
-                            <!-- <ckeditor v-model="commentText"></ckeditor> -->
                             <htmlvue-quill-editor v-model="commentText"
                                 ref="quillEditorA"
                                 :options="editorOption"
@@ -42,13 +42,11 @@
 <script>
     /* eslint-disable*/
 import { mapGetters } from 'vuex'
-import Ckeditor from 'vue-ckeditor2'
 import { markdownEditor } from 'vue-simplemde'
 import Avatar from 'vue-avatar/src/Avatar'
 import Vue from 'vue'
 import locale from 'element-ui/lib/locale/lang/en'
 import 'simplemde/dist/simplemde.min.css'
-
 import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -60,8 +58,6 @@ Vue.use(VueQuillEditor, /* { default global options } */)
         props: ['commentTaskId','commentParentId', 'view'],
         data: function () {
             return {
-                picker1: null,
-                imageURlProfilePic: this.$store.state.userObject.image_url,
                 commentText: '',
                 content: '',
                 configs: {
@@ -74,7 +70,6 @@ Vue.use(VueQuillEditor, /* { default global options } */)
             }
         },
         mounted() {
-            console.log('this is quill A instance object', this.editorA)
         },
         methods: {
             insertComment: function (taskId) {
@@ -117,23 +112,13 @@ Vue.use(VueQuillEditor, /* { default global options } */)
             }
         },
         computed: {
-            capitalizeLetters: function () {
-                var str = this.$store.state.userObject.email
-                var firstLetters = str.substr(0, 2)
-                return firstLetters.toUpperCase()
-            },
             ...mapGetters({
                 getComment: 'getCommentById'
             }),
-            getCommentByTaskId() {
-                let commentList = this.getComment(this.commentTaskId)
-                return commentList
-            },
             editorA() {
                 return this.$refs.quillEditorA.quill
             }
         }, components: {
-            //Ckeditor,
             HtmlvueQuillEditor: VueQuillEditor.quillEditor,
             markdownEditor,
             Avatar

@@ -4,45 +4,49 @@
       <div class="view" style="margin-left: 10px;">
         <span class="dreg-move"></span>
         <span class="dropdown">
-          <!-- <input v-if="!$store.state.deleteItemsSelected && id !== 'taskTypes' && id !== 'taskState' && id !== 'roleTypes'" :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle" -->
-          <input v-show="getType" v-if="!$store.state.deleteItemsSelected && id !== 'taskTypes' && id !== 'taskState' && id !== 'roleTypes'"  :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle"
-          @change="toggleTodo(todo)">
-          <input v-if="!$store.state.deleteItemsSelected && id === 'roleTypes'" :id="todo.id" type="checkbox" checked="" v-model="todo.is_checked" class="toggle" :disabled="!todo.is_editable" @change="roleCheckChange(todo)">
+          <input v-show="getType" v-if="!$store.state.deleteItemsSelected && id !== 'taskTypes' && id !== 'taskState' && id !== 'roleTypes'"
+            :id="todo.id" type="checkbox" checked="" v-model="todo.completed" class="toggle" @change="toggleTodo(todo)">
+          <input v-if="!$store.state.deleteItemsSelected && id === 'roleTypes'" :id="todo.id" type="checkbox" checked="" v-model="todo.is_checked"
+            class="toggle" :disabled="!todo.is_editable" @change="roleCheckChange(todo)">
           <label for="checkbox8"></label>
         </span>
-        <div v-if="!$store.state.deleteItemsSelected && todo.type_id && !getType" class="stateCircle Avatar--small " @click="showStatusList" data-toggle="dropdown"
-          :style="{'box-shadow' : 'inset 0 0 0 3px'+ selectedObject.color }">
-          <span>{{selectedObject.taskState | fistLatter}}</span></div>
+        <div v-if="!$store.state.deleteItemsSelected && todo.type_id && !getType" class="stateCircle Avatar--small " @click="showStatusList"
+          data-toggle="dropdown" :style="{'box-shadow' : 'inset 0 0 0 3px'+ selectedObject.color }">
+          <span>{{selectedObject.taskState | fistLatter}}</span>
+        </div>
         <ul class='dropdown-menu statusList'>
-          <li v-for="state in taskState"><a @click="selectStatus(state)">{{state.taskState}}</a>
+          <li v-for="state in taskState">
+            <a @click="selectStatus(state)">{{state.taskState}}</a>
           </li>
         </ul>
         <div v-if="$store.state.deleteItemsSelected" class="trash" :id="todo.id">
           <span class="trashcan">
             <span class="hover-glyph ">
-              <span class="fa fa-trash-o svgIcon hover-glyph-default"/>
-              <span class="fa fa-undo svgIcon hover-glyph-hover" @click="undelete(todo)"/>
+              <span class="fa fa-trash-o svgIcon hover-glyph-default" />
+              <span class="fa fa-undo svgIcon hover-glyph-hover" @click="undelete(todo)" />
             </span>
           </span>
         </div>
-        <input v-if="id !== 'taskTypes' && id !== 'taskState' && id !== 'roleTypes'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder"
-          v-bind:class="getLevelClass(todo.level,todo.id)" v-model="todo.taskName" @click="SHOW_DIV(todo)" @keyup.enter="addTodo(nextIndex)"
-          @focus="onFocusClick(todo.id, todo.level,todo.created_by,todo.type_id)" @blur=onBlurCall(todo.id,todo.level) @keyup="performAction"
-          @change="changeValue(nextIndex)">
+        <input v-if="id !== 'taskTypes' && id !== 'taskState' && id !== 'roleTypes'" class="new-todo" autofocus autocomplete="off"
+          :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)" v-model="todo.taskName" @click="SHOW_DIV(todo)"
+          @keyup.enter="addTodo(nextIndex)" @focus="onFocusClick(todo.id, todo.level,todo.created_by,todo.type_id)" @blur=onBlurCall(todo.id,todo.level)
+          @keyup="performAction" @change="changeValue(nextIndex)">
         <input v-if="id === 'taskTypes'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
           v-model="todo.type" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
         <input v-if="id === 'taskState'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
           v-model="todo.taskState" @keyup.enter="addTodo(nextIndex)" @click="SHOW_DIV(todo)">
         <input v-if="id === 'roleTypes'" class="new-todo" autofocus autocomplete="off" :placeholder="pholder" v-bind:class="getLevelClass(todo.level,todo.id)"
           v-model="todo.name" @keyup.enter="addRole(nextIndex)" :readonly="!todo.is_editable">
-        <span class=""><i>
-          <b class="glyphicon glyphicon-option-vertical"></b>
-          <b class="glyphicon glyphicon-option-vertical"></b>
+        <span class="">
+          <i>
+            <b class="glyphicon glyphicon-option-vertical"></b>
+            <b class="glyphicon glyphicon-option-vertical"></b>
           </i>
         </span>
         <div class="task-row-overlay grid-tags-and-date">
           <a class="taskRow">
-            <span v-if="todo.isTaskUpdate" style="color: red">&#x25cf;</span><span v-else></span>
+            <span v-if="todo.isTaskUpdate" style="color: red">&#x25cf;</span>
+            <span v-else></span>
             <span class="grid_due_date">{{todo.dueDate | formatDate}}</span>
           </a>
         </div>
@@ -51,9 +55,9 @@
           <avatar v-else :username="todo.email" :size="30" color="#fff" class="delete-view"></avatar>
         </div>
         <button class="destroy" v-if="id === 'taskTypes' || id === 'taskState' || (id === 'roleTypes' && todo.is_editable)" @click="deleteTaskType(todo)">
-            <a class="fa fa-close"/>
+          <a class="fa fa-close" />
         </button>
-        
+
       </div>
       <!--{{todo.progress > 50 ? Math.round(255 * (100 - todo.progress) / 100) : 255}} {{ todo.progress > 50 ? 255 : Math.round(todo.progress / 100 * 255)}}{{ 0}}-->
       <!--backgroundColor: 'rgb('+Math.round(255*(100-todo.progress)/100)+', '+Math.round(todo.progress / 100 * 255)+', 0)'-->
@@ -84,11 +88,6 @@
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import { mapMutations, mapGetters, mapActions } from 'vuex'
-  // Vue.filter('formatDate_todo', function (value) {
-  //   if (value) {
-  //     return moment(String(value)).format('MMM DD')
-  //   }
-  // })
   Vue.filter('fistLatter', function (str) {
     if (str) {
       var firstLetters = str.substr(0, 1)
@@ -148,15 +147,11 @@
       showStatusList() {
         this.$store.dispatch('getTypeState', this.todo.type_id)
       },
-      selectStatus: function(objStatus) {  
+      selectStatus: function (objStatus) {
         this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedState": objStatus.state_id })
         this.selectedObject = this.taskState.find(state => state.state_id === objStatus.state_id)
       },
       addTodo: function (todoId) {
-        // if (this.id !== 'taskTypes' && this.id !== 'taskState') {
-        //   this.$store.dispatch('insertTodo', this.todo)
-          
-        // } else 
         if (this.id === "taskTypes") {
           this.todo.created_by=this.$store.state.userObject._id
           this.$store.dispatch('addTask_Type', this.todo)
@@ -169,8 +164,8 @@
         {
           this.todo.created_by=this.$store.state.userObject._id
           this.$store.dispatch('insertRole', this.todo)
-        this.todo.name=""           
-        
+          this.todo.name = ""
+
         }
       },
       deleteTaskType: function (todo) {
@@ -178,13 +173,12 @@
           this.$store.dispatch('getCountofTaskType', this.todo)
         } else if (this.id === 'taskState') {
           this.$store.dispatch('getCountofTypeState', this.todo)
-        }else if(this.id=== 'roleTypes')
-        {
+        } else if (this.id === 'roleTypes') {
           this.$store.dispatch('deleteRoles', this.todo)
         }
       },
-      async onFocusClick(select,id,level,created_by,typeId){
-     
+      async onFocusClick(select, id, level, created_by, typeId) {
+
         $("#" + id + "_" + level).addClass("lifocus")
         if (this.todo.isTaskUpdate) {
           this.todo.isTaskUpdate = false

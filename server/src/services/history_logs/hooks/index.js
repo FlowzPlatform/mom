@@ -9,7 +9,7 @@ exports.before = {
   find(hook){
         const query = this.createQuery(hook.params.query);
         const r = this.options.r;
-        hook.params.rethinkdb = query.orderBy('createdAt')
+        hook.params.rethinkdb = query.orderBy('created_on')
   },
   get: [],
   create: [],

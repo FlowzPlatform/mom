@@ -1,15 +1,5 @@
 <template>
     <div>
-        <!-- <div id="main-container" class="row right-tasktype" >
-            <div id="center_pane_container" class="scrollbar">
-                <div id="center_pane">
-                    <main-left-section id="taskState" :filtered-todos="taskStausList"></main-left-section>
-                </div>
-            </div>
-            <div class="right_pane_container" v-for="(n, index) in pidArr">
-                <div id="right_pane">
-                    <role-access-right-sec id="rightTaskState" :todoObject="n"></role-access-right-sec> -->
-        
         <div id="main-container" class="row right-tasktype" style="left: 20%;right: 20px;">
             <div id="split-container" class="type-split-container" style="height: calc(100vh);">
                 <div id="left_task_container" class="split split-horizontal scrollbar">
@@ -29,7 +19,6 @@
 <script>
 /* eslint-disable*/
 import MainLeftSection from './MainLeftSection.vue'
-// import MainRightSection from './MainRightSection.vue'
 import RoleAccessRightSec from './RoleAccessRightSec.vue'
 import { mapGetters } from 'vuex'
 import Split from 'split.js'
@@ -94,7 +83,6 @@ export default {
     },
     components: {
         MainLeftSection,
-        // MainRightSection
         RoleAccessRightSec
     }
 }
