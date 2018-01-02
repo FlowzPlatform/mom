@@ -65,7 +65,7 @@
           </div>
           <!-- Task type -->
           <div class="task-type-menu">
-            <Select placement="top" v-model="selectedType" @on-change="btnTypeClicked" filterable style="width:150px;z-index:90">
+            <Select placement="top" :value="getTasTypeId" @on-change="btnTypeClicked" filterable style="width:150px;z-index:90">
               <Option style="margin:5px" v-for="task_type in getTaskTypes" :label="task_type.type" :value="task_type.id" :key="task_type.id">
                 {{task_type.type}}
               </Option>
@@ -519,7 +519,8 @@
         this.previousUser = todo.assigned_to;
         this.selectedUser = todo.assigned_to;
         // this.$store.dispatch("findHistoryLog", this.todoObject.id);
-        this.selectedType = todo.type_id  
+        console.log("todo.type_id:",todo.type_id)
+        // this.selectedType = todo.type_id  
       },
       getIdArray:function(ids){
        let sectionWidth = 0
@@ -666,6 +667,9 @@
       }),
       getTaskTypes() {
         return this.$store.state.task_types_list.filter(type => type.id !== '-1')
+      },
+      getTasTypeId(){
+          return this.todoObject.type_id
       },
       taskById() {
         this.onReadComment(

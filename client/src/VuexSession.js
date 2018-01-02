@@ -527,7 +527,6 @@ export const store = new Vuex.Store({
       if (historyObject instanceof Array) {
         _.forEach(historyObject, function (object) {
           let index = _.findIndex(state.taskHistoryLog, function (d) { return d.id == object.id })
-          console.log("history ->index:",index)
           if (index < 0) {
             console.log("object:",object)
             state.taskHistoryLog.push(object)
@@ -1135,7 +1134,7 @@ export const store = new Vuex.Store({
           assigned_to: store.state.userObject._id,
           isDelete: false,
           project_id: insertElement.project_id,
-          type_id: store.state.task_types_list[0].id // Default task type is todo 
+          type_id: store.state.task_types_list.find(type => type.default_Type === 'Todo').id // Default task type is todo 
         }).then(response => {
           console.log("Insert new todo::---->", response);
           
