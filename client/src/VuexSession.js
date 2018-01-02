@@ -36,7 +36,13 @@ function uploadFileOnAmazonS3(file, fileTimeStamp, cb) {
   if (file) {
     var params = { Key: fileTimeStamp, ContentType: file.type, Body: file };
     bucket.upload(params).on('httpUploadProgress', function (evt) {
-      store.state.progress = parseInt((evt.loaded * 100) / evt.total)
+
+      if(!isNaN(parseInt((evt.loaded * 100) / evt.total))){
+        store.state.progress = parseInt((evt.loaded * 100) / evt.total)
+      }else{
+        store.state.progress = 0
+      }
+      
       store.commit('progressVal')
     }).send(function (err, data) {
       // console.log('err ===> ', err)
@@ -1266,6 +1272,7 @@ export const store = new Vuex.Store({
         uploadFileOnAmazonS3(file, fileTimeStamp, function (src) {
           if(src == "fail"){
              fileObject.cb("fail")
+             store.commit('showAttachmentProgress', { 'isProgress': false, 'id': fileObject.taskId })
              return
           }
           commit('SELECT_FILE', attachArr)
@@ -1663,9 +1670,10 @@ export const store = new Vuex.Store({
           commit('SAVE_USERTOKEN', response.data.logintoken)
         })
         .catch(function (error) {
-          if (error.response.status === 401) {
+          if (error.response.status === 401 || error.response.status === 404) {
             throw new Error('You have entered wrong credentials...')
           }
+          
         });
     },
     socialAuthRegistration({ commit }, objSocialAuth){
