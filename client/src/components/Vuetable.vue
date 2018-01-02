@@ -380,7 +380,6 @@
     .table-wrapper {
         overflow-x: scroll;
         overflow-y: visible;
-        margin-left: 115px;
     }
 
     td,

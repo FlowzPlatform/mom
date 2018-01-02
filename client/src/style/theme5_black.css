@@ -159,3 +159,6 @@ svg.Icon.AttachIcon {
 .autogrow-textarea textarea, .autogrow-textarea [contenteditable="true"] {
   color: white;
 }
+.fa-5x, .text.gridPaneSearchEmptyView-noProjectItemsTitleText, .text.gridPaneSearchEmptyView-noProjectItemsText {
+  color: aliceblue;
+}

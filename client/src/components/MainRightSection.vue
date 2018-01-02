@@ -478,8 +478,6 @@
       },
       async btnTypeClicked(objType) {
         if(objType !== this.todoObject.type_id){
-              
-            
           await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedType": objType,
               log_action:Constant.HISTORY_LOG_ACTION.TASK_TYPE, log_text:objType})
           await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedState": '' })
@@ -523,8 +521,6 @@
       },
       getIdArray:function(ids){
        let sectionWidth = 0
-        console.log("----------------")
-        console.log("this.id:",this.id)
        	let containerWidth = ($(window).width())
         for (var id in ids) {
             //conversion of percentage into pixel(width) of section
@@ -532,7 +528,6 @@
             if((this.id+1) == id){
                 this.selectedIndex = this.id
                 console.log('section width:', this.sectionWidth)
-               
               // Comment
                 if(parseInt(this.sectionWidth) > 371  && parseInt(this.sectionWidth) < 442 ){
                   console.log("call block 1")

@@ -32,9 +32,6 @@
                     if(isSearch){
                         this.currentView = Search
                     }
-				// this.isRoleAccess = isRoleAccess
-				// this.isMyTask = isMainTask
-				// this.isSearch = isSearch
 			    }
             },
             components: {

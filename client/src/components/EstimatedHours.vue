@@ -39,6 +39,7 @@
     methods:{
     clickAction () {
         this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "estimatedTime": this.filteredTodo.estimatedTime})
+        $('#estimateHr'+this.filteredTodo.id).modal('hide')
       },
       async updateEstimatHour(id,level,created_by,typeId) {
         let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.ESTIMATED_HOURS,Constant.PERMISSION_ACTION.UPDATE)

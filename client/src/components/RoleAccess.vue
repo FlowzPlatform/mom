@@ -1,9 +1,6 @@
 <template>
     <div class="wrapper">
         <div class="sidebar">
-            <div class="logo">
-                <a href="../assets/Flowz_logo.png" class="simple-text"></a>
-            </div>
             <div class="sidebar-wrapper">
                 <ul class="nav">
                     <li class="active">
@@ -34,20 +31,13 @@
             </div>
         </div>
         <div class="main-panel">
-            <nav class="navbar navbar-transparent navbar-absolute">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="#">{{ accessName }}</a>
-                    </div>
-                </div>
-            </nav>
             <div class="content">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
                                 <div>
-                                    <div id="app" class="ui vertical stripe segment" v-show="isUserGroup">
+                                    <div id="app" v-show="isUserGroup">
                                         <div class="ui container">
                                             <div id="content" class="ui basic segment">
                                                 <div v-for="(item, itemNumber) in tableData">
@@ -65,13 +55,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="app" class="ui vertical stripe segment" v-show="isTaskType">
+                                    <div id="app" v-show="isTaskType">
                                         <show-task-types></show-task-types>
                                     </div>
-                                    <div id="app" class="ui vertical stripe segment" v-show="isTaskState">
+                                    <div id="app" v-show="isTaskState">
                                         <show-task-state></show-task-state>
                                     </div>
-                                    <div id="app" class="ui vertical stripe segment" v-show="isRoleList">
+                                    <div id="app" v-show="isRoleList">
                                         <roles-types></roles-types>
                                     </div>
                                 </div>
@@ -363,11 +353,10 @@
                 roles: [],
                 tableData: [],
                 addRole: '',
-                isUserGroup: false,
+                isUserGroup: true,
                 isTaskType: false,
                 isTaskState: false,
                 isRoleList: false,
-                accessName:''
             }
         },
         created() {
@@ -411,10 +400,10 @@
                 this.isTaskType = false
                 this.isTaskState = false,
                 this.isRoleList = false
-                this.accessName = "ACL"
+                this.$store.state.currentProjectName = "ACL"
             },
             showTaskType: function () {
-                this.accessName = "Task Type"
+                this.$store.state.currentProjectName = "Task Type"
                 this.isTaskType = true
                 this.isUserGroup = false
                 this.isTaskState = false
@@ -422,7 +411,7 @@
                 this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
             },
             showTaskState: function () {
-                this.accessName = "Task State"
+                this.$store.state.currentProjectName = "Task State"
                 this.isTaskType = false
                 this.isUserGroup = false
                 this.isTaskState = true
@@ -430,7 +419,7 @@
                 this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
             },
             showRoleState: function () {
-                this.accessName = "Roles"
+                this.$store.state.currentProjectName = "Roles"
                 this.isTaskType = false
                 this.isUserGroup = false
                 this.isTaskState = false

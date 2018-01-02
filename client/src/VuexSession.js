@@ -171,7 +171,7 @@ export const store = new Vuex.Store({
     accessRight:{},
     deleteFileName:'',
     splitWidthArr: [],
-    isNoProjectShow:false
+    isNoProjectShow:false,
   },
   mutations: {
     userData: state => state.userObject,
@@ -182,9 +182,7 @@ export const store = new Vuex.Store({
     splitWidthArr: state => state.splitWidthArr,
 
     setSplitWidth(state, data){
-     // console.log('SplitWidth Data:', data)
       state.splitWidthArr = data
-      console.log('SplitWidth Data:', state.splitWidthArr)
     },
     // showProgress: state => state.isProgress,
     // showLoader: state => state.isLoading,
@@ -224,9 +222,7 @@ export const store = new Vuex.Store({
         state.todolist = data
       }
     },
-    async SHOW_DIV(state, payload) {
-      console.log("SHOW_DIV call ==>", state.taskHistoryLog.length)
-      
+    async SHOW_DIV(state, payload) {      
       // Clear history log, attachment, tags
       // state.taskHistoryLog.length = 0
       // state.arrAttachment.length = 0
@@ -248,7 +244,7 @@ export const store = new Vuex.Store({
       CmnFunc.scrollToLeft()
       // END scroll to last opened right div 
       
-
+      
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
         // window.history.pushState("", "Title", "http://localhost:3000/navbar/task/" + (payload.level + 1) + "/" + payload.id);
@@ -514,7 +510,6 @@ export const store = new Vuex.Store({
           let index = _.findIndex(state.arrAttachment, function (d) { return d.id == object.id })
           console.log("attachment ->index:",index)
           if (index < 0) {
-            console.log("SELECT_FILE object:",object)
             state.arrAttachment.push(object)
           }
         });
@@ -527,9 +522,7 @@ export const store = new Vuex.Store({
       if (historyObject instanceof Array) {
         _.forEach(historyObject, function (object) {
           let index = _.findIndex(state.taskHistoryLog, function (d) { return d.id == object.id })
-          console.log("history ->index:",index)
           if (index < 0) {
-            console.log("object:",object)
             state.taskHistoryLog.push(object)
           }
         });
@@ -1146,7 +1139,6 @@ export const store = new Vuex.Store({
       }
     },
     editTaskName({ commit }, editObject) {
-      console.log("editObject: ",editObject)
       if (editObject.todo.id) {
         let self=this
         services.tasksService.patch(editObject.todo.id, {
