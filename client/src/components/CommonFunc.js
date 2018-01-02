@@ -72,7 +72,6 @@ export default {
         // If accessPermission object empty then call function callRoleAccessService
         // and store value in accessRight vuex data
         let accessPermission = await this.checkAccessValue(context,taskTypeId,selfRoleId);
-        console.log("object empty:",accessPermission);
         if(!_.isEmpty(accessPermission)){
           accessRight = accessPermission;
         }else{

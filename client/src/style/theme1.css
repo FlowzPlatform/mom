@@ -1,8 +1,4 @@
-.Topbar {
-    /* background: #000; */
-}
 .logo__title{
-    /* background: #000; */
     color: #fc4a1a;
     font-family: esteban
 }
@@ -15,43 +11,32 @@
   }
 
   .menu-item-back:hover {
-    /* background: rgb(160, 160, 160); */
     background: #008B95;
   }
 
   .ivu-poptip-rel:hover {
-    /* background: rgb(160, 160, 160); */
     background: #008B95;
   }
 
   .menu-item:nth-child(3) .menu-item-back {
-    transform: rotate(-60deg) skew(-30deg);
-    /* background-color: #4a4848; */
     background: #66B9BF;
   }
   .menu-item:nth-child(3) .menu-item-back:hover{
-      /* background: rgb(160, 160, 160); */
       background: #008B95;
   }
 
   .menu-item:nth-child(5) .menu-item-back {
-    transform: rotate(60deg) skew(-30deg);
-    /* background-color: #4a4848; */
     background: #66B9BF;
   }
   .menu-item:nth-child(5) .menu-item-back:hover{
-      /* background: rgb(160, 160, 160); */
       background: #008B95;
   }
 
   .menu-item:nth-child(7) .menu-item-back {
-    transform: rotate(180deg) skew(-30deg);
-    /* background-color: #4a4848; */
     background: #66B9BF;
   }
 
   .menu-item:nth-child(7) .menu-item-back:hover{
-      /* background: rgb(160, 160, 160); */
       background: #008B95;
   }
 
@@ -63,7 +48,6 @@
     background-color: #EEAA7B;    
 }
 .navbar-bottom:hover a.active {
-  /*background-color: rgba(63, 81, 181, 0.90);*/
   background-color: #e37222;
   color: white;
 }

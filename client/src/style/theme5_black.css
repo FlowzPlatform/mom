@@ -46,7 +46,6 @@ html, body {
   }
 
   .menu-item:nth-child(3) .menu-item-back {
-    transform: rotate(-60deg) skew(-30deg);
     background: #88A95B;
   }
   .menu-item:nth-child(3) .menu-item-back:hover{
@@ -54,7 +53,6 @@ html, body {
   }
 
   .menu-item:nth-child(5) .menu-item-back {
-    transform: rotate(60deg) skew(-30deg);
     background: #88A95B;
   }
   .menu-item:nth-child(5) .menu-item-back:hover{
@@ -62,7 +60,6 @@ html, body {
   }
 
   .menu-item:nth-child(7) .menu-item-back {
-    transform: rotate(180deg) skew(-30deg);
     background: #88A95B;
   }
 

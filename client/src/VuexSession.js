@@ -415,7 +415,6 @@ export const store = new Vuex.Store({
           if(item.type_id)
             Vue.set(state.todolist[updateTodoIndex], 'type_id', item.type_id)
             if(item.type_id){
-              console.log("item.type_id",item.type_id)
                 Vue.set(state.accessRight,0,{})
               // state.accessRight.task_type = item.type_id;
              // Vue.set(state.accessRight, state.accessRight.task_type, item.type_id)
@@ -1161,17 +1160,6 @@ export const store = new Vuex.Store({
             editObject.callback()
           }         
         });
-        // Vue.http.post('/updatetasks', {
-        //   id: editObject.todo.id,
-        //   taskName: editObject.todo.taskName,
-        //   taskDesc: editObject.todo.taskDesc,
-        //   dueDate: editObject.selectedDate ? editObject.selectedDate.toJSON() : '',
-        //   estimatedTime: editObject.estimatedTime,
-        //   priority: editObject.taskPriority
-        // }).then(response => {
-        //   // console.log('task updated', response.data)
-        //   commit('updateTodo', editObject)
-        // })
       }
     },
     delete_Todo({ commit }, deleteElement) {

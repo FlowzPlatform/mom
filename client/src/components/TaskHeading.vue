@@ -39,7 +39,6 @@
 <script>
     /* eslint-disable*/
     import { mapMutations, mapActions } from "vuex";
-    import TaskHeading from './TaskHeading.vue'
     import * as Constant from "./Constants.js";
     export default {
         props: ['filteredTodo', 'id', 'commentName'],
@@ -108,9 +107,6 @@
                     .parents(".right_pane_container #right_pane #" + ind)
                     .toggleClass("open");
             }
-        },
-        components: {
-            TaskHeading
         }
     }
 </script>

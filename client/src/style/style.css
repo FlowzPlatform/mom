@@ -906,7 +906,7 @@ border: 1px solid transparent;
     position: relative;
 }
 .taskCommentsView {
-    background: #F8F8F9;
+    background: rgba(248, 248, 249, 0);
     display: -webkit-box;
     display: -moz-box;
     display: box;
@@ -915,6 +915,9 @@ border: 1px solid transparent;
     display: -ms-flexbox;
     display: flex;
     padding: 10px 10px 0;
+}
+.CodeMirror {
+    background: transparent;
 }
 .photo-view.inbox-size {
     height: 30px;
@@ -5893,11 +5896,9 @@ CSS for splitter view
   .menu-item:nth-child(3) .menu-item-back {
     transform: rotate(-60deg) skew(-30deg);
     background-color: #4a4848;
-    /* background: #8cc; */
   }
   .menu-item:nth-child(3) .menu-item-back:hover{
       background: rgb(160, 160, 160);
-      /* background: #9dd; */
   }
 
   .menu-item:nth-child(3):before {
