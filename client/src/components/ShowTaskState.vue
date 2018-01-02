@@ -52,7 +52,7 @@ export default {
                 this.instanceState.destroy()
                 this.instanceState = null
               } 
-              this.instanceState = Split(ids, {minSize: 225});
+              this.instanceState = Split(ids, {minSize: 225, gutterSize: 4});
             }, 20);
           }
         }
