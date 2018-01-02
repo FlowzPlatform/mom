@@ -52,7 +52,7 @@ export default {
                 this.instanceType.destroy()
                 this.instanceType = null
               } 
-              this.instanceType = Split(ids, {minSize: 225});
+              this.instanceType = Split(ids, {minSize: 225, gutterSize: 4});
             }, 20);
           }
         }

@@ -227,7 +227,7 @@
 							}
 							//splitter logic goes here
 							let self = this;
-							this.instance = Split(ids, {sizes: sizeArray, minSize: 420,
+							this.instance = Split(ids, {sizes: sizeArray, minSize: 420, gutterSize: 4,
 								onDragEnd: function () {
 									//save splitter size array in local storage.
 									localStorage.setItem('split-sizes', JSON.stringify(self.instance.getSizes()));
