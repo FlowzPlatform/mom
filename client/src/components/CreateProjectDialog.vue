@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" tabindex="-1" role="dialog" id="createProject" aria-hidden="true">
+    <div class="modal fade" tabindex="-1" role="dialog" id="createProject" aria-hidden="true" style="position: absolute;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" @click="savePost">Save changes</button>
+                    <button type="submit" id="save" class="btn btn-primary" @click="savePost">Save changes</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -155,6 +155,7 @@
                     callback: this.projectResponse
                 }
                 this.$store.dispatch('insertProject', request)
+                $('#createProject').modal('hide');
             }
         }
     }
