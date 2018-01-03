@@ -11,14 +11,15 @@
                         </div>
                     </span>
                     <span class="attachment-username">
-                        <span style="font-size:10px">{{files.fullname}} </span>
+                        <span v-if="files.fullname" style="font-size:10px">{{files.fullname}} </span>
+                        <span v-else style="font-size:10px">{{files.email}} </span>
                          <span class="BlockStory-timestamp">
                                 <span>{{logDate(files.created_on)}}</span>
                          </span>
                     </span>
                     <Dropdown @on-click="moreActionMenuClick" trigger="click" placement="bottom" class="close-btn">
                         <a href="javascript:void(0)">
-                            <Icon style="font-size:20px;color:rgb(149, 152, 157)" type="android-more-horizontal"></Icon>
+                            <Icon style="font-size:20px;color:rgb(117, 120, 126); cursor: pointer" type="android-more-horizontal"></Icon>
                         </a>
                         <DropdownMenu slot="list">
                             <DropdownItem name="1"><span style="padding:10px" @click="deleteAttachment(files, index)">Delete</span></DropdownItem>
@@ -39,12 +40,12 @@
                               <span class="del_attachment_text">Deleting...</span>
                         </span>                          
                         <div class="">
-                            <a class="AddedAttachmentStory-link" style="color:inherit; text-decoration: none;font-size:11px" :href="files.file_url" target="_blank" tabindex="-1">
-                                <i><span style="color:black;font-size:12px">file:</span>{{files.file_name}}</i>
+                            <a class="AddedAttachmentStory-link" style="color:inherit; text-decoration: none;font-size:11px; cursor: pointer" :href="files.file_url" target="_blank" tabindex="-1">
+                                <i><span style="color:black;font-size:12px;">file:</span>{{files.file_name}}</i>
                             </a>
-                            <button class="" @click="deleteAttachment(files, index)">
+                            <!-- <button class="" @click="deleteAttachment(files, index)">
                                 <a v-show="isDeleteAttachment" class="fa fa-close" />
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                 </div>
@@ -53,7 +54,7 @@
                         <i class="fa fa-thumbs-o-up hidden" style="font-size:25px;color:rgb(149, 152, 157)" aria-hidden="true"></i>
                         <i class="fa fa-comments hidden" style="font-size:25px;color:rgb(149, 152, 157);margin-left:30px" aria-hidden="true"></i>
                         <a :href="files.file_url" download>
-                            <i class="fa fa-arrow-circle-o-down" style="font-size:25px; color:rgb(211, 211, 211);" aria-hidden="true"></i>
+                            <i class="fa fa-arrow-circle-o-down download-attachment" aria-hidden="true"></i>
                         </a>
                     </span>
                   </div>
@@ -190,8 +191,12 @@ export default {
   }
 
   .image-preview {
-    width: 300px;
-    height: 160px;
+    /* width: 300px;
+    height: 160px; */
+    
+    max-width: 300px;
+    max-height: 160px;
+    overflow: none;
   }
 
   .ivu-card-head p,
@@ -286,5 +291,13 @@ label.attchment-icon {
     padding-left: 22px;
     float: left;
     padding-right: 20px;
+}
+.download-attachment{
+  font-size:25px; 
+  color:rgb(211, 211, 211);
+  cursor:pointer
+}
+.download-attachment:hover{
+  color:#1aafd0;
 }
 </style>
