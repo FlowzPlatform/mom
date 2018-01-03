@@ -41,6 +41,7 @@
     methods:{
     clickAction () {
         this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "taskPriority": this.filteredTodo.priority})
+        $('#taskPriority'+this.filteredTodo.id).modal('hide')
       },
       async updateTaskPriority(id,level,created_by,typeId) {
         let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.TASK_PRIORITY,Constant.PERMISSION_ACTION.UPDATE)

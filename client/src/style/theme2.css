@@ -1,9 +1,4 @@
-
-.Topbar {
-    /* background: #000; */
-}
 .logo__title{
-    /* background: #000; */
     color: #8D4A00;
     font-family: 'Gotham Rounded SSm A','Gotham Rounded SSm B'
 }
@@ -16,43 +11,32 @@
   }
 
   .menu-item-back:hover {
-    /* background: rgb(160, 160, 160); */
     background: #EC471B;
   }
 
   .ivu-poptip-rel:hover {
-    /* background: rgb(160, 160, 160); */
     background: #EC471B;
   }
 
   .menu-item:nth-child(3) .menu-item-back {
-    transform: rotate(-60deg) skew(-30deg);
-    /* background-color: #4a4848; */
     background: #FA8060;
   }
   .menu-item:nth-child(3) .menu-item-back:hover{
-      /* background: rgb(160, 160, 160); */
       background: #EC471B;
   }
 
   .menu-item:nth-child(5) .menu-item-back {
-    transform: rotate(60deg) skew(-30deg);
-    /* background-color: #4a4848; */
     background: #FA8060;
   }
   .menu-item:nth-child(5) .menu-item-back:hover{
-      /* background: rgb(160, 160, 160); */
       background: #EC471B;
   }
 
   .menu-item:nth-child(7) .menu-item-back {
-    transform: rotate(180deg) skew(-30deg);
-    /* background-color: #4a4848; */
     background: #FA8060;
   }
 
   .menu-item:nth-child(7) .menu-item-back:hover{
-      /* background: rgb(160, 160, 160); */
       background: #EC471B;
   }
 
@@ -64,20 +48,12 @@
     background-color: #13A854;    
 }
 .navbar-bottom:hover a.active {
-  /*background-color: rgba(63, 81, 181, 0.90);*/
   background-color: #45B274ad;
-  /* color: #747373; */
 }
 .header-name{
     color: #8D4A00;
     font-family: esteban
 }
-/* .navbar-bottom a {
-    color: #747373;
-}
-.Topbar-sidebarToggleIcon {
-    fill: #747373;
-} */
 .navbar-bottom .ivu-select-single .ivu-select-input {
     -webkit-text-fill-color : #fff;
 }
@@ -108,7 +84,7 @@
     background: #EC471B;
   }
   .right_pannel::before {
-    color:#FA8060
+    color:#FA8060;
   }
   .buttonView.buttonView--primary {
     background: #176C95;

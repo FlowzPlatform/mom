@@ -906,7 +906,7 @@ border: 1px solid transparent;
     position: relative;
 }
 .taskCommentsView {
-    background: #F8F8F9;
+    background: rgba(248, 248, 249, 0);
     display: -webkit-box;
     display: -moz-box;
     display: box;
@@ -915,6 +915,9 @@ border: 1px solid transparent;
     display: -ms-flexbox;
     display: flex;
     padding: 10px 10px 0;
+}
+.CodeMirror {
+    background: transparent;
 }
 .photo-view.inbox-size {
     height: 30px;
@@ -2022,10 +2025,10 @@ span.shortcut {
     padding: 6px
 }
 attachmentsMenuView .dropdown-menu li a:hover {background-color: #1aafd0;color: #fff;}
-.upload-file-dropdown { width: 160px; position: relative; z-index: 1;  display: inline-block;}
+/* .upload-file-dropdown { width: 160px; position: relative; z-index: 1;  display: inline-block;}
 .upload-file-dropdown > input {width: 100%; height: 30px; opacity: 0;}
-.upload-file-dropdown > span {position: absolute;top: 0;left: 0;width: 100%;z-index: -1;}
-.uplod-list-file {text-align: left; width: 100%;list-style: none;padding: 0 0 10px 30px; margin: 0px; position: relative;}
+.upload-file-dropdown > span {position: absolute;top: 0;left: 0;width: 100%;z-index: -1;} */
+/* .uplod-list-file {text-align: left; width: 100%;list-style: none;padding: 0 0 10px 30px; margin: 0px; position: relative;}
 .uplod-list-file li:first-child::after {content: "\f0c6"; display: inline-block; font: normal normal normal 14px/1 FontAwesome; font-size: inherit;
 text-rendering: auto; -webkit-font-smoothing: antialiased; padding-right: 10px; padding-left: 20px; color:#ccc; position: absolute; top: 0; left: 8px;}
 .uplod-list-file li::before {content: "\f016"; display: inline-block; font: normal normal normal 14px/1 FontAwesome; font-size: inherit;
@@ -2036,7 +2039,7 @@ text-rendering: auto; -webkit-font-smoothing: antialiased;  vertical-align: top;
 .uplod-list-file li button { opacity: 0; display: inline-block; background-color: #ccc; color: #1AAFD0; width: 10px; height: 10px; border-radius: 5px; height: auto; width: 17px;font-size: 12px;border-radius: 12px;line-height: 17px;color: rgba(0, 0, 0, 0.57); margin-left: 8px;}
 .uplod-list-file li:hover button  { opacity: 1;}
 .uplod-list-file li:hover button:hover {background-color: #1AAFD0; color: #fff;}
-.uplod-list-file li .ui-progress-linear {margin: 0 !important;padding: 0;width: 100% !important;position: absolute;left: 0; right: 0;}
+.uplod-list-file li .ui-progress-linear {margin: 0 !important;padding: 0;width: 100% !important;position: absolute;left: 0; right: 0;} */
 
 .vdp-datepicker.wrapperClass.temp > div > input {
     width: 101px;
@@ -2936,50 +2939,12 @@ hr {
     font-size: 16px;
 }
 
-.trashcan-empty.gridPaneSearchEmptyView-noProjectItems {
-    -webkit-box-align: center;
-    -moz-box-align: center;
-    box-align: center;
-    -webkit-align-items: center;
-    -moz-align-items: center;
-    -ms-align-items: center;
-    -o-align-items: center;
-    align-items: center;
-    -ms-flex-align: center;
-    display: -webkit-box;
-    display: -moz-box;
-    display: box;
-    display: -webkit-flex;
-    display: -moz-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -moz-box-orient: vertical;
-    box-orient: vertical;
-    -webkit-flex-direction: column;
-    -moz-flex-direction: column;
-    flex-direction: column;
-    -ms-flex-direction: column;
-    padding: 30px;
-    text-align: center;
-}
-
 .text.gridPaneSearchEmptyView-noProjectItemsImage {
     margin-bottom: 10px;
     width: 250px;
 }
-
-.text.gridPaneSearchEmptyView-noProjectItemsTitleText {
-    font-size: 30px;
-    font-weight: bold;
-    margin: 15px;
-
-}
-
-.text.gridPaneSearchEmptyView-noProjectItemsText {
-    font-size:15px;
-    margin: 5x;
-
+.fa-5x, .text.gridPaneSearchEmptyView-noProjectItemsTitleText, .text.gridPaneSearchEmptyView-noProjectItemsText {
+    color: #000;
 }
 
 .PageHeaderStructure {
@@ -3385,6 +3350,7 @@ textarea{
     margin: 0 auto;
     padding: 5px 0;
     position: relative;
+    display: -webkit-box;
 }
 .TopbarSearch-icon {
     -webkit-align-self: center;
@@ -5930,11 +5896,9 @@ CSS for splitter view
   .menu-item:nth-child(3) .menu-item-back {
     transform: rotate(-60deg) skew(-30deg);
     background-color: #4a4848;
-    /* background: #8cc; */
   }
   .menu-item:nth-child(3) .menu-item-back:hover{
       background: rgb(160, 160, 160);
-      /* background: #9dd; */
   }
 
   .menu-item:nth-child(3):before {
@@ -5962,11 +5926,9 @@ CSS for splitter view
   .menu-item:nth-child(5) .menu-item-back {
     transform: rotate(60deg) skew(-30deg);
     background-color: #4a4848;
-    /* background: #8cc; */
   }
   .menu-item:nth-child(5) .menu-item-back:hover{
       background: rgb(160, 160, 160);
-      /* background: #9dd; */
   }
 
   .menu-item:nth-child(5):before {
@@ -6079,7 +6041,7 @@ CSS for splitter view
     display: none;
   }
   .nav-icon {
-    font-size: x-large;
+    font-size: 20px;
   }
   .nav-title {
     font-size: small;
@@ -6558,7 +6520,7 @@ CSS for splitter view
     bottom: 0;
     display: -webkit-box;
     position: fixed;
-    top: 90px;
+    top: 45px;
   }
 
   /* .state-split-container{
@@ -6676,5 +6638,5 @@ a.history-username{
     left: 50%;
     margin: 0 0 0 -200px;
     z-index: 1;
-    opacity: 0.3;
+    opacity: 0.2;
   } 

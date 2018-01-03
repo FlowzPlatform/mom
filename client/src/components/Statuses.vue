@@ -22,10 +22,9 @@
         <div v-if="id === 'rightTaskState'">
             <div class="control-group">
                 <label for="input-color">Color:</label>
-                <input type="color" id="bgcolor" v-model="filteredTodo.color" value="#0000" @change="getColorVal($event.target.value)" style="height:25px; width:25px;"
-                />
-            </div>
+                <input type="color" id="bgcolor" v-model="filteredTodo.color" value="#0000" @change="getColorVal($event.target.value)" style="height:25px; width:25px;"/>
         </div>
+    </div>
     </div>
 </template>
 <script>
@@ -35,7 +34,7 @@
         props: ['id', 'filteredTodo'],
         data: function () {
             return {
-                value: ''
+                value: '',
             }
         },
         computed: {
@@ -73,7 +72,7 @@
                         c.selected = true
                     }
                 }, this)
-            }
+            },
         }
     }
 

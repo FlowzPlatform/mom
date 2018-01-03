@@ -215,7 +215,15 @@ import CmnFunc from './CommonFunc.js'
         this.visibleFilter = key
       },
       deleteCommnet: function (commentObj) {
-        this.$store.dispatch('delete_Comment', commentObj)
+        // this.$store.dispatch('delete_Comment', commentObj)
+        this.$Modal.confirm({
+          title: "Comment",
+          content:
+            "<p>Are you sure that you want to permanently delete Comment?</p>",
+          onOk: () => {
+            this.$store.dispatch('delete_Comment', commentObj)
+          }
+        });
       }
     },
     watch: {

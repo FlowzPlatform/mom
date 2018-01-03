@@ -7,6 +7,7 @@
             <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName">
               <input id="project-name" class="logo__title" type="text" name="fname" maxlength="25" v-model="projectName" @blur="setProjectName"
                 @keyup.enter="updateProjectName" style="text-align: center;" />
+                <!-- <span class="logo__title">{{$store.state.accessName}}</span> -->
             </div>
           </div>
         </div>
