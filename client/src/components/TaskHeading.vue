@@ -1,7 +1,8 @@
 <template>
     <div class="task">
         <div class="view" style="position: relative;">
-            <div id="topicon" style="position: absolute; float: right; right: 0;">
+            <TaskHeadAction :id='id' :closeDiv="closeDiv" :pinIt="pinit" :isPinned="filteredTodo.isPinned"></TaskHeadAction>
+            <!-- <div id="topicon" style="position: absolute; float: right; right: 0;">
                 <div id="closeWindow" class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
                     tabindex="410" style="margin-top: 2px;">
                     <span id="close" class="destroy circularButtonView-label" @click="CLOSE_DIV(filteredTodo)">
@@ -15,13 +16,8 @@
                         <img class="init" v-else src="../assets/pin.png" style="width:16px; height:16px; margin-bottom:2px;"></img>
                     </span>
                 </div>
-                <!-- <div id="fullWindow" class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
-                    tabindex="410" @click="openfullwinodw(filteredTodo.level)" style="margin-top: 2px; ">
-                    <span class="circularButtonView-label">
-                        <i class="fa fa-expand" aria-hidden="true"></i>
-                    </span>
-                </div> -->
-            </div>
+            
+            </div> -->
             <div v-if="commentName" v-html="commentName">{{commentName}}</div>            
             <input type="checkbox" class="toggleTask" v-model="filteredTodo.completed" @change="toggleTodo(filteredTodo)" style="float: left;">
             <textarea v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" id="text-area" class="field-description generic-input hypertext-input notranslate header-name"
@@ -39,7 +35,7 @@
 <script>
     /* eslint-disable*/
     import { mapMutations, mapActions } from "vuex";
-    import TaskHeading from './TaskHeading.vue'
+    import TaskHeadAction from './TaskHeadAction.vue'
     import * as Constant from "./Constants.js";
     export default {
         props: ['filteredTodo', 'id', 'commentName'],
@@ -52,6 +48,10 @@
                 'toggleTodo'
             ]),
             ...mapMutations(["CLOSE_DIV"]),
+            closeDiv:function()
+            {
+                this.$store.commit("CLOSE_DIV",this.filteredTodo)
+            },
             updateTaskName: _.debounce(function () {
                 this.$store.dispatch('editTaskName', 
                 {  "todo":this.filteredTodo,
@@ -82,7 +82,8 @@
                     document.getElementById("txtAreaTaskName").readOnly = false
                 }
             },
-            pinit(filteredTodo) {
+            pinit() {
+                let filteredTodo=this.filteredTodo
                 if (
                     _.find(this.$store.state.todolist, ["id", filteredTodo.id]) &&
                     !_.find(this.$store.state.todolist, ["id", filteredTodo.id]).isPinned
@@ -110,7 +111,7 @@
             }
         },
         components: {
-            TaskHeading
+            TaskHeadAction
         }
     }
 </script>

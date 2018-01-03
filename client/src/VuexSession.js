@@ -527,7 +527,7 @@ export const store = new Vuex.Store({
       if (historyObject instanceof Array) {
         _.forEach(historyObject, function (object) {
           let index = _.findIndex(state.taskHistoryLog, function (d) { return d.id == object.id })
-          console.log("history ->index:",index)
+          // console.log("history ->index:",index)
           if (index < 0) {
             console.log("object:",object)
             state.taskHistoryLog.push(object)
@@ -2164,16 +2164,17 @@ export const store = new Vuex.Store({
         console.log("Remove Role--->",response)
       });
     },
-    closeComment(state,comment)
+    closeComment(state,commentId)
     {
+      console.log("Commentid:---",commentId)
       let parentIdArr=store.state.parentIdArr;
       let index=0;
       
-      let tempParentId='-1';
+      let tempParentId='';
       let removeIndex=[];
       parentIdArr.forEach(function(element) { 
           console.log("element id:",element); 
-          if(element.show_type==="subcomment" && (element.parentId===tempParentId || element.id===comment.id ))
+          if(element.show_type==="subcomment" && (element.parentId===tempParentId || element.id===commentId ) && (element.isPinned===undefined || !element.isPinned))
           {
             tempParentId=element.id;
             removeIndex.push(index);
@@ -2189,7 +2190,7 @@ export const store = new Vuex.Store({
         
       }, this);
     }, 
-    closeChildComment(state,comment)
+    closeChildComment(state,commentId)
     {
       let parentIdArr=store.state.parentIdArr;
       let index=0;

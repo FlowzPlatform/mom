@@ -104,7 +104,7 @@ import CmnFunc from './CommonFunc.js'
     components: {
       Avatar
     },
-    props: ['commentTaskId', 'commentParentId'],
+    props: ['commentTaskId', 'commentParentId','id','isPinned'],
     data: function () {
       return {
         taskComments: [],
@@ -123,11 +123,14 @@ import CmnFunc from './CommonFunc.js'
 
       let vm = this;
       services.taskComments.on('created', message => {
+
         let indexCount = _.findIndex(this.taskComments, function (d) { return d.task_id == message.task_id && d.id == message.parentId })
         // Comment counter increament
         if (indexCount > -1) {
           this.taskComments[indexCount].count += 1
-        } else {
+        } 
+        
+        if(this.commentParentId===message.parentId){
           // Add new comment
           let index = _.findIndex(this.taskSortComments, function (d) { return d.id == message.id })
           if (index < 0 && indexCount < 0) {
@@ -135,7 +138,9 @@ import CmnFunc from './CommonFunc.js'
             this.taskSortComments.unshift(message)
             this.taskComments.unshift(message)
           }
-        }
+        
+        
+      }
 
       });
       services.taskComments.on('removed', message => {
@@ -143,6 +148,7 @@ import CmnFunc from './CommonFunc.js'
         if (indexCount > -1) {
           this.taskComments[indexCount].count -= 1
         }
+
         // Remove comment
         let index = _.findIndex(this.taskSortComments, function (d) { return d.id == message.id })
         if (index > -1 && indexCount < 0) {
@@ -166,19 +172,27 @@ import CmnFunc from './CommonFunc.js'
         if (!comment.parentId) {
           index = _.findIndex(parentList, function (d) { return d.id === comment.task_id })
         } else {
-          index = _.findIndex(parentList, function (d) { return d.id === comment.parentId })
+          index = _.findIndex(parentList, function (d) { return d.id === comment.parentId})
         }
 
         let parentCounter=0;
         let lastCommentParentId=comment.parentId;
         parentList.forEach(element => {
-          if(element.parentId ===  lastCommentParentId){
-            lastCommentParentId=element.id;
-            parentCounter++;   
+          if(element.parentId ===  lastCommentParentId  ){
+            lastCommentParentId=element.id;                 
+            if(element.isPinned===undefined || !element.isPinned){
+              console.log("IsPinned Not Found:--",parentCounter)
+              this.$store.state.parentIdArr.splice(parentCounter, 1)
+            }else{
+             console.log("IsPinned Found:--",parentCounter)              
+            }
           }
+          parentCounter++;      
         });
        
-        this.$store.state.parentIdArr.splice(index + 1, parentCounter, comment)
+        this.$store.state.parentIdArr.splice(index + 1, 0,comment)
+        // Vue.set(this.$store.state.parentIdArr, index+1, comment)
+        console.log("Paret Id arr",this.$store.state.parentIdArr)
       }
       },
       getSubTaskComments: function () {
@@ -212,13 +226,17 @@ import CmnFunc from './CommonFunc.js'
         });
       },
       commentParentId: function () {
-        services.taskComments.find({ query: { task_id: this.commentTaskId, paresntId: this.commentParentId ? this.commentParentId : '' } }).then(response => {
+        services.taskComments.find({ query: { task_id: this.commentTaskId, parentId: this.commentParentId ? this.commentParentId : '' } }).then(response => {
           this.taskSortComments = response;
           this.getSubTaskComments();
         });
       },
       visibleFilter: function () {
         this.taskSortComments = commentFilter[this.visibleFilter](this.taskComments);
+      },
+      isPinned:function()
+      {
+
       }
     },
     computed: {
