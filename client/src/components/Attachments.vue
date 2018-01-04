@@ -100,7 +100,16 @@ export default {
         return array;
       }
     },
+    watch: {
+      filteredTodo (){
+        this.$store.dispatch('getAttachmentFromDB', this.filteredTodo.id)
+      }
+    },
     methods: {
+      showAttachmentList (){
+        this.getAttachmentList = this.getFiles(this.filteredTodo.id);
+        console.log('showAttachmentList array:', this.getAttachmentList)
+      },
       deleteAttachment(objAttachment, btnIndex) {
        
         this.$Modal.confirm({

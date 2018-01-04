@@ -405,21 +405,25 @@
         this.currentView = SubTask;
         setIcon(SubTask, this.id)
       },
-      attachmentShow() {
+      async attachmentShow() {
         $(".nav").removeClass("hidden");
         this.selectedMenuIndex = 2;
         this.currentView = Attachments;
         setIcon(Attachments, this.id)
+        //call method getattachment from db 
+        await this.$store.dispatch('getAttachmentFromDB', this.todoObject.id)
       },
-      tagsShow() {
+      async tagsShow() {
         this.selectedMenuIndex = 3;
         this.currentView = Tags;
         setIcon(Tags, this.id)
+        await this.$store.dispatch('getAllTaskTags', this.todoObject.id);
       },
-      historyShow() {
+      async historyShow() {
         this.selectedMenuIndex = 1;
         this.currentView = HistoryLog;
         setIcon(HistoryLog, this.id)
+        await this.$store.dispatch('getHistoryFromDB', this.todoObject.id)
       },
       commentsShow() {
         this.selectedMenuIndex = 4;

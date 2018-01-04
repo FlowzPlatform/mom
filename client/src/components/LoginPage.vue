@@ -357,6 +357,10 @@
                         if (error.response.status === 401) {
                             return
                         }
+                        if (error.response.status === 403) {
+                            return
+                        }
+                        
                         $.notify.defaults({ className: "error" })
                         $.notify(error.message, { globalPosition: "top center" })
                     })

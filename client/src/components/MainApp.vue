@@ -84,6 +84,7 @@
 			}
 		},
 		created() {
+
 			localStorage.setItem('split-sizes', JSON.stringify([50, 50]));
 			this.$store.dispatch('getSettings', this.$store.state.userObject._id);
 			this.$store.dispatch('removeAllEventListners');
@@ -312,11 +313,12 @@
 				var self = this
 				this.$store.dispatch('getAllUsersList')
 					.catch(function (error) {
-						if (error.response.status === 401) {
+						if (error.response.status === 401 || error.response.status === 403) {
 							CmnFunc.deleteAutheticationDetail()
 							self.$router.replace('/')
 							return
 						}
+
 						$.notify.defaults({ className: "error" })
 						$.notify(error.message, { globalPosition: "top center" })
 					})

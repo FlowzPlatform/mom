@@ -129,10 +129,9 @@ export default {
         // this.$store.dispatch("findHistoryLog", this.taskId);
     },
     watch: {
-        // Find history log using taskid 
-        // taskId: function(newTaskId,oldTaskId) {
-        //      this.$store.dispatch("findHistoryLog", this.taskId);
-        // }
+        taskId (){
+            this.$store.dispatch('getHistoryFromDB', this.taskId)
+      }
     },
     methods: {
         getUrlExtension(url) {
