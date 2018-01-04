@@ -479,7 +479,7 @@
       userListClick: function (user_id) {
         if (this.selectedUser !== this.previousUser)
           this.setAssignUser(user_id)
-          this.$store.commit('SHOW_DIV', this.todoObject)
+          this.$store.dispatch('getTypeState', this.todoObject.id)
       },
       async btnTypeClicked(objType) {
         if(objType !== this.todoObject.type_id){
