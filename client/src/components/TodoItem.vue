@@ -1,5 +1,5 @@
 <template id="items">
-  <li v-bind:key="todo.id" class="todo">
+  <li :value="getTaskState" v-bind:key="todo.id" class="todo">
     <div :id="getLevelClass(todo.level,todo.id)" style="padding-bottom: 5px;">
       <div class="view" style="margin-left: 10px;">
         <span class="dreg-move"></span>
@@ -10,12 +10,12 @@
             class="toggle" :disabled="!todo.is_editable" @change="roleCheckChange(todo)">
           <label for="checkbox8"></label>
         </span>
-        <div v-if="!$store.state.deleteItemsSelected && todo.type_id && !getType" class="stateCircle Avatar--small " @click="showStatusList"
+        <div :id="'item-'+todo.id"  v-if="!$store.state.deleteItemsSelected && todo.type_id && !getType" class="stateCircle Avatar--small " @click="showStatusList"
           data-toggle="dropdown" :style="{'box-shadow' : 'inset 0 0 0 3px'+ selectedObject.color }">
           <span>{{selectedObject.taskState | fistLatter}}</span>
         </div>
         <ul class='dropdown-menu statusList'>
-          <li v-for="state in taskState">
+          <li v-bind:key="state.id" v-for="state in taskState">
             <a @click="selectStatus(state)">{{state.taskState}}</a>
           </li>
         </ul>
@@ -125,6 +125,17 @@
           this.isTypeTodo = this.selectedType.id === this.todo.type_id
         }
         return this.isTypeTodo
+      },
+      getTaskState(){
+        console.log("this.todo.state_id:",this.todo.state_id)
+        if(this.todo.state_id){
+          this.selectedObject = this.allState.find(state => state.id === this.todo.state_id)
+        }else{
+          $('#item-'+this.todo.id).css('box-shadow' , 'inset 0 0 0 3px #000')
+          // this.selectedObject.color = "#000"
+          // this.selectedObject.taskState =''
+          this.selectedObject = {}
+        }
       },
       getAssignedUser() {
         let user = this.$store.state.todolist.find(todo => todo.id === this.todo.id)
@@ -279,5 +290,6 @@
         }
       }
     }
+   
   }
 </script>

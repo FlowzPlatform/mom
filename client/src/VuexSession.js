@@ -1135,7 +1135,7 @@ export const store = new Vuex.Store({
           assigned_to: store.state.userObject._id,
           isDelete: false,
           project_id: insertElement.project_id,
-          type_id: store.state.task_types_list[0].id // Default task type is todo 
+          type_id: store.state.task_types_list.find(type => type.default_Type === 'Todo').id // Default task type is todo 
         }).then(response => {
           console.log("Insert new todo::---->", response);
           
@@ -1924,6 +1924,7 @@ export const store = new Vuex.Store({
       })
     },
     getTypeState({commit}, payload){
+      console.log("playload:",payload)
        services.taskTypeStateService.find({ query: { type_id: payload } }).then(response => {
           console.log("GET_TYPE_STATE log type_state", response)
           commit("GET_TYPE_STATE", response)
