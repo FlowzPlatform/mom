@@ -36,7 +36,13 @@ function uploadFileOnAmazonS3(file, fileTimeStamp, cb) {
   if (file) {
     var params = { Key: fileTimeStamp, ContentType: file.type, Body: file };
     bucket.upload(params).on('httpUploadProgress', function (evt) {
-      store.state.progress = parseInt((evt.loaded * 100) / evt.total)
+
+      if(!isNaN(parseInt((evt.loaded * 100) / evt.total))){
+        store.state.progress = parseInt((evt.loaded * 100) / evt.total)
+      }else{
+        store.state.progress = 0
+      }
+      
       store.commit('progressVal')
     }).send(function (err, data) {
       // console.log('err ===> ', err)
@@ -222,7 +228,9 @@ export const store = new Vuex.Store({
         state.todolist = data
       }
     },
-    async SHOW_DIV(state, payload) {      
+     SHOW_DIV(state, payload) {
+      console.log("SHOW_DIV call ==>", state.taskHistoryLog.length)
+      
       // Clear history log, attachment, tags
       // state.taskHistoryLog.length = 0
       // state.arrAttachment.length = 0
@@ -248,12 +256,12 @@ export const store = new Vuex.Store({
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
         // window.history.pushState("", "Title", "http://localhost:3000/navbar/task/" + (payload.level + 1) + "/" + payload.id);
-        await store.dispatch('getAllTodos', { 'parentId': payload.id, project_id: state.currentProjectId });
-        await store.dispatch('getAttachmentFromDB', payload.id)
-        await store.dispatch('getAllTaskTags', payload.id);
+         store.dispatch('getAllTodos', { 'parentId': payload.id, project_id: state.currentProjectId });
+        // await store.dispatch('getAttachmentFromDB', payload.id)
+        // await store.dispatch('getAllTaskTags', payload.id);
         // await store.dispatch('getTaskComment', payload.id)
-        await store.dispatch('getTypeState', payload.id)
-        await store.dispatch('getHistoryFromDB', payload.id)
+        // await store.dispatch('getTypeState', payload.id)
+        // await store.dispatch('getHistoryFromDB', payload.id)
         var parentIdArrObj = payload
         var tempParentIds = _.chain([]).union(state.parentIdArr).sortBy([function (o) { return o.level; }]).value();
         if (state.deleteItemsSelected || state.createdByTaskList.length > 0 || state.recentlyCompletedTasks.length > 0 || state.assignedToOthers.length > 0) {
@@ -1246,6 +1254,7 @@ export const store = new Vuex.Store({
         uploadFileOnAmazonS3(file, fileTimeStamp, function (src) {
           if(src == "fail"){
              fileObject.cb("fail")
+             store.commit('showAttachmentProgress', { 'isProgress': false, 'id': fileObject.taskId })
              return
           }
           commit('SELECT_FILE', attachArr)
@@ -1643,9 +1652,13 @@ export const store = new Vuex.Store({
           commit('SAVE_USERTOKEN', response.data.logintoken)
         })
         .catch(function (error) {
-          if (error.response.status === 401) {
+          if (error.response.status === 401 || error.response.status === 404) {
             throw new Error('You have entered wrong credentials...')
           }
+          if (error.response.status === 403) {
+            throw new Error('Login failed')
+          }
+          
         });
     },
     socialAuthRegistration({ commit }, objSocialAuth){
