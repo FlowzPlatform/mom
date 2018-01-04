@@ -1,9 +1,5 @@
-.Topbar {
-    /* background: #000; */
-}
 .logo__title{
-    /* background: #000; */
-    color: #3D62A0;
+    color: #fc4a1a;
     font-family: esteban
 }
 .fa-bars:before,
@@ -15,43 +11,32 @@
   }
 
   .menu-item-back:hover {
-    /* background: rgb(160, 160, 160); */
     background: #008B95;
   }
 
   .ivu-poptip-rel:hover {
-    /* background: rgb(160, 160, 160); */
     background: #008B95;
   }
 
   .menu-item:nth-child(3) .menu-item-back {
-    transform: rotate(-60deg) skew(-30deg);
-    /* background-color: #4a4848; */
     background: #66B9BF;
   }
   .menu-item:nth-child(3) .menu-item-back:hover{
-      /* background: rgb(160, 160, 160); */
       background: #008B95;
   }
 
   .menu-item:nth-child(5) .menu-item-back {
-    transform: rotate(60deg) skew(-30deg);
-    /* background-color: #4a4848; */
     background: #66B9BF;
   }
   .menu-item:nth-child(5) .menu-item-back:hover{
-      /* background: rgb(160, 160, 160); */
       background: #008B95;
   }
 
   .menu-item:nth-child(7) .menu-item-back {
-    transform: rotate(180deg) skew(-30deg);
-    /* background-color: #4a4848; */
     background: #66B9BF;
   }
 
   .menu-item:nth-child(7) .menu-item-back:hover{
-      /* background: rgb(160, 160, 160); */
       background: #008B95;
   }
 
@@ -63,12 +48,11 @@
     background-color: #EEAA7B;    
 }
 .navbar-bottom:hover a.active {
-  /*background-color: rgba(63, 81, 181, 0.90);*/
   background-color: #e37222;
   color: white;
 }
 .header-name{
-    color: #3D62A0;
+    color: #fc4a1a;
     font-family: esteban
 }
 
@@ -80,7 +64,7 @@
   border: 1px solid white;
 }
 .comment-title {
-  color: #e37222;
+  color: #fc4a1a;
   font-family: esteban
 }
 .navbar-bottom .due-date:hover {
@@ -90,24 +74,20 @@
   cursor: pointer;
   background: #e37222;
 }
-.share { 
-  background: #07889b
+.share, .one, .two { 
+  background: rgb(255, 56, 0);;
+}
+.share:hover, .one:hover, .two:hover {
+  background: rgb(255, 183, 54);
 }
 
-.one {
-  background: #07889b;
-}
-
-.two {
-  background: #07889b;
-}
 .right_pannel::before {
   color:#def2f3;
   opacity: 0.5;
 }
 .buttonView.buttonView--primary {
-  background: #F1B74D;
-  border-color: #F1B74D;
+  background: rgb(255, 184, 56);
+  border-color: rgb(255, 184, 56);
 }
 .buttonView.buttonView--primary:focus,
 .buttonView.buttonView--primary:hover {

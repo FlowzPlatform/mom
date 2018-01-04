@@ -71,7 +71,7 @@ app.configure(socketio(4030,{wsEngine: 'uws', origin: '*.flowz.com:*'},function(
       //   console.log('---socket.handshake:-->',authToken);
       //   // console.log('---socket.feathers.authorization:-->',socket.feathers.userId);
       //   subscription.socketSubscription(authToken, packet, next, socket)
-      //   if(packet[0]==='authorization' || packet[0]==='userdata')
+      //   if(packet[0]==='authorization' || packet[0]==='userdata' || authToken.length==0)
       //     next()
       // })
       

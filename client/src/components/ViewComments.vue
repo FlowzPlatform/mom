@@ -201,7 +201,15 @@ import CmnFunc from './CommonFunc.js'
         this.visibleFilter = key
       },
       deleteCommnet: function (commentObj) {
-        this.$store.dispatch('delete_Comment', commentObj)
+        // this.$store.dispatch('delete_Comment', commentObj)
+        this.$Modal.confirm({
+          title: "Comment",
+          content:
+            "<p>Are you sure that you want to permanently delete Comment?</p>",
+          onOk: () => {
+            this.$store.dispatch('delete_Comment', commentObj)
+          }
+        });
       }
     },
     watch: {
@@ -212,7 +220,7 @@ import CmnFunc from './CommonFunc.js'
         });
       },
       commentParentId: function () {
-        services.taskComments.find({ query: { task_id: this.commentTaskId, parentId: this.commentParentId ? this.commentParentId : '' } }).then(response => {
+        services.taskComments.find({ query: { task_id: this.commentTaskId, paresntId: this.commentParentId ? this.commentParentId : '' } }).then(response => {
           this.taskSortComments = response;
           this.getSubTaskComments();
         });

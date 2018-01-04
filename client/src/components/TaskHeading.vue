@@ -23,7 +23,7 @@
                 </div> -->
             </div>
             <div v-if="commentName" v-html="commentName">{{commentName}}</div>            
-            <input type="checkbox" class="toggleTask" v-model="filteredTodo.completed" @change="toggleTodo(filteredTodo)" style="float: left;">
+            <input v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" type="checkbox" class="toggleTask" v-model="filteredTodo.completed" @change="toggleTodo(filteredTodo)" style="float: left;">
             <textarea v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" id="text-area" class="field-description generic-input hypertext-input notranslate header-name"
                 placeholder="New Task" style="height: 40px;" rows="1" @keydown="autoresize" @click="autoresize" autofocus autocomplete="off"
                 @change="updateTaskName()" v-model="filteredTodo.taskName" />
@@ -39,7 +39,6 @@
 <script>
     /* eslint-disable*/
     import { mapMutations, mapActions } from "vuex";
-    import TaskHeading from './TaskHeading.vue'
     import * as Constant from "./Constants.js";
     export default {
         props: ['filteredTodo', 'id', 'commentName'],
@@ -108,9 +107,6 @@
                     .parents(".right_pane_container #right_pane #" + ind)
                     .toggleClass("open");
             }
-        },
-        components: {
-            TaskHeading
         }
     }
 </script>

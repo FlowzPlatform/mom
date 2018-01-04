@@ -177,7 +177,7 @@ export const store = new Vuex.Store({
     accessRight:{},
     deleteFileName:'',
     splitWidthArr: [],
-    isNoProjectShow:false
+    isNoProjectShow:false,
   },
   mutations: {
     userData: state => state.userObject,
@@ -188,9 +188,7 @@ export const store = new Vuex.Store({
     splitWidthArr: state => state.splitWidthArr,
 
     setSplitWidth(state, data){
-     // console.log('SplitWidth Data:', data)
       state.splitWidthArr = data
-      console.log('SplitWidth Data:', state.splitWidthArr)
     },
     // showProgress: state => state.isProgress,
     // showLoader: state => state.isLoading,
@@ -254,7 +252,7 @@ export const store = new Vuex.Store({
       CmnFunc.scrollToLeft()
       // END scroll to last opened right div 
       
-
+      
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
         // window.history.pushState("", "Title", "http://localhost:3000/navbar/task/" + (payload.level + 1) + "/" + payload.id);
@@ -425,7 +423,6 @@ export const store = new Vuex.Store({
           if(item.type_id)
             Vue.set(state.todolist[updateTodoIndex], 'type_id', item.type_id)
             if(item.type_id){
-              console.log("item.type_id",item.type_id)
                 Vue.set(state.accessRight,0,{})
               // state.accessRight.task_type = item.type_id;
              // Vue.set(state.accessRight, state.accessRight.task_type, item.type_id)
@@ -520,7 +517,6 @@ export const store = new Vuex.Store({
           let index = _.findIndex(state.arrAttachment, function (d) { return d.id == object.id })
           console.log("attachment ->index:",index)
           if (index < 0) {
-            console.log("SELECT_FILE object:",object)
             state.arrAttachment.push(object)
           }
         });
@@ -533,9 +529,7 @@ export const store = new Vuex.Store({
       if (historyObject instanceof Array) {
         _.forEach(historyObject, function (object) {
           let index = _.findIndex(state.taskHistoryLog, function (d) { return d.id == object.id })
-          console.log("history ->index:",index)
           if (index < 0) {
-            console.log("object:",object)
             state.taskHistoryLog.push(object)
           }
         });
@@ -1152,7 +1146,6 @@ export const store = new Vuex.Store({
       }
     },
     editTaskName({ commit }, editObject) {
-      console.log("editObject: ",editObject)
       if (editObject.todo.id) {
         let self=this
         services.tasksService.patch(editObject.todo.id, {
@@ -1175,17 +1168,6 @@ export const store = new Vuex.Store({
             editObject.callback()
           }         
         });
-        // Vue.http.post('/updatetasks', {
-        //   id: editObject.todo.id,
-        //   taskName: editObject.todo.taskName,
-        //   taskDesc: editObject.todo.taskDesc,
-        //   dueDate: editObject.selectedDate ? editObject.selectedDate.toJSON() : '',
-        //   estimatedTime: editObject.estimatedTime,
-        //   priority: editObject.taskPriority
-        // }).then(response => {
-        //   // console.log('task updated', response.data)
-        //   commit('updateTodo', editObject)
-        // })
       }
     },
     delete_Todo({ commit }, deleteElement) {
@@ -1926,8 +1908,9 @@ export const store = new Vuex.Store({
       } else {
         services.taskTypesService.create({
           type: payload.type,
-          default_Type:payload.type,
-          createdAt: new Date().toJSON()
+          default_Type: payload.type,
+          createdAt: new Date().toJSON(),
+          created_by:payload.created_by
         }).then(response => {
           console.log("Insert Task Type in DB:", response)
         })
@@ -2069,17 +2052,17 @@ export const store = new Vuex.Store({
           store.state.userRoles[userIndex] = response
         });
       } else {
-        if(role.name.length>0){
-        let insertRole=role
-        insertRole.is_checked=true
-        // console.log("insert Role --->",insertRole);
-        store.dispatch("insertRole", insertRole);
-      }}
+        if (role.name.length > 0) {
+          let insertRole = role
+          insertRole.is_checked = true
+          // console.log("insert Role --->",insertRole);
+          store.dispatch("insertRole", insertRole);
+        }
+      }
     },
-    insertRole({commit},role)
-    {
-      console.log("insert Role --->",role);
-      services.roleService.create({name:role.name,is_checked:role.is_checked,is_editable:role.is_editable}).then(response=>{
+    insertRole({ commit }, role) {
+      console.log("insert Role --->", role);
+      services.roleService.create({ name: role.name, is_checked: role.is_checked, is_editable: role.is_editable ,created_by:role.created_by}).then(response => {
         // store.state.userRoles.push(response)
         // Vue.set(store.state.userRoles, store.state.userRoles.length-1, response)
       })
