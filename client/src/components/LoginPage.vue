@@ -124,6 +124,7 @@
         $("#login_btn").attr('disabled', true);
     });
 
+  
     export default {
         //   el: '#loginPage',
         data: function () {
@@ -160,6 +161,7 @@
             }
         },
         created() {
+            CmnFunc.deleteAutheticationDetail()
             console.log("AUTH_TOKEN:", localStorage.getItem('auth_token'))
             var url_string = window.location.href;
             var url = new URL(url_string);

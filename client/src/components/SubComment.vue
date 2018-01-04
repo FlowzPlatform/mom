@@ -3,7 +3,7 @@
         <!-- <div class="comment-title" v-html="commentName">{{commentName}}</div> -->
         <!-- <task-heading :commentName="commentName"></task-heading> -->
         <TaskHeadAction :id='id' :closeDiv="closeDiv" :pinIt="pinit" :isPinned="isPinned" v-show='commentParentId'></TaskHeadAction>
-        <div  v-html="commentName" style="padding:  15px;text-align:  left;" v-show="commentName.length>0">{{commentName}}</div>    
+        <div  v-html="commentName" style="padding:  15px;text-align:  left;" v-show="commentName">{{commentName}}</div>    
         <div :id="id">
             <div class="nav1">
                 <div class="share" :id="setCommentId('share')" @click="writeComment">

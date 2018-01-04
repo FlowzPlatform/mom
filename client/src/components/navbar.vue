@@ -270,10 +270,11 @@
       ...mapMutations([
         'showMyTasks'
       ]),
-      btnLogoutClicked() {
+      btnLogoutClicked() {  
         this.$cookie.delete('auth_token', { domain: location });
-        CmnFunc.deleteAutheticationDetail()
+        // CmnFunc.deleteAutheticationDetail()
         window.location = "/"
+          
       },
       btnUpdateProfileClicked() {
         var self = this
