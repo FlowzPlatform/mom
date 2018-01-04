@@ -2157,16 +2157,17 @@ export const store = new Vuex.Store({
         console.log("Remove Role--->",response)
       });
     },
-    closeComment(state,comment)
+    closeComment(state,commentId)
     {
+      console.log("Commentid:---",commentId)
       let parentIdArr=store.state.parentIdArr;
       let index=0;
       
-      let tempParentId='-1';
+      let tempParentId='';
       let removeIndex=[];
       parentIdArr.forEach(function(element) { 
           console.log("element id:",element); 
-          if(element.show_type==="subcomment" && (element.parentId===tempParentId || element.id===comment.id ))
+          if(element.show_type==="subcomment" && (element.parentId===tempParentId || element.id===commentId ) && (element.isPinned===undefined || !element.isPinned))
           {
             tempParentId=element.id;
             removeIndex.push(index);
@@ -2182,7 +2183,7 @@ export const store = new Vuex.Store({
         
       }, this);
     }, 
-    closeChildComment(state,comment)
+    closeChildComment(state,commentId)
     {
       let parentIdArr=store.state.parentIdArr;
       let index=0;
