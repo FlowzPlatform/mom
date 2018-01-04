@@ -1929,6 +1929,7 @@ export const store = new Vuex.Store({
       })
     },
     getTypeState({commit}, payload){
+      console.log("playload:",payload)
        services.taskTypeStateService.find({ query: { type_id: payload } }).then(response => {
           console.log("GET_TYPE_STATE log type_state", response)
           commit("GET_TYPE_STATE", response)
