@@ -5,15 +5,15 @@
 		<div id="split-container" class="main-split-container" style="height: calc(100vh - 60px);">
 			<div id="left_container" class="scrollbar split split-horizontal">
 				<div id="center_pane">
-					<div v-if="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
+					<div v-show="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
 						<left-toolbar v-if="!isCopyLink" :filters="filters">
 						</left-toolbar>
 						<main-left-section id="todoTask" :isCopyLink="isCopyLink" :todoObject="todoObjectById" :pholder="taskPholder" :filtered-todos="taskById"></main-left-section>
 					</div>
-					<div class="outer" v-else>
+					<div class="outer" v-show="isProjectAvailable">
 						<div class="middle">
 							<div class="inner">
-								<div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems" v-show="isProjectAvailable">
+								<div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems" >
 									<span class="fa fa-file-text-o fa-5x" data-target="#createProject" data-toggle="modal"/>
 									<div class="text gridPaneSearchEmptyView-noProjectItemsTitleText">Add New Project
 									</div>
@@ -28,7 +28,7 @@
 			<div :id="'slot-' + index" class="right_pane_container split split-horizontal" v-for="(n, index) in parentIdList">
 				<div id="right_pane">
 					<component :is="currentView(n.show_type)" :id="index" :pholder="subtaskPholder" :todoObject="n" :a="n" :commentTaskId="n.task_id"
-					 :commentParentId="n.id" :commentName="n.comment">
+					 :commentParentId="n.id" :commentName="n.comment" :isPinned="n.isPinned ? n.isPinned :false ">
 					</component>
 				</div>
 			</div>
@@ -371,6 +371,7 @@
 #left_task_container::-webkit-scrollbar-track
 {
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	background-color: #F5F5F5;
 }
 #left_container::-webkit-scrollbar
