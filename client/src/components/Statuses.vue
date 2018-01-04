@@ -1,7 +1,7 @@
 <template>
     <div>
         <hr>
-        <div class="[ row ]" style="margin-left: 0; margin-right: 0; display: inline-table; text-align: -webkit-auto;" v-if="id === 'rightTaskTypes'">
+        <div class="[ row ]" style="margin-left: 0; margin-right: 0; display: inline-table; text-align: -webkit-auto;" v-if="id === 'rightTaskTypes' && filteredTodo.default_Type!=='Todo'">
             <h4 class="uiStatus">
                 <b>State</b>
             </h4>
@@ -22,9 +22,10 @@
         <div v-if="id === 'rightTaskState'">
             <div class="control-group">
                 <label for="input-color">Color:</label>
-                <input type="color" id="bgcolor" v-model="filteredTodo.color" value="#0000" @change="getColorVal($event.target.value)" style="height:25px; width:25px;"/>
+                <input type="color" id="bgcolor" v-model="filteredTodo.color" value="#0000" @change="getColorVal($event.target.value)" style="height:25px; width:25px;"
+                />
+            </div>
         </div>
-    </div>
     </div>
 </template>
 <script>

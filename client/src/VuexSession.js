@@ -507,7 +507,6 @@ export const store = new Vuex.Store({
       if (fileObject instanceof Array) {
         _.forEach(fileObject, function (object) {
           let index = _.findIndex(state.arrAttachment, function (d) { return d.id == object.id })
-          console.log("attachment ->index:",index)
           if (index < 0) {
             state.arrAttachment.push(object)
           }
@@ -778,12 +777,12 @@ export const store = new Vuex.Store({
     async showDeleteTasks(state) {
       state.deleteItemsSelected = true
       state.parentIdArr.splice(0, state.parentIdArr.length)
-      // state.createdByTaskList.splice(0, state.createdByTaskList.length)
       await store.dispatch('getDeleteTask', state.currentProjectId)
     },
     showMyTasks(state) {
       state.deleteItemsSelected = false
-      state.parentIdArr.splice(0, state.parentIdArr.length)
+      // state.parentIdArr.splice(0, state.parentIdArr.length)
+      // state.deletedTaskArr.splice(0, state.deletedTaskArr.length)
     },
     DELETED_TASKS(state, deletedArray) {
       state.deletedTaskArr = deletedArray
@@ -1801,14 +1800,16 @@ export const store = new Vuex.Store({
       });
     },
     getDeleteTask({ commit }, payload) {
-      // services.tasksService.find({ query: { isDelete: true } }).then(response => {
-      //   commit('DELETED_TASKS', response)
-      // });
+      // Deleted Create_by and Assigned to from delete task
+      // $or: [
+      //   { isDelete: true, project_id: payload, created_by: store.state.userObject._id },
+      //   { isDelete: true, project_id: payload, assigned_to: store.state.userObject._id }
+      // ]
       services.tasksService.find({
         query: {
           $or: [
-            { isDelete: true, project_id: payload, created_by: store.state.userObject._id },
-            { isDelete: true, project_id: payload, assigned_to: store.state.userObject._id }
+            { isDelete: true, project_id: payload },
+            { isDelete: true, project_id: payload }
           ]
         }
       }).then(response => {

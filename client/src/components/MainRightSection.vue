@@ -74,7 +74,7 @@
           <!-- Task due date menu item -->
           <div :id="'calendar-'+id"  class="due-date">
             <Tooltip content="Due Date" placement="top-start">
-              <DatePicker :open="open" confirm size="small" placement="top" type="date" :value="todoObject.dueDate" @on-change="dueDateClick"
+              <DatePicker :options="options3" :open="open" confirm size="small" placement="top" type="date" :value="todoObject.dueDate" @on-change="dueDateClick"
                 @on-clear="handleClear" @on-ok="handleOk">
                 <a href="javascript:void(0)" @click="handleClick">
                   <Icon v-if="todoObject.dueDate === ''" class="nav-icon fa fa-calendar"></Icon>
@@ -232,7 +232,12 @@
         userObj: "", // selected user object
         open: false,
         selectedType:this.todoObject.type_id,
-        selectedIndex:-1
+        selectedIndex:-1,
+        options3: {
+                    disabledDate (date) {
+                        return date && date.valueOf() < Date.now() - 86400000;
+                    }
+                },
       };
     },
     created: function () {
@@ -263,6 +268,9 @@
         }
         // Show delete dialog val=4
         else if (val == 4) {
+          this.$Notice.open({
+                    title: this.todoObject.taskName+' Deleted'
+                });
           this.$store.dispatch("delete_Todo", this.todoObject);
         }
         // Show estimate hour val=5

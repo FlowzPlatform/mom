@@ -37,7 +37,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div>
-                                    <div id="app" v-show="isUserGroup">
+                                    <div id="left_container" class="scrollbar" v-show="isUserGroup" style="height: calc(100vh - 20px); z-index:0">
                                         <div class="ui container">
                                             <div id="content" class="ui basic segment">
                                                 <div v-for="(item, itemNumber) in tableData">

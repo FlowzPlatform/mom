@@ -11,7 +11,7 @@
             </div>
           </div>
         </div>
-        <div class="PageHeaderStructure-right">
+        <div class="PageHeaderStructure-right" >
           <div class="projectHeaderFacepile-content">
             <div v-show="($store.state.currentProjectName && $store.state.currentProjectName.length>0)?true:false" id="projectVisible"
               class="projectHeaderFacepile-privacySummary projectHeaderFacepile-privacySummaryDropdown" @click="changePrivacyPopup">
