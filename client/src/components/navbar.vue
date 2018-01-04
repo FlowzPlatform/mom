@@ -7,6 +7,7 @@
             <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName">
               <input id="project-name" class="logo__title" type="text" name="fname" maxlength="25" v-model="projectName" @blur="setProjectName"
                 @keyup.enter="updateProjectName" style="text-align: center;" />
+                <!-- <span class="logo__title">{{$store.state.accessName}}</span> -->
             </div>
           </div>
         </div>
@@ -95,10 +96,10 @@
         </div>
         <div class="Topbar-accountInfo">
           <a class="Topbar-settingsMenuButton">
-            <span class="Topbar-settingsMenuDomainName">
-              <span>Welcome {{ uname }}</span>
-            </span>
             <div v-if="$store.state.userObject.email" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="Topbar-settingsMenuDomainName">
+                    <span>Welcome {{ uname }}</span>
+                  </span>
               <avatar v-if="$store.state.userObject.image_url" :username="$store.state.userObject.email" :src="$store.state.userObject.image_url"
                 :size="30"></avatar>
               <avatar v-else :username="$store.state.userObject.email" :size="30" color="#fff"></avatar>
@@ -269,10 +270,11 @@
       ...mapMutations([
         'showMyTasks'
       ]),
-      btnLogoutClicked() {
+      btnLogoutClicked() {  
         this.$cookie.delete('auth_token', { domain: location });
-        CmnFunc.deleteAutheticationDetail()
+        // CmnFunc.deleteAutheticationDetail()
         window.location = "/"
+          
       },
       btnUpdateProfileClicked() {
         var self = this
@@ -524,3 +526,24 @@
     }
   }
 </script>
+
+<style>
+  .vue-avatar--wrapper{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    background-color: rgb(33, 150, 243);
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    font-stretch: normal;
+    font-size: 12px;
+    line-height: 31px;
+    font-family: Helvetica, Arial, sans-serif;
+    color: rgb(255, 255, 255);
+    vertical-align: middle;
+    display: inline-block;
+  }
+</style>

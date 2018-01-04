@@ -36,7 +36,13 @@ function uploadFileOnAmazonS3(file, fileTimeStamp, cb) {
   if (file) {
     var params = { Key: fileTimeStamp, ContentType: file.type, Body: file };
     bucket.upload(params).on('httpUploadProgress', function (evt) {
-      store.state.progress = parseInt((evt.loaded * 100) / evt.total)
+
+      if(!isNaN(parseInt((evt.loaded * 100) / evt.total))){
+        store.state.progress = parseInt((evt.loaded * 100) / evt.total)
+      }else{
+        store.state.progress = 0
+      }
+      
       store.commit('progressVal')
     }).send(function (err, data) {
       // console.log('err ===> ', err)
@@ -171,7 +177,7 @@ export const store = new Vuex.Store({
     accessRight:{},
     deleteFileName:'',
     splitWidthArr: [],
-    isNoProjectShow:false
+    isNoProjectShow:false,
   },
   mutations: {
     userData: state => state.userObject,
@@ -182,9 +188,7 @@ export const store = new Vuex.Store({
     splitWidthArr: state => state.splitWidthArr,
 
     setSplitWidth(state, data){
-     // console.log('SplitWidth Data:', data)
       state.splitWidthArr = data
-      console.log('SplitWidth Data:', state.splitWidthArr)
     },
     // showProgress: state => state.isProgress,
     // showLoader: state => state.isLoading,
@@ -224,7 +228,7 @@ export const store = new Vuex.Store({
         state.todolist = data
       }
     },
-    async SHOW_DIV(state, payload) {
+     SHOW_DIV(state, payload) {
       console.log("SHOW_DIV call ==>", state.taskHistoryLog.length)
       
       // Clear history log, attachment, tags
@@ -248,16 +252,16 @@ export const store = new Vuex.Store({
       CmnFunc.scrollToLeft()
       // END scroll to last opened right div 
       
-
+      
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
         // window.history.pushState("", "Title", "http://localhost:3000/navbar/task/" + (payload.level + 1) + "/" + payload.id);
-        await store.dispatch('getAllTodos', { 'parentId': payload.id, project_id: state.currentProjectId });
-        await store.dispatch('getAttachmentFromDB', payload.id)
-        await store.dispatch('getAllTaskTags', payload.id);
-        await store.dispatch('getTaskComment', payload.id)
-        await store.dispatch('getTypeState', payload.id)
-        await store.dispatch('getHistoryFromDB', payload.id)
+         store.dispatch('getAllTodos', { 'parentId': payload.id, project_id: state.currentProjectId });
+        // await store.dispatch('getAttachmentFromDB', payload.id)
+        // await store.dispatch('getAllTaskTags', payload.id);
+        // await store.dispatch('getTaskComment', payload.id)
+        // await store.dispatch('getTypeState', payload.id)
+        // await store.dispatch('getHistoryFromDB', payload.id)
         var parentIdArrObj = payload
         var tempParentIds = _.chain([]).union(state.parentIdArr).sortBy([function (o) { return o.level; }]).value();
         if (state.deleteItemsSelected || state.createdByTaskList.length > 0 || state.recentlyCompletedTasks.length > 0 || state.assignedToOthers.length > 0) {
@@ -419,7 +423,6 @@ export const store = new Vuex.Store({
           if(item.type_id)
             Vue.set(state.todolist[updateTodoIndex], 'type_id', item.type_id)
             if(item.type_id){
-              console.log("item.type_id",item.type_id)
                 Vue.set(state.accessRight,0,{})
               // state.accessRight.task_type = item.type_id;
              // Vue.set(state.accessRight, state.accessRight.task_type, item.type_id)
@@ -514,7 +517,6 @@ export const store = new Vuex.Store({
           let index = _.findIndex(state.arrAttachment, function (d) { return d.id == object.id })
           console.log("attachment ->index:",index)
           if (index < 0) {
-            console.log("SELECT_FILE object:",object)
             state.arrAttachment.push(object)
           }
         });
@@ -528,7 +530,6 @@ export const store = new Vuex.Store({
         _.forEach(historyObject, function (object) {
           let index = _.findIndex(state.taskHistoryLog, function (d) { return d.id == object.id })
           if (index < 0) {
-            console.log("object:",object)
             state.taskHistoryLog.push(object)
           }
         });
@@ -1145,7 +1146,6 @@ export const store = new Vuex.Store({
       }
     },
     editTaskName({ commit }, editObject) {
-      console.log("editObject: ",editObject)
       if (editObject.todo.id) {
         let self=this
         services.tasksService.patch(editObject.todo.id, {
@@ -1168,17 +1168,6 @@ export const store = new Vuex.Store({
             editObject.callback()
           }         
         });
-        // Vue.http.post('/updatetasks', {
-        //   id: editObject.todo.id,
-        //   taskName: editObject.todo.taskName,
-        //   taskDesc: editObject.todo.taskDesc,
-        //   dueDate: editObject.selectedDate ? editObject.selectedDate.toJSON() : '',
-        //   estimatedTime: editObject.estimatedTime,
-        //   priority: editObject.taskPriority
-        // }).then(response => {
-        //   // console.log('task updated', response.data)
-        //   commit('updateTodo', editObject)
-        // })
       }
     },
     delete_Todo({ commit }, deleteElement) {
@@ -1265,6 +1254,7 @@ export const store = new Vuex.Store({
         uploadFileOnAmazonS3(file, fileTimeStamp, function (src) {
           if(src == "fail"){
              fileObject.cb("fail")
+             store.commit('showAttachmentProgress', { 'isProgress': false, 'id': fileObject.taskId })
              return
           }
           commit('SELECT_FILE', attachArr)
@@ -1662,9 +1652,13 @@ export const store = new Vuex.Store({
           commit('SAVE_USERTOKEN', response.data.logintoken)
         })
         .catch(function (error) {
-          if (error.response.status === 401) {
+          if (error.response.status === 401 || error.response.status === 404) {
             throw new Error('You have entered wrong credentials...')
           }
+          if (error.response.status === 403) {
+            throw new Error('Login failed')
+          }
+          
         });
     },
     socialAuthRegistration({ commit }, objSocialAuth){
@@ -1914,8 +1908,9 @@ export const store = new Vuex.Store({
       } else {
         services.taskTypesService.create({
           type: payload.type,
-          default_Type:payload.type,
-          createdAt: new Date().toJSON()
+          default_Type: payload.type,
+          createdAt: new Date().toJSON(),
+          created_by:payload.created_by
         }).then(response => {
           console.log("Insert Task Type in DB:", response)
         })
@@ -2058,17 +2053,17 @@ export const store = new Vuex.Store({
           store.state.userRoles[userIndex] = response
         });
       } else {
-        if(role.name.length>0){
-        let insertRole=role
-        insertRole.is_checked=true
-        // console.log("insert Role --->",insertRole);
-        store.dispatch("insertRole", insertRole);
-      }}
+        if (role.name.length > 0) {
+          let insertRole = role
+          insertRole.is_checked = true
+          // console.log("insert Role --->",insertRole);
+          store.dispatch("insertRole", insertRole);
+        }
+      }
     },
-    insertRole({commit},role)
-    {
-      console.log("insert Role --->",role);
-      services.roleService.create({name:role.name,is_checked:role.is_checked,is_editable:role.is_editable}).then(response=>{
+    insertRole({ commit }, role) {
+      console.log("insert Role --->", role);
+      services.roleService.create({ name: role.name, is_checked: role.is_checked, is_editable: role.is_editable ,created_by:role.created_by}).then(response => {
         // store.state.userRoles.push(response)
         // Vue.set(store.state.userRoles, store.state.userRoles.length-1, response)
       })
@@ -2163,16 +2158,17 @@ export const store = new Vuex.Store({
         console.log("Remove Role--->",response)
       });
     },
-    closeComment(state,comment)
+    closeComment(state,commentId)
     {
+      console.log("Commentid:---",commentId)
       let parentIdArr=store.state.parentIdArr;
       let index=0;
       
-      let tempParentId='-1';
+      let tempParentId='';
       let removeIndex=[];
       parentIdArr.forEach(function(element) { 
           console.log("element id:",element); 
-          if(element.show_type==="subcomment" && (element.parentId===tempParentId || element.id===comment.id ))
+          if(element.show_type==="subcomment" && (element.parentId===tempParentId || element.id===commentId ) && (element.isPinned===undefined || !element.isPinned))
           {
             tempParentId=element.id;
             removeIndex.push(index);
@@ -2188,7 +2184,7 @@ export const store = new Vuex.Store({
         
       }, this);
     }, 
-    closeChildComment(state,comment)
+    closeChildComment(state,commentId)
     {
       let parentIdArr=store.state.parentIdArr;
       let index=0;

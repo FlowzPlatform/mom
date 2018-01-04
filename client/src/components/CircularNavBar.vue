@@ -271,7 +271,7 @@
 <script>
   /* eslint-disable*/
   import Vue from 'vue'
-  import { mapGetters, mapMutations } from 'vuex'
+  import { mapGetters } from 'vuex'
   import CmnFunc from './CommonFunc.js'
   import CreateProjectDialog from './CreateProjectDialog.vue'
   import Avatar from 'vue-avatar/src/Avatar'
@@ -347,14 +347,6 @@
         getProjectList: 'getProjectList',
         memberName: 'getMemberName'
       }),
-      // myProjectList: {
-      //   get() {
-      //     return this.$store.state.projectlist
-      //   },
-      //   set(value) {
-      //     this.$store.commit('updateProjectList', value)
-      //   }
-      // },
       searchItems: function () {
         var self = this
         var sameMatch = false;
@@ -397,9 +389,13 @@
       })
     },
     methods: {
-      ...mapMutations([
-        'showDeleteTasks'
-      ]),
+      showDeleteTasks: function() {
+        this.$store.commit('showDeleteTasks')
+        this.isRoleAccess = false
+        this.isMyTask = true
+        this.isSearchMenu = false
+        this.$emit('eventChangeMenu', this.isMyTask, this.isRoleAccess, this.isSearchMenu)
+      },
       callAllProjectList: function () {
         this.$store.dispatch('getPermissions');
         this.$store.dispatch('getAllProjects', this.$store.state.userObject._id);

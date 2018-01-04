@@ -39,7 +39,7 @@
               <span style="float:left;margin-top:-3px">
                 <div v-show="todoObject.email">
                   <avatar v-if="todoObject.image_url" :username="todoObject.email" :size="30" :src="todoObject.image_url"></avatar>
-                  <avatar v-else :username="todoObject.email" color='#fff' :size="30"></avatar>
+                  <avatar    :username="todoObject.email" color='#fff' :size="30"></avatar>
                 </div>
               </span>
               <Row>
@@ -405,21 +405,25 @@
         this.currentView = SubTask;
         setIcon(SubTask, this.id)
       },
-      attachmentShow() {
+      async attachmentShow() {
         $(".nav").removeClass("hidden");
         this.selectedMenuIndex = 2;
         this.currentView = Attachments;
         setIcon(Attachments, this.id)
+        //call method getattachment from db 
+        await this.$store.dispatch('getAttachmentFromDB', this.todoObject.id)
       },
-      tagsShow() {
+      async tagsShow() {
         this.selectedMenuIndex = 3;
         this.currentView = Tags;
         setIcon(Tags, this.id)
+        await this.$store.dispatch('getAllTaskTags', this.todoObject.id);
       },
-      historyShow() {
+      async historyShow() {
         this.selectedMenuIndex = 1;
         this.currentView = HistoryLog;
         setIcon(HistoryLog, this.id)
+        await this.$store.dispatch('getHistoryFromDB', this.todoObject.id)
       },
       commentsShow() {
         this.selectedMenuIndex = 4;
@@ -475,11 +479,10 @@
       userListClick: function (user_id) {
         // if (this.selectedUser !== this.previousUser)
           this.setAssignUser(user_id)
+          this.$store.dispatch('getTypeState', this.todoObject.id)
       },
       async btnTypeClicked(objType) {
         if(objType !== this.todoObject.type_id){
-              
-            
           await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedType": objType,
               log_action:Constant.HISTORY_LOG_ACTION.TASK_TYPE, log_text:objType})
           await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedState": null })
@@ -517,8 +520,6 @@
     watch: {
       getIdArray:function(ids){
        let sectionWidth = 0
-        console.log("----------------")
-        console.log("this.id:",this.id)
        	let containerWidth = ($(window).width())
         for (var id in ids) {
             //conversion of percentage into pixel(width) of section
@@ -526,7 +527,6 @@
             if((this.id+1) == id){
                 this.selectedIndex = this.id
                 console.log('section width:', this.sectionWidth)
-               
               // Comment
                 if(parseInt(this.sectionWidth) > 371  && parseInt(this.sectionWidth) < 442 ){
                   console.log("call block 1")

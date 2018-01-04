@@ -92,6 +92,11 @@
                 return itemList;
             }
         },
+        watch: {
+            filteredTodo (){
+                this.$store.dispatch('getAllTaskTags', this.filteredTodo.id)
+            }
+        },
         methods: {
             getTagNameFromId: function (tag) {
                 if (tag.name)

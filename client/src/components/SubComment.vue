@@ -2,6 +2,8 @@
     <div>
         <!-- <div class="comment-title" v-html="commentName">{{commentName}}</div> -->
         <!-- <task-heading :commentName="commentName"></task-heading> -->
+        <TaskHeadAction :id='id' :closeDiv="closeDiv" :pinIt="pinit" :isPinned="isPinned" v-show='commentParentId'></TaskHeadAction>
+        <div  v-html="commentName" style="padding:  15px;text-align:  left;" v-show="commentName">{{commentName}}</div>    
         <div :id="id">
             <div class="nav1">
                 <div class="share" :id="setCommentId('share')" @click="writeComment">
@@ -14,7 +16,7 @@
                     <i class="fa fa-html5" title="Markdown editor" @click="markdownEditor"></i>
                 </div>
             </div>
-            <component :is="currentView" :view="view" :commentTaskId="commentTaskId" :commentParentId="commentParentId"></component>
+            <component :is="currentView" :view="view" :commentTaskId="commentTaskId" :commentParentId="commentParentId" :id="id"></component>
         </div>
     </div>
 </template>
@@ -28,14 +30,16 @@
     import ViewComments from './ViewComments.vue'
     import RightFooter from './RightFooter.vue'
     import TaskHeading from './TaskHeading.vue'
+    import TaskHeadAction from './TaskHeadAction.vue'
 
     export default {
         components: {
             RightFooter,
             ViewComments,
-            TaskHeading
+            TaskHeading,
+            TaskHeadAction
         },
-        props: ['commentTaskId', 'commentParentId', 'commentName', 'id'],
+        props: ['commentTaskId', 'commentParentId', 'commentName', 'id','isPinned'],
         directives: { focus: focus },
         data: function () {
             return {
@@ -46,6 +50,22 @@
             }
         },
         methods: {
+            closeDiv:function()
+            {
+                console.log("Close Comment On Click")
+                this.$store.dispatch('closeComment', this.commentParentId)
+            },
+            pinit:function()
+            {   var self=this;
+                let index = _.findIndex(this.$store.state.parentIdArr, function (d) { return d.id == self.commentParentId })
+                if(index>-1)
+                {
+                    // this.$store.state.parentIdArr[index].isPinned=!this.isPinned
+                    Vue.set(this.$store.state.parentIdArr[index],"isPinned",!this.isPinned)                        
+
+                }
+                
+            },        
             writeComment: function () {
                 if (this.flag === 0) {
                     $('#' + this.setCommentId("share")).siblings('.one').animate({

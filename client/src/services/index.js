@@ -11,11 +11,12 @@ export const socket = io(process.env.SOCKET_IO, {transports: ['websocket'], upgr
      console.log('io connected!')
      if (userId) {
       socket.emit("userdata",userId );   
+      socket.emit("authorization",vuex.store.state.userToken);
      }
  });
  socket.on("error",function(error){
     console.log('error', error)
-    // window.location="redirect subscription page URL";
+    window.location="https://dcrazed.com/wp-content/uploads/2014/01/Unique-Price-Template.jpg";
  });
 export const app = feathers().configure(socketio(socket));
 
