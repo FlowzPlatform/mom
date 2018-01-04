@@ -251,7 +251,7 @@ export const store = new Vuex.Store({
         await store.dispatch('getAllTodos', { 'parentId': payload.id, project_id: state.currentProjectId });
         await store.dispatch('getAttachmentFromDB', payload.id)
         await store.dispatch('getAllTaskTags', payload.id);
-        await store.dispatch('getTaskComment', payload.id)
+        // await store.dispatch('getTaskComment', payload.id)
         await store.dispatch('getTypeState', payload.id)
         await store.dispatch('getHistoryFromDB', payload.id)
         var parentIdArrObj = payload

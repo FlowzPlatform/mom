@@ -95,7 +95,7 @@ import CmnFunc from './CommonFunc.js'
     return str1.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
   })
   const commentFilter = {
-    all: totalComment => totalComment,
+    all: totalComment => _.sortBy(totalComment, function(o) { return new moment(o.createAt); }).reverse(),
     group_By: totalComment => _(totalComment).groupBy(x => x.fullname)
       .map((value, key) => ({ fname: key, list: value })).value()
   }
@@ -116,9 +116,10 @@ import CmnFunc from './CommonFunc.js'
     },
     created: function () {
       services.taskComments.find({ query: { task_id: this.commentTaskId, parentId: this.commentParentId ? this.commentParentId : '' } }).then(response => {
-        this.taskSortComments = response;
+         this.sortComment(response);
         this.getSubTaskComments();
         this.taskComments = this.taskSortComments.slice();
+        // this.sortComment()
       });
 
       let vm = this;
@@ -135,6 +136,8 @@ import CmnFunc from './CommonFunc.js'
           let index = _.findIndex(this.taskSortComments, function (d) { return d.id == message.id })
           if (index < 0 && indexCount < 0) {
             this.setcommenteduserData(message);
+            // this.taskSortComments.splice(0,0,message)
+            // this.taskComments.splice(0,0,message)
             this.taskSortComments.unshift(message)
             this.taskComments.unshift(message)
           }
@@ -224,23 +227,33 @@ import CmnFunc from './CommonFunc.js'
             this.$store.dispatch('delete_Comment', commentObj)
           }
         });
+      },
+      sortComment:function(comments)
+      {
+        this.taskSortComments = commentFilter[this.visibleFilter](comments);
       }
     },
     watch: {
       commentTaskId: function () {
+        this.taskComments.length=0
+        this.taskSortComments.length=0
         services.taskComments.find({ query: { task_id: this.commentTaskId, parentId: this.commentParentId ? this.commentParentId : '' } }).then(response => {
-          this.taskSortComments = response;
+          this.sortComment(response);
           this.getSubTaskComments();
         });
       },
       commentParentId: function () {
+        this.taskComments.length=0
+        this.taskSortComments.length=0
         services.taskComments.find({ query: { task_id: this.commentTaskId, parentId: this.commentParentId ? this.commentParentId : '' } }).then(response => {
-          this.taskSortComments = response;
+          this.sortComment(response);;
           this.getSubTaskComments();
+
         });
       },
       visibleFilter: function () {
-        this.taskSortComments = commentFilter[this.visibleFilter](this.taskComments);
+        this.sortComment(this.taskComments);
+        // this.taskSortComments = commentFilter[this.visibleFilter](this.taskComments);
       },
       isPinned:function()
       {

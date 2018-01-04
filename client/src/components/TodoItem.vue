@@ -94,6 +94,7 @@
       return firstLetters.toUpperCase()
     }
   })
+  var  focusTimeOut;
   export default {
     props: ['todo', 'pholder', 'nextIndex', 'prevIndex', 'id'],
     data: function () {
@@ -216,8 +217,10 @@
         }
       },
       changeFocus(indexId) {
+        if(focusTimeOut)
+            clearTimeout(focusTimeOut);
         var self = this;
-        setTimeout(function () {
+        focusTimeOut = setTimeout(function () {
           var el = $('.' + indexId);
           if (el) {
             el.focus();
