@@ -39,7 +39,7 @@
               <span style="float:left;margin-top:-3px">
                 <div v-if="todoObject.email">
                   <avatar v-if="todoObject.image_url" :username="todoObject.email" :size="30" :src="todoObject.image_url"></avatar>
-                  <avatar v-else :username="todoObject.email" color='#fff' :size="30"></avatar>
+                  <avatar    :username="todoObject.email" color='#fff' :size="30"></avatar>
                 </div>
               </span>
               <Row>

@@ -109,6 +109,11 @@ import { mapGetters } from 'vuex'
 import moment from 'moment';
 import Avatar from 'vue-avatar/src/Avatar'
 Vue.use(Resource)
+Vue.filter('dateDesending', function (value) {
+    if (value) {
+      return _.sortBy(value, function(o) { return new moment(o.createAt); }).reverse()
+    }
+  })
 export default {
     props: ['taskId'],
     computed: {
@@ -117,9 +122,10 @@ export default {
         }),
         historyDetailLog(){
             let log = this.findLog(this.taskId)
-            console.log('historyDetailLog()',log)
-            this.historyDetailList(log)
-            return log
+            let historyLog=_.sortBy(log, function(o) { return new moment(o.created_on); }).reverse()
+            console.log('historyDetailLog()',historyLog)
+            this.historyDetailList(historyLog)
+            return historyLog
         }
     },
     created(){
