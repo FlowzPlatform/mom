@@ -1,5 +1,5 @@
 <template id="items">
-  <li v-bind:key="todo.id" class="todo">
+  <li :value="getTaskState" v-bind:key="todo.id" class="todo">
     <div :id="getLevelClass(todo.level,todo.id)" style="padding-bottom: 5px;">
       <div class="view" style="margin-left: 10px;">
         <span class="dreg-move"></span>
@@ -15,7 +15,7 @@
           <span>{{selectedObject.taskState | fistLatter}}</span>
         </div>
         <ul class='dropdown-menu statusList'>
-          <li v-for="state in taskState">
+          <li v-bind:key="state.id" v-for="state in taskState">
             <a @click="selectStatus(state)">{{state.taskState}}</a>
           </li>
         </ul>
@@ -124,6 +124,14 @@
           this.isTypeTodo = this.selectedType.id === this.todo.type_id
         }
         return this.isTypeTodo
+      },
+      getTaskState(){
+        if(this.todo.state_id){
+          this.selectedObject = this.allState.find(state => state.id === this.todo.state_id)
+        }else{
+          this.selectedObject.color='#000'
+          this.selectedObject.taskState=''
+        }
       },
       getAssignedUser() {
         let user = this.$store.state.todolist.find(todo => todo.id === this.todo.id)
@@ -274,5 +282,6 @@
         }
       }
     }
+   
   }
 </script>

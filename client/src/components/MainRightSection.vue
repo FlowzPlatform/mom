@@ -11,8 +11,6 @@
           <a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
         </span>
       </Alert>
-      <!-- {{todoObject}} -->
-      <!-- {{todoObject}}  -->
       <div class="tab-pannel" id="rightContainer">
         <task-heading :id="id" :filteredTodo="todoObject"></task-heading>
         <div class="rightscroll">
