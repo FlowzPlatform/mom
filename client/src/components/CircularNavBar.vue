@@ -387,6 +387,7 @@
           this.searchText = "data:" + $(this).val();
         }
       })
+      document.getElementsByClassName('ivu-poptip-rel')[0].title = "Project List"
     },
     methods: {
       showDeleted_Tasks: function() {
