@@ -112,6 +112,11 @@ function updateObject(oldObject, newObject) {
     }
   }
 }
+
+function findPinnedIndex(element) {
+  console.log("Element:--",element)
+  return element.isPinned!==undefined && element.isPinned===true;
+}
 // function scrollToLeft() {
 //   var children = document.getElementById('main-container').children;
 //   var totalWidth = 0;
@@ -248,10 +253,8 @@ export const store = new Vuex.Store({
           }
       },100)
       //****************************************************** */
-
-      CmnFunc.scrollToLeft()
-      // END scroll to last opened right div 
-      
+    
+   
       
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
@@ -290,6 +293,12 @@ export const store = new Vuex.Store({
           }
         }
       }
+
+      if(payload.taskName){
+      let moveIndex=(state.parentIdArr).findIndex(findPinnedIndex)
+      CmnFunc.scrollToLeft(moveIndex-1)
+      }
+      // END scroll to last opened right div 
       // const divHeight = $(".task").height() + 40
       // document.getElementById('rightContainer').style.height = 904 - divHeight + "px"
     },
@@ -314,8 +323,8 @@ export const store = new Vuex.Store({
           }
         }
       }
-      
-      CmnFunc.scrollToLeft()
+      let moveIndex=(state.parentIdArr).findIndex(findPinnedIndex)
+      CmnFunc.scrollToLeft(moveIndex-1)
     },
     REMOVE_PARENT_ID_ARRAY(state) {
       state.parentIdArr.splice(0, state.parentIdArr.length)
@@ -942,6 +951,7 @@ export const store = new Vuex.Store({
       services.roleService.removeListener('removed')
       services.roleService.removeListener('created')
       services.roleService.removeListener('patched')
+      services.taskHistoryLogs.removeListener('created')
       
     },
     eventListener({ commit }) {
