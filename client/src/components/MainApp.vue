@@ -13,13 +13,8 @@
 					<div class="outer" v-show="isProjectAvailable">
 						<div class="middle">
 							<div class="inner">
-<<<<<<< HEAD
-								<div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems" v-show="isProjectAvailable">
-									<span class="fa fa-file-text-o fa-5x" data-target="#createProject" data-toggle="modal" />
-=======
 								<div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems" >
 									<span class="fa fa-file-text-o fa-5x" data-target="#createProject" data-toggle="modal"/>
->>>>>>> master
 									<div class="text gridPaneSearchEmptyView-noProjectItemsTitleText">Add New Project
 									</div>
 									<div class="text gridPaneSearchEmptyView-noProjectItemsText" v-show="$store.state.projectlist.length==0">You have no project created.
