@@ -31,26 +31,53 @@
                 </div>
                 <div class="container-form">
                     <div class="form-item log-in">
-                        <div class="table">
+                        <div class="table" v-if="!isForgotPasswordShow">
                             <div class="table-cell">
                                 <form action="http://auth.flowz.com/auth/Gplus" method="post">
                                     <input type="hidden" name="success_url" value="http://mom.flowz.com">
                                     <button class="googleAuthBtn" type="submit">Use Google Account</button>
-                                </form> 
+                                </form>
                                 <div class="dialog--nux-seperator" id="seprator"> or </div>
                                 <div>
-                                <Tabs type="card" value="1" @on-click=tabsClicked>
+                                    <Tabs type="card" value="1" @on-click=tabsClicked>
                                         <TabPane label="Standard" name="1">
-                                                <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
-                                                <input placeholder="Password" tabindex="2" type="password" name="p" id="password_input" v-model="pwd" @keyup.enter="btnLogInClicked()">
-                                                <div tabindex="3" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in</div>
+                                            <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
+                                            <input placeholder="Password" tabindex="2" type="password" name="p" id="password_input" v-model="pwd" @keyup.enter="btnLogInClicked()">
+                                            <div tabindex="3" @click="btnForgotClicked()" class="" style="
+                                                text-align:  -webkit-right;
+                                                padding-right: 106px;
+                                            ">Forgot password?</div>
+                                            <div tabindex="3" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in
+                                                <img v-if="showLoginActivity" src="../assets/activity.svg" style="margin-left: 10px; width:25px; height:25px;"/>
+                                            </div>
                                         </TabPane>
                                         <TabPane label="LDAP" name="2">
-                                                <input placeholder="LDAP Username" tabindex="4" type="email" name="e" id="ldap_username" value="" v-model="emailId" v-on:change="enableButtons()">
-                                                <input placeholder="Password" tabindex="5" type="password" name="p" id="password_input_ldap" v-model="pwd" @keyup.enter="btnLogInClicked()">
-                                                <div tabindex="6" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in</div>
+                                            <input placeholder="LDAP Username" tabindex="4" type="email" name="e" id="ldap_username" value="" v-model="emailId" v-on:change="enableButtons()">
+                                            <input placeholder="Password" tabindex="5" type="password" name="p" id="password_input_ldap" v-model="pwd" @keyup.enter="btnLogInClicked()">
+                                            <div tabindex="3" @click="btnForgotClicked()" class="" style="
+                                                text-align:  -webkit-right;
+                                                padding-right: 106px;
+                                            ">Forgot password?</div>
+                                            <div tabindex="6" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in
+                                                <img v-if="showLoginActivity" src="../assets/activity.svg" style="margin-left: 10px; width:25px; height:25px;"/>
+                                            </div>
                                         </TabPane>
-                                </Tabs>
+                                    </Tabs>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table" v-else>
+                            <span id="close" class="destroy" style="padding : 25px; text-align: right" @click="btnForgotClicked()">
+                                <i class="fa fa-arrow-left"></i>
+                            </span>
+                            <div class="table-cell">
+                                <div tabindex="3" class="" style="text-align:  -webkit-left;display:  inline-block;">
+                                    <font size="5">Forgot password?</font>
+
+                                </div>
+                                <div style="padding-top:  20px;">
+                                    <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="forgotEmailId">
+                                    <div tabindex="3" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Submit</div>
                                 </div>
                             </div>
                         </div>
@@ -62,9 +89,10 @@
                                 <input placeholder="Last Name" tabindex="8" type="lastname" id="lastnameInput" v-model="lname">
                                 <input placeholder="Email" tabindex="9" type="email" name="e" id="emailInput" value="" v-model="emailId" v-on:change="enableButtons()">
                                 <input placeholder="Password" tabindex="10" type="password" name="p" id="passwordInput" v-model="pwd">
-                                <input placeholder="Confirm Password" tabindex="11" type="password" v-model="confPwd" id="confirmpwd">
-                                <div tabindex="12" class="btn" id="signup_btn" @click="btnSubmitClicked()">
+                                <input placeholder="Confirm Password" tabindex="11" type="password" v-model="confPwd" id="confirmpwd" @keyup.enter="btnSubmitClicked()">
+                                <div tabindex="12" class="btn" id="signup_btn" @click="btnSubmitClicked()" @keyup.enter="btnSubmitClicked()">
                                     Submit
+                                    <img v-if="showSignUpActivity" src="../assets/activity.svg" style="margin-left: 10px; width:25px; height:25px;"/>
                                 </div>
                             </div>
                         </div>
@@ -96,6 +124,7 @@
         $("#login_btn").attr('disabled', true);
     });
 
+  
     export default {
         //   el: '#loginPage',
         data: function () {
@@ -106,12 +135,16 @@
                 passData: 'Send to next vue..',
                 selectedTabIndex: 1,
                 fname: '',
-                lname: ''
+                lname: '',
+                showSignUpActivity: false,
+                showLoginActivity: false,
+                isForgotPasswordShow: false,
+                forgotEmailId: ''
             }
         },
-        mounted(){
+        mounted() {
             var self = this
-            if(this.$cookie.get('auth_token') !== null){
+            if (this.$cookie.get('auth_token') !== null) {
                 self.$store.state.isAuthorized = true
                 self.$store.commit('authorize')
                 //self.userDetail(self)
@@ -128,6 +161,7 @@
             }
         },
         created() {
+            CmnFunc.deleteAutheticationDetail()
             console.log("AUTH_TOKEN:", localStorage.getItem('auth_token'))
             var url_string = window.location.href;
             var url = new URL(url_string);
@@ -154,10 +188,14 @@
             }
         },
         methods: {
+            btnForgotClicked() {
+                console.log("-------------Btn forgot password click-------")
+                this.isForgotPasswordShow = !this.isForgotPasswordShow;
+            },
             login() {
                 $(".container").toggleClass("log-in");
             },
-            tabsClicked(val){
+            tabsClicked(val) {
                 this.emailId = ''
                 this.pwd = ''
                 this.confPwd = ''
@@ -167,6 +205,8 @@
                 this.emailId = ''
                 this.pwd = ''
                 this.confPwd = ''
+                this.fname = ''
+                this.lname = ''
                 $(".container").toggleClass("log-in");
             },
             btnSubmitClicked() {
@@ -177,17 +217,17 @@
                 let trimmedConfPwd = this.confPwd.trim()
 
                 let validateFname = CmnFunc.checkBlankField(trimmedFname)
-                if(!validateFname){
+                if (!validateFname) {
                     $("#firstnameInput").notify("First name should not be blank")
                     return
                 }
 
                 let validateLname = CmnFunc.checkBlankField(trimmedLname)
-                if(!validateLname){
+                if (!validateLname) {
                     $("#lastnameInput").notify("Last name should not be blank")
                     return
                 }
-                
+
                 let validateEmail = CmnFunc.checkBlankField(trimmedEmail)
                 if (!validateEmail) {
                     $("#emailInput").notify("Email address should not be blank")
@@ -218,6 +258,8 @@
 
                 let fullname = CmnFunc.capitalizeFirstLetter(trimmedFname) + ' ' + CmnFunc.capitalizeFirstLetter(trimmedLname)
                 
+                this.showSignUpActivity = true
+
                 let self = this
                 this.$store.dispatch('userRegistrationProcess', { 'email': trimmedEmail, 'password': trimmedPwd, 'signup_type': 'email', 'image_url': '', 'fullname': fullname })
                     .then(function (response) {
@@ -234,12 +276,17 @@
                         $('#seprator').show()
                         $('#back_btn').hide()
                         $("#login_btn").attr('disabled', true);
+                        self.showSignUpActivity = false
+                        $(".container").toggleClass("log-in");
+                        $.notify.defaults({ className: "success" })
+                        $.notify("You are successfully registered", { globalPosition: "top center" })
+                        
                     })
                     .catch(function (error) {
-                        console.log('error with signup')
-                        $("#email_input").notify(error.message)
+                        $.notify.defaults({ className: "error" })
+                        $.notify(error, { globalPosition: "top center" })
+                        self.showSignUpActivity = false
                     })
-                $(".container").toggleClass("log-in");
             },
             btnLDAPPressed() {
                 let self = this
@@ -289,9 +336,9 @@
                 var validateEmail = CmnFunc.checkBlankField(trimmedEmail)
 
                 if (!validateEmail) {
-                    if(this.selectedTabIndex == 1){
+                    if (this.selectedTabIndex == 1) {
                         $("#email_input").notify("Email address should not be blank")
-                    }else{
+                    } else {
                         $("#ldap_username").notify("LDAP username should not be blank")
                     }
                     return
@@ -305,26 +352,30 @@
 
                 var validatePwd = CmnFunc.checkBlankField(trimmedPwd)
                 if (!validatePwd) {
-                    if(this.selectedTabIndex == 1){
+                    if (this.selectedTabIndex == 1) {
                         $("#password_input").notify("Password should not be blank")
-                    }else{
+                    } else {
                         $("#password_input_ldap").notify("Password should not be blank")
                     }
                     return
                 }
 
+                this.showLoginActivity = true
                 var self = this
                 CmnFunc.resetProjectDefault()
 
-                this.$store.dispatch('userLoginProcess', { 'email': trimmedEmail, 'password': trimmedPwd, 'userType':this.selectedTabIndex})
+                this.$store.dispatch('userLoginProcess', { 'email': trimmedEmail, 'password': trimmedPwd, 'userType': this.selectedTabIndex })
                     .then(function () {
                         self.$store.state.isAuthorized = true
                         self.$store.commit('authorize')
                         self.userDetail(self)
+                        self.showSignUpActivity = false
                     })
                     .catch(function (error) {
+                        console.log('error:', error.message)
                         $.notify.defaults({ className: "error" })
                         $.notify(error.message, { globalPosition: "top center" })
+                        self.showLoginActivity = false
                     });
 
             },
@@ -338,6 +389,10 @@
                         if (error.response.status === 401) {
                             return
                         }
+                        if (error.response.status === 403) {
+                            return
+                        }
+                        
                         $.notify.defaults({ className: "error" })
                         $.notify(error.message, { globalPosition: "top center" })
                     })
@@ -372,7 +427,7 @@
 </script>
 <style>
     .login-pages {
-        background-color:#5356ad;
+        background-color: #5356ad;
         position: fixed;
         left: 0;
         right: 0;

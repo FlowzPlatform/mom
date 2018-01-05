@@ -42,6 +42,7 @@ export default {
     store.commit('CLEAR_PROJECT_DEFAULT') 
     store.state.splitWidthArr = []
     store.commit('splitWidthArr')
+    store.state.isNoProjectShow = false
   },
   resetProjectDefault: function () {
    store.commit('CLEAR_PROJECT_DEFAULT')
