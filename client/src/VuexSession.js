@@ -228,7 +228,7 @@ export const store = new Vuex.Store({
         state.todolist = data
       }
     },
-     SHOW_DIV(state, payload) {
+      SHOW_DIV(state, payload) {
       console.log("SHOW_DIV call ==>", state.taskHistoryLog.length)
       
       // Clear history log, attachment, tags
@@ -256,11 +256,11 @@ export const store = new Vuex.Store({
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
         // window.history.pushState("", "Title", "http://localhost:3000/navbar/task/" + (payload.level + 1) + "/" + payload.id);
-         store.dispatch('getAllTodos', { 'parentId': payload.id, project_id: state.currentProjectId });
+          store.dispatch('getAllTodos', { 'parentId': payload.id, project_id: state.currentProjectId });
         // await store.dispatch('getAttachmentFromDB', payload.id)
         // await store.dispatch('getAllTaskTags', payload.id);
         // await store.dispatch('getTaskComment', payload.id)
-        // await store.dispatch('getTypeState', payload.id)
+          store.dispatch('getTypeState', payload.id)
         // await store.dispatch('getHistoryFromDB', payload.id)
         var parentIdArrObj = payload
         var tempParentIds = _.chain([]).union(state.parentIdArr).sortBy([function (o) { return o.level; }]).value();

@@ -31,8 +31,10 @@
               <div class="BlockStory-headerContent">
                 <span class="BlockStory-storyContent">
                   <strong>
-                    <a v-if="visibleFilter === 'all'" class="DeprecatedNavigationLink BlockStory-actorLink">{{comment.fullname | capitalizeFirstLetter}}</a>
-                    <a v-if="visibleFilter === 'group_By'" class="DeprecatedNavigationLink BlockStory-actorLink">{{comment.fname | capitalizeFirstLetter}}</a>
+
+                    <a v-if="visibleFilter === 'all'" class="DeprecatedNavigationLink BlockStory-actorLink">{{ getDisplayName(comment) }}</a>
+                    <a v-else-if="visibleFilter === 'group_By'" class="DeprecatedNavigationLink BlockStory-actorLink">{{comment.fname | capitalizeFirstLetter}}</a>
+                    
                   </strong>
                 </span>
                 <span class="BlockStory-metadata">
@@ -162,6 +164,9 @@ import CmnFunc from './CommonFunc.js'
       );
     },
     methods: {
+      getDisplayName(user) {
+        return user.fullname ? user.fullname.charAt(0).toUpperCase() : user.email
+      },
       replyCommentMethod(comment) {
         let parentList = this.$store.state.parentIdArr;
       let avaiIndex=_.findIndex(parentList, function (d) { return d.id === comment.id })
