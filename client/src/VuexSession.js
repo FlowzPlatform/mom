@@ -112,6 +112,11 @@ function updateObject(oldObject, newObject) {
     }
   }
 }
+
+function findPinnedIndex(element) {
+  console.log("Element:--",element)
+  return element.isPinned!==undefined && element.isPinned===true;
+}
 // function scrollToLeft() {
 //   var children = document.getElementById('main-container').children;
 //   var totalWidth = 0;
@@ -248,10 +253,8 @@ export const store = new Vuex.Store({
           }
       },100)
       //****************************************************** */
-
-      CmnFunc.scrollToLeft()
-      // END scroll to last opened right div 
-      
+    
+   
       
       var parentTaskId = payload.id ? payload.id : '';
       if (parentTaskId != -1) {
@@ -290,6 +293,12 @@ export const store = new Vuex.Store({
           }
         }
       }
+
+      if(payload.taskName){
+      let moveIndex=(state.parentIdArr).findIndex(findPinnedIndex)
+      CmnFunc.scrollToLeft(moveIndex-1)
+      }
+      // END scroll to last opened right div 
       // const divHeight = $(".task").height() + 40
       // document.getElementById('rightContainer').style.height = 904 - divHeight + "px"
     },
@@ -314,8 +323,8 @@ export const store = new Vuex.Store({
           }
         }
       }
-      
-      CmnFunc.scrollToLeft()
+      let moveIndex=(state.parentIdArr).findIndex(findPinnedIndex)
+      CmnFunc.scrollToLeft(moveIndex-1)
     },
     REMOVE_PARENT_ID_ARRAY(state) {
       state.parentIdArr.splice(0, state.parentIdArr.length)
@@ -515,7 +524,6 @@ export const store = new Vuex.Store({
       if (fileObject instanceof Array) {
         _.forEach(fileObject, function (object) {
           let index = _.findIndex(state.arrAttachment, function (d) { return d.id == object.id })
-          console.log("attachment ->index:",index)
           if (index < 0) {
             state.arrAttachment.push(object)
           }
@@ -786,12 +794,12 @@ export const store = new Vuex.Store({
     async showDeleteTasks(state) {
       state.deleteItemsSelected = true
       state.parentIdArr.splice(0, state.parentIdArr.length)
-      // state.createdByTaskList.splice(0, state.createdByTaskList.length)
       await store.dispatch('getDeleteTask', state.currentProjectId)
     },
     showMyTasks(state) {
       state.deleteItemsSelected = false
-      state.parentIdArr.splice(0, state.parentIdArr.length)
+      // state.parentIdArr.splice(0, state.parentIdArr.length)
+      // state.deletedTaskArr.splice(0, state.deletedTaskArr.length)
     },
     DELETED_TASKS(state, deletedArray) {
       state.deletedTaskArr = deletedArray
@@ -943,6 +951,7 @@ export const store = new Vuex.Store({
       services.roleService.removeListener('removed')
       services.roleService.removeListener('created')
       services.roleService.removeListener('patched')
+      services.taskHistoryLogs.removeListener('created')
       
     },
     eventListener({ commit }) {
@@ -1135,7 +1144,7 @@ export const store = new Vuex.Store({
           assigned_to: store.state.userObject._id,
           isDelete: false,
           project_id: insertElement.project_id,
-          type_id: store.state.task_types_list[0].id // Default task type is todo 
+          type_id: store.state.task_types_list.find(type => type.default_Type === 'Todo').id // Default task type is todo 
         }).then(response => {
           console.log("Insert new todo::---->", response);
           
@@ -1814,14 +1823,16 @@ export const store = new Vuex.Store({
       });
     },
     getDeleteTask({ commit }, payload) {
-      // services.tasksService.find({ query: { isDelete: true } }).then(response => {
-      //   commit('DELETED_TASKS', response)
-      // });
+      // Deleted Create_by and Assigned to from delete task
+      // $or: [
+      //   { isDelete: true, project_id: payload, created_by: store.state.userObject._id },
+      //   { isDelete: true, project_id: payload, assigned_to: store.state.userObject._id }
+      // ]
       services.tasksService.find({
         query: {
           $or: [
-            { isDelete: true, project_id: payload, created_by: store.state.userObject._id },
-            { isDelete: true, project_id: payload, assigned_to: store.state.userObject._id }
+            { isDelete: true, project_id: payload },
+            { isDelete: true, project_id: payload }
           ]
         }
       }).then(response => {
@@ -1924,6 +1935,7 @@ export const store = new Vuex.Store({
       })
     },
     getTypeState({commit}, payload){
+      console.log("playload:",payload)
        services.taskTypeStateService.find({ query: { type_id: payload } }).then(response => {
           console.log("GET_TYPE_STATE log type_state", response)
           commit("GET_TYPE_STATE", response)

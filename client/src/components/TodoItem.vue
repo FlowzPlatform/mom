@@ -1,5 +1,5 @@
 <template id="items">
-  <li v-bind:key="todo.id" class="todo">
+  <li :value="getTaskState" v-bind:key="todo.id" class="todo">
     <div :id="getLevelClass(todo.level,todo.id)" style="padding-bottom: 5px;">
       <div class="view" style="margin-left: 10px;">
         <span class="dreg-move"></span>
@@ -10,12 +10,12 @@
             class="toggle" :disabled="!todo.is_editable" @change="roleCheckChange(todo)">
           <label for="checkbox8"></label>
         </span>
-        <div v-if="!$store.state.deleteItemsSelected && todo.type_id && !getType" class="stateCircle Avatar--small " @click="showStatusList"
+        <div :id="'item-'+todo.id"  v-if="!$store.state.deleteItemsSelected && todo.type_id && !getType" class="stateCircle Avatar--small " @click="showStatusList"
           data-toggle="dropdown" :style="{'box-shadow' : 'inset 0 0 0 3px'+ selectedObject.color }">
           <span>{{selectedObject.taskState | fistLatter}}</span>
         </div>
         <ul class='dropdown-menu statusList'>
-          <li v-for="state in taskState">
+          <li v-bind:key="state.id" v-for="state in taskState">
             <a @click="selectStatus(state)">{{state.taskState}}</a>
           </li>
         </ul>
@@ -96,7 +96,7 @@
   })
   var  focusTimeOut;
   export default {
-    props: ['todo', 'pholder', 'nextIndex', 'prevIndex', 'id'],
+    props: ['todo', 'pholder', 'nextIndex', 'prevIndex', 'id','taskId'],
     data: function () {
       return {
         isDate: this.todo.dueDate,
@@ -126,6 +126,17 @@
         }
         return this.isTypeTodo
       },
+      getTaskState(){
+        console.log("this.todo.state_id:",this.todo.state_id)
+        if(this.todo.state_id){
+          this.selectedObject = this.allState.find(state => state.id === this.todo.state_id)
+        }else{
+          $('#item-'+this.todo.id).css('box-shadow' , 'inset 0 0 0 3px #000')
+          // this.selectedObject.color = "#000"
+          // this.selectedObject.taskState =''
+          this.selectedObject = {}
+        }
+      },
       getAssignedUser() {
         let user = this.$store.state.todolist.find(todo => todo.id === this.todo.id)
         return user.email
@@ -140,7 +151,12 @@
         'roleCheckChange'
       ]),
       getLevelClass(level, id) {
-        return id + "_" + String(level)
+        let idStr=id + "_" + String(level)
+        console.log("This taskId:--->",this.taskId)
+        console.log("This todoId:--->",this.id)
+        if(this.taskId)
+          idStr+="_"+this.taskId
+        return idStr;
       },
       undelete: function () {
         this.$store.dispatch('undelete', this.todo)
@@ -179,11 +195,14 @@
         }
       },
       async onFocusClick(id, level, created_by, typeId) {
-        $("#" + id + "_" + level).addClass("lifocus")
+        let elFocus="#" + id + "_" + level
+        if(this.taskId)
+          elFocus+='_'+this.taskId
+        $(elFocus).addClass("lifocus")
         if (this.todo.isTaskUpdate) {
           this.todo.isTaskUpdate = false
         }
-        let inutTodo = $("#" + id + "_" + level + " .view .new-todo." + id + "_" + level);   // Get the first <inutTodo> element in the document        
+        let inutTodo = $(elFocus + " .view .new-todo." + id + "_" + level);   // Get the first <inutTodo> element in the document        
         let permisionResult = await CmnFunc.checkActionPermision(this, typeId, Constant.USER_ACTION.TASK, Constant.PERMISSION_ACTION.UPDATE)
         console.log("permisionResult-->", permisionResult)
         if (!permisionResult && id != -1) {
@@ -193,8 +212,12 @@
         }
       },
       onBlurCall(id, level) {
-        $("#" + id + "_" + level).removeClass("lifocus")
+        let elFocus="#" + id + "_" + level
+        if(this.taskId)
+          elFocus+='_'+this.taskId
+        $(elFocus).removeClass("lifocus")
       },
+      
       performAction(e) {
         if (e.keyCode == 40) {
           $('.' + this.nextIndex).focus();
@@ -279,5 +302,6 @@
         }
       }
     }
+   
   }
 </script>

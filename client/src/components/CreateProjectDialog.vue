@@ -128,6 +128,7 @@
                     this.$store.state.currentProjectId = response.id
                     this.$store.state.currentProjectName = response.project_name
                     this.$store.state.todolist.length = 0
+                    this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
                 } else {
                     this.createProjectError = response.error;
                 }

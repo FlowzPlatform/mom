@@ -42,6 +42,7 @@ export default {
     store.commit('CLEAR_PROJECT_DEFAULT') 
     store.state.splitWidthArr = []
     store.commit('splitWidthArr')
+    store.state.isNoProjectShow = false
   },
   resetProjectDefault: function () {
    store.commit('CLEAR_PROJECT_DEFAULT')
@@ -155,14 +156,15 @@ export default {
       return (obj.task_type == taskTypeId && obj.rId == selfRoleId);
     });
   },
-  scrollToLeft: function(){ 
-    var children = document.getElementById('main-container').children;
+  scrollToLeft: function(moveIndex){ 
+    var children = document.getElementById('split-container').children;
     var totalWidth = 0;
-    
     for (var i = 0; i < children.length; i++) {
-      totalWidth += children[i].offsetWidth;
+      if(moveIndex==i)
+        break;
+      totalWidth += children[i].offsetWidth;  
     }
-    var leftPos = $('#main-container').scrollLeft();
+    // var leftPos = $('#main-container').scrollLeft();
     $("div#main-container").animate({
       scrollLeft: totalWidth
     }, 800)
