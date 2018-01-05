@@ -39,7 +39,7 @@
               <span style="float:left;margin-top:-3px">
                 <div v-show="todoObject.email">
                   <avatar v-if="todoObject.image_url" :username="todoObject.email" :size="30" :src="todoObject.image_url"></avatar>
-                  <avatar    :username="todoObject.email" color='#fff' :size="30"></avatar>
+                  <avatar v-else  :username="todoObject.email" color='#fff' :size="30"></avatar>
                 </div>
               </span>
               <Row>
@@ -337,7 +337,6 @@
         }
       },
       userDetail(deletedTasks) {
-        console.log("user detail updated...")
         deletedTasks.forEach(function (c) {
           let userId = c.assigned_to;
           let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) {
@@ -485,9 +484,7 @@
       * Selected user from assign user list
       */
       userListClick: function (user_id) {
-        // if (this.selectedUser !== this.previousUser)
           this.setAssignUser(user_id)
-          this.$store.dispatch('getTypeState', this.todoObject.id)
       },
       async btnTypeClicked(objType) {
         if(objType !== this.todoObject.type_id){
@@ -638,7 +635,6 @@
         return this.todoObject.assigned_to
       }, 
       taskById() {
-        console.log("taskById....")
         this.onReadComment(
           this.todoObject.id,
           this.todoObject.level,

@@ -229,8 +229,6 @@ export const store = new Vuex.Store({
       }
     },
      SHOW_DIV(state, payload) {
-      console.log("SHOW_DIV call ==>", state.taskHistoryLog.length)
-      
       // Clear history log, attachment, tags
       // state.taskHistoryLog.length = 0
       // state.arrAttachment.length = 0
@@ -260,7 +258,7 @@ export const store = new Vuex.Store({
         // await store.dispatch('getAttachmentFromDB', payload.id)
         // await store.dispatch('getAllTaskTags', payload.id);
         // await store.dispatch('getTaskComment', payload.id)
-        // await store.dispatch('getTypeState', payload.id)
+         store.dispatch('getTypeState', payload.id)
         // await store.dispatch('getHistoryFromDB', payload.id)
         var parentIdArrObj = payload
         var tempParentIds = _.chain([]).union(state.parentIdArr).sortBy([function (o) { return o.level; }]).value();
@@ -336,7 +334,6 @@ export const store = new Vuex.Store({
       
     },
     CLEAR_PROJECT_DEFAULT(state) {
-      console.log("Clean data");
       state.userObject = {}
       state.isAuthorized = false
       state.todolist.length = 0
@@ -384,9 +381,6 @@ export const store = new Vuex.Store({
       state.taskHistoryLog.length = 0
       state.currentProjectCreatedBy = ''
       state.editedValue = ''
-      // state.visibility = ''
-
-      console.log("Reset ALL ")
     },
     changeFilters(state, key) {
       state.visibility = key
@@ -580,7 +574,6 @@ export const store = new Vuex.Store({
         username: state.userObject.fullname,
         image_url: state.userObject.image_url
       })
-      console.log("state.taskComment:",state.taskComment)
     },
     DELETE_COMMENT(state, data) {
       let removeTaskComments = _.findIndex(state.taskComment, function (d) { return d.id == data.id })
@@ -1925,7 +1918,6 @@ export const store = new Vuex.Store({
       })
     },
     getTypeState({commit}, payload){
-      console.log("playload:",payload)
        services.taskTypeStateService.find({ query: { type_id: payload } }).then(response => {
           console.log("GET_TYPE_STATE log type_state", response)
           commit("GET_TYPE_STATE", response)
@@ -2241,12 +2233,9 @@ export const store = new Vuex.Store({
       }
     },
     parentIdArr: state => state.parentIdArr,
-    // taskHistoryLog: state => state.taskHistoryLog,
     getHistoryLog: (state, getters) => {
       return function (id) {
-        console.log("id:",id)
         var history = state.taskHistoryLog.filter(history => history.task_id === id)
-        console.log("history:",history)
         return history
       }
     },

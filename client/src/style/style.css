@@ -12,7 +12,6 @@ body {
 	background: #f5f5f5;
 	color: #4d4d4d;
 	min-width: 230px;
-	/*max-width: 550px;*/
 	margin: 0 auto;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -39,14 +38,11 @@ button {
 }
 
 .todoapp {
-	/*background: #fff;*/
-	/*margin: 130px 0 40px 0;*/
-	/*margin: 50px 0 40px 0;*/
 	position: relative;
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
 	            0 25px 50px 0 rgba(0, 0, 0, 0.1);
 }
-
+/*start task input box and placeholder-text */
 .todoapp input::-webkit-input-placeholder {
 	font-style: italic;
 	font-weight: 300;
@@ -64,14 +60,14 @@ button {
 	font-weight: 300;
 	color: #e6e6e6;
 }
+/*end task input box and placeholder-text */
 
+/* start taskname iput */
 .new-todo,.edit {
 	position: relative;
     display: inline-block;
 	margin: 0;
-	/*width: 90%;*/
 	font-size: 14px;
-	/*font-size: 24px;*/
 	font-family: inherit;
 	font-weight: inherit;
 	line-height: 1.4em;
@@ -86,12 +82,10 @@ button {
 }
 
 .new-todo {
-	/*padding: 16px 16px 16px 60px;*/
 	padding: 10px 0px 10px 5px;
 	border: none;
 	background: rgba(0, 0, 0, 0.003);
     box-shadow: inset 0 0px 0px rgba(0,0,0,0.03)
-	/*box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);*/
 }
 .main {
 	position: relative;
@@ -120,7 +114,6 @@ button {
 
 .todo-list li .toggle {
 	text-align: center;
-	/*width: 40px;*/
     width: 25px;
 	/* auto, since non-WebKit browsers doesn't support input styling */
 	height: auto;
@@ -137,10 +130,7 @@ button {
 .todo-list li .view {text-align: left}
 .todo-list li input {
 	word-break: break-all;
-	/*padding: 15px 60px 15px 15px;*/
 	margin-left: 35px;
-	/*margin-left: 35px;*/
-	/*display: block;*/
 	color: #1B2432;
 	line-height: 1.2;
 	transition: color 0.4s;
@@ -148,11 +138,9 @@ button {
     text-overflow: ellipsis;
 }
 
-.todo-list li.completed input {
-	color: #9c9fa2;
+/* end taskname iput */
 
-}
-
+/* start delete-view of task type and task state */
 .todo-list li .destroy {
 	display: none;
     position: absolute;
@@ -167,11 +155,8 @@ button {
 .todo-list li:hover .destroy:hover {color:#1aafd0;}
 
 .destroy{
-	/* fill: #B9BCC0; */
     position: absolute;
-    /* right: 5px; */
     cursor: pointer;
-    /* top: 2px; */
     z-index: 1;
 }
 .destroy:hover {color:#1aafd0;}
@@ -179,8 +164,9 @@ button {
 .todo-list li:hover .destroy {
 	display: block;
 }
+/* end delete-view of task type and task state */
+/* pinit */
 .pinit{
-    /*background-image: url('../assets/pin.png');*/
 	fill: #B9BCC0;
     position: absolute;
     right: 22px;
@@ -188,6 +174,7 @@ button {
     top: 6px;
     z-index: 1;
 }
+
 .footer {
 	color: #777;
 	padding: 10px 15px;
@@ -210,26 +197,6 @@ button {
 	            0 16px 0 -6px #f6f6f6,
 	            0 17px 2px -6px rgba(0, 0, 0, 0.2);
 }
-.info {
-	margin: 65px auto 0;
-	color: #bfbfbf;
-	font-size: 10px;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-	text-align: center;
-}
-.info p {
-	line-height: 1;
-}
-
-.info a {
-	color: inherit;
-	text-decoration: none;
-	font-weight: 400;
-}
-.info a:hover {
-	text-decoration: underline;
-}
-
 /*
 	Hack to remove background from Mobile Safari.
 	Can't use it globally since it destroys checkboxes in Firefox
@@ -246,16 +213,8 @@ button {
 	}
 }
 
-@media (max-width: 430px) {
-	.footer {
-		height: 50px;
-	}
-}
 .taskDetailsView-description .autogrow-textarea{
 	background-color: #fff;
-	/*border: 1px solid #E1E2E4;*/
-    /* margin: 0 30px; */
-    /*padding-bottom: 25px;*/
     padding-left: 20px;
     padding-top: 5px;
 }
@@ -271,11 +230,7 @@ button {
     position: absolute;
     width: 100%;
 }
-/* .taskDetailsView-description .field-description{
-	margin-top: -5px;
-margin-bottom: -5px;
-margin-left: -11px;
-} */
+
 .autogrow-textarea [contenteditable="true"]{
 	min-height: 52px;
 white-space: pre-wrap

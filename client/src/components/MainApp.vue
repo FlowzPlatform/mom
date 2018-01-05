@@ -6,7 +6,7 @@
 			<div id="left_container" class="scrollbar split split-horizontal">
 				<div id="center_pane">
 					<div v-show="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
-						<left-toolbar v-if="!isCopyLink" :filters="filters">
+						<left-toolbar v-if="!isCopyLink && !$store.state.deleteItemsSelected" :filters="filters">
 						</left-toolbar>
 						<main-left-section id="todoTask" :isCopyLink="isCopyLink" :todoObject="todoObjectById" :pholder="taskPholder" :filtered-todos="taskById"></main-left-section>
 					</div>
@@ -426,5 +426,6 @@
 
 	.rightscroll {
 		width: 100%;
+		margin-top: 35px;
 	}
 </style>

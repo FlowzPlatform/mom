@@ -125,7 +125,6 @@ export default {
         historyDetailLog(){
             let log = this.findLog(this.taskId)
             let historyLog=_.sortBy(log, function(o) { return new moment(o.created_on); }).reverse()
-            console.log('historyDetailLog()',historyLog)
             this.historyDetailList(historyLog)
             return historyLog
         }
