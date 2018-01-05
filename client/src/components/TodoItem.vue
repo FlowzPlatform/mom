@@ -152,8 +152,6 @@
       ]),
       getLevelClass(level, id) {
         let idStr=id + "_" + String(level)
-        console.log("This taskId:--->",this.taskId)
-        console.log("This todoId:--->",this.id)
         if(this.taskId)
           idStr+="_"+this.taskId
         return idStr;

@@ -555,6 +555,7 @@ export const store = new Vuex.Store({
     },
     DELETE_PROJECT_LIST(state) {
       state.projectlist = []
+      state.isNoProjectShow=true;
     },
     GET_SETTINGS(state, data) {
       state.settingsObject = data
@@ -753,6 +754,12 @@ export const store = new Vuex.Store({
             state.currentProject='' 
             state.userRoles = ''
           }
+
+          if(!state.projectlist && state.projectlist.length>0){
+            state.isNoProjectShow=false;
+          }else{
+            state.isNoProjectShow=true;
+          }
           
     },
     /**
@@ -785,6 +792,8 @@ export const store = new Vuex.Store({
       state.projectlist = data;
       if(data.length==0)
         state.isNoProjectShow=true;
+        else
+        state.isNoProjectShow=false;
       if (!state.currentProjectId && data.length > 0) {
         state.currentProjectId = data[0].id
         state.currentProjectName = data[0].project_name
@@ -853,6 +862,8 @@ export const store = new Vuex.Store({
           //  }, this);
 
           state.projectlist.push(project);
+          state.isNoProjectShow=false;
+
         })
       }
 
@@ -860,6 +871,7 @@ export const store = new Vuex.Store({
     },
     ADD_PROJECT(state, project) {
       state.projectlist.push(project);
+      state.isNoProjectShow=false;
     },
     GET_TASK_TYPE(state, payload){
       state.parentIdArr.splice(0, state.parentIdArr.length)
@@ -1128,6 +1140,8 @@ export const store = new Vuex.Store({
             }
         });
       } else {
+        let defafultTaskType=store.state.task_types_list.find(type => type.default_Type === 'Todo');
+        console.log("Insert new todo::---->", defafultTaskType);
         // Insert new record
         services.tasksService.create({
           parentId: insertElement.parentId,
@@ -1144,7 +1158,7 @@ export const store = new Vuex.Store({
           assigned_to: store.state.userObject._id,
           isDelete: false,
           project_id: insertElement.project_id,
-          type_id: store.state.task_types_list.find(type => type.default_Type === 'Todo').id // Default task type is todo 
+          type_id: defafultTaskType.id // Default task type is todo 
         }).then(response => {
           console.log("Insert new todo::---->", response);
           

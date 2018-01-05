@@ -45,14 +45,23 @@
       },
       getNextToDo(index) {
         if (index + 1 <= this.filteredTodos.length) {
-          return this.filteredTodos[index + 1] ? this.filteredTodos[index + 1].id + "_" + this.filteredTodos[index].level : -1 + "_" + this.filteredTodos[index].level
+          let nextId= this.filteredTodos[index + 1] ? this.filteredTodos[index + 1].id + "_" + this.filteredTodos[index].level : -1 + "_" + this.filteredTodos[index].level
+          if(this.taskId)
+            nextId+='_'+this.taskId
+          return nextId
         } else {
-          return -1 + "_" + this.filteredTodos[index].level
+          let nextId= -1 + "_" + this.filteredTodos[index].level
+          if(this.taskId)
+            nextId+='_'+this.taskId
+          return nextId
         }
       },
       getPrevToDo(index) {
         if (index - 1 >= 0) {
-          return this.filteredTodos[index - 1] ? this.filteredTodos[index - 1].id + "_" + this.filteredTodos[index].level : -1 + "_" + this.filteredTodos[index].level
+          let nextId= this.filteredTodos[index - 1] ? this.filteredTodos[index - 1].id + "_" + this.filteredTodos[index].level : -1 + "_" + this.filteredTodos[index].level
+          if(this.taskId)
+            nextId+='_'+this.taskId
+          return nextId
         }
       },
       async newTagPermission() {
