@@ -9,7 +9,7 @@
       <draggable v-model="filteredTodos" @end="onDragEnd">
         <transition-group name="list-complete">
           <todo-item :id="id" v-for="(todo, ind) in filteredTodos" :prevIndex="getPrevToDo(ind)" :todo="todo" :pholder="pholder" :nextIndex="getNextToDo(ind)"
-            v-bind:key="todo.id">
+            v-bind:key="todo.id" :taskId="taskId" >
           </todo-item>
         </transition-group>
       </draggable>
@@ -30,7 +30,7 @@
   import { mapActions } from 'vuex'
   Vue.use(Resource)
   export default {
-    props: ['filteredTodos', 'pholder', 'todoObject', 'isCopyLink', 'id'],
+    props: ['filteredTodos', 'pholder', 'todoObject', 'isCopyLink', 'id','taskId'],
     components: {
       TodoItem,
       draggable,
@@ -45,14 +45,23 @@
       },
       getNextToDo(index) {
         if (index + 1 <= this.filteredTodos.length) {
-          return this.filteredTodos[index + 1] ? this.filteredTodos[index + 1].id + "_" + this.filteredTodos[index].level : -1 + "_" + this.filteredTodos[index].level
+          let nextId= this.filteredTodos[index + 1] ? this.filteredTodos[index + 1].id + "_" + this.filteredTodos[index].level : -1 + "_" + this.filteredTodos[index].level
+          if(this.taskId)
+            nextId+='_'+this.taskId
+          return nextId
         } else {
-          return -1 + "_" + this.filteredTodos[index].level
+          let nextId= -1 + "_" + this.filteredTodos[index].level
+          if(this.taskId)
+            nextId+='_'+this.taskId
+          return nextId
         }
       },
       getPrevToDo(index) {
         if (index - 1 >= 0) {
-          return this.filteredTodos[index - 1] ? this.filteredTodos[index - 1].id + "_" + this.filteredTodos[index].level : -1 + "_" + this.filteredTodos[index].level
+          let nextId= this.filteredTodos[index - 1] ? this.filteredTodos[index - 1].id + "_" + this.filteredTodos[index].level : -1 + "_" + this.filteredTodos[index].level
+          if(this.taskId)
+            nextId+='_'+this.taskId
+          return nextId
         }
       },
       async newTagPermission() {

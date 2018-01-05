@@ -111,6 +111,7 @@
         methods: {
             projectResponse: function (response) {
                 if (!response.error) {
+                    this.$store.state.isNoProjectShow=false
                     var insertInvite = {
                         project_id: response.id,
                         user_id: this.$store.state.userObject._id,

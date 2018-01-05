@@ -94,7 +94,7 @@
   })
   var focusTimeOut;
   export default {
-    props: ['todo', 'pholder', 'nextIndex', 'prevIndex', 'id'],
+    props: ['todo', 'pholder', 'nextIndex', 'prevIndex', 'id','taskId'],
     data: function () {
       return {
         isDate: this.todo.dueDate,
@@ -146,7 +146,10 @@
         'roleCheckChange'
       ]),
       getLevelClass(level, id) {
-        return id + "_" + String(level)
+        let idStr=id + "_" + String(level)
+        if(this.taskId)
+          idStr+="_"+this.taskId
+        return idStr;
       },
       undelete: function () {
         this.$store.dispatch('undelete', this.todo)
@@ -184,11 +187,14 @@
         }
       },
       async onFocusClick(id, level, created_by, typeId) {
-        $("#" + id + "_" + level).addClass("lifocus")
+        let elFocus="#" + id + "_" + level
+        if(this.taskId)
+          elFocus+='_'+this.taskId
+        $(elFocus).addClass("lifocus")
         if (this.todo.isTaskUpdate) {
           this.todo.isTaskUpdate = false
         }
-        let inutTodo = $("#" + id + "_" + level + " .view .new-todo." + id + "_" + level);   // Get the first <inutTodo> element in the document        
+        let inutTodo = $(elFocus + " .view .new-todo." + id + "_" + level);   // Get the first <inutTodo> element in the document        
         let permisionResult = await CmnFunc.checkActionPermision(this, typeId, Constant.USER_ACTION.TASK, Constant.PERMISSION_ACTION.UPDATE)
         console.log("permisionResult-->", permisionResult)
         if (!permisionResult && id != -1) {
@@ -198,8 +204,12 @@
         }
       },
       onBlurCall(id, level) {
-        $("#" + id + "_" + level).removeClass("lifocus")
+        let elFocus="#" + id + "_" + level
+        if(this.taskId)
+          elFocus+='_'+this.taskId
+        $(elFocus).removeClass("lifocus")
       },
+      
       performAction(e) {
         if (e.keyCode == 40) {
           $('.' + this.nextIndex).focus();

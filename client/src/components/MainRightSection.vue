@@ -483,14 +483,15 @@
       /**
       * Selected user from assign user list
       */
-      userListClick: function (user_id) {
+      userListClick:async function (user_id) {
           this.setAssignUser(user_id)
+          this.$store.commit('SHOW_DIV', this.todoObject)
       },
       async btnTypeClicked(objType) {
         if(objType !== this.todoObject.type_id){
-          await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedType": objType,
+          await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedType": objType,"selectedState": null ,
               log_action:Constant.HISTORY_LOG_ACTION.TASK_TYPE, log_text:objType})
-          await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedState": null })
+          // await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedState": '' })
         }
       },
       checkEmail(email,fullname){
