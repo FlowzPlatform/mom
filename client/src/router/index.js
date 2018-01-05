@@ -24,7 +24,6 @@ import GSignInButton from 'vue-google-signin-button';
 import { Tag } from 'element-ui'
 // import iView from 'iview';
 // import 'iview/dist/styles/iview.css';
-// RANDOM_CSS.printlinktag();
 Vue.config.productionTip = false
 Vue.use(GSignInButton)
 Vue.use(Tag)
@@ -39,13 +38,6 @@ const User = {
     <div><navbar /><section class="section"><div class="container is-fluid"><router-view></router-view></div></section></div>
   `
 }
-var RANDOM_CSS = {
-  cssfiles : ['theme1.css','theme2.css','theme3.css','theme4.css','theme5_black.css'],
-  pathtocss : '../style/',
-  getrandomcss : function() { return this.cssfiles[Math.floor(Math.random()*this.cssfiles.length)]; },
-  getlinktag : function() { return '<link rel="stylesheet" type="text/css" href="'+this.pathtocss+this.getrandomcss()+'" />'; },
-  printlinktag : function() { document.write(this.getlinktag()); }
-};
 export default new Router({
   mode: 'history',
   routes: [

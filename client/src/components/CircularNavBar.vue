@@ -11,7 +11,7 @@
           <a class="menu-item-back" title="Tasks" @click="showMainTask"></a>
         </li>
         <li class="menu-item icon-trash">
-          <a class="menu-item-back" title="Deleted Item" @click="showDeleteTasks"></a>
+          <a class="menu-item-back" title="Deleted Item" @click="showDeleted_Tasks"></a>
         </li>
         <li class="menu-item fa fa-plus-square-o">
           <a class="menu-item-back" data-target="#createProject" data-toggle="modal" title="Create Project"></a>
@@ -387,9 +387,10 @@
           this.searchText = "data:" + $(this).val();
         }
       })
+      document.getElementsByClassName('ivu-poptip-rel')[0].title = "Project List"
     },
     methods: {
-      showDeleteTasks: function() {
+      showDeleted_Tasks: function() {
         this.$store.commit('showDeleteTasks')
         this.isRoleAccess = false
         this.isMyTask = true
