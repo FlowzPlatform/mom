@@ -3,7 +3,7 @@
         <text-description :id="id" :filteredTodo="filteredTodo">
         </text-description>
         <main-left-section v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'" :pholder="pholder"
-            :filtered-todos="filteredTodos"></main-left-section>
+            :filtered-todos="filteredTodos" :taskId="filteredTodo.id"></main-left-section>
     </div>
 </template>
 <script>

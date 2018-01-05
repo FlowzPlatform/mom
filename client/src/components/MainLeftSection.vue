@@ -9,7 +9,7 @@
       <draggable v-model="filteredTodos" @end="onDragEnd">
         <transition-group name="list-complete">
           <todo-item :id="id" v-for="(todo, ind) in filteredTodos" :prevIndex="getPrevToDo(ind)" :todo="todo" :pholder="pholder" :nextIndex="getNextToDo(ind)"
-            v-bind:key="todo.id">
+            v-bind:key="todo.id" :taskId="taskId" >
           </todo-item>
         </transition-group>
       </draggable>
@@ -30,7 +30,7 @@
   import { mapActions } from 'vuex'
   Vue.use(Resource)
   export default {
-    props: ['filteredTodos', 'pholder', 'todoObject', 'isCopyLink', 'id'],
+    props: ['filteredTodos', 'pholder', 'todoObject', 'isCopyLink', 'id','taskId'],
     components: {
       TodoItem,
       draggable,
