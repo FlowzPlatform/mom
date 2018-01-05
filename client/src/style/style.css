@@ -38,10 +38,6 @@ button {
 	outline: 0;
 }
 
-.hidden {
-	display: none;
-}
-
 .todoapp {
 	/*background: #fff;*/
 	/*margin: 130px 0 40px 0;*/
@@ -335,7 +331,7 @@ border: 1px solid transparent;
     padding: 6px;
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
-    height: 12%;
+    height: 5%;
 }
 .task .toggle {
 	text-align: center;

@@ -47,7 +47,9 @@
                                                 text-align:  -webkit-right;
                                                 padding-right: 106px;
                                             ">Forgot password?</div>
-                                            <div tabindex="3" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in</div>
+                                            <div tabindex="3" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in
+                                                <img v-if="showLoginActivity" src="../assets/activity.svg" style="margin-left: 10px; width:25px; height:25px;"/>
+                                            </div>
                                         </TabPane>
                                         <TabPane label="LDAP" name="2">
                                             <input placeholder="LDAP Username" tabindex="4" type="email" name="e" id="ldap_username" value="" v-model="emailId" v-on:change="enableButtons()">
@@ -56,7 +58,9 @@
                                                 text-align:  -webkit-right;
                                                 padding-right: 106px;
                                             ">Forgot password?</div>
-                                            <div tabindex="6" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in</div>
+                                            <div tabindex="6" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in
+                                                <img v-if="showLoginActivity" src="../assets/activity.svg" style="margin-left: 10px; width:25px; height:25px;"/>
+                                            </div>
                                         </TabPane>
                                     </Tabs>
                                 </div>
@@ -85,9 +89,10 @@
                                 <input placeholder="Last Name" tabindex="8" type="lastname" id="lastnameInput" v-model="lname">
                                 <input placeholder="Email" tabindex="9" type="email" name="e" id="emailInput" value="" v-model="emailId" v-on:change="enableButtons()">
                                 <input placeholder="Password" tabindex="10" type="password" name="p" id="passwordInput" v-model="pwd">
-                                <input placeholder="Confirm Password" tabindex="11" type="password" v-model="confPwd" id="confirmpwd">
-                                <div tabindex="12" class="btn" id="signup_btn" @click="btnSubmitClicked()">
+                                <input placeholder="Confirm Password" tabindex="11" type="password" v-model="confPwd" id="confirmpwd" @keyup.enter="btnSubmitClicked()">
+                                <div tabindex="12" class="btn" id="signup_btn" @click="btnSubmitClicked()" @keyup.enter="btnSubmitClicked()">
                                     Submit
+                                    <img v-if="showSignUpActivity" src="../assets/activity.svg" style="margin-left: 10px; width:25px; height:25px;"/>
                                 </div>
                             </div>
                         </div>
@@ -131,6 +136,8 @@
                 selectedTabIndex: 1,
                 fname: '',
                 lname: '',
+                showSignUpActivity: false,
+                showLoginActivity: false,
                 isForgotPasswordShow: false,
                 forgotEmailId: ''
             }
@@ -198,6 +205,8 @@
                 this.emailId = ''
                 this.pwd = ''
                 this.confPwd = ''
+                this.fname = ''
+                this.lname = ''
                 $(".container").toggleClass("log-in");
             },
             btnSubmitClicked() {
@@ -248,6 +257,8 @@
                 }
 
                 let fullname = CmnFunc.capitalizeFirstLetter(trimmedFname) + ' ' + CmnFunc.capitalizeFirstLetter(trimmedLname)
+                
+                this.showSignUpActivity = true
 
                 let self = this
                 this.$store.dispatch('userRegistrationProcess', { 'email': trimmedEmail, 'password': trimmedPwd, 'signup_type': 'email', 'image_url': '', 'fullname': fullname })
@@ -265,12 +276,17 @@
                         $('#seprator').show()
                         $('#back_btn').hide()
                         $("#login_btn").attr('disabled', true);
+                        self.showSignUpActivity = false
+                        $(".container").toggleClass("log-in");
+                        $.notify.defaults({ className: "success" })
+                        $.notify("You are successfully registered", { globalPosition: "top center" })
+                        
                     })
                     .catch(function (error) {
-                        console.log('error with signup')
-                        $("#email_input").notify(error.message)
+                        $.notify.defaults({ className: "error" })
+                        $.notify(error, { globalPosition: "top center" })
+                        self.showSignUpActivity = false
                     })
-                $(".container").toggleClass("log-in");
             },
             btnLDAPPressed() {
                 let self = this
@@ -344,6 +360,7 @@
                     return
                 }
 
+                this.showLoginActivity = true
                 var self = this
                 CmnFunc.resetProjectDefault()
 
@@ -352,10 +369,13 @@
                         self.$store.state.isAuthorized = true
                         self.$store.commit('authorize')
                         self.userDetail(self)
+                        self.showSignUpActivity = false
                     })
                     .catch(function (error) {
+                        console.log('error:', error.message)
                         $.notify.defaults({ className: "error" })
                         $.notify(error.message, { globalPosition: "top center" })
+                        self.showLoginActivity = false
                     });
 
             },
@@ -369,6 +389,10 @@
                         if (error.response.status === 401) {
                             return
                         }
+                        if (error.response.status === 403) {
+                            return
+                        }
+                        
                         $.notify.defaults({ className: "error" })
                         $.notify(error.message, { globalPosition: "top center" })
                     })

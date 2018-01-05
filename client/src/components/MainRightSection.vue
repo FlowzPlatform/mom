@@ -37,35 +37,35 @@
           <div class="assing-to-menu">
             <Tooltip content="Assignee" placement="top-start">
               <span style="float:left;margin-top:-3px">
-                <div v-if="todoObject.email">
+                <div v-show="todoObject.email">
                   <avatar v-if="todoObject.image_url" :username="todoObject.email" :size="30" :src="todoObject.image_url"></avatar>
                   <avatar    :username="todoObject.email" color='#fff' :size="30"></avatar>
                 </div>
               </span>
               <Row>
                 <Col span="2" style="padding-right:10px">
-                <Select not-found-text="No user found" placeholder="user" placement="top" v-model="selectedUser" @on-change="userListClick"
-                  filterable style="width:180px;z-index:99999">
-                  <Option v-show="checkEmail(user.email,user.fullname)" style="margin:5px" v-for="user in getUserList" :label="getListUserName(user)"
-                    :value="user._id" :key="user._id">
-                    <span>
-                      <span style="float:left;margin-right:10px;margin-top:-8px;width: 30px; height: 30px; border-radius: 50%; text-align: center; vertical-align: middle;background:#ccc">
-                        <div v-if="user.email">
-                          <avatar v-if="user.image_url" :username="user.email" :size="30" :src="user.image_url"></avatar>
-                          <avatar v-else color="white" :username="user.email" :size="30"></avatar>
-                        </div>
+                  <Select not-found-text="No user found" placeholder="user" placement="top" :value="selectedUser" @on-change="userListClick"
+                    filterable style="width:180px;z-index:99999">
+                    <Option v-show="checkEmail(user.email,user.fullname)" style="margin:5px" v-for="user in getUserList" :label="getListUserName(user)"
+                      :value="user._id" :key="user._id">
+                      <span>
+                        <span style="float:left;margin-right:10px;margin-top:-8px;width: 30px; height: 30px; border-radius: 50%; text-align: center; vertical-align: middle;background:#ccc">
+                          <div v-if="user.email">
+                            <avatar v-if="user.image_url" :username="user.email" :size="30" :src="user.image_url"></avatar>
+                            <avatar v-else color="white" :username="user.email" :size="30"></avatar>
+                          </div>
+                        </span>
+                        {{getListUserName(user,1)}}
                       </span>
-                      {{getListUserName(user,1)}}
-                    </span>
-                  </Option>
-                </Select>
+                    </Option>
+                  </Select>
                 </Col>
               </Row>
             </Tooltip>
           </div>
           <!-- Task type -->
           <div class="task-type-menu">
-            <Select placement="top" v-model="selectedType" @on-change="btnTypeClicked" filterable style="width:150px;z-index:90">
+            <Select placement="top" :value="getTasTypeId" @on-change="btnTypeClicked" filterable style="width:150px;z-index:90">
               <Option style="margin:5px" v-for="task_type in getTaskTypes" :label="task_type.type" :value="task_type.id" :key="task_type.id">
                 {{task_type.type}}
               </Option>
@@ -74,7 +74,7 @@
           <!-- Task due date menu item -->
           <div :id="'calendar-'+id"  class="due-date">
             <Tooltip content="Due Date" placement="top-start">
-              <DatePicker :open="open" confirm size="small" placement="top" type="date" :value="todoObject.dueDate" @on-change="dueDateClick"
+              <DatePicker :options="options3" :open="open" confirm size="small" placement="top" type="date" :value="todoObject.dueDate" @on-change="dueDateClick"
                 @on-clear="handleClear" @on-ok="handleOk">
                 <a href="javascript:void(0)" @click="handleClick">
                   <Icon v-if="todoObject.dueDate === ''" class="nav-icon fa fa-calendar"></Icon>
@@ -227,12 +227,16 @@
         currentView: SubTask,
         activeClass: "active",
         selectedMenuIndex: 0,
-        selectedUser: this.todoObject.assigned_to,
         previousUser: this.todoObject.assigned_to,
         userObj: "", // selected user object
         open: false,
         selectedType:this.todoObject.type_id,
-        selectedIndex:-1
+        selectedIndex:-1,
+        options3: {
+                    disabledDate (date) {
+                        return date && date.valueOf() < Date.now() - 86400000;
+                    }
+                },
       };
     },
     created: function () {
@@ -263,6 +267,9 @@
         }
         // Show delete dialog val=4
         else if (val == 4) {
+          this.$Notice.open({
+                    title: this.todoObject.taskName+' Deleted'
+                });
           this.$store.dispatch("delete_Todo", this.todoObject);
         }
         // Show estimate hour val=5
@@ -330,6 +337,7 @@
         }
       },
       userDetail(deletedTasks) {
+        console.log("user detail updated...")
         deletedTasks.forEach(function (c) {
           let userId = c.assigned_to;
           let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) {
@@ -337,7 +345,7 @@
           });
           if (userIndex < 0) {
           } else {
-            (c.image_url = this.$store.state.arrAllUsers[userIndex].image_url),
+              (c.image_url = this.$store.state.arrAllUsers[userIndex].image_url),
               (c.email = this.$store.state.arrAllUsers[userIndex].email);
           }
         }, this);
@@ -405,21 +413,25 @@
         this.currentView = SubTask;
         setIcon(SubTask, this.id)
       },
-      attachmentShow() {
+      async attachmentShow() {
         $(".nav").removeClass("hidden");
         this.selectedMenuIndex = 2;
         this.currentView = Attachments;
         setIcon(Attachments, this.id)
+        //call method getattachment from db 
+        await this.$store.dispatch('getAttachmentFromDB', this.todoObject.id)
       },
-      tagsShow() {
+      async tagsShow() {
         this.selectedMenuIndex = 3;
         this.currentView = Tags;
         setIcon(Tags, this.id)
+        await this.$store.dispatch('getAllTaskTags', this.todoObject.id);
       },
-      historyShow() {
+      async historyShow() {
         this.selectedMenuIndex = 1;
         this.currentView = HistoryLog;
         setIcon(HistoryLog, this.id)
+        await this.$store.dispatch('getHistoryFromDB', this.todoObject.id)
       },
       commentsShow() {
         this.selectedMenuIndex = 4;
@@ -472,9 +484,10 @@
       /**
       * Selected user from assign user list
       */
-      userListClick: function (user_id) {
-        if (this.selectedUser !== this.previousUser)
+      userListClick:async function (user_id) {
+        // if (this.selectedUser !== this.previousUser)
           this.setAssignUser(user_id)
+          await this.$store.dispatch('getTypeState', this.todoObject.id)
       },
       async btnTypeClicked(objType) {
         if(objType !== this.todoObject.type_id){
@@ -513,12 +526,6 @@
 
     },
     watch: {
-      todoObject: function (todo) {
-        this.previousUser = todo.assigned_to;
-        this.selectedUser = todo.assigned_to;
-        // this.$store.dispatch("findHistoryLog", this.todoObject.id);
-        this.selectedType = todo.type_id  
-      },
       getIdArray:function(ids){
        let sectionWidth = 0
        	let containerWidth = ($(window).width())
@@ -564,47 +571,9 @@
                   this.displayAttchment()
                   this.displayHistory()
                 }
-              
 
-              // // Comment
-              //   if(parseInt(this.sectionWidth) > 371  && parseInt(this.sectionWidth) < 503 ){
-              //     console.log("call block 1")
-              //     this.hideComment()
-              //   }else if(parseInt(this.sectionWidth) > 503){
-              //     console.log("call block 2")
-              //      this.displayComment()
-              //   }
-              
-              // // Attchments
-              //   if(parseInt(this.sectionWidth) > 371){
-              //     console.log("call block 4")
-              //     this.hideAttchment()
-              //   }else if(parseInt(this.sectionWidth) > 333  && parseInt(this.sectionWidth) < 371 ){
-              //     console.log("call block 3")
-              //     this.displayAttchment()
-              //   }
-
-              // // History
-              //  if(parseInt(this.sectionWidth) >= 333){
-              //     console.log("call block 5")
-              //     this.hideHistory()
-              //   }else if(parseInt(this.sectionWidth) > 300  && parseInt(this.sectionWidth) < 333 ){
-              //     console.log("call block 6")
-              //     this.displayHistory()
-              //   }
-
-              // // Calendar
-              //   if(parseInt(this.sectionWidth) >= 300){
-              //     console.log("call block 7")
-              //     this.hideCalendar()
-              //   }else if(parseInt(this.sectionWidth) > 256  && parseInt(this.sectionWidth) < 300 ){
-              //     console.log("call block 8")
-              //     this.displayCalendar()
-              //   }
-
-
-                // When two sliptter section 
-                if(ids.length==2){
+                  // When two sliptter section 
+                  if(ids.length==2){
                     if(parseInt(this.sectionWidth) > 550  && parseInt(this.sectionWidth) < 663){
                         console.log("call block 6")
                         // Hide menu
@@ -644,7 +613,7 @@
                         this.displayHistory()
                         this.displayCalendar()
                       }                
-                }
+                  }
                 
                 
             }
@@ -662,7 +631,14 @@
       getTaskTypes() {
         return this.$store.state.task_types_list.filter(type => type.id !== '-1')
       },
+      getTasTypeId(){
+          return this.todoObject.type_id
+      },
+      selectedUser(){
+        return this.todoObject.assigned_to
+      }, 
       taskById() {
+        console.log("taskById....")
         this.onReadComment(
           this.todoObject.id,
           this.todoObject.level,
