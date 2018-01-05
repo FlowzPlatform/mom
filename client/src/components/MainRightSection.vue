@@ -478,9 +478,9 @@
       },
       async btnTypeClicked(objType) {
         if(objType !== this.todoObject.type_id){
-          await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedType": objType,
+          await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedType": objType,"selectedState": null ,
               log_action:Constant.HISTORY_LOG_ACTION.TASK_TYPE, log_text:objType})
-          await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedState": '' })
+          // await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedState": '' })
         }
       },
       checkEmail(email,fullname){

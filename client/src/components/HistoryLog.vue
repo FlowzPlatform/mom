@@ -71,7 +71,7 @@
                                 </div>
                                 <!-- Comment Add -->
                                 <div class="history-label" v-show="log.log_action===14">
-                                     comment added  <span v-html="getComment(log.text)"></span>
+                                     comment added  <span v-html="getComment(log.text)"  class="comment-view"></span>
                                 </div>
                                 <!-- Comment delete -->
                                 <div class="history-label" v-show="log.log_action===15">
@@ -238,5 +238,7 @@ export default {
 }
 </script>   
 <style>
-
+.comment-view img{
+    width: 90%;
+}
 </style>
