@@ -469,6 +469,9 @@
         $("#project-name").val(projectName);
       },
       changePrivacyPopup() {
+
+       
+
         this.showPrivacyPopup = !this.showPrivacyPopup;
         // Check privacy id to set related option
         var id = this.$store.state.currentProjectPrivacy;
@@ -487,32 +490,41 @@
             this.showPrivateCheck = true;
           }
         }
+      
       },
       publicMode() {
+        if(this.$store.state.currentProject.create_by===this.$store.state.userObject._id){
         this.showPublic = true;
         this.showPrivateMember = false;
         this.showPrivateCheck = false;
         this.$store.dispatch('changeProjectPrivacy', "0")
         this.$store.state.currentProjectPrivacy = "0"
         this.showPrivacyPopup = false;
+        }else{
+          
+        }
 
       },
       privateMemberMode() {
+        if(this.$store.state.currentProject.create_by===this.$store.state.userObject._id){
         this.showPublic = false;
         this.showPrivateMember = true;
         this.showPrivateCheck = false;
         this.$store.dispatch('changeProjectPrivacy', "1")
         this.$store.state.currentProjectPrivacy = "1"
         this.showPrivacyPopup = false;
+        }
 
       },
       privateToMe() {
+        if(this.$store.state.currentProject.create_by===this.$store.state.userObject._id){
         this.showPublic = false;
         this.showPrivateCheck = true;
         this.showPrivateMember = false;
         this.$store.dispatch('changeProjectPrivacy', "2")
         this.$store.state.currentProjectPrivacy = "2"
         this.showPrivacyPopup = false;
+        }
       },
       hidePopup() {
         this.showPrivacyPopup = false;
