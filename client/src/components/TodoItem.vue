@@ -10,8 +10,8 @@
             class="toggle" :disabled="!todo.is_editable" @change="roleCheckChange(todo)">
           <label for="checkbox8"></label>
         </span>
-        <div :id="'item-'+todo.id"  v-if="!$store.state.deleteItemsSelected && todo.type_id && !getType" class="stateCircle Avatar--small " @click="showStatusList"
-          data-toggle="dropdown" :style="{'box-shadow' : 'inset 0 0 0 3px'+ selectedObject.color }">
+        <div :id="'item-'+todo.id" v-if="!$store.state.deleteItemsSelected && todo.type_id && !getType" class="stateCircle Avatar--small "
+          @click="showStatusList" data-toggle="dropdown" :style="{'box-shadow' : 'inset 0 0 0 3px'+ selectedObject.color }">
           <span>{{selectedObject.taskState | fistLatter}}</span>
         </div>
         <ul class='dropdown-menu statusList'>
@@ -59,8 +59,6 @@
         </button>
 
       </div>
-      <!--{{todo.progress > 50 ? Math.round(255 * (100 - todo.progress) / 100) : 255}} {{ todo.progress > 50 ? 255 : Math.round(todo.progress / 100 * 255)}}{{ 0}}-->
-      <!--backgroundColor: 'rgb('+Math.round(255*(100-todo.progress)/100)+', '+Math.round(todo.progress / 100 * 255)+', 0)'-->
       <div class="progress">
         <div class="progress-bar" role="progressbar" aria-valuenow="todo.progress" aria-valuemin="0" aria-valuemax="100" :style="{ 'width': todo.progress + '%', backgroundColor: 'rgb('+(todo.progress > 70 ? Math.round(255 * (todo.progress-50) / 100) : 255)+', '+(todo.progress > 30 ? 255 : Math.round(todo.progress*2 / 100 * 255))+', 0)' }"
           v-if="this.$store.state.isProgress">
@@ -94,7 +92,7 @@
       return firstLetters.toUpperCase()
     }
   })
-  var  focusTimeOut;
+  var focusTimeOut;
   export default {
     props: ['todo', 'pholder', 'nextIndex', 'prevIndex', 'id','taskId'],
     data: function () {
@@ -126,14 +124,11 @@
         }
         return this.isTypeTodo
       },
-      getTaskState(){
-        console.log("this.todo.state_id:",this.todo.state_id)
-        if(this.todo.state_id){
+      getTaskState() {
+        if (this.todo.state_id) {
           this.selectedObject = this.allState.find(state => state.id === this.todo.state_id)
-        }else{
-          $('#item-'+this.todo.id).css('box-shadow' , 'inset 0 0 0 3px #000')
-          // this.selectedObject.color = "#000"
-          // this.selectedObject.taskState =''
+        } else {
+          $('#item-' + this.todo.id).css('box-shadow', 'inset 0 0 0 3px #000')
           this.selectedObject = {}
         }
       },
@@ -168,16 +163,15 @@
       },
       addTodo: function (todoId) {
         if (this.id === "taskTypes") {
-          this.todo.created_by=this.$store.state.userObject._id
+          this.todo.created_by = this.$store.state.userObject._id
           this.$store.dispatch('addTask_Type', this.todo)
         } else if (this.id === "taskState") {
           this.$store.dispatch('addTask_State', { "state": this.todo })
         }
       },
-      addRole:function(){
-        if(this.todo && this.todo.name.length>0)
-        {
-          this.todo.created_by=this.$store.state.userObject._id
+      addRole: function () {
+        if (this.todo && this.todo.name.length > 0) {
+          this.todo.created_by = this.$store.state.userObject._id
           this.$store.dispatch('insertRole', this.todo)
           this.todo.name = ""
 
@@ -238,8 +232,8 @@
         }
       },
       changeFocus(indexId) {
-        if(focusTimeOut)
-            clearTimeout(focusTimeOut);
+        if (focusTimeOut)
+          clearTimeout(focusTimeOut);
         var self = this;
         focusTimeOut = setTimeout(function () {
           var el = $('.' + indexId);
@@ -300,6 +294,6 @@
         }
       }
     }
-   
+
   }
 </script>
