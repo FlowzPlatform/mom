@@ -171,6 +171,7 @@
   import EstimatedHours from './EstimatedHours.vue'
   import TaskPriority from './TaskPriority.vue'
   import TaskHeading from './TaskHeading.vue'
+  import config from '../../config/customConfig'
   Vue.use(AsyncComputed);
   Vue.filter("formatDate", function (value) {
     if (value) {
@@ -260,7 +261,14 @@
         else if (val == 3) {
           var $temp = $("<input>");
           $("body").append($temp);
-          var url = process.env.COPY_URL_PATH + "/navbar/task/" + (this.todoObject.level + 1) + "/" + this.todoObject.id
+          
+          let copyTask;
+          if(process.env.NODE_ENV == 'development')
+            copyTask = process.env.COPY_URL_PATH
+          else
+            copyTask = config.copyUrlPath
+
+          var url = copyTask + "/navbar/task/" + (this.todoObject.level + 1) + "/" + this.todoObject.id
           $temp.val(url).select();
           document.execCommand("copy");
           $temp.remove();
