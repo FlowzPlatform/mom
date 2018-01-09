@@ -43,10 +43,10 @@
                                         <TabPane label="Standard" name="1">
                                             <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="emailId" v-on:change="enableButtons()">
                                             <input placeholder="Password" tabindex="2" type="password" name="p" id="password_input" v-model="pwd" @keyup.enter="btnLogInClicked()">
-                                            <div tabindex="3" @click="btnForgotClicked()" class="" style="
+                                            <div tabindex="3"  class="" style="
                                                 text-align:  -webkit-right;
                                                 padding-right: 106px;
-                                            ">Forgot password?</div>
+                                            "><span @click="btnForgotClicked()" style="cursor: pointer; ">Forgot password?</span> </div>
                                             <div tabindex="3" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in
                                                 <img v-if="showLoginActivity" src="../assets/activity.svg" style="margin-left: 10px; width:25px; height:25px;"/>
                                             </div>
@@ -54,10 +54,10 @@
                                         <TabPane label="LDAP" name="2">
                                             <input placeholder="LDAP Username" tabindex="4" type="email" name="e" id="ldap_username" value="" v-model="emailId" v-on:change="enableButtons()">
                                             <input placeholder="Password" tabindex="5" type="password" name="p" id="password_input_ldap" v-model="pwd" @keyup.enter="btnLogInClicked()">
-                                            <div tabindex="3" @click="btnForgotClicked()" class="" style="
+                                            <div tabindex="3"  class="" style="
                                                 text-align:  -webkit-right;
-                                                padding-right: 106px;
-                                            ">Forgot password?</div>
+                                                padding-right: 106px; 
+                                            "><span @click="btnForgotClicked()" style="cursor: pointer; ">Forgot password?</span></div>
                                             <div tabindex="6" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in
                                                 <img v-if="showLoginActivity" src="../assets/activity.svg" style="margin-left: 10px; width:25px; height:25px;"/>
                                             </div>
