@@ -55,7 +55,7 @@ curl -u ""$RANCHER_USER":"$RANCHER_PASS"" \
 -H 'Accept: application/json' \
 -H 'Content-Type: application/json' \
 -d '{
-     "inServiceStrategy":{"launchConfig": {"imageUuid":"docker:'$USERNAME'/mom_backend_flowz:'$TAG'","kind": "container","labels":{"io.rancher.scheduler.affinity:host_label": "machine=cluster-flowz"},"ports": ["3030:3030/tcp","4030:4030/tcp"],"environment": {"HOST": "'"$RDB_HOST"'","PORT": "'"$RDB_PORT"'","USERNAME": "'"$USERNAME"'","PASSWORD": "'"$PASSWORD"'"},"healthCheck": {"type": "instanceHealthCheck","healthyThreshold": 2,"initializingTimeout": 60000,"interval": 2000,"name": null,"port": 3030,"recreateOnQuorumStrategyConfig": {"type": "recreateOnQuorumStrategyConfig","quorum": 1},"reinitializingTimeout": 60000,"responseTimeout": 60000,"strategy": "recreateOnQuorum","unhealthyThreshold": 3},"networkMode": "managed"}},"toServiceStrategy":null}' \
+     "inServiceStrategy":{"launchConfig": {"imageUuid":"docker:'$USERNAME'/mom_backend_flowz:'$TAG'","kind": "container","labels":{"io.rancher.scheduler.affinity:host_label": "machine=cluster-flowz"},"ports": ["3030:3030/tcp","4030:4030/tcp"],"environment": {"HOST": "'"$RDB_HOST"'","PORT": "'"$RDB_PORT"'","USERNAME": "'"$USERNAME_ENV"'","PASSWORD": "'"$PASSWORD"'"},"healthCheck": {"type": "instanceHealthCheck","healthyThreshold": 2,"initializingTimeout": 60000,"interval": 2000,"name": null,"port": 3030,"recreateOnQuorumStrategyConfig": {"type": "recreateOnQuorumStrategyConfig","quorum": 1},"reinitializingTimeout": 60000,"responseTimeout": 60000,"strategy": "recreateOnQuorum","unhealthyThreshold": 3},"networkMode": "managed"}},"toServiceStrategy":null}' \
 http://rancher.flowz.com:8080/v2-beta/projects/$ENV_ID/services/$SERVICE_ID_BACKEND?action=upgrade
 
 
