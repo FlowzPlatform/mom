@@ -53,7 +53,7 @@
                                 </div>
                                 <!-- Due date -->
                                 <div class="history-label" v-show="log.log_action===9">
-                                     changed the due date to {{formateDate(log.text)}}.
+                                    {{formateDate(log.text)}}.
                                 </div>
                                 <!-- Task description -->
                                 <div class="history-label" v-show="log.log_action===10">
@@ -83,7 +83,7 @@
                                  <div class="history-label AddedAttachmentStory-body" v-if="log.log_action===16">
                                     remove attachment <div>{{log.text}}</div>
                                 </div>
-                                <!-- Attchment upload log -->
+                                <!-- Attachment upload log -->
                                 <div class="history-label AddedAttachmentStory-body" v-else-if="log.log_action===3">
                                     <a class="AddedAttachmentStory-link" :href="getAttachment(log.text).file_url" target="_blank" tabindex="-1"><div>{{getAttachment(log.text).file_name}}</div></a>
                                 </div>
@@ -146,7 +146,12 @@ export default {
             return moment(logDate).calendar()
         },
         formateDate(dateTo){
-            return  moment(dateTo).format('ll')
+            console.log("dateTo:",dateTo)
+            if(dateTo){
+                return "changed the due date to "+ moment(dateTo).format('ll')
+            }else{
+                return "removed due date"
+            }
         },
         /**
          * Add user detail into history log

@@ -11,7 +11,7 @@
           <a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
         </span>
       </Alert>
-      <div class="tab-pannel" id="rightContainer">
+      <div class="tab-pannel" id="rightContainer" @mouseenter="handleOk">
         <task-heading :id="id" :filteredTodo="todoObject"></task-heading>
         <div class="rightscroll">
           <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
@@ -304,6 +304,7 @@
       },
       deletePermently: function () {
         this.$store.dispatch("deletePermently", this.todoObject);
+        this.$store.commit("CLOSE_DIV",this.todoObject)
       },
       getListUserName: function (user, flag) {
 
@@ -470,6 +471,7 @@
         }
       },
       dueDateClick(dateTo) {
+        this.open = false;
         var selectedDate = moment(dateTo, "YYYY-MM-DD").format("DD");
         this.$store.dispatch("editTaskName", {
           todo: this.todoObject,
