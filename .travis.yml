@@ -8,42 +8,59 @@ services:
 branches:
   only:
   - master
-  - demo
+  - develop
+  - QA
 
 jobs:
   include:
     - stage: MOM-Backend-Flowz
       script:
-      - 'if [ ${TRAVIS_BRANCH} = "demo" ]; then
-            echo "not build mom_backend_flowz image";
+      - 'if [ ${TRAVIS_BRANCH} = "master" ]; then
+            docker login -u="$DOCKER_USERNAME_FLOWZ" -p="$DOCKER_PASSWORD_FLOWZ";
+            docker build -t mom_backend_flowz:latest ./server/;
+            docker images;
+            docker tag mom_backend_flowz:latest $DOCKER_USERNAME_FLOWZ/mom_backend_flowz:latest;
+            docker push $DOCKER_USERNAME_FLOWZ/mom_backend_flowz:latest;
+        elif [ ${TRAVIS_BRANCH} = "develop" ]; then
+            docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+            docker build -t mom_backend_flowz:dev ./server/;
+            docker images;
+            docker tag mom_backend_flowz:dev $DOCKER_USERNAME/mom_backend_flowz:dev;
+            docker push $DOCKER_USERNAME/mom_backend_flowz:dev;
         else
             docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-            docker build -t mom_backend_flowz:$TRAVIS_BRANCH ./server/;
+            docker build -t mom_backend_flowz:qa ./server/;
             docker images;
-            docker tag mom_backend_flowz:$TRAVIS_BRANCH $DOCKER_USERNAME/mom_backend_flowz:$TRAVIS_BRANCH;
-            docker push $DOCKER_USERNAME/mom_backend_flowz:$TRAVIS_BRANCH;
-        fi'    
+            docker tag mom_backend_flowz:qa $DOCKER_USERNAME/mom_backend_flowz:qa;
+            docker push $DOCKER_USERNAME/mom_backend_flowz:qa;
+        fi'
     - stage: MOM-Frontend-Flowz
       script:
-      - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-      - docker build -t mom_frontend_flowz:$TRAVIS_BRANCH --build-arg accesskey="$AWS_ACCESSKEY" --build-arg secretkey="$AWS_SECRETKEY" ./client/
-      - docker images
-      - docker tag mom_frontend_flowz:$TRAVIS_BRANCH $DOCKER_USERNAME/mom_frontend_flowz:$TRAVIS_BRANCH
-      - docker push $DOCKER_USERNAME/mom_frontend_flowz:$TRAVIS_BRANCH
+      - 'if [ ${TRAVIS_BRANCH} = "master" ]; then
+            docker login -u="$DOCKER_USERNAME_FLOWZ" -p="$DOCKER_PASSWORD_FLOWZ";
+            docker build -t mom_frontend_flowz:latest --build-arg accesskey="$AWS_ACCESSKEY" --build-arg secretkey="$AWS_SECRETKEY" --build-arg domainkey="$DOMAINKEY_MASTER" ./client/;
+            docker images;
+            docker tag mom_frontend_flowz:latest $DOCKER_USERNAME_FLOWZ/mom_frontend_flowz:latest;
+            docker push $DOCKER_USERNAME_FLOWZ/mom_frontend_flowz:latest;
+        elif [ ${TRAVIS_BRANCH} = "develop" ]; then
+            docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+            docker build -t mom_frontend_flowz:dev --build-arg accesskey="$AWS_ACCESSKEY" --build-arg secretkey="$AWS_SECRETKEY" --build-arg domainkey="$DOMAINKEY_DEVELOP" ./client/;
+            docker images;
+            docker tag mom_frontend_flowz:dev $DOCKER_USERNAME/mom_frontend_flowz:dev;
+            docker push $DOCKER_USERNAME/mom_frontend_flowz:dev;
+        else
+            docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+            docker build -t mom_frontend_flowz:qa --build-arg accesskey="$AWS_ACCESSKEY" --build-arg secretkey="$AWS_SECRETKEY" --build-arg domainkey="$DOMAINKEY_QA" ./client/;
+            docker images;
+            docker tag mom_frontend_flowz:qa $DOCKER_USERNAME/mom_frontend_flowz:qa;
+            docker push $DOCKER_USERNAME/mom_frontend_flowz:qa;
+        fi'
     - stage: Upgrade Rancher Service
       script:
-      - 'if [ ${TRAVIS_BRANCH} = "demo" ]; then
-            bash ./upgrade_demo.sh;
-         else
-            bash ./upgrade.sh;
-         fi'
+      - bash ./upgrade.sh
     - stage: Finish Rancher Service
       script:
-      - 'if [ ${TRAVIS_BRANCH} = "demo" ]; then
-            bash ./finish_demo.sh;
-         else
-            bash ./finish.sh;
-         fi'
+      - bash ./finish.sh
 
 notifications:
   email:

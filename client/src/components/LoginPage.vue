@@ -33,8 +33,8 @@
                     <div class="form-item log-in">
                         <div class="table" v-if="!isForgotPasswordShow">
                             <div class="table-cell">
-                                <form action="http://auth.flowz.com/auth/Gplus" method="post">
-                                    <input type="hidden" name="success_url" value="http://mom.flowz.com">
+                                <form :action=loginWithGoogle method="post">
+                                    <input type="hidden" name="success_url" :value=googleSuccessCallbackUrl>
                                     <button class="googleAuthBtn" type="submit">Use Google Account</button>
                                 </form>
                                 <div class="dialog--nux-seperator" id="seprator"> or </div>
@@ -113,12 +113,15 @@
     import iView from 'iview';
     import 'iview/dist/styles/iview.css';
     import locale from 'iview/dist/locale/en-US';
+    import config from '../../config/customConfig'
     Vue.use(iView, { locale });
     Vue.use(iView);
     Vue.use(Resource)
     Vue.use(VueRouter)
     var VueCookie = require('vue-cookie')
     Vue.use(VueCookie)
+
+
     $(document).ready(function () {
 
         $("#login_btn").attr('disabled', true);
@@ -139,7 +142,9 @@
                 showSignUpActivity: false,
                 showLoginActivity: false,
                 isForgotPasswordShow: false,
-                forgotEmailId: ''
+                forgotEmailId: '',
+                loginWithGoogle: config.loginWithGoogle,
+                googleSuccessCallbackUrl: config.googleSuccessCallbackUrl
             }
         },
         mounted() {
