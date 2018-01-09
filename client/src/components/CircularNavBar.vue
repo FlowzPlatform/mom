@@ -23,7 +23,7 @@
           <div slot="title">
             <i style="color:black; font-size:large;">Projects</i>
           </div>
-          <div slot="content" v-show="project.is_deleted==false" v-bind:key="project.id" v-for="(project, index) in projectList">
+          <div slot="content" v-show="project.is_deleted==false && project.project_privacy!=2" v-bind:key="project.id" v-for="(project, index) in projectList">
             <Collapse v-bind:key="project.id" accordion v-if="project.project_privacy!=2">
               <Panel>
                 <span :id="'panelProjectName-'+project.id" @click="projectSelect(project)" @mouseleave="hideOption(project.id)" @mouseover="showOption(project.id)"
@@ -487,6 +487,7 @@
         }
       },
       projectSelect(project) {
+        this.$store.state.currentprojectPermisionRevoked=false
         // Show project visibility option (like public to all, private to me)
         $("div#projectVisible").removeClass('hidden');
         this.$store.commit('showMyTasks')

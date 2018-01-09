@@ -183,6 +183,7 @@ export const store = new Vuex.Store({
     deleteFileName: '',
     splitWidthArr: [],
     isNoProjectShow: false,
+    currentprojectPermisionRevoked:false
   },
   mutations: {
     userData: state => state.userObject,
@@ -694,11 +695,27 @@ export const store = new Vuex.Store({
     updateProjectList(state, value) {
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
       if (updateProjectIndex >= 0) {
+        console.log("state.currentProject.id-->",state.currentProject.id === value.id)
+        if(state.currentProject.id === value.id && state.projectlist[updateProjectIndex].create_by!==state.userObject._id && state.projectlist[updateProjectIndex].project_privacy!==value.project_privacy)
+        {
+          if(value.project_privacy==0 || value.project_privacy==1)
+          {
+            state.currentprojectPermisionRevoked=false;
+          }else if(value.project_privacy==2)
+          {
+            state.currentprojectPermisionRevoked=true;
+          }
+        }else{
+          console.log("Else revocekd")
+        }
+        
         state.projectlist[updateProjectIndex].project_privacy = value.project_privacy;
         state.projectlist[updateProjectIndex].project_name = value.project_name;
         state.currentProjectId = value.id
         state.currentProjectName = value.project_name
         state.currentProjectPrivacy = value.project_privacy
+
+
 
       }
 
@@ -736,7 +753,14 @@ export const store = new Vuex.Store({
         state.projectlist[updateProjectIndex].is_deleted = value.is_deleted;
         state.projectlist.splice(updateProjectIndex, 0)
         console.log("updateDeletedProjectList inside:", value);
+        if (value.is_deleted && state.projectlist && state.projectlist.length > 1) {
+          state.isNoProjectShow = false;
+        } else {
+          state.isNoProjectShow = true;
+        }
       }
+      
+   
 
       if (value.is_deleted) {
         console.log("updateDeletedProjectList inside delete:", value);
@@ -748,12 +772,7 @@ export const store = new Vuex.Store({
         state.currentProject = ''
         state.userRoles = ''
       }
-
-      if (!state.projectlist && state.projectlist.length > 0) {
-        state.isNoProjectShow = false;
-      } else {
-        state.isNoProjectShow = true;
-      }
+     
 
     },
     /**
@@ -1068,9 +1087,9 @@ export const store = new Vuex.Store({
 
       })
       // Project delete custom patch call
-      services.projectService.on('deleteProject', message => {
-        commit('updateDeletedProjectList', message)
-      })
+      // services.projectService.on('deleteProject', message => {
+      //   commit('updateDeletedProjectList', message)
+      // })
 
       services.roleService.on("removed", message => {
         console.log("Role Delete Event:--", message)
