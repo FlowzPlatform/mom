@@ -90,6 +90,16 @@
                                 <!-- Task type -->
                                 <div class="history-label AddedAttachmentStory-body" v-if="log.log_action===17">task type changed to <span>{{getTaskType(log.text)}}</span>
                                 </div>
+                                <!-- Task state -->
+                                <div class="history-label AddedAttachmentStory-body" v-if="log.log_action===18">task state changed to <span>{{getTaskState(log.text)}}</span>
+                                </div>
+                                <!-- Estimated hour -->
+                                <div class="history-label AddedAttachmentStory-body" v-if="log.log_action===7">task estimated hour changed to <span>{{log.text}}</span>
+                                </div>
+                                <!-- Task priority -->
+                                <div class="history-label AddedAttachmentStory-body" v-if="log.log_action===6">task priority changed to <span>{{log.text}}</span>
+                                </div>
+                                
                             </div>
                             
                         </div>
@@ -146,7 +156,6 @@ export default {
             return moment(logDate).calendar()
         },
         formateDate(dateTo){
-            console.log("dateTo:",dateTo)
             if(dateTo){
                 return "changed the due date to "+ moment(dateTo).format('ll')
             }else{
@@ -232,9 +241,26 @@ export default {
                 return type
             }
             else
-                return ""
+                return ''
+           
+        },
+        /**
+        * Get task state 
+        * @augments get state id 
+        */
+        getTaskState(id){
+            let index = _.findIndex(this.$store.state.task_state_list, function(d) { return d.id == id })
+            if (index > -1) {
+                let   taskState = this.$store.state.task_state_list[index].taskState
+                return taskState
+            }
+            else if(id){
+                return 'completed'
+            }else{
+                return 'incomplete'
+            }
+           
         }
-
 
     },
     components: {

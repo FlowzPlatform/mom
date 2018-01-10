@@ -471,21 +471,23 @@
         }
       },
       dueDateClick(dateTo) {
-        this.open = false;
-        var selectedDate = moment(dateTo, "YYYY-MM-DD").format("DD");
-        this.$store.dispatch("editTaskName", {
-          todo: this.todoObject,
-          selectedDate: dateTo,
-          log_action: Constant.HISTORY_LOG_ACTION.DUE_DATE,
-          log_text: dateTo
-        });
-        this.todoObject.dueDate = dateTo
+        if(this.open){
+          this.open = false;
+          var selectedDate = moment(dateTo, "YYYY-MM-DD").format("DD");
+            this.$store.dispatch("editTaskName", {
+            todo: this.todoObject,
+            selectedDate: dateTo,
+            log_action: Constant.HISTORY_LOG_ACTION.DUE_DATE,
+            log_text: dateTo
+          });
+          this.todoObject.dueDate = dateTo
+        }
       },
       handleClick() {
         this.open = !this.open;
       },
       handleClear() {
-        this.open = false;
+        // this.open = false;
       },
       handleOk() {
         this.open = false;
@@ -494,8 +496,12 @@
       * Selected user from assign user list
       */
       userListClick:async function (user_id) {
-          this.setAssignUser(user_id)
-          this.$store.commit('SHOW_DIV', this.todoObject)
+        if(this.selectedUser != user_id){
+            console.log("userListClick method call:",user_id)
+            this.setAssignUser(user_id)
+            this.$store.commit('SHOW_DIV', this.todoObject)
+        }
+        
       },
       async btnTypeClicked(objType) {
         if(objType !== this.todoObject.type_id){
