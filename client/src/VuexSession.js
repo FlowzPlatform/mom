@@ -117,6 +117,13 @@ function updateObject(oldObject, newObject) {
 function findPinnedIndex(element) {
   return element.isPinned !== undefined && element.isPinned === true;
 }
+
+function findShowProject(project) {
+  console.log("Element:--", project)
+  let memberIndex=_.findIndex(project.members, function (d) { return d.user_id == store.state.userObject._id })
+  return (project.project_privacy==0 || (project.project_privacy==1 && memberIndex>-1) || (project.project_privacy==2 && project.create_by===store.state.userObject._id))
+    //  return element.isPinned !== undefined && element.isPinned === true;
+}
 // function scrollToLeft() {
 //   var children = document.getElementById('main-container').children;
 //   var totalWidth = 0;
@@ -807,8 +814,11 @@ export const store = new Vuex.Store({
       else
         state.isNoProjectShow = false;
       if (!state.currentProjectId && data.length > 0) {
-        state.currentProjectId = data[0].id
-        state.currentProjectName = data[0].project_name
+
+
+        let showProjectIndex=data.findIndex(findShowProject)
+        state.currentProjectId = data[showProjectIndex].id
+        state.currentProjectName = data[showProjectIndex].project_name
         await store.dispatch('getAllTodos', { 'parentId': "", project_id: state.currentProjectId });
       }
     },
@@ -835,9 +845,9 @@ export const store = new Vuex.Store({
       state.assignedToOthers = payload
     },
     ASSIGN_PROJECT_MEMBER(state, assignMember) {
-      console.log("Assign Member:--", assignMember)
+      console.log("Assign Member:--",   )
       let index = _.findIndex(state.projectlist, function (d) { return d.id == assignMember.project_id })
-      if (index > -1) {
+      if (index > -1) { 
         if (!state.projectlist[index].members)
           state.projectlist[index].members = []
         setTimeout(function () {
@@ -1828,7 +1838,7 @@ export const store = new Vuex.Store({
           $or: [
             { project_privacy: '0', is_deleted: false },
             { project_privacy: '1', is_deleted: false },
-            { project_privacy: '2', create_by: userId, is_deleted: false }
+            { project_privacy: '2', is_deleted: false }
           ],
           $client: {
             flag: 'allprojectlist'

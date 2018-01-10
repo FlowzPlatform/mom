@@ -17,9 +17,10 @@ exports.before = {
             .coerceTo('array').pluck('user_id','user_role_id','is_deleted','id')
         }
       }
-      ).filter(function (project) {
-        return project("project_privacy").eq('0').or(project("project_privacy").eq('2'))
-          .or(project('members')('user_id').contains(userid))
+      )
+      .filter(function (project) {
+        return (project("project_privacy").eq('1').and(project('members')('user_id').contains(userid))).or(project("project_privacy").eq('0')).or(project("project_privacy").eq('2'))
+          
       }).orderBy('created_at')
     } else if (client && client.flag && client.flag == 'projectmember') {
       const query = this.createQuery(hook.params.query);
