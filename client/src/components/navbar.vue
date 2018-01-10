@@ -145,7 +145,7 @@
                   <span class="pro-part">
                     <input type="username" v-model='username' @keyup='enableUpdateProfileBtn'>
                     <div class="picture-action-label" v-if='!imageURlProfilePic'>
-                      <input autocomplete="off" type="file" id="file" name="file" title="" class="photo-file-input" accept="image/gif,image/png,image/jpeg,image/tiff,image/bmp"
+                      <input autocomplete="off" type="file" iuid="file" name="file" title="" class="photo-file-input" accept="image/gif,image/png,image/jpeg,image/tiff,image/bmp"
                         @change="onFileChange">
                       <span class="img-upload">Add a profile photo</span>
                     </div>
