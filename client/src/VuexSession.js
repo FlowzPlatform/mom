@@ -550,7 +550,7 @@ export const store = new Vuex.Store({
     },
     DELETE_PROJECT_LIST(state) {
       state.projectlist = []
-      // state.isNoProjectShow = true;
+      state.isNoProjectShow = true;
     },
     GET_SETTINGS(state, data) {
       state.settingsObject = data
@@ -1068,9 +1068,9 @@ export const store = new Vuex.Store({
 
       })
       // Project delete custom patch call
-      services.projectService.on('deleteProject', message => {
-        commit('updateDeletedProjectList', message)
-      })
+      // services.projectService.on('deleteProject', message => {
+      //   commit('updateDeletedProjectList', message)
+      // })
 
       services.roleService.on("removed", message => {
         console.log("Role Delete Event:--", message)
