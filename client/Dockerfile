@@ -2,6 +2,7 @@ FROM ubuntu:16.04
 
 ARG accesskey
 ARG secretkey
+ARG domainkey
 
 # install dependencies
 RUN apt-get update \

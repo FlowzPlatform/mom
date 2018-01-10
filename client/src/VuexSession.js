@@ -7,6 +7,7 @@ import * as services from './services'
 import axios from 'axios'
 import * as Constant from './components/Constants.js'
 import CmnFunc from './components/CommonFunc.js'
+import config from '../config/customConfig'
 Vue.use(Vuex)
 import psl from 'psl'
 var VueCookie = require('vue-cookie')
@@ -1626,7 +1627,8 @@ export const store = new Vuex.Store({
       })
     },
     userRegistrationProcess({ commit }, regObject) {
-      return axios.post(process.env.USER_AUTH + '/api/setup', {
+      // return axios.post(process.env.USER_AUTH + '/api/setup', {
+        return axios.post(config.user_auth + '/api/setup', {
         email: regObject.email,
         password: regObject.password,
         username: regObject.email,
@@ -1657,7 +1659,8 @@ export const store = new Vuex.Store({
       // let apiUrl = loginObj.userType == 1 ? '/api/login' : '/api/login';
       let apiUrl = (loginObj.userType == 1 ? "/api/login" : "/api/ldapauth");
       console.log("API url:", apiUrl)
-      return axios.post(process.env.USER_AUTH + apiUrl, {
+      // return axios.post(process.env.USER_AUTH + apiUrl, {
+        return axios.post(config.user_auth + apiUrl, {
         email: loginObj.email,
         password: loginObj.password
       }, {
@@ -1679,7 +1682,8 @@ export const store = new Vuex.Store({
         });
     },
     socialAuthRegistration({ commit }, objSocialAuth) {
-      return axios.post(process.env.USER_AUTH + '/api/googleauthprocess', {
+      // return axios.post(process.env.USER_AUTH + '/api/googleauthprocess', {
+        return axios.post(config.user_auth + '/api/googleauthprocess', {
         email: objSocialAuth.email,
         aboutme: objSocialAuth.aboutme,
         id: store.state.googleId
@@ -1700,7 +1704,8 @@ export const store = new Vuex.Store({
     },
     signInWithLDAP({ commit }, loginObj) {
       console.log("Login Object", loginObj);
-      return axios.post(process.env.USER_AUTH + '/api/ldapauth', {
+      // return axios.post(process.env.USER_AUTH + '/api/ldapauth', {
+        return axios.post(config.user_auth + '/api/ldapauth', {
         userid: loginObj.userid,
         passwd: loginObj.passwd
       }, {
@@ -1722,7 +1727,8 @@ export const store = new Vuex.Store({
     getUserDetail({ commit }) {
       console.log('token: ', store.state.userToken)
       console.log('cookie token', Vue.cookie.get('auth_token'))
-      return axios.get(process.env.USER_AUTH + '/api/userdetails', {
+      // return axios.get(process.env.USER_AUTH + '/api/userdetails', {
+        return axios.get(config.user_auth + '/api/userdetails', {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
           // 'Authorization': store.state.userToken
@@ -1742,7 +1748,8 @@ export const store = new Vuex.Store({
         })
     },
     updateUserProfile({ commit }, objProfile) {
-      var url = (process.env.USER_DETAIL + '/updateuserdetails/' + store.state.userObject._id)
+      // var url = (process.env.USER_DETAIL + '/updateuserdetails/' + store.state.userObject._id)
+      var url = (config.user_detail + '/updateuserdetails/' + store.state.userObject._id)
       return axios.put(url, {
         fullname: objProfile.fullname,
         role: objProfile.role,
@@ -1767,7 +1774,8 @@ export const store = new Vuex.Store({
     },
     async getAllUsersList({ commit }, callback) {
       try {
-        let { data } = await axios.get(process.env.USER_DETAIL + '/alluserdetails', {
+        // let { data } = await axios.get(process.env.USER_DETAIL + '/alluserdetails', {
+          let { data } = await axios.get(config.user_detail + '/alluserdetails', {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'Authorization': Vue.cookie.get('auth_token')
