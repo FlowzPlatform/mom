@@ -718,11 +718,10 @@ export const store = new Vuex.Store({
         
         state.projectlist[updateProjectIndex].project_privacy = value.project_privacy;
         state.projectlist[updateProjectIndex].project_name = value.project_name;
-        state.currentProjectId = value.id
-        state.currentProjectName = value.project_name
-        state.currentProjectPrivacy = value.project_privacy
-
-
+        if(state.currentProjectId === value.id){
+          state.currentProjectName = value.project_name
+          state.currentProjectPrivacy = value.project_privacy
+        }
 
       }
 
@@ -1163,7 +1162,7 @@ export const store = new Vuex.Store({
         });
       } else {
         let defafultTaskType = store.state.task_types_list.find(type => type.default_Type === 'Todo');
-        console.log("Insert new todo::---->", defafultTaskType);
+        console.log("insertTodo else::---->", defafultTaskType);
         // Insert new record
         services.tasksService.create({
           parentId: insertElement.parentId,
@@ -1268,6 +1267,9 @@ export const store = new Vuex.Store({
           updatedBy: store.state.userObject._id,
         }, { query: { 'id': dbId } }).then(response => {
           console.log("Response toggleTodo::", response);
+          // Insert history log
+          CmnFunc.insertHistoryLog(store, store.state.userObject._id, changeTodo.completed, response.id, Constant.HISTORY_LOG_ACTION.TASK_STATE)
+          
         });
         // Vue.http.post('/updatetasks', {
         //   id: dbId,

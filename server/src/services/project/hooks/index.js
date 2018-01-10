@@ -38,7 +38,7 @@ exports.before = {
   get: [],
   create(hook) {
     var hookData = hook.data;
-    return this.find({ query: { project_name: hookData.project_name } }).then(reponse => {
+    return this.find({ query: { project_name: hookData.project_name , is_deleted:false} }).then(reponse => {
       if (reponse.length > 0) {
         hook.result = { error: "Project already exist" }
         // return hook;

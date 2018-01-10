@@ -383,7 +383,7 @@ border: 1px solid transparent;
     min-width: 0;
     overflow: hidden;
     padding-right: 2px;
-    text-overflow: ellipsis;
+    /* text-overflow: ellipsis; */
     white-space: nowrap;
 }
 .Topbar{
@@ -3875,6 +3875,7 @@ textarea.showing {
     margin: 0 0 .2em -.05em;
     line-height: .7;
     font-weight: 700;
+    text-overflow: ellipsis;
 }
 .task > div > div#topicon {
     display: none;

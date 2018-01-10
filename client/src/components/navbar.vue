@@ -2,7 +2,7 @@
   <div>
     <div>
       <div data-reactroot="" id="top-bar" class="Topbar">
-        <div class="PageHeaderStructure-center">
+        <div class="PageHeaderStructure-center" @mouseenter="hidePopup">
           <div class="PageHeaderStructure-titleRow">
             <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName">
               <input id="project-name" class="logo__title" type="text" name="fname" maxlength="25" v-model="projectName" @blur="setProjectName"
