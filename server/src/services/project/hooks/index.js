@@ -87,7 +87,7 @@ exports.after = {
   update: [],
   patch(hook){
      //console.log("hook:",hook.result);
-    this.emit('deleteProject',hook.result)
+    // this.emit('deleteProject',hook.result)
   },
   remove: []
 };

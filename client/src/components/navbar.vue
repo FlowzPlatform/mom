@@ -122,6 +122,7 @@
           </a>
         </div>
       </div>
+      
       <router-view></router-view>
       <settings-menu :settingArr="settingArr"></settings-menu>
       <div class="todoapp">
@@ -196,9 +197,14 @@
           </div>
         </div>
       </div>
+      <div id="overlay" v-show="allowedProjectPermission" >
+        <span id="text-overlay">Owner changed project privacy.</span>
+        <button id="f" > </button>
+      </div>
     </div>
     <members-dialog></members-dialog>
     <delete-project-dialog></delete-project-dialog>
+     
   </div>
 </template>
 <script>
@@ -247,7 +253,8 @@
     },
     computed: {
       ...mapGetters([
-        'settingArr'
+        'settingArr',
+
       ]),
       uname: function () {
         if(this.$store.state.userObject.email){
@@ -256,6 +263,13 @@
             var res = str.substr(0, n)
             return res
         }
+      },
+      allowedProjectPermission:function()
+      {
+        setTimeout(() => {
+          $('#f').focus();
+        }, 500);
+        return this.$store.state.currentprojectPermisionRevoked;
       },
       projectName: {
         get() {
@@ -469,6 +483,9 @@
         $("#project-name").val(projectName);
       },
       changePrivacyPopup() {
+
+       
+
         this.showPrivacyPopup = !this.showPrivacyPopup;
         // Check privacy id to set related option
         var id = this.$store.state.currentProjectPrivacy;
@@ -487,32 +504,54 @@
             this.showPrivateCheck = true;
           }
         }
+      
       },
       publicMode() {
+        if(this.$store.state.currentProject.create_by===this.$store.state.userObject._id){
         this.showPublic = true;
         this.showPrivateMember = false;
         this.showPrivateCheck = false;
         this.$store.dispatch('changeProjectPrivacy', "0")
         this.$store.state.currentProjectPrivacy = "0"
         this.showPrivacyPopup = false;
+        }else{
+          this.$Notice.error({
+                    title: 'Permission denied',
+                    desc:'Only project owner can change project privacy'
+                }); 
+        }
 
       },
       privateMemberMode() {
+        if(this.$store.state.currentProject.create_by===this.$store.state.userObject._id){
         this.showPublic = false;
         this.showPrivateMember = true;
         this.showPrivateCheck = false;
         this.$store.dispatch('changeProjectPrivacy', "1")
         this.$store.state.currentProjectPrivacy = "1"
         this.showPrivacyPopup = false;
+        }else{
+          this.$Notice.error({
+                    title: 'Permission denied',
+                    desc:'Only project owner can change project privacy'
+                }); 
+        }
 
       },
       privateToMe() {
+        if(this.$store.state.currentProject.create_by===this.$store.state.userObject._id){
         this.showPublic = false;
         this.showPrivateCheck = true;
         this.showPrivateMember = false;
         this.$store.dispatch('changeProjectPrivacy', "2")
         this.$store.state.currentProjectPrivacy = "2"
         this.showPrivacyPopup = false;
+        }else{
+          this.$Notice.error({
+                    title: 'Permission denied',
+                    desc:'Only project owner can change project privacy'
+                }); 
+        }
       },
       hidePopup() {
         this.showPrivacyPopup = false;
@@ -546,4 +585,26 @@
     vertical-align: middle;
     display: inline-block;
   }
+  #overlay {
+    position: fixed; /* Sit on top of the page content */
+    display: block; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0; 
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+}
+#text-overlay{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 40px;
+    color: white;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+}
 </style>
