@@ -54,10 +54,10 @@
                                         <TabPane label="LDAP" name="2">
                                             <input placeholder="LDAP Username" tabindex="4" type="email" name="e" id="ldap_username" value="" v-model="emailId" v-on:change="enableButtons()">
                                             <input placeholder="Password" tabindex="5" type="password" name="p" id="password_input_ldap" v-model="pwd" @keyup.enter="btnLogInClicked()">
-                                            <div tabindex="3"  class="" style="
+                                            <!-- <div tabindex="3"  class="" style="
                                                 text-align:  -webkit-right;
                                                 padding-right: 106px; 
-                                            "><span @click="btnForgotClicked()" style="cursor: pointer; ">Forgot password?</span></div>
+                                            "><span @click="btnForgotClicked()" style="cursor: pointer; ">Forgot password?</span></div> -->
                                             <div tabindex="6" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Log in
                                                 <img v-if="showLoginActivity" src="../assets/activity.svg" style="margin-left: 10px; width:25px; height:25px;"/>
                                             </div>
@@ -77,7 +77,7 @@
                                 </div>
                                 <div style="padding-top:  20px;">
                                     <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="forgotEmailId">
-                                    <div tabindex="3" class="btn" id="login_btn" @click="btnLogInClicked()" @keyup.enter="btnLogInClicked()">Submit</div>
+                                    <div tabindex="3" class="btn" id="login_btn" @click="btnForgotSubmit()" @keyup.enter="btnForgotSubmit()">Submit</div>
                                 </div>
                             </div>
                         </div>
@@ -114,6 +114,8 @@
     import 'iview/dist/styles/iview.css';
     import locale from 'iview/dist/locale/en-US';
     import config from '../../config/customConfig'
+    import axios from 'axios'
+    
     Vue.use(iView, { locale });
     Vue.use(iView);
     Vue.use(Resource)
@@ -194,8 +196,46 @@
         },
         methods: {
             btnForgotClicked() {
-                console.log("-------------Btn forgot password click-------")
                 this.isForgotPasswordShow = !this.isForgotPasswordShow;
+            },
+            btnForgotSubmit(){
+                let self = this;
+                let emailValidator =this.validateEmail(self.forgotEmailId);
+                console.log(emailValidator);
+                if(self.forgotEmailId == ""){
+                    self.$message.warning("email field is required");
+                }else if(emailValidator == false){
+                    self.$message.warning("Email is not valid");
+                }else
+                {
+                    var url_string = window.location.href;
+                    var url = new URL(url_string);
+                    axios.post( "http://172.16.61.101:3001/api/forgetpassword" , {
+                        email: self.forgotEmailId.trim(),
+                        url: url.origin+"/resetpassword"
+                    })
+                    .then(function (response) {
+                        
+                        console.log(response)
+                        if(response.data.code == 200){
+                            // self.$message.success(response.data.message);
+                            self.$Notice.open({
+                                    title: "Message",
+                                    desc:response.data.message
+                                });
+                            self.forgotEmailId = ""
+                        }
+                    })
+                    .catch(function (error) {
+                        // self.forgotEmailId = ""
+                        console.log("error-->",error)
+                        self.$Notice.error({
+                                title: "Message",
+                                desc:"email  is incorrect"
+                            });
+                        // self.$mes        sage.error("email  is incorrect");
+                    });
+                }
             },
             login() {
                 $(".container").toggleClass("log-in");
@@ -425,6 +465,10 @@
                     $('#login_btn').addClass('is-disabled')
                     $("#login_btn").attr('disabled', true);
                 }
+            },
+            validateEmail(email) {
+                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
             }
         }
     }

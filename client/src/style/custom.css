@@ -1,0 +1,74 @@
+/*
+font-family: 'Helvetica-NT-Bk';
+font-family: 'Helvetica-NT-Lt';
+font-family: 'Helvetica-NLT-Th';
+font-family: 'Helvetica-N-Md';
+font-family: 'Helvetica-Bd';
+font-family: 'Helvetica-NLT-Bd';
+font-family: 'Helvetica-NLT-UL';
+font-family: 'Helvetica-LT-Roman';
+*/
+
+
+body {margin: 0; padding: 0;}
+.lhed { display: block; width: 100%; padding: 30px;}
+.lcontended {width: 100%;  display: block;}
+.lundcon {max-width: 600px;width: 100%;position: relative;float: left;overflow: hidden;top: 50%;left: 50%;margin: auto;position: absolute;-ms-transform: translateX(-50%) translateY(-50%);transform: translateX(-50%) translateY(-50%);-webkit-transform: translateX(-50%) translateY(-50%);}
+.lrpt {width: 100%;min-height: 250px;padding: 112px 0;float: left;}
+.lrpt .lsrpt,.lrpt .rsrpt {float: left;}
+.lrpt .lsrpt {width: 50%; display: inline-block;}
+.lrpt .lsrpt > span {font-size: 23px; color: #333333;font-family: 'Helvetica-Bd'; display: block}
+.lrpt .lsrpt > a {background-color:#005aaa;border-radius: 25px;color: #fff;font-size: 22px;text-decoration: none;font-family: 'Helvetica-N-Md';padding: 9px 30px;display: inline-block;}
+.lrpt .rsrpt {width: 50%; display: inline-block; text-align: right;}
+.lrpt .rsrpt > span {font-size: 23px; color: #333333;font-family: 'Helvetica-Bd'; display: block}
+.lrpt .rsrpt > a {background-color:#005aaa;border-radius: 25px;color: #fff;font-size: 22px;text-decoration: none;font-family: 'Helvetica-N-Md';padding: 9px 30px;display: inline-block;}
+
+.lconpt {background-color: #fff;width: 365px;float: left;position: absolute;top: 0;border-right: dashed 1px #ccc;padding: 38px 0;opacity: 0;left: 100%;-webkit-transition: all 0.5s ease-in-out;-moz-transition: all 0.5s ease-in-out;-o-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out;}
+.lconpt .lconun {width: 100%; hight:100%; float: center; padding: 0px 18px 0px 18px;}
+.lrinp {width:100%;margin-bottom: 12px;}
+.lrinp label {width:100%;color: #075eac;font-size: 16px;font-family: 'Helvetica-N-Md';font-weight: normal;margin: 0; text-align: left;}
+.lrinp input {width:100%;border: solid 1px #cccccc;line-height: 30px;border-radius: 5px;padding: 1px 5px;}
+.lrinp input.lbtn {width: auto;border-radius: 5px;background-color: #8ec600;color: #fff;font-size: 20px;line-height: 36px;padding: 0 16px;text-shadow: 2px 2px 1px rgba(0,0,0,0.8);border: 0;font-family: 'Helvetica-N-Md';}
+.lrinp .lfort {font-family: 'Helvetica-NT-Lt';font-size: 14px;color: #888888;text-decoration: none;float: right;margin-top: 10px;}
+.lther {width: 100%;display: block;text-align: center;border-bottom: solid 1px #cfd1d1;height: 12px;margin-bottom: 20px;}
+.lther span {width: auto;padding: 0 10px;font-family: 'Helvetica-NT-Lt';font-size: 14px;color: #888888;background-color: #fff;}
+.lthlob {width: 100%; display: block;font-family: 'Helvetica-NLT-Bd'; text-align: center;  color: #888888;}
+.lthlob a.fb { color: #3c5a9a; }
+.lthlob a.gl {color: #ea4335;}
+.lthlob a.in { color: #007bb6;}
+.rconpt {background-color: #fff;width: 365px;float: left;position: absolute;top: 0;right: 0;border-left: dashed 1px #ccc;-webkit-transition: all 0.5s ease-in-out;-moz-transition: all 0.5s ease-in-out;-o-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out;opacity: 1;}
+.rconpt .lconun {width: 80%;float: right;}
+.lundcon.sing .lconpt {left: 0;opacity: 1;}
+.lundcon.sing .rconpt {right: 100%;opacity: 0;}
+
+/**  dashboard **/
+
+.dasbma {width: 100%;}
+.dasund {width: 100%;top: 50%;left: 50%;margin: auto;position: absolute;-ms-transform: translateX(-50%) translateY(-50%);transform: translateX(-50%) translateY(-50%);-webkit-transform: translateX(-50%) translateY(-50%);}
+ .dastit {width: 100%;font-family: 'Helvetica-NLT-UL';color: #bfbfbf;font-size: 30px;text-align: center;margin-bottom: 40px;}
+ .dastit > span {width: 100%;color: #000000;position: relative;}
+ .dastit > span:after {content: "";height: 2px;background-color: #005aaa;width: 90%;position: absolute;left: 5%;bottom: -5px;}
+
+.dasico {}
+.dasico ul {margin: 0;padding: 0;text-align: center;}
+.dasico ul li {display: inline-block;}
+.dasico ul li {}
+.dasico ul li .ico {width: 180px;display: inline-block;border: solid 1px #eeeeee;border-radius: 5px;text-align: center;padding: 15px;margin: 0 8px;cursor: pointer;position: relative;}
+.dasico ul li .ico span {width: 100%;display: inline-block;position: relative;margin-bottom: 18px;font-family: 'Helvetica-NLT-Bd';color: #666666;}
+.dasico ul li .ico > span:after {content: "";background-color: #000;height: 3px;width: 60px;display: inline-block;position: absolute;left: 0;right: 0;margin: 0 auto;bottom: -5px;}
+.dasico ul li .macc.ico                             
+.dasico ul li .wok.ico span:after {background-color: #22afde;}
+.dasico ul li .virmark.ico span:after {background-color: #f2a62b;}
+.dasico ul li .weapp.ico span:after {background-color: #8f5fba;}
+.dasico ul li .licha.ico span:after {background-color: #0e98a7;}
+.dasico ul li .appst.ico span:after {background-color: #ed1845;}
+.dasico ul li .ico:hover .dasadd {opacity: 1;}
+.dasico .ico .dasadd {position: absolute;background-color: #00000087;width: 100%;height: 100%;top: 0;left: 0;padding-top: 44px;  opacity: 0; -webkit-transition: all 0.5s ease-in-out;-moz-transition: all 0.5s ease-in-out;-o-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out;}
+.dasico .ico .dasadd > a {background-color: #fff;display: inline-block;height: 30px;width: 30px;font-size: 18px;border-radius: 19px;text-align: center;}
+.dasico .ico .dasadd > a > span {}
+.dasico .ico .dasadd > span {color: #fff;margin: 0;padding-top: 10px;font-family: 'Helvetica-LT-Roman';}
+
+
+
+
+
