@@ -114,7 +114,6 @@ function updateObject(oldObject, newObject) {
 }
 
 function findPinnedIndex(element) {
-  console.log("Element:--", element)
   return element.isPinned !== undefined && element.isPinned === true;
 }
 // function scrollToLeft() {
@@ -550,7 +549,7 @@ export const store = new Vuex.Store({
     },
     DELETE_PROJECT_LIST(state) {
       state.projectlist = []
-      state.isNoProjectShow = true;
+      // state.isNoProjectShow = true;
     },
     GET_SETTINGS(state, data) {
       state.settingsObject = data
@@ -1099,6 +1098,13 @@ export const store = new Vuex.Store({
       //     })
       // })  
 
+      // task type 
+      services.taskTypeStateService.on("created", message => {
+          commit('ADD_TASK_STATE', message)
+      })
+      services.taskTypeStateService.on("removed", message => {
+        commit('DELETE_TASK_STATE', message)
+    })
     },
     getAllTodos({ commit }, payload) {
       services.tasksService.find({
@@ -1953,7 +1959,7 @@ export const store = new Vuex.Store({
           createdAt: new Date().toJSON()
         }).then(response => {
           console.log("State Selected for task type in DB:", response)
-          commit('ADD_TASK_STATE', response)
+          // commit('ADD_TASK_STATE', response)
         })
       }
     },
@@ -1963,7 +1969,7 @@ export const store = new Vuex.Store({
           query: { 'id': payload.id }
         }).then(response => {
           console.log("Delete From task type state in db:", response)
-          commit('DELETE_TASK_STATE', response)
+          // commit('DELETE_TASK_STATE', response)
         })
     },
     getTaskStaus({ commit }) {
