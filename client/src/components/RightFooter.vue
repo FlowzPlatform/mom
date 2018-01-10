@@ -3,7 +3,6 @@
         <div class="property-sheet-view">
             <div class="loading-boundary ">
                 <div class="taskCommentsView ">
-                        <!-- photo-view photo-view-remix inbox-size photo-view-rounded-corners  -->
                     <div class="taskCommentsView-photo">
                         <div v-if="$store.state.userObject.email" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <avatar v-if="$store.state.userObject.image_url" :username="$store.state.userObject.email" :src="$store.state.userObject.image_url"
