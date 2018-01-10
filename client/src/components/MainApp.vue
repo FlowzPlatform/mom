@@ -10,7 +10,7 @@
 						</left-toolbar>
 						<main-left-section id="todoTask" :isCopyLink="isCopyLink" :todoObject="todoObjectById" :pholder="taskPholder" :filtered-todos="taskById"></main-left-section>
 					</div>
-					<div class="outer" v-show="isProjectAvailable">
+					<div class="outer" v-show="isProjectAvailable && !$store.state.deleteItemsSelected">
 						<div class="middle">
 							<div class="inner">
 								<div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems" >

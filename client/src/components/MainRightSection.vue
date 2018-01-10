@@ -449,7 +449,6 @@
         this.selectedMenuIndex = 5;
       },
       handleOpen() {
-        console.log("handle open click",this.open)
         this.selectedMenuIndex = 5;
         $(".nav").addClass("hidden");
         this.open = false;
