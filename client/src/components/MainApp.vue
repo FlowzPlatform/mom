@@ -24,6 +24,7 @@
 						</div>
 					</div>
 				</div>
+				
 				<div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems" v-if="$store.state.deleteItemsSelected && $store.state.deletedTaskArr.length<=0">
 					<img src="../assets/Deleted.svg"></img>
 					<div class="text gridPaneSearchEmptyView-noProjectItemsTitleText">You have no deleted items.
