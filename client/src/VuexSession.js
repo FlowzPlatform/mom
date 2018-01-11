@@ -817,8 +817,10 @@ export const store = new Vuex.Store({
 
 
         let showProjectIndex=data.findIndex(findShowProject)
+        state.currentProject = data[showProjectIndex];
         state.currentProjectId = data[showProjectIndex].id
         state.currentProjectName = data[showProjectIndex].project_name
+        state.currentProjectPrivacy = data[showProjectIndex].project_privacy
         await store.dispatch('getAllTodos', { 'parentId': "", project_id: state.currentProjectId });
       }
     },
