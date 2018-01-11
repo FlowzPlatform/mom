@@ -138,7 +138,9 @@
                     <span class="upl-img">
                       <ui-progress-circular color="black" type="indeterminate" v-show="loading" class="circularProgress">
                       </ui-progress-circular>
-                      <img v-bind:src="imageURlProfilePic" />
+                      <!-- <img v-bind:src="imageURlProfilePic" /> -->
+                      <avatar v-if="imageURlProfilePic" :username="imageURlProfilePic" :size="70" :src="imageURlProfilePic"></avatar>
+                      <avatar v-else :username="$store.state.userObject.email" color='#fff' :size="70"></avatar>
                     </span>
                   </div>
                   <span class="pro-part">
@@ -356,10 +358,7 @@
                 image_name: file.name
               })
                 .then(function () {
-                  self.$store.state.userObject.image_url = self.imageURlProfilePic
-                  self.$store.state.userObject.image_name = file.name
-                  self.$store.commit('userData')
-                  self.loading = false
+                  self.updateUserProfileVuex()
                 })
                 .catch(function (error) {
                   // $.notify.defaults({ className: "error" })
@@ -371,6 +370,7 @@
         return false;
       },
       onFileChange() {
+        
         this.loading = true;
         let self = this;
         var bucket = new AWS.S3({ params: { Bucket: 'airflowbucket1/obexpense/expenses' } });
@@ -385,11 +385,7 @@
               image_name: file.name
             })
               .then(function () {
-                self.imageURlProfilePic = data.Location
-                self.$store.state.userObject.image_url = self.imageURlProfilePic
-                self.$store.state.userObject.image_name = file.name
-                self.$store.commit('userData')
-                self.loading = false
+                self.updateUserProfileVuex(data)
               })
               .catch(function (error) {
                 // $.notify.defaults({ className: "error" })
@@ -416,11 +412,7 @@
               image_name: ''
             })
               .then(function () {
-                self.imageURlProfilePic = data.Location
-                self.$store.state.userObject.image_url = self.imageURlProfilePic
-                self.$store.state.userObject.image_name = ''
-                self.$store.commit('userData')
-                self.loading = false
+                self.updateUserProfileVuex(data)
               })
               .catch(function (error) {
                 // $.notify.defaults({ className: "error" })
@@ -431,6 +423,24 @@
             console.log("Check if you have sufficient permissions : ", err.stack);
           }
         });
+      },
+      updateUserProfileVuex (userDetail) {
+        if(userDetail != null){
+          this.imageURlProfilePic = userDetail.Location
+        }
+        this.$store.state.userObject.image_url = this.imageURlProfilePic
+        this.$store.state.userObject.image_name = ''
+        this.$store.commit('userData')
+        this.loading = false
+
+        let self = this
+        let userIndex = _.findIndex(self.$store.state.arrAllUsers, function (m) { return m._id === self.$store.state.userObject._id })
+        console.log('user index:', userIndex)
+        if(userIndex > -1){
+          Vue.set(self.$store.state.arrAllUsers[userIndex],'image_url',self.imageURlProfilePic)
+          // self.$store.state.arrAllUsers[userIndex].image_url = self.imageURlProfilePic
+        }
+
       },
       enableUpdateProfileBtn() {
         if (this.username) {

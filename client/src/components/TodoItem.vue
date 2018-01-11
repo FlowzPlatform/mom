@@ -50,6 +50,7 @@
             <span class="grid_due_date">{{todo.dueDate | formatDate}}</span>
           </a>
         </div>
+        
         <div v-if="todo.email">
           <avatar v-if="todo.image_url" :username="todo.email" :src="todo.image_url" :size="30" class="delete-view"></avatar>
           <avatar v-else :username="todo.email" :size="30" color="#fff" class="delete-view"></avatar>
@@ -106,7 +107,8 @@
         selectedObject: {},
         selectedType: {},
         isTypeTodo: true,
-        email: ''
+        email: '',
+        profileImgURL: ''
       }
     },
     computed: {
@@ -142,6 +144,14 @@
         return user.email
       }
     },
+    // watch : {
+    //   todo (){
+    //     console.log('inside watch todo:', this.todo)
+
+    //     //this.$store.commit('SHOW_DIV', this.todo)
+    //     this.profileImgURL = this.todo.image_url
+    //   }
+    // },
     methods: {
       ...mapMutations([
         'SHOW_DIV'
@@ -152,8 +162,6 @@
       ]),
       getLevelClass(level, id) {
         let idStr=id + "_" + String(level)
-        console.log("This taskId:--->",this.taskId)
-        console.log("This todoId:--->",this.id)
         if(this.taskId)
           idStr+="_"+this.taskId
         return idStr;
