@@ -528,7 +528,7 @@ border: 1px solid transparent;
     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     background-color: #fff;
 }
-#left_container, .right_pane_container{
+#left_container, .right_pane_container, #left_search_container{
        display: -webkit-box;
     /*display: -moz-box;*/
     display: box;
@@ -4153,7 +4153,7 @@ textarea.showing {
     /* overflow-y: hidden; */
     width: calc(100% - 260px);
 }
-#left_container {
+#left_container, #left_search_container {
     -webkit-transition: margin-left 0.25s ease-out,width 0.25s ease-out;
     -moz-transition: margin-left 0.25s ease-out,width 0.25s ease-out;
     transition: margin-left 0.25s ease-out,width 0.25s ease-out;
