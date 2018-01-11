@@ -37,5 +37,7 @@ export const USER_ACTION={
         COMMENT_ADD:14,
         COMMENT_DELETE:15,
         ATTACHMENT_DELETE:16,
-        TASK_TYPE:17
+        TASK_TYPE:17,
+        TASK_STATE:18
+        
     }

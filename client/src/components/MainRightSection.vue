@@ -11,7 +11,7 @@
           <a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
         </span>
       </Alert>
-      <div class="tab-pannel" id="rightContainer">
+      <div class="tab-pannel" id="rightContainer" @mouseenter="handleOk">
         <task-heading :id="id" :filteredTodo="todoObject"></task-heading>
         <div class="rightscroll">
           <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
@@ -304,6 +304,7 @@
       },
       deletePermently: function () {
         this.$store.dispatch("deletePermently", this.todoObject);
+        this.$store.commit("CLOSE_DIV",this.todoObject)
       },
       getListUserName: function (user, flag) {
 
@@ -449,7 +450,6 @@
         this.selectedMenuIndex = 5;
       },
       handleOpen() {
-        console.log("handle open click",this.open)
         this.selectedMenuIndex = 5;
         $(".nav").addClass("hidden");
         this.open = false;
@@ -470,20 +470,23 @@
         }
       },
       dueDateClick(dateTo) {
-        var selectedDate = moment(dateTo, "YYYY-MM-DD").format("DD");
-        this.$store.dispatch("editTaskName", {
-          todo: this.todoObject,
-          selectedDate: dateTo,
-          log_action: Constant.HISTORY_LOG_ACTION.DUE_DATE,
-          log_text: dateTo
-        });
-        this.todoObject.dueDate = dateTo
+        if(this.open){
+          this.open = false;
+          var selectedDate = moment(dateTo, "YYYY-MM-DD").format("DD");
+            this.$store.dispatch("editTaskName", {
+            todo: this.todoObject,
+            selectedDate: dateTo,
+            log_action: Constant.HISTORY_LOG_ACTION.DUE_DATE,
+            log_text: dateTo
+          });
+          this.todoObject.dueDate = dateTo
+        }
       },
       handleClick() {
         this.open = !this.open;
       },
       handleClear() {
-        this.open = false;
+        // this.open = false;
       },
       handleOk() {
         this.open = false;
@@ -492,8 +495,12 @@
       * Selected user from assign user list
       */
       userListClick:async function (user_id) {
-          this.setAssignUser(user_id)
-          this.$store.commit('SHOW_DIV', this.todoObject)
+        if(this.selectedUser != user_id){
+            console.log("userListClick method call:",user_id)
+            this.setAssignUser(user_id)
+            this.$store.commit('SHOW_DIV', this.todoObject)
+        }
+        
       },
       async btnTypeClicked(objType) {
         if(objType !== this.todoObject.type_id){

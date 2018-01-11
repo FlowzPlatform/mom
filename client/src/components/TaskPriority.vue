@@ -36,11 +36,12 @@
 
 <script>
 /* eslint-disable*/
+  import * as Constant from "./Constants.js";
   export default {
     props: ['filteredTodo'],
     methods:{
     clickAction () {
-        this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "taskPriority": this.filteredTodo.priority})
+        this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "taskPriority": this.filteredTodo.priority,log_action:Constant.HISTORY_LOG_ACTION.TASK_PRIORITY, log_text:this.filteredTodo.priority})
         $('#taskPriority'+this.filteredTodo.id).modal('hide')
       },
       async updateTaskPriority(id,level,created_by,typeId) {

@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" tabindex="-1" role="dialog" id="createProject" aria-hidden="true" style="position: absolute;">
+    <div class="modal fade" tabindex="-1" role="dialog" id="createProject" aria-hidden="true" >
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -130,7 +130,8 @@
                     this.$store.state.currentProjectName = response.project_name
                     this.$store.state.todolist.length = 0
                     this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
-                } else {
+                    $('#createProject').modal('hide');
+               } else {
                     this.createProjectError = response.error;
                 }
             },
@@ -157,7 +158,7 @@
                     callback: this.projectResponse
                 }
                 this.$store.dispatch('insertProject', request)
-                $('#createProject').modal('hide');
+              
             }
         }
     }
