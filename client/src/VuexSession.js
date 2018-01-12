@@ -714,9 +714,6 @@ export const store = new Vuex.Store({
         state.currentProjectId = value.id
         state.currentProjectName = value.project_name
         state.currentProjectPrivacy = value.project_privacy
-
-
-
       }
 
     },

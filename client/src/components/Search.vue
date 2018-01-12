@@ -29,12 +29,12 @@
                         </div>
                         <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName">{{$store.state.searchView}}</div>
                     </div>
-                    <main-left-section :filtered-todos="searchList"></main-left-section>
+                    <main-left-section id="searchTask" :filtered-todos="searchList"></main-left-section>
                 </div>
             </div>
-            <div :id="'slot-' + index" class="right_pane_container split split-horizontal" v-for="(n, index) in splitIdList">
+            <div :id="'search-' + index" class="right_pane_container split split-horizontal" v-for="(n, index) in splitIdList">
                 <div id="right_pane">
-                    <main-right-section :todoObject="n"></main-right-section>
+                    <main-right-section pholder="Subtask" :todoObject="n"></main-right-section>
                 </div>
             </div>
         </div>
@@ -60,12 +60,10 @@
         },
         watch: {
             splitIdList: function () {
-
                 let ids = ['#left_search_container'];
-
                 if (this.splitIdList) {
                     for (let i = 0; i <= this.splitIdList.length - 1; ++i) {
-                        ids.push('#task-' + i);
+                        ids.push('#search-' + i);
                     }
 
                     if (ids.length > 0) {
@@ -98,10 +96,22 @@
                 this.$store.dispatch('getTaskToAssignOthers', { 'project_id': this.$store.state.currentProjectId, 'userID': this.$store.state.userObject._id })
             },
             splitIdSearchMethod: function () {
-                console.log("===========", this.searchPId)
                 let array = this.searchPId;
                 this.splitIdList = array;
-            }
+            },
+            userDetail(tasks) {
+				tasks.forEach(function (c) {
+					let userId
+					userId = c.assigned_to
+					let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) { return m._id === userId })
+					if (userIndex < 0) {
+					} else {
+						c.image_url = this.$store.state.arrAllUsers[userIndex].image_url,
+						c.email = this.$store.state.arrAllUsers[userIndex].email
+					}
+				}, this)
+
+			},
         },
         computed: {
             ...mapGetters({
@@ -121,6 +131,7 @@
                 } else if (this.$store.state.searchView === "Tasks I've Assigned to Others") {
                     list = this.getTaskAssignedToOthers
                 }
+                this.userDetail(list)
                 return list
             }
         },
