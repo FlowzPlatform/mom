@@ -477,6 +477,7 @@
 <style>
     .login-pages {
         background-color: #5356ad;
+        /* background: linear-gradient(-45deg, rgb(230, 92, 230), rgb(122, 82, 204) 100%); */
         position: fixed;
         left: 0;
         right: 0;

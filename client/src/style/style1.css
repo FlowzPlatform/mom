@@ -23,6 +23,7 @@
   margin: 30px auto 0;
   height: 320px;
   background-color: #999ede;
+  /* background: linear-gradient(-45deg, rgb(122, 82, 204), rgb(230, 92, 230) 100%); */
   top: 50%;
   margin-top: -160px;
   -moz-transition: all 0.5s;
