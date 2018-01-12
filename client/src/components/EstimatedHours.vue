@@ -30,6 +30,7 @@
 </template>
 <script>
 /* eslint-disable*/
+  import * as Constant from "./Constants.js";
   export default {
     props: ['filteredTodo'],
     data(){
@@ -38,7 +39,7 @@
     },
     methods:{
     clickAction () {
-        this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "estimatedTime": this.filteredTodo.estimatedTime})
+        this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "estimatedTime": this.filteredTodo.estimatedTime,log_action:Constant.HISTORY_LOG_ACTION.ESTIMATED_HOURS, log_text:this.filteredTodo.estimatedTime})
         $('#estimateHr'+this.filteredTodo.id).modal('hide')
       },
       async updateEstimatHour(id,level,created_by,typeId) {

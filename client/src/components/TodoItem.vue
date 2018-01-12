@@ -158,8 +158,9 @@
         this.$store.dispatch('getTypeState', this.todo.type_id)
       },
       selectStatus: function (objStatus) {
-        this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedState": objStatus.state_id })
-        this.selectedObject = this.taskState.find(state => state.state_id === objStatus.state_id)
+        this.$store.dispatch('editTaskName', { "todo": this.todo, "selectedState": objStatus.state_id,
+         log_action:Constant.HISTORY_LOG_ACTION.TASK_STATE, log_text: objStatus.state_id })
+      this.selectedObject = this.taskState.find(state => state.state_id === objStatus.state_id)
       },
       addTodo: function (todoId) {
         if (this.id === "taskTypes") {
