@@ -130,7 +130,7 @@
 		},
 		watch: {
 			todolist: function (todo) {
-				//  console.log('test');
+				// console.log("log", todo)
 			},
 			parentIdList: function () {
 				let ids = ['#left_container'];
