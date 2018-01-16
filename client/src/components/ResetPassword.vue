@@ -105,14 +105,14 @@
                  self.$message.warning("Password dosen't match");
              }else{
                  self.saveFileLoading = true;
-                 axios.post("http://172.16.61.101:3001/api/resetpassword", {
+                 axios.post(config.resetpassword, {
                   new_password: self.reset.renewpassword.trim(),
                   token:self.token
               })
               .then(function (response) {
                   console.log("Reset Response:--",response);
+                  self.saveFileLoading = false;
                   if(response.data.code == 200){
-                      self.saveFileLoading = false;
                       //alert(response.data.message+", please check your email for password")
                       self.$message({
                           message : response.data.message,
@@ -120,7 +120,7 @@
                       });
                       self.$router.push('/');
                   }else{
-                     self.saveFileLoading = false;
+                  
                      self.$message({
                       message: response.data.error,
                       type: 'warning'
