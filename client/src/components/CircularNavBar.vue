@@ -23,7 +23,8 @@
           <div slot="title">
             <i style="color:black; font-size:large;">Projects</i>
           </div>
-          <div slot="content" v-show="project.is_deleted==false" v-bind:key="project.id" v-for="(project, index) in projectList">
+
+          <div slot="content" v-show="showProject(project)" v-bind:key="project.id" v-for="(project, index) in projectList">
             <Collapse v-bind:key="project.id" accordion v-if="project.project_privacy!=2">
               <Panel>
                 <span :id="'panelProjectName-'+project.id" @click="projectSelect(project)" @mouseleave="hideOption(project.id)" @mouseover="showOption(project.id)"
@@ -390,6 +391,16 @@
       document.getElementsByClassName('ivu-poptip-rel')[0].title = "Project List"
     },
     methods: {
+      showProject:function(project)
+      {
+        if(project.is_deleted)
+          return false
+
+        if(project.create_by!==this.$store.state.userObject._id && project.project_privacy==2)
+          return false
+        
+          return true;  
+      },
       showDeleted_Tasks: function() {
         this.$store.commit('showDeleteTasks')
         this.isRoleAccess = false
@@ -416,12 +427,15 @@
         this.$emit('eventChangeMenu', this.isMyTask, this.isRoleAccess, this.isSearchMenu)
       },
       searchResult() {
-        this.$store.state.searchView = ""
-        this.isRoleAccess = false
-        this.isMyTask = false
-        this.isSearchMenu = true
-        this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length);
-        this.$emit('eventChangeMenu', this.isMyTask, this.isRoleAccess, this.isSearchMenu)
+        if(!this.isSearchMenu){
+          this.$store.state.searchView = ""
+          this.$store.state.deleteItemsSelected = false
+          this.isRoleAccess = false
+          this.isMyTask = false
+          this.isSearchMenu = true
+          this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length);
+          this.$emit('eventChangeMenu', this.isMyTask, this.isRoleAccess, this.isSearchMenu)
+        }
       },
       projectNameElipse(str, max) {
         return str.length > (max - 3) ? str.substring(0, max - 3) + '...' : str;
@@ -487,6 +501,7 @@
         }
       },
       projectSelect(project) {
+        this.$store.state.currentprojectPermisionRevoked=false
         // Show project visibility option (like public to all, private to me)
         $("div#projectVisible").removeClass('hidden');
         this.$store.commit('showMyTasks')
@@ -711,4 +726,5 @@
     opacity: 1;
     z-index: 1;
   }
+
 </style>

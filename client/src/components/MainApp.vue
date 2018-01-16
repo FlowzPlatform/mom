@@ -6,11 +6,11 @@
 			<div id="left_container" class="scrollbar split split-horizontal">
 				<div id="center_pane">
 					<div v-show="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
-						<left-toolbar v-if="!isCopyLink" :filters="filters">
+						<left-toolbar v-if="!isCopyLink && !$store.state.deleteItemsSelected" :filters="filters">
 						</left-toolbar>
 						<main-left-section id="todoTask" :isCopyLink="isCopyLink" :todoObject="todoObjectById" :pholder="taskPholder" :filtered-todos="taskById"></main-left-section>
 					</div>
-					<div class="outer" v-show="isProjectAvailable">
+					<div class="outer" v-show="isProjectAvailable && !$store.state.deleteItemsSelected">
 						<div class="middle">
 							<div class="inner">
 								<div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems" >
@@ -397,7 +397,8 @@
 	#main-container::-webkit-scrollbar-track,
 	#rightContainer::-webkit-scrollbar-track,
 	#left_type_container::-webkit-scrollbar-track,
-	#left_task_container::-webkit-scrollbar-track {
+	#left_task_container::-webkit-scrollbar-track,
+	#left_search_container::-webkit-scrollbar-track {
 		-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 		background-color: #F5F5F5;
 	}
@@ -405,7 +406,8 @@
 	#left_container::-webkit-scrollbar,
 	#rightContainer::-webkit-scrollbar,
 	#left_type_container::-webkit-scrollbar,
-	#left_task_container::-webkit-scrollbar {
+	#left_task_container::-webkit-scrollbar,
+	#left_search_container::-webkit-scrollbar {
 		width: 7px;
 		background-color: #F5F5F5;
 	}
@@ -419,12 +421,14 @@
 	#main-container::-webkit-scrollbar-thumb,
 	#rightContainer::-webkit-scrollbar-thumb,
 	#left_type_container::-webkit-scrollbar-thumb,
-	#left_task_container::-webkit-scrollbar-thumb {
+	#left_task_container::-webkit-scrollbar-thumb,
+	#left_search_container::-webkit-scrollbar-thumb {
 		background-color: #acacac;
 		border: 1px solid #acacac;
 	}
 
 	.rightscroll {
 		width: 100%;
+		margin-top: 35px;
 	}
 </style>

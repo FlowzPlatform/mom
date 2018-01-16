@@ -11,7 +11,7 @@
           <a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
         </span>
       </Alert>
-      <div class="tab-pannel" id="rightContainer">
+      <div class="tab-pannel" id="rightContainer" @mouseenter="handleOk">
         <task-heading :id="id" :filteredTodo="todoObject"></task-heading>
         <div class="rightscroll">
           <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
@@ -39,7 +39,7 @@
               <span style="float:left;margin-top:-3px">
                 <div v-show="todoObject.email">
                   <avatar v-if="todoObject.image_url" :username="todoObject.email" :size="30" :src="todoObject.image_url"></avatar>
-                  <avatar v-else :username="todoObject.email" color='#fff' :size="30"></avatar>
+                  <avatar v-else  :username="todoObject.email" color='#fff' :size="30"></avatar>
                 </div>
               </span>
               <Row>
@@ -171,6 +171,7 @@
   import EstimatedHours from './EstimatedHours.vue'
   import TaskPriority from './TaskPriority.vue'
   import TaskHeading from './TaskHeading.vue'
+  import config from '../../config/customConfig'
   Vue.use(AsyncComputed);
   Vue.filter("formatDate", function (value) {
     if (value) {
@@ -260,7 +261,14 @@
         else if (val == 3) {
           var $temp = $("<input>");
           $("body").append($temp);
-          var url = process.env.COPY_URL_PATH + "/navbar/task/" + (this.todoObject.level + 1) + "/" + this.todoObject.id
+          
+          let copyTask;
+          if(process.env.NODE_ENV == 'development')
+            copyTask = process.env.COPY_URL_PATH
+          else
+            copyTask = config.copyUrlPath
+
+          var url = copyTask + "/navbar/task/" + (this.todoObject.level + 1) + "/" + this.todoObject.id
           $temp.val(url).select();
           document.execCommand("copy");
           $temp.remove();
@@ -296,6 +304,7 @@
       },
       deletePermently: function () {
         this.$store.dispatch("deletePermently", this.todoObject);
+        this.$store.commit("CLOSE_DIV",this.todoObject)
       },
       getListUserName: function (user, flag) {
 
@@ -337,7 +346,6 @@
         }
       },
       userDetail(deletedTasks) {
-        console.log("user detail updated...")
         deletedTasks.forEach(function (c) {
           let userId = c.assigned_to;
           let userIndex = _.findIndex(this.$store.state.arrAllUsers, function (m) {
@@ -442,7 +450,6 @@
         this.selectedMenuIndex = 5;
       },
       handleOpen() {
-        console.log("handle open click",this.open)
         this.selectedMenuIndex = 5;
         $(".nav").addClass("hidden");
         this.open = false;
@@ -463,20 +470,23 @@
         }
       },
       dueDateClick(dateTo) {
-        var selectedDate = moment(dateTo, "YYYY-MM-DD").format("DD");
-        this.$store.dispatch("editTaskName", {
-          todo: this.todoObject,
-          selectedDate: dateTo,
-          log_action: Constant.HISTORY_LOG_ACTION.DUE_DATE,
-          log_text: dateTo
-        });
-        this.todoObject.dueDate = dateTo
+        if(this.open){
+          this.open = false;
+          var selectedDate = moment(dateTo, "YYYY-MM-DD").format("DD");
+            this.$store.dispatch("editTaskName", {
+            todo: this.todoObject,
+            selectedDate: dateTo,
+            log_action: Constant.HISTORY_LOG_ACTION.DUE_DATE,
+            log_text: dateTo
+          });
+          this.todoObject.dueDate = dateTo
+        }
       },
       handleClick() {
         this.open = !this.open;
       },
       handleClear() {
-        this.open = false;
+        // this.open = false;
       },
       handleOk() {
         this.open = false;
@@ -485,9 +495,12 @@
       * Selected user from assign user list
       */
       userListClick:async function (user_id) {
-        // if (this.selectedUser !== this.previousUser)
-          this.setAssignUser(user_id)
-          this.$store.commit('SHOW_DIV', this.todoObject)
+        if(this.selectedUser != user_id){
+            console.log("userListClick method call:",user_id)
+            this.setAssignUser(user_id)
+            this.$store.commit('SHOW_DIV', this.todoObject)
+        }
+        
       },
       async btnTypeClicked(objType) {
         if(objType !== this.todoObject.type_id){
@@ -638,7 +651,6 @@
         return this.todoObject.assigned_to
       }, 
       taskById() {
-        console.log("taskById....")
         this.onReadComment(
           this.todoObject.id,
           this.todoObject.level,

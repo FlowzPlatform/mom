@@ -22,8 +22,9 @@
         <div v-if="id === 'rightTaskState'">
             <div class="control-group">
                 <label for="input-color">Color:</label>
-                <input type="color" id="bgcolor" v-model="filteredTodo.color" value="#0000" @change="getColorVal($event.target.value)" style="height:25px; width:25px;"
-                />
+                <!-- <input type="color" id="bgcolor" v-model="filteredTodo.color" value="#0000" @change="getColorVal($event.target.value)" style="height:25px; width:25px;"
+                /> -->
+                <el-color-picker v-model="filteredTodo.color"  @change="getColorVal"></el-color-picker>
             </div>
         </div>
     </div>
@@ -31,6 +32,9 @@
 <script>
     /* eslint-disable*/
     import { mapGetters } from 'vuex'
+    import lang from 'element-ui/lib/locale/lang/en'
+    import locale from 'element-ui/lib/locale'
+    locale.use(lang)
     export default {
         props: ['id', 'filteredTodo'],
         data: function () {
@@ -79,6 +83,9 @@
 
 </script>
 <style>
+    .el-color-dropdown {
+        width: 314px;
+    }
     .form-group input[type="checkbox"] {
         display: none;
     }

@@ -6,7 +6,7 @@
                 </div>
             </div>
             <!-- removed class row asanaView-body and added class main-container-class-->
-            <component :is="currentView">
+            <component :is="currentView"> 
           </component>
         </div>
     </template>
