@@ -691,7 +691,7 @@ export const store = new Vuex.Store({
     GET_ALL_USERS(state, objAllUsers) {
       _.forEach(objAllUsers, function (object) {
         let index = _.findIndex(state.arrAllUsers, function (d) { return d._id == object._id })
-        if (index < 0) {
+        if (index < 0  && CmnFunc.checkValidEmail(object.email)) {
           state.arrAllUsers.push(object)
         }
       });

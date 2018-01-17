@@ -109,6 +109,7 @@
                     <path d="M4.686,12.686l9.899,9.9c0.781,0.781,2.047,0.781,2.828,0l9.9-9.9l-2.475-2.475L16,19.05l-8.839-8.839L4.686,12.686z"></path>
                 </svg>
             </div>
+            <hr class="histroy-row-divider">
         </div>
     </section>
 </template>
@@ -271,5 +272,14 @@ export default {
 <style>
 .comment-view img{
     width: 90%;
+}
+hr.histroy-row-divider{
+    display: block;
+    border: 0;
+    border-top: 1px solid #e6e6e6;
+    margin-top:0;
+    margin-bottom:0;
+    margin-left: 35px;
+    margin-right: 35px;
 }
 </style>
