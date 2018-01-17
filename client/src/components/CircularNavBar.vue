@@ -427,12 +427,15 @@
         this.$emit('eventChangeMenu', this.isMyTask, this.isRoleAccess, this.isSearchMenu)
       },
       searchResult() {
-        this.$store.state.searchView = ""
-        this.isRoleAccess = false
-        this.isMyTask = false
-        this.isSearchMenu = true
-        this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length);
-        this.$emit('eventChangeMenu', this.isMyTask, this.isRoleAccess, this.isSearchMenu)
+        if(!this.isSearchMenu){
+          this.$store.state.searchView = ""
+          this.$store.state.deleteItemsSelected = false
+          this.isRoleAccess = false
+          this.isMyTask = false
+          this.isSearchMenu = true
+          this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length);
+          this.$emit('eventChangeMenu', this.isMyTask, this.isRoleAccess, this.isSearchMenu)
+        }
       },
       projectNameElipse(str, max) {
         return str.length > (max - 3) ? str.substring(0, max - 3) + '...' : str;
@@ -723,4 +726,5 @@
     opacity: 1;
     z-index: 1;
   }
+
 </style>
