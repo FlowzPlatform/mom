@@ -50,8 +50,7 @@
             <span class="grid_due_date">{{todo.dueDate | formatDate}}</span>
           </a>
         </div>
-        
-        <div v-if="todo.email">
+        <div v-if="todo.email" :value="selectedUser">
           <avatar v-if="todo.image_url" :username="todo.email" :src="todo.image_url" :size="30" class="delete-view"></avatar>
           <avatar v-else :username="todo.email" :size="30" color="#fff" class="delete-view"></avatar>
         </div>
@@ -137,6 +136,9 @@
       getAssignedUser() {
         let user = this.$store.state.todolist.find(todo => todo.id === this.todo.id)
         return user.email
+      },
+      selectedUser(){
+        return this.todo.assigned_to
       }
     },
     // watch : {

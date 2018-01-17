@@ -610,7 +610,7 @@
 }
 #text-overlay{
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
     font-size: 40px;
     color: white;
