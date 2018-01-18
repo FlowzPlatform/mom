@@ -85,8 +85,12 @@ module.exports = function() {
       if (projectData.project_privacy==="0") {
         return data;
       } else {
-         console.log("<========Project member Filter Call=====>",connection.userId);
-        return app.service('projectmember').find({ query: { 'user_id':connection.userId, project_id: projectData.id } }).then(response => {
+         console.log("<========Project member Filter Call=====>",connection.userId===data.user_id);
+       if(connection.userId===data.user_id)
+       {
+        return data; 
+       }else{
+         return app.service('projectmember').find({ query: { 'user_id':connection.userId, project_id: projectData.id } }).then(response => {
           var pMember=response
           
           if (response && response.length > 0) {
@@ -96,6 +100,7 @@ module.exports = function() {
             return false;
           }
         })
+      }
       }
     })
   });

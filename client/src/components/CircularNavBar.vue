@@ -23,7 +23,6 @@
           <div slot="title">
             <i style="color:black; font-size:large;">Projects</i>
           </div>
-
           <div slot="content" v-show="showProject(project)" v-bind:key="project.id" v-for="(project, index) in projectList">
             <Collapse v-bind:key="project.id" accordion v-if="project.project_privacy!=2">
               <Panel>
@@ -37,7 +36,7 @@
                         <path d="M24.23,16.781C26.491,15.368,28,12.863,28,10c0-4.418-3.582-8-8-8s-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C11.233,18.494,8,22.864,8,28c0,0.683,0.07,1.348,0.18,2h23.64c0.11-0.652,0.18-1.317,0.18-2C32,22.864,28.767,18.494,24.23,16.781z M14,10c0-3.308,2.692-6,6-6s6,2.692,6,6s-2.692,6-6,6S14,13.308,14,10z M10,28c0-5.514,4.486-10,10-10c5.514,0,10,4.486,10,10H10z"></path>
                         <path d="M2,28c0-4.829,3.441-8.869,8-9.798V15.65C7.673,14.824,6,12.606,6,10c0-3.308,2.692-6,6-6V2c-4.418,0-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C3.233,18.494,0,22.864,0,28c0,0.683,0.07,1.348,0.18,2H6v-2H2z"></path>
                       </svg>
-                      <i @click="showDeleteProjectDialog" class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+                      <i @click="showDeleteProjectDialog(project.create_by)" class="fa fa-trash-o fa-2x" aria-hidden="true" ></i>
                     </div>
                     <a id="add-member" v-show="project.project_privacy != 2" @click="addMemberClick(project.id)" class="inviteMember" tabindex="0"
                       aria-role="button">
@@ -253,7 +252,7 @@
               <a class="DeprecatedNavigationLink">
                 <span class="panelProjectName">{{projectNameElipse(project.project_name,15)}}</span>
                 <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu" style="fill:transparent" @click="showProjectSetting(project)">
-                  <i @click="showDeleteProjectDialog" class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+                  <i @click="showDeleteProjectDialog(project.create_by)" class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
                 </span>
                 <span :id="'ItemRowPrivacy-'+project.id" v-show="project.project_privacy == 2" class="SidebarItemRow-statusIcon pull-right">
                   <svg class="Icon LockIcon" title="LockIcon" viewBox="0 0 32 32">
@@ -741,5 +740,7 @@
     opacity: 1;
     z-index: 1;
   }
+
+
 
 </style>

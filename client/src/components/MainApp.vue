@@ -107,7 +107,7 @@
 				this.$store.dispatch('getAllTaskTags', this.url_parentId);
 				this.$store.dispatch('getTaskComment', this.url_parentId)
 			}
-			this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
+			// this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
 			this.$store.commit('DELETE_ALLTAGS')
 			this.$store.dispatch('getTaskStaus')
 			this.$store.dispatch('getTaskTypes')
@@ -124,6 +124,7 @@
 				this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '', project_id: projectId });
 
 			} else {
+				this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '', project_id: projectId });
 				console.log("Can't set projectc id")
 			}
 			this.parentIdMethod();
