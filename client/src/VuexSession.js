@@ -706,8 +706,10 @@ export const store = new Vuex.Store({
         console.log("state.currentProject.id-->",state.currentProject.id === value.id)
         if(state.currentProject.id === value.id && state.projectlist[updateProjectIndex].create_by!==state.userObject._id && state.projectlist[updateProjectIndex].project_privacy!==value.project_privacy)
         {
-          if(value.project_privacy==0 || value.project_privacy==1)
+          if(value.project_privacy==0)
           {
+            state.currentprojectPermisionRevoked=false;
+          }if(value.project_privacy==1){
             state.currentprojectPermisionRevoked=false;
           }else if(value.project_privacy==2)
           {
@@ -795,7 +797,7 @@ export const store = new Vuex.Store({
     * Update current project member list
     */
     updateProjectMember(state, value) {
-      console.log("updateProjectMember()")
+      console.log("updateProjectMember()",value)
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.project_id })
       if (updateProjectIndex >= 0) {
 
@@ -805,6 +807,12 @@ export const store = new Vuex.Store({
 
         if (memberIndex > -1) {
           Vue.delete(tempProject.members, memberIndex)
+          if(value.project_id===state.currentProjectId && value.create_by!==state.userObject._id)
+          {
+            state.currentprojectPermisionRevoked=true;
+          }
+          if(value.user_id===state.userObject._id)
+            Vue.delete( state.projectlist,updateProjectIndex);
         }
       }
     },
@@ -857,7 +865,7 @@ export const store = new Vuex.Store({
       state.assignedToOthers = payload
     },
     ASSIGN_PROJECT_MEMBER(state, assignMember) {
-      console.log("Assign Member:--",   )
+      console.log("Assign Member:--",  assignMember )
       let index = _.findIndex(state.projectlist, function (d) { return d.id == assignMember.project_id })
       if (index > -1) { 
         if (!state.projectlist[index].members)
@@ -868,6 +876,11 @@ export const store = new Vuex.Store({
             state.projectlist[index].members.push({ user_id: assignMember.user_id })
           } else {
             state.projectlist[index].members.push({ user_id: assignMember.user_id, url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name, email: state.arrAllUsers[userIndex].email, user_role_id: assignMember.user_role_id, is_deleted: false, id: assignMember.id })
+          }
+
+          if(assignMember.project_id===state.currentProjectId)
+          {
+            state.currentprojectPermisionRevoked=false;
           }
 
         }, 2000);
@@ -895,8 +908,16 @@ export const store = new Vuex.Store({
           //       console.log("state.projectlist[index]", state.projectlist[index]);
           //  }, this);
 
-          state.projectlist.push(project);
+          // state.projectlist.push(project);
+          Vue.set(state.projectlist,state.projectlist.length,project)
           state.isNoProjectShow = false;
+          // state.currentprojectPermisionRevoked=false
+
+          if(assignMember.project_id===state.currentProjectId)
+          {
+            state.currentprojectPermisionRevoked=false;
+          }
+
 
         })
       }
@@ -986,6 +1007,8 @@ export const store = new Vuex.Store({
       services.projectService.removeListener('patched')
       services.projectService.removeListener('removed')
       services.projectMemberService.removeListener('created')
+      services.projectMemberService.removeListener('removed')
+      services.projectMemberService.removeListener('patched')
       services.projectService.removeListener('created')
       services.roleService.removeListener('removed')
       services.roleService.removeListener('created')
@@ -1069,6 +1092,10 @@ export const store = new Vuex.Store({
         //  console.log("ASSIGN_PROJECT_MEMBER:-->", message)
         commit('ASSIGN_PROJECT_MEMBER', message)
       })
+      services.projectMemberService.on('removed', message => {
+         console.log("Remove_PROJECT_MEMBER:-->", message)
+        commit('updateProjectMember', message)
+      })
 
       services.projectService.on('created', message => {
         message.members = []
@@ -1098,13 +1125,9 @@ export const store = new Vuex.Store({
       })
       services.projectMemberService.on('patched', message => {
         console.log("projectMemberService updated:-->", message)
-        if (message.is_deleted === true) {
-          services.projectMemberService.get(message.id).then(value => {
-            commit('updateProjectMember', value)
-          })
-        } else {
+        
           commit('updateProjectServiceRoleList', message)
-        }
+        
 
       })
       // Project delete custom patch call
@@ -2105,11 +2128,8 @@ export const store = new Vuex.Store({
      */
     deleteProjectMember({ commit }) {
       var member = store.state.removeMember;
-      services.projectMemberService.patch(member.id, {
-        is_deleted: true,
-        deletedBy: store.state.userObject._id
-      }).then(response => {
-
+      services.projectMemberService.remove(member.id).then(response => {
+          console.log("Removed Member:--",response)
       });
     },
     roleCheckChange({ commit }, role) {
