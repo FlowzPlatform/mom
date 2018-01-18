@@ -847,7 +847,7 @@ export const store = new Vuex.Store({
       state.assignedToOthers = payload
     },
     ASSIGN_PROJECT_MEMBER(state, assignMember) {
-      console.log("Assign Member:--",   )
+      console.log("Assign Member:--",  assignMember )
       let index = _.findIndex(state.projectlist, function (d) { return d.id == assignMember.project_id })
       if (index > -1) { 
         if (!state.projectlist[index].members)

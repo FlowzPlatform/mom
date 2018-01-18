@@ -672,7 +672,22 @@
       },
       showDeleteProjectDialog() {
         this.hideProjectSetting();
-        $("#project-delete-dialog").removeClass("hidden");
+        // $("#project-delete-dialog").removeClass("hidden");
+          let config={
+            closable:true
+          }
+          // this.$Modal.confirm(config)
+          this.$Modal.confirm({
+              title: "Delete the "+this.$store.state.currentProject.project_name+" project?",
+              closable: true,
+              esc2x: true,
+              content:
+              "<p>Are you sure that you want to permanently delete project?</p>",
+              onOk: () => {
+                this.$store.dispatch('deleteProject', this.$store.state.currentProject)
+              }
+          });
+          
       },
       hideProjectSetting() {
         this.$store.state.projectSettingId

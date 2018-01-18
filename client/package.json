@@ -29,7 +29,7 @@
     "feathers-hooks": "^2.1.0",
     "fs": "0.0.1-security",
     "html-pdf": "^2.2.0",
-    "iview": "^2.4.0",
+    "iview": "^2.8.0",
     "jade": "^1.11.0",
     "jquery": "^3.2.1",
     "json-schema-traverse": "^0.3.1",
