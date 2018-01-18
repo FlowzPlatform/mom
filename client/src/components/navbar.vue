@@ -1,5 +1,12 @@
 <template lang="html">
   <div>
+    <div v-if="showProjectLoading" :value="getTodoListSize" style="margin-top: 50vh;height: 100vh">
+      <img class="project-loading" src="../assets/activity.svg" style="margin-left: 10px; width:80px; height:100px;"/>
+      <p style="margin-left:20px;color:gray">Populating projects...</p>
+      <span style="margin-left:-170px;position: absolute;bottom:10px">
+        <img src="../assets/ob_logo.svg"></img>
+      </span>
+    </div>  
     <div>
       <div data-reactroot="" id="top-bar" class="Topbar">
         <div class="PageHeaderStructure-center" @mouseenter="hidePopup">
@@ -248,7 +255,8 @@
         showPrivateCheck: false,
         showPrivateMember: false,
         showPublic: false,
-        pName: '' // Project Name 
+        pName: '', // Project Name 
+        showProjectLoading:true
       }
     },
     created() {
@@ -281,6 +289,13 @@
           this.pName = value;
         }
       },
+      getTodoListSize(){
+        if(this.$store.state.arrAllUsers.length > 0){
+          this.showProjectLoading = false
+        }else{
+          this.showProjectLoading = true
+        }
+      }
     },
     methods: {
       ...mapMutations([
@@ -610,11 +625,14 @@
 }
 #text-overlay{
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
     font-size: 40px;
     color: white;
     transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
+}
+.project-loading{
+  filter: invert(.5) sepia(1) saturate(5) hue-rotate(175deg);
 }
 </style>

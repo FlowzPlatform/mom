@@ -36,6 +36,7 @@ RUN cp /opt/app/.htaccess /var/www/html/
 RUN cp /opt/app/vhost.conf /etc/apache2/sites-enabled/
 RUN rm -rf /opt/app/*
 RUN a2enmod rewrite
+RUN a2enmod expires
 RUN service apache2 restart
 
 
