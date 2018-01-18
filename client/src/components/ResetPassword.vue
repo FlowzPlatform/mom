@@ -5,7 +5,6 @@
           <a href="#"><img src="../assets/ob_logo.svg"> </a>
       </div> 
 
-          
      <div class="lcontended">
         <div class="lundcon lundconreset">
           <div class="lconun">
