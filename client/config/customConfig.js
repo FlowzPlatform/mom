@@ -6,5 +6,5 @@ export default{
     copyUrlPath: "https://mom."+process.env.domainkey,
     forgotpassword: "https://auth."+process.env.domainkey+"/api/forgetpassword",
     resetpassword: "https://auth."+process.env.domainkey+"/api/resetpassword",
-    socket_io: '"wss://ws."+process.env.domainkey+":4030"'
+    socket_io: "wss://ws."+process.env.domainkey+":4030"
 }
