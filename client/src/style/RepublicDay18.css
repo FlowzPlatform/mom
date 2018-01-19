@@ -1,5 +1,5 @@
 html, body {
-    background: linear-gradient(to bottom right, #babfa1 0%, #036978 100%);
+    background: linear-gradient(to bottom, rgb(255, 153, 51), rgb(255, 255, 255), rgb(19, 136, 8))
   }
   #center_pane {
     background: transparent;
@@ -12,7 +12,7 @@ html, body {
     background: transparent;
 }
   .todo-list li input {
-    color: #fff;
+    /* color: #fff; */
   }
   .taskDetailsView-description .autogrow-textarea {
     background-color: transparent;
@@ -220,7 +220,7 @@ html, body {
   color: white;
 }
 .todo-list li {
-  border-bottom: 1px solid #e1dfdf4a;
+  border-bottom: 1px solid #646464de;
 }
 .modal-open .modal .modal-dialog .modal-header {
   background-color: #083535;
