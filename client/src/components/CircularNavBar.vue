@@ -51,7 +51,6 @@
                         <path d="M24,12v-0.125V8c0-4.411-3.589-8-8-8S8,3.589,8,8v4H6v18h20V12H24z M14,12V8c0-1.103,0.897-2,2-2s2,0.897,2,2v4H14z M10,8c0-3.309,2.691-6,6-6s6,2.691,6,6v4h-2V8c0-2.206-1.794-4-4-4s-4,1.794-4,4v4h-2V8z M24,28H8V14h16V28z"></path>
                       </svg>
                     </span>
-
                   </a>
                 </span>
                 <p class="teamList" slot="content">
@@ -294,11 +293,23 @@
         el.style.left = startX + dx + 'px';
         return false;
       }
+      // function touchmove(e) {
+      //   var dx = e.clientX - initialMouseX;
+      //   var dy = e.clientY - initialMouseY;
+      //   el.style.top = startY + dy + 'px';
+      //   el.style.left = startX + dx + 'px';
+      //   return false;
+      // }
 
       function mouseup() {
         document.removeEventListener('mousemove', mousemove);
         document.removeEventListener('mouseup', mouseup);
       }
+
+      // function touchend() {
+      //   document.removeEventListener('touchmove', touchmove);
+      //   document.removeEventListener('touchend', touchend);
+      // }
 
       el.addEventListener('mousedown', function (e) {
         startX = el.offsetLeft;
@@ -309,6 +320,16 @@
         document.addEventListener('mouseup', mouseup);
         return false;
       });
+
+      // el.addEventListener('touchstart', function (e) {
+      //   startX = el.offsetLeft;
+      //   startY = el.offsetTop;
+      //   initialMouseX = e.clientX;
+      //   initialMouseY = e.clientY;
+      //   document.removeEventListener('touchmove', touchmove);
+      //   document.removeEventListener('touchend', touchend);
+      //   return false;
+      // });
     }
   })
 

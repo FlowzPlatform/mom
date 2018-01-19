@@ -2610,7 +2610,7 @@ a {
         height: 16px;
         margin: 0 5px;
         width: 16px;
-        fill: #000;
+        fill: #b9bcc0;
         margin-top: 6px;
 }
     /* Invite Expandable  list */
@@ -4346,3 +4346,26 @@ a.history-username{
     z-index: 1;
     opacity: 0.2;
   } 
+
+  .attachment-username {
+    text-align: -webkit-left;
+    text-align: left;
+    margin-left: 10px;
+    font-size: 20px;
+    color: gray;
+    float: left;
+  }
+  ::-webkit-input-placeholder { /* Chrome */
+    color: #cfcfcf;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: #cfcfcf;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: #cfcfcf;
+    opacity: 1;
+  }
+  :-moz-placeholder { /* Firefox 4 - 18 */
+    color: #cfcfcf;
+    opacity: 1;
+  }

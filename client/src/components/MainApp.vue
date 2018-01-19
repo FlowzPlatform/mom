@@ -400,7 +400,7 @@
 	#left_task_container::-webkit-scrollbar-track,
 	#left_search_container::-webkit-scrollbar-track {
 		-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-		background-color: #F5F5F5;
+		background-color: transparent;
 	}
 
 	#left_container::-webkit-scrollbar,
@@ -409,12 +409,12 @@
 	#left_task_container::-webkit-scrollbar,
 	#left_search_container::-webkit-scrollbar {
 		width: 7px;
-		background-color: #F5F5F5;
+		background-color: transparent;
 	}
 
 	#main-container::-webkit-scrollbar {
 		height: 7px;
-		background-color: #F5F5F5;
+		background-color: transparent;
 	}
 
 	#left_container::-webkit-scrollbar-thumb,

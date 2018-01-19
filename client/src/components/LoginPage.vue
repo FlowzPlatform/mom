@@ -110,14 +110,14 @@
     import CmnFunc from './CommonFunc.js'
     import notify from './notify.js'
     import VueRouter from 'vue-router'
-    import iView from 'iview';
-    import 'iview/dist/styles/iview.css';
-    import locale from 'iview/dist/locale/en-US';
+    // import iView from 'iview';
+    // import 'iview/dist/styles/iview.css';
+    // import locale from 'iview/dist/locale/en-US';
     import config from '../../config/customConfig'
     import axios from 'axios'
     
-    Vue.use(iView, { locale });
-    Vue.use(iView);
+    // Vue.use(iView, { locale });
+    // Vue.use(iView);
     Vue.use(Resource)
     Vue.use(VueRouter)
     var VueCookie = require('vue-cookie')
