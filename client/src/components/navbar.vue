@@ -207,7 +207,7 @@
         </div>
       </div>
       <div id="overlay" v-show="allowedProjectPermission" >
-        <span id="text-overlay">Owner changed project privacy.</span>
+        <span id="text-overlay">{{$store.state.currentprojectPermisionRevokedMessage}}</span>
         <button id="f" > </button>
       </div>
     </div>
@@ -624,6 +624,7 @@
     cursor: pointer; /* Add a pointer on hover */
 }
 #text-overlay{
+    width: 100%;
     position: absolute;
     top: 55%;
     left: 50%;

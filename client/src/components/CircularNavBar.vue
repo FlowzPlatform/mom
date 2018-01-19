@@ -198,7 +198,7 @@
                               <div class="QuickInvitePopup-inputArea QuickInvitePopup-emailInputArea">
                                 <label class="Label">Email</label>
                                 <div class="validatedTextInput validatedTextInput--invalid QuickInvitePopup-emailInputValidator">
-                                  <input type="text" class="textInput textInput--medium QuickInvitePopup-input QuickInvitePopup-emailInput" v-model="email">
+                                  <input type="text" class="textInput textInput--medium QuickInvitePopup-input QuickInvitePopup-emailInput" v-model="email" readonly>
                                   <div class="validatedTextInput-message">{{emailValidationError}}</div>
                                 </div>
                               </div>

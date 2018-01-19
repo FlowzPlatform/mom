@@ -190,7 +190,8 @@ export const store = new Vuex.Store({
     deleteFileName: '',
     splitWidthArr: [],
     isNoProjectShow: false,
-    currentprojectPermisionRevoked:false
+    currentprojectPermisionRevoked:false,
+    currentprojectPermisionRevokedMessage:''
   },
   mutations: {
     userData: state => state.userObject,
@@ -713,6 +714,7 @@ export const store = new Vuex.Store({
             state.currentprojectPermisionRevoked=false;
           }else if(value.project_privacy==2)
           {
+            state.currentprojectPermisionRevokedMessage = "Owner changed project privacy."
             state.currentprojectPermisionRevoked=true;
           }
         }else{
@@ -809,6 +811,7 @@ export const store = new Vuex.Store({
           Vue.delete(tempProject.members, memberIndex)
           if(value.project_id===state.currentProjectId && value.create_by!==state.userObject._id)
           {
+            state.currentprojectPermisionRevokedMessage = "You are not a member of current project."
             state.currentprojectPermisionRevoked=true;
           }
           if(value.user_id===state.userObject._id)
