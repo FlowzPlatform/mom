@@ -53,7 +53,7 @@ app.configure(hooks());
 // Enable the REST provider for services.
 app.configure(rest())
 // app.configure(socketio());
-app.configure(socketio(4030,{wsEngine: 'uws', origin: '*.flowz.com:*'},function(io) {
+app.configure(socketio(4030,{wsEngine: 'uws', origin: '*.flowzcluster.tk:*'},function(io) {
     io.on('connection', function(socket) {
         console.log("connection handshaken-->",socket.feathers)
     //   socket.emit('news', { hello: 'world' });
