@@ -83,7 +83,6 @@
 
 .right_pannel::before {
   color:#def2f3;
-  opacity: 0.5;
 }
 .buttonView.buttonView--primary {
   background: rgb(255, 184, 56);

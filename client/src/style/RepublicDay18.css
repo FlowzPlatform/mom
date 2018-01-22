@@ -114,13 +114,13 @@ html, body {
     color:#191efd;
   }
   .buttonView.buttonView--primary {
-    background: #06665F;
-    border-color: #06665F;
+    background: rgb(255, 171, 15);
+    border-color: rgb(255, 171, 15);
   }
   .buttonView.buttonView--primary:focus,
   .buttonView.buttonView--primary:hover {
-    background: #06665F;
-    border-color: #06665F;
+    background: rgb(255, 171, 15);
+    border-color: rgb(255, 171, 15);
     box-shadow: inset 0 0 transparent, 0 0 0 3px #277a80;
     -moz-box-shadow: inset 0 0 transparent, 0 0 0 3px #277a80;
     -webkit-box-shadow: inset 0 0 transparent, 0 0 0 3px #277a80;

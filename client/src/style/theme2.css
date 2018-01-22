@@ -84,7 +84,7 @@
     background: #EC471B;
   }
   .right_pannel::before {
-    color:#FA8060;
+    color:rgb(255, 209, 197);
   }
   .buttonView.buttonView--primary {
     background: #176C95;
