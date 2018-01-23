@@ -63,10 +63,6 @@
   background: #07889b;
   border: 1px solid white;
 }
-.comment-title {
-  color: #fc4a1a;
-  font-family: esteban
-}
 .navbar-bottom .due-date:hover {
   background: #e37222;
 }

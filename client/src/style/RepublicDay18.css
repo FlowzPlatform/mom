@@ -71,10 +71,6 @@ html, body {
     color: #093838;
     font-family: esteban
   }
-  .comment-title {
-    color: #093838;
-    font-family: esteban
-  }
   .navbar-bottom {
     /* background-color: #0b4949;     */
     background-color: #06665F;
@@ -83,33 +79,14 @@ html, body {
     background-color:	#0E3A39;
     color: #fff;
   }
-  .navbar-bottom .due-date:hover {
+  .navbar-bottom .due-date:hover, .navbar-bottom a:hover {
     background: 	#0E3A39;
   }
-  .navbar-bottom a:hover {
-    cursor: pointer;
-    background: 	#0E3A39;
-  }
-  /* .navbar-bottom a{
-      color: #13EBA2;
-  }
-  .Topbar-sidebarToggleIcon{
-      fill: #13EBA2;
-  } */
-  .share { 
+  .share, .one, .two { 
     background: #86af9e;
     color: #06665F;
   }
-  
-  .one {
-    background: #86af9e;
-    color: #06665F;
-  }
-  
-  .two {
-    background: #86af9e;
-    color: #06665F;
-  }
+
   .right_pannel::before {
     color:#191efd;
   }
@@ -121,25 +98,16 @@ html, body {
   .buttonView.buttonView--primary:hover {
     background: rgb(255, 171, 15);
     border-color: rgb(255, 171, 15);
-    box-shadow: inset 0 0 transparent, 0 0 0 3px #277a80;
-    -moz-box-shadow: inset 0 0 transparent, 0 0 0 3px #277a80;
-    -webkit-box-shadow: inset 0 0 transparent, 0 0 0 3px #277a80;
+    box-shadow: inset 0 0 transparent, 0 0 0 3px #4da544;
+    -moz-box-shadow: inset 0 0 transparent, 0 0 0 3px #4da544;
+    -webkit-box-shadow: inset 0 0 transparent, 0 0 0 3px #4da544;
   }
   
-  .BlockStory-storyContent {
+  .BlockStory-storyContent, .attachment-username, svg.Icon.AttachIcon  {
     color: #093838;
-  }
-  .BlockStory-metadata {
-    color: #fff;
   }
   .history-label {
-    color: #fff;
-  }
-  svg.Icon.AttachIcon {
-    fill: #093838;
-  }
-  .attachment-username {
-    color: #093838;
+    color: #000;
   }
   .BlockStory-block.commentbox {
     background: #fff0;
@@ -148,17 +116,15 @@ html, body {
     box-shadow: 0px 2px 5px 0px rgba(255, 255, 255, 0.28), 0px 2px 5px 0px rgb(8, 46, 46);
   
   }
-  .truncatedRichText {
-    color: white;
+  .todo-list li .toggle:after, input.toggleTask:after{
+    color: #000;
+    border: 1px solid #000000;
+  }
+  .circularButtonView{
+    border: 1px solid #000000;
   }
   .BlockStory-block.commentbox::before {
     border-top-color: #0b494975;
-  }
-  .pull-right {
-    color: white;
-  }
-  .autogrow-textarea textarea, .autogrow-textarea [contenteditable="true"] {
-    color: white;
   }
   .fa-5x, .text.gridPaneSearchEmptyView-noProjectItemsTitleText, .text.gridPaneSearchEmptyView-noProjectItemsText {
     color: aliceblue;
@@ -175,12 +141,9 @@ html, body {
   .privacySummaryDropdownLeftIcon {
       fill: white;
   }
-.card {
-    background: transparent;
-}
-.ql-editor, .CodeMirror-scroll {
-    color: white;
-}
+  .card {
+      background: transparent;
+  }
 .vw-widget,.vw-widget-heading, .ui.blue.table, .ui.table thead th {
   background: transparent;
 }

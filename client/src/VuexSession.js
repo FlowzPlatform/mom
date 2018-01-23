@@ -242,6 +242,9 @@ export const store = new Vuex.Store({
         state.todolist = data
       }
     },
+    toShowTask(state, payload){
+      console.log("payload", payload)
+    },
     SHOW_DIV(state, payload) {
 
       // Clear history log, attachment, tags
@@ -957,14 +960,12 @@ export const store = new Vuex.Store({
         Vue.set(store.state.userRoles, roleIndex, role)
     },
     GET_PARENT_TODO(state , todo) {
-      console.log(todo)
       state.parentTasks.push(todo[0])
     }
   },
   actions: {
     getUsersRoles({ commit }) {
       services.roleService.find().then(response => {
-        console.log("Role list->>", response)
         commit('GET_ROLES', response)
       });
     },
@@ -1990,7 +1991,6 @@ export const store = new Vuex.Store({
     },
     getTypeState({ commit }, payload) {
       services.taskTypeStateService.find({ query: { type_id: payload } }).then(response => {
-        console.log("GET_TYPE_STATE log type_state", response)
         commit("GET_TYPE_STATE", response)
       })
     },

@@ -5,6 +5,9 @@
 		<div id="split-container" class="main-split-container" style="height: calc(100vh - 60px);">
 			<div id="left_container" class="scrollbar split split-horizontal">
 				<div id="center_pane">
+						<div v-if="$store.state.deleteItemsSelected" id="project_title" class="project-title read-only">
+							<div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName" style="float: left;">Deleted Tasks</div>
+						</div>
 					<div v-show="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
 						<left-toolbar v-if="!isCopyLink && !$store.state.deleteItemsSelected" :filters="filters">
 						</left-toolbar>

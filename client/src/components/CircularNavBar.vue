@@ -435,6 +435,7 @@
         this.$store.state.projectSettingId = "";
       },
       showRoleAccess() {
+        this.$store.state.deleteItemsSelected = false
         this.isRoleAccess = true
         this.isMyTask = false
         this.isSearchMenu = false

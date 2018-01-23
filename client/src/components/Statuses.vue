@@ -21,7 +21,7 @@
         </div>
         <div v-if="id === 'rightTaskState'">
             <div class="control-group">
-                <label for="input-color">Color:</label>
+                <label for="input-color" class="setlable">Color:</label>
                 <!-- <input type="color" id="bgcolor" v-model="filteredTodo.color" value="#0000" @change="getColorVal($event.target.value)" style="height:25px; width:25px;"
                 /> -->
                 <el-color-picker v-model="filteredTodo.color"  @change="getColorVal"></el-color-picker>
