@@ -26,7 +26,6 @@ Vue.config.warnHandler = function (msg, vm, trace) {
 import { store } from './VuexSession'
 import config from '../config/customConfig'
 
-
 new Vue({
   el: '#app',
   //render: h => h(App),

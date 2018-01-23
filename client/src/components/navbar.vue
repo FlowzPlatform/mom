@@ -1,5 +1,12 @@
 <template lang="html">
   <div>
+    <div v-if="showProjectLoading" :value="getTodoListSize" style="margin-top: 50vh;height: 100vh">
+      <img class="project-loading" src="../assets/activity.svg" style="margin-left: 10px; width:80px; height:100px;"/>
+      <p style="margin-left:20px;color:gray">Populating projects...</p>
+      <span style="margin-left:-170px;position: absolute;bottom:10px">
+        <img src="../assets/ob_logo.svg"></img>
+      </span>
+    </div>  
     <div>
       <div data-reactroot="" id="top-bar" class="Topbar">
         <div class="PageHeaderStructure-center" @mouseenter="hidePopup">
@@ -139,7 +146,9 @@
                     <span class="upl-img">
                       <ui-progress-circular color="black" type="indeterminate" v-show="loading" class="circularProgress">
                       </ui-progress-circular>
-                      <img v-bind:src="imageURlProfilePic" />
+                      <!-- <img v-bind:src="imageURlProfilePic" /> -->
+                      <avatar v-if="imageURlProfilePic" :username="imageURlProfilePic" :size="70" :src="imageURlProfilePic"></avatar>
+                      <avatar v-else :username="$store.state.userObject.email" color='#fff' :size="70"></avatar>
                     </span>
                   </div>
                   <span class="pro-part">
@@ -198,7 +207,7 @@
         </div>
       </div>
       <div id="overlay" v-show="allowedProjectPermission" >
-        <span id="text-overlay">Owner changed project privacy.</span>
+        <span id="text-overlay">{{$store.state.currentprojectPermisionRevokedMessage}}</span>
         <button id="f" > </button>
       </div>
     </div>
@@ -246,7 +255,8 @@
         showPrivateCheck: false,
         showPrivateMember: false,
         showPublic: false,
-        pName: '' // Project Name 
+        pName: '', // Project Name 
+        showProjectLoading:true
       }
     },
     created() {
@@ -279,6 +289,13 @@
           this.pName = value;
         }
       },
+      getTodoListSize(){
+        if(this.$store.state.arrAllUsers.length > 0){
+          this.showProjectLoading = false
+        }else{
+          this.showProjectLoading = true
+        }
+      }
     },
     methods: {
       ...mapMutations([
@@ -370,10 +387,7 @@
                 image_name: file.name
               })
                 .then(function () {
-                  self.$store.state.userObject.image_url = self.imageURlProfilePic
-                  self.$store.state.userObject.image_name = file.name
-                  self.$store.commit('userData')
-                  self.loading = false
+                  self.updateUserProfileVuex()
                 })
                 .catch(function (error) {
                   // $.notify.defaults({ className: "error" })
@@ -385,6 +399,7 @@
         return false;
       },
       onFileChange() {
+        
         this.loading = true;
         let self = this;
         var bucket = new AWS.S3({ params: { Bucket: 'airflowbucket1/obexpense/expenses' } });
@@ -399,11 +414,7 @@
               image_name: file.name
             })
               .then(function () {
-                self.imageURlProfilePic = data.Location
-                self.$store.state.userObject.image_url = self.imageURlProfilePic
-                self.$store.state.userObject.image_name = file.name
-                self.$store.commit('userData')
-                self.loading = false
+                self.updateUserProfileVuex(data)
               })
               .catch(function (error) {
                 // $.notify.defaults({ className: "error" })
@@ -430,11 +441,7 @@
               image_name: ''
             })
               .then(function () {
-                self.imageURlProfilePic = data.Location
-                self.$store.state.userObject.image_url = self.imageURlProfilePic
-                self.$store.state.userObject.image_name = ''
-                self.$store.commit('userData')
-                self.loading = false
+                self.updateUserProfileVuex(data)
               })
               .catch(function (error) {
                 // $.notify.defaults({ className: "error" })
@@ -445,6 +452,24 @@
             console.log("Check if you have sufficient permissions : ", err.stack);
           }
         });
+      },
+      updateUserProfileVuex (userDetail) {
+        if(userDetail != null){
+          this.imageURlProfilePic = userDetail.Location
+        }
+        this.$store.state.userObject.image_url = this.imageURlProfilePic
+        this.$store.state.userObject.image_name = ''
+        this.$store.commit('userData')
+        this.loading = false
+
+        let self = this
+        let userIndex = _.findIndex(self.$store.state.arrAllUsers, function (m) { return m._id === self.$store.state.userObject._id })
+        console.log('user index:', userIndex)
+        if(userIndex > -1){
+          Vue.set(self.$store.state.arrAllUsers[userIndex],'image_url',self.imageURlProfilePic)
+          // self.$store.state.arrAllUsers[userIndex].image_url = self.imageURlProfilePic
+        }
+
       },
       enableUpdateProfileBtn() {
         if (this.username) {
@@ -599,12 +624,16 @@
     cursor: pointer; /* Add a pointer on hover */
 }
 #text-overlay{
+    width: 100%;
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
     font-size: 40px;
     color: white;
     transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
+}
+.project-loading{
+  filter: invert(.5) sepia(1) saturate(5) hue-rotate(175deg);
 }
 </style>

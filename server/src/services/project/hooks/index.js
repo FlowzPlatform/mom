@@ -29,7 +29,7 @@ exports.before = {
         return {
           'members': r.table('projectmember')
             .filter({ 'project_id': projectid('id'),'is_deleted':false})
-            .coerceTo('array').pluck('user_id')
+            .coerceTo('array').orderBy('invited_date')
         }
       }
       ).orderBy('created_at')

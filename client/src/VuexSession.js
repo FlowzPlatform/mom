@@ -120,9 +120,9 @@ function findPinnedIndex(element) {
 
 function findShowProject(project) {
   console.log("Element:--", project)
-  let memberIndex = _.findIndex(project.members, function (d) { return d.user_id == store.state.userObject._id })
-  return (project.project_privacy == 0 || (project.project_privacy == 1 && memberIndex > -1) || (project.project_privacy == 2 && project.create_by === store.state.userObject._id))
-  //  return element.isPinned !== undefined && element.isPinned === true;
+  let memberIndex=_.findIndex(project.members, function (d) { return d.user_id == store.state.userObject._id })
+  return (project.project_privacy==0 || (project.project_privacy==1 && memberIndex>-1) || (project.project_privacy==2 && project.create_by===store.state.userObject._id)) && !project.is_deleted
+    //  return element.isPinned !== undefined && element.isPinned === true;
 }
 // function scrollToLeft() {
 //   var children = document.getElementById('main-container').children;
@@ -192,6 +192,7 @@ export const store = new Vuex.Store({
     isNoProjectShow: false,
     currentprojectPermisionRevoked: false,
     parentTasks: [],
+    currentprojectPermisionRevokedMessage:''
   },
   mutations: {
     userData: state => state.userObject,
@@ -391,7 +392,7 @@ export const store = new Vuex.Store({
       state.currentProjectMember = ''
       state.c = {}
       state.projectSettingMenuOffset = 0
-      state.createdByTaskList.length = 0
+      state.createdByTaskList.length = 0      
       state.recentlyCompletedTasks.length = 0
       state.searchView = ''
       state.assignedToOthers.length = 0,
@@ -442,6 +443,7 @@ export const store = new Vuex.Store({
 
           if (item.type_id)
             Vue.set(state.todolist[updateTodoIndex], 'type_id', item.type_id)
+            
           if (item.type_id) {
             Vue.set(state.accessRight, 0, {})
             // state.accessRight.task_type = item.type_id;
@@ -699,7 +701,7 @@ export const store = new Vuex.Store({
     GET_ALL_USERS(state, objAllUsers) {
       _.forEach(objAllUsers, function (object) {
         let index = _.findIndex(state.arrAllUsers, function (d) { return d._id == object._id })
-        if (index < 0) {
+        if (index < 0  && CmnFunc.checkValidEmail(object.email)) {
           state.arrAllUsers.push(object)
         }
       });
@@ -710,12 +712,18 @@ export const store = new Vuex.Store({
     updateProjectList(state, value) {
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
       if (updateProjectIndex >= 0) {
-        console.log("state.currentProject.id-->", state.currentProject.id === value.id)
-        if (state.currentProject.id === value.id && state.projectlist[updateProjectIndex].create_by !== state.userObject._id && state.projectlist[updateProjectIndex].project_privacy !== value.project_privacy) {
-          if (value.project_privacy == 0 || value.project_privacy == 1) {
-            state.currentprojectPermisionRevoked = false;
-          } else if (value.project_privacy == 2) {
-            state.currentprojectPermisionRevoked = true;
+        console.log("state.currentProject.id-->",state.currentProject.id === value.id)
+        if(state.currentProject.id === value.id && state.projectlist[updateProjectIndex].create_by!==state.userObject._id && state.projectlist[updateProjectIndex].project_privacy!==value.project_privacy)
+        {
+          if(value.project_privacy==0)
+          {
+            state.currentprojectPermisionRevoked=false;
+          }if(value.project_privacy==1){
+            state.currentprojectPermisionRevoked=false;
+          }else if(value.project_privacy==2)
+          {
+            state.currentprojectPermisionRevokedMessage = "Owner changed project privacy."
+            state.currentprojectPermisionRevoked=true;
           }
         } else {
           console.log("Else revocekd")
@@ -763,25 +771,32 @@ export const store = new Vuex.Store({
       if (updateProjectIndex >= 0) {
         state.projectlist[updateProjectIndex].is_deleted = value.is_deleted;
         state.projectlist.splice(updateProjectIndex, 0)
-        console.log("updateDeletedProjectList inside:", value);
-        if (value.is_deleted && state.projectlist && state.projectlist.length > 1) {
-          state.isNoProjectShow = false;
-        } else {
-          state.isNoProjectShow = true;
-        }
+        
       }
-
-
-
       if (value.is_deleted) {
         console.log("updateDeletedProjectList inside delete:", value);
-        state.todolist = []
+        state.todolist.length = 0
         state.currentProjectId = ""
         state.currentProjectName = ""
         state.currentProjectPrivacy = ''
         state.currentTodoObj = ''
         state.currentProject = ''
-        state.userRoles = ''
+        state.userRoles.length=0
+
+        setTimeout(() => {
+          let showProjectIndex=state.projectlist.findIndex(findShowProject)
+          if(showProjectIndex>-1){
+              state.currentProject = state.projectlist[showProjectIndex];
+              state.currentProjectId = state.projectlist[showProjectIndex].id
+              state.currentProjectName = state.projectlist[showProjectIndex].project_name
+              state.currentProjectPrivacy = state.projectlist[showProjectIndex].project_privacy
+              store.dispatch('getAllTodos', { 'parentId': "", project_id: state.currentProjectId });  
+              state.isNoProjectShow = false;
+          }else{
+            state.isNoProjectShow = true;
+          }
+        }, 1000);
+        
       }
 
 
@@ -790,7 +805,7 @@ export const store = new Vuex.Store({
     * Update current project member list
     */
     updateProjectMember(state, value) {
-      console.log("updateProjectMember()")
+      console.log("updateProjectMember()",value)
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.project_id })
       if (updateProjectIndex >= 0) {
 
@@ -800,6 +815,13 @@ export const store = new Vuex.Store({
 
         if (memberIndex > -1) {
           Vue.delete(tempProject.members, memberIndex)
+          if(value.project_id===state.currentProjectId && value.create_by!==state.userObject._id)
+          {
+            state.currentprojectPermisionRevokedMessage = "You are not a member of current project."
+            state.currentprojectPermisionRevoked=true;
+          }
+          if(value.user_id===state.userObject._id)
+            Vue.delete( state.projectlist,updateProjectIndex);
         }
       }
     },
@@ -852,7 +874,7 @@ export const store = new Vuex.Store({
       state.assignedToOthers = payload
     },
     ASSIGN_PROJECT_MEMBER(state, assignMember) {
-      console.log("Assign Member:--", )
+      console.log("Assign Member:--",  assignMember )
       let index = _.findIndex(state.projectlist, function (d) { return d.id == assignMember.project_id })
       if (index > -1) {
         if (!state.projectlist[index].members)
@@ -863,6 +885,11 @@ export const store = new Vuex.Store({
             state.projectlist[index].members.push({ user_id: assignMember.user_id })
           } else {
             state.projectlist[index].members.push({ user_id: assignMember.user_id, url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name, email: state.arrAllUsers[userIndex].email, user_role_id: assignMember.user_role_id, is_deleted: false, id: assignMember.id })
+          }
+
+          if(assignMember.project_id===state.currentProjectId)
+          {
+            state.currentprojectPermisionRevoked=false;
           }
 
         }, 2000);
@@ -890,8 +917,16 @@ export const store = new Vuex.Store({
           //       console.log("state.projectlist[index]", state.projectlist[index]);
           //  }, this);
 
-          state.projectlist.push(project);
+          // state.projectlist.push(project);
+          Vue.set(state.projectlist,state.projectlist.length,project)
           state.isNoProjectShow = false;
+          // state.currentprojectPermisionRevoked=false
+
+          if(assignMember.project_id===state.currentProjectId)
+          {
+            state.currentprojectPermisionRevoked=false;
+          }
+
 
         })
       }
@@ -983,6 +1018,8 @@ export const store = new Vuex.Store({
       services.projectService.removeListener('patched')
       services.projectService.removeListener('removed')
       services.projectMemberService.removeListener('created')
+      services.projectMemberService.removeListener('removed')
+      services.projectMemberService.removeListener('patched')
       services.projectService.removeListener('created')
       services.roleService.removeListener('removed')
       services.roleService.removeListener('created')
@@ -1066,6 +1103,10 @@ export const store = new Vuex.Store({
         //  console.log("ASSIGN_PROJECT_MEMBER:-->", message)
         commit('ASSIGN_PROJECT_MEMBER', message)
       })
+      services.projectMemberService.on('removed', message => {
+         console.log("Remove_PROJECT_MEMBER:-->", message)
+        commit('updateProjectMember', message)
+      })
 
       services.projectService.on('created', message => {
         message.members = []
@@ -1095,13 +1136,9 @@ export const store = new Vuex.Store({
       })
       services.projectMemberService.on('patched', message => {
         console.log("projectMemberService updated:-->", message)
-        if (message.is_deleted === true) {
-          services.projectMemberService.get(message.id).then(value => {
-            commit('updateProjectMember', value)
-          })
-        } else {
+        
           commit('updateProjectServiceRoleList', message)
-        }
+        
 
       })
       // Project delete custom patch call
@@ -2100,11 +2137,8 @@ export const store = new Vuex.Store({
      */
     deleteProjectMember({ commit }) {
       var member = store.state.removeMember;
-      services.projectMemberService.patch(member.id, {
-        is_deleted: true,
-        deletedBy: store.state.userObject._id
-      }).then(response => {
-
+      services.projectMemberService.remove(member.id).then(response => {
+          console.log("Removed Member:--",response)
       });
     },
     roleCheckChange({ commit }, role) {

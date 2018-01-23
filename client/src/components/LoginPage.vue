@@ -77,7 +77,10 @@
                                 </div>
                                 <div style="padding-top:  20px;">
                                     <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="forgotEmailId">
-                                    <div tabindex="3" class="btn" id="login_btn" @click="btnForgotSubmit()" @keyup.enter="btnForgotSubmit()">Submit</div>
+                                    <div tabindex="3" class="btn" id="login_btn" @click="btnForgotSubmit()" @keyup.enter="btnForgotSubmit()">Submit
+                                        <img v-show="showSubmitLoad" src="../assets/activity.svg" style="margin-left: 10px; width:25px; height:25px;"/>
+                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -146,7 +149,8 @@
                 isForgotPasswordShow: false,
                 forgotEmailId: '',
                 loginWithGoogle: config.loginWithGoogle,
-                googleSuccessCallbackUrl: config.googleSuccessCallbackUrl
+                googleSuccessCallbackUrl: config.googleSuccessCallbackUrl,
+                showSubmitLoad:false
             }
         },
         mounted() {
@@ -210,12 +214,13 @@
                 {
                     var url_string = window.location.href;
                     var url = new URL(url_string);
-                    axios.post( "http://172.16.61.101:3001/api/forgetpassword" , {
+                    this.showSubmitLoad=true;
+                    axios.post( config.forgotpassword , {
                         email: self.forgotEmailId.trim(),
                         url: url.origin+"/resetpassword"
                     })
                     .then(function (response) {
-                        
+                        self.showSubmitLoad=false;
                         console.log(response)
                         if(response.data.code == 200){
                             // self.$message.success(response.data.message);
@@ -227,8 +232,7 @@
                         }
                     })
                     .catch(function (error) {
-                        // self.forgotEmailId = ""
-                        console.log("error-->",error)
+                        self.showSubmitLoad=false;
                         self.$Notice.error({
                                 title: "Message",
                                 desc:"email  is incorrect"

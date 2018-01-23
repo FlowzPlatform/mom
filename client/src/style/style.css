@@ -976,7 +976,16 @@ input[type="file"].hidden-file-input {
     top: 257px !important;
     width: 250px;
     margin: 0 auto 0 47.8%;}
-.upl-img {height: 70px; width: 70px; background-color: #ccc; border-radius: 50%; position: relative; display: inline-block; overflow: hidden; border: solid 2px #ccc;}
+.upl-img {
+    height: 70px; 
+    width: 70px; 
+    /* background-color: #ccc;  */
+    border-radius: 50%; 
+    position: relative; 
+    display: inline-block; 
+    overflow: hidden; 
+    /* border: solid 2px #ccc; */
+}
 .upl-img img {max-width: 100%; max-height: 100%; }
 .img-part {display: inline-block; width: 150px; vertical-align: top;text-align: right;
     padding-right: 20px;}
