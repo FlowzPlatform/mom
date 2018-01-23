@@ -53,7 +53,7 @@
                                 </div>
                                 <!-- Due date -->
                                 <div class="history-label" v-show="log.log_action===9">
-                                     changed the due date to {{formateDate(log.text)}}.
+                                    {{formateDate(log.text)}}.
                                 </div>
                                 <!-- Task description -->
                                 <div class="history-label" v-show="log.log_action===10">
@@ -83,13 +83,23 @@
                                  <div class="history-label AddedAttachmentStory-body" v-if="log.log_action===16">
                                     remove attachment <div>{{log.text}}</div>
                                 </div>
-                                <!-- Attchment upload log -->
+                                <!-- Attachment upload log -->
                                 <div class="history-label AddedAttachmentStory-body" v-else-if="log.log_action===3">
                                     <a class="AddedAttachmentStory-link" :href="getAttachment(log.text).file_url" target="_blank" tabindex="-1"><div>{{getAttachment(log.text).file_name}}</div></a>
                                 </div>
                                 <!-- Task type -->
                                 <div class="history-label AddedAttachmentStory-body" v-if="log.log_action===17">task type changed to <span>{{getTaskType(log.text)}}</span>
                                 </div>
+                                <!-- Task state -->
+                                <div class="history-label AddedAttachmentStory-body" v-if="log.log_action===18">task state changed to <span>{{getTaskState(log.text)}}</span>
+                                </div>
+                                <!-- Estimated hour -->
+                                <div class="history-label AddedAttachmentStory-body" v-if="log.log_action===7">task estimated hour changed to <span>{{log.text}}</span>
+                                </div>
+                                <!-- Task priority -->
+                                <div class="history-label AddedAttachmentStory-body" v-if="log.log_action===6">task priority changed to <span>{{log.text}}</span>
+                                </div>
+                                
                             </div>
                             
                         </div>
@@ -99,6 +109,7 @@
                     <path d="M4.686,12.686l9.899,9.9c0.781,0.781,2.047,0.781,2.828,0l9.9-9.9l-2.475-2.475L16,19.05l-8.839-8.839L4.686,12.686z"></path>
                 </svg>
             </div>
+            <hr class="histroy-row-divider">
         </div>
     </section>
 </template>
@@ -146,7 +157,11 @@ export default {
             return moment(logDate).calendar()
         },
         formateDate(dateTo){
-            return  moment(dateTo).format('ll')
+            if(dateTo){
+                return "changed the due date to "+ moment(dateTo).format('ll')
+            }else{
+                return "removed due date"
+            }
         },
         /**
          * Add user detail into history log
@@ -227,9 +242,26 @@ export default {
                 return type
             }
             else
-                return ""
+                return ''
+           
+        },
+        /**
+        * Get task state 
+        * @augments get state id 
+        */
+        getTaskState(id){
+            let index = _.findIndex(this.$store.state.task_state_list, function(d) { return d.id == id })
+            if (index > -1) {
+                let   taskState = this.$store.state.task_state_list[index].taskState
+                return taskState
+            }
+            else if(id){
+                return 'completed'
+            }else{
+                return 'incomplete'
+            }
+           
         }
-
 
     },
     components: {
@@ -240,5 +272,14 @@ export default {
 <style>
 .comment-view img{
     width: 90%;
+}
+hr.histroy-row-divider{
+    display: block;
+    border: 0;
+    border-top: 1px solid #e6e6e6;
+    margin-top:0;
+    margin-bottom:0;
+    margin-left: 35px;
+    margin-right: 35px;
 }
 </style>

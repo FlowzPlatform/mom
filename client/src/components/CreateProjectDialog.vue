@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" tabindex="-1" role="dialog" id="createProject" aria-hidden="true" style="position: absolute;">
+    <div class="modal fade" tabindex="-1" role="dialog" id="createProject" aria-hidden="true" >
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -83,8 +83,8 @@
                         </div>
                     </div>
                 <div class="modal-footer">
-                    <button type="submit" id="save" class="btn btn-primary" @click="savePost">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="save" class="btn btn-primary setFooterColor" @click="savePost">Save changes</button>
+                    <button type="button" class="btn btn-secondary setFooterColor" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -119,8 +119,7 @@
                         user_email: this.$store.state.userObject.email,
                         invited_date: new Date(),
                         is_deleted: false,
-                        // user_role_id:this.getOwernerId()
-                        user_role_id: this.$store.state.userObject._id
+                        user_role_id:this.getOwernerId()
                     }
                     this.$store.dispatch('insertProjectInvite', insertInvite)
                     this.projectName = ''
@@ -130,7 +129,8 @@
                     this.$store.state.currentProjectName = response.project_name
                     this.$store.state.todolist.length = 0
                     this.$store.state.parentIdArr.splice(0, this.$store.state.parentIdArr.length)
-                } else {
+                    $('#createProject').modal('hide');
+               } else {
                     this.createProjectError = response.error;
                 }
             },
@@ -157,7 +157,7 @@
                     callback: this.projectResponse
                 }
                 this.$store.dispatch('insertProject', request)
-                $('#createProject').modal('hide');
+              
             }
         }
     }

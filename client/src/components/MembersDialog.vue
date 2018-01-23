@@ -54,7 +54,7 @@
                                                                 <div class="external-label">
                                                                     <a :id="'role-selection-'+member.user_id"  @click="showRoleDialog(member)" tabindex="-1" class="dropdown-menu-link  floatingSelectView-anchor workspaceGuestnessSelect manageMembers-workspaceGuestnessSelect">
                                                                         <span class="floatingSelectView-label">{{showRoleName(member)}}
-                                                                            <svg v-show="showRoleName(member) !== 'Owner' " class="svgIcon  svgIcon-dropdownarrow " viewBox="0 0 32 32" title="dropdownarrow">
+                                                                            <svg v-show="showRoleName(member) !== 'Owner' && $store.state.userObject._id == $store.state.currentProject.create_by " class="svgIcon  svgIcon-dropdownarrow " viewBox="0 0 32 32" title="dropdownarrow">
                                                                                 <path d="M4.686,12.686l9.899,9.9c0.781,0.781,2.047,0.781,2.828,0l9.9-9.9l-2.475-2.475L16,19.05l-8.839-8.839L4.686,12.686z"></path>
                                                                             </svg>
                                                                         </span>
@@ -62,8 +62,8 @@
                                                                 </div>
                                                             </td>
                                                             <td>
-                                                                <a class="manageMembers-removeLink" v-show="showRoleName(member) !== 'Owner' " @click="removeProjectMember(member)">Remove</a>
-                                                                <a class="hidden manageMembers-removeLink" @click="removeProjectMember(member)">Cancel Invite</a>
+                                                                <a class="manageMembers-removeLink" v-show="(showRoleName(member) !== 'Owner' && $store.state.userObject._id == $store.state.currentProject.create_by) || (showRoleName(member) !== 'Owner' && $store.state.userObject._id == member.user_id)" @click="removeProjectMember(member)">Remove</a>
+                                                                <!-- <a class="manageMembers-removeLink" v-if="$store.state.userObject._id == $store.state.currentProject.create_by" @click="removeProjectMember(member)">Cancel Invite</a> -->
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -158,7 +158,7 @@ export default {
         **/
         showRoleDialog(member){
             // If member is owner then do no show dialog
-            if(member.roleName !== 'Owner'){
+            if(member.roleName !== 'Owner'  && $store.state.userObject._id == $store.state.currentProject.create_by){
                 this.memberItem = member;
                 this.userId = member.user_id;
                 this.selectedRole = member.roleName;
@@ -192,10 +192,10 @@ export default {
             $("#remove-member-dialog").removeClass("hidden");
         },
         showRoleName(member){
-            var user =  _.find(this.$store.state.currentProjectMember, ['user_id', member.user_id])
-            if(user && user.roleName === ''){
-                 user.roleName = "Owner"
-            }
+            // var user =  _.find(this.$store.state.currentProjectMember, ['user_id', member.user_id])
+            // if(user && user.roleName === ''){
+            //      user.roleName = "Owner"
+            // }
             return member.roleName;
         },
         roleId(role){

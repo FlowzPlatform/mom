@@ -62,7 +62,7 @@ export default {
     const deletevalue = [1, 3, 5, 7, 9, 11, 13, 15]
     return deletevalue.includes(accessValue)
   },
-  checkActionPermision:async function(context,taskTypeId,userAction,permisisonAction)
+  checkActionPermision:async function(context,taskTypeId,userAction,permisisonAction,createdBy)
   {
     var self = context;
     let selfRoleId = await this.getSelfRoleId(context);
@@ -97,16 +97,17 @@ export default {
           else
             return this.isDeletePermision(accessValue);
         }else{
-          return this.isCreatedByLoginUser(context);  
+          return this.isCreatedByLoginUser(context,createdBy);  
         }
       }
       else{
-        return this.isCreatedByLoginUser(context);
+        return this.isCreatedByLoginUser(context,createdBy);
       }
   },
-  isCreatedByLoginUser:function(context)
+  isCreatedByLoginUser:function(context,createdBy)
   {
-      return context.$store.state.currentProject.create_by === context.$store.state.userObject._id
+
+      return context.$store.state.currentProject.create_by === context.$store.state.userObject._id || (createdBy && context.$store.state.userObject._id==createdBy)
   },
   callRoleAccessService:function(taskTypeId,selfRoleId)
   {
@@ -137,7 +138,7 @@ export default {
   insertHistoryLog:function(context,createdBy,text,taskId,logAction)
   {
     services.taskHistoryLogs.create({created_by:createdBy,text:text,task_id:taskId,log_action:logAction,created_on:new Date()}).then(response=> {
-      console.log("insertHistoryLog update:--->",response)
+      console.log("insertHistoryLog create:--->",response)
       // console.log("Context: --->",context)
       // if(logAction != 0){
       //   context.state.taskHistoryLog.unshift(response)

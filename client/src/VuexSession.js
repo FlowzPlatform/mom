@@ -115,8 +115,14 @@ function updateObject(oldObject, newObject) {
 }
 
 function findPinnedIndex(element) {
-  console.log("Element:--", element)
   return element.isPinned !== undefined && element.isPinned === true;
+}
+
+function findShowProject(project) {
+  console.log("Element:--", project)
+  let memberIndex=_.findIndex(project.members, function (d) { return d.user_id == store.state.userObject._id })
+  return (project.project_privacy==0 || (project.project_privacy==1 && memberIndex>-1) || (project.project_privacy==2 && project.create_by===store.state.userObject._id)) && !project.is_deleted
+    //  return element.isPinned !== undefined && element.isPinned === true;
 }
 // function scrollToLeft() {
 //   var children = document.getElementById('main-container').children;
@@ -184,6 +190,9 @@ export const store = new Vuex.Store({
     deleteFileName: '',
     splitWidthArr: [],
     isNoProjectShow: false,
+    currentprojectPermisionRevoked: false,
+    parentTasks: [],
+    currentprojectPermisionRevokedMessage:''
   },
   mutations: {
     userData: state => state.userObject,
@@ -234,6 +243,9 @@ export const store = new Vuex.Store({
         state.todolist = data
       }
     },
+    toShowTask(state, payload){
+      console.log("payload", payload)
+    },
     SHOW_DIV(state, payload) {
 
       // Clear history log, attachment, tags
@@ -264,6 +276,8 @@ export const store = new Vuex.Store({
         // await store.dispatch('getAllTaskTags', payload.id);
         // await store.dispatch('getTaskComment', payload.id)
         store.dispatch('getTypeState', payload.id)
+        store.dispatch("getParentTask", payload)
+        state.parentTasks.splice(0, state.parentTasks.length)
         // await store.dispatch('getHistoryFromDB', payload.id)
         var parentIdArrObj = payload
         var tempParentIds = _.chain([]).union(state.parentIdArr).sortBy([function (o) { return o.level; }]).value();
@@ -342,6 +356,7 @@ export const store = new Vuex.Store({
       state.currentProjectId = ""
       state.currentProjectName = ""
       state.currentProjectPrivacy = ''
+      state.parentTasks.splice(0, state.parentTasks.length)
 
     },
     CLEAR_PROJECT_DEFAULT(state) {
@@ -377,7 +392,7 @@ export const store = new Vuex.Store({
       state.currentProjectMember = ''
       state.c = {}
       state.projectSettingMenuOffset = 0
-      state.createdByTaskList.length = 0
+      state.createdByTaskList.length = 0      
       state.recentlyCompletedTasks.length = 0
       state.searchView = ''
       state.assignedToOthers.length = 0,
@@ -392,6 +407,7 @@ export const store = new Vuex.Store({
       state.taskHistoryLog.length = 0
       state.currentProjectCreatedBy = ''
       state.editedValue = ''
+      state.parentTasks.length = 0
     },
     changeFilters(state, key) {
       state.visibility = key
@@ -427,6 +443,7 @@ export const store = new Vuex.Store({
 
           if (item.type_id)
             Vue.set(state.todolist[updateTodoIndex], 'type_id', item.type_id)
+            
           if (item.type_id) {
             Vue.set(state.accessRight, 0, {})
             // state.accessRight.task_type = item.type_id;
@@ -684,7 +701,7 @@ export const store = new Vuex.Store({
     GET_ALL_USERS(state, objAllUsers) {
       _.forEach(objAllUsers, function (object) {
         let index = _.findIndex(state.arrAllUsers, function (d) { return d._id == object._id })
-        if (index < 0) {
+        if (index < 0  && CmnFunc.checkValidEmail(object.email)) {
           state.arrAllUsers.push(object)
         }
       });
@@ -695,11 +712,29 @@ export const store = new Vuex.Store({
     updateProjectList(state, value) {
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
       if (updateProjectIndex >= 0) {
+        console.log("state.currentProject.id-->",state.currentProject.id === value.id)
+        if(state.currentProject.id === value.id && state.projectlist[updateProjectIndex].create_by!==state.userObject._id && state.projectlist[updateProjectIndex].project_privacy!==value.project_privacy)
+        {
+          if(value.project_privacy==0)
+          {
+            state.currentprojectPermisionRevoked=false;
+          }if(value.project_privacy==1){
+            state.currentprojectPermisionRevoked=false;
+          }else if(value.project_privacy==2)
+          {
+            state.currentprojectPermisionRevokedMessage = "Owner changed project privacy."
+            state.currentprojectPermisionRevoked=true;
+          }
+        } else {
+          console.log("Else revocekd")
+        }
+
         state.projectlist[updateProjectIndex].project_privacy = value.project_privacy;
         state.projectlist[updateProjectIndex].project_name = value.project_name;
-        state.currentProjectId = value.id
-        state.currentProjectName = value.project_name
-        state.currentProjectPrivacy = value.project_privacy
+        if (state.currentProjectId === value.id) {
+          state.currentProjectName = value.project_name
+          state.currentProjectPrivacy = value.project_privacy
+        }
 
       }
 
@@ -736,32 +771,41 @@ export const store = new Vuex.Store({
       if (updateProjectIndex >= 0) {
         state.projectlist[updateProjectIndex].is_deleted = value.is_deleted;
         state.projectlist.splice(updateProjectIndex, 0)
-        console.log("updateDeletedProjectList inside:", value);
+        
       }
-
       if (value.is_deleted) {
         console.log("updateDeletedProjectList inside delete:", value);
-        state.todolist = []
+        state.todolist.length = 0
         state.currentProjectId = ""
         state.currentProjectName = ""
         state.currentProjectPrivacy = ''
         state.currentTodoObj = ''
         state.currentProject = ''
-        state.userRoles = ''
+        state.userRoles.length=0
+
+        setTimeout(() => {
+          let showProjectIndex=state.projectlist.findIndex(findShowProject)
+          if(showProjectIndex>-1){
+              state.currentProject = state.projectlist[showProjectIndex];
+              state.currentProjectId = state.projectlist[showProjectIndex].id
+              state.currentProjectName = state.projectlist[showProjectIndex].project_name
+              state.currentProjectPrivacy = state.projectlist[showProjectIndex].project_privacy
+              store.dispatch('getAllTodos', { 'parentId': "", project_id: state.currentProjectId });  
+              state.isNoProjectShow = false;
+          }else{
+            state.isNoProjectShow = true;
+          }
+        }, 1000);
+        
       }
 
-      if (!state.projectlist && state.projectlist.length > 0) {
-        state.isNoProjectShow = false;
-      } else {
-        state.isNoProjectShow = true;
-      }
 
     },
     /**
     * Update current project member list
     */
     updateProjectMember(state, value) {
-      console.log("updateProjectMember()")
+      console.log("updateProjectMember()",value)
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.project_id })
       if (updateProjectIndex >= 0) {
 
@@ -771,6 +815,13 @@ export const store = new Vuex.Store({
 
         if (memberIndex > -1) {
           Vue.delete(tempProject.members, memberIndex)
+          if(value.project_id===state.currentProjectId && value.create_by!==state.userObject._id)
+          {
+            state.currentprojectPermisionRevokedMessage = "You are not a member of current project."
+            state.currentprojectPermisionRevoked=true;
+          }
+          if(value.user_id===state.userObject._id)
+            Vue.delete( state.projectlist,updateProjectIndex);
         }
       }
     },
@@ -790,8 +841,13 @@ export const store = new Vuex.Store({
       else
         state.isNoProjectShow = false;
       if (!state.currentProjectId && data.length > 0) {
-        state.currentProjectId = data[0].id
-        state.currentProjectName = data[0].project_name
+
+
+        let showProjectIndex = data.findIndex(findShowProject)
+        state.currentProject = data[showProjectIndex];
+        state.currentProjectId = data[showProjectIndex].id
+        state.currentProjectName = data[showProjectIndex].project_name
+        state.currentProjectPrivacy = data[showProjectIndex].project_privacy
         await store.dispatch('getAllTodos', { 'parentId': "", project_id: state.currentProjectId });
       }
     },
@@ -818,7 +874,7 @@ export const store = new Vuex.Store({
       state.assignedToOthers = payload
     },
     ASSIGN_PROJECT_MEMBER(state, assignMember) {
-      console.log("Assign Member:--", assignMember)
+      console.log("Assign Member:--",  assignMember )
       let index = _.findIndex(state.projectlist, function (d) { return d.id == assignMember.project_id })
       if (index > -1) {
         if (!state.projectlist[index].members)
@@ -829,6 +885,11 @@ export const store = new Vuex.Store({
             state.projectlist[index].members.push({ user_id: assignMember.user_id })
           } else {
             state.projectlist[index].members.push({ user_id: assignMember.user_id, url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name, email: state.arrAllUsers[userIndex].email, user_role_id: assignMember.user_role_id, is_deleted: false, id: assignMember.id })
+          }
+
+          if(assignMember.project_id===state.currentProjectId)
+          {
+            state.currentprojectPermisionRevoked=false;
           }
 
         }, 2000);
@@ -856,8 +917,16 @@ export const store = new Vuex.Store({
           //       console.log("state.projectlist[index]", state.projectlist[index]);
           //  }, this);
 
-          state.projectlist.push(project);
+          // state.projectlist.push(project);
+          Vue.set(state.projectlist,state.projectlist.length,project)
           state.isNoProjectShow = false;
+          // state.currentprojectPermisionRevoked=false
+
+          if(assignMember.project_id===state.currentProjectId)
+          {
+            state.currentprojectPermisionRevoked=false;
+          }
+
 
         })
       }
@@ -924,12 +993,14 @@ export const store = new Vuex.Store({
       let roleIndex = _.findIndex(state.userRoles, function (d) { return d.id == role.id })
       if (roleIndex > -1)
         Vue.set(store.state.userRoles, roleIndex, role)
+    },
+    GET_PARENT_TODO(state , todo) {
+      state.parentTasks.push(todo[0])
     }
   },
   actions: {
     getUsersRoles({ commit }) {
       services.roleService.find().then(response => {
-        console.log("Role list->>", response)
         commit('GET_ROLES', response)
       });
     },
@@ -947,6 +1018,8 @@ export const store = new Vuex.Store({
       services.projectService.removeListener('patched')
       services.projectService.removeListener('removed')
       services.projectMemberService.removeListener('created')
+      services.projectMemberService.removeListener('removed')
+      services.projectMemberService.removeListener('patched')
       services.projectService.removeListener('created')
       services.roleService.removeListener('removed')
       services.roleService.removeListener('created')
@@ -1030,6 +1103,10 @@ export const store = new Vuex.Store({
         //  console.log("ASSIGN_PROJECT_MEMBER:-->", message)
         commit('ASSIGN_PROJECT_MEMBER', message)
       })
+      services.projectMemberService.on('removed', message => {
+         console.log("Remove_PROJECT_MEMBER:-->", message)
+        commit('updateProjectMember', message)
+      })
 
       services.projectService.on('created', message => {
         message.members = []
@@ -1059,19 +1136,15 @@ export const store = new Vuex.Store({
       })
       services.projectMemberService.on('patched', message => {
         console.log("projectMemberService updated:-->", message)
-        if (message.is_deleted === true) {
-          services.projectMemberService.get(message.id).then(value => {
-            commit('updateProjectMember', value)
-          })
-        } else {
+        
           commit('updateProjectServiceRoleList', message)
-        }
+        
 
       })
       // Project delete custom patch call
-      services.projectService.on('deleteProject', message => {
-        commit('updateDeletedProjectList', message)
-      })
+      // services.projectService.on('deleteProject', message => {
+      //   commit('updateDeletedProjectList', message)
+      // })
 
       services.roleService.on("removed", message => {
         console.log("Role Delete Event:--", message)
@@ -1100,6 +1173,13 @@ export const store = new Vuex.Store({
       //     })
       // })  
 
+      // task type 
+      services.taskTypeStateService.on("created", message => {
+        commit('ADD_TASK_STATE', message)
+      })
+      services.taskTypeStateService.on("removed", message => {
+        commit('DELETE_TASK_STATE', message)
+      })
     },
     getAllTodos({ commit }, payload) {
       services.tasksService.find({
@@ -1128,7 +1208,7 @@ export const store = new Vuex.Store({
         });
       } else {
         let defafultTaskType = store.state.task_types_list.find(type => type.default_Type === 'Todo');
-        console.log("Insert new todo::---->", defafultTaskType);
+        console.log("insertTodo else::---->", defafultTaskType);
         // Insert new record
         services.tasksService.create({
           parentId: insertElement.parentId,
@@ -1233,6 +1313,9 @@ export const store = new Vuex.Store({
           updatedBy: store.state.userObject._id,
         }, { query: { 'id': dbId } }).then(response => {
           console.log("Response toggleTodo::", response);
+          // Insert history log
+          CmnFunc.insertHistoryLog(store, store.state.userObject._id, changeTodo.completed, response.id, Constant.HISTORY_LOG_ACTION.TASK_STATE)
+
         });
         // Vue.http.post('/updatetasks', {
         //   id: dbId,
@@ -1622,7 +1705,7 @@ export const store = new Vuex.Store({
     },
     userRegistrationProcess({ commit }, regObject) {
       // return axios.post(process.env.USER_AUTH + '/api/setup', {
-        return axios.post(config.user_auth + '/api/setup', {
+      return axios.post(config.user_auth + '/api/setup', {
         email: regObject.email,
         password: regObject.password,
         username: regObject.email,
@@ -1654,7 +1737,7 @@ export const store = new Vuex.Store({
       let apiUrl = (loginObj.userType == 1 ? "/api/login" : "/api/ldapauth");
       console.log("API url:", apiUrl)
       // return axios.post(process.env.USER_AUTH + apiUrl, {
-        return axios.post(config.user_auth + apiUrl, {
+      return axios.post(config.user_auth + apiUrl, {
         email: loginObj.email,
         password: loginObj.password
       }, {
@@ -1677,7 +1760,7 @@ export const store = new Vuex.Store({
     },
     socialAuthRegistration({ commit }, objSocialAuth) {
       // return axios.post(process.env.USER_AUTH + '/api/googleauthprocess', {
-        return axios.post(config.user_auth + '/api/googleauthprocess', {
+      return axios.post(config.user_auth + '/api/googleauthprocess', {
         email: objSocialAuth.email,
         aboutme: objSocialAuth.aboutme,
         id: store.state.googleId
@@ -1699,7 +1782,7 @@ export const store = new Vuex.Store({
     signInWithLDAP({ commit }, loginObj) {
       console.log("Login Object", loginObj);
       // return axios.post(process.env.USER_AUTH + '/api/ldapauth', {
-        return axios.post(config.user_auth + '/api/ldapauth', {
+      return axios.post(config.user_auth + '/api/ldapauth', {
         userid: loginObj.userid,
         passwd: loginObj.passwd
       }, {
@@ -1722,7 +1805,7 @@ export const store = new Vuex.Store({
       console.log('token: ', store.state.userToken)
       console.log('cookie token', Vue.cookie.get('auth_token'))
       // return axios.get(process.env.USER_AUTH + '/api/userdetails', {
-        return axios.get(config.user_auth + '/api/userdetails', {
+      return axios.get(config.user_auth + '/api/userdetails', {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
           // 'Authorization': store.state.userToken
@@ -1769,7 +1852,7 @@ export const store = new Vuex.Store({
     async getAllUsersList({ commit }, callback) {
       try {
         // let { data } = await axios.get(process.env.USER_DETAIL + '/alluserdetails', {
-          let { data } = await axios.get(config.user_detail + '/alluserdetails', {
+        let { data } = await axios.get(config.user_detail + '/alluserdetails', {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'Authorization': Vue.cookie.get('auth_token')
@@ -1801,7 +1884,7 @@ export const store = new Vuex.Store({
           $or: [
             { project_privacy: '0', is_deleted: false },
             { project_privacy: '1', is_deleted: false },
-            { project_privacy: '2', create_by: userId, is_deleted: false }
+            { project_privacy: '2', is_deleted: false }
           ],
           $client: {
             flag: 'allprojectlist'
@@ -1881,7 +1964,6 @@ export const store = new Vuex.Store({
           ]
         }
       }).then(response => {
-        console.log("Response To Find Created by User Tasks List:--", response)
         commit('showTasksList', response)
       });
     },
@@ -1946,7 +2028,6 @@ export const store = new Vuex.Store({
     },
     getTypeState({ commit }, payload) {
       services.taskTypeStateService.find({ query: { type_id: payload } }).then(response => {
-        console.log("GET_TYPE_STATE log type_state", response)
         commit("GET_TYPE_STATE", response)
       })
     },
@@ -1961,7 +2042,7 @@ export const store = new Vuex.Store({
           createdAt: new Date().toJSON()
         }).then(response => {
           console.log("State Selected for task type in DB:", response)
-          commit('ADD_TASK_STATE', response)
+          // commit('ADD_TASK_STATE', response)
         })
       }
     },
@@ -1971,7 +2052,7 @@ export const store = new Vuex.Store({
           query: { 'id': payload.id }
         }).then(response => {
           console.log("Delete From task type state in db:", response)
-          commit('DELETE_TASK_STATE', response)
+          // commit('DELETE_TASK_STATE', response)
         })
     },
     getTaskStaus({ commit }) {
@@ -2026,12 +2107,12 @@ export const store = new Vuex.Store({
       services.projectMemberService.patch(null, {
         user_role_id: data.roleId
       }, {
-        query: {
-          "project_id": data.projectId, "user_id": data.userId
-          , $client: {
-            flag: 'changeRole'
+          query: {
+            "project_id": data.projectId, "user_id": data.userId
+            , $client: {
+              flag: 'changeRole'
+            }
           }
-        }
         }).then(response => {
           // console.log("Response update project member:", response);
           //  commit('UPDATE_TODO', insertElement)
@@ -2056,11 +2137,8 @@ export const store = new Vuex.Store({
      */
     deleteProjectMember({ commit }) {
       var member = store.state.removeMember;
-      services.projectMemberService.patch(member.id, {
-        is_deleted: true,
-        deletedBy: store.state.userObject._id
-      }).then(response => {
-
+      services.projectMemberService.remove(member.id).then(response => {
+          console.log("Removed Member:--",response)
       });
     },
     roleCheckChange({ commit }, role) {
@@ -2227,8 +2305,22 @@ export const store = new Vuex.Store({
         tempIndex++;
 
       }, this);
+    },
+    getParentTask({ commit }, payload){
+      services.tasksService.find({
+        query:
+          { id: payload.parentId, project_id: payload.project_id }
+      }).then(response => {
+        if(response.length > 0) {
+          if(response[0].parentId !== ""){
+            store.dispatch("getParentTask", response[0])
+          } else {
+            console.log("getParentTask", response)
+          }
+        }
+        commit('GET_PARENT_TODO', response)
+      });
     }
-
   },
   getters: {
     // getTodoById: (state, getters) => {
@@ -2320,7 +2412,13 @@ export const store = new Vuex.Store({
     },
     getTaskStausList: state => state.task_state_list,
     getTask_types_state: state => state.task_types_state,
-    getIdArray: state => state.splitWidthArr
+    getIdArray: state => state.splitWidthArr,
+    getParent_Tasks: (state) => 
+    {
+      let list = state.parentTasks
+      // return list
+      return _.sortBy(list, 'level')
+    }
   },
 
   plugins: [createPersistedState()]

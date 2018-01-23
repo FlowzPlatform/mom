@@ -5,12 +5,15 @@
 		<div id="split-container" class="main-split-container" style="height: calc(100vh - 60px);">
 			<div id="left_container" class="scrollbar split split-horizontal">
 				<div id="center_pane">
+						<div v-if="$store.state.deleteItemsSelected" id="project_title" class="project-title read-only">
+							<div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName" style="float: left;">Deleted Tasks</div>
+						</div>
 					<div v-show="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
 						<left-toolbar v-if="!isCopyLink && !$store.state.deleteItemsSelected" :filters="filters">
 						</left-toolbar>
 						<main-left-section id="todoTask" :isCopyLink="isCopyLink" :todoObject="todoObjectById" :pholder="taskPholder" :filtered-todos="taskById"></main-left-section>
 					</div>
-					<div class="outer" v-show="isProjectAvailable">
+					<div class="outer" v-show="isProjectAvailable && !$store.state.deleteItemsSelected">
 						<div class="middle">
 							<div class="inner">
 								<div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems" >
@@ -89,7 +92,8 @@
 			}
 		},
 		created() {
-
+			
+this.$store.state.currentprojectPermisionRevoked = false
 			localStorage.setItem('split-sizes', JSON.stringify([50, 50]));
 			this.$store.dispatch('getSettings', this.$store.state.userObject._id);
 			this.$store.dispatch('removeAllEventListners');
@@ -107,7 +111,7 @@
 				this.$store.dispatch('getAllTaskTags', this.url_parentId);
 				this.$store.dispatch('getTaskComment', this.url_parentId)
 			}
-			this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
+			// this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
 			this.$store.commit('DELETE_ALLTAGS')
 			this.$store.dispatch('getTaskStaus')
 			this.$store.dispatch('getTaskTypes')
@@ -116,6 +120,7 @@
 			var projects = this.getProjectWiseTodo;
 			var projectId = this.$store.state.currentProjectId
 			if (!projectId && projects.length > 0) {
+				console.log("Set project id")
 				projectId = projects[0].id
 				this.$store.state.currentProjectId = projects[0].id
 				this.$store.state.currentProjectName = projects[0].project_name
@@ -124,13 +129,21 @@
 				this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '', project_id: projectId });
 
 			} else {
+				if(projects && projects.length>0){
+					console.log("Can't set projectc id--------------")
+				let projectIndex=_.findIndex(projects, function (d) { return d.id == projectId})
+				if(projectIndex>-1)
+					this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '', project_id: projectId });
+				else
+					this.$store.state.currentprojectPermisionRevoked = true
+				}
 				console.log("Can't set projectc id")
 			}
 			this.parentIdMethod();
 		},
 		watch: {
 			todolist: function (todo) {
-				//  console.log('test');
+				// console.log("log", todo)
 			},
 			parentIdList: function () {
 				let ids = ['#left_container'];
@@ -397,29 +410,32 @@
 	#main-container::-webkit-scrollbar-track,
 	#rightContainer::-webkit-scrollbar-track,
 	#left_type_container::-webkit-scrollbar-track,
-	#left_task_container::-webkit-scrollbar-track {
+	#left_task_container::-webkit-scrollbar-track,
+	#left_search_container::-webkit-scrollbar-track {
 		-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-		background-color: #F5F5F5;
+		background-color: transparent;
 	}
 
 	#left_container::-webkit-scrollbar,
 	#rightContainer::-webkit-scrollbar,
 	#left_type_container::-webkit-scrollbar,
-	#left_task_container::-webkit-scrollbar {
+	#left_task_container::-webkit-scrollbar,
+	#left_search_container::-webkit-scrollbar {
 		width: 7px;
-		background-color: #F5F5F5;
+		background-color: transparent;
 	}
 
 	#main-container::-webkit-scrollbar {
 		height: 7px;
-		background-color: #F5F5F5;
+		background-color: transparent;
 	}
 
 	#left_container::-webkit-scrollbar-thumb,
 	#main-container::-webkit-scrollbar-thumb,
 	#rightContainer::-webkit-scrollbar-thumb,
 	#left_type_container::-webkit-scrollbar-thumb,
-	#left_task_container::-webkit-scrollbar-thumb {
+	#left_task_container::-webkit-scrollbar-thumb,
+	#left_search_container::-webkit-scrollbar-thumb {
 		background-color: #acacac;
 		border: 1px solid #acacac;
 	}

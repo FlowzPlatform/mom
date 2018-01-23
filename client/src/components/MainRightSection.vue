@@ -11,8 +11,9 @@
           <a class="Button Button--small Button--primary TaskUndeleteBanner-permadeleteButton" data-toggle="modal" :data-target="'.'+todoObject.id">Delete Permanently</a>
         </span>
       </Alert>
-      <div class="tab-pannel" id="rightContainer">
+      <div class="tab-pannel" id="rightContainer" @mouseenter="handleOk">
         <task-heading :id="id" :filteredTodo="todoObject"></task-heading>
+        <breadcrumb :filteredTodo="todoObject" v-if="id==='searchTask'"></breadcrumb>
         <div class="rightscroll">
           <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
             :filteredTodo="todoObject" v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'"
@@ -46,7 +47,7 @@
                 <Col span="2" style="padding-right:10px">
                   <Select not-found-text="No user found" placeholder="user" placement="top" :value="selectedUser" @on-change="userListClick"
                     filterable style="width:180px;z-index:99999">
-                    <Option v-show="checkEmail(user.email,user.fullname)" style="margin:5px" v-for="user in getUserList" :label="getListUserName(user)"
+                    <Option style="margin:5px" v-for="user in getUserList" :label="getListUserName(user)"
                       :value="user._id" :key="user._id">
                       <span>
                         <span style="float:left;margin-right:10px;margin-top:-8px;width: 30px; height: 30px; border-radius: 50%; text-align: center; vertical-align: middle;background:#ccc">
@@ -55,7 +56,7 @@
                             <avatar v-else color="white" :username="user.email" :size="30"></avatar>
                           </div>
                         </span>
-                        {{getListUserName(user,1)}}
+                        {{getListUserName(user)}}
                       </span>
                     </Option>
                   </Select>
@@ -172,6 +173,7 @@
   import TaskPriority from './TaskPriority.vue'
   import TaskHeading from './TaskHeading.vue'
   import config from '../../config/customConfig'
+  import Breadcrumb from './Breadcrumb.vue'
   Vue.use(AsyncComputed);
   Vue.filter("formatDate", function (value) {
     if (value) {
@@ -304,17 +306,13 @@
       },
       deletePermently: function () {
         this.$store.dispatch("deletePermently", this.todoObject);
+        this.$store.commit("CLOSE_DIV",this.todoObject)
       },
-      getListUserName: function (user, flag) {
-
+      getListUserName: function (user) {
         if (user.fullname && user.fullname.trim().length > 0) {
           return user.fullname;
-        } else if (user.email) {
-          // return user.email.substr(0,user.email.indexOf("@"));
-          return flag == 0 ? user.email.substr(0, user.email.indexOf("@")) : user.email;
-        } else {
-          return "Un"
-        }
+        } 
+        return user.email
       },
       async onReadComment(id, level, created_by, typeId) {
         let permisionResult = await CmnFunc.checkActionPermision(
@@ -449,7 +447,6 @@
         this.selectedMenuIndex = 5;
       },
       handleOpen() {
-        console.log("handle open click",this.open)
         this.selectedMenuIndex = 5;
         $(".nav").addClass("hidden");
         this.open = false;
@@ -470,20 +467,23 @@
         }
       },
       dueDateClick(dateTo) {
-        var selectedDate = moment(dateTo, "YYYY-MM-DD").format("DD");
-        this.$store.dispatch("editTaskName", {
-          todo: this.todoObject,
-          selectedDate: dateTo,
-          log_action: Constant.HISTORY_LOG_ACTION.DUE_DATE,
-          log_text: dateTo
-        });
-        this.todoObject.dueDate = dateTo
+        if(this.open){
+          this.open = false;
+          var selectedDate = moment(dateTo, "YYYY-MM-DD").format("DD");
+            this.$store.dispatch("editTaskName", {
+            todo: this.todoObject,
+            selectedDate: dateTo,
+            log_action: Constant.HISTORY_LOG_ACTION.DUE_DATE,
+            log_text: dateTo
+          });
+          this.todoObject.dueDate = dateTo
+        }
       },
       handleClick() {
         this.open = !this.open;
       },
       handleClear() {
-        this.open = false;
+        // this.open = false;
       },
       handleOk() {
         this.open = false;
@@ -492,8 +492,12 @@
       * Selected user from assign user list
       */
       userListClick:async function (user_id) {
-          this.setAssignUser(user_id)
-          this.$store.commit('SHOW_DIV', this.todoObject)
+        if(this.selectedUser != user_id){
+            console.log("userListClick method call:",user_id)
+            this.setAssignUser(user_id)
+            this.$store.commit('SHOW_DIV', this.todoObject)
+        }
+        
       },
       async btnTypeClicked(objType) {
         if(objType !== this.todoObject.type_id){
@@ -502,8 +506,13 @@
           // await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedState": '' })
         }
       },
-      checkEmail(email,fullname){
-        return (fullname && fullname.length>0) || (email && email.length>0 && CmnFunc.checkValidEmail(email))
+      checkEmail(email){
+        console.log("email !='null':",email ,(email ==='null'))
+        if(email && email !='null'){
+          return CmnFunc.checkValidEmail(email)
+        }
+        return false
+        // return (fullname && fullname.length>0) || (email && email.length>0 && CmnFunc.checkValidEmail(email))
       },
       displayComment(){
          $('#comment-'+this.id).css( "display", "block" );
@@ -702,7 +711,8 @@
       Avatar,
       EstimatedHours,
       TaskPriority,
-      TaskHeading
+      TaskHeading,
+      Breadcrumb
     }
   }
 </script>

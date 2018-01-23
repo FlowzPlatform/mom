@@ -165,7 +165,7 @@ import CmnFunc from './CommonFunc.js'
     },
     methods: {
       getDisplayName(user) {
-        return user.fullname ? user.fullname.charAt(0).toUpperCase() : user.email
+        return user.fullname ? user.fullname : user.email
       },
       replyCommentMethod(comment) {
         let parentList = this.$store.state.parentIdArr;

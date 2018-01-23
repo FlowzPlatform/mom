@@ -1,0 +1,171 @@
+html, body {
+    background: linear-gradient(to bottom, rgb(255, 153, 51), rgb(255, 255, 255), rgb(19, 136, 8))
+  }
+  #center_pane {
+    background: transparent;
+  }
+  .progress {
+    background: transparent;
+  }
+  .right_pane_container #right_pane {
+    background: transparent;
+}
+  .taskDetailsView-description .autogrow-textarea {
+    background-color: transparent;
+  }
+  .stateCircle {
+    -webkit-box-shadow: inset 0 0 0 3px rgb(255, 255, 255);
+    box-shadow: inset 0 0 0 3px rgb(255, 255, 255);
+  }
+  .setColor {
+    color: #fff;
+  }
+  .fa-bars:before,
+  .fa-times:before {
+    color: #2b32b2;
+  }
+  .menu-item-back {
+      background: linear-gradient(to right, rgb(20, 136, 204), rgb(43, 50, 178))
+    }
+  
+    .menu-item-back:hover {
+      background: linear-gradient(to right, rgb(43, 50, 178), rgb(20, 136, 204))
+    }
+  
+    .ivu-poptip-rel:hover {
+      background: linear-gradient(to right, rgb(43, 50, 178), rgb(20, 136, 204))
+    }
+  
+    .menu-item:nth-child(3) .menu-item-back {
+      background: linear-gradient(to right, rgb(20, 136, 204), rgb(43, 50, 178))
+    }
+    .menu-item:nth-child(3) .menu-item-back:hover{
+      background: linear-gradient(to right, rgb(43, 50, 178), rgb(20, 136, 204))
+    }
+  
+    .menu-item:nth-child(5) .menu-item-back {
+      background: linear-gradient(to right, rgb(20, 136, 204), rgb(43, 50, 178))
+    }
+    .menu-item:nth-child(5) .menu-item-back:hover{
+        /* background: #F65F4E; */
+        background: linear-gradient(to right, rgb(43, 50, 178), rgb(20, 136, 204))
+    }
+  
+    .menu-item:nth-child(7) .menu-item-back {
+      background: linear-gradient(to right, rgb(20, 136, 204), rgb(43, 50, 178))
+    }
+  
+    .menu-item:nth-child(7) .menu-item-back:hover{
+        background: linear-gradient(to right, rgb(43, 50, 178), rgb(20, 136, 204))
+    }
+    .ivu-poptip-rel {
+      /* background: #fd7869; */
+        background: linear-gradient(to right, rgb(20, 136, 204), rgb(43, 50, 178))
+    }
+    .logo__title{
+      color: #093838;
+      font-family: 'Gotham Rounded SSm A','Gotham Rounded SSm B';
+      background: transparent;
+  }
+  .header-name{
+    color: #093838;
+    font-family: esteban
+  }
+  .navbar-bottom {
+    /* background-color: #0b4949;     */
+    background-color: #06665F;
+  }
+  .navbar-bottom:hover a.active {
+    background-color:	#0E3A39;
+    color: #fff;
+  }
+  .navbar-bottom .due-date:hover, .navbar-bottom a:hover {
+    background: 	#0E3A39;
+  }
+  .share, .one, .two { 
+    background: #86af9e;
+    color: #06665F;
+  }
+
+  .right_pannel::before {
+    color:#191efd;
+  }
+  .buttonView.buttonView--primary {
+    background: rgb(255, 171, 15);
+    border-color: rgb(255, 171, 15);
+  }
+  .buttonView.buttonView--primary:focus,
+  .buttonView.buttonView--primary:hover {
+    background: rgb(255, 171, 15);
+    border-color: rgb(255, 171, 15);
+    box-shadow: inset 0 0 transparent, 0 0 0 3px #4da544;
+    -moz-box-shadow: inset 0 0 transparent, 0 0 0 3px #4da544;
+    -webkit-box-shadow: inset 0 0 transparent, 0 0 0 3px #4da544;
+  }
+  
+  .BlockStory-storyContent, .attachment-username, svg.Icon.AttachIcon  {
+    color: #093838;
+  }
+  .history-label {
+    color: #000;
+  }
+  .BlockStory-block.commentbox {
+    background: #fff0;
+    border-radius: 4px;
+    /* box-shadow: 1px 1px 1px rgba(0,0,0,0.1); */
+    box-shadow: 0px 2px 5px 0px rgba(255, 255, 255, 0.28), 0px 2px 5px 0px rgb(8, 46, 46);
+  
+  }
+  .todo-list li .toggle:after, input.toggleTask:after{
+    color: #000;
+    border: 1px solid #000000;
+  }
+  .circularButtonView{
+    border: 1px solid #000000;
+  }
+  .BlockStory-block.commentbox::before {
+    border-top-color: #0b494975;
+  }
+  .fa-5x, .text.gridPaneSearchEmptyView-noProjectItemsTitleText, .text.gridPaneSearchEmptyView-noProjectItemsText {
+    color: aliceblue;
+  }
+  .grid-tags-and-date .grid_due_date {
+      color: white;
+  }
+  .Topbar {
+      background: transparent;
+  }
+  .Topbar-settingsMenuDomainName {
+      color: white;
+  }
+  .privacySummaryDropdownLeftIcon {
+      fill: white;
+  }
+  .card {
+      background: transparent;
+  }
+.vw-widget,.vw-widget-heading, .ui.blue.table, .ui.table thead th {
+  background: transparent;
+}
+.nav > li > a:hover, .nav > li > a:focus {
+  background:  linear-gradient(to bottom right, rgb(255, 153, 51), rgb(255, 255, 255), rgb(19, 136, 8));
+  color: black;
+}
+.sidebar .nav, .off-canvas-sidebar .nav {
+  color: white;
+}
+.todo-list li {
+  border-bottom: 1px solid #646464de;
+}
+.modal-open .modal .modal-dialog .modal-header {
+  background-color: #ff9c3a;
+  color: #fff;
+}
+.dropdown .dropdown-menu, .menu.menu--long, .navbar-bottom .ivu-dropdown .ivu-select-dropdown, .ivu-select-dropdown {
+  background:  linear-gradient(to bottom right, rgb(255, 153, 51), rgb(255, 255, 255), rgb(19, 136, 8));
+}
+.setFooterColor, .btn-primary:hover{
+  background-color: #12640b;
+  border-color: #12640b;
+  color: white;
+}

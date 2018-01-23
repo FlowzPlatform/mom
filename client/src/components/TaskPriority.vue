@@ -26,8 +26,8 @@
               </label>
           </div>
           <div class="modal-footer">
-              <button type="button" class="btn btn-primary" @click="clickAction">Save changes</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary setFooterColor" @click="clickAction">Save changes</button>
+              <button type="button" class="btn btn-secondary setFooterColor" data-dismiss="modal">Close</button>
             </div>
         </div>
       </div>
@@ -36,11 +36,12 @@
 
 <script>
 /* eslint-disable*/
+  import * as Constant from "./Constants.js";
   export default {
     props: ['filteredTodo'],
     methods:{
     clickAction () {
-        this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "taskPriority": this.filteredTodo.priority})
+        this.$store.dispatch('editTaskName', {"todo":this.filteredTodo, "taskPriority": this.filteredTodo.priority,log_action:Constant.HISTORY_LOG_ACTION.TASK_PRIORITY, log_text:this.filteredTodo.priority})
         $('#taskPriority'+this.filteredTodo.id).modal('hide')
       },
       async updateTaskPriority(id,level,created_by,typeId) {
