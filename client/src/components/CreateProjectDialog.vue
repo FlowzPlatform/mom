@@ -83,8 +83,8 @@
                         </div>
                     </div>
                 <div class="modal-footer">
-                    <button type="submit" id="save" class="btn btn-primary" @click="savePost">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="save" class="btn btn-primary setFooterColor" @click="savePost">Save changes</button>
+                    <button type="button" class="btn btn-secondary setFooterColor" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

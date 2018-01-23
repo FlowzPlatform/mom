@@ -1,27 +1,29 @@
 html, body {
-  background: #1d1d1d;
+  /* background: #1d1d1d; */
+  background: linear-gradient(to right, rgb(0, 0, 0), rgb(67, 67, 67));
 }
 #center_pane {
-  background: #1d1d1d;
+  background: transparent;
 }
 .todo-list li {
   border-bottom: 1px solid #383838;
 }
 .progress {
-  background: #1d1d1d;
+  background: transparent;
 }
 .right_pane_container #right_pane {
-  background: #1d1d1d;
+  background: transparent;
 }
 .todo-list li input {
   color: #fff;
 }
 .taskDetailsView-description .autogrow-textarea {
-  background-color: #1d1d1d;
+  background-color: transparent;
 }
 .stateCircle {
   -webkit-box-shadow: inset 0 0 0 3px rgb(255, 255, 255);
   box-shadow: inset 0 0 0 3px rgb(255, 255, 255);
+  color: white;
 }
 .setColor {
   color: #fff;
@@ -31,95 +33,88 @@ html, body {
 }
 .fa-bars:before,
 .fa-times:before {
-  color: #88A95B;
+  color: #ADA996;
+}
+.menu-item:before{
+  color: #000;
 }
 .menu-item-back {
-    background: #88A95B;
+    background: linear-gradient(to right, rgb(173, 169, 150), rgb(242, 242, 242), rgb(219, 219, 219), rgb(234, 234, 234));
   }
 
   .menu-item-back:hover {
-    background: #4F7121;
+    background: linear-gradient(to right, rgb(234, 234, 234),rgb(173, 169, 150), rgb(242, 242, 242), rgb(219, 219, 219));
   }
 
   .ivu-poptip-rel:hover {
-    background: #4F7121;
+    background: linear-gradient(to right, rgb(234, 234, 234),rgb(173, 169, 150), rgb(242, 242, 242), rgb(219, 219, 219));
   }
 
   .menu-item:nth-child(3) .menu-item-back {
-    background: #88A95B;
+    /* background: #88A95B; */
+    background: linear-gradient(to right, rgb(173, 169, 150), rgb(242, 242, 242), rgb(219, 219, 219), rgb(234, 234, 234));
   }
   .menu-item:nth-child(3) .menu-item-back:hover{
-      background: #4F7121;
+      background: linear-gradient(to right, rgb(234, 234, 234),rgb(173, 169, 150), rgb(242, 242, 242), rgb(219, 219, 219));
   }
 
   .menu-item:nth-child(5) .menu-item-back {
-    background: #88A95B;
+    background: linear-gradient(to right, rgb(173, 169, 150), rgb(242, 242, 242), rgb(219, 219, 219), rgb(234, 234, 234));
   }
   .menu-item:nth-child(5) .menu-item-back:hover{
-      background: #4F7121;
+      background: linear-gradient(to right, rgb(234, 234, 234),rgb(173, 169, 150), rgb(242, 242, 242), rgb(219, 219, 219));
   }
 
   .menu-item:nth-child(7) .menu-item-back {
-    background: #88A95B;
+    background:linear-gradient(to right, rgb(173, 169, 150), rgb(242, 242, 242), rgb(219, 219, 219), rgb(234, 234, 234));
   }
 
   .menu-item:nth-child(7) .menu-item-back:hover{
-      background: #4F7121;
+      background: linear-gradient(to right, rgb(234, 234, 234),rgb(173, 169, 150), rgb(242, 242, 242), rgb(219, 219, 219));
   }
   .ivu-poptip-rel {
-    background: #88A95B;
+    background: linear-gradient(to right, rgb(173, 169, 150), rgb(242, 242, 242), rgb(219, 219, 219), rgb(234, 234, 234));
   }
   .logo__title{
     color: #db4c3f;
-    font-family: 'Gotham Rounded SSm A','Gotham Rounded SSm B'
+    font-family: 'Gotham Rounded SSm A','Gotham Rounded SSm B';
+    background: transparent;
 }
 .header-name{
   color: #db4c3f;
   font-family: esteban
 }
-.comment-title {
-  color: #db4c3f;
-  font-family: esteban
-}
 .navbar-bottom {
-  background-color: #36b631;    
+  background-color: #D65C6B;    
 }
 .navbar-bottom:hover a.active {
-background-color:	#13890f;
+background-color:	#DF6B78;
 color: #fff;
 }
 .navbar-bottom .due-date:hover {
-  background: 	#13890f;
+  background: 	#DF6B78;
 }
 .navbar-bottom a:hover {
   cursor: pointer;
-  background: 	#13890f;
+  background: 	#DF6B78;
 }
-.share { 
-  background: #ff6000
-}
-
-.one {
-  background: #ff6000;
-}
-
-.two {
-  background: #ff6000;
+.share, .one, .two { 
+  background: #ada996;
 }
 .right_pannel::before {
   color:#ebffd8
 }
 .buttonView.buttonView--primary {
-  background: #1D621D;
-  border-color: #1D621D;
+  background: #47ADAB;
+  border-color: #47ADAB;
 }
 .buttonView.buttonView--primary:focus,
 .buttonView.buttonView--primary:hover {
-    background: #7CB57C;
-    border-color: #7CB57C;
-    box-shadow: inset 0 0 transparent, 0 0 0 3px #7CB57C;
-    -moz-box-shadow: inset 0 0 transparent, 0 0 0 3px #7CB57C;
-    -webkit-box-shadow: inset 0 0 transparent, 0 0 0 3px #7CB57C
+    background: #016B89;
+    border-color: #016B89;
+    box-shadow: inset 0 0 transparent, 0 0 0 3px #47ADAB;
+    -moz-box-shadow: inset 0 0 transparent, 0 0 0 3px #47ADAB;
+    -webkit-box-shadow: inset 0 0 transparent, 0 0 0 3px #47ADAB
 }
 
 .BlockStory-storyContent {
@@ -144,7 +139,7 @@ svg.Icon.AttachIcon {
   box-shadow: 0px 2px 5px 0px rgba(255, 255, 255, 0.28), 0px 2px 5px 0px rgba(0,0,0,0.23);
 
 }
-.truncatedRichText {
+.truncatedRichText, .uiStatus, .setlable {
   color: white;
 }
 .BlockStory-block.commentbox::before {
@@ -158,4 +153,36 @@ svg.Icon.AttachIcon {
 }
 .fa-5x, .text.gridPaneSearchEmptyView-noProjectItemsTitleText, .text.gridPaneSearchEmptyView-noProjectItemsText {
   color: aliceblue;
+}
+.Topbar {
+  background: transparent;
+}
+.privacySummaryDropdownLeftIcon{
+  fill: white;
+}
+.card {
+  background: transparent;
+}
+.vw-widget,.vw-widget-heading, .ui.blue.table, .ui.table thead th {
+background: transparent;
+color: white;
+}
+.nav > li > a:hover, .nav > li > a:focus {
+  background:  linear-gradient(to bottom right, rgb(53, 53, 53), rgb(255, 255, 255));
+  color: black;
+}
+.sidebar .nav, .off-canvas-sidebar .nav {
+  color: white;
+}
+.sidebar {
+  box-shadow: 0 10px 30px -12px rgba(255, 255, 255, 0.58), 0 4px 25px 0px rgba(255, 255, 255, 0.12), 0 8px 10px -5px rgba(255, 255, 255, 0.2);
+}
+.ui.celled.table tr td, .ui.celled.table tr th {
+  border: 1px solid #70707045;
+}
+.PageHeaderStructure-title{
+  color:#ababab;
+}
+.ql-editor, .CodeMirror-scroll {
+  color: white;
 }

@@ -13,6 +13,7 @@
       </Alert>
       <div class="tab-pannel" id="rightContainer" @mouseenter="handleOk">
         <task-heading :id="id" :filteredTodo="todoObject"></task-heading>
+        <breadcrumb :filteredTodo="todoObject" v-if="id==='searchTask'"></breadcrumb>
         <div class="rightscroll">
           <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
             :filteredTodo="todoObject" v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'"
@@ -172,6 +173,7 @@
   import TaskPriority from './TaskPriority.vue'
   import TaskHeading from './TaskHeading.vue'
   import config from '../../config/customConfig'
+  import Breadcrumb from './Breadcrumb.vue'
   Vue.use(AsyncComputed);
   Vue.filter("formatDate", function (value) {
     if (value) {
@@ -709,7 +711,8 @@
       Avatar,
       EstimatedHours,
       TaskPriority,
-      TaskHeading
+      TaskHeading,
+      Breadcrumb
     }
   }
 </script>

@@ -19,7 +19,7 @@
             <a @click="selectStatus(state)">{{state.taskState}}</a>
           </li>
         </ul>
-        <div v-if="$store.state.deleteItemsSelected" class="trash" :id="todo.id">
+        <div v-if="$store.state.deleteItemsSelected && id !== 'taskTypes' && id !== 'taskState' && id !== 'roleTypes'" class="trash" :id="todo.id">
           <span class="trashcan">
             <span class="hover-glyph ">
               <span class="fa fa-trash-o svgIcon hover-glyph-default" />
@@ -215,6 +215,9 @@
           inutTodo.prop("readonly", true);
         } else {
           inutTodo.prop("readonly", false);
+        }
+        if (this.$store.state.deleteItemsSelected){
+          inutTodo.prop("readonly", true)
         }
       },
       onBlurCall(id, level) {

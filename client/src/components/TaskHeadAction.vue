@@ -6,7 +6,7 @@
                         <i class="fa fa-close"></i>
                     </span>
                 </div>
-                <div id="pinnedWindow" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
+                <div id="pinnedWindow" v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState' && !$store.state.deleteItemsSelected" class="window-full circularButtonView property tags circularButtonView--default circularButtonView--onWhiteBackground circularButtonView--active pull-right"
                     style="margin-top: 2px;">
                     <span class="circularButtonView-label" @click="pinIt">
                         <img class="init" v-if="isPinned" src="../assets/unpin.png" style="width:20px; height:20px;"></img>

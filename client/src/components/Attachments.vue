@@ -74,13 +74,13 @@
 /* eslint-disable*/
 import Vue from "vue";
 import { mapGetters } from "vuex";
-import iView from "iview";
-import "iview/dist/styles/iview.css";
+// import iView from "iview";
+// import "iview/dist/styles/iview.css";
 import Avatar from "vue-avatar/src/Avatar";
 import notify from "./notify.js";
 import moment from 'moment';
 
-Vue.use(iView);
+// Vue.use(iView);
 export default {
   props: ["filteredTodo", "isDeleteAttachment"],
   data: function() {
@@ -215,14 +215,6 @@ export default {
     padding-bottom: 30px;
   }
 
-  .attachment-username {
-    text-align: -webkit-left;
-    text-align: left;
-    margin-left: 10px;
-    font-size: 20px;
-    color: gray;
-    float: left;
-  }
 
   .attachment-time {
     margin-top: -5px;
