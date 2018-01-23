@@ -158,6 +158,14 @@ html, body {
   border-bottom: 1px solid #646464de;
 }
 .modal-open .modal .modal-dialog .modal-header {
-  background-color: #083535;
+  background-color: #ff9c3a;
   color: #fff;
+}
+.dropdown .dropdown-menu, .menu.menu--long, .navbar-bottom .ivu-dropdown .ivu-select-dropdown, .ivu-select-dropdown {
+  background:  linear-gradient(to bottom right, rgb(255, 153, 51), rgb(255, 255, 255), rgb(19, 136, 8));
+}
+.setFooterColor, .btn-primary:hover{
+  background-color: #12640b;
+  border-color: #12640b;
+  color: white;
 }
