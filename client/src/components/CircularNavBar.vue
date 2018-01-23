@@ -198,7 +198,7 @@
                               <div class="QuickInvitePopup-inputArea QuickInvitePopup-emailInputArea">
                                 <label class="Label">Email</label>
                                 <div class="validatedTextInput validatedTextInput--invalid QuickInvitePopup-emailInputValidator">
-                                  <input type="text" class="textInput textInput--medium QuickInvitePopup-input QuickInvitePopup-emailInput" v-model="email">
+                                  <input type="text" class="textInput textInput--medium QuickInvitePopup-input QuickInvitePopup-emailInput" v-model="email" readonly>
                                   <div class="validatedTextInput-message">{{emailValidationError}}</div>
                                 </div>
                               </div>
@@ -669,16 +669,24 @@
         $("div.project-setting").addClass("hidden");
         $("#project-setting-dialog").removeClass("hidden");
       },
-      showDeleteProjectDialog(projectCreatedBy) {
-        if( projectCreatedBy===this.$store.state.userObject._id){
-          this.hideProjectSetting();
-          $("#project-delete-dialog").removeClass("hidden");
-        }else{
-          this.$Notice.error({
-                                title: "Permission Denied",
-                                desc:"Only project owner delete project"
-                            });
-        }
+      showDeleteProjectDialog() {
+        this.hideProjectSetting();
+        // $("#project-delete-dialog").removeClass("hidden");
+          let config={
+            closable:true
+          }
+          // this.$Modal.confirm(config)
+          this.$Modal.confirm({
+              title: "Delete the "+this.$store.state.currentProject.project_name+" project?",
+              closable: true,
+              esc2x: true,
+              content:
+              "<p>Are you sure that you want to permanently delete project?</p>",
+              onOk: () => {
+                this.$store.dispatch('deleteProject', this.$store.state.currentProject)
+              }
+          });
+          
       },
       hideProjectSetting() {
         this.$store.state.projectSettingId

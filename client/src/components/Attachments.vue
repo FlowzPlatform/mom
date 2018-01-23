@@ -114,6 +114,8 @@ export default {
        
         this.$Modal.confirm({
           title: "Attachment",
+          closable: true,
+          esc2x: true,
           content:
             "<p>Are you sure that you want to permanently delete attachment?</p>",
           onOk: () => {

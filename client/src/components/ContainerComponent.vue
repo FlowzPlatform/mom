@@ -1,5 +1,5 @@
 <template>
-        <div class="todoapp">
+        <div class="todoapp" v-show="showProjectMenu" :value="getUsersListSize">
             <div data-reactroot="" id="top-bar" class="circularMenu">
                 <div class="PageHeaderStructure-left">
                     <circular-nav-bar v-on:eventChangeMenu="changeMenu"></circular-nav-bar>
@@ -18,8 +18,18 @@
         export default{
             data:function () {
                 return {
-                    currentView: MainApp
+                    currentView: MainApp,
+                    showProjectMenu:false
                 }
+            },
+            computed:{
+                getUsersListSize(){
+                        if(this.$store.state.arrAllUsers.length > 0){
+                        this.showProjectMenu = true
+                        }else{
+                        this.showProjectMenu = false
+                        }
+                    }
             },
             methods: {
                 changeMenu(isMainTask, isRoleAccess, isSearch) {
