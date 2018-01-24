@@ -3,8 +3,15 @@ import feathers from 'feathers/client'
 import socketio from 'feathers-socketio/client'
 import io from 'socket.io-client'
 import * as vuex from '../VuexSession.js'
+import config from '../../config/customConfig'
 
-export const socket = io(process.env.SOCKET_IO, {transports: ['websocket'], upgrade: false}); //, path: '/mom'
+let socket_io;
+if(process.env.NODE_ENV == 'development')
+    socket_io = process.env.SOCKET_IO
+else
+    socket_io = config.socket_io
+
+export const socket = io(socket_io, {transports: ['websocket'], upgrade: false}); //, path: '/mom'
 
  socket.on("connect", function(){
      var userId=vuex.store.state.userObject._id;

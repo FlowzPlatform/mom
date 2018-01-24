@@ -165,17 +165,14 @@ import CmnFunc from './CommonFunc.js'
     },
     methods: {
       getDisplayName(user) {
-        return user.fullname ? user.fullname.charAt(0).toUpperCase() : user.email
+        return user.fullname ? user.fullname : user.email
       },
       replyCommentMethod(comment) {
         let parentList = this.$store.state.parentIdArr;
       let avaiIndex=_.findIndex(parentList, function (d) { return d.id === comment.id })
-      console.log("avilIndex:-->",avaiIndex)
       if (avaiIndex < 0) {
         comment.show_type = 'subcomment'
         comment.parentId = this.commentParentId
-        console.log("Click Comment:--", comment)
-
         let index;
         if (!comment.parentId) {
           index = _.findIndex(parentList, function (d) { return d.id === comment.task_id })
@@ -189,7 +186,6 @@ import CmnFunc from './CommonFunc.js'
           if(element.parentId ===  lastCommentParentId  ){
             lastCommentParentId=element.id;                 
             if(element.isPinned===undefined || !element.isPinned){
-              console.log("IsPinned Not Found:--",parentCounter)
               this.$store.state.parentIdArr.splice(parentCounter, 1)
             }else{
              console.log("IsPinned Found:--",parentCounter)              
@@ -200,7 +196,6 @@ import CmnFunc from './CommonFunc.js'
        
         this.$store.state.parentIdArr.splice(index + 1, 0,comment)
         // Vue.set(this.$store.state.parentIdArr, index+1, comment)
-        console.log("Paret Id arr",this.$store.state.parentIdArr)
       }
       },
       getSubTaskComments: function () {

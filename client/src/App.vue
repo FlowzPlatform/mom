@@ -20,7 +20,7 @@ export default {
       if (url.indexOf('task') > -1) {
         isCopyLink = true
       }
-      console.log('Copytask URL:', isCopyLink)
+      // console.log('Copytask URL:', isCopyLink)
       if(!isCopyLink)
         this.$router.push('/navbar/mainapp');
     }

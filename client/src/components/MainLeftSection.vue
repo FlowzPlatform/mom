@@ -66,7 +66,6 @@
       },
       async newTagPermission() {
         let permisionResult = await CmnFunc.checkActionPermision(this, typeId, Constant.USER_ACTION.TAG, Constant.PERMISSION_ACTION.CREATE)
-        console.log("MainLeftSection permisionResult-->", permisionResult)
         return permisionResult;
       }
     }

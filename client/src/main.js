@@ -4,7 +4,11 @@
 import Vue from 'vue'
 import App from './App.vue';
 import router from './router'
-
+import iView from 'iview';
+import 'iview/dist/styles/iview.css';
+import locale from 'iview/dist/locale/en-US';
+Vue.use(iView);
+Vue.use(iView, { locale });
 Vue.config.productionTip = false
 Vue.config.silent = false
 Vue.config.devtools = true
@@ -21,7 +25,6 @@ Vue.config.warnHandler = function (msg, vm, trace) {
 
 import { store } from './VuexSession'
 import config from '../config/customConfig'
-
 
 new Vue({
   el: '#app',

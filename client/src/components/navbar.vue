@@ -1,8 +1,15 @@
 <template lang="html">
   <div>
+    <div v-if="showProjectLoading" :value="getTodoListSize" style="margin-top: 50vh;height: 100vh">
+      <img class="project-loading" src="../assets/activity.svg" style="margin-left: 10px; width:80px; height:100px;"/>
+      <p style="margin-left:20px;color:gray">Populating projects...</p>
+      <span style="margin-left:-170px;position: absolute;bottom:10px">
+        <img src="../assets/ob_logo.svg"></img>
+      </span>
+    </div>  
     <div>
       <div data-reactroot="" id="top-bar" class="Topbar">
-        <div class="PageHeaderStructure-center">
+        <div class="PageHeaderStructure-center" @mouseenter="hidePopup">
           <div class="PageHeaderStructure-titleRow">
             <div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName">
               <input id="project-name" class="logo__title" type="text" name="fname" maxlength="25" v-model="projectName" @blur="setProjectName"
@@ -16,11 +23,11 @@
             <div v-show="($store.state.currentProjectName && $store.state.currentProjectName.length>0)?true:false" id="projectVisible"
               class="projectHeaderFacepile-privacySummary projectHeaderFacepile-privacySummaryDropdown" @click="changePrivacyPopup">
               <div class="projectHeaderFacepile-privacySummaryDropdownTextDownIconContainer">
-                <svg v-if="$store.state.currentProjectPrivacy==2" class="Icon UserIcon projectHeaderFacepile-privacySummaryDropdownLeftIcon"
+                <svg v-if="$store.state.currentProjectPrivacy==2" class="Icon UserIcon privacySummaryDropdownLeftIcon"
                   title="UserIcon" viewBox="0 0 32 32">
                   <path d="M20.534,16.765C23.203,15.204,25,12.315,25,9c0-4.971-4.029-9-9-9S7,4.029,7,9c0,3.315,1.797,6.204,4.466,7.765C5.962,18.651,2,23.857,2,30c0,0.681,0.065,1.345,0.159,2h27.682C29.935,31.345,30,30.681,30,30C30,23.857,26.038,18.651,20.534,16.765z M9,9c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S9,12.86,9,9z M4,30c0-6.617,5.383-12,12-12s12,5.383,12,12H4z"></path>
                 </svg>
-                <svg v-else class="Icon UserIcon projectHeaderFacepile-privacySummaryDropdownLeftIcon" title="UserIcon" viewBox="0 0 32 32">
+                <svg v-else class="Icon UserIcon privacySummaryDropdownLeftIcon" title="UserIcon" viewBox="0 0 32 32">
                   <path d="M24.23,16.781C26.491,15.368,28,12.863,28,10c0-4.418-3.582-8-8-8s-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C11.233,18.494,8,22.864,8,28c0,0.683,0.07,1.348,0.18,2h23.64c0.11-0.652,0.18-1.317,0.18-2C32,22.864,28.767,18.494,24.23,16.781z M14,10c0-3.308,2.692-6,6-6s6,2.692,6,6s-2.692,6-6,6S14,13.308,14,10z M10,28c0-5.514,4.486-10,10-10c5.514,0,10,4.486,10,10H10z"></path>
                   <path d="M2,28c0-4.829,3.441-8.869,8-9.798V15.65C7.673,14.824,6,12.606,6,10c0-3.308,2.692-6,6-6V2c-4.418,0-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C3.233,18.494,0,22.864,0,28c0,0.683,0.07,1.348,0.18,2H6v-2H2z"></path>
                 </svg>
@@ -122,6 +129,7 @@
           </a>
         </div>
       </div>
+      
       <router-view></router-view>
       <settings-menu :settingArr="settingArr"></settings-menu>
       <div class="todoapp">
@@ -138,13 +146,15 @@
                     <span class="upl-img">
                       <ui-progress-circular color="black" type="indeterminate" v-show="loading" class="circularProgress">
                       </ui-progress-circular>
-                      <img v-bind:src="imageURlProfilePic" />
+                      <!-- <img v-bind:src="imageURlProfilePic" /> -->
+                      <avatar v-if="imageURlProfilePic" :username="imageURlProfilePic" :size="70" :src="imageURlProfilePic"></avatar>
+                      <avatar v-else :username="$store.state.userObject.email" color='#fff' :size="70"></avatar>
                     </span>
                   </div>
                   <span class="pro-part">
                     <input type="username" v-model='username' @keyup='enableUpdateProfileBtn'>
                     <div class="picture-action-label" v-if='!imageURlProfilePic'>
-                      <input autocomplete="off" type="file" id="file" name="file" title="" class="photo-file-input" accept="image/gif,image/png,image/jpeg,image/tiff,image/bmp"
+                      <input autocomplete="off" type="file" iuid="file" name="file" title="" class="photo-file-input" accept="image/gif,image/png,image/jpeg,image/tiff,image/bmp"
                         @change="onFileChange">
                       <span class="img-upload">Add a profile photo</span>
                     </div>
@@ -196,9 +206,14 @@
           </div>
         </div>
       </div>
+      <div id="overlay" v-show="allowedProjectPermission" >
+        <span id="text-overlay">{{$store.state.currentprojectPermisionRevokedMessage}}</span>
+        <button id="f" > </button>
+      </div>
     </div>
     <members-dialog></members-dialog>
     <delete-project-dialog></delete-project-dialog>
+     
   </div>
 </template>
 <script>
@@ -240,14 +255,16 @@
         showPrivateCheck: false,
         showPrivateMember: false,
         showPublic: false,
-        pName: '' // Project Name 
+        pName: '', // Project Name 
+        showProjectLoading:true
       }
     },
     created() {
     },
     computed: {
       ...mapGetters([
-        'settingArr'
+        'settingArr',
+
       ]),
       uname: function () {
         if(this.$store.state.userObject.email){
@@ -257,6 +274,13 @@
             return res
         }
       },
+      allowedProjectPermission:function()
+      {
+        setTimeout(() => {
+          $('#f').focus();
+        }, 500);
+        return this.$store.state.currentprojectPermisionRevoked;
+      },
       projectName: {
         get() {
           return this.$store.state.currentProjectName
@@ -265,6 +289,13 @@
           this.pName = value;
         }
       },
+      getTodoListSize(){
+        if(this.$store.state.arrAllUsers.length > 0){
+          this.showProjectLoading = false
+        }else{
+          this.showProjectLoading = true
+        }
+      }
     },
     methods: {
       ...mapMutations([
@@ -356,10 +387,7 @@
                 image_name: file.name
               })
                 .then(function () {
-                  self.$store.state.userObject.image_url = self.imageURlProfilePic
-                  self.$store.state.userObject.image_name = file.name
-                  self.$store.commit('userData')
-                  self.loading = false
+                  self.updateUserProfileVuex()
                 })
                 .catch(function (error) {
                   // $.notify.defaults({ className: "error" })
@@ -371,6 +399,7 @@
         return false;
       },
       onFileChange() {
+        
         this.loading = true;
         let self = this;
         var bucket = new AWS.S3({ params: { Bucket: 'airflowbucket1/obexpense/expenses' } });
@@ -385,11 +414,7 @@
               image_name: file.name
             })
               .then(function () {
-                self.imageURlProfilePic = data.Location
-                self.$store.state.userObject.image_url = self.imageURlProfilePic
-                self.$store.state.userObject.image_name = file.name
-                self.$store.commit('userData')
-                self.loading = false
+                self.updateUserProfileVuex(data)
               })
               .catch(function (error) {
                 // $.notify.defaults({ className: "error" })
@@ -416,11 +441,7 @@
               image_name: ''
             })
               .then(function () {
-                self.imageURlProfilePic = data.Location
-                self.$store.state.userObject.image_url = self.imageURlProfilePic
-                self.$store.state.userObject.image_name = ''
-                self.$store.commit('userData')
-                self.loading = false
+                self.updateUserProfileVuex(data)
               })
               .catch(function (error) {
                 // $.notify.defaults({ className: "error" })
@@ -431,6 +452,23 @@
             console.log("Check if you have sufficient permissions : ", err.stack);
           }
         });
+      },
+      updateUserProfileVuex (userDetail) {
+        if(userDetail != null){
+          this.imageURlProfilePic = userDetail.Location
+        }
+        this.$store.state.userObject.image_url = this.imageURlProfilePic
+        this.$store.state.userObject.image_name = ''
+        this.$store.commit('userData')
+        this.loading = false
+
+        let self = this
+        let userIndex = _.findIndex(self.$store.state.arrAllUsers, function (m) { return m._id === self.$store.state.userObject._id })
+        if(userIndex > -1){
+          Vue.set(self.$store.state.arrAllUsers[userIndex],'image_url',self.imageURlProfilePic)
+          // self.$store.state.arrAllUsers[userIndex].image_url = self.imageURlProfilePic
+        }
+
       },
       enableUpdateProfileBtn() {
         if (this.username) {
@@ -469,6 +507,9 @@
         $("#project-name").val(projectName);
       },
       changePrivacyPopup() {
+
+       
+
         this.showPrivacyPopup = !this.showPrivacyPopup;
         // Check privacy id to set related option
         var id = this.$store.state.currentProjectPrivacy;
@@ -487,32 +528,54 @@
             this.showPrivateCheck = true;
           }
         }
+      
       },
       publicMode() {
+        if(this.$store.state.currentProject.create_by===this.$store.state.userObject._id){
         this.showPublic = true;
         this.showPrivateMember = false;
         this.showPrivateCheck = false;
         this.$store.dispatch('changeProjectPrivacy', "0")
         this.$store.state.currentProjectPrivacy = "0"
         this.showPrivacyPopup = false;
+        }else{
+          this.$Notice.error({
+                    title: 'Permission denied',
+                    desc:'Only project owner can change project privacy'
+                }); 
+        }
 
       },
       privateMemberMode() {
+        if(this.$store.state.currentProject.create_by===this.$store.state.userObject._id){
         this.showPublic = false;
         this.showPrivateMember = true;
         this.showPrivateCheck = false;
         this.$store.dispatch('changeProjectPrivacy', "1")
         this.$store.state.currentProjectPrivacy = "1"
         this.showPrivacyPopup = false;
+        }else{
+          this.$Notice.error({
+                    title: 'Permission denied',
+                    desc:'Only project owner can change project privacy'
+                }); 
+        }
 
       },
       privateToMe() {
+        if(this.$store.state.currentProject.create_by===this.$store.state.userObject._id){
         this.showPublic = false;
         this.showPrivateCheck = true;
         this.showPrivateMember = false;
         this.$store.dispatch('changeProjectPrivacy', "2")
         this.$store.state.currentProjectPrivacy = "2"
         this.showPrivacyPopup = false;
+        }else{
+          this.$Notice.error({
+                    title: 'Permission denied',
+                    desc:'Only project owner can change project privacy'
+                }); 
+        }
       },
       hidePopup() {
         this.showPrivacyPopup = false;
@@ -546,4 +609,30 @@
     vertical-align: middle;
     display: inline-block;
   }
+  #overlay {
+    position: fixed; /* Sit on top of the page content */
+    display: block; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0; 
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+}
+#text-overlay{
+    width: 100%;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    font-size: 40px;
+    color: white;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+}
+.project-loading{
+  filter: invert(.5) sepia(1) saturate(5) hue-rotate(175deg);
+}
 </style>
