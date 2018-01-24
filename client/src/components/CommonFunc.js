@@ -77,17 +77,17 @@ export default {
           accessRight = accessPermission;
         }else{
               permisisonId = this.getPermissionId(context,userAction)
-              console.log("permisisonId--->", permisisonId)
+              // console.log("permisisonId--->", permisisonId)
               //  await services.roleAccessService.find({ query: { task_type: taskTypeId, rId: selfRoleId } }).then(response => {
               //  console.log("Res--->", response)
               accessRight =await this.callRoleAccessService(taskTypeId,selfRoleId);
               //  let accessRight =response;
-              console.log("accessRight--->", accessRight)
+              // console.log("accessRight--->", accessRight)
               store.state.accessRight = accessRight;
         }
         if (!_.isEmpty(accessRight)) {
           let accessValue = await this.getAccessValue(context, accessRight, permisisonId, taskTypeId)
-          console.log("accessValue--->", accessValue)
+          // console.log("accessValue--->", accessValue)
           if (permisisonAction === Constant.PERMISSION_ACTION.CREATE)
             return this.isCreatePermission(accessValue);
           else if (permisisonAction === Constant.PERMISSION_ACTION.READ)
@@ -112,7 +112,7 @@ export default {
   callRoleAccessService:function(taskTypeId,selfRoleId)
   {
     return services.roleAccessService.find({ query: { task_type: taskTypeId, rId: selfRoleId } }).then(response => {
-      console.log("Res--->", response)
+      // console.log("Res--->", response)
       return response;
     });
   },
@@ -138,7 +138,7 @@ export default {
   insertHistoryLog:function(context,createdBy,text,taskId,logAction)
   {
     services.taskHistoryLogs.create({created_by:createdBy,text:text,task_id:taskId,log_action:logAction,created_on:new Date()}).then(response=> {
-      console.log("insertHistoryLog create:--->",response)
+      // console.log("insertHistoryLog create:--->",response)
       // console.log("Context: --->",context)
       // if(logAction != 0){
       //   context.state.taskHistoryLog.unshift(response)

@@ -5,6 +5,9 @@
 		<div id="split-container" class="main-split-container" style="height: calc(100vh - 60px);">
 			<div id="left_container" class="scrollbar split split-horizontal">
 				<div id="center_pane">
+						<div v-if="$store.state.deleteItemsSelected" id="project_title" class="project-title read-only">
+							<div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName" style="float: left;">Deleted Tasks</div>
+						</div>
 					<div v-show="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
 						<left-toolbar v-if="!isCopyLink && !$store.state.deleteItemsSelected" :filters="filters">
 						</left-toolbar>
@@ -117,7 +120,6 @@ this.$store.state.currentprojectPermisionRevoked = false
 			var projects = this.getProjectWiseTodo;
 			var projectId = this.$store.state.currentProjectId
 			if (!projectId && projects.length > 0) {
-				console.log("Set project id")
 				projectId = projects[0].id
 				this.$store.state.currentProjectId = projects[0].id
 				this.$store.state.currentProjectName = projects[0].project_name
@@ -126,13 +128,12 @@ this.$store.state.currentprojectPermisionRevoked = false
 				this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '', project_id: projectId });
 
 			} else {
-				if(projects && projects.length>0){
-					console.log("Can't set projectc id--------------")
-				let projectIndex=_.findIndex(projects, function (d) { return d.id == projectId})
-				if(projectIndex>-1)
-					this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '', project_id: projectId });
-				else
-					this.$store.state.currentprojectPermisionRevoked = true
+				if (projects && projects.length > 0) {
+					let projectIndex = _.findIndex(projects, function (d) { return d.id == projectId })
+					if (projectIndex > -1)
+						this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '', project_id: projectId });
+					else
+						this.$store.state.currentprojectPermisionRevoked = true
 				}
 				console.log("Can't set projectc id")
 			}
@@ -410,7 +411,7 @@ this.$store.state.currentprojectPermisionRevoked = false
 	#left_task_container::-webkit-scrollbar-track,
 	#left_search_container::-webkit-scrollbar-track {
 		-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-		background-color: #F5F5F5;
+		background-color: transparent;
 	}
 
 	#left_container::-webkit-scrollbar,
@@ -419,12 +420,12 @@ this.$store.state.currentprojectPermisionRevoked = false
 	#left_task_container::-webkit-scrollbar,
 	#left_search_container::-webkit-scrollbar {
 		width: 7px;
-		background-color: #F5F5F5;
+		background-color: transparent;
 	}
 
 	#main-container::-webkit-scrollbar {
 		height: 7px;
-		background-color: #F5F5F5;
+		background-color: transparent;
 	}
 
 	#left_container::-webkit-scrollbar-thumb,

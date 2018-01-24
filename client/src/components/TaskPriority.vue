@@ -26,8 +26,8 @@
               </label>
           </div>
           <div class="modal-footer">
-              <button type="button" class="btn btn-primary" @click="clickAction">Save changes</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary setFooterColor" @click="clickAction">Save changes</button>
+              <button type="button" class="btn btn-secondary setFooterColor" data-dismiss="modal">Close</button>
             </div>
         </div>
       </div>
@@ -46,7 +46,6 @@
       },
       async updateTaskPriority(id,level,created_by,typeId) {
         let permisionResult=await CmnFunc.checkActionPermision(this,typeId,Constant.USER_ACTION.TASK_PRIORITY,Constant.PERMISSION_ACTION.UPDATE)
-        console.log("permisionResult update Task Priotity-->",permisionResult)
         if (!permisionResult && id != -1) {
           this.isDisable = true
         } else {

@@ -50,7 +50,6 @@
       }, 2000),
       async onFocusClick(id, level, created_by, typeId) {
         let permisionResult = await CmnFunc.checkActionPermision(this, typeId, Constant.USER_ACTION.TASK, Constant.PERMISSION_ACTION.UPDATE)
-        console.log("permisionResult Text Description-->", permisionResult)
         if (!permisionResult && id != -1) {
           document.getElementById("txtAreaTaskName").readOnly = true
         } else {

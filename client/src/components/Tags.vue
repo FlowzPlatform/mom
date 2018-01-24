@@ -217,11 +217,9 @@
             },
             async newTagPermission() {
                 this.isTagCreatePermission = await CmnFunc.checkActionPermision(this, this.filteredTodo.type_id, Constant.USER_ACTION.TAG, Constant.PERMISSION_ACTION.CREATE)
-                console.log("Tag Create permission:", this.isTagCreatePermission)
             },
             async deleteTagPermission() {
                 this.isTagDeletePermission = await CmnFunc.checkActionPermision(this, this.filteredTodo.type_id, Constant.USER_ACTION.TAG, Constant.PERMISSION_ACTION.DELETE)
-                console.log("Tag Delete permission:", this.isTagDeletePermission)
             }
 
         }

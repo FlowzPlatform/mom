@@ -113,14 +113,14 @@
     import CmnFunc from './CommonFunc.js'
     import notify from './notify.js'
     import VueRouter from 'vue-router'
-    import iView from 'iview';
-    import 'iview/dist/styles/iview.css';
-    import locale from 'iview/dist/locale/en-US';
+    // import iView from 'iview';
+    // import 'iview/dist/styles/iview.css';
+    // import locale from 'iview/dist/locale/en-US';
     import config from '../../config/customConfig'
     import axios from 'axios'
     
-    Vue.use(iView, { locale });
-    Vue.use(iView);
+    // Vue.use(iView, { locale });
+    // Vue.use(iView);
     Vue.use(Resource)
     Vue.use(VueRouter)
     var VueCookie = require('vue-cookie')
@@ -205,7 +205,6 @@
             btnForgotSubmit(){
                 let self = this;
                 let emailValidator =this.validateEmail(self.forgotEmailId);
-                console.log(emailValidator);
                 if(self.forgotEmailId == ""){
                     self.$message.warning("email field is required");
                 }else if(emailValidator == false){
@@ -221,7 +220,6 @@
                     })
                     .then(function (response) {
                         self.showSubmitLoad=false;
-                        console.log(response)
                         if(response.data.code == 200){
                             // self.$message.success(response.data.message);
                             self.$Notice.open({

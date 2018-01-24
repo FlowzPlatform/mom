@@ -1,7 +1,5 @@
 <template>
     <div>
-        <!-- <div class="comment-title" v-html="commentName">{{commentName}}</div> -->
-        <!-- <task-heading :commentName="commentName"></task-heading> -->
         <TaskHeadAction :id='id' :closeDiv="closeDiv" :pinIt="pinit" :isPinned="isPinned" v-show='commentParentId'></TaskHeadAction>
         <div  v-html="commentName" style="padding:  15px;text-align:  left;" v-show="commentName">{{commentName}}</div>    
         <div :id="id">
@@ -52,7 +50,6 @@
         methods: {
             closeDiv:function()
             {
-                console.log("Close Comment On Click")
                 this.$store.dispatch('closeComment', this.commentParentId)
             },
             pinit:function()

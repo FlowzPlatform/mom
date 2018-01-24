@@ -34,7 +34,7 @@
             </div>
             <div :id="'search-' + index" class="right_pane_container split split-horizontal" v-for="(n, index) in splitIdList">
                 <div id="right_pane">
-                    <main-right-section pholder="Subtask" :todoObject="n"></main-right-section>
+                    <main-right-section id="searchTask" pholder="Subtask" :todoObject="n"></main-right-section>
                 </div>
             </div>
         </div>

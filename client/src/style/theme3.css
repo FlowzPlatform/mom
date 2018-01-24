@@ -60,10 +60,6 @@
     background: #7C8D25;
     border: 1px solid #747373;
 }
-.comment-title {
-    color: #915693;
-    font-family: esteban
-  }
   .navbar-bottom .due-date:hover {
     background: #915693;
   }
@@ -83,7 +79,7 @@
     background: #7C8D25;
   }
   .right_pannel::before {
-    color:#9ECA76
+    color:rgb(227, 255, 200)
   }
   .buttonView.buttonView--primary {
     background: #A2B34B;
