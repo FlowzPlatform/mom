@@ -92,13 +92,11 @@
                     _.find(this.$store.state.todolist, ["id", filteredTodo.id]) &&
                     !_.find(this.$store.state.todolist, ["id", filteredTodo.id]).isPinned
                 ) {
-                    console.log("pinnned true");
                     _.find(this.$store.state.todolist, [
                         "id",
                         filteredTodo.id
                     ]).isPinned = true;
                 } else {
-                    console.log("pinnned false");
                     _.find(this.$store.state.todolist, [
                         "id",
                         filteredTodo.id

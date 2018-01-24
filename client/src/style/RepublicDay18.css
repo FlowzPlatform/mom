@@ -1,111 +1,96 @@
 html, body {
-    background: linear-gradient(to bottom, rgb(255, 153, 51), rgb(255, 255, 255), rgb(19, 136, 8))
-  }
-  #center_pane {
-    background: transparent;
-  }
-  .progress {
-    background: transparent;
-  }
-  .right_pane_container #right_pane {
+  background: linear-gradient(to bottom, rgb(255, 153, 51), rgb(255, 255, 255), rgb(19, 136, 8))
+}
+#center_pane, .progress, .right_pane_container #right_pane, 
+.taskDetailsView-description .autogrow-textarea, 
+.Topbar, .card, .vw-widget,.vw-widget-heading, .ui.blue.table, .ui.table thead th
+span.ivu-date-picker-cells-cell-disabled, span.ivu-date-picker-cells-cell-disabled:hover {
     background: transparent;
 }
-  .taskDetailsView-description .autogrow-textarea {
-    background-color: transparent;
-  }
-  .stateCircle {
+.stateCircle {
     -webkit-box-shadow: inset 0 0 0 3px rgb(255, 255, 255);
     box-shadow: inset 0 0 0 3px rgb(255, 255, 255);
-  }
-  .setColor {
+}
+.setColor {
     color: #fff;
-  }
-  .fa-bars:before,
-  .fa-times:before {
+}
+.fa-bars:before,
+.fa-times:before {
     color: #2b32b2;
-  }
-  .menu-item-back {
-      background: linear-gradient(to right, rgb(20, 136, 204), rgb(43, 50, 178))
-    }
-  
-    .menu-item-back:hover {
-      background: linear-gradient(to right, rgb(43, 50, 178), rgb(20, 136, 204))
-    }
-  
-    .ivu-poptip-rel:hover {
-      background: linear-gradient(to right, rgb(43, 50, 178), rgb(20, 136, 204))
-    }
-  
-    .menu-item:nth-child(3) .menu-item-back {
-      background: linear-gradient(to right, rgb(20, 136, 204), rgb(43, 50, 178))
-    }
-    .menu-item:nth-child(3) .menu-item-back:hover{
-      background: linear-gradient(to right, rgb(43, 50, 178), rgb(20, 136, 204))
-    }
-  
-    .menu-item:nth-child(5) .menu-item-back {
-      background: linear-gradient(to right, rgb(20, 136, 204), rgb(43, 50, 178))
-    }
-    .menu-item:nth-child(5) .menu-item-back:hover{
-        /* background: #F65F4E; */
-        background: linear-gradient(to right, rgb(43, 50, 178), rgb(20, 136, 204))
-    }
-  
-    .menu-item:nth-child(7) .menu-item-back {
-      background: linear-gradient(to right, rgb(20, 136, 204), rgb(43, 50, 178))
-    }
-  
-    .menu-item:nth-child(7) .menu-item-back:hover{
-        background: linear-gradient(to right, rgb(43, 50, 178), rgb(20, 136, 204))
-    }
-    .ivu-poptip-rel {
+}
+.menu-item-back {
+  background: linear-gradient(to right, rgb(20, 136, 204), rgb(43, 50, 178))
+}
+.menu-item-back:hover {
+  background: linear-gradient(to right, rgb(43, 50, 178), rgb(20, 136, 204))
+}
+.ivu-poptip-rel:hover {
+  background: linear-gradient(to right, rgb(43, 50, 178), rgb(20, 136, 204))
+}
+.menu-item:nth-child(3) .menu-item-back {
+  background: linear-gradient(to right, rgb(20, 136, 204), rgb(43, 50, 178))
+}
+.menu-item:nth-child(3) .menu-item-back:hover{
+  background: linear-gradient(to right, rgb(43, 50, 178), rgb(20, 136, 204))
+}
+.menu-item:nth-child(5) .menu-item-back {
+  background: linear-gradient(to right, rgb(20, 136, 204), rgb(43, 50, 178))
+}
+.menu-item:nth-child(5) .menu-item-back:hover{
+  background: linear-gradient(to right, rgb(43, 50, 178), rgb(20, 136, 204))
+}
+.menu-item:nth-child(7) .menu-item-back {
+  background: linear-gradient(to right, rgb(20, 136, 204), rgb(43, 50, 178))
+}
+.menu-item:nth-child(7) .menu-item-back:hover{
+  background: linear-gradient(to right, rgb(43, 50, 178), rgb(20, 136, 204))
+}
+.ivu-poptip-rel {
       /* background: #fd7869; */
-        background: linear-gradient(to right, rgb(20, 136, 204), rgb(43, 50, 178))
-    }
-    .logo__title{
-      color: #093838;
-      font-family: 'Gotham Rounded SSm A','Gotham Rounded SSm B';
-      background: transparent;
-  }
-  .header-name{
-    color: #093838;
-    font-family: esteban
-  }
-  .navbar-bottom {
+  background: linear-gradient(to right, rgb(20, 136, 204), rgb(43, 50, 178))
+}
+.logo__title{
+  color: #093838;
+  font-family: 'Gotham Rounded SSm A','Gotham Rounded SSm B';
+  background: transparent;
+}
+.header-name{
+  color: #093838;
+  font-family: esteban
+}
+.navbar-bottom {
     /* background-color: #0b4949;     */
-    background-color: #06665F;
-  }
-  .navbar-bottom:hover a.active {
-    background-color:	#0E3A39;
-    color: #fff;
-  }
-  .navbar-bottom .due-date:hover, .navbar-bottom a:hover {
-    background: 	#0E3A39;
-  }
-  .share, .one, .two { 
-    background: #86af9e;
-    color: #06665F;
-  }
-
-  .right_pannel::before {
-    color:#191efd;
-  }
-  .buttonView.buttonView--primary {
-    background: rgb(255, 171, 15);
-    border-color: rgb(255, 171, 15);
-  }
-  .buttonView.buttonView--primary:focus,
-  .buttonView.buttonView--primary:hover {
+  background-color: #06665F;
+}
+.navbar-bottom:hover a.active {
+  background-color:	#0E3A39;
+  color: #fff;
+}
+.navbar-bottom .due-date:hover, .navbar-bottom a:hover {
+  background: 	#0E3A39;
+}
+.share, .one, .two { 
+  background: #86af9e;
+  color: #06665F;
+}
+.right_pannel::before {
+  color:#191efd;
+}
+.buttonView.buttonView--primary {
+  background: rgb(255, 171, 15);
+  border-color: rgb(255, 171, 15);
+}
+.buttonView.buttonView--primary:focus,
+.buttonView.buttonView--primary:hover {
     background: rgb(255, 171, 15);
     border-color: rgb(255, 171, 15);
     box-shadow: inset 0 0 transparent, 0 0 0 3px #4da544;
     -moz-box-shadow: inset 0 0 transparent, 0 0 0 3px #4da544;
     -webkit-box-shadow: inset 0 0 transparent, 0 0 0 3px #4da544;
-  }
-  
-  .BlockStory-storyContent, .attachment-username, svg.Icon.AttachIcon  {
+}
+.BlockStory-storyContent, .attachment-username, svg.Icon.AttachIcon  {
     color: #093838;
-  }
+}
   .history-label {
     color: #000;
   }
@@ -132,21 +117,12 @@ html, body {
   .grid-tags-and-date .grid_due_date {
       color: white;
   }
-  .Topbar {
-      background: transparent;
-  }
   .Topbar-settingsMenuDomainName {
       color: white;
   }
   .privacySummaryDropdownLeftIcon {
       fill: white;
   }
-  .card {
-      background: transparent;
-  }
-.vw-widget,.vw-widget-heading, .ui.blue.table, .ui.table thead th {
-  background: transparent;
-}
 .nav > li > a:hover, .nav > li > a:focus {
   background:  linear-gradient(to bottom right, rgb(255, 153, 51), rgb(255, 255, 255), rgb(19, 136, 8));
   color: black;

@@ -209,8 +209,6 @@
         }
         let inutTodo = $(elFocus + " .view .new-todo." + id + "_" + level);   // Get the first <inutTodo> element in the document        
         let permisionResult = await CmnFunc.checkActionPermision(this, typeId, Constant.USER_ACTION.TASK, Constant.PERMISSION_ACTION.UPDATE,created_by)
-
-        console.log("permisionResult-->", permisionResult)
         if (!permisionResult && id != -1) {
           inutTodo.prop("readonly", true);
         } else {

@@ -17,7 +17,7 @@
                                 <span>{{logDate(files.created_on)}}</span>
                          </span>
                     </span>
-                    <Dropdown @on-click="moreActionMenuClick" trigger="click" placement="bottom" class="close-btn">
+                    <Dropdown trigger="click" placement="bottom" class="close-btn">
                         <a href="javascript:void(0)">
                             <Icon style="font-size:20px;color:rgb(117, 120, 126); cursor: pointer" type="android-more-horizontal"></Icon>
                         </a>
@@ -108,7 +108,6 @@ export default {
     methods: {
       showAttachmentList (){
         this.getAttachmentList = this.getFiles(this.filteredTodo.id);
-        console.log('showAttachmentList array:', this.getAttachmentList)
       },
       deleteAttachment(objAttachment, btnIndex) {
        
@@ -166,11 +165,6 @@ export default {
           }
         }, this);
       },
-    moreActionMenuClick(key, val) {
-      console.log("moreActionMenuClick", key);
-      if (val == 1) {
-      }
-    },
     logDate(logDate) {
         if(logDate){
           return moment(logDate).calendar()

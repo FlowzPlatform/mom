@@ -464,7 +464,6 @@
 
         let self = this
         let userIndex = _.findIndex(self.$store.state.arrAllUsers, function (m) { return m._id === self.$store.state.userObject._id })
-        console.log('user index:', userIndex)
         if(userIndex > -1){
           Vue.set(self.$store.state.arrAllUsers[userIndex],'image_url',self.imageURlProfilePic)
           // self.$store.state.arrAllUsers[userIndex].image_url = self.imageURlProfilePic

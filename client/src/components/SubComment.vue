@@ -50,7 +50,6 @@
         methods: {
             closeDiv:function()
             {
-                console.log("Close Comment On Click")
                 this.$store.dispatch('closeComment', this.commentParentId)
             },
             pinit:function()

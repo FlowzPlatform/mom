@@ -205,7 +205,6 @@
             btnForgotSubmit(){
                 let self = this;
                 let emailValidator =this.validateEmail(self.forgotEmailId);
-                console.log(emailValidator);
                 if(self.forgotEmailId == ""){
                     self.$message.warning("email field is required");
                 }else if(emailValidator == false){
@@ -221,7 +220,6 @@
                     })
                     .then(function (response) {
                         self.showSubmitLoad=false;
-                        console.log(response)
                         if(response.data.code == 200){
                             // self.$message.success(response.data.message);
                             self.$Notice.open({

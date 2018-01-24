@@ -40,7 +40,7 @@
                          self.$router.replace('/navbar/mainapp')   
                     })             
                     .catch(function(error) {      
-                        console.log("login error",error)
+                        // console.log("login error",error)
                        if (error.response.status === 401) { 
                            return 
                         }              

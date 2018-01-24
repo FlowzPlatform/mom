@@ -321,7 +321,6 @@
           Constant.USER_ACTION.COMMENT,
           Constant.PERMISSION_ACTION.READ
         );
-        console.log("permisionResult Read Comment-->", permisionResult);
         if (!permisionResult && id != -1) {
           this.readCommentBox = false;
         } else {
@@ -335,7 +334,6 @@
           Constant.USER_ACTION.COMMENT,
           Constant.PERMISSION_ACTION.CREATE
         );
-        console.log("permisionResult Create Comment-->", permisionResult);
         if (!permisionResult && id != -1) {
           this.createCommentBox = false;
         } else {
@@ -402,7 +400,6 @@
           Constant.USER_ACTION.TAG,
           Constant.PERMISSION_ACTION.READ
         );
-        console.log("Tag read permission:", this.isTagReadPermission);
       },
       async tagNewPermission() {
         this.isTagReadPermission = await CmnFunc.checkActionPermision(
@@ -411,7 +408,6 @@
           Constant.USER_ACTION.TAG,
           Constant.PERMISSION_ACTION.CREATE
         );
-        console.log("Tag create permission:", this.isTagReadPermission);
       },
       subTaskShow() {
         this.selectedMenuIndex = 0;
@@ -493,7 +489,6 @@
       */
       userListClick:async function (user_id) {
         if(this.selectedUser != user_id){
-            console.log("userListClick method call:",user_id)
             this.setAssignUser(user_id)
             this.$store.commit('SHOW_DIV', this.todoObject)
         }
@@ -507,7 +502,6 @@
         }
       },
       checkEmail(email){
-        console.log("email !='null':",email ,(email ==='null'))
         if(email && email !='null'){
           return CmnFunc.checkValidEmail(email)
         }
@@ -549,10 +543,8 @@
             this.sectionWidth = (containerWidth * ids[id]) / 100
             if((this.id+1) == id){
                 this.selectedIndex = this.id
-                console.log('section width:', this.sectionWidth)
               // Comment
                 if(parseInt(this.sectionWidth) > 371  && parseInt(this.sectionWidth) < 442 ){
-                  console.log("call block 1")
                   // Hide menu
                   this.hideComment()
                   // Show menu
@@ -560,14 +552,12 @@
                   this.displayHistory()
 
                 }else if(parseInt(this.sectionWidth) > 333  && parseInt(this.sectionWidth) < 371 ){
-                  console.log("call block 2")
                    // Hide menu
                   this.hideComment()
                   this.hideAttchment()
                   // Show menu
                   this.displayHistory()
                 }else if(parseInt(this.sectionWidth) > 300  && parseInt(this.sectionWidth) < 333 ){
-                  console.log("call block 3")
                    // Hide menu
                   this.hideComment()
                   this.hideAttchment()
@@ -575,7 +565,6 @@
                   // Show menu
                 }
                 else if(parseInt(this.sectionWidth) > 0  && parseInt(this.sectionWidth) < 300 ){
-                  console.log("call block 4")
                     // Hide menu
                   this.hideComment()
                   this.hideAttchment()
@@ -590,7 +579,6 @@
                   // When two sliptter section 
                   if(ids.length==2){
                     if(parseInt(this.sectionWidth) > 550  && parseInt(this.sectionWidth) < 663){
-                        console.log("call block 6")
                         // Hide menu
                         this.hideComment()
                         // Show menu
@@ -598,14 +586,12 @@
                         this.displayHistory()
                         this.displayCalendar()
                       }else if(parseInt(this.sectionWidth) > 511 && parseInt(this.sectionWidth) < 550){
-                        console.log("call block 7")
                         this.hideComment()
                         this.hideAttchment()
                         // Show menu
                         this.displayHistory()
                         this.displayCalendar()
                       }else if(parseInt(this.sectionWidth) > 446 && parseInt(this.sectionWidth) < 511){
-                        console.log("call block 8")
                           // Hide menu
                         this.hideComment()
                         this.hideAttchment()
@@ -614,7 +600,6 @@
                         this.displayCalendar()
 
                       }else if(parseInt(this.sectionWidth) > 350 && parseInt(this.sectionWidth) < 446){
-                        console.log("call block 9")
                           // Hide menu
                         this.hideComment()
                         this.hideAttchment()

@@ -46,8 +46,6 @@ function uploadFileOnAmazonS3(file, fileTimeStamp, cb) {
 
       store.commit('progressVal')
     }).send(function (err, data) {
-      // console.log('err ===> ', err)
-      // console.log('data ===> ', data)
       try {
         cb(data.Location)
       } catch (e) {
@@ -119,10 +117,9 @@ function findPinnedIndex(element) {
 }
 
 function findShowProject(project) {
-  console.log("Element:--", project)
-  let memberIndex=_.findIndex(project.members, function (d) { return d.user_id == store.state.userObject._id })
-  return (project.project_privacy==0 || (project.project_privacy==1 && memberIndex>-1) || (project.project_privacy==2 && project.create_by===store.state.userObject._id)) && !project.is_deleted
-    //  return element.isPinned !== undefined && element.isPinned === true;
+  let memberIndex = _.findIndex(project.members, function (d) { return d.user_id == store.state.userObject._id })
+  return (project.project_privacy == 0 || (project.project_privacy == 1 && memberIndex > -1) || (project.project_privacy == 2 && project.create_by === store.state.userObject._id)) && !project.is_deleted
+  //  return element.isPinned !== undefined && element.isPinned === true;
 }
 // function scrollToLeft() {
 //   var children = document.getElementById('main-container').children;
@@ -192,7 +189,7 @@ export const store = new Vuex.Store({
     isNoProjectShow: false,
     currentprojectPermisionRevoked: false,
     parentTasks: [],
-    currentprojectPermisionRevokedMessage:''
+    currentprojectPermisionRevokedMessage: ''
   },
   mutations: {
     userData: state => state.userObject,
@@ -242,9 +239,6 @@ export const store = new Vuex.Store({
       else {
         state.todolist = data
       }
-    },
-    toShowTask(state, payload){
-      console.log("payload", payload)
     },
     SHOW_DIV(state, payload) {
 
@@ -392,7 +386,7 @@ export const store = new Vuex.Store({
       state.currentProjectMember = ''
       state.c = {}
       state.projectSettingMenuOffset = 0
-      state.createdByTaskList.length = 0      
+      state.createdByTaskList.length = 0
       state.recentlyCompletedTasks.length = 0
       state.searchView = ''
       state.assignedToOthers.length = 0,
@@ -443,7 +437,7 @@ export const store = new Vuex.Store({
 
           if (item.type_id)
             Vue.set(state.todolist[updateTodoIndex], 'type_id', item.type_id)
-            
+
           if (item.type_id) {
             Vue.set(state.accessRight, 0, {})
             // state.accessRight.task_type = item.type_id;
@@ -497,14 +491,7 @@ export const store = new Vuex.Store({
           state.todolist.splice(state.todolist.length - 1)
           state.isDeleteObj = false
         }
-        console.log('Vuex-add todo-->')
         state.todolist.push(todoObject)
-
-        // if (state.currentModified) {
-        //   state.todolist.push(state.currentTodoObj)
-        //   // state.currentTodoObj = {}
-        //   state.isDeleteObj = true
-        // }
         var isObjectAvailable = state.todolist.find(todo => todo.id === todoObject.parentId)
         if (isObjectAvailable) {
           if (todoObject.parentId) {
@@ -607,7 +594,6 @@ export const store = new Vuex.Store({
     DELETE_COMMENT(state, data) {
       let removeTaskComments = _.findIndex(state.taskComment, function (d) { return d.id == data.id })
       state.taskComment.splice(removeTaskComments, 1)
-      console.log('DELETE_COMMENT', state.taskComment)
     },
     updateTodo(state, todoObject) {
       // setCheckboxColor(state, todoObject)
@@ -675,12 +661,10 @@ export const store = new Vuex.Store({
       //localStorage.setItem('auth_token', token);
       let location = psl.parse(window.location.hostname)
       location = location.domain === null ? location.input : location.domain
-      console.log('Cookie :', Vue.cookie)
       Vue.cookie.set('auth_token', token, { expires: 1, domain: location });
 
     },
     INSERT_HISTORY_LOG(state, histroyObject) {
-      console.log("INSERT_HISTORY_LOG updated", histroyObject)
       if (histroyObject.log_action != 0) {
         try {
           state.taskHistoryLog.unshift(histroyObject)
@@ -701,7 +685,7 @@ export const store = new Vuex.Store({
     GET_ALL_USERS(state, objAllUsers) {
       _.forEach(objAllUsers, function (object) {
         let index = _.findIndex(state.arrAllUsers, function (d) { return d._id == object._id })
-        if (index < 0  && CmnFunc.checkValidEmail(object.email)) {
+        if (index < 0 && CmnFunc.checkValidEmail(object.email)) {
           state.arrAllUsers.push(object)
         }
       });
@@ -712,18 +696,14 @@ export const store = new Vuex.Store({
     updateProjectList(state, value) {
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
       if (updateProjectIndex >= 0) {
-        console.log("state.currentProject.id-->",state.currentProject.id === value.id)
-        if(state.currentProject.id === value.id && state.projectlist[updateProjectIndex].create_by!==state.userObject._id && state.projectlist[updateProjectIndex].project_privacy!==value.project_privacy)
-        {
-          if(value.project_privacy==0)
-          {
-            state.currentprojectPermisionRevoked=false;
-          }if(value.project_privacy==1){
-            state.currentprojectPermisionRevoked=false;
-          }else if(value.project_privacy==2)
-          {
+        if (state.currentProject.id === value.id && state.projectlist[updateProjectIndex].create_by !== state.userObject._id && state.projectlist[updateProjectIndex].project_privacy !== value.project_privacy) {
+          if (value.project_privacy == 0) {
+            state.currentprojectPermisionRevoked = false;
+          } if (value.project_privacy == 1) {
+            state.currentprojectPermisionRevoked = false;
+          } else if (value.project_privacy == 2) {
             state.currentprojectPermisionRevokedMessage = "Owner changed project privacy."
-            state.currentprojectPermisionRevoked=true;
+            state.currentprojectPermisionRevoked = true;
           }
         } else {
           console.log("Else revocekd")
@@ -743,10 +723,7 @@ export const store = new Vuex.Store({
       state.projectlist = value
     },
     updateProjectServiceRoleList(state, value) {
-      console.log("updateProjectServiceRoleList value:", value)
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.project_id })
-      // console.log("updateProjectServiceRoleList:",updateProjectIndex);
-      console.log("value:updateProjectIndex", updateProjectIndex)
       if (updateProjectIndex >= 0) {
         // Find user roll name
         var role = _.find(state.userRoles, ['id', value.user_role_id])
@@ -757,46 +734,42 @@ export const store = new Vuex.Store({
 
         state.currentProjectMember[memberIndex].roleName = role.name;
         state.currentProjectMember[memberIndex].user_role_id = role.id;
-
-        console.log("updateProjectServiceRoleList", state.currentProjectMember)
       }
     },
     /**
     * Update project list deleted by user
     */
     updateDeletedProjectList(state, value) {
-      console.log("updateDeletedProjectList:", value);
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.id })
 
       if (updateProjectIndex >= 0) {
         state.projectlist[updateProjectIndex].is_deleted = value.is_deleted;
         state.projectlist.splice(updateProjectIndex, 0)
-        
+
       }
       if (value.is_deleted) {
-        console.log("updateDeletedProjectList inside delete:", value);
         state.todolist.length = 0
         state.currentProjectId = ""
         state.currentProjectName = ""
         state.currentProjectPrivacy = ''
         state.currentTodoObj = ''
         state.currentProject = ''
-        state.userRoles.length=0
+        state.userRoles.length = 0
 
         setTimeout(() => {
-          let showProjectIndex=state.projectlist.findIndex(findShowProject)
-          if(showProjectIndex>-1){
-              state.currentProject = state.projectlist[showProjectIndex];
-              state.currentProjectId = state.projectlist[showProjectIndex].id
-              state.currentProjectName = state.projectlist[showProjectIndex].project_name
-              state.currentProjectPrivacy = state.projectlist[showProjectIndex].project_privacy
-              store.dispatch('getAllTodos', { 'parentId': "", project_id: state.currentProjectId });  
-              state.isNoProjectShow = false;
-          }else{
+          let showProjectIndex = state.projectlist.findIndex(findShowProject)
+          if (showProjectIndex > -1) {
+            state.currentProject = state.projectlist[showProjectIndex];
+            state.currentProjectId = state.projectlist[showProjectIndex].id
+            state.currentProjectName = state.projectlist[showProjectIndex].project_name
+            state.currentProjectPrivacy = state.projectlist[showProjectIndex].project_privacy
+            store.dispatch('getAllTodos', { 'parentId': "", project_id: state.currentProjectId });
+            state.isNoProjectShow = false;
+          } else {
             state.isNoProjectShow = true;
           }
         }, 1000);
-        
+
       }
 
 
@@ -805,7 +778,6 @@ export const store = new Vuex.Store({
     * Update current project member list
     */
     updateProjectMember(state, value) {
-      console.log("updateProjectMember()",value)
       let updateProjectIndex = _.findIndex(state.projectlist, function (d) { return d.id == value.project_id })
       if (updateProjectIndex >= 0) {
 
@@ -815,20 +787,17 @@ export const store = new Vuex.Store({
 
         if (memberIndex > -1) {
           Vue.delete(tempProject.members, memberIndex)
-          if(value.project_id===state.currentProjectId && value.create_by!==state.userObject._id)
-          {
+          if (value.project_id === state.currentProjectId && value.create_by !== state.userObject._id) {
             state.currentprojectPermisionRevokedMessage = "You are not a member of current project."
-            state.currentprojectPermisionRevoked=true;
+            state.currentprojectPermisionRevoked = true;
           }
-          if(value.user_id===state.userObject._id)
-            Vue.delete( state.projectlist,updateProjectIndex);
+          if (value.user_id === state.userObject._id)
+            Vue.delete(state.projectlist, updateProjectIndex);
         }
       }
     },
     updateAccessRight(state, value) {
-      console.log("updateAccessRight", value)
       let index = _.findIndex(state.accessRight, function (d) { return d.id == value.id })
-      console.log("updateAccessRight index:", index)
       if (index >= 0) {
         Vue.set(state.accessRight, index, value)
       }
@@ -874,7 +843,6 @@ export const store = new Vuex.Store({
       state.assignedToOthers = payload
     },
     ASSIGN_PROJECT_MEMBER(state, assignMember) {
-      console.log("Assign Member:--",  assignMember )
       let index = _.findIndex(state.projectlist, function (d) { return d.id == assignMember.project_id })
       if (index > -1) {
         if (!state.projectlist[index].members)
@@ -887,9 +855,8 @@ export const store = new Vuex.Store({
             state.projectlist[index].members.push({ user_id: assignMember.user_id, url: state.arrAllUsers[userIndex].image_url, name: state.arrAllUsers[userIndex].name, email: state.arrAllUsers[userIndex].email, user_role_id: assignMember.user_role_id, is_deleted: false, id: assignMember.id })
           }
 
-          if(assignMember.project_id===state.currentProjectId)
-          {
-            state.currentprojectPermisionRevoked=false;
+          if (assignMember.project_id === state.currentProjectId) {
+            state.currentprojectPermisionRevoked = false;
           }
 
         }, 2000);
@@ -902,8 +869,6 @@ export const store = new Vuex.Store({
             }
           }
         }).then(response => {
-          console.log("Project Assign To you:-->", response)
-          // 
           var project = response[0];
           var projectMembers = project.members;
           //  projectMembers.forEach(function(member) {
@@ -918,13 +883,12 @@ export const store = new Vuex.Store({
           //  }, this);
 
           // state.projectlist.push(project);
-          Vue.set(state.projectlist,state.projectlist.length,project)
+          Vue.set(state.projectlist, state.projectlist.length, project)
           state.isNoProjectShow = false;
           // state.currentprojectPermisionRevoked=false
 
-          if(assignMember.project_id===state.currentProjectId)
-          {
-            state.currentprojectPermisionRevoked=false;
+          if (assignMember.project_id === state.currentProjectId) {
+            state.currentprojectPermisionRevoked = false;
           }
 
 
@@ -994,7 +958,7 @@ export const store = new Vuex.Store({
       if (roleIndex > -1)
         Vue.set(store.state.userRoles, roleIndex, role)
     },
-    GET_PARENT_TODO(state , todo) {
+    GET_PARENT_TODO(state, todo) {
       state.parentTasks.push(todo[0])
     }
   },
@@ -1030,68 +994,67 @@ export const store = new Vuex.Store({
     eventListener({ commit }) {
       // A new message has been created on the server, so dispatch a mutation to update our state/view
       services.tasksService.on('toggleTodoTask', message => {
-        console.log("Message Toggle Todo Event:-->", message)
+        // console.log("Message Toggle Todo Event:-->", message)
       })
 
 
       services.tasksService.on('created', message => {
-        console.log("Message Cretaed task:-->", message)
+        // console.log("Message Cretaed task:-->", message)
         commit('ADD_NEW_TODOS', message)
       })
 
 
       services.tasksService.on('removed', message => {
-        console.log("Message Removed:-->", message)
+        // console.log("Message Removed:-->", message)
         commit('deleteTodo', message)
       })
 
       services.tasksService.on('patched', message => {
-        console.log("Message Update:-->", message)
+        // console.log("Message Update:-->", message)
         commit('UPDATE_TODO', message)
       })
 
       services.taskAttachmentService.on('created', message => {
-        console.log("Message Attachment Cretaed:-->", message)
+        // console.log("Message Attachment Cretaed:-->", message)
         commit('SELECT_FILE', message)
       })
 
       services.taskAttachmentService.on('removed', message => {
-        console.log("Message Attachment removed:-->", message)
+        // console.log("Message Attachment removed:-->", message)
         commit('DELETE_ATTACHMENT', message)
       })
 
       services.tagsService.on('created', message => {
-        console.log("Message Tag Cretaed:-->", message)
+        // console.log("Message Tag Cretaed:-->", message)
         commit('INSERT_TAG', message)
       })
 
       services.taskTagsService.on('created', message => {
-        console.log("Message Task Tag Cretaed:-->", message)
+        // console.log("Message Task Tag Cretaed:-->", message)
         var object = message
         commit('INSERT_TASKTAGS', message)
       })
 
       services.taskTagsService.on('patched', message => {
-        console.log("Message Task Tag updated:-->", message)
+        // console.log("Message Task Tag updated:-->", message)
         commit('REMOVE_TASKTAG', message)
       })
 
       services.taskComments.on('created', message => {
-        console.log("Message commen Logs Cretaed:-->", message)
+        // console.log("Message commen Logs Cretaed:-->", message)
         commit('ADD_COMMENT', message)
       })
 
       services.taskComments.on('removed', message => {
-        console.log("Message History log Removed:-->", message)
+        // console.log("Message History log Removed:-->", message)
         commit('DELETE_COMMENT', message)
       })
       services.projectService.on('patched', message => {
-        console.log("Project patch:", message)
-
+        // console.log("Project patch:", message)
         if (message.is_deleted === true) {
           commit('updateDeletedProjectList', message)
         } else {
-          console.log("Path 2------------");
+          // console.log("Path 2------------");
           commit('updateProjectList', message)
         }
 
@@ -1104,42 +1067,39 @@ export const store = new Vuex.Store({
         commit('ASSIGN_PROJECT_MEMBER', message)
       })
       services.projectMemberService.on('removed', message => {
-         console.log("Remove_PROJECT_MEMBER:-->", message)
+        //  console.log("Remove_PROJECT_MEMBER:-->", message)
         commit('updateProjectMember', message)
       })
 
       services.projectService.on('created', message => {
         message.members = []
-        console.log("Project updated:-->", message)
+        // console.log("Project updated:-->", message)
         commit('ADD_PROJECT', message)
-        console.log("Project updated:-->", message)
+        // console.log("Project updated:-->", message)
         commit('updateProjectList', message)
       })
       services.taskTypesService.on('created', message => {
-        console.log("Task Type Services:---", message)
+        // console.log("Task Type Services:---", message)
         commit('ADD_TASK_TYPE', message)
       })
       services.taskTypesService.on('removed', message => {
-        console.log("Delete Task Type Service:--", message)
+        // console.log("Delete Task Type Service:--", message)
         commit('DELETE_TASK_TYPE', message)
       }),
         services.taskStateService.on('created', message => {
-          console.log("Add Task Staus Service:--", message)
+          // console.log("Add Task Staus Service:--", message)
           commit('ADD_TASK_STATUS', message)
         })
       services.taskStateService.on('removed', message => {
-        console.log("Delete Task state Service:--", message)
+        // console.log("Delete Task state Service:--", message)
         commit('DELETE_TASK_STATUS', message)
       })
       services.roleServicePermission.on('created', message => {
-        console.log("Message To create Role permission:--", message)
+        // console.log("Message To create Role permission:--", message)
       })
       services.projectMemberService.on('patched', message => {
-        console.log("projectMemberService updated:-->", message)
-        
-          commit('updateProjectServiceRoleList', message)
-        
-
+        // console.log("projectMemberService updated:-->", message)
+        commit('updateProjectServiceRoleList', message)
       })
       // Project delete custom patch call
       // services.projectService.on('deleteProject', message => {
@@ -1147,17 +1107,17 @@ export const store = new Vuex.Store({
       // })
 
       services.roleService.on("removed", message => {
-        console.log("Role Delete Event:--", message)
+        // console.log("Role Delete Event:--", message)
         commit('roleDelete', message)
       })
 
       services.roleService.on("created", message => {
-        console.log("Role Created Event:--", message)
+        // console.log("Role Created Event:--", message)
         commit('roleCreated', message)
       })
 
       services.roleService.on("patched", message => {
-        console.log("Role Created Event:--", message)
+        // console.log("Role Created Event:--", message)
         commit('roleUpdated', message)
       })
 
@@ -1188,9 +1148,6 @@ export const store = new Vuex.Store({
       }).then(response => {
         commit('GET_TODO', response)
       });
-      // Vue.http.post('/tasks_parentId', { parentId: payload.parentId }).then(function (response) {
-      //   commit('GET_TODO', response.data)
-      // });
     },
     removeParentIdArray({ commit }) {
       commit('REMOVE_PARENT_ID_ARRAY')
@@ -1201,14 +1158,14 @@ export const store = new Vuex.Store({
         return
       if (dbId != -1) { // Update existing record
         services.tasksService.patch(dbId, { taskName: insertElement.taskName, taskDesc: '', updatedBy: store.state.userObject._id }, { query: { 'id': dbId } }).then(response => {
-          console.log("Update todo list::", response);
+          // console.log("Update todo list::", response);
           if (response.id) {
             CmnFunc.insertHistoryLog(store, store.state.userObject._id, insertElement.taskName, dbId, Constant.HISTORY_LOG_ACTION.TASK_UPDATE)
           }
         });
       } else {
         let defafultTaskType = store.state.task_types_list.find(type => type.default_Type === 'Todo');
-        console.log("insertTodo else::---->", defafultTaskType);
+        // console.log("insertTodo else::---->", defafultTaskType);
         // Insert new record
         services.tasksService.create({
           parentId: insertElement.parentId,
@@ -1227,7 +1184,7 @@ export const store = new Vuex.Store({
           project_id: insertElement.project_id,
           type_id: defafultTaskType.id // Default task type is todo 
         }).then(response => {
-          console.log("Insert new todo::---->", response);
+          // console.log("Insert new todo::---->", response);
 
           CmnFunc.insertHistoryLog(store, store.state.userObject._id, store.state.userObject._id, response.id, Constant.HISTORY_LOG_ACTION.TASK_CREATE)
 
@@ -1250,7 +1207,7 @@ export const store = new Vuex.Store({
           type_id: editObject.selectedType,
           state_id: editObject.selectedState
         }, { query: { 'id': editObject.todo.id } }).then(response => {
-          console.log("Response editTaskName::", response);
+          // console.log("Response editTaskName::", response);
           if (editObject.log_action) {
             CmnFunc.insertHistoryLog(store, store.state.userObject._id, editObject.log_text, response.id, editObject.log_action)
           }
@@ -1264,31 +1221,8 @@ export const store = new Vuex.Store({
       let dbId = deleteElement.id
       if (dbId) {
         services.tasksService.patch(dbId, { isDelete: true, deletedBy: store.state.userObject._id }).then(response => {
-          console.log("Response deleteTodo Flag Update:", response)
+          // console.log("Response deleteTodo Flag Update:", response)
         })
-        // Vue.http.delete('/deteletask/' + dbId, {
-        // }).then(response => {
-        //   commit('deleteTodo', { "data": response.data, "todo": deleteElement })
-        //   console.log('task deleted', response.data)
-        // if(this.filteredTodos.length-1 > 0)
-        // {
-        //   console.log('ID-Level:', this.filteredTodos[0].parentId, "===", this.filteredTodos[0].level);
-        //   var todoList = store.state.todo1(this.filteredTodos[0].parentId, (this.filteredTodos[0].level-1)); 
-        //   console.log('todoList:', todoList);
-        //   for(var i=0; i < todoList.length-1 ; i++)
-        //   {
-        //     if(todoList[i].id)
-        //       {
-        //         this.$http.post('/updatetasks', {
-        //         id: todoList[i].id,
-        //         index: i
-        //         }).then(response => {
-        //           console.log('index updated after remove task', response.data)
-        //       })
-        //       }
-        //   }
-        // }
-        // })
       }
     },
     dragTodo({ commit }, dragTodo) {
@@ -1298,7 +1232,7 @@ export const store = new Vuex.Store({
             id: dragTodo[i].id,
             index: i
           }, { query: { 'id': dragTodo[i].id } }).then(response => {
-            console.log("Resopnse from drag todo", response)
+            // console.log("Resopnse from drag todo", response)
           });
 
         }
@@ -1312,18 +1246,11 @@ export const store = new Vuex.Store({
           completed: changeTodo.completed,
           updatedBy: store.state.userObject._id,
         }, { query: { 'id': dbId } }).then(response => {
-          console.log("Response toggleTodo::", response);
+          // console.log("Response toggleTodo::", response);
           // Insert history log
           CmnFunc.insertHistoryLog(store, store.state.userObject._id, changeTodo.completed, response.id, Constant.HISTORY_LOG_ACTION.TASK_STATE)
 
         });
-        // Vue.http.post('/updatetasks', {
-        //   id: dbId,
-        //   completed: changeTodo.todo.completed
-        // }).then(response => {
-        //   commit('toggleTodo', changeTodo)
-        //   // console.log('task updated', response.data)
-        // })
       }
     },
     selectFile({ commit }, fileObject) {
@@ -1337,8 +1264,6 @@ export const store = new Vuex.Store({
         level: fileObject.level,
         file_name_timestamp: fileTimeStamp
       }
-
-
       // commit('SELECT_FILE', attachArr)
 
       //store.state.isProgress = true
@@ -1394,21 +1319,11 @@ export const store = new Vuex.Store({
             // file_url: '',
             // deletedBy: store.state.userObject.id
           }, { query: { 'id': deleteObject.id } }).then(response => {
-            console.log("Response deleteAttachment::", response);
+            // console.log("Response deleteAttachment::", response);
             // commit('DELETE_ATTACHMENT', deleteObject.objAttachment)
             // store.state.isLoading = false
             store.commit('deleteAttachmentProgress', { 'id': deleteObject.task_id, 'isProgress': false })
           });
-          // Vue.http.post('/deleteAttachment', {
-          //   id: deleteObject.objAttachment.id,
-          //   isDeleted: true,
-          //   file_url: '',
-          //   deletedBy: store.state.userObject.id
-          // }).then(response => {
-          //   commit('DELETE_ATTACHMENT', deleteObject.objAttachment)
-          //   store.state.isLoading = false
-          //   store.commit('showLoader')
-          // })
         }
         else {
           console.log("Check if you have sufficient permissions : ", err.stack);
@@ -1428,14 +1343,14 @@ export const store = new Vuex.Store({
           }
         }
       ).then(response => {
-        console.log("Response patch permission::", response);
+        // console.log("Response patch permission::", response);
         // if(response.data.length > 0){
         // commit('SELECT_FILE', response.data) 
         // }
       });
     },
     setAccessPermision(data) {
-      console.log("Set permission params:", data);
+      // console.log("Set permission params:", data);
       return axios.post('http://172.16.160.32:3000' + '/setpermission', {
         resourceId: data.pId,
         roleId: data.rId,
@@ -1448,7 +1363,7 @@ export const store = new Vuex.Store({
           }
         })
         .then(function (response) {
-          console.log("Set permission response:", response);
+          // console.log("Set permission response:", response);
         })
         .catch(function (error) {
           console.log("Set permission error:", error);
@@ -1461,7 +1376,7 @@ export const store = new Vuex.Store({
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         },
       }).then(function (response) {
-        console.log("Get all permissions response:", response.data.data);
+        // console.log("Get all permissions response:", response.data.data);
         return response.data.data
       })
         .catch(function (error) {
@@ -1476,7 +1391,7 @@ export const store = new Vuex.Store({
         access_value: data.access_value,
         task_type: data.taskType
       }).then(response => {
-        console.log("Response add permission::", response);
+        // console.log("Response add permission::", response);
         // if(response.data.length > 0){
         // commit('SELECT_FILE', response.data) 
         // }
@@ -1501,59 +1416,34 @@ export const store = new Vuex.Store({
           commit('SELECT_FILE', response.data)
         }
       })
-
-      // Vue.http.post('/getAttachments', {
-      //   task_id: taskId,
-      //   isDeleted: false
-      // }).then(response => {
-      //   if (response.data.length > 0) {
-      //     commit('SELECT_FILE', response.data)
-      //   }
-      // })
     },
     getHistoryFromDB({ commit }, taskId) {
       services.taskHistoryLogs.find({ query: { task_id: taskId } }).then(response => {
         response.sort(function (a, b) {
           return new Date(b.created_on).getTime() - new Date(a.created_on).getTime()
         });
-        console.log("response:=>", response)
         if (response.length > 0) {
           commit('HISTORY_LOG', response)
         }
       })
     },
     getSettings({ commit }, payload) {
-      // Vue.http.post('/getSttings', {
-      //   user_id: payload
-      // }).then(response => {
-      //   commit('GET_SETTINGS', response.data)
-      //   console.log("Get Settings", response.data)
-      // })
       services.settingService.find({
         query: {
           'user_id': payload
         }
       }).then(response => {
-        console.log("Response getSettings From DB::", response);
+        // console.log("Response getSettings From DB::", response);
         commit('GET_SETTINGS', response)
       });
     },
     toggleSetting({ commit }, setting) {
-      // console.log("setting", setting)
-      // Vue.http.post('/updateUserSetting', {
-      //   settings_id: setting.arr.id,
-      //   setting_value: setting.event,
-      //   user_id: setting.uId
-      // }).then(response => {
-      //   console.log('setting update', response.data)
-      //   commit('SETTING_UPDATE', setting)
-      // })
       if (setting.arr.user_setting[0]) {
         services.settingService.patch(setting.arr.user_setting[0].id,
           { setting_value: setting.event }, {
             query: { 'settings_id': setting.arr.id, 'user_id': setting.uId }
           }).then(response => {
-            console.log("Response SETTING_UPDATE From DB::", response);
+            // console.log("Response SETTING_UPDATE From DB::", response);
             commit('SETTING_UPDATE', response)
           });
       } else {
@@ -1562,7 +1452,7 @@ export const store = new Vuex.Store({
           user_id: setting.uId,
           setting_value: setting.event
         }).then(response => {
-          console.log("Response SETTING_INSERT From DB::", response);
+          // console.log("Response SETTING_INSERT From DB::", response);
           commit('SETTING_UPDATE', response)
         });
       }
@@ -1572,49 +1462,30 @@ export const store = new Vuex.Store({
         // console.log("Response getCommnets From DB::", response);
         commit('GET_TASK_COMMENT', response)
       });
-      // Vue.http.get('/getComment').then(function (response) {
-      //   commit('GET_TASK_COMMENT', response.data)
-      // });
     },
     insertTaskComment({ commit }, payload) {
-
       if (!payload.comment || payload.comment.trim().length == 0)
         return
       payload.createAt = new Date().toJSON();
       if (!payload.parentId)
         payload.parentId = ""
-      console.log("Reesponse create Payload From DB::", payload);
-
       services.taskComments.create(payload).then(function (response) {
-        console.log("Response create Comments From DB::", response);
         CmnFunc.insertHistoryLog(store, store.state.userObject._id, response.id, response.task_id, Constant.HISTORY_LOG_ACTION.COMMENT_ADD)
       })
     },
     insertProjectInvite({ commit }, inviteDetail) {
       services.projectMemberService.create(inviteDetail).then(function (response) {
-        console.log("Reesponse create Invite Member  From DB::", response);
-        // commit('ADD_COMMENT', response)
       })
     },
     getAllTaskTags({ commit }, taskId) {
       services.taskTagsService.find({ query: { task_id: taskId, is_deleted: false } }).then(response => {
-        console.log("Response TaskTag::", response);
         commit('GET_TASK_TAGS', response)
       });
-      // Vue.http.post('/getTaskTags', {
-      //     task_id:taskId
-      // }).then(function(response) {
-      //     commit('GET_TASK_TAGS', response.data)
-      //   })
     },
     getTagsList({ commit }) {
       services.tagsService.find().then(response => {
-        console.log("Response Tag Find::", response);
         commit('GET_TAGS_LIST', response)
       });
-      // Vue.http.get('/getTags').then(function(response) {
-      //       commit('GET_TAGS_LIST', response.data)
-      //   });
     },
     insertTagsInDB({ commit }, tagObject) {
       // Create new tag
@@ -1622,7 +1493,6 @@ export const store = new Vuex.Store({
         name: tagObject.tagName,
         created_by_user_id: store.state.userObject._id
       }).then(response => {
-        console.log("Response Tag Create::", response);
         // Create new tag log entry
         CmnFunc.insertHistoryLog(store, store.state.userObject._id, response.id, tagObject.taskId, Constant.HISTORY_LOG_ACTION.TAG_CREATE)
         // Add tag into task 
@@ -1633,30 +1503,10 @@ export const store = new Vuex.Store({
           is_deleted: false,
           name: tagObject.name
         }).then(response => {
-          console.log("Response Tag_Task create::", response);
           // Add tag into task log entry
           CmnFunc.insertHistoryLog(store, store.state.userObject._id, response.tag_id, response.task_id, Constant.HISTORY_LOG_ACTION.TAG_ADD)
         });
       });
-      // Vue.http.post('/insert_tag', {
-      //     name: tagObject.tagName,
-      //     task_id: tagObject.taskId,
-      //     created_by_user_id: store.state.userObject.id
-      // }).then(response => {
-      //     console.log("response:", response);
-      //     var id;
-      //     if (response.ok) {
-      //         id = response.body.tag_id;
-      //         console.log("response", id);
-      //         var tagArr = {
-      //           "id": id,
-      //           "name": tagObject.tagName,
-      //           "task_id": tagObject.taskId
-      //         }
-      //         // Add tag into tags array
-      //         commit('INSERT_TAG', tagArr)
-      //     }
-      // })
     },
     insertIntoTaskTags({ commit }, taskTagObject) {
       services.taskTagsService.create({
@@ -1665,27 +1515,15 @@ export const store = new Vuex.Store({
         is_deleted: false,
         created_by_user_id: store.state.userObject._id
       }).then(response => {
-        console.log("Response Tag Find::", response);
+        // console.log("Response Tag Find::", response);
         CmnFunc.insertHistoryLog(store, store.state.userObject._id, taskTagObject.tag.id, taskTagObject.taskId, Constant.HISTORY_LOG_ACTION.TAG_ADD)
       });
-      // Vue.http.post('/insert_taskTag', {
-      //     tag_id: taskTagObject.tag.id,
-      //     task_id: taskTagObject.taskId,
-      //     created_by_user_id: store.state.userObject.id
-      // }).then(response => {
-      //     console.log("response:", response);
-      //     var id;
-      //     if (response.ok) {
-      //         // Add tag into tags array
-      //         commit('INSERT_TASKTAGS', taskTagObject)
-      //     }
-      // })
     },
     removeTaskTagsFromDB({ commit }, taskTagObject) {
       services.taskTagsService.patch(null, {
         is_deleted: true, deleted_by_user_id: store.state.userObject._id
       }, { query: { "task_id": taskTagObject.task_id, "tag_id": taskTagObject.tag_id } }).then(response => {
-        console.log("Response update task tags:", response);
+        // console.log("Response update task tags:", response);
         // Remove tag into task log entry
         CmnFunc.insertHistoryLog(store, store.state.userObject._id, response.tag_id, response.task_id, Constant.HISTORY_LOG_ACTION.TAG_DELETE)
       });
@@ -1694,12 +1532,12 @@ export const store = new Vuex.Store({
       services.projectService.patch(null, {
         project_privacy: privacy_id
       }, { query: { "id": store.state.currentProjectId } }).then(response => {
-        console.log("Response update Project privacy:", response);
+        // console.log("Response update Project privacy:", response);
       });
     },
     getTodoObject({ commit }, todoObjectId) {
       services.tasksService.get(todoObjectId).then(function (response) {
-        console.log("get Id response", response)
+        // console.log("get Id response", response)
         commit('GET_OBJECT_BYID', response)
       })
     },
@@ -1724,7 +1562,7 @@ export const store = new Vuex.Store({
           }
         })
         .then(function (response) {
-          console.log('resp: ', response);
+          // console.log('resp: ', response);
         })
         .catch(function (error) {
           if (error.response.status === 409) {
@@ -1735,7 +1573,7 @@ export const store = new Vuex.Store({
     userLoginProcess({ commit }, loginObj) {
       // let apiUrl = loginObj.userType == 1 ? '/api/login' : '/api/login';
       let apiUrl = (loginObj.userType == 1 ? "/api/login" : "/api/ldapauth");
-      console.log("API url:", apiUrl)
+      // console.log("API url:", apiUrl)
       // return axios.post(process.env.USER_AUTH + apiUrl, {
       return axios.post(config.user_auth + apiUrl, {
         email: loginObj.email,
@@ -1780,7 +1618,6 @@ export const store = new Vuex.Store({
         });
     },
     signInWithLDAP({ commit }, loginObj) {
-      console.log("Login Object", loginObj);
       // return axios.post(process.env.USER_AUTH + '/api/ldapauth', {
       return axios.post(config.user_auth + '/api/ldapauth', {
         userid: loginObj.userid,
@@ -1790,7 +1627,6 @@ export const store = new Vuex.Store({
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
           }
         }).then(function (response) {
-          console.log('LDAP response obj: ', response);
           commit('SAVE_USERTOKEN', response.data.logintoken)
         })
         .catch(function (error) {
@@ -1813,10 +1649,8 @@ export const store = new Vuex.Store({
         },
       })
         .then(function (response) {
-          console.log('userdetail response:', response.data.data)
           commit('GET_USERDETAIL', response.data.data)
           services.socket.emit("userdata", response.data.data._id);
-          console.log('USER TOKEN: --->', store.state.userToken)
           services.socket.emit("authorization", store.state.userToken);
         })
         .catch(function (error) {
@@ -1867,16 +1701,6 @@ export const store = new Vuex.Store({
       } catch (error) {
         throw error
       }
-      // .then(function (response) {
-      //   console.log('resp: ', response)
-      //   return response
-      // })
-      // .catch(function (error) {
-      //   console.log('error: ', error)
-      //   if (error.response.status === 403) {
-      //     throw new Error('Token is invalid')
-      //   }
-      // })
     },
     getAllProjects({ commit }, userId) {
       services.projectService.find({
@@ -1894,25 +1718,18 @@ export const store = new Vuex.Store({
         // console.log("Response from Project", response)
         commit('GET_PROJECT_LIST', response)
       });
-      // Vue.http.post('/tasks_parentId', { parentId: payload.parentId }).then(function (response) {
-      //   commit('GET_TODO', response.data)
-      // });
     },
     getPermissions({ commit }) {
       services.permissionsService.find().then(response => {
-        console.log("Response from Permisisons", response)
+        // console.log("Response from Permisisons", response)
         commit('PERMISSIONS', response)
       });
-      // Vue.http.post('/tasks_parentId', { parentId: payload.parentId }).then(function (response) {
-      //   commit('GET_TODO', response.data)
-      // });
     },
     insertProject({ commit }, object) {
       var self = this;
       services.projectService.create(object.data).then(response => {
-        console.log("Response Project create::", response);
+        // console.log("Response Project create::", response);
         object.callback(response);
-        //  commit('addTodo', {"data":response, "todo": insertElement})
       });
     },
     getDeleteTask({ commit }, payload) {
@@ -1936,14 +1753,14 @@ export const store = new Vuex.Store({
       let dbId = undeleteElement.id
       if (dbId) {
         services.tasksService.patch(dbId, { isDelete: false }).then(response => {
-          console.log("Response unDeteleTodo Flag Update:", response)
+          // console.log("Response unDeteleTodo Flag Update:", response)
         })
       }
     },
     deletePermently({ commit }, deletePermentlyEle) {
       let dbId = deletePermentlyEle.id
       services.tasksService.remove(dbId, { query: { 'id': dbId } }).then(response => {
-        console.log("Reesponse deleteTodo::", response);
+        // console.log("Reesponse deleteTodo::", response);
       });
       services.tasksService.on('removed', message => {
 
@@ -1952,7 +1769,7 @@ export const store = new Vuex.Store({
     delete_Comment({ commit }, deleteCommentObj) {
       let commentId = deleteCommentObj.id
       services.taskComments.remove(commentId, { query: { 'id': commentId } }).then(response => {
-        console.log("Response To Delete Comment:--", response)
+        // console.log("Response To Delete Comment:--", response)
         CmnFunc.insertHistoryLog(store, store.state.userObject._id, deleteCommentObj.comment, response.task_id, Constant.HISTORY_LOG_ACTION.COMMENT_DELETE)
       })
     },
@@ -1969,7 +1786,7 @@ export const store = new Vuex.Store({
     },
     getRecentlyCompletedTasks({ commit }, payload) {
       services.tasksService.find({ query: { project_id: payload.project_id, created_by: payload.userID, completed: true } }).then(response => {
-        console.log("Response To Find Created by Recently Completed Tasks List:--", response)
+        // console.log("Response To Find Created by Recently Completed Tasks List:--", response)
         commit('showRecentlyCompletedTasks', response)
       });
     },
@@ -1977,7 +1794,7 @@ export const store = new Vuex.Store({
       services.tasksService.find({
         query: { project_id: payload.project_id, assigned_by: payload.userID, isDelete: false }
       }).then(response => {
-        console.log("Response To Tasks I've assigned To Others:--", response)
+        // console.log("Response To Tasks I've assigned To Others:--", response)
         commit('showTaskToAssignOthers', response)
       })
     },
@@ -1986,19 +1803,19 @@ export const store = new Vuex.Store({
         name: payload.name,
         index: payload.index
       }).then(response => {
-        console.log("Response To Add New Role:--", response)
+        // console.log("Response To Add New Role:--", response)
       })
     },
     removeNewRole({ commit }, payload) {
       services.roleServicePermission.remove(payload.id,
         { query: { 'id': payload.id } }
       ).then(response => {
-        console.log("Delete Role Access: --", response)
+        // console.log("Delete Role Access: --", response)
       })
     },
     getTaskTypes({ commit }) {
       services.taskTypesService.find().then(response => {
-        console.log("Response task type Find::", response);
+        // console.log("Response task type Find::", response);
         commit('GET_TASK_TYPE', response)
       });
     },
@@ -2006,7 +1823,7 @@ export const store = new Vuex.Store({
       if (payload.id != -1) {
         services.taskTypesService.patch(payload.id, { type: payload.type, typeDesc: payload.typeDesc, updatedBy: store.state.userObject._id },
           { query: { 'id': payload.id } }).then(response => {
-            console.log("Response patch Task Type::", response);
+            // console.log("Response patch Task Type::", response);
           });
       } else {
         services.taskTypesService.create({
@@ -2015,7 +1832,7 @@ export const store = new Vuex.Store({
           createdAt: new Date().toJSON(),
           created_by: payload.created_by
         }).then(response => {
-          console.log("Insert Task Type in DB:", response)
+          // console.log("Insert Ta/sk Type in DB:", response)
         })
       }
     },
@@ -2023,7 +1840,7 @@ export const store = new Vuex.Store({
       services.taskTypesService.remove(payload.id,
         { query: { 'id': payload.id } }
       ).then(response => {
-        console.log("Delete Task Type: --", response)
+        // console.log("Delete Task Type: --", response)
       })
     },
     getTypeState({ commit }, payload) {
@@ -2041,7 +1858,7 @@ export const store = new Vuex.Store({
           state_id: payload.state.id,
           createdAt: new Date().toJSON()
         }).then(response => {
-          console.log("State Selected for task type in DB:", response)
+          // console.log("State Selected for task type in DB:", response)
           // commit('ADD_TASK_STATE', response)
         })
       }
@@ -2051,13 +1868,13 @@ export const store = new Vuex.Store({
         {
           query: { 'id': payload.id }
         }).then(response => {
-          console.log("Delete From task type state in db:", response)
+          // console.log("Delete From task type state in db:", response)
           // commit('DELETE_TASK_STATE', response)
         })
     },
     getTaskStaus({ commit }) {
       services.taskStateService.find().then(response => {
-        console.log("Response task Staus Find::", response);
+        // console.log("Response task Staus Find::", response);
         commit('GET_TASK_STATUS', response)
       });
     },
@@ -2067,14 +1884,14 @@ export const store = new Vuex.Store({
           { taskState: payload.state.taskState, stateDesc: payload.state.stateDesc, color: payload.color }, {
             query: { 'id': payload.id }
           }).then(response => {
-            console.log("Patch respnse Task State Updated: ", response)
+            // console.log("Patch respnse Task State Updated: ", response)
           })
       } else {
         services.taskStateService.create({
           taskState: payload.state.taskState,
           createdAt: new Date().toJSON()
         }).then(response => {
-          console.log("Insert Taks State:--", response)
+          // console.log("Insert Taks State:--", response)
         })
       }
     },
@@ -2083,7 +1900,7 @@ export const store = new Vuex.Store({
         {
           query: { 'id': payload.id }
         }).then(response => {
-          console.log("Remove From Task State", response)
+          // console.log("Remove From Task State", response)
         })
     },
     editTypes({ commit }, payload) {
@@ -2091,7 +1908,7 @@ export const store = new Vuex.Store({
         type: payload.type,
         typeDesc: payload.typeDesc
       }).then(response => {
-        console.log("Edit Type from Right:-", response)
+        // console.log("Edit Type from Right:-", response)
       })
     },
     editState({ commit }, payload) {
@@ -2099,7 +1916,7 @@ export const store = new Vuex.Store({
         taskState: payload.taskState,
         stateDesc: payload.stateDesc
       }).then(response => {
-        console.log("Edit State from Right:-", response)
+        // console.log("Edit State from Right:-", response)
       })
     },
     changeUserRole({ commit }, data) {
@@ -2122,7 +1939,6 @@ export const store = new Vuex.Store({
    * Delete project
    */
     deleteProject({ commit }, data) {
-      console.log("project:", data);
       // console.log("state.user_id:",store.state.userObject._id);
       services.projectService.patch(data.id, {
         is_deleted: true,
@@ -2138,18 +1954,15 @@ export const store = new Vuex.Store({
     deleteProjectMember({ commit }) {
       var member = store.state.removeMember;
       services.projectMemberService.remove(member.id).then(response => {
-          console.log("Removed Member:--",response)
+        // console.log("Removed Member:--", response)
       });
     },
     roleCheckChange({ commit }, role) {
-      console.log("Role --->", role);
-
       if (role.id !== '-1') {
-        console.log("Role Check changes")
         services.roleService.patch(role.id, {
           is_checked: role.is_checked
         }).then(response => {
-          console.log("Role Check changes", response);
+          // console.log("Role Check changes", response);
           let userIndex = _.findIndex(store.state.userRoles, function (user) { return user.id === response.id })
           store.state.userRoles[userIndex] = response
         });
@@ -2163,7 +1976,6 @@ export const store = new Vuex.Store({
       }
     },
     insertRole({ commit }, role) {
-      console.log("insert Role --->", role);
       services.roleService.create({ name: role.name, is_checked: role.is_checked, is_editable: role.is_editable, created_by: role.created_by }).then(response => {
         // store.state.userRoles.push(response)
         // Vue.set(store.state.userRoles, store.state.userRoles.length-1, response)
@@ -2178,13 +1990,12 @@ export const store = new Vuex.Store({
       })
     },
     getCountofTaskType({ commit }, data) {
-      console.log("Data id", data)
       services.tasksService.find({
         query: { type_id: data.id }, $client: {
           flag: 'countflag'
         }
       }).then(response => {
-        console.log("Response in getCountofTaskType", response)
+        // console.log("Response in getCountofTaskType", response)
         if (response.length <= 0) {
           store.dispatch('deleteTaskType', data)
         } else {
@@ -2199,7 +2010,7 @@ export const store = new Vuex.Store({
           flag: 'countState'
         }
       }).then(response => {
-        console.log("Response in getCountofTypeState", response)
+        // console.log("Response in getCountofTypeState", response)
         if (response.length <= 0) {
           store.dispatch('deleteTaskStatus', data)
         } else {
@@ -2209,9 +2020,7 @@ export const store = new Vuex.Store({
       })
     },
     renameProjectName({ commit }, value) {
-      console.log("value->>", value)
       var projectId = store.state.currentProjectId;
-      console.log("value data->>", projectId)
       services.projectService.find({
         query: {
           'id': projectId,
@@ -2230,7 +2039,7 @@ export const store = new Vuex.Store({
             project_name: value,
             updated_by: store.state.userObject._id
           }).then(response => {
-            console.log("Response renameProjectName:", response);
+            // console.log("Response renameProjectName:", response);
             //  commit('UPDATE_TODO', insertElement)
             if (response.error) {
               $.notify.defaults({ className: "error" })
@@ -2250,23 +2059,20 @@ export const store = new Vuex.Store({
           return new Date(b.created_on).getTime() - new Date(a.created_on).getTime()
         });
         store.state.taskHistoryLog = response
-        console.log('findHistoryLog() method call', store.state.taskHistoryLog)
       })
     },
     deleteRoles({ commit }, role) {
       services.roleService.remove(role.id).then(response => {
-        console.log("Remove Role--->", response)
+        // console.log("Remove Role--->", response)
       });
     },
     closeComment(state, commentId) {
-      console.log("Commentid:---", commentId)
       let parentIdArr = store.state.parentIdArr;
       let index = 0;
 
       let tempParentId = '';
       let removeIndex = [];
       parentIdArr.forEach(function (element) {
-        console.log("element id:", element);
         if (element.show_type === "subcomment" && (element.parentId === tempParentId || element.id === commentId) && (element.isPinned === undefined || !element.isPinned)) {
           tempParentId = element.id;
           removeIndex.push(index);
@@ -2290,7 +2096,6 @@ export const store = new Vuex.Store({
       let removeIndex = [];
 
       parentIdArr.forEach(function (element) {
-        console.log("element id:", element);
         if (element.show_type === "subcomment" && (element.parentId === tempParentId || element.parentId === comment.id)) {
           tempParentId = element.id;
           removeIndex.push(index);
@@ -2306,13 +2111,13 @@ export const store = new Vuex.Store({
 
       }, this);
     },
-    getParentTask({ commit }, payload){
+    getParentTask({ commit }, payload) {
       services.tasksService.find({
         query:
           { id: payload.parentId, project_id: payload.project_id }
       }).then(response => {
-        if(response.length > 0) {
-          if(response[0].parentId !== ""){
+        if (response.length > 0) {
+          if (response[0].parentId !== "") {
             store.dispatch("getParentTask", response[0])
           } else {
             console.log("getParentTask", response)
@@ -2413,8 +2218,7 @@ export const store = new Vuex.Store({
     getTaskStausList: state => state.task_state_list,
     getTask_types_state: state => state.task_types_state,
     getIdArray: state => state.splitWidthArr,
-    getParent_Tasks: (state) => 
-    {
+    getParent_Tasks: (state) => {
       let list = state.parentTasks
       // return list
       return _.sortBy(list, 'level')
