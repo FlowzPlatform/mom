@@ -92,8 +92,7 @@
 			}
 		},
 		created() {
-			
-this.$store.state.currentprojectPermisionRevoked = false
+			this.$store.state.currentprojectPermisionRevoked = false
 			localStorage.setItem('split-sizes', JSON.stringify([50, 50]));
 			this.$store.dispatch('getSettings', this.$store.state.userObject._id);
 			this.$store.dispatch('removeAllEventListners');
@@ -152,19 +151,16 @@ this.$store.state.currentprojectPermisionRevoked = false
 					containerNewWidth = $(window).width()
 					let widthPixel = containerNewWidth + 'px'
 					$('.main-split-container').css('width', widthPixel)
-
 					localStorage.setItem('split-sizes', JSON.stringify([50, 50]));
 				}
 
 				if (this.parentIdList) {
-
 					//create new splitter section and increase total width accordingly when section added.
 					for (let i = 0; i <= this.parentIdList.length - 1; ++i) {
 						ids.push('#slot-' + i);
 						if (this.parentIdList.length > 1) {
 							containerWidth = ($(window).width() / 2) * (this.parentIdList.length);
 							containerNewWidth = ($(window).width() / 2) * (this.parentIdList.length + 1);
-
 						} else {
 							containerNewWidth = $(window).width()
 						}

@@ -15,7 +15,7 @@ export const socket = io(socket_io, {transports: ['websocket'], upgrade: false})
 
  socket.on("connect", function(){
      var userId=vuex.store.state.userObject._id;
-     console.log('io connected!')
+    //  console.log('io connected!')
      if (userId) {
       socket.emit("userdata",userId );   
       socket.emit("authorization",vuex.store.state.userToken);

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id="main-container" class="row right-tasktype" style="left: 20%;right: 20px;">
+        <div id="main-container" class="row right-tasktype">
             <div id="split-container" class="type-split-container" style="height: calc(100vh);">
                 <div id="left_task_container" class="split split-horizontal scrollbar">
                     <div id="center_pane">

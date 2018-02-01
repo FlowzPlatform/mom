@@ -13,7 +13,6 @@ import psl from 'psl'
 var VueCookie = require('vue-cookie')
 Vue.use(VueCookie)
 
-
 services.socket.on("reconnect", function () {
   console.log('-----reconnect fired!-------');
 });
@@ -1165,7 +1164,7 @@ export const store = new Vuex.Store({
         });
       } else {
         let defafultTaskType = store.state.task_types_list.find(type => type.default_Type === 'Todo');
-        // console.log("insertTodo else::---->", defafultTaskType);
+        // console.log("insertTodo else::---->", defafultTaskType);  
         // Insert new record
         services.tasksService.create({
           parentId: insertElement.parentId,
