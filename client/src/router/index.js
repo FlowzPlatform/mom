@@ -22,6 +22,7 @@ import '../style/custom.css'
 import '../style/theme5_black.css'
 // import '../style/theme6.css'
 // import '../style/RepublicDay18.css'
+import '../style/mediaStyle.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import GSignInButton from 'vue-google-signin-button';
