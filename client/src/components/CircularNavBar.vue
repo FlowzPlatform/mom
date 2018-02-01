@@ -292,23 +292,24 @@
         el.style.left = startX + dx + 'px';
         return false;
       }
-      // function touchmove(e) {
-      //   var dx = e.clientX - initialMouseX;
-      //   var dy = e.clientY - initialMouseY;
-      //   el.style.top = startY + dy + 'px';
-      //   el.style.left = startX + dx + 'px';
-      //   return false;
-      // }
+      function touchmove(e) {
+        // console.log("touchmove",e)
+        var dx = e.touches[0].clientX - initialMouseX;
+        var dy = e.touches[0].clientY - initialMouseY;
+        el.style.top = startY + dy + 'px';
+        el.style.left = startX + dx + 'px';
+        return false;
+      }
 
       function mouseup() {
         document.removeEventListener('mousemove', mousemove);
         document.removeEventListener('mouseup', mouseup);
       }
 
-      // function touchend() {
-      //   document.removeEventListener('touchmove', touchmove);
-      //   document.removeEventListener('touchend', touchend);
-      // }
+      function touchend() {
+        document.removeEventListener('touchmove', touchmove);
+        document.removeEventListener('touchend', touchend);
+      }
 
       el.addEventListener('mousedown', function (e) {
         startX = el.offsetLeft;
@@ -317,18 +318,21 @@
         initialMouseY = e.clientY;
         document.addEventListener('mousemove', mousemove);
         document.addEventListener('mouseup', mouseup);
+        // document.addEventListener('touchmove', touchmove);
+        // document.addEventListener('touchend', touchend);
         return false;
       });
 
-      // el.addEventListener('touchstart', function (e) {
-      //   startX = el.offsetLeft;
-      //   startY = el.offsetTop;
-      //   initialMouseX = e.clientX;
-      //   initialMouseY = e.clientY;
-      //   document.removeEventListener('touchmove', touchmove);
-      //   document.removeEventListener('touchend', touchend);
-      //   return false;
-      // });
+      el.addEventListener('touchstart', function (e) {
+        // console.log("addEventListener",e.touches[0])
+        startX = el.offsetLeft;
+        startY = el.offsetTop;
+        initialMouseX = e.touches[0].clientX;
+        initialMouseY = e.touches[0].clientY;
+        document.addEventListener('touchmove', touchmove);
+        document.addEventListener('touchend', touchend);
+        return false;
+      });
     }
   })
 

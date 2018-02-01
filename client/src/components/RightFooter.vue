@@ -82,14 +82,11 @@ Vue.use(VueQuillEditor, /* { default global options } */)
 
                     this.$store.dispatch('insertTaskComment', comment)
                     this.commentText = ''
-                    let frame = document.getElementsByClassName('cke_reset')[3].contentWindow
-                    frame.document.getElementsByClassName('cke_editable cke_editable_themed cke_contents_ltr cke_show_borders')[0].innerHTML = '';
                 } else {
                     var mdString = this.$refs.markdownEditor.simplemde.markdown(this.content).replace('<table>', '<table border=1 style="border:1px solid #bbb;">');
                     var mdString2 = mdString.replace(new RegExp('<th>', 'g'), '<th style="padding:5px">');
                     var mdString3 = mdString2.replace(new RegExp('<td>', 'g'), '<td style="padding:5px">');
                     var mdString4 = mdString3
-
                     let comment = {
                             task_id: this.commentTaskId,
                             commentBy: this.$store.state.userObject._id,

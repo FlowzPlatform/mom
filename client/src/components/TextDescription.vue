@@ -3,20 +3,23 @@
     <div class="property description taskDetailsView-description">
       <div class="multiline">
         <span class="autogrow-textarea">
-          <textarea v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" rows="3" cols="75" v-model="filteredTodo.taskDesc" @change="updateTaskName()"
+          <!-- <textarea v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" rows="3" cols="75" v-model="filteredTodo.taskDesc" @change="updateTaskName()"
             contenteditable="true" disable_highlighting_for_diagnostics="true" tabindex="10" class="field-description generic-input hypertext-input notranslate"
             id="property_sheet:details_property_sheet_field:description" placeholder="Description">
-            </textarea>
+            </textarea> -->
+            <Input  v-if="id !== 'rightTaskTypes' && id !== 'rightTaskState'" v-model="filteredTodo.taskDesc" type="textarea" placeholder="Description" @on-change="updateTaskName()"></Input>
           <br>
-          <textarea v-if="id === 'rightTaskTypes'" rows="3" cols="75" v-model="filteredTodo.typeDesc" @keyup="updateType()" contenteditable="true"
+          <Input v-if="id === 'rightTaskTypes'" v-model="filteredTodo.typeDesc" type="textarea" placeholder="Description" @on-keyup="updateType()"></Input>
+          <!-- <textarea v-if="id === 'rightTaskTypes'" rows="3" cols="75" v-model="filteredTodo.typeDesc" @keyup="updateType()" contenteditable="true"
             disable_highlighting_for_diagnostics="true" tabindex="10" class="field-description generic-input hypertext-input notranslate"
             id="property_sheet:details_property_sheet_field:description" placeholder="Description">
-            </textarea>
+            </textarea> -->
           <br>
-          <textarea v-if="id === 'rightTaskState'" rows="3" cols="75" v-model="filteredTodo.stateDesc" @keyup="updateStatus()" contenteditable="true"
+          <Input v-if="id === 'rightTaskState'" v-model="filteredTodo.stateDesc" type="textarea" placeholder="Description" @on-keyup="updateStatus()"></Input>
+          <!-- <textarea v-if="id === 'rightTaskState'" rows="3" cols="75" v-model="filteredTodo.stateDesc" @keyup="updateStatus()" contenteditable="true"
             disable_highlighting_for_diagnostics="true" tabindex="10" class="field-description generic-input hypertext-input notranslate"
             id="property_sheet:details_property_sheet_field:description" placeholder="Description">
-            </textarea>
+            </textarea> -->
           <br>
         </span>
       </div>

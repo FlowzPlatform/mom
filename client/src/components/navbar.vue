@@ -34,7 +34,7 @@
               </div>
               <!-- Change privacy  -->
               <div v-show="showPrivacyPopup" @mouseleave="hidePopup" class="layerPositioner-privacy layerPositioner--offsetRight layerPositioner--alignRight layerPositioner--below"
-                data-layerid="4" style="top: 80.339px;">
+                data-layerid="4" style="top: 80.339px; right: 0; left: auto;">
                 <div class="layerPositioner-layer-privacy">
                   <div class="Dropdown projectHeaderFacepile-privacySummaryDropdown">
                     <ul class="menu menu--long">
@@ -111,7 +111,7 @@
                 :size="30"></avatar>
               <avatar v-else :username="$store.state.userObject.email" :size="30" color="#fff"></avatar>
             </div>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu dropdown-menu-right">
               <li>
                 <a data-toggle="modal" data-target="#myModal2" @click="btnProfileClicked()">Profile</a>
               </li>
