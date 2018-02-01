@@ -1,0 +1,120 @@
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+/* RESPONSIVE STYLE SHEET */
+
+ @media only screen and (min-width: 768px) {
+    /* tablets and desktop */
+}
+
+@media only screen and (max-width: 767px) {
+    /* phones */
+    .Topbar-settingsMenuDomainName {
+        display: none;
+    }
+    .ui.table:not(.unstackable) {
+        width: 100%;
+        padding: 0;
+    }
+    .navbar-toggle{
+        float: left;
+    }
+    .main-panel{
+        width: 100vw;
+    }
+    .navbar-default .navbar-collapse, .navbar-default .navbar-form {
+        background-color: #02ceff;
+    }
+    .type-split-container {
+        overflow-x: auto;
+        display: -webkit-box;
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+    .navbar {
+        position: relative;
+    }
+    .right-tasktype {
+        position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+}
+
+@media only screen and (max-width: 767px) and (orientation: portrait) {
+    /* portrait phones */
+}
+
+ /* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    
+}
+
+ /* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+
+}
+
+ /* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+
+}
+
+ /* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    
+}
+
+
+@media (min-width: 768px) {
+    .navbar-collapse {
+      height: auto;
+      border-top: 0;
+      box-shadow: none;
+      max-height: none;
+      padding-left:0;
+      padding-right:0;
+    }
+    .navbar-collapse.collapse {
+      display: block !important;
+      width: auto !important;
+      padding-bottom: 0;
+      overflow: visible !important;
+    }
+    .navbar-collapse.in {
+      overflow-x: visible;
+    }
+  
+    .navbar
+    {
+        max-width:270px;
+        margin-right: 0;
+        margin-left: 0;
+        height: 100%;
+    box-shadow: 0 23px 30px -12px rgb(255, 255, 255), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+    }	
+    
+    .navbar-nav,
+    .navbar-nav > li,
+    .navbar-left,
+    .navbar-right,
+    .navbar-header
+    {float:none !important;}
+    
+    .navbar-right .dropdown-menu {left:0;right:auto;}
+    .navbar-collapse .navbar-nav.navbar-right:last-child {
+        margin-right: 0;
+    }
+    }
