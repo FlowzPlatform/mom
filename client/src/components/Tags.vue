@@ -117,9 +117,16 @@
                 this.handleInputConfirm(this.tagItem);
             },
             handleClose(tag) {
-                if (this.isTagDeletePermission) {
-                    this.removeTaskTags(tag);
-                }
+                this.$Modal.confirm({
+                    title: "Tag",
+                    content:
+                        "<p>Are you sure that you want to permanently delete tag?</p>",
+                    onOk: () => {
+                        if (this.isTagDeletePermission) {
+                            this.removeTaskTags(tag);
+                        }
+                    }
+                });
             },
             showMenu() {
                 $(this.$refs.menuTag).removeClass('hidden');

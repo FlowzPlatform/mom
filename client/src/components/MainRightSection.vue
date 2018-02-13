@@ -35,7 +35,7 @@
           </a>
           <!-- Assign task to user menu item -->
           <div class="assing-to-menu">
-            <Tooltip content="Assignee" placement="top-start">
+            <Tooltip content="Assigned to" placement="top-start">
               <span style="float:left;margin-top:-3px">
                 <div v-show="todoObject.email">
                   <avatar v-if="todoObject.image_url" :username="todoObject.email" :size="30" :src="todoObject.image_url"></avatar>
@@ -65,11 +65,13 @@
           </div>
           <!-- Task type -->
           <div class="task-type-menu">
+            <tooltip content="Task type" placement="top-start">
             <Select placement="top" :value="getTasTypeId" @on-change="btnTypeClicked" filterable style="width:150px;z-index:90">
               <Option style="margin:5px" v-for="task_type in getTaskTypes" :label="task_type.type" :value="task_type.id" :key="task_type.id">
                 {{task_type.type}}
               </Option>
             </Select>
+          </tooltip>
           </div>
           <!-- Task due date menu item -->
           <div :id="'calendar-'+id"  class="due-date">
@@ -110,7 +112,7 @@
           <div class="option">
             <Dropdown @on-click="moreActionMenuClick" trigger="click" placement="top">
               <a href="javascript:void(0)" @click="handleOpen" class="option-menu">
-                <Tooltip content="More Actions" placement="top-start">
+                <Tooltip content="More Actions" placement="top">
                   <i class="glyphicon glyphicon-option-horizontal" aria-hidden="true" style="font-size:22px"></i>
                 </Tooltip>
               </a>
@@ -275,10 +277,18 @@
         }
         // Show delete dialog val=4
         else if (val == 4) {
-          this.$Notice.open({
-                    title: this.todoObject.taskName+' Deleted'
-                });
-          this.$store.dispatch("delete_Todo", this.todoObject);
+          //alert
+          this.$Modal.confirm({
+          title: "Task",
+          content:
+            "<p>Are you sure that you want to permanently delete task?</p>",
+          onOk: () => {
+            this.$Notice.open({
+                      title: this.todoObject.taskName+' Deleted'
+                  });
+                this.$store.dispatch("delete_Todo", this.todoObject);
+              }
+          });
         }
         // Show estimate hour val=5
         else if (val == 5) { 
