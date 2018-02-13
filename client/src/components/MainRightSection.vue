@@ -1,7 +1,7 @@
 <template>
   <div>
     <div :id="id" class="right_pannel" style="display: grid;">
-       <Alert v-if="todoObject.isDelete" class="right-top-alert" type="error">
+      <Alert v-if="todoObject.isDelete" class="right-top-alert" type="error">
         <span slot="desc">
           <span class="deleteIcon">
             <Icon type="android-delete"></Icon>
@@ -13,6 +13,7 @@
       </Alert>
       <div class="tab-pannel" id="rightContainer" @mouseenter="handleOk">
         <task-heading :id="id" :filteredTodo="todoObject"></task-heading>
+        <breadcrumb :filteredTodo="todoObject" v-if="id==='searchTask'"></breadcrumb>
         <div class="rightscroll">
           <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
             :filteredTodo="todoObject" v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'"
@@ -39,26 +40,25 @@
               <span style="float:left;margin-top:-3px">
                 <div v-show="todoObject.email">
                   <avatar v-if="todoObject.image_url" :username="todoObject.email" :size="30" :src="todoObject.image_url"></avatar>
-                  <avatar v-else  :username="todoObject.email" color='#fff' :size="30"></avatar>
+                  <avatar v-else :username="todoObject.email" color='#fff' :size="30"></avatar>
                 </div>
               </span>
               <Row>
                 <Col span="2" style="padding-right:10px">
-                  <Select not-found-text="No user found" placeholder="user" placement="top" :value="selectedUser" @on-change="userListClick"
-                    filterable style="width:180px;z-index:99999">
-                    <Option v-show="checkEmail(user.email,user.fullname)" style="margin:5px" v-for="user in getUserList" :label="getListUserName(user)"
-                      :value="user._id" :key="user._id">
-                      <span>
-                        <span style="float:left;margin-right:10px;margin-top:-8px;width: 30px; height: 30px; border-radius: 50%; text-align: center; vertical-align: middle;background:#ccc">
-                          <div v-if="user.email">
-                            <avatar v-if="user.image_url" :username="user.email" :size="30" :src="user.image_url"></avatar>
-                            <avatar v-else color="white" :username="user.email" :size="30"></avatar>
-                          </div>
-                        </span>
-                        {{getListUserName(user,1)}}
+                <Select not-found-text="No user found" placeholder="user" placement="top" :value="selectedUser" @on-change="userListClick"
+                  filterable style="width:180px;z-index:99999">
+                  <Option style="margin:5px" v-for="user in getUserList" :label="getListUserName(user)" :value="user._id" :key="user._id">
+                    <span>
+                      <span style="float:left;margin-right:10px;margin-top:-8px;width: 30px; height: 30px; border-radius: 50%; text-align: center; vertical-align: middle;background:#ccc">
+                        <div v-if="user.email">
+                          <avatar v-if="user.image_url" :username="user.email" :size="30" :src="user.image_url"></avatar>
+                          <avatar v-else color="white" :username="user.email" :size="30"></avatar>
+                        </div>
                       </span>
-                    </Option>
-                  </Select>
+                      {{getListUserName(user)}}
+                    </span>
+                  </Option>
+                </Select>
                 </Col>
               </Row>
             </Tooltip>
@@ -74,10 +74,10 @@
           </tooltip>
           </div>
           <!-- Task due date menu item -->
-          <div :id="'calendar-'+id"  class="due-date">
+          <div :id="'calendar-'+id" class="due-date">
             <Tooltip content="Due Date" placement="top-start">
-              <DatePicker :options="options3" :open="open" confirm size="small" placement="top" type="date" :value="todoObject.dueDate" @on-change="dueDateClick"
-                @on-clear="handleClear" @on-ok="handleOk">
+              <DatePicker :options="options3" :open="open" confirm size="small" placement="top" type="date" :value="todoObject.dueDate"
+                @on-change="dueDateClick" @on-clear="handleClear" @on-ok="handleOk">
                 <a href="javascript:void(0)" @click="handleClick">
                   <Icon v-if="todoObject.dueDate === ''" class="nav-icon fa fa-calendar"></Icon>
                   <template v-if="todoObject.dueDate === ''"></template>
@@ -87,24 +87,24 @@
             </Tooltip>
           </div>
           <!-- History -->
-          <a :id="'history-'+id" href="javascript:void(0)"  v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab" @click="historyShow">
+          <a :id="'history-'+id" href="javascript:void(0)" v-bind:class="selectedMenuIndex==1?activeClass:''" class="nav-tab" @click="historyShow">
             <Tooltip content="History" placement="top-start">
               <i class="nav-icon fa fa-history" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
           </a>
           <!-- Attchments -->
-          <a :id="'attchment-'+id" href="javascript:void(0)"  v-bind:class="selectedMenuIndex==2?activeClass:''" class="nav-tab" @click="attachmentShow">
+          <a :id="'attchment-'+id" href="javascript:void(0)" v-bind:class="selectedMenuIndex==2?activeClass:''" class="nav-tab" @click="attachmentShow">
             <Tooltip content="Attachments" placement="top-start">
               <i class="nav-icon fa fa-paperclip" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
           </a>
           <!-- Tags -->
-          <a href="javascript:void(0)"  v-bind:class="selectedMenuIndex==3?activeClass:''" class="nav-tab hidden" @click="tagsShow">
+          <a href="javascript:void(0)" v-bind:class="selectedMenuIndex==3?activeClass:''" class="nav-tab hidden" @click="tagsShow">
             <Tooltip content="Tags" placement="top-start">
               <i class="nav-icon fa fa-tags" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
           </a>
-          <a :id="'comment-'+id" href="javascript:void(0)"  v-bind:class="selectedMenuIndex==4?activeClass:''" class="nav-tab" @click="commentsShow">
+          <a :id="'comment-'+id" href="javascript:void(0)" v-bind:class="selectedMenuIndex==4?activeClass:''" class="nav-tab" @click="commentsShow">
             <Tooltip content="Comments" placement="top-start">
               <i class="nav-icon fa fa-comments" aria-hidden="true" style="font-size:20px"></i>
             </Tooltip>
@@ -122,9 +122,9 @@
                 <DropdownItem name="3">Copy Task URL</DropdownItem>
                 <DropdownItem name="4">Delete Task</DropdownItem>
                 <DropdownItem name="5" :data-target="'#estimateHr'+todoObject.id" data-toggle="modal">Estimated Hours</DropdownItem>
-                <DropdownItem  :id="'comment-opt-'+id" style="display:none" name="6">Comments</DropdownItem>
-                <DropdownItem  :id="'attchment-opt-'+id" style="display:none" name="7">Attachments</DropdownItem>
-                <DropdownItem  :id="'history-opt-'+id" style="display:none" name="8">History</DropdownItem>
+                <DropdownItem :id="'comment-opt-'+id" style="display:none" name="6">Comments</DropdownItem>
+                <DropdownItem :id="'attchment-opt-'+id" style="display:none" name="7">Attachments</DropdownItem>
+                <DropdownItem :id="'history-opt-'+id" style="display:none" name="8">History</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -174,43 +174,44 @@
   import TaskPriority from './TaskPriority.vue'
   import TaskHeading from './TaskHeading.vue'
   import config from '../../config/customConfig'
+  import Breadcrumb from './Breadcrumb.vue'
   Vue.use(AsyncComputed);
   Vue.filter("formatDate", function (value) {
     if (value) {
       return moment(String(value)).format("MMM DD");
     }
   });
-  function setIcon(currentView, id){
-    if(currentView === SubTask){
-        $('#'+id).addClass('fa fa-tasks')
-        $('#'+id).removeClass('fa fa-history')
-        $('#'+id).removeClass('fa fa-paperclip')
-        $('#'+id).removeClass('fa fa-tags')
-        $('#'+id).removeClass('fa fa-comments')
-    } else if(currentView === HistoryLog) {
-        $('#'+id).addClass('fa fa-history')
-        $('#'+id).removeClass('fa fa-tasks')
-        $('#'+id).removeClass('fa fa-paperclip')
-        $('#'+id).removeClass('fa fa-tags')
-        $('#'+id).removeClass('fa fa-comments')
-    } else if(currentView === Attachments) {
-        $('#'+id).addClass('fa fa-paperclip')
-        $('#'+id).removeClass('fa fa-tasks')
-        $('#'+id).removeClass('fa fa-history')
-        $('#'+id).removeClass('fa fa-tags')
-        $('#'+id).removeClass('fa fa-comments')
-    } else if(currentView === Tags) {
-        $('#'+id).addClass('fa fa-tags')
-        $('#'+id).removeClass('fa fa-paperclip')
-        $('#'+id).removeClass('fa fa-tasks')
-        $('#'+id).removeClass('fa fa-history')
-        $('#'+id).removeClass('fa fa-comments')
+  function setIcon(currentView, id) {
+    if (currentView === SubTask) {
+      $('#' + id).addClass('fa fa-tasks')
+      $('#' + id).removeClass('fa fa-history')
+      $('#' + id).removeClass('fa fa-paperclip')
+      $('#' + id).removeClass('fa fa-tags')
+      $('#' + id).removeClass('fa fa-comments')
+    } else if (currentView === HistoryLog) {
+      $('#' + id).addClass('fa fa-history')
+      $('#' + id).removeClass('fa fa-tasks')
+      $('#' + id).removeClass('fa fa-paperclip')
+      $('#' + id).removeClass('fa fa-tags')
+      $('#' + id).removeClass('fa fa-comments')
+    } else if (currentView === Attachments) {
+      $('#' + id).addClass('fa fa-paperclip')
+      $('#' + id).removeClass('fa fa-tasks')
+      $('#' + id).removeClass('fa fa-history')
+      $('#' + id).removeClass('fa fa-tags')
+      $('#' + id).removeClass('fa fa-comments')
+    } else if (currentView === Tags) {
+      $('#' + id).addClass('fa fa-tags')
+      $('#' + id).removeClass('fa fa-paperclip')
+      $('#' + id).removeClass('fa fa-tasks')
+      $('#' + id).removeClass('fa fa-history')
+      $('#' + id).removeClass('fa fa-comments')
     } else if (currentView === SubComment) {
-        $('#'+id).addClass('fa fa-comments')
-        $('#'+id).removeClass('fa fa-paperclip')
-        $('#'+id).removeClass('fa fa-tasks')
-        $('#'+id).removeClass('fa fa-history')
-        $('#'+id).removeClass('fa fa-tags')
+      $('#' + id).addClass('fa fa-comments')
+      $('#' + id).removeClass('fa fa-paperclip')
+      $('#' + id).removeClass('fa fa-tasks')
+      $('#' + id).removeClass('fa fa-history')
+      $('#' + id).removeClass('fa fa-tags')
     }
   }
   Vue.use(AsyncComputed);
@@ -233,13 +234,13 @@
         previousUser: this.todoObject.assigned_to,
         userObj: "", // selected user object
         open: false,
-        selectedType:this.todoObject.type_id,
-        selectedIndex:-1,
+        selectedType: this.todoObject.type_id,
+        selectedIndex: -1,
         options3: {
-                    disabledDate (date) {
-                        return date && date.valueOf() < Date.now() - 86400000;
-                    }
-                },
+          disabledDate(date) {
+            return date && date.valueOf() < Date.now() - 86400000;
+          }
+        },
       };
     },
     created: function () {
@@ -247,7 +248,7 @@
       this.tagReadPermission();
       this.tagNewPermission();
     },
-    mounted(){
+    mounted() {
       setIcon(SubTask, this.id)
     },
     methods: {
@@ -263,9 +264,9 @@
         else if (val == 3) {
           var $temp = $("<input>");
           $("body").append($temp);
-          
+
           let copyTask;
-          if(process.env.NODE_ENV == 'development')
+          if (process.env.NODE_ENV == 'development')
             copyTask = process.env.COPY_URL_PATH
           else
             copyTask = config.copyUrlPath
@@ -291,19 +292,19 @@
           });
         }
         // Show estimate hour val=5
-        else if (val == 5) { 
+        else if (val == 5) {
           this.estimated_time = true
         }
         // Show comments val=6
-        else if (val == 6) { 
+        else if (val == 6) {
           this.commentsShow()
         }
         // Show attachments val=7
-        else if (val == 7) { 
+        else if (val == 7) {
           this.attachmentShow()
         }
         // Show history val=8
-        else if (val == 8) { 
+        else if (val == 8) {
           this.historyShow()
         }
 
@@ -314,18 +315,13 @@
       },
       deletePermently: function () {
         this.$store.dispatch("deletePermently", this.todoObject);
-        this.$store.commit("CLOSE_DIV",this.todoObject)
+        this.$store.commit("CLOSE_DIV", this.todoObject)
       },
-      getListUserName: function (user, flag) {
-
+      getListUserName: function (user) {
         if (user.fullname && user.fullname.trim().length > 0) {
           return user.fullname;
-        } else if (user.email) {
-          // return user.email.substr(0,user.email.indexOf("@"));
-          return flag == 0 ? user.email.substr(0, user.email.indexOf("@")) : user.email;
-        } else {
-          return "Un"
         }
+        return user.email
       },
       async onReadComment(id, level, created_by, typeId) {
         let permisionResult = await CmnFunc.checkActionPermision(
@@ -334,7 +330,6 @@
           Constant.USER_ACTION.COMMENT,
           Constant.PERMISSION_ACTION.READ
         );
-        console.log("permisionResult Read Comment-->", permisionResult);
         if (!permisionResult && id != -1) {
           this.readCommentBox = false;
         } else {
@@ -348,7 +343,6 @@
           Constant.USER_ACTION.COMMENT,
           Constant.PERMISSION_ACTION.CREATE
         );
-        console.log("permisionResult Create Comment-->", permisionResult);
         if (!permisionResult && id != -1) {
           this.createCommentBox = false;
         } else {
@@ -363,7 +357,7 @@
           });
           if (userIndex < 0) {
           } else {
-              (c.image_url = this.$store.state.arrAllUsers[userIndex].image_url),
+            (c.image_url = this.$store.state.arrAllUsers[userIndex].image_url),
               (c.email = this.$store.state.arrAllUsers[userIndex].email);
           }
         }, this);
@@ -415,7 +409,6 @@
           Constant.USER_ACTION.TAG,
           Constant.PERMISSION_ACTION.READ
         );
-        console.log("Tag read permission:", this.isTagReadPermission);
       },
       async tagNewPermission() {
         this.isTagReadPermission = await CmnFunc.checkActionPermision(
@@ -424,7 +417,6 @@
           Constant.USER_ACTION.TAG,
           Constant.PERMISSION_ACTION.CREATE
         );
-        console.log("Tag create permission:", this.isTagReadPermission);
       },
       subTaskShow() {
         this.selectedMenuIndex = 0;
@@ -480,10 +472,10 @@
         }
       },
       dueDateClick(dateTo) {
-        if(this.open){
+        if (this.open) {
           this.open = false;
           var selectedDate = moment(dateTo, "YYYY-MM-DD").format("DD");
-            this.$store.dispatch("editTaskName", {
+          this.$store.dispatch("editTaskName", {
             todo: this.todoObject,
             selectedDate: dateTo,
             log_action: Constant.HISTORY_LOG_ACTION.DUE_DATE,
@@ -504,142 +496,136 @@
       /**
       * Selected user from assign user list
       */
-      userListClick:async function (user_id) {
-        if(this.selectedUser != user_id){
-            console.log("userListClick method call:",user_id)
-            this.setAssignUser(user_id)
-            this.$store.commit('SHOW_DIV', this.todoObject)
+      userListClick: async function (user_id) {
+        if (this.selectedUser != user_id) {
+          this.setAssignUser(user_id)
+          this.$store.commit('SHOW_DIV', this.todoObject)
         }
-        
+
       },
       async btnTypeClicked(objType) {
-        if(objType !== this.todoObject.type_id){
-          await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedType": objType,"selectedState": null ,
-              log_action:Constant.HISTORY_LOG_ACTION.TASK_TYPE, log_text:objType})
+        if (objType !== this.todoObject.type_id) {
+          await this.$store.dispatch('editTaskName', {
+            "todo": this.todoObject, "selectedType": objType, "selectedState": null,
+            log_action: Constant.HISTORY_LOG_ACTION.TASK_TYPE, log_text: objType
+          })
           // await this.$store.dispatch('editTaskName', { "todo": this.todoObject, "selectedState": '' })
         }
       },
-      checkEmail(email,fullname){
-        return (fullname && fullname.length>0) || (email && email.length>0 && CmnFunc.checkValidEmail(email))
+      checkEmail(email) {
+        if (email && email != 'null') {
+          return CmnFunc.checkValidEmail(email)
+        }
+        return false
+        // return (fullname && fullname.length>0) || (email && email.length>0 && CmnFunc.checkValidEmail(email))
       },
-      displayComment(){
-         $('#comment-'+this.id).css( "display", "block" );
-         $('#comment-opt-'+this.id).css( "display", "none" );
+      displayComment() {
+        $('#comment-' + this.id).css("display", "block");
+        $('#comment-opt-' + this.id).css("display", "none");
       },
-      hideComment(){
-        $('#comment-'+this.id).css( "display", "none" );
-        $('#comment-opt-'+this.id).css( "display", "block" );
+      hideComment() {
+        $('#comment-' + this.id).css("display", "none");
+        $('#comment-opt-' + this.id).css("display", "block");
       },
-      displayAttchment(){
-        $('#attchment-'+this.id).css( "display", "block" );
-        $('#attchment-opt-'+this.id).css( "display", "none" );
+      displayAttchment() {
+        $('#attchment-' + this.id).css("display", "block");
+        $('#attchment-opt-' + this.id).css("display", "none");
       },
-      hideAttchment(){
-        $('#attchment-'+this.id).css( "display", "none" );
-        $('#attchment-opt-'+this.id).css( "display", "block" );
+      hideAttchment() {
+        $('#attchment-' + this.id).css("display", "none");
+        $('#attchment-opt-' + this.id).css("display", "block");
       },
-      displayHistory(){
-        $('#history-'+this.id).css( "display", "block" );
-        $('#history-opt-'+this.id).css( "display", "none" );
+      displayHistory() {
+        $('#history-' + this.id).css("display", "block");
+        $('#history-opt-' + this.id).css("display", "none");
       },
-      hideHistory(){
-        $('#history-'+this.id).css( "display", "none" );
-        $('#history-opt-'+this.id).css( "display", "block" );
+      hideHistory() {
+        $('#history-' + this.id).css("display", "none");
+        $('#history-opt-' + this.id).css("display", "block");
       }
 
     },
     watch: {
-      getIdArray:function(ids){
-       let sectionWidth = 0
-       	let containerWidth = ($(window).width())
+      getIdArray: function (ids) {
+        let sectionWidth = 0
+        let containerWidth = ($(window).width())
         for (var id in ids) {
-            //conversion of percentage into pixel(width) of section
-            this.sectionWidth = (containerWidth * ids[id]) / 100
-            if((this.id+1) == id){
-                this.selectedIndex = this.id
-                console.log('section width:', this.sectionWidth)
-              // Comment
-                if(parseInt(this.sectionWidth) > 371  && parseInt(this.sectionWidth) < 442 ){
-                  console.log("call block 1")
-                  // Hide menu
-                  this.hideComment()
-                  // Show menu
-                  this.displayAttchment()
-                  this.displayHistory()
+          //conversion of percentage into pixel(width) of section
+          this.sectionWidth = (containerWidth * ids[id]) / 100
+          // console.log(this.sectionWidth)
+          if ((this.id + 1) == id) {
+            this.selectedIndex = this.id
+            // Comment
+            if (parseInt(this.sectionWidth) > 371 && parseInt(this.sectionWidth) < 442) {
+              // Hide menu
+              this.hideComment()
+              // Show menu
+              this.displayAttchment()
+              this.displayHistory()
 
-                }else if(parseInt(this.sectionWidth) > 333  && parseInt(this.sectionWidth) < 371 ){
-                  console.log("call block 2")
-                   // Hide menu
-                  this.hideComment()
-                  this.hideAttchment()
-                  // Show menu
-                  this.displayHistory()
-                }else if(parseInt(this.sectionWidth) > 300  && parseInt(this.sectionWidth) < 333 ){
-                  console.log("call block 3")
-                   // Hide menu
-                  this.hideComment()
-                  this.hideAttchment()
-                  this.hideHistory()
-                  // Show menu
-                }
-                else if(parseInt(this.sectionWidth) > 0  && parseInt(this.sectionWidth) < 300 ){
-                  console.log("call block 4")
-                    // Hide menu
-                  this.hideComment()
-                  this.hideAttchment()
-                  this.hideHistory()
-                  this.hideCalendar()
-                }else{
-                  this.displayComment()
-                  this.displayAttchment()
-                  this.displayHistory()
-                }
-
-                  // When two sliptter section 
-                  if(ids.length==2){
-                    if(parseInt(this.sectionWidth) > 550  && parseInt(this.sectionWidth) < 663){
-                        console.log("call block 6")
-                        // Hide menu
-                        this.hideComment()
-                        // Show menu
-                        this.displayAttchment()
-                        this.displayHistory()
-                        this.displayCalendar()
-                      }else if(parseInt(this.sectionWidth) > 511 && parseInt(this.sectionWidth) < 550){
-                        console.log("call block 7")
-                        this.hideComment()
-                        this.hideAttchment()
-                        // Show menu
-                        this.displayHistory()
-                        this.displayCalendar()
-                      }else if(parseInt(this.sectionWidth) > 446 && parseInt(this.sectionWidth) < 511){
-                        console.log("call block 8")
-                          // Hide menu
-                        this.hideComment()
-                        this.hideAttchment()
-                        this.hideHistory()
-                        // Show menu
-                        this.displayCalendar()
-
-                      }else if(parseInt(this.sectionWidth) > 350 && parseInt(this.sectionWidth) < 446){
-                        console.log("call block 9")
-                          // Hide menu
-                        this.hideComment()
-                        this.hideAttchment()
-                        this.hideHistory()
-                        this.hideCalendar()
-                      }else if(parseInt(this.sectionWidth) > 250 && parseInt(this.sectionWidth) < 350){
-                        console.log("call block 10")
-                      }else{
-                        this.displayComment()
-                        this.displayAttchment()
-                        this.displayHistory()
-                        this.displayCalendar()
-                      }                
-                  }
-                
-                
+            } else if (parseInt(this.sectionWidth) > 333 && parseInt(this.sectionWidth) < 371) {
+              // Hide menu
+              this.hideComment()
+              this.hideAttchment()
+              // Show menu
+              this.displayHistory()
+            } else if (parseInt(this.sectionWidth) > 300 && parseInt(this.sectionWidth) < 333) {
+              // Hide menu
+              this.hideComment()
+              this.hideAttchment()
+              this.hideHistory()
+              // Show menu
             }
+            else if (parseInt(this.sectionWidth) > 0 && parseInt(this.sectionWidth) < 300) {
+              // Hide menu
+              this.hideComment()
+              this.hideAttchment()
+              this.hideHistory()
+              // this.hideCalendar()
+            } else {
+              this.displayComment()
+              this.displayAttchment()
+              this.displayHistory()
+            }
+            // When two sliptter section 
+            if (ids.length == 2) {
+              if (parseInt(this.sectionWidth) > 550 && parseInt(this.sectionWidth) < 663) {
+                // Hide menu
+                this.hideComment()
+                // Show menu
+                this.displayAttchment()
+                this.displayHistory()
+                this.displayCalendar()
+              } else if (parseInt(this.sectionWidth) > 511 && parseInt(this.sectionWidth) < 550) {
+                this.hideComment()
+                this.hideAttchment()
+                // Show menu
+                this.displayHistory()
+                this.displayCalendar()
+              } else if (parseInt(this.sectionWidth) > 446 && parseInt(this.sectionWidth) < 511) {
+                // Hide menu
+                this.hideComment()
+                this.hideAttchment()
+                this.hideHistory()
+                // Show menu
+                this.displayCalendar()
+
+              } else if (parseInt(this.sectionWidth) > 350 && parseInt(this.sectionWidth) < 446) {
+                // Hide menu
+                this.hideComment()
+                this.hideAttchment()
+                this.hideHistory()
+                // this.hideCalendar()
+              } else if (parseInt(this.sectionWidth) > 250 && parseInt(this.sectionWidth) < 350) {
+                console.log("call block 10")
+              } else {
+                this.displayComment()
+                this.displayAttchment()
+                this.displayHistory()
+                this.displayCalendar()
+              }
+            }
+          }
         }
       }
     },
@@ -649,17 +635,17 @@
         typeStateList: "getTask_types_state",
         getUserList: "getAllUserList",
         // getTypes: 'getTaskTypeList'
-        getIdArray:'getIdArray'
+        getIdArray: 'getIdArray'
       }),
       getTaskTypes() {
         return this.$store.state.task_types_list.filter(type => type.id !== '-1')
       },
-      getTasTypeId(){
-          return this.todoObject.type_id
+      getTasTypeId() {
+        return this.todoObject.type_id
       },
-      selectedUser(){
+      selectedUser() {
         return this.todoObject.assigned_to
-      }, 
+      },
       taskById() {
         this.onReadComment(
           this.todoObject.id,
@@ -719,7 +705,8 @@
       Avatar,
       EstimatedHours,
       TaskPriority,
-      TaskHeading
+      TaskHeading,
+      Breadcrumb
     }
   }
 </script>

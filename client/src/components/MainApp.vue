@@ -5,6 +5,9 @@
 		<div id="split-container" class="main-split-container" style="height: calc(100vh - 60px);">
 			<div id="left_container" class="scrollbar split split-horizontal">
 				<div id="center_pane">
+						<div v-if="$store.state.deleteItemsSelected" id="project_title" class="project-title read-only">
+							<div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName" style="float: left;">Deleted Tasks</div>
+						</div>
 					<div v-show="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
 						<left-toolbar v-if="!isCopyLink && !$store.state.deleteItemsSelected" :filters="filters">
 						</left-toolbar>
@@ -74,7 +77,7 @@
 	export default {
 		data: function () {
 			return {
-				taskPholder: 'Task',
+				taskPholder: 'Write a task name',
 				subtaskPholder: 'Subtask',
 				todolist: [],
 				filters: filters,
@@ -89,7 +92,7 @@
 			}
 		},
 		created() {
-
+			this.$store.state.currentprojectPermisionRevoked = false
 			localStorage.setItem('split-sizes', JSON.stringify([50, 50]));
 			this.$store.dispatch('getSettings', this.$store.state.userObject._id);
 			this.$store.dispatch('removeAllEventListners');
@@ -107,7 +110,7 @@
 				this.$store.dispatch('getAllTaskTags', this.url_parentId);
 				this.$store.dispatch('getTaskComment', this.url_parentId)
 			}
-			this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
+			// this.$store.dispatch('removeParentIdArray') // flush showDiv object from the memory when page refresh
 			this.$store.commit('DELETE_ALLTAGS')
 			this.$store.dispatch('getTaskStaus')
 			this.$store.dispatch('getTaskTypes')
@@ -124,6 +127,13 @@
 				this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '', project_id: projectId });
 
 			} else {
+				if (projects && projects.length > 0) {
+					let projectIndex = _.findIndex(projects, function (d) { return d.id == projectId })
+					if (projectIndex > -1)
+						this.$store.dispatch('getAllTodos', { 'parentId': this.url_parentId ? this.url_parentId : '', project_id: projectId });
+					else
+						this.$store.state.currentprojectPermisionRevoked = true
+				}
 				console.log("Can't set projectc id")
 			}
 			this.parentIdMethod();
@@ -141,19 +151,16 @@
 					containerNewWidth = $(window).width()
 					let widthPixel = containerNewWidth + 'px'
 					$('.main-split-container').css('width', widthPixel)
-
 					localStorage.setItem('split-sizes', JSON.stringify([50, 50]));
 				}
 
 				if (this.parentIdList) {
-
 					//create new splitter section and increase total width accordingly when section added.
 					for (let i = 0; i <= this.parentIdList.length - 1; ++i) {
 						ids.push('#slot-' + i);
 						if (this.parentIdList.length > 1) {
 							containerWidth = ($(window).width() / 2) * (this.parentIdList.length);
 							containerNewWidth = ($(window).width() / 2) * (this.parentIdList.length + 1);
-
 						} else {
 							containerNewWidth = $(window).width()
 						}
@@ -400,7 +407,7 @@
 	#left_task_container::-webkit-scrollbar-track,
 	#left_search_container::-webkit-scrollbar-track {
 		-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-		background-color: #F5F5F5;
+		background-color: transparent;
 	}
 
 	#left_container::-webkit-scrollbar,
@@ -409,12 +416,12 @@
 	#left_task_container::-webkit-scrollbar,
 	#left_search_container::-webkit-scrollbar {
 		width: 7px;
-		background-color: #F5F5F5;
+		background-color: transparent;
 	}
 
 	#main-container::-webkit-scrollbar {
 		height: 7px;
-		background-color: #F5F5F5;
+		background-color: transparent;
 	}
 
 	#left_container::-webkit-scrollbar-thumb,

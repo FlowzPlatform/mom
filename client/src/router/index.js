@@ -14,24 +14,22 @@ import '../style/style.css'
 import '../style/style1.css'
 import '../style/newStyle.css'
 import '../style/keen-ui.min.css'
-import '../style/theme1.css'
+// import '../style/theme1.css'
 import '../style/custom.css'
 // import '../style/theme2.css'
 // import '../style/theme3.css'
 // import '../style/theme4.css'
-// import '../style/theme5_black.css'
+import '../style/theme5_black.css'
+// import '../style/theme6.css'
+// import '../style/RepublicDay18.css'
+import '../style/mediaStyle.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import GSignInButton from 'vue-google-signin-button';
 import { Tag } from 'element-ui'
-// import iView from 'iview';
-// import 'iview/dist/styles/iview.css';
 Vue.config.productionTip = false
 Vue.use(GSignInButton)
 Vue.use(Tag)
-// Vue.use(iView);
-// import { store } from '../VuexSession'
-
 
 Vue.use(Router)
 

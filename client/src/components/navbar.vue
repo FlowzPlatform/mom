@@ -1,5 +1,12 @@
 <template lang="html">
   <div>
+    <div v-if="showProjectLoading" :value="getTodoListSize" style="margin-top: 50vh;height: 100vh">
+      <img class="project-loading" src="../assets/activity.svg" style="margin-left: 10px; width:80px; height:100px;"/>
+      <p style="margin-left:20px;color:gray">Populating projects...</p>
+      <span style="margin-left:-170px;position: absolute;bottom:10px">
+        <img src="../assets/ob_logo.svg"></img>
+      </span>
+    </div>  
     <div>
       <div data-reactroot="" id="top-bar" class="Topbar">
         <div class="PageHeaderStructure-center" @mouseenter="hidePopup">
@@ -21,7 +28,7 @@
                   title="UserIcon" viewBox="0 0 32 32">
                   <path d="M20.534,16.765C23.203,15.204,25,12.315,25,9c0-4.971-4.029-9-9-9S7,4.029,7,9c0,3.315,1.797,6.204,4.466,7.765C5.962,18.651,2,23.857,2,30c0,0.681,0.065,1.345,0.159,2h27.682C29.935,31.345,30,30.681,30,30C30,23.857,26.038,18.651,20.534,16.765z M9,9c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S9,12.86,9,9z M4,30c0-6.617,5.383-12,12-12s12,5.383,12,12H4z"></path>
                 </svg>
-                <svg v-else class="Icon UserIcon projectHeaderFacepile-privacySummaryDropdownLeftIcon" title="UserIcon" viewBox="0 0 32 32">
+                <svg v-else class="Icon UserIcon privacySummaryDropdownLeftIcon" title="UserIcon" viewBox="0 0 32 32">
                   <path d="M24.23,16.781C26.491,15.368,28,12.863,28,10c0-4.418-3.582-8-8-8s-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C11.233,18.494,8,22.864,8,28c0,0.683,0.07,1.348,0.18,2h23.64c0.11-0.652,0.18-1.317,0.18-2C32,22.864,28.767,18.494,24.23,16.781z M14,10c0-3.308,2.692-6,6-6s6,2.692,6,6s-2.692,6-6,6S14,13.308,14,10z M10,28c0-5.514,4.486-10,10-10c5.514,0,10,4.486,10,10H10z"></path>
                   <path d="M2,28c0-4.829,3.441-8.869,8-9.798V15.65C7.673,14.824,6,12.606,6,10c0-3.308,2.692-6,6-6V2c-4.418,0-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C3.233,18.494,0,22.864,0,28c0,0.683,0.07,1.348,0.18,2H6v-2H2z"></path>
                 </svg>
@@ -29,7 +36,7 @@
               </div>
               <!-- Change privacy  -->
               <div v-show="showPrivacyPopup" @mouseleave="hidePopup" class="layerPositioner-privacy layerPositioner--offsetRight layerPositioner--alignRight layerPositioner--below"
-                data-layerid="4" style="top: 80.339px;">
+                data-layerid="4" style="top: 80.339px; right: 0; left: auto;">
                 <div class="layerPositioner-layer-privacy">
                   <div class="Dropdown projectHeaderFacepile-privacySummaryDropdown">
                     <ul class="menu menu--long">
@@ -108,7 +115,7 @@
               <avatar v-else :username="$store.state.userObject.email" :size="30" color="#fff"></avatar>
               </tooltip>
             </div>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu dropdown-menu-right">
               <li>
                 <a data-toggle="modal" data-target="#myModal2" @click="btnProfileClicked()">Profile</a>
               </li>
@@ -204,7 +211,7 @@
         </div>
       </div>
       <div id="overlay" v-show="allowedProjectPermission" >
-        <span id="text-overlay">Owner changed project privacy.</span>
+        <span id="text-overlay">{{$store.state.currentprojectPermisionRevokedMessage}}</span>
         <button id="f" > </button>
       </div>
     </div>
@@ -252,7 +259,8 @@
         showPrivateCheck: false,
         showPrivateMember: false,
         showPublic: false,
-        pName: '' // Project Name 
+        pName: '', // Project Name 
+        showProjectLoading:true
       }
     },
     created() {
@@ -285,6 +293,13 @@
           this.pName = value;
         }
       },
+      getTodoListSize(){
+        if(this.$store.state.arrAllUsers.length > 0){
+          this.showProjectLoading = false
+        }else{
+          this.showProjectLoading = true
+        }
+      }
     },
     methods: {
       ...mapMutations([
@@ -453,7 +468,6 @@
 
         let self = this
         let userIndex = _.findIndex(self.$store.state.arrAllUsers, function (m) { return m._id === self.$store.state.userObject._id })
-        console.log('user index:', userIndex)
         if(userIndex > -1){
           Vue.set(self.$store.state.arrAllUsers[userIndex],'image_url',self.imageURlProfilePic)
           // self.$store.state.arrAllUsers[userIndex].image_url = self.imageURlProfilePic
@@ -613,12 +627,16 @@
     cursor: pointer; /* Add a pointer on hover */
 }
 #text-overlay{
+    width: 100%;
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
     font-size: 40px;
     color: white;
     transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
+}
+.project-loading{
+  filter: invert(.5) sepia(1) saturate(5) hue-rotate(175deg);
 }
 </style>

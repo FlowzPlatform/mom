@@ -19,7 +19,7 @@
             <a @click="selectStatus(state)">{{state.taskState}}</a>
           </li>
         </ul>
-        <div v-if="$store.state.deleteItemsSelected" class="trash" :id="todo.id">
+        <div v-if="$store.state.deleteItemsSelected && id !== 'taskTypes' && id !== 'taskState' && id !== 'roleTypes'" class="trash" :id="todo.id">
           <span class="trashcan">
             <span class="hover-glyph ">
               <span class="fa fa-trash-o svgIcon hover-glyph-default" />
@@ -50,8 +50,7 @@
             <span class="grid_due_date">{{todo.dueDate | formatDate}}</span>
           </a>
         </div>
-        
-        <div v-if="todo.email">
+        <div v-if="todo.email" :value="selectedUser">
           <avatar v-if="todo.image_url" :username="todo.email" :src="todo.image_url" :size="30" class="delete-view"></avatar>
           <avatar v-else :username="todo.email" :size="30" color="#fff" class="delete-view"></avatar>
         </div>
@@ -137,6 +136,9 @@
       getAssignedUser() {
         let user = this.$store.state.todolist.find(todo => todo.id === this.todo.id)
         return user.email
+      },
+      selectedUser(){
+        return this.todo.assigned_to
       }
     },
     // watch : {
@@ -206,13 +208,14 @@
           this.todo.isTaskUpdate = false
         }
         let inutTodo = $(elFocus + " .view .new-todo." + id + "_" + level);   // Get the first <inutTodo> element in the document        
-        let permisionResult = await CmnFunc.checkActionPermision(this, typeId, Constant.USER_ACTION.TASK, Constant.PERMISSION_ACTION.UPDATE)
-
-        console.log("permisionResult-->", permisionResult)
+        let permisionResult = await CmnFunc.checkActionPermision(this, typeId, Constant.USER_ACTION.TASK, Constant.PERMISSION_ACTION.UPDATE,created_by)
         if (!permisionResult && id != -1) {
           inutTodo.prop("readonly", true);
         } else {
           inutTodo.prop("readonly", false);
+        }
+        if (this.$store.state.deleteItemsSelected){
+          inutTodo.prop("readonly", true)
         }
       },
       onBlurCall(id, level) {

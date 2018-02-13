@@ -459,10 +459,9 @@ border: 1px solid transparent;
 	-webkit-transition: min-width 0.25s ease-out;
     -moz-transition: min-width 0.25s ease-out;
     transition: min-width 0.25s ease-out;
-    min-width: 920px;
+    /* min-width: 920px; */
     background-color: transparent;
     display: -webkit-box;
-    /* display: flex; */
     -webkit-box-flex: 1;
     -moz-box-flex: 1;
     box-flex: 1;
@@ -477,9 +476,8 @@ border: 1px solid transparent;
     -webkit-transition: background-color 1s;
     -moz-transition: background-color 1s;
     transition: background-color 1s;
-    /*background-color: white;*/
 }
-#center_pane_container{
+/* #center_pane_container{
     -webkit-transition: margin-left 0.25s ease-out,width 0.25s ease-out;
     -moz-transition: margin-left 0.25s ease-out,width 0.25s ease-out;
     transition: margin-left 0.25s ease-out,width 0.25s ease-out;
@@ -492,8 +490,7 @@ border: 1px solid transparent;
     flex: 5500 1 605px;
     min-width: 405px;
     z-index: 2;
-    /* overflow-y:auto; */
-}
+} */
 .right_pane_container{
 	    -webkit-box-flex: 4500;
     -moz-box-flex: 4500;
@@ -746,10 +743,8 @@ a:hover, a:focus{
     color: #02ceff;
     text-decoration: none;
 }
-/* #center_pane {position: absolute;left: 0;right: 0;top: 0;bottom: 0;height: 100%;min-width: 225px;} */
 .asanaView-body { position: fixed;top: 20px;left: 0;right: 0;bottom: 0; overflow-y: hidden; }
 .right_pane_container #right_pane {position: absolute;left: 4px;right: 0;top: 0;bottom: 0;height: 100%;}
-/* #details_pane_footer {position: absolute; width: 99.75%; bottom: 0;height: 100%; overflow-y: auto;} */
 .right_pane_container{ min-width: 225px; margin-right: 5px;}
 #center_pane {
         transition: margin-left .5s;
@@ -2405,8 +2400,8 @@ input[type="radio"] {
         float: left;
 }
 a:not([href]):not([tabindex]) {
-        color: inherit;
-        text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 .Button.Button--primary:not(.Button--disabled) {
     background: #1aafd0;
@@ -2620,7 +2615,7 @@ a {
         height: 16px;
         margin: 0 5px;
         width: 16px;
-        fill: #000;
+        fill: #b9bcc0;
         margin-top: 6px;
 }
     /* Invite Expandable  list */
@@ -3902,14 +3897,6 @@ textarea.showing {
     cursor: pointer;
     background: #999999;
 }
-.comment-title {
-    line-height: 28px;
-    font-size: 24px;
-    font-weight: 600;
-    background: transparent;
-    display: -webkit-box;
-    margin-left: 10px;
-}
 .ivu-poptip-body {
     overflow: scroll;
     max-height: 400px;
@@ -4053,6 +4040,7 @@ textarea.showing {
     /* overflow: auto; */
     width: 260px;
     z-index: 4;
+    top: 39px;
 }
 .sidebar .nav, .off-canvas-sidebar .nav {
     margin-top: 20px;
@@ -4077,14 +4065,24 @@ textarea.showing {
     z-index: 1029;
 }
 .navbar, .navbar.navbar-default {
-    background-color: #FFFFFF;
-    color: #555555;
+    /* background-color: #FFFFFF;
+    color: #555555; */
+    background-color: transparent;
+    top: 40px;
+    /* padding: 10px; */
+    /* width: 250px; */
+    width: 100%;
 }
 .navbar {
-    border: 0;
+    position: fixed;
+    /* border: 0;
     border-radius: 3px;
     border-bottom: 1px solid #ededf3;
-    padding: 10px 0;
+    padding: 10px 0; */
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus, .navbar-default {
+    background-color: transparent;
+    border-color: transparent;
 }
 .animation-transition-fast, .navbar {
     -webkit-transition: all 150ms ease 0s;
@@ -4176,6 +4174,7 @@ textarea.showing {
     -ms-flex: 5500 1 605px;
     flex: 5500 1 605px;
     min-width: 420px;
+    /* min-width: calc(100vw - 1405px); */
     z-index: 2;
     /* overflow-y: auto; */
 }
@@ -4349,11 +4348,37 @@ a.history-username{
     font-weight: normal;
     text-decoration: inherit;
     position: absolute;
-    font-size: 400px;
+    font-size: 301px;
     color: rgb(160, 160, 160);
-    top: 50%;
-    left: 50%;
+    top: 78%;
+    right: 3%;
     margin: 0 0 0 -200px;
     z-index: 1;
-    opacity: 0.2;
-  } 
+    opacity: 0.1;
+}
+
+  .attachment-username {
+    text-align: -webkit-left;
+    text-align: left;
+    margin-left: 10px;
+    font-size: 20px;
+    color: gray;
+    float: left;
+  }
+  ::-webkit-input-placeholder { /* Chrome */
+    color: #cfcfcf;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: #cfcfcf;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: #cfcfcf;
+    opacity: 1;
+  }
+  :-moz-placeholder { /* Firefox 4 - 18 */
+    color: #cfcfcf;
+    opacity: 1;
+  }
+
+
+ 

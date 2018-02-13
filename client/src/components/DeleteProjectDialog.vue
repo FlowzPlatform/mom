@@ -9,7 +9,7 @@
                 <div id="" class="dialog2 widget-extras" tabindex="-1" style="max-height: 592.2px;">
                     <div class="header">
                         <div class="title">
-                            <div class="loading-boundary">
+                            <div class="loading-boundary" style="float: left;">
                                 <span class="primary-title">Delete the "{{this.$store.state.currentProject.project_name}}" project?</span>
 
                                 <span class="secondary-title"></span>

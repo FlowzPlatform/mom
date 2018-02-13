@@ -1,8 +1,57 @@
 <template>
     <div class="wrapper">
-        <div class="sidebar">
-            <div class="sidebar-wrapper">
-                <ul class="nav">
+        <!-- <div class="sidebar">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse sidebar-wrapper " id="myNavbar">
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <a @click="showACL">
+                                    <i class="material-icons"></i>
+                                    <p>ACL</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a @click="showTaskType">
+                                    <i class="material-icons"></i>
+                                    <p>Task Type</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a @click="showTaskState">
+                                    <i class="material-icons"></i>
+                                    <p>Task State</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a @click="showRoleState">
+                                    <i class="material-icons"></i>
+                                    <p>Role</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div> -->
+        <nav class="navbar navbar-inverse" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <!-- <a class="navbar-brand" href="#">Brand</a> -->
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
                     <li class="active">
                         <a @click="showACL">
                             <i class="material-icons"></i>
@@ -29,7 +78,8 @@
                     </li>
                 </ul>
             </div>
-        </div>
+            <!-- /.navbar-collapse -->
+        </nav>
         <div class="main-panel">
             <div class="content">
                 <div class="container-fluid">
@@ -105,7 +155,7 @@
         -webkit-transform: translateX(0%) translateY(0%);
     }
 
-    .ui.blue.table {
+    /* .ui.blue.table {
         width: 100%;
         padding: 0 !important;
         margin: 0 !important;
@@ -123,7 +173,7 @@
         margin-top: 5px;
         margin-bottom: 5px;
         align-items: center;
-    }
+    } */
 
     .ui.vertical.stripe h3 {
         font-size: 2em;
@@ -290,7 +340,6 @@
     import ShowTaskTypes from './ShowTaskTypes.vue'
     import ShowTaskState from './ShowTaskState.vue'
     import Vuetable from './Vuetable.vue'
-    //Vue.component('vuetable', require('./Vuetable.vue'));
     import RolesTypes from './RolesTypes.vue'
     Vue.use(Resource)
 
@@ -399,7 +448,7 @@
                 this.isUserGroup = true
                 this.isTaskType = false
                 this.isTaskState = false,
-                this.isRoleList = false
+                    this.isRoleList = false
                 this.$store.state.currentProjectName = "ACL"
             },
             showTaskType: function () {

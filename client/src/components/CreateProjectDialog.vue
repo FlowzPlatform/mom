@@ -83,8 +83,8 @@
                         </div>
                     </div>
                 <div class="modal-footer">
-                    <button type="submit" id="save" class="btn btn-primary" @click="savePost">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="save" class="btn btn-primary setFooterColor" @click="savePost">Save changes</button>
+                    <button type="button" class="btn btn-secondary setFooterColor" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -119,8 +119,7 @@
                         user_email: this.$store.state.userObject.email,
                         invited_date: new Date(),
                         is_deleted: false,
-                        // user_role_id:this.getOwernerId()
-                        user_role_id: this.$store.state.userObject._id
+                        user_role_id:this.getOwernerId()
                     }
                     this.$store.dispatch('insertProjectInvite', insertInvite)
                     this.projectName = ''

@@ -23,7 +23,6 @@
           <div slot="title">
             <i style="color:black; font-size:large;">Projects</i>
           </div>
-
           <div slot="content" v-show="showProject(project)" v-bind:key="project.id" v-for="(project, index) in projectList">
             <Collapse v-bind:key="project.id" accordion v-if="project.project_privacy!=2">
               <Panel>
@@ -37,7 +36,7 @@
                         <path d="M24.23,16.781C26.491,15.368,28,12.863,28,10c0-4.418-3.582-8-8-8s-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C11.233,18.494,8,22.864,8,28c0,0.683,0.07,1.348,0.18,2h23.64c0.11-0.652,0.18-1.317,0.18-2C32,22.864,28.767,18.494,24.23,16.781z M14,10c0-3.308,2.692-6,6-6s6,2.692,6,6s-2.692,6-6,6S14,13.308,14,10z M10,28c0-5.514,4.486-10,10-10c5.514,0,10,4.486,10,10H10z"></path>
                         <path d="M2,28c0-4.829,3.441-8.869,8-9.798V15.65C7.673,14.824,6,12.606,6,10c0-3.308,2.692-6,6-6V2c-4.418,0-8,3.582-8,8c0,2.863,1.509,5.368,3.77,6.781C3.233,18.494,0,22.864,0,28c0,0.683,0.07,1.348,0.18,2H6v-2H2z"></path>
                       </svg>
-                      <i @click="showDeleteProjectDialog" class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+                      <i @click="showDeleteProjectDialog(project.create_by)" class="fa fa-trash-o fa-2x" aria-hidden="true" ></i>
                     </div>
                     <a id="add-member" v-show="project.project_privacy != 2" @click="addMemberClick(project.id)" class="inviteMember" tabindex="0"
                       aria-role="button">
@@ -51,7 +50,6 @@
                         <path d="M24,12v-0.125V8c0-4.411-3.589-8-8-8S8,3.589,8,8v4H6v18h20V12H24z M14,12V8c0-1.103,0.897-2,2-2s2,0.897,2,2v4H14z M10,8c0-3.309,2.691-6,6-6s6,2.691,6,6v4h-2V8c0-2.206-1.794-4-4-4s-4,1.794-4,4v4h-2V8z M24,28H8V14h16V28z"></path>
                       </svg>
                     </span>
-
                   </a>
                 </span>
                 <p class="teamList" slot="content">
@@ -199,7 +197,7 @@
                               <div class="QuickInvitePopup-inputArea QuickInvitePopup-emailInputArea">
                                 <label class="Label">Email</label>
                                 <div class="validatedTextInput validatedTextInput--invalid QuickInvitePopup-emailInputValidator">
-                                  <input type="text" class="textInput textInput--medium QuickInvitePopup-input QuickInvitePopup-emailInput" v-model="email">
+                                  <input type="text" class="textInput textInput--medium QuickInvitePopup-input QuickInvitePopup-emailInput" v-model="email" readonly>
                                   <div class="validatedTextInput-message">{{emailValidationError}}</div>
                                 </div>
                               </div>
@@ -253,7 +251,7 @@
               <a class="DeprecatedNavigationLink">
                 <span class="panelProjectName">{{projectNameElipse(project.project_name,15)}}</span>
                 <span :id="'ItemRowMenu-'+project.id" class="ItemRowMenu" style="fill:transparent" @click="showProjectSetting(project)">
-                  <i @click="showDeleteProjectDialog" class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+                  <i @click="showDeleteProjectDialog(project.create_by)" class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
                 </span>
                 <span :id="'ItemRowPrivacy-'+project.id" v-show="project.project_privacy == 2" class="SidebarItemRow-statusIcon pull-right">
                   <svg class="Icon LockIcon" title="LockIcon" viewBox="0 0 32 32">
@@ -294,10 +292,23 @@
         el.style.left = startX + dx + 'px';
         return false;
       }
+      function touchmove(e) {
+        // console.log("touchmove",e)
+        var dx = e.touches[0].clientX - initialMouseX;
+        var dy = e.touches[0].clientY - initialMouseY;
+        el.style.top = startY + dy + 'px';
+        el.style.left = startX + dx + 'px';
+        return false;
+      }
 
       function mouseup() {
         document.removeEventListener('mousemove', mousemove);
         document.removeEventListener('mouseup', mouseup);
+      }
+
+      function touchend() {
+        document.removeEventListener('touchmove', touchmove);
+        document.removeEventListener('touchend', touchend);
       }
 
       el.addEventListener('mousedown', function (e) {
@@ -307,6 +318,19 @@
         initialMouseY = e.clientY;
         document.addEventListener('mousemove', mousemove);
         document.addEventListener('mouseup', mouseup);
+        // document.addEventListener('touchmove', touchmove);
+        // document.addEventListener('touchend', touchend);
+        return false;
+      });
+
+      el.addEventListener('touchstart', function (e) {
+        // console.log("addEventListener",e.touches[0])
+        startX = el.offsetLeft;
+        startY = el.offsetTop;
+        initialMouseX = e.touches[0].clientX;
+        initialMouseY = e.touches[0].clientY;
+        document.addEventListener('touchmove', touchmove);
+        document.addEventListener('touchend', touchend);
         return false;
       });
     }
@@ -414,6 +438,7 @@
         this.$store.state.projectSettingId = "";
       },
       showRoleAccess() {
+        this.$store.state.deleteItemsSelected = false
         this.isRoleAccess = true
         this.isMyTask = false
         this.isSearchMenu = false
@@ -672,7 +697,22 @@
       },
       showDeleteProjectDialog() {
         this.hideProjectSetting();
-        $("#project-delete-dialog").removeClass("hidden");
+        // $("#project-delete-dialog").removeClass("hidden");
+          let config={
+            closable:true
+          }
+          // this.$Modal.confirm(config)
+          this.$Modal.confirm({
+              title: "Delete the "+this.$store.state.currentProject.project_name+" project?",
+              closable: true,
+              esc2x: true,
+              content:
+              "<p>Are you sure that you want to permanently delete project?</p>",
+              onOk: () => {
+                this.$store.dispatch('deleteProject', this.$store.state.currentProject)
+              }
+          });
+          
       },
       hideProjectSetting() {
         this.$store.state.projectSettingId
@@ -726,5 +766,7 @@
     opacity: 1;
     z-index: 1;
   }
+
+
 
 </style>

@@ -35,7 +35,7 @@
                             <div class="table-cell">
                                 <form :action=loginWithGoogle method="post">
                                     <input type="hidden" name="success_url" :value=googleSuccessCallbackUrl>
-                                    <button class="googleAuthBtn" type="submit">Use Google Account</button>
+                                    <button class="google-plus fa fa-google-plus" type="submit"></button>
                                 </form>
                                 <div class="dialog--nux-seperator" id="seprator"> or </div>
                                 <div>
@@ -77,7 +77,10 @@
                                 </div>
                                 <div style="padding-top:  20px;">
                                     <input placeholder="Email" tabindex="1" type="email" name="e" id="email_input" value="" v-model="forgotEmailId">
-                                    <div tabindex="3" class="btn" id="login_btn" @click="btnForgotSubmit()" @keyup.enter="btnForgotSubmit()">Submit</div>
+                                    <div tabindex="3" class="btn" id="login_btn" @click="btnForgotSubmit()" @keyup.enter="btnForgotSubmit()">Submit
+                                        <img v-show="showSubmitLoad" src="../assets/activity.svg" style="margin-left: 10px; width:25px; height:25px;"/>
+                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -110,14 +113,14 @@
     import CmnFunc from './CommonFunc.js'
     import notify from './notify.js'
     import VueRouter from 'vue-router'
-    import iView from 'iview';
-    import 'iview/dist/styles/iview.css';
-    import locale from 'iview/dist/locale/en-US';
+    // import iView from 'iview';
+    // import 'iview/dist/styles/iview.css';
+    // import locale from 'iview/dist/locale/en-US';
     import config from '../../config/customConfig'
     import axios from 'axios'
     
-    Vue.use(iView, { locale });
-    Vue.use(iView);
+    // Vue.use(iView, { locale });
+    // Vue.use(iView);
     Vue.use(Resource)
     Vue.use(VueRouter)
     var VueCookie = require('vue-cookie')
@@ -146,7 +149,8 @@
                 isForgotPasswordShow: false,
                 forgotEmailId: '',
                 loginWithGoogle: config.loginWithGoogle,
-                googleSuccessCallbackUrl: config.googleSuccessCallbackUrl
+                googleSuccessCallbackUrl: config.googleSuccessCallbackUrl,
+                showSubmitLoad:false
             }
         },
         mounted() {
@@ -201,7 +205,6 @@
             btnForgotSubmit(){
                 let self = this;
                 let emailValidator =this.validateEmail(self.forgotEmailId);
-                console.log(emailValidator);
                 if(self.forgotEmailId == ""){
                     self.$message.warning("email field is required");
                 }else if(emailValidator == false){
@@ -210,13 +213,13 @@
                 {
                     var url_string = window.location.href;
                     var url = new URL(url_string);
-                    axios.post( "http://172.16.61.101:3001/api/forgetpassword" , {
+                    this.showSubmitLoad=true;
+                    axios.post( config.forgotpassword , {
                         email: self.forgotEmailId.trim(),
                         url: url.origin+"/resetpassword"
                     })
                     .then(function (response) {
-                        
-                        console.log(response)
+                        self.showSubmitLoad=false;
                         if(response.data.code == 200){
                             // self.$message.success(response.data.message);
                             self.$Notice.open({
@@ -227,8 +230,7 @@
                         }
                     })
                     .catch(function (error) {
-                        // self.forgotEmailId = ""
-                        console.log("error-->",error)
+                        self.showSubmitLoad=false;
                         self.$Notice.error({
                                 title: "Message",
                                 desc:"email  is incorrect"
