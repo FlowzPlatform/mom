@@ -123,7 +123,8 @@ button {
 	margin: auto 0;
 	border: none; /* Mobile Safari */
 	-webkit-appearance: none;
-	appearance: none;
+    appearance: none;
+    cursor: pointer;
 }
 
 
@@ -4292,6 +4293,7 @@ col-md-2.border-right:after {
     position: relative;
     /* vertical-align: top; */
     overflow: hidden;
+    cursor: pointer;
   }
 
   .stateCircle.Avatar--small {
