@@ -772,6 +772,7 @@ input.toggleTask:after {
 }
 input.toggleTask {
     -webkit-appearance: none;
+    cursor: pointer;
 }
 input.toggleTask:checked:after {
     content: "\F00C";
@@ -3881,6 +3882,7 @@ textarea.showing {
     line-height: .7;
     font-weight: 700;
     text-overflow: ellipsis;
+    cursor: pointer;
 }
 .task > div > div#topicon {
     display: none;
