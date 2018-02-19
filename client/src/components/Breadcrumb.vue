@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Breadcrumb v-for="pTask in getParentTasksName">
+        <Breadcrumb v-for="pTask in getParentTasksName" :key="pTask.id">
             <BreadcrumbItem :to="'task/' + (pTask.level + 1) + '/' + pTask.id"  @click="SHOW_DIV(pTask)">{{pTask.taskName}}</BreadcrumbItem>
         </Breadcrumb>
     </div>

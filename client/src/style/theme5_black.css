@@ -183,6 +183,6 @@ color: white;
 .PageHeaderStructure-title{
   color:#ababab;
 }
-.ql-editor, .CodeMirror-scroll {
+.ql-editor, .CodeMirror-scroll, .grid-tags-and-date .grid_due_date {
   color: white;
 }

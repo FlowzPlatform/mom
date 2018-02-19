@@ -5,9 +5,9 @@
 		<div id="split-container" class="main-split-container" style="height: calc(100vh - 60px);">
 			<div id="left_container" class="scrollbar split split-horizontal">
 				<div id="center_pane">
-						<div v-if="$store.state.deleteItemsSelected" id="project_title" class="project-title read-only">
-							<div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName" style="float: left;">Deleted Tasks</div>
-						</div>
+					<div v-if="$store.state.deleteItemsSelected" id="project_title" class="project-title read-only">
+						<div class="PageHeaderStructure-title ProjectPageHeader-projectName--colorNone ProjectPageHeader-projectName" style="float: left;">Deleted Tasks</div>
+					</div>
 					<div v-show="$store.state.currentProjectId && $store.state.currentProjectId.length>0">
 						<left-toolbar v-if="!isCopyLink && !$store.state.deleteItemsSelected" :filters="filters">
 						</left-toolbar>
@@ -16,8 +16,8 @@
 					<div class="outer" v-show="isProjectAvailable && !$store.state.deleteItemsSelected">
 						<div class="middle">
 							<div class="inner">
-								<div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems" >
-									<span class="fa fa-file-text-o fa-5x" data-target="#createProject" data-toggle="modal"/>
+								<div class="trashcan-empty gridPaneSearchEmptyView-noProjectItems">
+									<span class="fa fa-file-text-o fa-5x" data-target="#createProject" data-toggle="modal" />
 									<div class="text gridPaneSearchEmptyView-noProjectItemsTitleText">Add New Project
 									</div>
 									<div class="text gridPaneSearchEmptyView-noProjectItemsText" v-show="$store.state.projectlist.length==0">You have no project created.
@@ -73,7 +73,6 @@
 		active: todos => todos.filter(todo => !todo.completed),
 		completed: todos => todos.filter(todo => todo.completed)
 	}
-
 	export default {
 		data: function () {
 			return {
@@ -326,6 +325,7 @@
 				var self = this
 				this.$store.dispatch('getAllUsersList')
 					.catch(function (error) {
+						// console.log("error",error)
 						if (error.response.status === 401 || error.response.status === 403) {
 							CmnFunc.deleteAutheticationDetail()
 							self.$router.replace('/')
@@ -392,12 +392,10 @@
 
 	.scrollbar {
 		overflow-y: scroll;
-		/* cursor: pointer; */
 	}
 
 	.asanaView-body {
 		overflow-x: scroll;
-		/* cursor: pointer; */
 	}
 
 	#left_container::-webkit-scrollbar-track,
