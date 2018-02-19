@@ -2,9 +2,7 @@
   <div id="details_pane_footer" class="details-pane-redesign details-pane-footer">
     <div class="dropdown sort-menu">
       <div class="dropdown">
-        <tooltip content="Filter" placement="top-start">
-          <button class="btn btn-defualt glyphicon glyphicon-cog setColor" type="button" data-toggle="dropdown"></button>
-        </tooltip>
+          <button class="btn btn-defualt glyphicon glyphicon-cog setColor" type="button" data-toggle="dropdown" title="Filter"></button>
         <ul class="dropdown-menu">
           <li v-for="(val, key) in commentFilter">
             <a :href="'#/' + key" @click="getSortByName(key)">{{key | capitalizeFirstLetter}}</a>

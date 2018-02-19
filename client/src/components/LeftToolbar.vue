@@ -2,9 +2,7 @@
   <div class="dropdown">
   <div class="dropdown pull-right setColor">
     {{$store.state.visibility | capitalize}} Tasks
-    <tooltip content="Filter" placement="bottom">
-      <button class="btn btn-defualt glyphicon glyphicon-cog" type="button" data-toggle="dropdown"></button>
-    </tooltip>
+      <button class="btn btn-defualt glyphicon glyphicon-cog" title="filter" type="button" data-toggle="dropdown"></button>
     <ul class="dropdown-menu">
         <li v-for="(val, key) in filters">
           <a :href="'#/' + key"
