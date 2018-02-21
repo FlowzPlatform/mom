@@ -77,7 +77,7 @@
 	export default {
 		data: function () {
 			return {
-				taskPholder: 'Task',
+				taskPholder: 'Write a task name',
 				subtaskPholder: 'Subtask',
 				todolist: [],
 				filters: filters,
