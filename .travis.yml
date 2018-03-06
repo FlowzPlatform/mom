@@ -30,7 +30,7 @@ jobs:
             docker push $DOCKER_USERNAME/mom_backend_flowz:dev;
         elif [ ${TRAVIS_BRANCH} = "staging" ]; then
             docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-            docker build -t mom_backend_flowz:staging ./server/;
+            docker build -t mom_backend_flowz:$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER ./server/;
             docker tag mom_backend_flowz:$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER $DOCKER_USERNAME/mom_backend_flowz:$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER;
             docker tag mom_backend_flowz:$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER $DOCKER_USERNAME/mom_backend_flowz:staging;
             docker images;
@@ -59,7 +59,7 @@ jobs:
             docker push $DOCKER_USERNAME/mom_frontend_flowz:dev;
         elif [ ${TRAVIS_BRANCH} = "staging" ]; then
             docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-            docker build -t mom_frontend_flowz:staging --build-arg accesskey="$AWS_ACCESSKEY" --build-arg secretkey="$AWS_SECRETKEY" --build-arg domainkey="$DOMAINKEY_STAGING" ./client/;
+            docker build -t mom_frontend_flowz:$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER --build-arg accesskey="$AWS_ACCESSKEY" --build-arg secretkey="$AWS_SECRETKEY" --build-arg domainkey="$DOMAINKEY_STAGING" ./client/;
             docker tag mom_frontend_flowz:$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER $DOCKER_USERNAME/mom_frontend_flowz:$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER;
             docker tag mom_frontend_flowz:$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER $DOCKER_USERNAME/mom_frontend_flowz:staging;
             docker images;
