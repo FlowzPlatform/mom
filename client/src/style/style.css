@@ -90,7 +90,7 @@ button {
 .main {
 	position: relative;
 	z-index: 2;
-	border-top: 1px solid #e6e6e6;
+	border-top: 0.5 px solid #e6e6e6;
     float: left;
     width: 100%;
 }
@@ -123,7 +123,8 @@ button {
 	margin: auto 0;
 	border: none; /* Mobile Safari */
 	-webkit-appearance: none;
-	appearance: none;
+    appearance: none;
+    cursor: pointer;
 }
 
 
@@ -771,6 +772,7 @@ input.toggleTask:after {
 }
 input.toggleTask {
     -webkit-appearance: none;
+    cursor: pointer;
 }
 input.toggleTask:checked:after {
     content: "\F00C";
@@ -3881,6 +3883,7 @@ textarea.showing {
     line-height: .7;
     font-weight: 700;
     text-overflow: ellipsis;
+    cursor: pointer;
 }
 .task > div > div#topicon {
     display: none;
@@ -4293,6 +4296,7 @@ col-md-2.border-right:after {
     position: relative;
     /* vertical-align: top; */
     overflow: hidden;
+    cursor: pointer;
   }
 
   .stateCircle.Avatar--small {

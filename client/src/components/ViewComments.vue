@@ -2,7 +2,7 @@
   <div id="details_pane_footer" class="details-pane-redesign details-pane-footer">
     <div class="dropdown sort-menu">
       <div class="dropdown">
-        <button class="btn btn-defualt glyphicon glyphicon-cog setColor" type="button" data-toggle="dropdown"></button>
+          <button class="btn btn-defualt glyphicon glyphicon-cog setColor" type="button" data-toggle="dropdown" title="Filter"></button>
         <ul class="dropdown-menu">
           <li v-for="(val, key) in commentFilter">
             <a :href="'#/' + key" @click="getSortByName(key)">{{key | capitalizeFirstLetter}}</a>
@@ -62,7 +62,9 @@
             </div>
             <div v-if="visibleFilter === 'all' " class="pull-right comment-delete">
               <span style="margin-right:5px;">{{comment.count ? comment.count :0}}</span>
-              <span class="fa fa-reply" @click="replyCommentMethod(comment)"></span>
+              <tooltip content="Reply" placement="top">
+                <span class="fa fa-reply" @click="replyCommentMethod(comment)"></span>
+            </tooltip>
             </div>
           </div>
         </div>

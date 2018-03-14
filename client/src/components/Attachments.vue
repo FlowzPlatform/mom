@@ -54,8 +54,10 @@
                         <i class="fa fa-thumbs-o-up hidden" style="font-size:25px;color:rgb(149, 152, 157)" aria-hidden="true"></i>
                         <i class="fa fa-comments hidden" style="font-size:25px;color:rgb(149, 152, 157);margin-left:30px" aria-hidden="true"></i>
                         <a :href="files.file_url" download>
+                          <tooltip content="Download" placement="bottom">
                             <i class="fa fa-arrow-circle-o-down download-attachment" aria-hidden="true"></i>
-                        </a>
+                          </tooltip>  
+                          </a>
                     </span>
                   </div>
             </Card>
