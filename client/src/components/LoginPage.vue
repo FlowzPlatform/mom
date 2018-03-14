@@ -35,7 +35,7 @@
                             <div class="table-cell">
                                 <form :action=loginWithGoogle method="post">
                                     <input type="hidden" name="success_url" :value=googleSuccessCallbackUrl>
-                                    <button class="google-plus fa fa-google-plus" type="submit"></button>
+                                    <button class="fa fa-google" type="submit"></button>
                                 </form>
                                 <div class="dialog--nux-seperator" id="seprator"> or </div>
                                 <div>

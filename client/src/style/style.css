@@ -1606,6 +1606,7 @@ hr {
     position: absolute;
     height: 100%;
     width: 100%;
+    cursor: pointer;
 }
 .middle {
     display: table-cell;
@@ -4381,6 +4382,3 @@ a.history-username{
     color: #cfcfcf;
     opacity: 1;
   }
-
-
- 
