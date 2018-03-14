@@ -378,19 +378,32 @@ p a.link--secondary:hover {
     background-color: #EFF0F1;
     box-shadow: inset 0px 1px 0px 0px #e1e2e4
 }
-.google-plus {
-    display: inline-block;
-  font-size: 24px;
-  color: #fff;
-  padding: 6px;
-  text-align: center;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-  width: 31.33%;
-  margin: 0 1%;
-    background: #e9544f;
-  }
+.social-icons {    
+    display: inline-block;    
+    font-size: 17px;   
+    color: #fff;    
+    padding: 6px;    
+    text-align: center;    
+    -moz-border-radius: 4px;    
+    -webkit-border-radius: 4px;    
+    border-radius: 50%;    
+    width: 40px;    
+    height: 40px;    
+    margin: 0 1%;  
+}  
+.google-plus {    
+    background: #db4437;  
+}  
+.facebook {      
+    background: #3b5998  
+}  
+.twitter {      
+    background: #1da1f2 
+}  
+.github {      
+    background: #333  
+}
+
   input#email_input:focus, input#password_input:focus, input#firstnameInput:focus, input#lastnameInput:focus, input#emailInput:focus,
   input#passwordInput:focus, input#confirmpwd:focus {
     border: 1px solid #06ABFF;
