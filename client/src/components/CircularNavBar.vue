@@ -438,6 +438,7 @@
         this.$store.state.projectSettingId = "";
       },
       showRoleAccess() {
+        this.$store.state.currentProjectName='ACL'
         this.$store.state.deleteItemsSelected = false
         this.isRoleAccess = true
         this.isMyTask = false
@@ -445,6 +446,7 @@
         this.$emit('eventChangeMenu', this.isMyTask, this.isRoleAccess, this.isSearchMenu)
       },
       showMainTask() {
+        this.$store.state.currentProjectName= this.$store.state.currentProject.project_name
         this.$store.commit('showMyTasks')
         this.isRoleAccess = false
         this.isMyTask = true

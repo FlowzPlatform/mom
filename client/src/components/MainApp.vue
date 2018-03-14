@@ -41,7 +41,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="asanaView-paneGutter"></div>
+		<!-- <div class="asanaView-paneGutter"></div> -->
 		<create-project-dialog></create-project-dialog>
 	</div>
 </template>
@@ -89,6 +89,14 @@
 				isSplitterDrag: false,
 				parentIdNum: 0
 			}
+		},
+		mounted(){
+			this.$nextTick(function() {
+			window.addEventListener('resize', this.getWindowWidth);
+
+			//Init
+			this.getWindowWidth()
+			})
 		},
 		created() {
 			this.$store.state.currentprojectPermisionRevoked = false
@@ -335,6 +343,15 @@
 						$.notify.defaults({ className: "error" })
 						$.notify(error.message, { globalPosition: "top center" })
 					})
+			},
+			getWindowWidth(event) {
+				let windowWidth = ($(window).width());
+				// console.log(windowWidth)
+				let widthPixel = windowWidth + 'px'
+				$('.main-split-container').css('width', widthPixel)
+			},
+			beforeDestroy() {
+				window.removeEventListener('resize', this.getWindowWidth);
 			}
 		},
 		components: {
