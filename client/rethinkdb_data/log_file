@@ -1,0 +1,8 @@
+2018-03-06T09:28:42.452750578 0.031672s notice: Recursively removing directory /home/software/khyati/Todo_Github/MOM/client/rethinkdb_data/tmp
+2018-03-06T09:28:42.463106485 0.042028s notice: Initializing directory /home/software/khyati/Todo_Github/MOM/client/rethinkdb_data
+2018-03-06T09:28:42.463206356 0.042127s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/home/software/khyati/Todo_Github/MOM/client/rethinkdb_data' did not already exist or is empty.)
+2018-03-06T09:28:42.463240532 0.042161s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2018-03-06T09:28:42.467519411 0.046443s notice: Running on Linux 4.10.0-42-generic x86_64
+2018-03-06T09:28:42.467583275 0.046504s notice: Loading data from directory /home/software/khyati/Todo_Github/MOM/client/rethinkdb_data
+2018-03-06T09:28:42.566318949 0.145241s info: Automatically using cache size of 6315 MB
+2018-03-06T09:28:42.581882269 0.160804s error: TCP socket creation failed for port 29015: Address already in use.

@@ -154,27 +154,6 @@
         transform: translateX(0%) translateY(0%);
         -webkit-transform: translateX(0%) translateY(0%);
     }
-
-    /* .ui.blue.table {
-        width: 100%;
-        padding: 0 !important;
-        margin: 0 !important;
-        overflow-x: scroll;
-
-    }
-
-    .ui.blue.table td {
-        margin: 0;
-        text-align: center
-    }
-
-    .ui.blue.table td input {
-        width: 20px;
-        margin-top: 5px;
-        margin-bottom: 5px;
-        align-items: center;
-    } */
-
     .ui.vertical.stripe h3 {
         font-size: 2em;
     }
@@ -448,7 +427,7 @@
                 this.isUserGroup = true
                 this.isTaskType = false
                 this.isTaskState = false,
-                    this.isRoleList = false
+                this.isRoleList = false
                 this.$store.state.currentProjectName = "ACL"
             },
             showTaskType: function () {

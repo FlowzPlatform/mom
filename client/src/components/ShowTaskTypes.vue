@@ -4,7 +4,7 @@
             <div id="split-container" class="type-split-container" style=" height: calc(100vh);">
                 <div id="left_type_container" class="split split-horizontal scrollbar">
                     <div id="center_pane">
-                        <main-left-section id="taskTypes" :filtered-todos="taskTypeList"></main-left-section>
+                        <main-left-section id="taskTypes"  pholder="Type"  :filtered-todos="taskTypeList"></main-left-section>
                     </div>
                 </div>
                 <div :id="'type-' + index" class="right_pane_container split split-horizontal" v-for="(n, index) in parentIdList">

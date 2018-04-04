@@ -33,10 +33,27 @@
                     <div class="form-item log-in">
                         <div class="table" v-if="!isForgotPasswordShow">
                             <div class="table-cell">
-                                <form :action=loginWithGoogle method="post">
-                                    <input type="hidden" name="success_url" :value=googleSuccessCallbackUrl>
-                                    <button class="google-plus fa fa-google-plus" type="submit"></button>
-                                </form>
+                                <!-- <form :action=loginWithGoogle method="post">
+                             thai jagya?       <input type="hidden" name="success_url" :value=googleSuccessCallbackUrl>
+                                    <button class="fa fa-google" type="submit"></button>
+                                </form> -->
+                                <Row justify="center" type='flex'>
+                                    <Col span="4">
+                                    <form :action=loginWithGoogle method="post">
+                                        <input type="hidden" name="success_url" :value=googleSuccessCallbackUrl>
+                                        <button class="social-icons google-plus fa fa-google-plus" type="submit"></button>
+                                    </form>
+                                    </Col>
+                                    <Col span="4">
+                                    <button class="social-icons facebook fa fa-facebook" type="submit"></button>
+                                    </Col>
+                                    <Col span="4">
+                                    <button class="social-icons twitter fa fa-twitter" type="submit"></button>
+                                    </Col>
+                                    <Col span="4">
+                                    <button class="social-icons github fa fa-github" type="submit"></button>
+                                    </Col>
+                                </Row>
                                 <div class="dialog--nux-seperator" id="seprator"> or </div>
                                 <div>
                                     <Tabs type="card" value="1" @on-click=tabsClicked>
