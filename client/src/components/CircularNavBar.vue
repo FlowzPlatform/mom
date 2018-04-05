@@ -531,6 +531,10 @@
         this.$store.state.currentprojectPermisionRevoked=false
         // Show project visibility option (like public to all, private to me)
         $("div#projectVisible").removeClass('hidden');
+        this.isRoleAccess = false
+        this.isMyTask = true
+        this.isSearchMenu = false
+        this.$emit('eventChangeMenu', this.isMyTask, this.isRoleAccess, this.isSearchMenu)
         this.$store.commit('showMyTasks')
         this.$store.state.currentProjectName = project.project_name;
         this.$store.state.currentProjectId = project.id;
@@ -538,7 +542,9 @@
         this.$store.state.currentProjectPrivacy = project.project_privacy;
         this.$store.state.todolist.length = 0;
         this.$store.commit('CLOSE_DIV', '')
-        this.$store.dispatch('getAllTodos', { 'parentId': '', project_id: project.id });
+        // if (this.$store.state.currentProjectName !== project.project_name) {
+          this.$store.dispatch('getAllTodos', { 'parentId': '', project_id: project.id });
+        // }
         // Close last open dialog
         if (this.lastProjectSelected !== '') {
           $("#panelProjectName-" + this.lastProjectSelected).removeClass("project-selected");

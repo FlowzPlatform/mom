@@ -1,5 +1,6 @@
 export default{
-    user_auth: "https://auth."+process.env.domainkey,
+    // user_auth: "https://auth."+process.env.domainkey,
+    user_auth: "https://api."+process.env.domainkey+"/auth",
     user_detail: "https://api."+process.env.domainkey+"/user",
     loginWithGoogle: "https://auth."+process.env.domainkey+"/auth/Gplus",
     googleSuccessCallbackUrl: "https://mom."+process.env.domainkey,

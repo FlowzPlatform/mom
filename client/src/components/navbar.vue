@@ -106,7 +106,7 @@
         <div class="Topbar-accountInfo">
           <a class="Topbar-settingsMenuButton">
             <div v-if="$store.state.userObject.email" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-              <tooltip content="User" placement="bottom">
+              <tooltip :content="$store.state.userObject.fullname" placement="bottom">
                 <span class="Topbar-settingsMenuDomainName">
                     <span>Welcome {{ uname }}</span>
                   </span>
