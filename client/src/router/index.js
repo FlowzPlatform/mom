@@ -14,11 +14,11 @@ import '../style/style.css'
 import '../style/style1.css'
 import '../style/newStyle.css'
 import '../style/keen-ui.min.css'
-// import '../style/theme1.css'
+import '../style/theme1.css'
 import '../style/custom.css'
 // import '../style/theme2.css'
 // import '../style/theme3.css'
-import '../style/theme4.css'
+// import '../style/theme4.css'
 // import '../style/theme5_black.css'
 // import '../style/theme6.css'
 // import '../style/RepublicDay18.css'
@@ -37,6 +37,28 @@ const User = {
   template: `
     <div><navbar /><section class="section"><div class="container is-fluid"><router-view></router-view></div></section></div>
   `
+}
+var link = [];
+link[0] = "theme1.css";
+link[1] = "theme2.css";
+link[2] = "theme5_black.css";
+
+$(window).bind("load", function(){
+  // var style = link[Math.floor(Math.random() * link.length )];
+  // console.log("Load css", style)
+  // $('head').append('<link rel="stylesheet" type="text/css" href="'+ style +'">')
+  importStyle(["src/style/" +link[Math.round(Math.random() * (link.length -1))]])
+})
+function importCss(t){
+  var n = document.createElement("link");
+  n.rel = "stylesheet",
+  n.type = "text/css",
+  n.href = t,
+  console.log(n)
+  document.body.appendChild(n) 
+}
+function importStyle(t){
+  t.forEach(importCss)
 }
 export default new Router({
   mode: 'history',

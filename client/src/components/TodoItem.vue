@@ -45,9 +45,17 @@
         </span>
         <div class="task-row-overlay grid-tags-and-date">
           <a class="taskRow">
+            <Tooltip placement="top" :content="todo.priority">
+              <i v-if="todo.priority === 'Medium'" class="fa fa-exclamation-circle" aria-hidden="true" style="color:#d6b73b"></i>
+              <i v-else-if="todo.priority === 'High'" class="fa fa-exclamation-circle" aria-hidden="true" style="color:#3baad6"></i>
+              <i v-else-if="todo.priority === 'Low'" class="fa fa-exclamation-circle" aria-hidden="true" style="color:#63ad63"></i>
+              <i v-else-if="todo.priority === 'Urgent'" class="fa fa-exclamation-circle" aria-hidden="true" style="color:#c60808"></i>
+            </Tooltip>
             <span v-if="todo.isTaskUpdate" style="color: red">&#x25cf;</span>
             <span v-else></span>
-            <span class="grid_due_date">{{todo.dueDate | formatDate}}</span>
+            <Tooltip v-if="todo.dueDate" placement="top" :content="todo.dueDate | setDate">
+              <span class="grid_due_date">{{todo.dueDate | formatDate}}</span>
+            </Tooltip>
           </a>
         </div>
         <div v-if="todo.email" :value="selectedUser">
@@ -92,6 +100,11 @@
       return firstLetters.toUpperCase()
     }
   })
+  Vue.filter('setDate', function (value) {
+    if (value) {
+      return moment(String(value)).format("ll");
+    }
+  })
   var focusTimeOut;
   export default {
     props: ['todo', 'pholder', 'nextIndex', 'prevIndex', 'id','taskId'],
@@ -105,7 +118,7 @@
         selectedType: {},
         isTypeTodo: true,
         email: '',
-        profileImgURL: ''
+        profileImgURL: '',
       }
     },
     computed: {

@@ -14,6 +14,7 @@
       <div class="tab-pannel" id="rightContainer" @mouseenter="handleOk">
         <task-heading :id="id" :filteredTodo="todoObject"></task-heading>
         <breadcrumb :filteredTodo="todoObject" v-if="id==='searchTask'"></breadcrumb>
+        <!-- <span v-if="todoObject.estimatedTime" class="label info">{{todoObject.estimatedTime}} Hours</span> -->
         <div class="rightscroll">
           <component :is="currentView" :id="id" :taskId="todoObject.id" :historyLog="historyLog" :isDeleteAttachment="chkAttachment"
             :filteredTodo="todoObject" v-if="!$store.state.deleteItemsSelected && id !== 'rightTaskTypes' && id !== 'rightTaskState'"

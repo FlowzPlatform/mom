@@ -41,7 +41,7 @@
                         </span>                          
                         <div class="">
                             <a class="AddedAttachmentStory-link" style="color:inherit; text-decoration: none;font-size:11px; cursor: pointer" :href="files.file_url" target="_blank" tabindex="-1">
-                                <i><span style="color:black;font-size:12px;">file:</span>{{files.file_name}}</i>
+                                <i class="attachmentfileName"><span>file:</span>{{files.file_name}}</i>
                             </a>
                             <!-- <button class="" @click="deleteAttachment(files, index)">
                                 <a v-show="isDeleteAttachment" class="fa fa-close" />
